@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E5E5E5">
+
+    <include layout="@layout/activity_toolbar"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_return_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:gravity="bottom"
+        app:tabIndicatorColor="#FF484A"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="@color/black"
+        app:tabTextAppearance="@style/ReturnTabLayout"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        android:fillViewport="false" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#BFBFBF"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:paddingTop="14dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="23dp">
+
+        <LinearLayout
+            android:id="@+id/ll_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/gray_after_sales_shape"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="商品名称/商品编号/订单编号/序列号"
+                android:textSize="12sp"
+                android:textColorHint="#ABABAB"
+                android:textColor="#333333"
+                android:layout_marginLeft="22dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/sousuo"
+                android:layout_gravity="center"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="34dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="14dp"
+            android:paddingRight="25dp"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/shuaixuan" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="筛选"
+                android:textColor="#ABABAB"
+                android:textSize="12sp"
+                android:layout_marginTop="@dimen/dp_4"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.zhenghaikj.shop.widget.CustomViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewpager_return"></com.zhenghaikj.shop.widget.CustomViewPager>
+</LinearLayout>

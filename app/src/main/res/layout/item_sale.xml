@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_sale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/dp_10">
+        <LinearLayout
+            android:id="@+id/ll_shop_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="23dp"
+            android:paddingTop="13dp"
+            android:paddingBottom="8dp">
+            
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="12dp"
+                android:src="@mipmap/shop"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="第一卫旗舰店"
+                android:textSize="12sp"
+                android:textColor="#7B7B7B"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BFBFBF"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="23dp"
+            android:paddingTop="11dp"
+            android:paddingRight="23dp">
+            
+            <com.zhenghaikj.shop.widget.RoundImageView
+                android:id="@+id/iv_goods_picture"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:src="@drawable/goods"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_goods_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#393939"
+                    android:textSize="12dp"
+                    android:text="Midea/美的 MB80V31 8公斤kg洗衣机 全自动家用波轮 大容量"/>
+
+                <TextView
+                    android:id="@+id/tv_goods_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="数量：1"
+                    android:textSize="12sp"
+                    android:textColor="#8E8E8E"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="14dp"
+            android:orientation="horizontal"
+            android:gravity="right">
+            <TextView
+                android:id="@+id/tv_free_installation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="免费安装"
+                android:textColor="#FF484A"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:background="@drawable/pink_circle_shape"/>
+            <TextView
+                android:id="@+id/tv_apply_for_after_sale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="申请售后"
+                android:textColor="#FF484A"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="23dp"
+                android:background="@drawable/pink_circle_shape"/>
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_application_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="申请服务"
+                android:textColor="#FF484A"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="23dp"
+                android:background="@drawable/pink_circle_shape"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

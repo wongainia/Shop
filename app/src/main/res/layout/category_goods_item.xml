@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <com.zhenghaikj.shop.widget.MyImageView
+            android:id="@+id/icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"/>
+        <LinearLayout
+            android:id="@+id/bg_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|right"
+            android:background="@color/black"
+            android:orientation="vertical">
+            <com.zhenghaikj.shop.widget.RatioImageView
+                android:id="@+id/sold_out"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:src="@drawable/goods"
+                app:ratio="1.675"
+                android:scaleType="fitXY"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="拉面汤料"
+            android:lines="2"
+            android:textSize="12sp"
+            android:textColor="#333333"/>
+
+
+
+        <TextView
+            android:id="@+id/yh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:text="¥78"
+            android:textSize="14sp"
+            android:textColor="@color/red"
+            android:visibility="gone"/>
+
+
+</LinearLayout>

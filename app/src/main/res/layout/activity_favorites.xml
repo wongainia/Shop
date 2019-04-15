@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/red" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/red">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_favorites_layout"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:background="@color/red"
+            android:layout_gravity="center"
+            android:gravity="bottom"
+            app:tabIndicatorColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/white"
+            app:tabTextAppearance="@style/MyCustomNewsTextAppearance"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            android:fillViewport="false"
+            />
+        <ImageView
+            android:id="@+id/icon_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/back"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_management"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:text="管理"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingLeft="10dp"/>
+    </FrameLayout>
+
+    <com.zhenghaikj.shop.widget.CustomViewPager
+        android:id="@+id/view_pager_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

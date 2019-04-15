@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E5E5E5"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="67dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="67dp"
+                    android:background="@drawable/gray_after_sales_shape"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="本次售后服务将由"
+                        android:textColor="#ABABAB"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/tv_store_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="第一卫旗舰店"
+                        android:textColor="#FF484A"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="为您提供"
+                        android:textColor="#ABABAB"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="23dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_goods_picture"
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
+                        android:src="@drawable/goods" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_goods_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Midea/美的 MB80V31 8公斤kg洗衣机 全自动家用波轮 大容量"
+                            android:textColor="#393939"
+                            android:textSize="12sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="价格：1098.00"
+                                android:textColor="#8E8E8E"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tv_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="数量：1"
+                                android:textColor="#8E8E8E"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tv_number_of_applications"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:text="申请数量：1"
+                                android:textColor="#8E8E8E"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_reason_for_application"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="24dp"
+                android:paddingTop="18dp"
+                android:paddingRight="23dp"
+                android:paddingBottom="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="申请原因"
+                    android:textColor="#393939"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请选择申请原因"
+                    android:textColor="#8F8F8F"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="3dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/dian" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="23dp"
+                android:paddingTop="16dp"
+                android:paddingRight="23dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="问题描述"
+                    android:textColor="#393939"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="104dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/gray_shape"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <EditText
+                        android:id="@+id/et_problem_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="必填：否则维修工单无法正确发布"
+                        android:textColor="#8E8E8E"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_word_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="0/500"
+                        android:textColor="#8F8F8F"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_speak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:paddingLeft="10dp"
+                        android:src="@mipmap/huatong" />
+                </LinearLayout>
+                
+                <ImageView
+                    android:id="@+id/iv_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="21dp"
+                    android:layout_marginTop="19dp"
+                    android:src="@mipmap/xiangji"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="23dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="23dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="#393939"
+                        android:textSize="14sp"
+                        android:text="维修地址"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="与收货地址保持一致"
+                        android:textSize="12sp"
+                        android:textColor="#8F8F8F"/>
+                    <Switch
+                        android:id="@+id/switcher_installation_work_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:background="@null"
+                        android:checked="true"
+                        android:switchMinWidth="2dp"
+                        android:thumb="@drawable/thumb"
+                        android:track="@drawable/track" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#BFBFBF"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="18dp"
+                    android:paddingLeft="23dp"
+                    android:paddingRight="23dp"
+                    android:paddingBottom="22dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收货地址"
+                        android:textColor="#393939"
+                        android:textSize="14sp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="19dp">
+                        <ImageView
+                            android:layout_width="10dp"
+                            android:layout_height="13dp"
+                            android:src="@mipmap/dingwei"/>
+
+                        <TextView
+                            android:id="@+id/tv_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="浙江省宁波市江北区同济路169号企协大厦1901室"
+                            android:textSize="12sp"
+                            android:textColor="#8F8F8F"
+                            android:layout_marginLeft="16dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:background="@color/white">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="23dp"
+                    android:paddingTop="21dp"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="23dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="联系人"
+                        android:textColor="#393939"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chrissy Costanza"
+                        android:textSize="12sp"
+                        android:textColor="#8F8F8F"
+                        android:layout_marginLeft="43dp"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#BFBFBF"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="23dp"
+                    android:paddingTop="21dp"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="23dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="联系电话"
+                        android:textColor="#393939"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_contact_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="18067138219"
+                        android:textSize="12sp"
+                        android:textColor="#8F8F8F"
+                        android:layout_marginLeft="43dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="26dp"
+                android:textColor="#8F8F8F"
+                android:textSize="10sp"
+                android:text="提交服务工单后，售后专员可能与您电话沟通，请保持手机畅通"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/tv_submit"
+                    android:layout_width="98dp"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="提  交"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:background="#FF484A"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
