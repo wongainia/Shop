@@ -13,6 +13,22 @@ public class ShopMicroAmoyFragment extends BaseLazyFragment {
     protected int setLayoutId() {
         return R.layout.fragment_shop_micro_amoy;
     }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 

@@ -1,10 +1,9 @@
 package com.zhenghaikj.shop.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +20,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.Util.MyOkHttp;
-import com.zhenghaikj.shop.Util.MyUtils;
+import com.zhenghaikj.shop.utils.MyOkHttp;
+import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.adapter.CategoryAdapter;
 import com.zhenghaikj.shop.adapter.CategoryContentAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
@@ -87,6 +86,11 @@ public class ClassificationFragment extends BaseLazyFragment {
 //        mImmersionBar.statusBarColor(R.color.white);
 //        mImmersionBar.fitsSystemWindows(false);
 //        mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
+    }
+
+    @Override
+    protected void initView() {
+
     }
 
 

@@ -1,13 +1,9 @@
 package com.zhenghaikj.shop.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.Cbean;

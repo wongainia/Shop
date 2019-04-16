@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/white" />
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="52dp"
@@ -52,7 +52,7 @@
                 android:layout_marginRight="@dimen/dp_10"
                 android:textSize="@dimen/sp_14"
                 android:textColor="@color/red"/>
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

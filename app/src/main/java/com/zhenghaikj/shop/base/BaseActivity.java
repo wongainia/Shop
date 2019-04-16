@@ -1,20 +1,28 @@
 package com.zhenghaikj.shop.base;
 
+import android.Manifest;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.gyf.barlibrary.ImmersionBar;
-import com.umeng.analytics.MobclickAgent;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.Util.HandleBackUtil;
+import com.zhenghaikj.shop.utils.HandleBackUtil;
+import com.zhenghaikj.shop.utils.TUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
@@ -22,12 +30,17 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
  * Created by geyifeng on 2017/5/9.
  */
 
-public abstract class BaseActivity extends SwipeBackActivity {
+public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel> extends SwipeBackActivity implements BaseView {
 
     private InputMethodManager imm;
     protected ImmersionBar mImmersionBar;
     private Unbinder unbinder;
     public Context mActivity;
+    public P mPresenter;
+    public M mModel;
+    private RxManager mRxManage;
+    // 右滑返回
+    private SwipeBackLayout mSwipeBackLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +49,26 @@ public abstract class BaseActivity extends SwipeBackActivity {
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //竖屏
         setContentView(setLayoutId());
         this.mActivity=this;
+        try {
+            EventBus.getDefault().register(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mSwipeBackLayout=getSwipeBackLayout();
+        // 设置滑动方向，可设置EDGE_LEFT, EDGE_RIGHT, EDGE_ALL, EDGE_BOTTOM
+        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+
+        mPresenter = obtainPresenter();
+        mModel = obtainModel();
+        if (mPresenter != null) {
+            mPresenter.mContext = mActivity;
+            if (this instanceof BaseView) {
+                mPresenter.setVM(this, mModel);
+            }
+            mPresenter.onCreate(savedInstanceState);
+        }
+
+        mRxManage = new RxManager();
         //绑定控件
         unbinder = ButterKnife.bind(this);
         //初始化沉浸式
@@ -47,6 +80,14 @@ public abstract class BaseActivity extends SwipeBackActivity {
         initView();
         //设置监听
         setListener();
+
+    }
+    protected P obtainPresenter() {
+        return TUtil.getT(this, 0);
+    }
+
+    protected M obtainModel() {
+        return TUtil.getT(this, 1);
     }
 
     @Override
@@ -56,6 +97,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         this.imm = null;
         if (mImmersionBar != null)
             mImmersionBar.destroy();  //在BaseActivity里销毁
+        EventBus.getDefault().unregister(this);
     }
 
     protected abstract int setLayoutId();
@@ -64,8 +106,9 @@ public abstract class BaseActivity extends SwipeBackActivity {
         //在BaseActivity里初始化
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
-        mImmersionBar.statusBarColor(R.color.transparent);
+        mImmersionBar.statusBarColor(R.color.red);
         mImmersionBar.fitsSystemWindows(true);
+        mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
 
@@ -90,6 +133,11 @@ public abstract class BaseActivity extends SwipeBackActivity {
         hideSoftKeyBoard();
     }
 
+
+    public View getEmptyView() {
+        return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_data,null);
+    }
+
     public void hideSoftKeyBoard() {
         View localView = getCurrentFocus();
         if (this.imm == null) {
@@ -99,14 +147,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
             this.imm.hideSoftInputFromWindow(localView.getWindowToken(), 2);
         }
     }
-    public boolean checkNetwork() {
-        ConnectivityManager conn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo net = conn.getActiveNetworkInfo();
-        if (net != null && net.isConnected()) {
-            return true;
-        }
-        return false;
-    }
+
 
     @Override
     public void onBackPressed() {
@@ -115,15 +156,72 @@ public abstract class BaseActivity extends SwipeBackActivity {
         }
     }
 
+    /*电话*/
+    public static final int REQUEST_CALL_PERMISSION = 10111; //拨号请求码
+    /**
+     * 判断是否有某项权限
+     * @param string_permission 权限
+     * @param request_code 请求码
+     * @return
+     */
+    public boolean checkReadPermission(String string_permission,int request_code) {
+        boolean flag = false;
+        if (ContextCompat.checkSelfPermission(this, string_permission) == PackageManager.PERMISSION_GRANTED) {//已有权限
+            flag = true;
+        } else {//申请权限
+            ActivityCompat.requestPermissions(this, new String[]{string_permission}, request_code);
+        }
+        return flag;
+    }
+
+    /**
+     * 拨打电话（直接拨打）
+     * @param telPhone 电话
+     */
+    public void call(String telPhone){
+        if(checkReadPermission(Manifest.permission.CALL_PHONE,REQUEST_CALL_PERMISSION)){
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(telPhone));
+            startActivity(intent);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-//        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void contentLoading() {
+
+    }
+
+    @Override
+    public void contentLoadingComplete() {
+
+    }
+
+    @Override
+    public void contentLoadingError() {
+
+    }
+
+    @Override
+    public void contentLoadingEmpty() {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
     }
 }

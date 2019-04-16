@@ -1,4 +1,4 @@
-package com.zhenghaikj.shop.Util;
+package com.zhenghaikj.shop.utils;
 
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
@@ -32,7 +32,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -294,7 +293,7 @@ public class MyUtils {
                 }
                 result += temp;
             }
-            return result;
+            return result.toUpperCase();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

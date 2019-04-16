@@ -2,9 +2,9 @@ package com.zhenghaikj.shop.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +79,6 @@ public class CartFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     protected void initView() {
-        super.initView();
         cartList = new ArrayList<>();
         //第一个店铺的数据
         cbeanList = new ArrayList<>();
@@ -261,13 +260,11 @@ public class CartFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     protected void setListener() {
-        super.setListener();
         mTvManagement.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        super.initData();
     }
 
     @Override

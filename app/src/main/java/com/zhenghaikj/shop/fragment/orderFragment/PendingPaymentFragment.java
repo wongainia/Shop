@@ -12,6 +12,22 @@ public class PendingPaymentFragment extends BaseLazyFragment {
     protected int setLayoutId() {
         return R.layout.fragment_pending_payment;
     }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 

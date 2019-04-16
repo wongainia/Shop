@@ -11,6 +11,22 @@ public class AfterSalesEvaluationFragment extends BaseLazyFragment {
     protected int setLayoutId() {
         return R.layout.fragment_after_sales_evaluation;
     }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 

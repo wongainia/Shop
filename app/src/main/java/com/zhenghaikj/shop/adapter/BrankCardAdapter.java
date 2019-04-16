@@ -1,11 +1,9 @@
 package com.zhenghaikj.shop.adapter;
 
-import android.graphics.Color;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.Product;
 
 import java.util.List;

@@ -1,10 +1,10 @@
-package com.zhenghaikj.shop.Util;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+package com.zhenghaikj.shop.utils;
 
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 public class HandleBackUtil {
 

@@ -1,33 +1,17 @@
 package com.zhenghaikj.shop.adapter;
 
-import android.os.Bundle;
-import android.os.Message;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.Util.MyOkHttp;
-import com.zhenghaikj.shop.Util.MyUtils;
-import com.zhenghaikj.shop.entity.Bean;
 import com.zhenghaikj.shop.entity.Cbean;
-import com.zhenghaikj.shop.entity.Global;
-import com.zhenghaikj.shop.entity.Product;
 
-import java.io.IOException;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.Response;
 
 public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.MyHolder> {
     private List<Cbean> cbeanList, cbeanList1;

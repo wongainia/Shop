@@ -2,9 +2,9 @@ package com.zhenghaikj.shop.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,6 +151,16 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
         return R.layout.fragment_mine;
     }
 
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 
@@ -172,7 +182,6 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     protected void setListener() {
-        super.setListener();
         mIvAvatar.setOnClickListener(this);
         mIvSetting.setOnClickListener(this);
         mLlFavorites.setOnClickListener(this);

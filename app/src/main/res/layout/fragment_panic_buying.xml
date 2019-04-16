@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     android:background="#eee">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rv_panic_buying"></android.support.v7.widget.RecyclerView>
+        android:id="@+id/rv_panic_buying"></androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

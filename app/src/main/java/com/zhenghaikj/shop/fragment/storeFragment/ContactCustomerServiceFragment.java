@@ -13,6 +13,22 @@ public class ContactCustomerServiceFragment extends BaseLazyFragment {
     protected int setLayoutId() {
         return R.layout.fragment_contact_customer_service;
     }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 

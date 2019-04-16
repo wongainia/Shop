@@ -1,4 +1,4 @@
-package com.zhenghaikj.shop.Util;
+package com.zhenghaikj.shop.utils;
 
 import android.util.Log;
 

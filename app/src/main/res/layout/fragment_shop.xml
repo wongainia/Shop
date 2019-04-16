@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="#EEEEEE">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -88,7 +88,7 @@
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_hot_search"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants">
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_main_menu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -317,11 +317,11 @@
                 android:layout_height="match_parent"
                 android:descendantFocusability="blocksDescendants">
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_shop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
+                    android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

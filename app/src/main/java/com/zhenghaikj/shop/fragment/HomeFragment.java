@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +19,21 @@ import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.Util.GlideImageLoader;
+import com.zhenghaikj.shop.entity.LoginResult;
+import com.zhenghaikj.shop.mvp.contract.LoginContract;
+import com.zhenghaikj.shop.mvp.model.LoginModel;
+import com.zhenghaikj.shop.mvp.presenter.LoginPresenter;
+import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.activity.CallChageActivity;
 import com.zhenghaikj.shop.activity.FoundGoodGoodsActivity;
 import com.zhenghaikj.shop.activity.GoodDailyShopActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
-import com.zhenghaikj.shop.activity.OrderActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.SearchActivity;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
@@ -49,7 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class HomeFragment extends BaseLazyFragment implements View.OnClickListener {
+public class HomeFragment extends BaseLazyFragment<LoginPresenter, LoginModel> implements View.OnClickListener, LoginContract.View {
 
 
     @BindView(R.id.banner_home)
@@ -147,6 +149,7 @@ public class HomeFragment extends BaseLazyFragment implements View.OnClickListen
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
                     case 0:
+                        mPresenter.GetUser("17855837725","abcd1234",null,null,null);
                         break;
                     case 1:
                         break;
@@ -202,6 +205,11 @@ public class HomeFragment extends BaseLazyFragment implements View.OnClickListen
 
     }
 
+    @Override
+    protected void initView() {
+
+    }
+
 
     //初始化数据
     protected void init() {
@@ -226,7 +234,6 @@ public class HomeFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     protected void setListener() {
-        super.setListener();
         mTvSearch.setOnClickListener(this);
         mLlPanicBuying.setOnClickListener(this);
         mLlFoundGoodGoods.setOnClickListener(this);
@@ -255,6 +262,11 @@ public class HomeFragment extends BaseLazyFragment implements View.OnClickListen
                 activity.setCurrentItem(3);
                 break;
         }
+    }
+
+    @Override
+    public void GetUser(LoginResult Result) {
+
     }
 
     public class MenuItem {

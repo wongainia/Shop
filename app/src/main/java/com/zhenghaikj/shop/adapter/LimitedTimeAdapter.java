@@ -1,6 +1,6 @@
 package com.zhenghaikj.shop.adapter;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;

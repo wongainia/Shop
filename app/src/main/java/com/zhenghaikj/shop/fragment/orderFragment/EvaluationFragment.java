@@ -12,6 +12,22 @@ public class EvaluationFragment extends BaseLazyFragment {
     protected int setLayoutId() {
         return R.layout.fragment_evaluation;
     }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 

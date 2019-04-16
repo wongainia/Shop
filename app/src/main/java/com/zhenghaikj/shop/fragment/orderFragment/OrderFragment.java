@@ -1,14 +1,13 @@
 package com.zhenghaikj.shop.fragment.orderFragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.adapter.CartAdapter;
 import com.zhenghaikj.shop.adapter.OrderAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Bean;
@@ -45,7 +44,6 @@ public class OrderFragment extends BaseLazyFragment {
 
     @Override
     protected void initData() {
-        super.initData();
         cartList = new ArrayList<>();
         //第一个店铺的数据
         cbeanList = new ArrayList<>();
@@ -87,6 +85,16 @@ public class OrderFragment extends BaseLazyFragment {
         mRvOrder.setHasFixedSize(true);
         orderAdapter = new OrderAdapter(cartList);
         mRvOrder.setAdapter(orderAdapter);
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

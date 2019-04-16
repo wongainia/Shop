@@ -1,4 +1,4 @@
-package com.zhenghaikj.shop.Util;
+package com.zhenghaikj.shop.utils;
 
 /*
  *  项目名：  GankClient

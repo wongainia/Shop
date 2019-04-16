@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/activity_toolbar"/>
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -20,7 +20,7 @@
         app:tabSelectedTextColor="@color/red"
         app:tabTextAppearance="@style/TabLayoutTextStyle"
         app:tabTextColor="@color/black"/>
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -2,7 +2,7 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,10 +11,9 @@ import android.widget.Toast;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.Util.DataCleanManager;
+import com.zhenghaikj.shop.utils.DataCleanManager;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
-import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.widget.CircleImageView;
 
 import butterknife.BindView;

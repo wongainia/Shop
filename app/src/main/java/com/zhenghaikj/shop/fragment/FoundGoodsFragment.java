@@ -1,8 +1,8 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +40,6 @@ public class FoundGoodsFragment extends BaseLazyFragment {
 
     @Override
     protected void initData() {
-        super.initData();
         for (int i=0;i<20;i++){
             foundGoodsList.add(new Product());
         }
@@ -48,6 +47,16 @@ public class FoundGoodsFragment extends BaseLazyFragment {
         FoundGoodsAdapter foundGoodsAdapter=new FoundGoodsAdapter(R.layout.item_found_goods,foundGoodsList);
         mRvFoundGoods.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvFoundGoods.setAdapter(foundGoodsAdapter);
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
     }
 
     @Override

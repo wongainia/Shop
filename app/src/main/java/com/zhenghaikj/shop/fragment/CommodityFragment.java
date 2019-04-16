@@ -1,8 +1,8 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,13 +64,22 @@ public class CommodityFragment extends BaseLazyFragment {
 
     @Override
     protected void initData() {
-        super.initData();
         for (int i=0;i<10;i++){
             commodityList.add(new Product());
         }
         commodityAdapter = new CommodityAdapter(R.layout.item_commodity,commodityList);
         mRvCommodity.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvCommodity.setAdapter(commodityAdapter);
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
     }
 
     @Override

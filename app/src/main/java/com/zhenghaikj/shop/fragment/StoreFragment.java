@@ -1,8 +1,8 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,13 +59,22 @@ public class StoreFragment extends BaseLazyFragment {
 
     @Override
     protected void initData() {
-        super.initData();
         for (int i=0;i<10;i++){
             storeList.add(new Product());
         }
         storeAdapter = new StoreAdapter(R.layout.item_store,storeList);
         mRvStore.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvStore.setAdapter(storeAdapter);
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
+
     }
 
     @Override

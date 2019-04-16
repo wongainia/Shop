@@ -1,4 +1,4 @@
-package com.zhenghaikj.shop.Util;
+package com.zhenghaikj.shop.utils;
 
 import java.text.Collator;
 import java.util.Comparator;

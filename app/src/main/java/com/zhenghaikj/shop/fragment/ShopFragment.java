@@ -1,12 +1,11 @@
 package com.zhenghaikj.shop.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,10 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.Util.GlideImageLoader;
+import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.adapter.HotSearchAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
-import com.zhenghaikj.shop.entity.Global;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -109,7 +107,6 @@ public class ShopFragment extends BaseLazyFragment {
 
     @Override
     protected void initData() {
-        super.initData();
         for (int i = 0; i < 4; i++) {
             hotsearchList.add(hot[i]);
         }
@@ -190,6 +187,16 @@ public class ShopFragment extends BaseLazyFragment {
 //            mToolbar.setBackgroundColor(Color.parseColor("#E82C00"));
 //        }
 //        mToolbar.getBackground().setAlpha(START_ALPHA);
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void setListener() {
 
     }
 

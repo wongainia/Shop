@@ -1,9 +1,9 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,12 +13,10 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
-import com.zhenghaikj.shop.adapter.ReturnPagerAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.AfterSaleFragment;
 import com.zhenghaikj.shop.fragment.AfterSalesEvaluationFragment;
 import com.zhenghaikj.shop.fragment.ApplicationRecordFragment;
-import com.zhenghaikj.shop.fragment.CommodityFragment;
 import com.zhenghaikj.shop.fragment.ProcessingFragment;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 
