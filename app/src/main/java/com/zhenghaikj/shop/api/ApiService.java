@@ -31,7 +31,10 @@ public interface ApiService {
             @Query("password") String password,
             @Query("oauthType") String oauthType,
             @Query("oauthOpenId ") String oauthOpenId ,
-            @Query("oauthNickName") String oauthNickName
+            @Query("oauthNickName") String oauthNickName,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
     );
 
 }

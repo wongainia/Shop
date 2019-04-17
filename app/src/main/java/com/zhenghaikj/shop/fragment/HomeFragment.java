@@ -149,7 +149,7 @@ public class HomeFragment extends BaseLazyFragment<LoginPresenter, LoginModel> i
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
                     case 0:
-                        mPresenter.GetUser("17855837725","abcd1234",null,null,null);
+                        mPresenter.GetUser("菊花之战神","abcd1234","","","");
                         break;
                     case 1:
                         break;

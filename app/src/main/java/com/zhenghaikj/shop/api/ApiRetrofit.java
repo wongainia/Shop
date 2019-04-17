@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.api;
 
 import com.zhenghaikj.shop.utils.CEComplexComparator;
+import com.zhenghaikj.shop.utils.MD5Util;
 import com.zhenghaikj.shop.utils.MyUtils;
 
 import java.util.ArrayList;
@@ -15,13 +16,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiRetrofit {
 
     private static ApiService SERVICE;
-    public static ApiService getDefault(String sign){
+    public static ApiService getDefault(){
 //        if (SERVICE == null){
             SERVICE = new Retrofit.Builder()
             .baseUrl(Config.URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(Config.getClient(sign))
+            .client(Config.getClient())
             .build()
             .create(ApiService.class);
 //        }
@@ -37,9 +38,9 @@ public class ApiRetrofit {
         Collections.sort(list, com);
         String text="";
         for(String i:list){
-            text+=i+"="+sortedParams.get(i);
+            text+=i+sortedParams.get(i);
         }
         text+="has2f5zbd4";
-        return  MyUtils.md5(text);
+        return  MD5Util.MD5Encode(text,"utf-8");
     }
 }

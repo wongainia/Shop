@@ -284,7 +284,7 @@ public class MyUtils {
         MessageDigest md5 = null;
         try {
             md5 = MessageDigest.getInstance("MD5");
-            byte[] bytes = md5.digest(string.getBytes());
+            byte[] bytes = md5.digest(string.getBytes("utf-8"));
             String result = "";
             for (byte b : bytes) {
                 String temp = Integer.toHexString(b & 0xff);
@@ -294,7 +294,7 @@ public class MyUtils {
                 result += temp;
             }
             return result.toUpperCase();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "";

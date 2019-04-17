@@ -17,6 +17,15 @@ public class LoginResult implements Serializable {
     private String ErrorMsg;
     private String UserId;
     private String UserKey;
+    private String IsPromoter;
+
+    public String getIsPromoter() {
+        return IsPromoter;
+    }
+
+    public void setIsPromoter(String isPromoter) {
+        IsPromoter = isPromoter;
+    }
 
     public String getSuccess() {
         return Success;

@@ -1,9 +1,11 @@
 package com.zhenghaikj.shop.mvp.model;
 
+import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,13 +21,15 @@ public class LoginModel implements LoginContract.Model {
     @Override
     public Observable<LoginResult> GetUser(String userName, String password,String oauthType,String oauthOpenId,String oauthNickName) {
         map = new HashMap<>();
-        map.put("userName",userName);
+        map.put("username",userName);
         map.put("password",password);
-        map.put("oauthType",oauthType);
-        map.put("oauthOpenId",oauthOpenId);
-        map.put("oauthNickName",oauthNickName);
+//        map.put("oauthtype",oauthType);
+//        map.put("oauthopenid",oauthOpenId);
+//        map.put("oauthnickname",oauthNickName);
+        map.put("app_key","himalltest");
+        map.put("timestamp",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault(sign).GetUser(userName, password, oauthType, oauthOpenId, oauthNickName)
+        return ApiRetrofit.getDefault().GetUser(userName, password, oauthType, oauthOpenId, oauthNickName,"himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
