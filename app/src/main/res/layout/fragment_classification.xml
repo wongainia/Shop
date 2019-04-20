@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
@@ -59,93 +58,33 @@
             android:layout_marginRight="@dimen/dp_10"/>
 
     </LinearLayout>
-    <!--<LinearLayout-->
-        <!--android:id="@+id/ll_search"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:layout_marginLeft="15dp"-->
-        <!--android:layout_marginRight="15dp"-->
-        <!--android:visibility="gone"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:descendantFocusability="blocksDescendants"-->
-        <!--android:background="@drawable/category_edit_shape"-->
-        <!--android:padding="8dp">-->
 
-        <!--<ImageView-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:src="@drawable/search" />-->
-
-        <!--<EditText-->
-            <!--android:id="@+id/et_search"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:background="@null"-->
-            <!--android:editable="false"-->
-            <!--android:hint="搜索"-->
-            <!--android:singleLine="true"-->
-            <!--android:textSize="13sp"-->
-            <!--android:textColor="#333333"-->
-            <!--android:textColorHint="#D7D7D7" />-->
-    <!--</LinearLayout>-->
-
-    <!--<View-->
-        <!--android:id="@+id/line"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:visibility="gone"-->
-        <!--android:background="#E6E6E6" />-->
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+    <!--<com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.lwkandroid.stateframelayout.StateFrameLayout
-            android:id="@+id/stateLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:enableContentAnim="true">
+        android:layout_height="match_parent">-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:orientation="horizontal">
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.0"
+                    android:layout_weight="1"
                     android:background="#f4f4f4">
-
-                    <ListView
-                        android:id="@+id/listview"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_left"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:background="@color/white"
-                        android:divider="#C4C4C4"
-                        android:dividerHeight="0.5dp"
                         android:scrollbars="none" />
                 </LinearLayout>
-
-
-                <!--<ScrollView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="3.0">-->
-
-                <ListView
-                    android:id="@+id/lv_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_right"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:divider="#ffffff"
-                    android:dividerHeight="40dp"/>
-                <!--</ScrollView>-->
+                    android:layout_weight="2"/>
             </LinearLayout>
-        </com.lwkandroid.stateframelayout.StateFrameLayout>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 </LinearLayout>

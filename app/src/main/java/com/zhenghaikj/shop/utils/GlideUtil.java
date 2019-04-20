@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 //import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -49,6 +50,14 @@ public class GlideUtil {
                 .placeholder(lodingImage)
                 .error(errorImageView);
         Glide.with(mContext).load(path).apply(options).thumbnail(0.1f).into(mImageView);
+    }
+    public static void loadImageViewLodingRadius(Context mContext, String path, ImageView mImageView, int lodingImage, int errorImageView,int radius) {
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(lodingImage)
+                .error(errorImageView)
+                .bitmapTransform(new RoundedCorners(radius));
+        Glide.with(mContext).asBitmap().load(path).apply(options).thumbnail(0.1f).into(mImageView);
     }
 
 //    //设置加载中以及加载失败图片并且指定大小

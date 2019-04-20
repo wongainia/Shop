@@ -33,7 +33,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     //侧滑返回
-    implementation 'me.imid.swipebacklayout.lib:library:1.1.0'
     implementation 'com.gyf.barlibrary:barlibrary:2.3.0'
     //注解
     implementation 'com.jakewharton:butterknife:10.0.0'
@@ -44,7 +43,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
     //万能适配器
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.43-alpha1'
     //上拉加载下拉刷新
     //1.0.5 当1.1.0出现问题可以回退到1.0.5.1
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
@@ -56,30 +55,25 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
     implementation 'com.squareup.okio:okio:1.5.0'
     implementation 'com.blankj:utilcode:1.22.1'
-
     //3D地图so及jar
     implementation 'com.amap.api:3dmap:latest.integration'
     //定位功能
     implementation 'com.amap.api:location:latest.integration'
     //搜索功能
     implementation 'com.amap.api:search:latest.integration'
-
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
-
     //rxjava
     implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-
     //gson
-
     //    compile 'com.google.code.gson:gson:2.8.2'
-
     //okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation project(':magicindicator')
+    implementation project(':SwipeBackLayout')
 }

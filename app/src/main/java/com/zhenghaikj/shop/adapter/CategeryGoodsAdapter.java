@@ -57,7 +57,6 @@ public class CategeryGoodsAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.category_goods_item, null);
             holder.icon = convertView.findViewById(R.id.icon);
             holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.yh = (TextView) convertView.findViewById(R.id.yh);
             holder.bg_ll = convertView.findViewById(R.id.bg_ll);
             convertView.setTag(holder);
         } else {// 如果之前已经显示过该页面，则用viewholder中的缓存直接刷屏

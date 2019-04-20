@@ -32,7 +32,9 @@ public class ApiRetrofit {
     {
         ArrayList<String> list=new ArrayList<>();
         for (String key:sortedParams.keySet()){
-            list.add(key);
+            if (!"".equals(sortedParams.get(key))&&sortedParams.get(key)!=null){
+                list.add(key);
+            }
         }
         CEComplexComparator com=new CEComplexComparator();
         Collections.sort(list, com);

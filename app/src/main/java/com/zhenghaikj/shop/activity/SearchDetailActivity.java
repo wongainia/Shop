@@ -2,27 +2,31 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.SearchDetailAdapetr;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.mvp.contract.SearchContract;
+import com.zhenghaikj.shop.mvp.model.SearchModel;
+import com.zhenghaikj.shop.mvp.presenter.SearchPresenter;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SearchDetailActivity extends BaseActivity implements View.OnClickListener{
+public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchModel> implements View.OnClickListener, SearchContract.View {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.iv_back)
@@ -48,8 +52,9 @@ public class SearchDetailActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.rv_search_detail)
     RecyclerView mRvSearchDetail;
 
-    private ArrayList<Product> searchDatailList=new ArrayList<>();
+    private List<SearchResult.ProductBean> searchDatailList=new ArrayList<>();
     private SearchDetailAdapetr searchDetailAdapetr;
+    private int pagaNo=1;
 
     @Override
     protected int setLayoutId() {
@@ -68,21 +73,18 @@ public class SearchDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initData() {
-        for (int i=0;i<10;i++){
-            searchDatailList.add(new Product());
-        }
-
+        mPresenter.GetSearchProducts("新","",null,null,"1","1", Integer.toString(pagaNo),"20");
         searchDetailAdapetr = new SearchDetailAdapetr(R.layout.item_search_detail,searchDatailList);
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSearchDetail.setAdapter(searchDetailAdapetr);
-        searchDetailAdapetr.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
-                    case R.id.ll_good:
-                        startActivity(new Intent(mActivity,GoodsDetailActivity.class));
-                        break;
-                }
+        searchDetailAdapetr.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()){
+                case R.id.ll_good:
+                    startActivity(new Intent(mActivity,GoodsDetailActivity.class));
+                    break;
+                case R.id.ll_into_the_store:
+                    startActivity(new Intent(mActivity,StoreActivity.class));
+                    break;
             }
         });
     }
@@ -90,8 +92,6 @@ public class SearchDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initView() {
         mLlComprehensive.setSelected(true);
-
-
     }
 
     @Override
@@ -112,6 +112,14 @@ public class SearchDetailActivity extends BaseActivity implements View.OnClickLi
             case R.id.iv_back:
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    public void GetSearchProducts(SearchResult Result) {
+        if (Result.getSuccess()){
+            searchDatailList=Result.getProduct();
+            searchDetailAdapetr.setNewData(searchDatailList);
         }
     }
 }

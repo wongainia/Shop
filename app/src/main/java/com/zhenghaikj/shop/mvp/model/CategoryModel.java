@@ -2,8 +2,8 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.entity.LoginResult;
-import com.zhenghaikj.shop.mvp.contract.LoginContract;
+import com.zhenghaikj.shop.entity.Category;
+import com.zhenghaikj.shop.mvp.contract.CategoryContract;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -13,23 +13,18 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class LoginModel implements LoginContract.Model {
+public class CategoryModel implements CategoryContract.Model {
 
     private Map<String, String> map;
     private String sign;
 
     @Override
-    public Observable<LoginResult> GetUser(String userName, String password,String oauthType,String oauthOpenId,String oauthNickName) {
+    public Observable<Category> GetCategories() {
         map = new HashMap<>();
-        map.put("username",userName);
-        map.put("password",password);
-        map.put("oauthtype",oauthType);
-        map.put("oauthopenid",oauthOpenId);
-        map.put("oauthnickname",oauthNickName);
         map.put("app_key","himalltest");
         map.put("timestamp",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().GetUser(userName, password, oauthType, oauthOpenId, oauthNickName,"himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().GetCategories("himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

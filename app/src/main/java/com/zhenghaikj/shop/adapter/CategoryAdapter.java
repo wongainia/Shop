@@ -1,87 +1,77 @@
 package com.zhenghaikj.shop.adapter;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.entity.Products;
+import com.zhenghaikj.shop.api.Config;
+import com.zhenghaikj.shop.entity.Category;
+import com.zhenghaikj.shop.utils.GlideUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by cyl on 2018年5月10日 09:52:49.
- */
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class CategoryAdapter extends BaseAdapter {
-    private Context mContext;
+public class CategoryAdapter extends BaseMultiItemQuickAdapter<Category.CategoryBean, BaseViewHolder> {
 
-    private List<Products> grouplists = new ArrayList<>();
-    private LayoutInflater mInflater;
-    private int selectItem=0;
+    private TextView tv;
 
-    public int getSelectItem() {
-        return selectItem;
-    }
-
-    public void setSelectItem(int selectItem) {
-        this.selectItem = selectItem;
-        notifyDataSetChanged();
-    }
-
-    public CategoryAdapter(Context mContext, List<Products> grouplists) {
-        super();
-        this.mContext = mContext;
-        this.grouplists = grouplists;
-        this.mInflater = LayoutInflater.from(mContext);
+    /**
+     * Same as QuickAdapter#QuickAdapter(Context,int) but with
+     * some initialization data.
+     *
+     * @param data A new list is created out of this one to avoid mutable list
+     */
+    public CategoryAdapter(List<Category.CategoryBean> data) {
+        super(data);
+        addItemType(0, R.layout.classify_item);
+        addItemType(1, R.layout.second_category_item);
+        addItemType(2, R.layout.category_goods_item);
     }
 
     @Override
-    public int getCount() {
-        return grouplists.size();
-    }
+    protected void convert(BaseViewHolder helper, Category.CategoryBean item) {
+        switch(helper.getItemViewType()){
+            case 0:
+                tv = helper.getView(R.id.tv);
+                tv.setText(item.getName());
+                if (item.isSelected()){
+                    tv.setTextColor(Color.parseColor("#E82C00"));
+                    tv.setBackgroundResource(R.drawable.layout_line_left);
+                }else{
+                    tv.setTextColor(Color.parseColor("#333333"));
+                    tv.setBackgroundResource(R.drawable.layout_line);
+                }
+                break;
+            case 1:
+                tv = helper.getView(R.id.tv);
+                RecyclerView rv=helper.getView(R.id.rv_third);
+                tv.setText(item.getName());
+                rv.setLayoutManager(new GridLayoutManager(mContext,3));
+                for (int i = 0; i <item.getSubCategories().size() ; i++) {
+                    item.getSubCategories().get(i).setItemType(2);
+                }
+                CategoryAdapter adapter=new CategoryAdapter(item.getSubCategories());
+                rv.setAdapter(adapter);
+                adapter.setOnItemClickListener((adapter1, view, position) -> {
 
-    @Override
-    public Products getItem(int position) {
-        return grouplists.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {// 如果是第一次显示该页面(要记得保存到viewholder中供下次直接从缓存中调用)
-            holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.classify_item, null);
-            holder.content = (TextView) convertView.findViewById(R.id.tv);
-            convertView.setTag(holder);
-        } else {// 如果之前已经显示过该页面，则用viewholder中的缓存直接刷屏
-            holder = (ViewHolder) convertView.getTag();
+                });
+                break;
+            case 2:
+                tv = helper.getView(R.id.name);
+                ImageView icon = helper.getView(R.id.icon);
+                tv.setText(item.getName());
+                GlideUtil.loadImageViewLoding(mContext,"http://47.96.126.145:8830"+item.getImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
+                break;
+            default:
+                break;
         }
-
-        Products item = grouplists.get(position);
-        holder.content.setText(item.getName());
-        if (selectItem==position) {
-//            holder.content.setTextColor(Color.parseColor("#00FF99"));
-            holder.content.setTextColor(Color.parseColor("#E82C00"));
-            holder.content.setBackgroundResource(R.drawable.layout_line_left);
-        } else {
-            holder.content.setTextColor(Color.parseColor("#000000"));
-            holder.content.setBackgroundResource(R.drawable.layout_line);
-        }
-        return convertView;
     }
 
-    public class ViewHolder {
-        public TextView content;
-    }
 }
