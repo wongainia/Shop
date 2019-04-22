@@ -1,0 +1,28 @@
+package com.zhenghaikj.shop.adapter;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.utils.GlideUtil;
+
+import java.util.List;
+
+import androidx.annotation.Nullable;
+
+public class SearchDetailWaterFallAdapetr extends BaseQuickAdapter<SearchResult.ProductBean, BaseViewHolder> {
+    public SearchDetailWaterFallAdapetr(int layoutResId, @Nullable List<SearchResult.ProductBean> data) {
+        super(layoutResId, data);
+    }
+
+    @Override
+    protected void convert(BaseViewHolder helper, SearchResult.ProductBean item) {
+        helper.setText(R.id.tv_goods_name,item.getProductName());
+        helper.setText(R.id.tv_goods_money,"¥"+item.getSalePrice());
+        helper.setText(R.id.tv_buy,item.getSaleCount()+"人付款");
+        GlideUtil.loadImageViewLoding(mContext,item.getImagePath(),helper.getView(R.id.iv_goods),R.drawable.image_loading,R.drawable.image_loading);
+//        GlideUtil.loadImageViewLodingRadius(mContext,item.getImagePath(),helper.getView(R.id.iv_good_picture),R.drawable.image_loading,R.drawable.image_loading,10);
+    }
+
+
+}

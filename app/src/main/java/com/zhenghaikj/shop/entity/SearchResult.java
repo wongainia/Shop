@@ -126,7 +126,7 @@ public class SearchResult implements Serializable {
         private int SaleCount;
         private int Comments;
         private boolean HasSKU;
-        private Object SkuId;
+        private String SkuId;
         private double MinSalePrice;
         private int cartquantity;
 
@@ -210,11 +210,11 @@ public class SearchResult implements Serializable {
             this.HasSKU = HasSKU;
         }
 
-        public Object getSkuId() {
+        public String getSkuId() {
             return SkuId;
         }
 
-        public void setSkuId(Object SkuId) {
+        public void setSkuId(String SkuId) {
             this.SkuId = SkuId;
         }
 

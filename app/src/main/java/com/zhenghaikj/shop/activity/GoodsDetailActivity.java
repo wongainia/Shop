@@ -18,6 +18,10 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ShopRecommendationAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.mvp.contract.DetailContract;
+import com.zhenghaikj.shop.mvp.model.DetailModel;
+import com.zhenghaikj.shop.mvp.presenter.DetailPresenter;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.widget.CircleImageView;
 import com.zhenghaikj.shop.widget.IdeaScrollView;
@@ -32,7 +36,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GoodsDetailActivity extends BaseActivity implements View.OnClickListener {
+public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailModel> implements View.OnClickListener, DetailContract.View {
 
 
     @BindView(R.id.one)
@@ -151,6 +155,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
     };
 
     private PagerAdapter mAdapter;
+    private int id;
 
 
     @Override
@@ -192,6 +197,11 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
         ShopRecommendationAdapter shopRecommendationAdapter1 = new ShopRecommendationAdapter(R.layout.item_recommend, shopRecommendationList);
         mRvRecommend.setLayoutManager(new GridLayoutManager(mActivity, 2));
         mRvRecommend.setAdapter(shopRecommendationAdapter1);
+
+        id =getIntent().getIntExtra("id",-1);
+        if (id!=-1){
+            mPresenter.GetProductDetail(Integer.toString(id));
+        }
     }
 
 
@@ -307,4 +317,8 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    @Override
+    public void GetProductDetail(SearchResult Result) {
+
+    }
 }

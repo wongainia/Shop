@@ -2,59 +2,85 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.SearchDetailAdapetr;
+import com.zhenghaikj.shop.adapter.SearchDetailWaterFallAdapetr;
 import com.zhenghaikj.shop.base.BaseActivity;
-import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.SearchContract;
 import com.zhenghaikj.shop.mvp.model.SearchModel;
 import com.zhenghaikj.shop.mvp.presenter.SearchPresenter;
+import com.zhenghaikj.shop.utils.MyUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchModel> implements View.OnClickListener, SearchContract.View {
+
+
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.iv_back)
     ImageView mIvBack;
     @BindView(R.id.et_search)
     EditText mEtSearch;
-    @BindView(R.id.tv_comprehensive)
-    TextView mTvComprehensive;
-    @BindView(R.id.ll_comprehensive)
-    LinearLayout mLlComprehensive;
-    @BindView(R.id.tv_sales_volume)
-    TextView mTvSalesVolume;
+    @BindView(R.id.iv_search)
+    ImageView mIvSearch;
+    @BindView(R.id.ll_filter)
+    LinearLayout mLlFilter;
+    @BindView(R.id.tv_default)
+    TextView mTvDefault;
+    @BindView(R.id.ll_default)
+    LinearLayout mLlDefault;
+    @BindView(R.id.tv_price)
+    TextView mTvPrice;
+    @BindView(R.id.iv_up)
+    ImageView mIvUp;
+    @BindView(R.id.ll_price)
+    LinearLayout mLlPrice;
     @BindView(R.id.ll_sales_volume)
     LinearLayout mLlSalesVolume;
-    @BindView(R.id.ll_video)
-    LinearLayout mLlVideo;
+    @BindView(R.id.tv_comment_count)
+    TextView mTvCommentCount;
+    @BindView(R.id.ll_comment_count)
+    LinearLayout mLlCommentCount;
     @BindView(R.id.iv_list)
     ImageView mIvList;
     @BindView(R.id.ll_list)
     LinearLayout mLlList;
-    @BindView(R.id.ll_filter)
-    LinearLayout mLlFilter;
     @BindView(R.id.rv_search_detail)
     RecyclerView mRvSearchDetail;
-
-    private List<SearchResult.ProductBean> searchDatailList=new ArrayList<>();
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
+    private List<SearchResult.ProductBean> searchDatailList = new ArrayList<>();
     private SearchDetailAdapetr searchDetailAdapetr;
-    private int pagaNo=1;
+    private SearchDetailWaterFallAdapetr searchDetailWaterFallAdapetr;
+    private int pagaNo = 1;
+    private String keywords;
+    private String orderType = "1";
+    private Category.CategoryBean categoryBean;
+
 
     @Override
     protected int setLayoutId() {
@@ -73,30 +99,70 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
 
     @Override
     protected void initData() {
-        mPresenter.GetSearchProducts("新","",null,null,"1","1", Integer.toString(pagaNo),"20");
-        searchDetailAdapetr = new SearchDetailAdapetr(R.layout.item_search_detail,searchDatailList);
+        categoryBean =(Category.CategoryBean)getIntent().getSerializableExtra("tag");
+        if (categoryBean!=null){
+            mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", "1", Integer.toString(pagaNo), "5");
+        }
+        searchDetailAdapetr = new SearchDetailAdapetr(R.layout.item_search_detail, searchDatailList);
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSearchDetail.setAdapter(searchDetailAdapetr);
+
+
+        searchDetailWaterFallAdapetr = new SearchDetailWaterFallAdapetr(R.layout.item_recommend, searchDatailList);
+
+
         searchDetailAdapetr.setOnItemChildClickListener((adapter, view, position) -> {
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.ll_good:
-                    startActivity(new Intent(mActivity,GoodsDetailActivity.class));
+                    Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
+                    intent.putExtra("id",searchDatailList.get(position).getProductId());
+                    startActivity(intent);
                     break;
                 case R.id.ll_into_the_store:
-                    startActivity(new Intent(mActivity,StoreActivity.class));
+                    startActivity(new Intent(mActivity, StoreActivity.class));
                     break;
             }
+        });
+        mRefreshLayout.setEnableRefresh(false);
+        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            pagaNo++;
+            mPresenter.GetSearchProducts(keywords, "", null, null, "1", "1", Integer.toString(pagaNo), "5");
+            refreshLayout.finishLoadMore(1000);
         });
     }
 
     @Override
     protected void initView() {
-        mLlComprehensive.setSelected(true);
+        mLlDefault.setSelected(true);
     }
 
     @Override
     protected void setListener() {
         mIvBack.setOnClickListener(this);
+
+        mIvSearch.setOnClickListener(this);
+        mLlFilter.setOnClickListener(this);
+
+        mLlDefault.setOnClickListener(this);
+        mLlSalesVolume.setOnClickListener(this);
+        mLlPrice.setOnClickListener(this);
+        mLlCommentCount.setOnClickListener(this);
+        mLlList.setOnClickListener(this);
+
+        mEtSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){//搜索按键action
+                hideSoftKeyBoard();
+                keywords = mEtSearch.getText().toString();
+                if (TextUtils.isEmpty(keywords)){
+                    return true;
+                }
+                clear();
+                mPresenter.GetSearchProducts(keywords, "", null, null, "1", "1", Integer.toString(pagaNo), "5");
+                return true;
+            }
+            return false;
+        });
+
     }
 
     @Override
@@ -106,10 +172,82 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
         ButterKnife.bind(this);
     }
 
+    public void setSelected(LinearLayout ll) {
+        mLlDefault.setSelected(false);
+        mLlPrice.setSelected(false);
+        mLlSalesVolume.setSelected(false);
+        mLlCommentCount.setSelected(false);
+
+        ll.setSelected(true);
+    }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_back:
+                finish();
+                break;
+            case R.id.iv_search:
+                keywords = mEtSearch.getText().toString().trim();
+                if ("".equals(keywords)) {
+                    MyUtils.showToast(mActivity, "请输入搜索内容");
+                    return;
+                }
+                clear();
+                mPresenter.GetSearchProducts(keywords, "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
+                break;
+            case R.id.ll_default:
+                setSelected(mLlDefault);
+                if ("1".equals(orderType)) {
+                    orderType = "2";
+                } else {
+                    orderType = "1";
+                }
+                clear();
+                mPresenter.GetSearchProducts(keywords, "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
+                break;
+            case R.id.ll_price:
+                setSelected(mLlPrice);
+                if ("1".equals(orderType)) {
+                    orderType = "2";
+                } else {
+                    orderType = "1";
+                }
+                clear();
+                mPresenter.GetSearchProducts(keywords, "", null, null, "3", orderType, Integer.toString(pagaNo), "5");
+                break;
+            case R.id.ll_sales_volume:
+                setSelected(mLlSalesVolume);
+                if ("1".equals(orderType)) {
+                    orderType = "2";
+                } else {
+                    orderType = "1";
+                }
+                clear();
+                mPresenter.GetSearchProducts(keywords, "", null, null, "2", orderType, Integer.toString(pagaNo), "5");
+                break;
+            case R.id.ll_comment_count:
+                setSelected(mLlCommentCount);
+                if ("1".equals(orderType)) {
+                    orderType = "2";
+                } else {
+                    orderType = "1";
+                }
+                clear();
+                mPresenter.GetSearchProducts(keywords, "", null, null, "4", orderType, Integer.toString(pagaNo), "5");
+                break;
+            case R.id.ll_list:
+                if (mIvList.isSelected()) {
+                    mIvList.setSelected(false);
+                    mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
+                    mRvSearchDetail.setAdapter(searchDetailAdapetr);
+                } else {
+                    mIvList.setSelected(true);
+                    mRvSearchDetail.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                    mRvSearchDetail.setAdapter(searchDetailWaterFallAdapetr);
+                }
+                break;
+            case R.id.ll_filter:
                 finish();
                 break;
         }
@@ -117,9 +255,14 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
 
     @Override
     public void GetSearchProducts(SearchResult Result) {
-        if (Result.getSuccess()){
-            searchDatailList=Result.getProduct();
+        if (Result.getSuccess()) {
+            searchDatailList.addAll(Result.getProduct());
             searchDetailAdapetr.setNewData(searchDatailList);
+            searchDetailWaterFallAdapetr.setNewData(searchDatailList);
         }
+    }
+    public void clear(){
+        pagaNo=1;
+        searchDatailList.clear();
     }
 }

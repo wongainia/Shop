@@ -78,4 +78,20 @@ public interface ApiService {
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
+
+    /**
+     * 根据id获取商品详情
+     * @param id
+     * @param app_key
+     * @param timestamp
+     * @param sign
+     * @return
+     */
+    @GET("product/GetProductDetail/id")
+    Observable<SearchResult> GetProductDetail(
+            @Query("id") String id,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
 }

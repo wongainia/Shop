@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.adapter;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.SearchDetailActivity;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.utils.GlideUtil;
@@ -60,7 +62,9 @@ public class CategoryAdapter extends BaseMultiItemQuickAdapter<Category.Category
                 CategoryAdapter adapter=new CategoryAdapter(item.getSubCategories());
                 rv.setAdapter(adapter);
                 adapter.setOnItemClickListener((adapter1, view, position) -> {
-
+                    Intent intent=new Intent(mContext, SearchDetailActivity.class);
+                    intent.putExtra("tag",item.getSubCategories().get(position));
+                    mContext.startActivity(intent);
                 });
                 break;
             case 2:

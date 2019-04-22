@@ -31,7 +31,7 @@ public class Category implements Serializable {
         this.Category = Category;
     }
 
-    public static class CategoryBean implements MultiItemEntity {
+    public static class CategoryBean implements MultiItemEntity,Serializable {
         /**
          * Id : 1
          * Name : 食品、酒类、特产
