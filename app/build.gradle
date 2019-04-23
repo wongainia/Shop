@@ -76,4 +76,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation project(':magicindicator')
     implementation project(':SwipeBackLayout')
+
 }

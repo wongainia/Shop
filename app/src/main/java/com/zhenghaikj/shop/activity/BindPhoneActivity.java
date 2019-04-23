@@ -1,10 +1,7 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,41 +13,27 @@ import com.zhenghaikj.shop.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChagePasswordActivity extends BaseActivity implements View.OnClickListener {
-
-    private static final String TAG = "ChagePasswordActivity";
+public class BindPhoneActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.view)
     View mView;
-    @BindView(R.id.icon_back)
-    ImageView mIconBack;
-    @BindView(R.id.tv_title)
-    TextView mTvTitle;
-    @BindView(R.id.tv_save)
-    TextView mTvSave;
-    @BindView(R.id.icon_search)
-    ImageView mIconSearch;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.et_old_password)
-    EditText mEtOldPassword;
-    @BindView(R.id.et_new_password)
-    EditText mEtNewPassword;
-    @BindView(R.id.et_new_password_again)
-    EditText mEtNewPasswordAgain;
-    @BindView(R.id.btn_save)
-    Button mBtnSave;
-
-    private String userId;
+    @BindView(R.id.img_register_back)
+    ImageView mImgRegisterBack;
+    @BindView(R.id.et_phone)
+    EditText mEtPhone;
+    @BindView(R.id.et_phone_yzm)
+    EditText mEtPhoneYzm;
+    @BindView(R.id.iv_send_yzm)
+    ImageView mIvSendYzm;
+    @BindView(R.id.et_phone_code)
+    EditText mEtPhoneCode;
+    @BindView(R.id.tv_send_yzm)
+    TextView mTvSendYzm;
+    @BindView(R.id.tv_bind_immediately)
+    TextView mTvBindImmediately;
 
     @Override
     protected int setLayoutId() {
-        return R.layout.activity_change_password;
-    }
-
-    @Override
-    protected void initData() {
-        mTvTitle.setVisibility(View.VISIBLE);
-        mTvTitle.setText("修改密码");
+        return R.layout.activity_binding_phone;
     }
 
     @Override
@@ -64,21 +47,24 @@ public class ChagePasswordActivity extends BaseActivity implements View.OnClickL
 
 
     @Override
-    protected void initView() {
+    protected void initData() {
 
+    }
+
+    @Override
+    protected void initView() {
 
     }
 
     @Override
     protected void setListener() {
-        mIconBack.setOnClickListener(this);
-        mBtnSave.setOnClickListener(this);
+        mImgRegisterBack.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.icon_back:
+        switch (v.getId()){
+            case R.id.img_register_back:
                 finish();
                 break;
         }
@@ -90,5 +76,4 @@ public class ChagePasswordActivity extends BaseActivity implements View.OnClickL
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-
 }

@@ -1,21 +1,36 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.mvp.contract.PersonalInformationContract;
+import com.zhenghaikj.shop.mvp.model.PersonalInformationModel;
+import com.zhenghaikj.shop.mvp.presenter.PersonalInformationPresenter;
 import com.zhenghaikj.shop.widget.CircleImageView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonalInformationActivity extends BaseActivity implements View.OnClickListener{
+public class PersonalInformationActivity extends BaseActivity<PersonalInformationPresenter, PersonalInformationModel> implements View.OnClickListener, PersonalInformationContract.View {
+    private static final String TAG = "PersonalInformationActivity";
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -44,6 +59,10 @@ public class PersonalInformationActivity extends BaseActivity implements View.On
     LinearLayout mLlCode;
     @BindView(R.id.ll_gender)
     LinearLayout mLlGender;
+    @BindView(R.id.tv_gender)
+    TextView mTvGender;
+    private String userKey;
+    private SPUtils spUtils;
 
     @Override
     protected int setLayoutId() {
@@ -59,6 +78,10 @@ public class PersonalInformationActivity extends BaseActivity implements View.On
     protected void initView() {
         mTvTitle.setText("个人信息");
         mTvTitle.setVisibility(View.VISIBLE);
+
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        mPresenter.PersonalInformation(userKey);
     }
 
     @Override
@@ -84,10 +107,34 @@ public class PersonalInformationActivity extends BaseActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void PersonalInformation(PersonalInformation result) {
+        if (result.isSuccess()) {
+            mTvUsername.setText(result.getUserName());
+            mTvNickname.setText(result.getUserName());
+            /*设置头像*/
+            if (result.getPhoto()==null){//显示默认头像
+                return;
+            }else {
+                byte[] decode;
+                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
+                Glide.with(mActivity).asBitmap().load(decode).into(mIvAvatar);
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
+        if (!"RegiaterActivity".equals(name)) {
+            return;
+        }
+        mPresenter.PersonalInformation(userKey);
     }
 }

@@ -12,7 +12,7 @@ public class LoginResult implements Serializable {
      * UserKey : safsdasd
      */
 
-    private String Success;
+    private boolean Success;
     private String ErrorCode;
     private String ErrorMsg;
     private String UserId;
@@ -27,12 +27,12 @@ public class LoginResult implements Serializable {
         IsPromoter = isPromoter;
     }
 
-    public String getSuccess() {
+    public boolean getSuccess() {
         return Success;
     }
 
-    public void setSuccess(String Success) {
-        this.Success = Success;
+    public void setSuccess(boolean success) {
+        Success = success;
     }
 
     public String getErrorCode() {

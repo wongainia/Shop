@@ -81,6 +81,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mLlModifyTheLoginPassword.setOnClickListener(this);
         mLlClearCache.setOnClickListener(this);
         mLlAboutUs.setOnClickListener(this);
+        mLlModifyMobileNumber.setOnClickListener(this);
     }
 
     @Override
@@ -115,6 +116,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.ll_about_us:
                 startActivity(new Intent(mActivity,AboutUsActivity.class));
+                break;
+            case R.id.ll_modify_mobile_number:
+                startActivity(new Intent(mActivity,BindPhoneActivity.class));
                 break;
         }
     }

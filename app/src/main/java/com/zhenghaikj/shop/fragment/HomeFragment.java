@@ -25,6 +25,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
 import com.zhenghaikj.shop.mvp.model.LoginModel;
@@ -149,7 +150,8 @@ public class HomeFragment extends BaseLazyFragment<LoginPresenter, LoginModel> i
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
                     case 0:
-                        mPresenter.GetUser("菊花之战神","abcd1234","","","");
+                        startActivity(new Intent(mActivity, LoginActivity.class));
+//                        mPresenter.GetUser("菊花之战神","abcd1234","","","");
                         break;
                     case 1:
                         break;

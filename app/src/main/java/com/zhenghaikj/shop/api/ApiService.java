@@ -1,11 +1,20 @@
 package com.zhenghaikj.shop.api;
 
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.LoginResult;
+import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.entity.SendMessage;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -39,6 +48,53 @@ public interface ApiService {
             @Query("sign") String sign
     );
 
+    /**
+     * 注册
+     */
+    @FormUrlEncoded
+    @POST("Register/PostRegisterUser")
+    Observable<RegisterResult> Reg(@Field("userName") String userName,
+                                   @Field("password") String password,
+                                   @Field("oauthType") String oauthType,
+                                   @Field("email") String email,
+                                   @Field("code") String code,
+                                   @Field("oauthOpenId ") String oauthOpenId ,
+                                   @Field("oauthNickName") String oauthNickName,
+                                   @Query("app_key") String app_key,
+                                   @Query("timestamp") String timestamp,
+                                   @Query("sign") String sign        );
+
+    /*
+    * 图片验证码
+    * */
+    @GET("Login/GetImageCheckCode")
+    Observable<GetImageCheckCode> GetImageCheckCode(@Query("app_key") String app_key,
+                                                                @Query("timestamp") String timestamp,
+                                                                @Query("sign") String sign);
+
+    /**
+     * 获取短信
+     */
+    @FormUrlEncoded
+    @POST("UserCenter/GetPhoneOrEmailCheckCode")
+    Observable<SendMessage> GetCode(@Query("contact") String contact,
+                                    @Query("userkey") String userkey,
+                                    @Query("app_key") String app_key,
+                                    @Query("timestamp") String timestamp,
+                                    @Query("sign") String sign);
+
+
+    /**
+     * 验证验证码
+     */
+    @FormUrlEncoded
+    @POST("UserCenter/GetCheckPhoneOrEmailCheckCode")
+    Observable<BaseResult<String>> GetCheckPhoneOrEmailCheckCode(@Field("contact") String contact,
+                                                                 @Field("checkCode")String checkCode,
+                                                                 @Field("userkey ")String userkey ,
+                                                                 @Query("app_key") String app_key,
+                                                                 @Query("timestamp") String timestamp,
+                                                                 @Query("sign") String sign);
     /**
      * 获取所有分类
      * @return
@@ -78,6 +134,18 @@ public interface ApiService {
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
+
+
+
+    /*个人信息*/
+    @GET("UserCenter/GetUser")
+    Observable<PersonalInformation> PersonalInformation(
+            @Query("UserKey") String UserKey,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
 
     /**
      * 根据id获取商品详情
