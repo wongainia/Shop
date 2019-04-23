@@ -156,6 +156,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     private PagerAdapter mAdapter;
     private int id;
+    private String Userkey;
 
 
     @Override
@@ -199,8 +200,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mRvRecommend.setAdapter(shopRecommendationAdapter1);
 
         id =getIntent().getIntExtra("id",-1);
+        Userkey="YVdzb1BrelMyRXA0YU4xNExrUnJJWUxCdjZkN2ZxbEU4am1SM0dTd2ZiazlWWS80T1VQdnJ3SVdYNlc0WkZSKw==";
         if (id!=-1){
-            mPresenter.GetProductDetail(Integer.toString(id));
+            mPresenter.GetProductDetail(Integer.toString(id), Userkey);
         }
     }
 

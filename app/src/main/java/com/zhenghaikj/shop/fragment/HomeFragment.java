@@ -27,8 +27,12 @@ import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.entity.LoginResult;
+import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.mvp.contract.HomeContract;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
+import com.zhenghaikj.shop.mvp.model.HomeModel;
 import com.zhenghaikj.shop.mvp.model.LoginModel;
+import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
 import com.zhenghaikj.shop.mvp.presenter.LoginPresenter;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.activity.CallChageActivity;
@@ -52,7 +56,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class HomeFragment extends BaseLazyFragment<LoginPresenter, LoginModel> implements View.OnClickListener, LoginContract.View {
+public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements View.OnClickListener, HomeContract.View {
 
 
     @BindView(R.id.banner_home)
@@ -119,6 +123,7 @@ public class HomeFragment extends BaseLazyFragment<LoginPresenter, LoginModel> i
     };
     private MenuAdapter mMainAdapter;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
+    private int pageNo=1;
 
     @Override
     protected int setLayoutId() {
@@ -129,6 +134,7 @@ public class HomeFragment extends BaseLazyFragment<LoginPresenter, LoginModel> i
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initData() {
+        mPresenter.Get(Integer.toString(pageNo),"10");
         List<Integer> images = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             images.add(R.drawable.home);
@@ -267,7 +273,7 @@ public class HomeFragment extends BaseLazyFragment<LoginPresenter, LoginModel> i
     }
 
     @Override
-    public void GetUser(LoginResult Result) {
+    public void Get(SearchResult Result) {
 
     }
 

@@ -155,9 +155,25 @@ public interface ApiService {
      * @param sign
      * @return
      */
-    @GET("product/GetProductDetail/id")
+    @GET("product/GetProductDetail")
     Observable<SearchResult> GetProductDetail(
             @Query("id") String id,
+            @Query("userkey") String Userkey,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
+    /**
+     * 获取首页
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @GET("home/Get")
+    Observable<SearchResult> Get(
+            @Query("pageNo") String pageNo,
+            @Query("pageSize") String pageSize,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign

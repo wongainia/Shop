@@ -7,20 +7,20 @@ import com.zhenghaikj.shop.entity.SearchResult;
 
 import io.reactivex.Observable;
 
-public interface DetailContract {
+public interface HomeContract {
     interface Model extends BaseModel {
-        Observable<SearchResult> GetProductDetail(
-                String id,String Userkey
+        Observable<SearchResult> Get(
+                String pageNo, String pageSize
         );
     }
 
     interface View extends BaseView {
-        void GetProductDetail(SearchResult Result);
+        void Get(SearchResult Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
-        public abstract void GetProductDetail(
-                String id,String Userkey
+        public abstract void Get(
+                String pageNo, String pageSize
         );
     }
 }

@@ -2,16 +2,16 @@ package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.entity.SearchResult;
-import com.zhenghaikj.shop.mvp.contract.DetailContract;
+import com.zhenghaikj.shop.mvp.contract.HomeContract;
 
-public class DetailPresenter extends DetailContract.Presenter {
+public class HomePresenter extends HomeContract.Presenter {
     @Override
-    public void GetProductDetail(String id,String Userkey) {
-        mModel.GetProductDetail(id,Userkey)
+    public void Get(String pageNo, String pageSize) {
+        mModel.Get(pageNo, pageSize)
                 .subscribe(new BaseObserver<SearchResult>() {
                     @Override
                     protected void onHandleSuccess(SearchResult value) {
-                        mView.GetProductDetail(value);
+                        mView.Get(value);
                     }
                 });
     }
