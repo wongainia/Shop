@@ -39,6 +39,7 @@
                     android:textSize="16sp"
                     android:textColor="#333"/>
                 <TextView
+                    android:id="@+id/tv_member_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#808080"
@@ -257,6 +258,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_exit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/red_circle_shape"

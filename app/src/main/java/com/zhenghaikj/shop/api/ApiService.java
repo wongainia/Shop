@@ -1,10 +1,13 @@
 package com.zhenghaikj.shop.api;
 
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.ChagePassword;
+import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.LoginResult;
+import com.zhenghaikj.shop.entity.Logout;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
@@ -89,17 +92,51 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("UserCenter/GetCheckPhoneOrEmailCheckCode")
-    Observable<BaseResult<String>> GetCheckPhoneOrEmailCheckCode(@Field("contact") String contact,
-                                                                 @Field("checkCode")String checkCode,
-                                                                 @Field("userkey ")String userkey ,
-                                                                 @Query("app_key") String app_key,
-                                                                 @Query("timestamp") String timestamp,
-                                                                 @Query("sign") String sign);
+    Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(@Field("contact") String contact,
+                                                           @Field("checkCode")String checkCode,
+                                                           @Field("userkey ")String userkey ,
+                                                           @Field("app_key") String app_key,
+                                                           @Field("timestamp") String timestamp,
+                                                           @Field("sign") String sign);
+
+    /**
+     * 验证手机号或邮箱是否绑定账号
+     */
+    @GET("Login/GetCheckUserName")
+    Observable<CheckMessage> GetCheckUserName(@Query("contact") String contact,
+                                                           @Query("checkCode")String checkCode,
+                                                           @Query("app_key") String app_key,
+                                                           @Query("timestamp") String timestamp,
+                                                           @Query("sign") String sign);
+
+    /**
+     * 修改 密码
+     */
+    @FormUrlEncoded
+    @POST("UserCenter/PostChangePassword")
+    Observable<ChagePassword> PostChangePassword(@Field("oldPassword") String oldPassword,
+                                                 @Field("password")String password,
+                                                 @Field("userkey")String userkey ,
+                                                 @Field("app_key") String app_key,
+                                                 @Field("timestamp") String timestamp,
+                                                 @Field("sign") String sign);
+
+    /**
+     * 退出登录
+     * @return
+     */
+    @POST("Login/PostLogout")
+    Observable<Logout> PostLogout(
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
     /**
      * 获取所有分类
      * @return
      */
-    @GET("Category/GetCategories")
+    @GET("Login/GetCheckUserName")
     Observable<Category> GetCategories(
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,

@@ -2,24 +2,34 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.utils.DataCleanManager;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
+import com.zhenghaikj.shop.entity.Logout;
+import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.mvp.contract.SettingContract;
+import com.zhenghaikj.shop.mvp.model.SettingModel;
+import com.zhenghaikj.shop.mvp.presenter.SettingPresenter;
+import com.zhenghaikj.shop.utils.DataCleanManager;
 import com.zhenghaikj.shop.widget.CircleImageView;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SettingActivity extends BaseActivity implements View.OnClickListener {
+public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel> implements View.OnClickListener, SettingContract.View {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -48,6 +58,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     LinearLayout mLlFeedback;
     @BindView(R.id.ll_about_us)
     LinearLayout mLlAboutUs;
+    @BindView(R.id.btn_exit)
+    Button mBtnExit;
+    @BindView(R.id.tv_member_name)
+    TextView mTvMemberName;
+    private SPUtils spUtils;
+    private String userKey;
 
     @Override
     protected int setLayoutId() {
@@ -72,6 +88,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     protected void initView() {
         mTvTitle.setText("设置");
         mTvTitle.setVisibility(View.VISIBLE);
+
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        mPresenter.PersonalInformation(userKey);
     }
 
     @Override
@@ -82,29 +102,30 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mLlClearCache.setOnClickListener(this);
         mLlAboutUs.setOnClickListener(this);
         mLlModifyMobileNumber.setOnClickListener(this);
+        mBtnExit.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
                 break;
             case R.id.ll_address:
-                startActivity(new Intent(mActivity,ShippingAddressActivity.class));
+                startActivity(new Intent(mActivity, ShippingAddressActivity.class));
                 break;
             case R.id.ll_modify_the_login_password:
-                startActivity(new Intent(mActivity,ChagePasswordActivity.class));
+                startActivity(new Intent(mActivity, ChagePasswordActivity.class));
                 break;
             case R.id.ll_clear_cache:
-                final CommonDialog_Home dialog_home=new CommonDialog_Home(mActivity);
-                dialog_home.setMessage("当前缓存："+getCacheSize())
+                final CommonDialog_Home dialog_home = new CommonDialog_Home(mActivity);
+                dialog_home.setMessage("当前缓存：" + getCacheSize())
                         .setTitle("确认清除缓存吗？")
                         .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
                     @Override
                     public void onPositiveClick() {
                         cleanCache();
-                        Toast.makeText(mActivity,"清除成功",Toast.LENGTH_LONG).show();
+                        Toast.makeText(mActivity, "清除成功", Toast.LENGTH_LONG).show();
                         dialog_home.dismiss();
                     }
 
@@ -115,10 +136,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }).show();
                 break;
             case R.id.ll_about_us:
-                startActivity(new Intent(mActivity,AboutUsActivity.class));
+                startActivity(new Intent(mActivity, AboutUsActivity.class));
                 break;
             case R.id.ll_modify_mobile_number:
-                startActivity(new Intent(mActivity,BindPhoneActivity.class));
+                startActivity(new Intent(mActivity, BindPhoneActivity.class));
+                break;
+            case R.id.btn_exit:
+                mPresenter.PostLogout();
                 break;
         }
     }
@@ -131,19 +155,41 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     //获取缓存大小
-    private String getCacheSize(){
-        String str="";
+    private String getCacheSize() {
+        String str = "";
         try {
-            str= DataCleanManager.getTotalCacheSize(mActivity);
-        }catch (Exception e){
+            str = DataCleanManager.getTotalCacheSize(mActivity);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return str ;
+        return str;
     }
 
     //清空缓存
-    private void cleanCache(){
+    private void cleanCache() {
         DataCleanManager.clearAllCache(mActivity);
     }
 
+    @Override
+    public void PostLogout(Logout result) {
+        if (result.isSuccess()) {
+            ToastUtils.showShort("退出成功");
+        }
+    }
+
+    @Override
+    public void PersonalInformation(PersonalInformation result) {
+        if (result.isSuccess()) {
+            mTvNickname.setText(result.getUserName());
+            mTvMemberName.setText("会员名："+result.getUserName());
+            /*设置头像*/
+            if (result.getPhoto()==null){//显示默认头像
+                return;
+            }else {
+                byte[] decode;
+                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
+                Glide.with(mActivity).asBitmap().load(decode).into(mIvAvatar);
+            }
+        }
+    }
 }

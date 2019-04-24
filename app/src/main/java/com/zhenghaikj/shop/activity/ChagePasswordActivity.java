@@ -9,14 +9,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.ChagePassword;
+import com.zhenghaikj.shop.mvp.contract.ChagePasswordContract;
+import com.zhenghaikj.shop.mvp.model.ChagePasswordModel;
+import com.zhenghaikj.shop.mvp.presenter.ChagePasswordPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChagePasswordActivity extends BaseActivity implements View.OnClickListener {
+public class ChagePasswordActivity extends BaseActivity<ChagePasswordPresenter, ChagePasswordModel> implements View.OnClickListener, ChagePasswordContract.View {
 
     private static final String TAG = "ChagePasswordActivity";
     @BindView(R.id.view)
@@ -41,6 +47,8 @@ public class ChagePasswordActivity extends BaseActivity implements View.OnClickL
     Button mBtnSave;
 
     private String userId;
+    private SPUtils spUtils;
+    private String userKey;
 
     @Override
     protected int setLayoutId() {
@@ -65,13 +73,15 @@ public class ChagePasswordActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initView() {
-
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
 
     }
 
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mBtnSave.setOnClickListener(this);
         mBtnSave.setOnClickListener(this);
     }
 
@@ -80,6 +90,22 @@ public class ChagePasswordActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.icon_back:
                 finish();
+                break;
+            case R.id.btn_save:
+                String oldPassword=mEtOldPassword.getText().toString();
+                String password=mEtNewPassword.getText().toString();
+                String passworeAgain=mEtNewPasswordAgain.getText().toString();
+                if (oldPassword.isEmpty()){
+                    ToastUtils.showShort("请输入旧密码");
+                }else if (password.isEmpty()){
+                    ToastUtils.showShort("请输入新密码");
+                }else if (passworeAgain.isEmpty()){
+                    ToastUtils.showShort("请确认密码");
+                }else if (!password.equals(passworeAgain)){
+                    ToastUtils.showShort("两次密码不一致");
+                }else {
+                    mPresenter.PostChangePassword(oldPassword,password,userKey);
+                }
                 break;
         }
     }
@@ -91,4 +117,13 @@ public class ChagePasswordActivity extends BaseActivity implements View.OnClickL
         ButterKnife.bind(this);
     }
 
+    @Override
+    public void PostChangePassword(ChagePassword result) {
+        if (result.isSuccess()){
+            ToastUtils.showShort("密码修改成功");
+            finish();
+        }else {
+            ToastUtils.showShort(result.getMsg());
+        }
+    }
 }

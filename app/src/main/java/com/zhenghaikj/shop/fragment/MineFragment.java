@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.bumptech.glide.Glide;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AfterSaleActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
@@ -29,7 +33,11 @@ import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
+import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.mvp.contract.MineContract;
+import com.zhenghaikj.shop.mvp.model.MineModel;
+import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
 import com.zhenghaikj.shop.widget.CircleImageView;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -41,7 +49,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MineFragment extends BaseLazyFragment implements View.OnClickListener {
+public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View{
 
 
     Unbinder unbinder;
@@ -145,6 +153,8 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
     private RecyclerView rv_service;
     private Bundle bundle;
     private Intent intent;
+    private SPUtils spUtils;
+    private String userKey;
 
     @Override
     protected int setLayoutId() {
@@ -158,7 +168,9 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     protected void initView() {
-
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        mPresenter.PersonalInformation(userKey);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -339,5 +351,22 @@ public class MineFragment extends BaseLazyFragment implements View.OnClickListen
         WordOrderDialog wordOrderDialog=new WordOrderDialog(getContext());
         wordOrderDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         wordOrderDialog.show();
+    }
+
+    @Override
+    public void PersonalInformation(PersonalInformation result) {
+        if (result.isSuccess()){
+            mTvUsername.setText(result.getUserName());
+            /*设置头像*/
+            if (result.getPhoto()==null){//显示默认头像
+                return;
+            }else {
+                byte[] decode;
+                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
+                Glide.with(mActivity).asBitmap().load(decode).into(mIvAvatar);
+            }
+            mTvFocusOnTheStore.setText(result.getFavoriteShop());
+            mTvBaby.setText(result.getFavoriteProduct());
+        }
     }
 }
