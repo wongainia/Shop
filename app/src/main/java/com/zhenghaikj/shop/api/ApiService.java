@@ -6,6 +6,8 @@ import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.Category;
+import com.zhenghaikj.shop.entity.GetImageCheckCode;
+import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.Logout;
 import com.zhenghaikj.shop.entity.PersonalInformation;
@@ -136,7 +138,7 @@ public interface ApiService {
      * 获取所有分类
      * @return
      */
-    @GET("Login/GetCheckUserName")
+    @GET("Category/GetCategories")
     Observable<Category> GetCategories(
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
@@ -195,7 +197,7 @@ public interface ApiService {
     @GET("product/GetProductDetail")
     Observable<SearchResult> GetProductDetail(
             @Query("id") String id,
-            @Query("userkey") String Userkey,
+            @Query("UserKey") String Userkey,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
@@ -208,7 +210,7 @@ public interface ApiService {
      * @return
      */
     @GET("home/Get")
-    Observable<SearchResult> Get(
+    Observable<HomeResult> Get(
             @Query("pageNo") String pageNo,
             @Query("pageSize") String pageSize,
             @Query("app_key") String app_key,

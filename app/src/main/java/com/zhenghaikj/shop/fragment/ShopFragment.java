@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.adapter.HotSearchAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
@@ -75,7 +76,7 @@ public class ShopFragment extends BaseLazyFragment {
 
     private ArrayList<MenuItem> mMainMenus;
     private MenuAdapter mMainAdapter;
-    private ArrayList<String> mDatas;
+    private ArrayList<HomeResult.ProductBean> mDatas;
 
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private static final int START_ALPHA = 0;//scrollview滑动开始位置
@@ -202,10 +203,10 @@ public class ShopFragment extends BaseLazyFragment {
 
     //初始化数据
     protected void init() {
-        mDatas = new ArrayList<String>();
-        for (int i = 48; i < 57; i++) {
-            mDatas.add("¥" + (char) i);
-        }
+//        mDatas = new ArrayList<String>();
+//        for (int i = 48; i < 57; i++) {
+//            mDatas.add("¥" + (char) i);
+//        }
     }
 
     @Override

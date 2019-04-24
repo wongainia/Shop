@@ -4,16 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
-import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.appcompat.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
@@ -22,28 +13,26 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.activity.LoginActivity;
-import com.zhenghaikj.shop.entity.LoginResult;
-import com.zhenghaikj.shop.entity.SearchResult;
-import com.zhenghaikj.shop.mvp.contract.HomeContract;
-import com.zhenghaikj.shop.mvp.contract.LoginContract;
-import com.zhenghaikj.shop.mvp.model.HomeModel;
-import com.zhenghaikj.shop.mvp.model.LoginModel;
-import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
-import com.zhenghaikj.shop.mvp.presenter.LoginPresenter;
-import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.activity.CallChageActivity;
 import com.zhenghaikj.shop.activity.FoundGoodGoodsActivity;
 import com.zhenghaikj.shop.activity.GoodDailyShopActivity;
+import com.zhenghaikj.shop.activity.GoodsDetailActivity;
+import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.SearchActivity;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Global;
+import com.zhenghaikj.shop.entity.HomeResult;
+import com.zhenghaikj.shop.mvp.contract.HomeContract;
+import com.zhenghaikj.shop.mvp.model.HomeModel;
+import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
+import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.widget.ObservableScrollView;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -52,8 +41,13 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements View.OnClickListener, HomeContract.View {
@@ -100,6 +94,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     LinearLayout mLlGoodDailyShop;
     @BindView(R.id.ll_watermelon_coin_mall)
     LinearLayout mLlWatermelonCoinMall;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.ll_scan_it)
+    LinearLayout mLlScanIt;
+    @BindView(R.id.ll_member_code)
+    LinearLayout mLlMemberCode;
+    @BindView(R.id.ll_mess)
+    LinearLayout mLlMess;
 
 
     private ArrayList<MenuItem> mMainMenus;
@@ -107,7 +109,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private static final int START_ALPHA = 0;//scrollview滑动开始位置
     private static final int END_ALPHA = 255;//scrollview滑动结束位置
 
-    private ArrayList<String> mDatas;
+    private List<HomeResult.ProductBean> mDatas=new ArrayList<>();
     private Integer[] icons = new Integer[]{
             R.mipmap.juxing, R.mipmap.juxing_one, R.mipmap.juxing_two, R.mipmap.juxing_three, R.mipmap.juxing_four, R.mipmap.juxing_five,
             R.mipmap.juxing_six, R.mipmap.juxing_seven, R.mipmap.juxing_eight, R.mipmap.juxing_nine
@@ -123,7 +125,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     };
     private MenuAdapter mMainAdapter;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
-    private int pageNo=1;
+    private int pageNo = 1;
 
     @Override
     protected int setLayoutId() {
@@ -134,16 +136,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initData() {
-        mPresenter.Get(Integer.toString(pageNo),"10");
-        List<Integer> images = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            images.add(R.drawable.home);
-        }
-        mBannerHome.setImageLoader(new GlideImageLoader());
-        mBannerHome.setImages(images);
-        mBannerHome.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        mBannerHome.setIndicatorGravity(BannerConfig.CENTER);
-        mBannerHome.start();
+        mPresenter.Get(Integer.toString(pageNo), "10");
+
         mMainMenus = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i], picture[i]));
@@ -151,58 +145,56 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mMainAdapter = new MenuAdapter(R.layout.item_main_menu, mMainMenus);
         mRvMainMenu.setLayoutManager(new GridLayoutManager(mActivity, 5));
         mRvMainMenu.setAdapter(mMainAdapter);
-        mMainAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position) {
-                    case 0:
-                        startActivity(new Intent(mActivity, LoginActivity.class));
+        mMainAdapter.setOnItemClickListener((adapter, view, position) -> {
+            switch (position) {
+                case 0:
+                    startActivity(new Intent(mActivity, LoginActivity.class));
 //                        mPresenter.GetUser("菊花之战神","abcd1234","","","");
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                    case 6:
-                        startActivity(new Intent(mActivity, CallChageActivity.class));
-                        break;
-                    case 7:
-                        break;
-                    case 8:
-                        break;
-                    case 9:
-                        break;
-                }
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    startActivity(new Intent(mActivity, CallChageActivity.class));
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
             }
         });
 
-
-        //声名为瀑布流的布局方式: 2列,垂直方向
+//声名为瀑布流的布局方式: 2列,垂直方向
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRvHome.setLayoutManager(staggeredGridLayoutManager);
-        init();
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(), mDatas);
         mRvHome.setItemAnimator(new DefaultItemAnimator());
         mRvHome.setAdapter(myRecyclerViewAdapter);
+        myRecyclerViewAdapter.setOnItemClickListener((view, position) -> {
+            Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
+            intent.putExtra("id",mDatas.get(position).getId());
+            startActivity(intent);
+        });
 
-        mSv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > fadingHeight) {
-                    scrollY = fadingHeight;
-                } else if (scrollY < 0) {
-                    scrollY = 0;
-                } else {
 
-                }
-                mToolbar.getBackground().setAlpha(scrollY * (END_ALPHA - START_ALPHA) / fadingHeight + START_ALPHA);
+        mSv.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > fadingHeight) {
+                scrollY = fadingHeight;
+            } else if (scrollY < 0) {
+                scrollY = 0;
+            } else {
+
             }
+            mToolbar.getBackground().setAlpha(scrollY * (END_ALPHA - START_ALPHA) / fadingHeight + START_ALPHA);
         });
         if (Global.appTheme != null) {
             mToolbar.setBackgroundColor(Color.parseColor(Global.appTheme.getHome_top_color() != null ? Global.appTheme.getHome_top_color() : "#E82C00"));
@@ -210,7 +202,18 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             mToolbar.setBackgroundColor(Color.parseColor("#E82C00"));
         }
         mToolbar.getBackground().setAlpha(START_ALPHA);
-
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            pageNo=1;
+            mDatas.clear();
+            mPresenter.Get(Integer.toString(pageNo),"10");
+            refreshLayout.setNoMoreData(false);
+            refreshLayout.finishRefresh(1000);
+        });
+        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            pageNo++;
+            mPresenter.Get(Integer.toString(pageNo),"10");
+            refreshLayout.finishLoadMore(1000);
+        });
     }
 
     @Override
@@ -221,23 +224,11 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     //初始化数据
     protected void init() {
-        mDatas = new ArrayList<String>();
-        for (int i = 48; i < 57; i++) {
-            mDatas.add("¥" + (char) i);
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
     }
 
     @Override
@@ -273,8 +264,24 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     }
 
     @Override
-    public void Get(SearchResult Result) {
-
+    public void Get(HomeResult Result) {
+        if (Result.getSuccess()) {
+            if (Result.getProduct().size()==0){
+                mRefreshLayout.finishLoadMoreWithNoMoreData();
+            }else{
+                mDatas.addAll(Result.getProduct());
+                myRecyclerViewAdapter.setList(mDatas);
+            }
+            List<String> images = new ArrayList<>();
+            for (int i = 0; i < Result.getSlide().size(); i++) {
+                images.add(Result.getSlide().get(i).getImageUrl());
+            }
+            mBannerHome.setImageLoader(new GlideImageLoader());
+            mBannerHome.setImages(images);
+            mBannerHome.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+            mBannerHome.setIndicatorGravity(BannerConfig.CENTER);
+            mBannerHome.start();
+        }
     }
 
     public class MenuItem {
@@ -333,7 +340,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 
 }

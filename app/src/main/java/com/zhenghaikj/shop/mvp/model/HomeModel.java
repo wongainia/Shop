@@ -2,7 +2,7 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.mvp.contract.HomeContract;
 
 import java.text.SimpleDateFormat;
@@ -19,7 +19,7 @@ public class HomeModel implements HomeContract.Model {
     private String sign;
 
     @Override
-    public Observable<SearchResult> Get(
+    public Observable<HomeResult> Get(
             String pageNo, String pageSize
     ) {
         map = new HashMap<>();

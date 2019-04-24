@@ -1,8 +1,6 @@
 package com.zhenghaikj.shop.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +8,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.entity.HomeResult;
+import com.zhenghaikj.shop.utils.GlideUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
     private Context context;
-    private List<String> list;//数据
+    private List<HomeResult.ProductBean> list;//数据
     private List<Integer> heightList;//装产出的随机数
 
     private OnRecyclerItemClickListener mOnItemClickListener;//单击事件
     private onRecyclerItemLongClickListener mOnItemLongClickListener;//长按事件
 
+    public void setList(List<HomeResult.ProductBean> list) {
+        this.list = list;
+        heightList.clear();
+        for (int i = 0; i < list.size(); i++) {
+            int height = new Random().nextInt(200) + 100;//[100,300)的随机数
+            heightList.add(height);
+        }
+        notifyDataSetChanged();
+    }
 
-    public MyRecyclerViewAdapter(Context context, List<String> list) {
+    public MyRecyclerViewAdapter(Context context, List<HomeResult.ProductBean> list) {
         this.context = context;
         this.list = list;
         //记录为每个控件产生的随机高度,避免滑回到顶部出现空白
@@ -56,7 +67,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         //填充数据
-        holder.tv_goods_money.setText(list.get(position)+"");
+        HomeResult.ProductBean bean=list.get(position);
+        holder.tv_goods_name.setText(bean.getName());
+        holder.tv_goods_money.setText("￥"+bean.getSalePrice()+"");
+        GlideUtil.loadImageViewLoding(context,"http://47.96.126.145:8830"+bean.getImageUrl(),holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading);
+
         //由于需要实现瀑布流的效果,所以就需要动态的改变控件的高度了
         ViewGroup.LayoutParams params = holder.tv_goods_money.getLayoutParams();
         params.height=heightList.get(position);
@@ -64,7 +79,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         //设置单击事件
         if(mOnItemClickListener !=null){
-            holder.tv_look_similar.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //这里是为textView设置了单击事件,回调出去
@@ -105,14 +120,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     /**
      * 处理item的点击事件,因为recycler没有提供单击事件,所以只能自己写了
      */
-    interface OnRecyclerItemClickListener {
+    public interface OnRecyclerItemClickListener {
         public void onItemClick(View view, int position);
     }
 
     /**
      * 长按事件
      */
-    interface  onRecyclerItemLongClickListener{
+    public interface  onRecyclerItemLongClickListener{
         public void onItemLongClick(View view, int position);
     }
 
@@ -133,7 +148,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     /**
      * 向指定位置添加元素
      */
-    public void addItem(int position, String value) {
+    public void addItem(int position, HomeResult.ProductBean value) {
         if(position > list.size()) {
             position = list.size();
         }
@@ -152,12 +167,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     /**
      * 移除指定位置元素
      */
-    public String removeItem(int position) {
+    public HomeResult.ProductBean removeItem(int position) {
         if(position > list.size()-1) {
             return null;
         }
         heightList.remove(position);//删除添加的高度
-        String value = list.remove(position);//所以还需要手动在集合中删除一次
+        HomeResult.ProductBean value = list.remove(position);//所以还需要手动在集合中删除一次
         notifyItemRemoved(position);//通知删除了数据,但是没有删除list集合中的数据
         return value;
     }
