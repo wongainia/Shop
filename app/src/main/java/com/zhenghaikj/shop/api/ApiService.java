@@ -4,9 +4,11 @@ import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
+import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.Logout;
+import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.RegionResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
@@ -223,7 +225,7 @@ public interface ApiService {
     /**
      * 获取当前用户的收货地址列表数据
      */
-    @GET("ShippingAddress/GetShippingAddressList")
+    @GET("api/ShippingAddress/GetShippingAddressList")
     Observable<ShippingAddressList> GetShippingAddressList(
             @Query("userkey") String userkey,
             @Query("app_key") String app_key,
@@ -249,6 +251,33 @@ public interface ApiService {
     @GET("common/RegionAPI/GetSubRegion")
     Observable<List<RegionResult>> GetSubRegion(
             @Query("parent") String id,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
+    /**
+     * 获取订单列表
+     * @return
+     */
+    @GET("api/MemberOrder/GetOrders")
+    Observable<Order> GetOrders(
+            @Query("orderStatus") String orderStatus,
+            @Query("pageNo") String pageNo,
+            @Query("pageSize ") String pageSize,
+            @Query("userkey ") String userkey ,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
+    /**
+     * 获取我的足迹（商品浏览记录）列表
+     * @return
+     */
+    @GET("api/product/GetHistoryVisite")
+    Observable<HistoryVisite> GetHistoryVisite(
+            @Query("userkey ") String userkey ,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign

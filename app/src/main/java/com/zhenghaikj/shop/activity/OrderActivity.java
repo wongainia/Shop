@@ -14,11 +14,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
-import com.zhenghaikj.shop.fragment.orderFragment.EvaluationFragment;
-import com.zhenghaikj.shop.fragment.orderFragment.OrderFragment;
-import com.zhenghaikj.shop.fragment.orderFragment.PendingPaymentFragment;
-import com.zhenghaikj.shop.fragment.orderFragment.ReceiptFragment;
-import com.zhenghaikj.shop.fragment.orderFragment.ShipFragment;
+import com.zhenghaikj.shop.fragment.OrderFragment;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;
@@ -44,6 +40,9 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
     @BindView(R.id.vp_order)
     CustomViewPager mVpOrder;
 
+    private String[] mTitleDataList = new String[]{
+            "全部","待付款","待发货", "待收货", "待评价"
+    };
     private ArrayList<Fragment> fragmentList=new ArrayList<>();
     private ArrayList<String> title=new ArrayList<>();
     @Override
@@ -71,22 +70,26 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
         title.add("待收货");
         title.add("待评价");
         OrderFragment orderFragment=new OrderFragment();
-        PendingPaymentFragment pendingPaymentFragment=new PendingPaymentFragment();
-        ShipFragment shipFragment=new ShipFragment();
-        ReceiptFragment receiptFragment=new ReceiptFragment();
-        EvaluationFragment evaluationFragment=new EvaluationFragment();
-        fragmentList.add(orderFragment);
-        fragmentList.add(pendingPaymentFragment);
-        fragmentList.add(shipFragment);
-        fragmentList.add(receiptFragment);
-        fragmentList.add(evaluationFragment);
+        for (int i = 0; i <5; i++) {
+            fragmentList.add(OrderFragment.newInstance(mTitleDataList[i], ""));
+        }
+
+//        PendingPaymentFragment pendingPaymentFragment=new PendingPaymentFragment();
+//        ShipFragment shipFragment=new ShipFragment();
+//        ReceiptFragment receiptFragment=new ReceiptFragment();
+//        EvaluationFragment evaluationFragment=new EvaluationFragment();
+//        fragmentList.add(orderFragment);
+//        fragmentList.add(pendingPaymentFragment);
+//        fragmentList.add(shipFragment);
+//        fragmentList.add(receiptFragment);
+//        fragmentList.add(evaluationFragment);
 
         MyPagerAdapter myPagerAdapter=new MyPagerAdapter(getSupportFragmentManager(),fragmentList,title);
         mTabOrderLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mVpOrder.setAdapter(myPagerAdapter);
         mTabOrderLayout.setupWithViewPager(mVpOrder);
         mVpOrder.setCurrentItem(0);
-
+        mVpOrder.setOffscreenPageLimit(fragmentList.size());
 
     }
 

@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AfterSaleActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
+import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
 import com.zhenghaikj.shop.activity.OrderActivity;
 import com.zhenghaikj.shop.activity.PersonalInformationActivity;
@@ -210,6 +211,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlGetWorkOrder.setOnClickListener(this);
         mLlMyPurse.setOnClickListener(this);
         mLlGift.setOnClickListener(this);
+        mLlBaby.setOnClickListener(this);
     }
 
     @Override
@@ -297,6 +299,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 //赠送界面
                 startActivity(new Intent(mActivity, GiftActivity.class));
                 break;
+            case R.id.ll_baby:
+                //足迹
+                startActivity(new Intent(mActivity, FootprintActivity.class));
+                break;
 
         }
     }
@@ -366,7 +372,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 Glide.with(mActivity).asBitmap().load(decode).into(mIvAvatar);
             }
             mTvFocusOnTheStore.setText(result.getFavoriteShop());
-            mTvBaby.setText(result.getFavoriteProduct());
+            mTvFavorites.setText(result.getFavoriteProduct());
         }
     }
 }

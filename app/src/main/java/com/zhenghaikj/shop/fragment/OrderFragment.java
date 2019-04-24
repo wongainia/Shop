@@ -1,4 +1,4 @@
-package com.zhenghaikj.shop.fragment.orderFragment;
+package com.zhenghaikj.shop.fragment;
 
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,12 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.OrderAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Bean;
 import com.zhenghaikj.shop.entity.Cbean;
+import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.mvp.contract.OrderContract;
+import com.zhenghaikj.shop.mvp.model.OrderModel;
+import com.zhenghaikj.shop.mvp.presenter.OrderPresenter;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -26,7 +31,9 @@ import butterknife.Unbinder;
 
 
 //全部订单
-public class OrderFragment extends BaseLazyFragment {
+public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> implements OrderContract.View {
+    private static final String ARG_PARAM1 = "param1";//
+    private static final String ARG_PARAM2 = "param2";//
     @BindView(R.id.rv_order)
     RecyclerView mRvOrder;
     Unbinder unbinder;
@@ -36,6 +43,18 @@ public class OrderFragment extends BaseLazyFragment {
 
     private RecyclerView.LayoutManager manager;
     private OrderAdapter orderAdapter;
+    private SPUtils spUtils;
+    private String userKey;
+    private int pagaNo = 1;
+
+    public static OrderFragment newInstance(String param1, String param2) {
+        OrderFragment fragment = new OrderFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected int setLayoutId() {
@@ -89,7 +108,9 @@ public class OrderFragment extends BaseLazyFragment {
 
     @Override
     protected void initView() {
-
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        mPresenter.GetOrders("2", Integer.toString(pagaNo), "10",userKey);
     }
 
     @Override
@@ -114,5 +135,10 @@ public class OrderFragment extends BaseLazyFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void GetOrders(Order result) {
+
     }
 }
