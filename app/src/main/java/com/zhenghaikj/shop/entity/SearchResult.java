@@ -116,7 +116,7 @@ public class SearchResult implements Serializable {
          * cartquantity : 0
          */
 
-        private int ProductId;
+        private String ProductId;
         private int ShopId;
         private String ImagePath;
         private double SalePrice;
@@ -130,11 +130,11 @@ public class SearchResult implements Serializable {
         private double MinSalePrice;
         private int cartquantity;
 
-        public int getProductId() {
+        public String getProductId() {
             return ProductId;
         }
 
-        public void setProductId(int ProductId) {
+        public void setProductId(String ProductId) {
             this.ProductId = ProductId;
         }
 

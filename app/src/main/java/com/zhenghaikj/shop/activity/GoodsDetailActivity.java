@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,12 +12,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ShopRecommendationAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.CollectResult;
+import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
@@ -129,6 +134,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     ImageView mIvCart;
     @BindView(R.id.banner_goods)
     Banner mBannerGoods;
+    @BindView(R.id.tv_collection)
+    TextView mTvcollection;
+
+
+    private String Userkey;
+    private SPUtils spUtils=SPUtils.getInstance("token");
 
 
 
@@ -141,6 +152,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     private boolean isNeedScrollTo = true;
     private float currentPercentage = 0;
+    private PagerAdapter mAdapter;
+    private String id;
+
     private RadioGroup.OnCheckedChangeListener radioGroupListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -154,9 +168,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         }
     };
 
-    private PagerAdapter mAdapter;
-    private int id;
-    private String Userkey;
 
 
     @Override
@@ -168,6 +179,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
      * 初始化沉浸式
      */
     protected void initImmersionBar() {
+
+        /*添加到购物车*/
+     /*   findViewById(R.id.add_to_cart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {   `
+                mPresenter.PostAddProductToCart("699_0_0_0","1",Userkey);
+            }
+        });*/
+
+
+
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
         mImmersionBar.statusBarColor(R.color.transparent);
@@ -177,6 +199,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Override
     protected void initData() {
+        Userkey=spUtils.getString("UserKey");
+
+
          ArrayList<Integer> images = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             images.add(R.drawable.home);
@@ -199,10 +224,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mRvRecommend.setLayoutManager(new GridLayoutManager(mActivity, 2));
         mRvRecommend.setAdapter(shopRecommendationAdapter1);
 
-        id =getIntent().getIntExtra("id",-1);
-        Userkey="YVdzb1BrelMyRXA0YU4xNExrUnJJWUxCdjZkN2ZxbEU4am1SM0dTd2ZiazlWWS80T1VQdnJ3SVdYNlc0WkZSKw==";
-        if (id!=-1){
-            mPresenter.GetProductDetail(Integer.toString(id), Userkey);
+        id =getIntent().getStringExtra("id");
+        Log.d("=====>", String.valueOf(id));
+       // Userkey="YVdzb1BrelMyRXA0YU4xNExrUnJJWUxCdjZkN2ZxbEU4am1SM0dTd2ZiazlWWS80T1VQdnJ3SVdYNlc0WkZSKw==";
+        if (!"".equals(id)&&id!=null){
+            mPresenter.GetProductDetail(id, Userkey);
+            mPresenter.GetSKUInfo(id);
         }
     }
 
@@ -265,6 +292,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Override
     protected void setListener() {
         mIvBack.setOnClickListener(this);
+        mTvcollection.setOnClickListener(this);
     }
 
 
@@ -316,11 +344,33 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.tv_collection:
+                Log.d("=====>", String.valueOf(id));
+                mPresenter.PostAddFavoriteProduct(id,Userkey);
+                break;
+
         }
     }
 
     @Override
-    public void GetProductDetail(SearchResult Result) {
+    public void GetProductDetail(DetailResult Result) {
+        Log.d("========>","进入详情");
+    }
 
+    /*添加到购物车*/
+    @Override
+    public void PostAddProductToCart(String Result) {
+
+    }
+
+    @Override
+    public void GetSKUInfo(GetGoodSKu Result) {
+        Log.d("========>","进入sku");
+    }
+
+    /*收藏*/
+    @Override
+    public void PostAddFavoriteProduct(CollectResult Result) {
+        Log.d("========>","进入收藏");
     }
 }

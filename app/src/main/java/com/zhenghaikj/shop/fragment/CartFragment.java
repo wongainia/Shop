@@ -13,13 +13,18 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.CartAdapter;
 import com.zhenghaikj.shop.adapter.RecyclerAdapter1;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Bean;
+import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.Cbean;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.mvp.contract.CartContract;
+import com.zhenghaikj.shop.mvp.model.CartModel;
+import com.zhenghaikj.shop.mvp.presenter.CartPresenter;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -31,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class CartFragment extends BaseLazyFragment implements View.OnClickListener {
+public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> implements View.OnClickListener, CartContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -65,7 +70,8 @@ public class CartFragment extends BaseLazyFragment implements View.OnClickListen
     private RecyclerAdapter1 shopTypeAdapter;
 
     private RecyclerView.LayoutManager manager;
-
+   private SPUtils spUtils=SPUtils.getInstance("token");
+   private String Userkey;
 
     @Override
     protected int setLayoutId() {
@@ -79,6 +85,9 @@ public class CartFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     protected void initView() {
+
+
+
         cartList = new ArrayList<>();
         //第一个店铺的数据
         cbeanList = new ArrayList<>();
@@ -265,6 +274,8 @@ public class CartFragment extends BaseLazyFragment implements View.OnClickListen
 
     @Override
     protected void initData() {
+        Userkey=spUtils.getString("UserKey");
+        mPresenter.GetCartProduct(Userkey);
     }
 
     @Override
@@ -282,5 +293,10 @@ public class CartFragment extends BaseLazyFragment implements View.OnClickListen
                 }
                 break;
         }
+    }
+
+    @Override
+    public void GetCartProduct(Cart Result) {
+
     }
 }

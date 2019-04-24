@@ -3,6 +3,13 @@ package com.zhenghaikj.shop.api;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
+import com.zhenghaikj.shop.entity.Cart;
+import com.zhenghaikj.shop.entity.CollectResult;
+import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.GetGoodSKu;
+import com.zhenghaikj.shop.entity.GetImageCheckCode;
+import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.HomeResult;
@@ -198,14 +205,18 @@ public interface ApiService {
      * @param sign
      * @return
      */
+
     @GET("api/product/GetProductDetail")
-    Observable<SearchResult> GetProductDetail(
+    Observable<DetailResult> GetProductDetail(
             @Query("id") String id,
             @Query("UserKey") String Userkey,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
+
+
+
 
     /**
      * 获取首页
@@ -282,4 +293,36 @@ public interface ApiService {
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
+    @FormUrlEncoded
+    @POST("Cart/PostAddProductToCart")
+    Observable<String> PostAddProductToCart(@Field("skuId") String skuId,
+                                            @Field("count") String count,
+                                            @Field("Userkey") String Userkey,
+                                            @Query("app_key") String app_key,
+                                            @Query("timestamp") String timestamp,
+                                            @Query("sign") String sign
+    );
+
+
+    @GET("api/Cart/GetCartProduct")
+    Observable<Cart> GetCartProduct( @Query("Userkey") String Userkey,
+                                     @Query("app_key") String app_key,
+                                     @Query("timestamp") String timestamp,
+                                     @Query("sign") String sign
+                                     );
+
+    @GET("api/product/GetSKUInfo")
+    Observable<GetGoodSKu> GetSKUInfo (@Query("productId") String productId,
+                                       @Query("app_key") String app_key,
+                                       @Query("timestamp") String timestamp,
+                                       @Query("sign") String sign
+                                       );
+
+    @FormUrlEncoded
+    @POST("api/product/PostAddFavoriteProduct")
+    Observable<CollectResult> PostAddFavoriteProduct(@Field("productId") String productId,
+                                                     @Field("userkey") String Userkey,
+                                                     @Query("app_key") String app_key,
+                                                     @Query("timestamp") String timestamp,
+                                                     @Query("sign") String sign);
 }
