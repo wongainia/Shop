@@ -327,7 +327,7 @@ public class MyUtils {
      */
     public static void e(String TAG, String msg) {
         //规定每段显示的长度
-        int LOG_MAXLENGTH = 2000;
+        int LOG_MAXLENGTH = 20000;
         int strLength = msg.length();
         int start = 0;
         int end = LOG_MAXLENGTH;

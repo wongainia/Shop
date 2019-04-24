@@ -1,21 +1,21 @@
 package com.zhenghaikj.shop.api;
 
-import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
-import com.zhenghaikj.shop.entity.Data;
-import com.zhenghaikj.shop.entity.GetImageCheckCode;
-import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.Logout;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.RegionResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.Search;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -43,7 +43,7 @@ public interface ApiService {
      * UserId：用户编号
      * UserKey：用户登录凭证
      */
-    @GET("Login/GetUser")
+    @GET("api/Login/GetUser")
     Observable<LoginResult> GetUser(
             @Query("userName") String userName,
             @Query("password") String password,
@@ -59,7 +59,7 @@ public interface ApiService {
      * 注册
      */
     @FormUrlEncoded
-    @POST("Register/PostRegisterUser")
+    @POST("api/Register/PostRegisterUser")
     Observable<RegisterResult> Reg(@Field("userName") String userName,
                                    @Field("password") String password,
                                    @Field("oauthType") String oauthType,
@@ -74,7 +74,7 @@ public interface ApiService {
     /*
     * 图片验证码
     * */
-    @GET("Login/GetImageCheckCode")
+    @GET("api/Login/GetImageCheckCode")
     Observable<GetImageCheckCode> GetImageCheckCode(@Query("app_key") String app_key,
                                                                 @Query("timestamp") String timestamp,
                                                                 @Query("sign") String sign);
@@ -83,7 +83,7 @@ public interface ApiService {
      * 获取短信
      */
     @FormUrlEncoded
-    @POST("UserCenter/GetPhoneOrEmailCheckCode")
+    @POST("api/UserCenter/GetPhoneOrEmailCheckCode")
     Observable<SendMessage> GetCode(@Query("contact") String contact,
                                     @Query("userkey") String userkey,
                                     @Query("app_key") String app_key,
@@ -95,7 +95,7 @@ public interface ApiService {
      * 验证验证码
      */
     @FormUrlEncoded
-    @POST("UserCenter/GetCheckPhoneOrEmailCheckCode")
+    @POST("api/UserCenter/GetCheckPhoneOrEmailCheckCode")
     Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(@Field("contact") String contact,
                                                            @Field("checkCode")String checkCode,
                                                            @Field("userkey ")String userkey ,
@@ -106,7 +106,7 @@ public interface ApiService {
     /**
      * 验证手机号或邮箱是否绑定账号
      */
-    @GET("Login/GetCheckUserName")
+    @GET("api/Login/GetCheckUserName")
     Observable<CheckMessage> GetCheckUserName(@Query("contact") String contact,
                                                            @Query("checkCode")String checkCode,
                                                            @Query("app_key") String app_key,
@@ -117,7 +117,7 @@ public interface ApiService {
      * 修改 密码
      */
     @FormUrlEncoded
-    @POST("UserCenter/PostChangePassword")
+    @POST("api/UserCenter/PostChangePassword")
     Observable<ChagePassword> PostChangePassword(@Field("oldPassword") String oldPassword,
                                                  @Field("password")String password,
                                                  @Field("userkey")String userkey ,
@@ -129,7 +129,7 @@ public interface ApiService {
      * 退出登录
      * @return
      */
-    @POST("Login/PostLogout")
+    @POST("api/Login/PostLogout")
     Observable<Logout> PostLogout(
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
@@ -140,7 +140,7 @@ public interface ApiService {
      * 获取所有分类
      * @return
      */
-    @GET("Category/GetCategories")
+    @GET("api/Category/GetCategories")
     Observable<Category> GetCategories(
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
@@ -161,7 +161,7 @@ public interface ApiService {
      * @param sign
      * @return
      */
-    @GET("search/GetSearchProducts")
+    @GET("api/search/GetSearchProducts")
     Observable<SearchResult> GetSearchProducts(
             @Query("keywords") String keywords,
             @Query("exp_keywords") String exp_keywords,
@@ -179,7 +179,7 @@ public interface ApiService {
 
 
     /*个人信息*/
-    @GET("UserCenter/GetUser")
+    @GET("api/UserCenter/GetUser")
     Observable<PersonalInformation> PersonalInformation(
             @Query("UserKey") String UserKey,
             @Query("app_key") String app_key,
@@ -196,7 +196,7 @@ public interface ApiService {
      * @param sign
      * @return
      */
-    @GET("product/GetProductDetail")
+    @GET("api/product/GetProductDetail")
     Observable<SearchResult> GetProductDetail(
             @Query("id") String id,
             @Query("UserKey") String Userkey,
@@ -211,7 +211,7 @@ public interface ApiService {
      * @param pageSize
      * @return
      */
-    @GET("home/Get")
+    @GET("api/home/Get")
     Observable<HomeResult> Get(
             @Query("pageNo") String pageNo,
             @Query("pageSize") String pageSize,
@@ -226,6 +226,29 @@ public interface ApiService {
     @GET("ShippingAddress/GetShippingAddressList")
     Observable<ShippingAddressList> GetShippingAddressList(
             @Query("userkey") String userkey,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
+    /**
+     * 获取省市区数据
+     * @return
+     */
+    @GET("common/RegionAPI/GetAllRegion")
+    Observable<List<RegionResult>> GetAllRegion(
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+    /**
+     * 获取街道数据
+     * @id 区id
+     * @return
+     */
+    @GET("common/RegionAPI/GetSubRegion")
+    Observable<List<RegionResult>> GetSubRegion(
+            @Query("parent") String id,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign

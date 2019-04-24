@@ -12,7 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public class Config {
     public static boolean IS_DEBUG = true;
-    public static final String URL = "http://47.96.126.145:8830/api/";//测试服
+    public static final String URL = "http://47.96.126.145:8830/";//测试服
     static HttpLoggingInterceptor loggingInterceptor;
 
     public static HttpLoggingInterceptor getLoggingInterceptor() {
