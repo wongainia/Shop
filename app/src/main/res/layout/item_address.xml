@@ -17,14 +17,14 @@
             android:background="@drawable/gray_circle"
             android:gravity="center"
             android:layout_gravity="center">
+
             <TextView
                 android:id="@+id/tv_name_first"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="啊"
-                android:textSize="16sp"
                 android:textColor="@color/white"
-                />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,7 +69,8 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:background="#ff9f9f"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginRight="5dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/tv_address"
                     android:layout_width="wrap_content"

@@ -2,25 +2,31 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AddressAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
-import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
+import com.zhenghaikj.shop.mvp.contract.ShippingAddressListContract;
+import com.zhenghaikj.shop.mvp.model.ShippingAddressListModel;
+import com.zhenghaikj.shop.mvp.presenter.ShippingAddressListPresenter;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ShippingAddressActivity extends BaseActivity implements View.OnClickListener {
+public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPresenter, ShippingAddressListModel> implements View.OnClickListener, ShippingAddressListContract.View {
 
     @BindView(R.id.view)
     View mView;
@@ -36,8 +42,15 @@ public class ShippingAddressActivity extends BaseActivity implements View.OnClic
     Toolbar mToolbar;
     @BindView(R.id.rv_address)
     RecyclerView mRvAddress;
+    @BindView(R.id.tv_no_address)
+    TextView mTvNoAddress;
 
-   private ArrayList<Product> addressList=new ArrayList<>();
+    private ArrayList<ShippingAddressList.ShippingAddressBean> addressList = new ArrayList<>();
+    private ArrayList<ShippingAddressList.ShippingAddressBean> list = new ArrayList<>();
+    private SPUtils spUtils;
+    private String userkey;
+    private AddressAdapter addressAdapter;
+
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -55,10 +68,8 @@ public class ShippingAddressActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initData() {
-        for (int i=0;i<10;i++){
-            addressList.add(new Product());
-        }
-        AddressAdapter addressAdapter=new AddressAdapter(R.layout.item_address,addressList);
+//        addressAdapter = new AddressAdapter(R.layout.item_address, list);
+        addressAdapter = new AddressAdapter(R.layout.item_address, addressList);
         mRvAddress.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvAddress.setAdapter(addressAdapter);
     }
@@ -69,6 +80,10 @@ public class ShippingAddressActivity extends BaseActivity implements View.OnClic
         mTvSave.setText("添加新地址");
         mTvSave.setVisibility(View.VISIBLE);
         mTvTitle.setVisibility(View.VISIBLE);
+
+        spUtils = SPUtils.getInstance("token");
+        userkey = spUtils.getString("UserKey");
+        mPresenter.GetShippingAddressList(userkey);
     }
 
     @Override
@@ -79,12 +94,12 @@ public class ShippingAddressActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
                 break;
             case R.id.tv_save:
-                startActivity(new Intent(mActivity,AddAddressActivity.class));
+                startActivity(new Intent(mActivity, AddAddressActivity.class));
                 break;
         }
     }
@@ -94,5 +109,25 @@ public class ShippingAddressActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetShippingAddressList(ShippingAddressList result) {
+        if (result.isSuccess()) {
+            if (result.getShippingAddress().size() == 0) {
+                    mTvNoAddress.setVisibility(View.VISIBLE);
+            } else {
+                addressList.addAll(result.getShippingAddress());
+                for (int i = 0; i < addressList.size(); i++) {
+                    if(addressList.get(i).isDefault()){
+                        list.add(0,result.getShippingAddress().get(i));
+                    }else {
+                        list.add(result.getShippingAddress().get(i));
+                    }
+                    addressAdapter.setNewData(list);
+                }
+
+            }
+        }
     }
 }

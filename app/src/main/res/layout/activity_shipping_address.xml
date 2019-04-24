@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/activity_toolbar"/>
-    <androidx.recyclerview.widget.RecyclerView
+    <include layout="@layout/activity_toolbar" />
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rv_address"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_no_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="还没地址，请点击添加地址按钮进行添加"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+
+
+    </FrameLayout>
+
 </LinearLayout>

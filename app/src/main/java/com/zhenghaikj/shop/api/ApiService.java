@@ -12,8 +12,10 @@ import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.Logout;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.RegisterResult;
+import com.zhenghaikj.shop.entity.Search;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SendMessage;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -213,6 +215,17 @@ public interface ApiService {
     Observable<HomeResult> Get(
             @Query("pageNo") String pageNo,
             @Query("pageSize") String pageSize,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
+    /**
+     * 获取当前用户的收货地址列表数据
+     */
+    @GET("ShippingAddress/GetShippingAddressList")
+    Observable<ShippingAddressList> GetShippingAddressList(
+            @Query("userkey") String userkey,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
