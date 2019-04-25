@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -67,6 +68,11 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
         adapter = new FootprintAdapter(R.layout.item_footprint,list);
         mRvFootprint.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvFootprint.setAdapter(adapter);
+        adapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
+            intent.putExtra("id",list.get(position).getProductId());
+            startActivity(intent);
+        });
     }
 
     @Override

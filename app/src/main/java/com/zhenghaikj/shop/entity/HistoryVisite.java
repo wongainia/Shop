@@ -78,7 +78,7 @@ public class HistoryVisite implements Serializable {
         }
 
         public String getBrowseTime() {
-            return BrowseTime;
+            return BrowseTime.replace("T"," ");
         }
 
         public void setBrowseTime(String browseTime) {

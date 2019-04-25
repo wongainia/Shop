@@ -1,11 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +16,11 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.entity.HomeResult;
-import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.adapter.HotSearchAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.entity.HomeResult;
+import com.zhenghaikj.shop.utils.GlideImageLoader;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -33,6 +28,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -76,7 +76,7 @@ public class ShopFragment extends BaseLazyFragment {
 
     private ArrayList<MenuItem> mMainMenus;
     private MenuAdapter mMainAdapter;
-    private ArrayList<HomeResult.ProductBean> mDatas;
+    private List<HomeResult.ProductBean> mDatas=new ArrayList<>();
 
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private static final int START_ALPHA = 0;//scrollview滑动开始位置
