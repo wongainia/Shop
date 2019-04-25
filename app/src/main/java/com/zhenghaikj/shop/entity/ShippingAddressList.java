@@ -43,7 +43,7 @@ public class ShippingAddressList implements Serializable {
         ShippingAddress = shippingAddress;
     }
 
-    public static class ShippingAddressBean{
+    public static class ShippingAddressBean implements Serializable{
         private String RegionFullName;
         private String RegionIdPath;
         private String Id;

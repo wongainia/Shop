@@ -1,16 +1,13 @@
 package com.zhenghaikj.shop.api;
 
 import com.zhenghaikj.shop.entity.Address;
+import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
-import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.CollectResult;
-import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
-import com.zhenghaikj.shop.entity.GetImageCheckCode;
-import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.HomeResult;
@@ -20,7 +17,6 @@ import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.RegionResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
-import com.zhenghaikj.shop.entity.Search;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
@@ -302,6 +298,25 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/ShippingAddress/PostAddShippingAddress")
     Observable<Address> PostAddShippingAddress(
+            @Field("regionId") String regionId,
+            @Field("address") String address,
+            @Field("phone") String phone,
+            @Field("shipTo") String shipTo,
+            @Field("latitude") String latitude,
+            @Field("longitude") String longitude,
+            @Field("Userkey") String Userkey,
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+    /**
+     * 编辑收货地址
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/ShippingAddress/PostEditShippingAddress")
+    Observable<Address> PostEditShippingAddress(
+            @Field("id") String id,
             @Field("regionId") String regionId,
             @Field("address") String address,
             @Field("phone") String phone,

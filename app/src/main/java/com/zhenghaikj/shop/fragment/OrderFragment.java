@@ -1,8 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +23,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -110,7 +110,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     protected void initView() {
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
-        mPresenter.GetOrders("2", Integer.toString(pagaNo), "10",userKey);
+        mPresenter.GetOrders("4", Integer.toString(pagaNo), "10",userKey);
     }
 
     @Override

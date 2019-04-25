@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ProvinceAdapter;
@@ -87,6 +86,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     private String regionId;
     private SPUtils spUtils;
     private String userKey;
+    private ShippingAddressList.ShippingAddressBean shippingAddressBean;
 
     @Override
     protected int setLayoutId() {
@@ -106,6 +106,17 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     @Override
     protected void initData() {
 //        mPresenter.GetAllRegion();
+        shippingAddressBean= (ShippingAddressList.ShippingAddressBean) getIntent().getSerializableExtra("address");
+        if (shippingAddressBean != null) {
+            mEtReceiver.setText(shippingAddressBean.getShipTo());
+            mEtCellphoneNumber.setText(shippingAddressBean.getPhone());
+            mTvArea.setText(shippingAddressBean.getRegionFullName());
+            regionId=shippingAddressBean.getRegionId();
+            mEtAddress.setText(shippingAddressBean.getAddress());
+            mTvTitle.setText("编辑收货地址");
+        }else{
+            mTvTitle.setText("添加收货地址");
+        }
     }
 
     @Override
@@ -163,7 +174,11 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                 }else if (address.isEmpty()){
                     ToastUtils.showShort("请输入详细地址");
                 }else {
-                    mPresenter.PostAddShippingAddress(regionId,address,phone,name,"","",userKey);
+                    if (shippingAddressBean != null) {
+                        mPresenter.PostEditShippingAddress(shippingAddressBean.getId(),regionId,address,phone,name,"","",userKey);
+                    }else{
+                        mPresenter.PostAddShippingAddress(regionId,address,phone,name,"","",userKey);
+                    }
                 }
                 break;
 
@@ -186,9 +201,9 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                         String number = cursor.getString(0);
                         String name = cursor.getString(1);
                         mEtCellphoneNumber.setText(number);
-                        if (mEtReceiver.getText().toString().isEmpty()){
+//                        if (mEtReceiver.getText().toString().isEmpty()){
                             mEtReceiver.setText(name);
-                        }
+//                        }
 
                     }
                 }
@@ -238,8 +253,24 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
 
     @Override
     public void PostAddShippingAddres(Address Result) {
-            ToastUtils.showShort("添加成功");
+            if (Result.getSuccess()){
+                ToastUtils.showShort("添加成功");
+                setResult(100);
+                finish();
+            }else {
+                ToastUtils.showShort("添加失败");
+            }
+    }
+
+    @Override
+    public void PostEditShippingAddress(Address Result) {
+        if (Result.getSuccess()){
+            ToastUtils.showShort("修改成功");
+            setResult(100);
             finish();
+        }else {
+            ToastUtils.showShort("修改失败");
+        }
     }
 
     public void showPopWindowGetAddress(final TextView tv) {

@@ -2,11 +2,9 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
@@ -19,7 +17,9 @@ import com.zhenghaikj.shop.mvp.model.ShippingAddressListModel;
 import com.zhenghaikj.shop.mvp.presenter.ShippingAddressListPresenter;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,8 +45,8 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     @BindView(R.id.tv_no_address)
     TextView mTvNoAddress;
 
-    private ArrayList<ShippingAddressList.ShippingAddressBean> addressList = new ArrayList<>();
-    private ArrayList<ShippingAddressList.ShippingAddressBean> list = new ArrayList<>();
+    private List<ShippingAddressList.ShippingAddressBean> addressList = new ArrayList<>();
+    private List<ShippingAddressList.ShippingAddressBean> list = new ArrayList<>();
     private SPUtils spUtils;
     private String userkey;
     private AddressAdapter addressAdapter;
@@ -72,6 +72,17 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
         addressAdapter = new AddressAdapter(R.layout.item_address, addressList);
         mRvAddress.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvAddress.setAdapter(addressAdapter);
+        addressAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            switch(view.getId()){
+                case R.id.tv_edit:
+                    Intent intent=new Intent(mActivity, AddAddressActivity.class);
+                    intent.putExtra("address",addressList.get(position));
+                    startActivityForResult(intent,100);
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     @Override
@@ -99,7 +110,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
                 finish();
                 break;
             case R.id.tv_save:
-                startActivity(new Intent(mActivity, AddAddressActivity.class));
+                startActivityForResult(new Intent(mActivity, AddAddressActivity.class),100);
                 break;
         }
     }
@@ -117,7 +128,8 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
             if (result.getShippingAddress().size() == 0) {
                     mTvNoAddress.setVisibility(View.VISIBLE);
             } else {
-                addressList.addAll(result.getShippingAddress());
+                addressList=result.getShippingAddress();
+                list.clear();
                 for (int i = 0; i < addressList.size(); i++) {
                     if(addressList.get(i).isDefault()){
                         list.add(0,result.getShippingAddress().get(i));
@@ -128,6 +140,14 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
                 }
 
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==100){
+            mPresenter.GetShippingAddressList(userkey);
         }
     }
 }
