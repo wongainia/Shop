@@ -1,7 +1,9 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
+import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.RegionResult;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.AddressContract;
 
 import java.util.List;
@@ -24,6 +26,17 @@ public class AddressPresenter extends AddressContract.Presenter {
                     @Override
                     protected void onHandleSuccess(List<RegionResult> value) {
                         mView.GetSubRegion(value);
+                    }
+                });
+    }
+
+    @Override
+    public void PostAddShippingAddress(String regionId, String address, String phone, String shipTo, String latitude, String longitude, String Userkey) {
+        mModel.PostAddShippingAddress(regionId, address, phone, shipTo, latitude, longitude, Userkey)
+                .subscribe(new BaseObserver<Address>() {
+                    @Override
+                    protected void onHandleSuccess(Address value) {
+                        mView.PostAddShippingAddres(value);
                     }
                 });
     }

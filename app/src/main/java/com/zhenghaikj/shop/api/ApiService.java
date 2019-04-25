@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.api;
 
+import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
@@ -275,8 +276,8 @@ public interface ApiService {
     Observable<Order> GetOrders(
             @Query("orderStatus") String orderStatus,
             @Query("pageNo") String pageNo,
-            @Query("pageSize ") String pageSize,
-            @Query("userkey ") String userkey ,
+            @Query("pageSize") String pageSize,
+            @Query("userkey") String userkey ,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
@@ -288,10 +289,29 @@ public interface ApiService {
      */
     @GET("api/product/GetHistoryVisite")
     Observable<HistoryVisite> GetHistoryVisite(
-            @Query("userkey ") String userkey ,
+            @Query("userkey") String userkey ,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
+    );
+
+    /**
+     * 新增收货地址
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/ShippingAddress/PostAddShippingAddress")
+    Observable<Address> PostAddShippingAddress(
+            @Field("regionId") String regionId,
+            @Field("address") String address,
+            @Field("phone") String phone,
+            @Field("shipTo") String shipTo,
+            @Field("latitude") String latitude,
+            @Field("longitude") String longitude,
+            @Field("Userkey") String Userkey,
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
     );
     @FormUrlEncoded
     @POST("Cart/PostAddProductToCart")

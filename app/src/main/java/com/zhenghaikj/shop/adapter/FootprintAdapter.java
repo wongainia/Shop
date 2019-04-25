@@ -2,12 +2,14 @@ package com.zhenghaikj.shop.adapter;
 
 import android.graphics.Bitmap;
 import android.util.Base64;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.HistoryVisite;
+import com.zhenghaikj.shop.utils.GlideUtil;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -26,18 +28,20 @@ public class FootprintAdapter extends BaseQuickAdapter<HistoryVisite.ProductBean
     protected void convert(BaseViewHolder helper, HistoryVisite.ProductBean item) {
         helper.setText(R.id.tv_time,item.getBrowseTime())
                 .setText(R.id.tv_goods_name,item.getProductName())
-                .setText(R.id.tv_goods_money,item.getProductPrice());
-        byte[] decode;
-        decode = Base64.decode(item.getImagePath(), Base64.DEFAULT);
-        bmp = null;
-        try {
-            bmp = Glide.with(mContext).asBitmap().load(decode).submit().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-//        Glide.with(mContext).asBitmap().load(decode).into(mIvAvatar);
-        helper.setImageBitmap(R.id.iv_goods_picture, bmp);
+                .setText(R.id.tv_good_money,item.getProductPrice());
+        ImageView icon = helper.getView(R.id.iv_goods_picture);
+        GlideUtil.loadImageViewLoding(mContext,item.getImagePath(),icon,R.drawable.image_loading,R.drawable.image_loading);
+//        byte[] decode;
+//        decode = Base64.decode(item.getImagePath(), Base64.DEFAULT);
+//        bmp = null;
+//        try {
+//            bmp = Glide.with(mContext).asBitmap().load(decode).submit().get();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+////        Glide.with(mContext).asBitmap().load(decode).into(mIvAvatar);
+//        helper.setImageBitmap(R.id.iv_goods_picture, bmp);
     }
 }

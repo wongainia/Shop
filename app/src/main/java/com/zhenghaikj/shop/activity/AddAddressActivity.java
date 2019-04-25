@@ -17,12 +17,17 @@ import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ProvinceAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.RegionResult;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.AddressContract;
 import com.zhenghaikj.shop.mvp.model.AddressModel;
 import com.zhenghaikj.shop.mvp.presenter.AddressPresenter;
@@ -80,11 +85,23 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     private String mArea;
     private String mDistrict;
     private String regionId;
+    private SPUtils spUtils;
+    private String userKey;
 
     @Override
     protected int setLayoutId() {
         return R.layout.activity_add_address;
     }
+
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
+
 
     @Override
     protected void initData() {
@@ -93,7 +110,8 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
 
     @Override
     protected void initView() {
-
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
     }
 
     @Override
@@ -101,6 +119,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
         mIconBack.setOnClickListener(this);
         mIvAdd.setOnClickListener(this);
         mTvArea.setOnClickListener(this);
+        mTvSave.setOnClickListener(this);
     }
 
     @Override
@@ -129,6 +148,23 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
                 startActivityForResult(intent, 0);
+                break;
+            case R.id.tv_save:
+                String name=mEtReceiver.getText().toString();
+                String phone=mEtCellphoneNumber.getText().toString();
+                String area=mTvArea.getText().toString();
+                String address=mEtAddress.getText().toString();
+                if (name.isEmpty()){
+                    ToastUtils.showShort("请输入收货人姓名");
+                }else if (phone.isEmpty()){
+                    ToastUtils.showShort("请输入收货人手机号");
+                }else if (area.isEmpty()){
+                    ToastUtils.showShort("请选择所在地区");
+                }else if (address.isEmpty()){
+                    ToastUtils.showShort("请输入详细地址");
+                }else {
+                    mPresenter.PostAddShippingAddress(regionId,address,phone,name,"","",userKey);
+                }
                 break;
 
         }
@@ -198,6 +234,12 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     public void GetSubRegion(List<RegionResult> Result) {
         districtList=Result;
         provinceAdapter.setNewData(districtList);
+    }
+
+    @Override
+    public void PostAddShippingAddres(Address Result) {
+            ToastUtils.showShort("添加成功");
+            finish();
     }
 
     public void showPopWindowGetAddress(final TextView tv) {

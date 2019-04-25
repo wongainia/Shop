@@ -5,15 +5,8 @@ import java.util.List;
 
 public class HistoryVisite implements Serializable {
     /*
-    * "Success": "true",
-    * "Product":
-     * [{
-     * "ProductId": 253,
-     * "ProductPrice": 3799,
-     * "ProductName": "      宏碁（acer）V3-572G 15.6英寸超薄本（i5-5200U 4G 500G G",
-     * "ImagePath": "http://moyue214.oicp.net/Storage/Shop/210/Products/253",
-     * "BrowseTime": "2015-09-25T10:57:09",
-     * "UserId": 0}]
+     * "Success":"true",
+     * "Product":[{"ProductId":699,"ProductPrice":49.90,"ProductName":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味","ImagePath":"http://47.96.126.145:8830//Storage/Shop/1/Products/699/1_100.png","BrowseTime":"2019-04-25T10:47:58","UserId":0}]}
     * */
 
     private boolean Success;
@@ -35,7 +28,16 @@ public class HistoryVisite implements Serializable {
         Product = product;
     }
 
-    public abstract class ProductBean{
+    /*
+    * "ProductId":699,
+    * "ProductPrice":49.90,
+    * "ProductName":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味",
+    * "ImagePath":"http://47.96.126.145:8830//Storage/Shop/1/Products/699/1_100.png",
+    * "BrowseTime":"2019-04-25T10:47:58",
+    * "UserId":0
+    * */
+
+    public static class ProductBean{
         private String ProductId;
         private String ProductPrice;
         private String ProductName;
