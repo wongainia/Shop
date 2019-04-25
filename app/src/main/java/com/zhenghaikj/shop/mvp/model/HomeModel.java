@@ -17,6 +17,7 @@ public class HomeModel implements HomeContract.Model {
 
     private Map<String, String> map;
     private String sign;
+    private String timestamp;
 
     @Override
     public Observable<HomeResult> Get(
@@ -27,9 +28,10 @@ public class HomeModel implements HomeContract.Model {
         map.put("pagesize",pageSize);
 
         map.put("app_key","himalltest");
-        map.put("timestamp",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().Get(pageNo,pageSize,"himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().Get(pageNo,pageSize,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

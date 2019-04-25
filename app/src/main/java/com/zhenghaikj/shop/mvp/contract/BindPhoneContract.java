@@ -14,21 +14,21 @@ public interface BindPhoneContract {
         Observable<SendMessage> GetCode(String contact,String userkey);
         Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(String contact,String checkCode,String userkey);
         Observable<GetImageCheckCode> GetImageCheckCode();
-        Observable<CheckMessage> GetCheckUserName(String contact,String checkCode);
+        Observable<CheckMessage> CheckUserName(String contact,String checkCode);
     }
 
     interface View extends BaseView{
         void GetCode(SendMessage result);
         void GetCheckPhoneOrEmailCheckCode(CheckMessage result);
         void GetImageCheckCode(GetImageCheckCode baseResult);
-        void GetCheckUserName(CheckMessage result);
+        void CheckUserName(CheckMessage result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void GetCode(String contact,String userkey);
         public abstract void GetCheckPhoneOrEmailCheckCode(String contact,String checkCode,String userkey);
         public abstract void GetImageCheckCode();
-        public abstract void GetCheckUserName(String contact,String checkCode);
+        public abstract void CheckUserName(String contact,String checkCode);
     }
 
 }

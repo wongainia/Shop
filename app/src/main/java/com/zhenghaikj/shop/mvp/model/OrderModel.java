@@ -17,6 +17,7 @@ public class OrderModel implements OrderContract.Model {
 
     private Map<String, String> map;
     private String sign;
+    private String timestamp;
 
     @Override
     public Observable<Order> GetOrders(String orderStatus,String pageNo,String pageSize,String userkey ) {
@@ -26,9 +27,10 @@ public class OrderModel implements OrderContract.Model {
         map.put("pagesize",pageSize);
         map.put("userkey",userkey );
         map.put("app_key","himalltest");
-        map.put("timestamp", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().GetOrders(orderStatus,pageNo,pageSize,userkey ,"himalltest",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().GetOrders(orderStatus,pageNo,pageSize,userkey ,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

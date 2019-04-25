@@ -103,7 +103,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter, BindPhon
                 } else if (code.isEmpty()){
                     ToastUtils.showShort("图片验证码不能为空");
                 }else {
-                    mPresenter.GetCheckUserName(phone,code);
+                    mPresenter.CheckUserName(phone,code);
                 }
                 break;
         }
@@ -134,7 +134,7 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter, BindPhon
     }
 
     @Override
-    public void GetCheckUserName(CheckMessage result) {
+    public void CheckUserName(CheckMessage result) {
         if (result.isSuccess()){
             TimeCount timeCount = new TimeCount(60000, 1000);
             timeCount.start();

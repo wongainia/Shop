@@ -21,6 +21,7 @@ public class DetailModel implements DetailContract.Model {
 
     private Map<String, String> map;
     private String sign;
+    private String timestamp;
 
 
 
@@ -32,11 +33,12 @@ public class DetailModel implements DetailContract.Model {
         map.put("id",id);
         map.put("userkey",Userkey);
         map.put("app_key","himalltest");
-        map.put("timestamp",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
 
 
-        return ApiRetrofit.getDefault().GetProductDetail(id,Userkey,"himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().GetProductDetail(id,Userkey,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -48,9 +50,10 @@ public class DetailModel implements DetailContract.Model {
         map.put("count",count);
         map.put("userkey",Userkey);
         map.put("app_key","himalltest");
-        map.put("timestamp",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().PostAddProductToCart(skuId,count,Userkey,"himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().PostAddProductToCart(skuId,count,Userkey,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -61,9 +64,10 @@ public class DetailModel implements DetailContract.Model {
         map.put("productid",productId);
         //map.put("userkey", SPUtils.getInstance("token").getString("UserKey"));
         map.put("app_key","himalltest");
-        map.put("timestamp",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().GetSKUInfo(productId,"himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().GetSKUInfo(productId,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -74,9 +78,10 @@ public class DetailModel implements DetailContract.Model {
         map.put("productid",productId);
         map.put("userkey",Userkey);
         map.put("app_key","himalltest");
-        map.put("timestamp",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().PostAddFavoriteProduct(productId,Userkey,"himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().PostAddFavoriteProduct(productId,Userkey,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
 

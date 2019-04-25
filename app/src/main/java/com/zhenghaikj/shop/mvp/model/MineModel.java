@@ -16,14 +16,16 @@ import io.reactivex.schedulers.Schedulers;
 public class MineModel implements MineContract.Model {
     private Map<String, String> map;
     private String sign;
+    private String timestamp;
     @Override
     public Observable<PersonalInformation> PersonalInformation(String UserKey) {
         map=new HashMap<>();
         map.put("userkey",UserKey);
         map.put("app_key","himalltest");
-        map.put("timestamp", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().PersonalInformation(UserKey,"himalltest",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().PersonalInformation(UserKey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

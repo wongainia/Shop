@@ -115,8 +115,8 @@ public interface ApiService {
     /**
      * 验证手机号或邮箱是否绑定账号
      */
-    @GET("api/Login/GetCheckUserName")
-    Observable<CheckMessage> GetCheckUserName(@Query("contact") String contact,
+    @GET("api/Login/CheckUserName")
+    Observable<CheckMessage> CheckUserName(@Query("contact") String contact,
                                                            @Query("checkCode")String checkCode,
                                                            @Query("app_key") String app_key,
                                                            @Query("timestamp") String timestamp,

@@ -41,12 +41,12 @@ public class BindPhonePresenter extends BindPhoneContract.Presenter {
     }
 
     @Override
-    public void GetCheckUserName(String contact, String checkCode) {
-        mModel.GetCheckUserName(contact, checkCode)
+    public void CheckUserName(String contact, String checkCode) {
+        mModel.CheckUserName(contact, checkCode)
                 .subscribe(new BaseObserver<CheckMessage>() {
                     @Override
                     protected void onHandleSuccess(CheckMessage value) {
-                        mView.GetCheckUserName(value);
+                        mView.CheckUserName(value);
                     }
                 });
     }

@@ -19,6 +19,7 @@ public class CartModel implements CartContract.Model {
 
     private Map<String, String> map;
     private String sign;
+    private String timestamp;
 
 
     @Override
@@ -26,10 +27,11 @@ public class CartModel implements CartContract.Model {
         map = new HashMap<>();
         map.put("userkey",Userkey);
         map.put("app_key","himalltest");
-        map.put("timestamp",TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
 
-        return ApiRetrofit.getDefault().GetCartProduct(Userkey,"himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().GetCartProduct(Userkey,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

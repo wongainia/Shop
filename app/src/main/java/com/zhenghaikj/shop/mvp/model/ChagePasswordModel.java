@@ -17,6 +17,7 @@ public class ChagePasswordModel implements ChagePasswordContract.Model {
 
     private Map<String, String> map;
     private String sign;
+    private String timestamp;
 
     @Override
     public Observable<ChagePassword> PostChangePassword(String oldPassword, String password, String userkey) {
@@ -25,9 +26,10 @@ public class ChagePasswordModel implements ChagePasswordContract.Model {
         map.put("password",password);
         map.put("userkey",userkey);
         map.put("app_key","himalltest");
-        map.put("timestamp", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")));
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().PostChangePassword(oldPassword,password,userkey,"himalltest", TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")),sign)
+        return ApiRetrofit.getDefault().PostChangePassword(oldPassword,password,userkey,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
