@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseViewHolder> {
@@ -25,8 +26,41 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
     @Override
     protected void convert(BaseViewHolder helper, Order.OrdersBean item) {
         orderListAdapter2 = new OrderListAdapter2(R.layout.item_order_list,item.getItemInfo());
-        helper.setText(R.id.tv_store_name,item.getShopname());
+        helper.setText(R.id.tv_store_name,item.getShopname())
+                .setText(R.id.tv_goods_number,"共"+item.getProductCount()+"件商品")
+                .setText(R.id.tv_goods_price,"合计："+item.getOrderTotalAmount());
         RecyclerView rv=helper.getView(R.id.rv_order_list);
+        rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.setAdapter(orderListAdapter2);
+
+        if (item.getOrderStatus()==5){
+            helper.setVisible(R.id.tv_trading_status,true);
+//            helper.setVisible(R.id.tv_trading_status,true);
+            helper.setVisible(R.id.ll_pending_payment,false);
+            helper.setVisible(R.id.ll_pending_receipt,false);
+            helper.setVisible(R.id.ll_all_orders,true);
+            helper.setVisible(R.id.ll_to_be_delivered,false);
+        }
+
+        if (item.getOrderStatus()==1){
+            helper.setVisible(R.id.ll_pending_payment,true);
+            helper.setVisible(R.id.ll_pending_receipt,false);
+            helper.setVisible(R.id.ll_all_orders,false);
+            helper.setVisible(R.id.ll_to_be_delivered,false);
+        }
+
+        if (item.getOrderStatus()==2){
+            helper.setVisible(R.id.ll_pending_payment,false);
+            helper.setVisible(R.id.ll_pending_receipt,false);
+            helper.setVisible(R.id.ll_all_orders,false);
+            helper.setVisible(R.id.ll_to_be_delivered,true);
+        }
+
+        if (item.getOrderStatus()==3){
+            helper.setVisible(R.id.ll_pending_payment,false);
+            helper.setVisible(R.id.ll_pending_receipt,true);
+            helper.setVisible(R.id.ll_all_orders,false);
+            helper.setVisible(R.id.ll_to_be_delivered,false);
+        }
     }
 }

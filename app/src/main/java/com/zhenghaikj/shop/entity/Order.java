@@ -99,7 +99,7 @@ public class Order implements Serializable {
 
         private String id;
         private String status;
-        private String orderStatus;
+        private int orderStatus;
         private String orderType;
         private String orderTypeName;
         private String shopname;
@@ -138,11 +138,11 @@ public class Order implements Serializable {
             this.status = status;
         }
 
-        public String getOrderStatus() {
+        public int getOrderStatus() {
             return orderStatus;
         }
 
-        public void setOrderStatus(String orderStatus) {
+        public void setOrderStatus(int orderStatus) {
             this.orderStatus = orderStatus;
         }
 
