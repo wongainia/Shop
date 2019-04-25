@@ -10,23 +10,26 @@ import android.widget.TextView;
 
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.Bean;
+import com.zhenghaikj.shop.entity.Order;
 
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyHolder> {
-    private List<Bean> list;
-
-    public OrderAdapter(List<Bean> list){
+    private List<Order.OrdersBean> list;
+    String name;
+    public OrderAdapter(List<Order.OrdersBean> list,String name){
         this.list = list;
+        this.name=name;
     }
 
 
     public static class MyHolder extends RecyclerView.ViewHolder{
         private RecyclerView recyclerView;
-        private TextView textView;
+        private TextView tv_store_name;
         private CheckBox checkBox;
         private OrderListAdapter1 adapter;
         private RecyclerView.LayoutManager manager;
+        private final TextView tv_goods_number;
 
         public CheckBox getCheckBox() {
             return checkBox;
@@ -36,14 +39,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyHolder> {
             return recyclerView;
         }
 
-        public TextView getTextView() {
-            return textView;
+        public TextView tv_store_name() {
+            return tv_store_name;
+        }
+
+        public TextView tv_goods_number() {
+            return tv_goods_number;
         }
 
         public MyHolder(View itemView) {
             super(itemView);
             recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_order_list);
-//            textView = (TextView) itemView.findViewById(R.id.tv_name);
+            tv_store_name = (TextView) itemView.findViewById(R.id.tv_store_name);
+            tv_goods_number = (TextView) itemView.findViewById(R.id.tv_goods_number);
 //            checkBox = (CheckBox) itemView.findViewById(R.id.cb_choose_all);
             manager = new LinearLayoutManager(itemView.getContext());
             recyclerView.setLayoutManager(manager);
@@ -60,8 +68,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyHolder> {
     @Override
     public void onBindViewHolder(final MyHolder holder, final int position) {
 
-        holder.adapter = new OrderListAdapter1(list.get(position).getList());
+//        holder.adapter = new OrderListAdapter1(list.get(position).getItemInfo());
         holder.recyclerView.setAdapter(holder.adapter);
+        holder.tv_store_name.setText(list.get(position).getShopname());
+        holder.tv_goods_number.setText(list.get(position).getOrderTotalAmount());
 //        holder.getTextView().setText(list.get(position).getText());
 //        holder.getCheckBox().setChecked(list.get(position).ischeck());
 //        holder.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

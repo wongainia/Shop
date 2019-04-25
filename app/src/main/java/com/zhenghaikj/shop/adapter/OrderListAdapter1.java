@@ -7,13 +7,14 @@ import android.view.ViewGroup;
 
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.Cbean;
+import com.zhenghaikj.shop.entity.Order;
 
 import java.util.List;
 
 public class OrderListAdapter1 extends RecyclerView.Adapter<OrderListAdapter1.MyHolder> {
-    private List<Cbean> cbeanList, cbeanList1;
+    private List<Order.itemInfoBean> cbeanList, cbeanList1;
 
-    public OrderListAdapter1(List<Cbean> cbeanList) {
+    public OrderListAdapter1(List<Order.itemInfoBean> cbeanList) {
         this.cbeanList = cbeanList;
         cbeanList1 = cbeanList;
     }

@@ -18,6 +18,7 @@ import com.zhenghaikj.shop.fragment.OrderFragment;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +45,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
             "全部","待付款","待发货", "待收货", "待评价"
     };
     private ArrayList<Fragment> fragmentList=new ArrayList<>();
-    private ArrayList<String> title=new ArrayList<>();
     @Override
     protected int setLayoutId() {
         return R.layout.activity_order;
@@ -64,12 +64,6 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initData() {
-        title.add("全部");
-        title.add("待付款");
-        title.add("待发货");
-        title.add("待收货");
-        title.add("待评价");
-        OrderFragment orderFragment=new OrderFragment();
         for (int i = 0; i <5; i++) {
             fragmentList.add(OrderFragment.newInstance(mTitleDataList[i], ""));
         }
@@ -84,7 +78,7 @@ public class OrderActivity extends BaseActivity implements View.OnClickListener 
 //        fragmentList.add(receiptFragment);
 //        fragmentList.add(evaluationFragment);
 
-        MyPagerAdapter myPagerAdapter=new MyPagerAdapter(getSupportFragmentManager(),fragmentList,title);
+        MyPagerAdapter myPagerAdapter=new MyPagerAdapter(getSupportFragmentManager(),fragmentList, Arrays.asList(mTitleDataList));
         mTabOrderLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mVpOrder.setAdapter(myPagerAdapter);
         mTabOrderLayout.setupWithViewPager(mVpOrder);

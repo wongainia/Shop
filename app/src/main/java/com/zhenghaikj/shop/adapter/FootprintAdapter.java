@@ -23,7 +23,9 @@ public class FootprintAdapter extends BaseQuickAdapter<HistoryVisite.ProductBean
 
     @Override
     protected void convert(BaseViewHolder helper, HistoryVisite.ProductBean item) {
-        helper.setText(R.id.tv_time,item.getBrowseTime())
+        StringBuilder stringBuilder = new StringBuilder(item.getBrowseTime());
+        String time = "" + stringBuilder.replace(10, 11, " "); //替换"T"为" "
+        helper.setText(R.id.tv_time,time)
                 .setText(R.id.tv_goods_name,item.getProductName())
                 .setText(R.id.tv_good_money,"￥"+item.getProductPrice());
         ImageView icon = helper.getView(R.id.iv_goods_picture);
