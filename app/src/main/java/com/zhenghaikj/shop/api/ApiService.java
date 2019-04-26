@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.api;
 
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Cart;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
@@ -329,13 +330,13 @@ public interface ApiService {
             @Field("sign") String sign
     );
     @FormUrlEncoded
-    @POST("Cart/PostAddProductToCart")
-    Observable<String> PostAddProductToCart(@Field("skuId") String skuId,
-                                            @Field("count") String count,
-                                            @Field("Userkey") String Userkey,
-                                            @Query("app_key") String app_key,
-                                            @Query("timestamp") String timestamp,
-                                            @Query("sign") String sign
+    @POST("api/Cart/PostAddProductToCart")
+    Observable<AddtoCartResult> PostAddProductToCart(@Field("skuId") String skuId,
+                                                     @Field("count") String count,
+                                                     @Field("Userkey") String Userkey,
+                                                     @Query("app_key") String app_key,
+                                                     @Query("timestamp") String timestamp,
+                                                     @Query("sign") String sign
     );
 
 

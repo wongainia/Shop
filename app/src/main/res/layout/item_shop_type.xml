@@ -84,7 +84,8 @@
                     <com.zhenghaikj.shop.widget.AdderView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/adderview"></com.zhenghaikj.shop.widget.AdderView>
+                        android:id="@+id/adderview">
+                    </com.zhenghaikj.shop.widget.AdderView>
                     <!--<LinearLayout-->
                         <!--android:layout_width="120dp"-->
                         <!--android:layout_height="25dp"-->

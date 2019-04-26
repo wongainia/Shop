@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.mvp.model;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
@@ -44,7 +45,7 @@ public class DetailModel implements DetailContract.Model {
     }
 
     @Override
-    public Observable<String> PostAddProductToCart(String skuId, String count, String Userkey) {
+    public Observable<AddtoCartResult> PostAddProductToCart(String skuId, String count, String Userkey) {
         map = new HashMap<>();
         map.put("skuid",skuId);
         map.put("count",count);

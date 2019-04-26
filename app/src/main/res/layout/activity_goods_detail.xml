@@ -818,6 +818,9 @@
         </LinearLayout>
 
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
     </LinearLayout>
 
 
@@ -829,17 +832,32 @@
         android:background="@color/white"
         >
 
+
+
+        <LinearLayout
+            android:id="@+id/ll_collect"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_collect"
+                android:layout_marginTop="5dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+               android:background="@drawable/check_collect"
+                android:layout_gravity="center"
+                />
         <TextView
             android:gravity="center"
             android:id="@+id/tv_collection"
             android:layout_alignParentLeft="true"
-            android:layout_width="50dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="18sp"
-            android:background="@color/red"
-            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textColor="@color/black"
             android:text="收藏"/>
-
+        </LinearLayout>
 
         <TextView
             android:layout_toLeftOf="@+id/tv_buy"
@@ -864,4 +882,10 @@
             android:textColor="@color/white"
             android:text="立即购买"/>
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="月销" />
 </RelativeLayout>

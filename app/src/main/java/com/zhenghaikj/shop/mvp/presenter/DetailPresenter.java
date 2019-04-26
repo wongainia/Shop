@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
@@ -22,9 +23,9 @@ public class DetailPresenter extends DetailContract.Presenter {
     @Override
     public void PostAddProductToCart(String skuId, String count, String Userkey) {
         mModel.PostAddProductToCart(skuId,count,Userkey)
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<AddtoCartResult>() {
                     @Override
-                    protected void onHandleSuccess(String value) {
+                    protected void onHandleSuccess(AddtoCartResult value) {
                         mView.PostAddProductToCart(value);
                     }
                 });

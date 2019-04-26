@@ -37,23 +37,23 @@ public class GetGoodSKu implements Serializable {
          * Stock : 98
          */
 
-        private String SKUId;
-        private double Price;
+        private String SkuId;
+        private String Price;
         private int Stock;
 
-        public String getSKUId() {
-            return SKUId;
+        public String getSkuId() {
+            return SkuId;
         }
 
-        public void setSKUId(String SKUId) {
-            this.SKUId = SKUId;
+        public void setSkuId(String skuId) {
+            SkuId = skuId;
         }
 
-        public double getPrice() {
+        public String getPrice() {
             return Price;
         }
 
-        public void setPrice(double price) {
+        public void setPrice(String price) {
             Price = price;
         }
 

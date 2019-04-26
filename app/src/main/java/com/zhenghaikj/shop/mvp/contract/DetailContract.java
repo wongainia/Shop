@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.mvp.contract;
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
@@ -14,7 +15,7 @@ public interface DetailContract {
     interface Model extends BaseModel {
         Observable<DetailResult> GetProductDetail(String id, String Userkey);
 
-        Observable<String> PostAddProductToCart(String skuId,String count,String Userkey);
+        Observable<AddtoCartResult> PostAddProductToCart(String skuId,String count,String Userkey);
 
         Observable<GetGoodSKu> GetSKUInfo(String productId);
 
@@ -25,8 +26,7 @@ public interface DetailContract {
         void GetProductDetail(DetailResult Result);
 
 
-        void PostAddProductToCart(String Result);
-
+        void PostAddProductToCart(AddtoCartResult Result);
 
         void GetSKUInfo(GetGoodSKu Result);
         void PostAddFavoriteProduct(CollectResult Result);

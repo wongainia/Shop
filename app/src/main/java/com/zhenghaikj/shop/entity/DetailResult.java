@@ -68,8 +68,8 @@ public class DetailResult implements Serializable {
     private boolean IsPromoter;
     private int userId;
     private boolean IsOpenStore;
-    private List<?> Color;
-    private List<?> Size;
+    private List<ShopColor> Color;
+    private List<ShopSize> Size;
     private List<?> Version;
     private List<?> CustomerServices;
 
@@ -297,19 +297,19 @@ public class DetailResult implements Serializable {
         this.IsOpenStore = IsOpenStore;
     }
 
-    public List<?> getColor() {
+    public List<ShopColor> getColor() {
         return Color;
     }
 
-    public void setColor(List<?> Color) {
+    public void setColor(List<ShopColor> Color) {
         this.Color = Color;
     }
 
-    public List<?> getSize() {
+    public List<ShopSize> getSize() {
         return Size;
     }
 
-    public void setSize(List<?> Size) {
+    public void setSize(List<ShopSize> Size) {
         this.Size = Size;
     }
 
