@@ -1,14 +1,18 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.OrderDetailActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Order;
@@ -22,12 +26,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.Unbinder;
 
 
 //全部订单
@@ -37,13 +40,13 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private static final String TAG = "OrderFragment";
     @BindView(R.id.rv_order)
     RecyclerView mRvOrder;
-    Unbinder unbinder;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+
     private List<Order.OrdersBean> cartList = new ArrayList<>();
 
     private RecyclerView.LayoutManager manager;
-//    private OrderAdapter orderAdapter;
+    //    private OrderAdapter orderAdapter;
     private SPUtils spUtils;
     private String userKey;
     private int pagaNo = 1;
@@ -66,10 +69,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     protected void initData() {
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
 
-        orderListAdapter = new OrderListAdapter(R.layout.item_order,cartList,mParam1);
-        mRvOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvOrder.setAdapter(orderListAdapter);
         getData();
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -91,8 +93,38 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     protected void initView() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
+
+        orderListAdapter = new OrderListAdapter(R.layout.item_order, cartList, mParam1);
+        mRvOrder.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvOrder.setAdapter(orderListAdapter);
+
+        orderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.tv_trading_status:
+                        startActivity(new Intent(mActivity, OrderDetailActivity.class));
+                        break;
+                }
+            }
+        });
+
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mRefreshLayout.setNoMoreData(false);
+                cartList.clear();
+                pagaNo = 1;
+                getData();
+            }
+        });
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                pagaNo++;
+                getData();
+            }
+        });
     }
 
     @Override
@@ -138,22 +170,21 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override
     public void GetOrders(Order result) {
-        if (result.isSuccess()){
-            Log.d(TAG,"00000"+result.getOrders());
-            if (result.getOrders()!=null){
+        if (result.isSuccess()) {
+            Log.d(TAG, "00000" + result.getOrders());
+            if (result.getOrders() != null) {
                 cartList.addAll(result.getOrders());
 //            orderAdapter = new OrderAdapter(cartList, mParam1);
                 orderListAdapter.setNewData(cartList);
             }
             mRefreshLayout.finishRefresh();
-            if (pagaNo!=1&&"0".equals(result.getOrders().size())){
+            if (pagaNo != 1 && "0".equals(result.getOrders().size())) {
                 mRefreshLayout.finishLoadMoreWithNoMoreData();
-            }else{
+            } else {
                 mRefreshLayout.finishLoadMore();
             }
         }

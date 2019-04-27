@@ -40,7 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#007fff"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,7 +79,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -114,7 +116,8 @@
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -123,7 +126,8 @@
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
                 android:background="@drawable/white_shape"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -185,12 +189,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
-
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="热门兑换"
+                                android:textSize="15sp"
+                                android:textColor="@color/red"
+                                android:textStyle="bold"/>
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@mipmap/qianggou"
-                                android:layout_gravity="center"/>
+                                android:layout_gravity="center"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:id="@+id/tv_hour"
@@ -253,7 +264,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/red"
                                 android:textSize="14sp"
-                                android:text="更多抢购"
+                                android:text="更多兑换"
                                 android:layout_marginRight="10dp"/>
                         </LinearLayout>
 
@@ -261,14 +272,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="9dp"
-                            android:text="限时限量抢"
+                            android:text="限时限量换"
                             android:textColor="#535353"
                             android:textSize="12sp" />
-
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:id="@+id/rv_exchage"></androidx.recyclerview.widget.RecyclerView>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
                             <ImageView
                                 android:id="@+id/iv_one"
                                 android:layout_width="100dp"

@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.ConfirmOrderActivity;
 import com.zhenghaikj.shop.adapter.CartAdapter;
 import com.zhenghaikj.shop.adapter.RecyclerAdapter1;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
@@ -270,6 +272,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     @Override
     protected void setListener() {
         mTvManagement.setOnClickListener(this);
+        mTvSettlement.setOnClickListener(this);
     }
 
     @Override
@@ -291,6 +294,9 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                     mLlFinish.setVisibility(View.GONE);
                     mTvManagement.setText("管理");
                 }
+                break;
+            case R.id.tv_settlement:
+                startActivity(new Intent(mActivity, ConfirmOrderActivity.class));
                 break;
         }
     }

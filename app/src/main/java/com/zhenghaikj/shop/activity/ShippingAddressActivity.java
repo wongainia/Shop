@@ -76,7 +76,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
             switch(view.getId()){
                 case R.id.tv_edit:
                     Intent intent=new Intent(mActivity, AddAddressActivity.class);
-                    intent.putExtra("address",addressList.get(position));
+                    intent.putExtra("address",list.get(position));
                     startActivityForResult(intent,100);
                     break;
                 default:

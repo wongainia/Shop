@@ -50,7 +50,8 @@
                                 android:layout_height="wrap_content"
                                 android:nestedScrollingEnabled="false"
                                 android:overScrollMode="never"
-                                android:padding="10dp" />
+                                android:padding="10dp"
+                                android:visibility="gone"/>
                         </RelativeLayout>
 
                         <LinearLayout
@@ -58,6 +59,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:layout_marginRight="@dimen/dp_10"
+                            android:layout_marginTop="10dp"
                             android:background="@drawable/white_shape"
                             android:orientation="vertical">
 
@@ -124,7 +126,7 @@
                                     android:orientation="vertical">
 
                                     <LinearLayout
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
                                         android:orientation="horizontal">
@@ -185,15 +187,29 @@
                                             android:text="00"
                                             android:textColor="@color/white"
                                             android:textSize="14sp" />
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="限时限量抢半价"
+                                            android:textColor="#535353"
+                                            android:textSize="12sp"
+                                            android:layout_marginRight="10dp"/>
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/rv_panic_buying"
+                                            android:layout_marginTop="5dp"></androidx.recyclerview.widget.RecyclerView>
                                     </LinearLayout>
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="9dp"
-                                        android:text="限时限量抢半价"
-                                        android:textColor="#535353"
-                                        android:textSize="12sp" />
 
                                     <ImageView
                                         android:id="@+id/iv_panic_buying"
@@ -201,13 +217,15 @@
                                         android:layout_height="62dp"
                                         android:layout_marginTop="9dp"
                                         android:layout_marginBottom="17dp"
-                                        android:src="@drawable/one" />
+                                        android:src="@drawable/one"
+                                        android:visibility="gone"/>
                                 </LinearLayout>
 
                                 <View
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
-                                    android:background="#eeeeee" />
+                                    android:background="#eeeeee"
+                                    android:visibility="gone"/>
 
                                 <LinearLayout
                                     android:id="@+id/ll_found_good_goods"
@@ -216,7 +234,8 @@
                                     android:layout_marginLeft="12dp"
                                     android:layout_marginTop="14dp"
                                     android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
@@ -276,7 +295,7 @@
                                     android:orientation="vertical">
 
                                     <LinearLayout
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:gravity="center"
                                         android:orientation="horizontal">
@@ -287,35 +306,44 @@
                                             android:src="@mipmap/shangcheng" />
 
                                         <TextView
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
+                                            android:layout_weight="1"
                                             android:layout_marginLeft="4dp"
                                             android:text="西瓜币商城"
                                             android:textColor="#535353"
-                                            android:textSize="14sp" />
+                                            android:textSize="15sp"
+                                            android:textStyle="bold"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="免费兑换心仪的商品"
+                                            android:textColor="#535353"
+                                            android:textSize="12sp"
+                                            android:layout_marginRight="10dp"/>
                                     </LinearLayout>
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="9dp"
-                                        android:text="免费兑换心仪的商品"
-                                        android:textColor="#535353"
-                                        android:textSize="12sp" />
 
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/rv_exchange"
+                                        android:layout_marginTop="5dp"></androidx.recyclerview.widget.RecyclerView>
                                     <ImageView
                                         android:id="@+id/iv_coin_mall"
                                         android:layout_width="161dp"
                                         android:layout_height="62dp"
                                         android:layout_marginTop="9dp"
                                         android:layout_marginBottom="17dp"
-                                        android:src="@drawable/three" />
+                                        android:src="@drawable/three"
+                                        android:visibility="gone"/>
                                 </LinearLayout>
 
                                 <View
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
-                                    android:background="#eeeeee" />
+                                    android:background="#eeeeee"
+                                    android:visibility="gone"/>
 
                                 <LinearLayout
                                     android:id="@+id/ll_good_daily_shop"
@@ -324,7 +352,8 @@
                                     android:layout_marginLeft="12dp"
                                     android:layout_marginTop="14dp"
                                     android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"

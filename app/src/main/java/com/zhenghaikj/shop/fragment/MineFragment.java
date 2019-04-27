@@ -212,6 +212,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlMyPurse.setOnClickListener(this);
         mLlGift.setOnClickListener(this);
         mLlBaby.setOnClickListener(this);
+        mLlPurse.setOnClickListener(this);
     }
 
     @Override
@@ -302,6 +303,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_baby:
                 //足迹
                 startActivity(new Intent(mActivity, FootprintActivity.class));
+                break;
+            case R.id.ll_purse:
+                //我的钱包
+                startActivity(new Intent(mActivity,WalletActivity.class));
                 break;
 
         }

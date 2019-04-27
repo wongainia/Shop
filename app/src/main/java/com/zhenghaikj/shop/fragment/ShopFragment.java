@@ -16,10 +16,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.HotSearchAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.HomeResult;
+import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -31,6 +33,7 @@ import java.util.List;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
@@ -70,13 +73,16 @@ public class ShopFragment extends BaseLazyFragment {
     ImageView mIvThree;
     @BindView(R.id.rv_shop)
     RecyclerView mRvShop;
+    @BindView(R.id.rv_exchage)
+    RecyclerView mRvExchage;
     private ArrayList<String> hotsearchList = new ArrayList<>();
     private String[] hot = new String[]{"冰箱", "电视机", "衣服", "玩具"};
     private HotSearchAdapter hotSearchAdapter;
 
     private ArrayList<MenuItem> mMainMenus;
     private MenuAdapter mMainAdapter;
-    private List<HomeResult.ProductBean> mDatas=new ArrayList<>();
+    private List<HomeResult.ProductBean> mDatas = new ArrayList<>();
+    private List<Product> exchageList=new ArrayList<>();
 
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private static final int START_ALPHA = 0;//scrollview滑动开始位置
@@ -111,6 +117,17 @@ public class ShopFragment extends BaseLazyFragment {
         for (int i = 0; i < 4; i++) {
             hotsearchList.add(hot[i]);
         }
+
+        for (int i = 0; i <10 ; i++) {
+            exchageList.add(new Product());
+        }
+
+        ExchageAdapter exchageAdapter= new ExchageAdapter(R.layout.item_exchage,exchageList);
+        LinearLayoutManager linearLayout=new LinearLayoutManager(mActivity);
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        mRvExchage.setLayoutManager(linearLayout);
+        mRvExchage.setAdapter(exchageAdapter);
+
         hotSearchAdapter = new HotSearchAdapter(R.layout.item_hot_search, hotsearchList);
         mRvHotSearch.setLayoutManager(new GridLayoutManager(mActivity, 4));
         mRvHotSearch.setAdapter(hotSearchAdapter);

@@ -25,10 +25,12 @@ import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.SearchActivity;
+import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Global;
 import com.zhenghaikj.shop.entity.HomeResult;
+import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.mvp.contract.HomeContract;
 import com.zhenghaikj.shop.mvp.model.HomeModel;
 import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
@@ -45,6 +47,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
@@ -102,6 +105,13 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     LinearLayout mLlMemberCode;
     @BindView(R.id.ll_mess)
     LinearLayout mLlMess;
+    @BindView(R.id.rv_panic_buying)
+    RecyclerView mRvPanicBuying;
+    @BindView(R.id.rv_exchange)
+    RecyclerView mRvExchange;
+
+    private List<Product> panicBuyList=new ArrayList<>();
+    private List<Product> exchageList=new ArrayList<>();
 
 
     private ArrayList<MenuItem> mMainMenus;
@@ -109,7 +119,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private static final int START_ALPHA = 0;//scrollview滑动开始位置
     private static final int END_ALPHA = 255;//scrollview滑动结束位置
 
-    private List<HomeResult.ProductBean> mDatas=new ArrayList<>();
+    private List<HomeResult.ProductBean> mDatas = new ArrayList<>();
     private Integer[] icons = new Integer[]{
             R.mipmap.juxing, R.mipmap.juxing_one, R.mipmap.juxing_two, R.mipmap.juxing_three, R.mipmap.juxing_four, R.mipmap.juxing_five,
             R.mipmap.juxing_six, R.mipmap.juxing_seven, R.mipmap.juxing_eight, R.mipmap.juxing_nine
@@ -137,6 +147,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @Override
     protected void initData() {
         mPresenter.Get(Integer.toString(pageNo), "10");
+
+        for (int i = 0; i <10 ; i++) {
+            panicBuyList.add(new Product());
+            exchageList.add(new Product());
+        }
+        ExchageAdapter exchageAdapter=new ExchageAdapter(R.layout.item_exchage,panicBuyList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRvPanicBuying.setLayoutManager(linearLayoutManager);
+        mRvPanicBuying.setAdapter(exchageAdapter);
+
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity);
+        linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRvExchange.setLayoutManager(linearLayoutManager1);
+        mRvExchange.setAdapter(exchageAdapter);
 
         mMainMenus = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -180,8 +205,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mRvHome.setItemAnimator(new DefaultItemAnimator());
         mRvHome.setAdapter(myRecyclerViewAdapter);
         myRecyclerViewAdapter.setOnItemClickListener((view, position) -> {
-            Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
-            intent.putExtra("id",mDatas.get(position).getId());
+            Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+            intent.putExtra("id", mDatas.get(position).getId());
             startActivity(intent);
         });
 
@@ -203,15 +228,15 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         }
         mToolbar.getBackground().setAlpha(START_ALPHA);
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            pageNo=1;
+            pageNo = 1;
             mDatas.clear();
-            mPresenter.Get(Integer.toString(pageNo),"10");
+            mPresenter.Get(Integer.toString(pageNo), "10");
             refreshLayout.setNoMoreData(false);
             refreshLayout.finishRefresh(1000);
         });
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
             pageNo++;
-            mPresenter.Get(Integer.toString(pageNo),"10");
+            mPresenter.Get(Integer.toString(pageNo), "10");
             refreshLayout.finishLoadMore(1000);
         });
     }
@@ -266,9 +291,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @Override
     public void Get(HomeResult Result) {
         if (Result.getSuccess()) {
-            if (Result.getProduct().size()==0){
+            if (Result.getProduct().size() == 0) {
                 mRefreshLayout.finishLoadMoreWithNoMoreData();
-            }else{
+            } else {
                 mDatas.addAll(Result.getProduct());
                 myRecyclerViewAdapter.setList(mDatas);
             }

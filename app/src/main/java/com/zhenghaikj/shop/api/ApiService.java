@@ -15,6 +15,7 @@ import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.Logout;
 import com.zhenghaikj.shop.entity.Order;
+import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.RegionResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
@@ -38,6 +39,7 @@ public interface ApiService {
      * 注：userName,password和oauthType,oauthOpenId,oauthNickName至少要有一组参数不为空
      * username,password在oauthType,oauthOpenId,oauthNickName不为空的情况下，可以为空。当username,password为空，oauthType,oauthOpenId,oauthNickName不为空时即是信任登录否则
      * 为普通登录
+     *
      * @param userName
      * @param password
      * @param oauthType
@@ -55,7 +57,7 @@ public interface ApiService {
             @Query("userName") String userName,
             @Query("password") String password,
             @Query("oauthType") String oauthType,
-            @Query("oauthOpenId ") String oauthOpenId ,
+            @Query("oauthOpenId ") String oauthOpenId,
             @Query("oauthNickName") String oauthNickName,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
@@ -72,19 +74,19 @@ public interface ApiService {
                                    @Field("oauthType") String oauthType,
                                    @Field("email") String email,
                                    @Field("code") String code,
-                                   @Field("oauthOpenId ") String oauthOpenId ,
+                                   @Field("oauthOpenId ") String oauthOpenId,
                                    @Field("oauthNickName") String oauthNickName,
                                    @Query("app_key") String app_key,
                                    @Query("timestamp") String timestamp,
-                                   @Query("sign") String sign        );
+                                   @Query("sign") String sign);
 
     /*
-    * 图片验证码
-    * */
+     * 图片验证码
+     * */
     @GET("api/Login/GetImageCheckCode")
     Observable<GetImageCheckCode> GetImageCheckCode(@Query("app_key") String app_key,
-                                                                @Query("timestamp") String timestamp,
-                                                                @Query("sign") String sign);
+                                                    @Query("timestamp") String timestamp,
+                                                    @Query("sign") String sign);
 
     /**
      * 获取短信
@@ -104,8 +106,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/UserCenter/GetCheckPhoneOrEmailCheckCode")
     Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(@Field("contact") String contact,
-                                                           @Field("checkCode")String checkCode,
-                                                           @Field("userkey ")String userkey ,
+                                                           @Field("checkCode") String checkCode,
+                                                           @Field("userkey ") String userkey,
                                                            @Field("app_key") String app_key,
                                                            @Field("timestamp") String timestamp,
                                                            @Field("sign") String sign);
@@ -115,10 +117,10 @@ public interface ApiService {
      */
     @GET("api/Login/CheckUserName")
     Observable<CheckMessage> CheckUserName(@Query("contact") String contact,
-                                                           @Query("checkCode")String checkCode,
-                                                           @Query("app_key") String app_key,
-                                                           @Query("timestamp") String timestamp,
-                                                           @Query("sign") String sign);
+                                           @Query("checkCode") String checkCode,
+                                           @Query("app_key") String app_key,
+                                           @Query("timestamp") String timestamp,
+                                           @Query("sign") String sign);
 
     /**
      * 修改 密码
@@ -126,14 +128,15 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/UserCenter/PostChangePassword")
     Observable<ChagePassword> PostChangePassword(@Field("oldPassword") String oldPassword,
-                                                 @Field("password")String password,
-                                                 @Field("userkey")String userkey ,
+                                                 @Field("password") String password,
+                                                 @Field("userkey") String userkey,
                                                  @Field("app_key") String app_key,
                                                  @Field("timestamp") String timestamp,
                                                  @Field("sign") String sign);
 
     /**
      * 退出登录
+     *
      * @return
      */
     @POST("api/Login/PostLogout")
@@ -145,6 +148,7 @@ public interface ApiService {
 
     /**
      * 获取所有分类
+     *
      * @return
      */
     @GET("api/Category/GetCategories")
@@ -153,16 +157,18 @@ public interface ApiService {
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
+
     /**
      * 搜索
-     * @param keywords 搜索关键字
+     *
+     * @param keywords     搜索关键字
      * @param exp_keywords 渐进搜索关键字
-     * @param cid 分类ID
-     * @param b_id 品牌ID
-     * @param orderKey 排序项（1：默认，2：销量，3：价格，4：评论数，5：上架时间）
-     * @param orderType 排序方式（1：升序，2：降序）
-     * @param pageNo 页码
-     * @param pageSize 每页显示数据量
+     * @param cid          分类ID
+     * @param b_id         品牌ID
+     * @param orderKey     排序项（1：默认，2：销量，3：价格，4：评论数，5：上架时间）
+     * @param orderType    排序方式（1：升序，2：降序）
+     * @param pageNo       页码
+     * @param pageSize     每页显示数据量
      * @param app_key
      * @param timestamp
      * @param sign
@@ -184,7 +190,6 @@ public interface ApiService {
     );
 
 
-
     /*个人信息*/
     @GET("api/UserCenter/GetUser")
     Observable<PersonalInformation> PersonalInformation(
@@ -197,6 +202,7 @@ public interface ApiService {
 
     /**
      * 根据id获取商品详情
+     *
      * @param id
      * @param app_key
      * @param timestamp
@@ -214,10 +220,9 @@ public interface ApiService {
     );
 
 
-
-
     /**
      * 获取首页
+     *
      * @param pageNo
      * @param pageSize
      * @return
@@ -244,6 +249,7 @@ public interface ApiService {
 
     /**
      * 获取省市区数据
+     *
      * @return
      */
     @GET("common/RegionAPI/GetAllRegion")
@@ -252,10 +258,12 @@ public interface ApiService {
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
+
     /**
      * 获取街道数据
-     * @id 区id
+     *
      * @return
+     * @id 区id
      */
     @GET("common/RegionAPI/GetSubRegion")
     Observable<List<RegionResult>> GetSubRegion(
@@ -267,6 +275,7 @@ public interface ApiService {
 
     /**
      * 获取订单列表
+     *
      * @return
      */
     @GET("api/MemberOrder/GetOrders")
@@ -274,19 +283,32 @@ public interface ApiService {
             @Query("orderStatus") String orderStatus,
             @Query("pageNo") String pageNo,
             @Query("pageSize") String pageSize,
-            @Query("userkey") String userkey ,
+            @Query("userkey") String userkey,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
 
+
+    /*
+     *获取订单详情
+     * */
+    @GET("api/MemberOrder/GetOrderDetail")
+    Observable<OrderDetail> GetOrderDetail(@Query("id") String id,
+                                           @Query("userkey") String userkey,
+                                           @Query("app_key") String app_key,
+                                           @Query("timestamp") String timestamp,
+                                           @Query("sign") String sign
+    );
+
     /**
      * 获取我的足迹（商品浏览记录）列表
+     *
      * @return
      */
     @GET("api/product/GetHistoryVisite")
     Observable<HistoryVisite> GetHistoryVisite(
-            @Query("userkey") String userkey ,
+            @Query("userkey") String userkey,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
@@ -294,6 +316,7 @@ public interface ApiService {
 
     /**
      * 新增收货地址
+     *
      * @return
      */
     @FormUrlEncoded
@@ -310,8 +333,10 @@ public interface ApiService {
             @Field("timestamp") String timestamp,
             @Field("sign") String sign
     );
+
     /**
      * 编辑收货地址
+     *
      * @return
      */
     @FormUrlEncoded
@@ -329,6 +354,7 @@ public interface ApiService {
             @Field("timestamp") String timestamp,
             @Field("sign") String sign
     );
+
     @FormUrlEncoded
     @POST("api/Cart/PostAddProductToCart")
     Observable<AddtoCartResult> PostAddProductToCart(@Field("skuId") String skuId,
@@ -341,18 +367,18 @@ public interface ApiService {
 
 
     @GET("api/Cart/GetCartProduct")
-    Observable<Cart> GetCartProduct( @Query("Userkey") String Userkey,
-                                     @Query("app_key") String app_key,
-                                     @Query("timestamp") String timestamp,
-                                     @Query("sign") String sign
-                                     );
+    Observable<Cart> GetCartProduct(@Query("Userkey") String Userkey,
+                                    @Query("app_key") String app_key,
+                                    @Query("timestamp") String timestamp,
+                                    @Query("sign") String sign
+    );
 
     @GET("api/product/GetSKUInfo")
-    Observable<GetGoodSKu> GetSKUInfo (@Query("productId") String productId,
-                                       @Query("app_key") String app_key,
-                                       @Query("timestamp") String timestamp,
-                                       @Query("sign") String sign
-                                       );
+    Observable<GetGoodSKu> GetSKUInfo(@Query("productId") String productId,
+                                      @Query("app_key") String app_key,
+                                      @Query("timestamp") String timestamp,
+                                      @Query("sign") String sign
+    );
 
     @FormUrlEncoded
     @POST("api/product/PostAddFavoriteProduct")
@@ -361,4 +387,6 @@ public interface ApiService {
                                                      @Query("app_key") String app_key,
                                                      @Query("timestamp") String timestamp,
                                                      @Query("sign") String sign);
+
+
 }
