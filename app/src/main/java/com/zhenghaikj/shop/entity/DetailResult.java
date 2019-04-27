@@ -70,8 +70,8 @@ public class DetailResult implements Serializable {
     private boolean IsOpenStore;
     private List<ShopColor> Color;
     private List<ShopSize> Size;
-    private List<?> Version;
-    private List<?> CustomerServices;
+    private List<String> Version;
+    private List<String> CustomerServices;
 
     public String getSuccess() {
         return Success;
@@ -313,19 +313,19 @@ public class DetailResult implements Serializable {
         this.Size = Size;
     }
 
-    public List<?> getVersion() {
+    public List<String> getVersion() {
         return Version;
     }
 
-    public void setVersion(List<?> Version) {
+    public void setVersion(List<String> Version) {
         this.Version = Version;
     }
 
-    public List<?> getCustomerServices() {
+    public List<String> getCustomerServices() {
         return CustomerServices;
     }
 
-    public void setCustomerServices(List<?> CustomerServices) {
+    public void setCustomerServices(List<String> CustomerServices) {
         this.CustomerServices = CustomerServices;
     }
 
@@ -360,7 +360,7 @@ public class DetailResult implements Serializable {
         private int CommentCount;
         private int NicePercent;
         private boolean IsOnLimitBuy;
-        private List<?> ImagePath;
+        private List<String> ImagePath;
 
         public int getProductId() {
             return ProductId;
@@ -466,11 +466,11 @@ public class DetailResult implements Serializable {
             this.IsOnLimitBuy = IsOnLimitBuy;
         }
 
-        public List<?> getImagePath() {
+        public List<String> getImagePath() {
             return ImagePath;
         }
 
-        public void setImagePath(List<?> ImagePath) {
+        public void setImagePath(List<String> ImagePath) {
             this.ImagePath = ImagePath;
         }
     }

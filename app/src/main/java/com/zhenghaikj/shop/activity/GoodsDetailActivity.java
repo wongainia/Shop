@@ -10,13 +10,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.ValueCallback;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +33,6 @@ import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.Product;
-import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.ShopColor;
 import com.zhenghaikj.shop.entity.ShopSize;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
@@ -54,7 +51,6 @@ import java.util.List;
 
 import androidx.annotation.IdRes;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import butterknife.BindView;
@@ -238,17 +234,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Override
     protected void initData() {
         Userkey=spUtils.getString("UserKey");
-         ArrayList<Integer> images = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            images.add(R.drawable.home);
-        }
-        mBannerGoods.setImageLoader(new GlideImageLoader());
-        mBannerGoods.setImages(images);
-        mBannerGoods.setBannerStyle(BannerConfig.NUM_INDICATOR);
-        mBannerGoods.setIndicatorGravity(BannerConfig.CENTER);
-        mBannerGoods.start();
-
-
         for (int i = 0; i < 6; i++) {
             shopRecommendationList.add(new Product());
         }
@@ -556,7 +541,15 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         if (Result.getSuccess().equals("true")){
           /*ImagePath顶部图片轮播*/
-
+            ArrayList<String> images = new ArrayList<>();
+            for (int i = 0; i < Result.getProduct().getImagePath().size(); i++) {
+                images.add(Result.getProduct().getImagePath().get(i));
+            }
+            mBannerGoods.setImageLoader(new GlideImageLoader());
+            mBannerGoods.setImages(images);
+            mBannerGoods.setBannerStyle(BannerConfig.NUM_INDICATOR);
+            mBannerGoods.setIndicatorGravity(BannerConfig.CENTER);
+            mBannerGoods.start();
             result = Result;
 
             /*判断是否收藏*/

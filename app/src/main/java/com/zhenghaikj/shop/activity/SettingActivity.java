@@ -143,6 +143,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
                 break;
             case R.id.btn_exit:
                 mPresenter.PostLogout();
+                startActivity(new Intent(mActivity, LoginActivity.class));
                 break;
         }
     }

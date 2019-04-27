@@ -25,11 +25,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -327,11 +325,11 @@ public class MyUtils {
      */
     public static void e(String TAG, String msg) {
         //规定每段显示的长度
-        int LOG_MAXLENGTH = 20000;
+        int LOG_MAXLENGTH = 2000;
         int strLength = msg.length();
         int start = 0;
         int end = LOG_MAXLENGTH;
-        for (int i = 0; i < 800; i++) {
+        for (int i = 0; i < 100; i++) {
             //剩下的文本还是大于规定长度则继续重复截取并输出
             if (strLength > end) {
                 Log.e(TAG, msg.substring(start, end));
