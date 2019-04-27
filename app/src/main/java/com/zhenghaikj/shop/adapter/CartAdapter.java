@@ -2,6 +2,8 @@ package com.zhenghaikj.shop.adapter;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,60 +13,58 @@ import android.widget.TextView;
 
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.Bean;
+import com.zhenghaikj.shop.entity.StoreBean;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
-    private List<Bean> list;
+    private List<StoreBean> list;
+    private Context mcontext;
 
-    public CartAdapter(List<Bean> list){
+    public CartAdapter(List<StoreBean> list,Context context){
         this.list = list;
+        this.mcontext=context;
     }
 
 
     public static class MyHolder extends RecyclerView.ViewHolder{
         private RecyclerView recyclerView;
-        private TextView textView;
+        private TextView ShopName;
         private CheckBox checkBox;
-        private RecyclerAdapter1 adapter;
-        private RecyclerView.LayoutManager manager;
+        private RecyclerCommodityAdapter adapter;
 
         public CheckBox getCheckBox() {
             return checkBox;
         }
 
-        public RecyclerView getRecyclerView() {
-            return recyclerView;
-        }
 
-        public TextView getTextView() {
-            return textView;
-        }
+        public MyHolder(View view) {
+            super(view);
+            ShopName=view.findViewById(R.id.tv_shop_name);
+            recyclerView = view.findViewById(R.id.rv_shop_type);
+            checkBox =  view.findViewById(R.id.cb_choose_all);
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        public MyHolder(View itemView) {
-            super(itemView);
-            recyclerView = (RecyclerView) itemView.findViewById(R.id.rv_shop_type);
-//            textView = (TextView) itemView.findViewById(R.id.tv_name);
-            checkBox = (CheckBox) itemView.findViewById(R.id.cb_choose_all);
-            manager = new LinearLayoutManager(itemView.getContext());
-            recyclerView.setLayoutManager(manager);
         }
     }
 
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart,null);//解决嵌套显示条目不全
+    /*    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart,null);//解决嵌套显示条目不全
         MyHolder holder = new MyHolder(view);
-        return holder;
+        return holder;*/
+        LayoutInflater inflater = LayoutInflater.from(mcontext);
+        View view = inflater.inflate(R.layout.item_cart, parent,false);
+        return new MyHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final MyHolder holder, final int position) {
 
-        holder.adapter = new RecyclerAdapter1(list.get(position).getList());
+        holder.ShopName.setText(list.get(position).getShopName());
+        holder.adapter = new RecyclerCommodityAdapter(list.get(position).getList());
         holder.recyclerView.setAdapter(holder.adapter);
-//        holder.getTextView().setText(list.get(position).getText());
-        holder.getCheckBox().setChecked(list.get(position).ischeck());
+        holder.getCheckBox().setChecked(list.get(position).isIscheck());
         holder.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -76,7 +76,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
         });
 
         //实现第二层RecyclerView的回调接口
-        holder.adapter.setCallBack(new RecyclerAdapter1.allCheck() {
+        holder.adapter.setCallBack(new RecyclerCommodityAdapter.allCheck() {
             @Override
             public void OnCheckListener(boolean isChecked, int childpostion) {
                 //将店铺商品的checkbox的点击变化事件进行回调

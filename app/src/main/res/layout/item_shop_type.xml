@@ -40,7 +40,7 @@
                 android:layout_gravity="center">
                 <TextView
                     android:id="@+id/tv_goods_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="浪奇 万丽洁厕液洁厕剂除菌除垢750g*2瓶装多效清洁有效去污"
                     android:textSize="14sp"
@@ -73,6 +73,7 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/tv_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -86,53 +87,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/adderview">
                     </com.zhenghaikj.shop.widget.AdderView>
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="120dp"-->
-                        <!--android:layout_height="25dp"-->
-
-                        <!--android:background="@drawable/category_edit_shape"-->
-                        <!--android:orientation="horizontal">-->
-
-                        <!--<TextView-->
-                            <!--android:id="@+id/down"-->
-                            <!--android:layout_width="30dp"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:gravity="center"-->
-                            <!--android:text="-"-->
-                            <!--android:textColor="#333" />-->
-
-                        <!--<View-->
-                            <!--android:layout_width="1dp"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:background="#F2F2F2" />-->
-
-                        <!--<EditText-->
-                            <!--android:id="@+id/et_count"-->
-                            <!--android:layout_width="0dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:enabled="false"-->
-                            <!--android:background="@null"-->
-                            <!--android:gravity="center"-->
-                            <!--android:inputType="number"-->
-                            <!--android:singleLine="true"-->
-                            <!--android:textSize="13sp"-->
-                            <!--android:text="1"-->
-                            <!--android:textColor="#333" />-->
-
-                        <!--<View-->
-                            <!--android:layout_width="1dp"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:background="#F2F2F2" />-->
-
-                        <!--<TextView-->
-                            <!--android:id="@+id/up"-->
-                            <!--android:layout_width="30dp"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:gravity="center"-->
-                            <!--android:text="+"-->
-                            <!--android:textColor="#333" />-->
-                    <!--</LinearLayout>-->
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
