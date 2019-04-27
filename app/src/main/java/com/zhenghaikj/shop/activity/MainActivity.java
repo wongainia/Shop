@@ -1,10 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +19,10 @@ import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -78,6 +78,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initData() {
+        setSwipeBackEnable(false);
         mFragments = new ArrayList<>();
         homeFragment = new HomeFragment();
         classificationFragment = new ClassificationFragment();
