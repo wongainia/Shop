@@ -8,6 +8,10 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.FootprintAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -40,10 +44,12 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
     Toolbar mToolbar;
     @BindView(R.id.rv_footprint)
     RecyclerView mRvFootprint;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private SPUtils spUtils;
     private String userKey;
-
-    private List<HistoryVisite.ProductBean> list=new ArrayList<>();
+    private int pagaNo = 1;
+    private List<HistoryVisite.ProductBean> list = new ArrayList<>();
     private FootprintAdapter adapter;
 
     @Override
@@ -65,12 +71,12 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
 
     @Override
     protected void initData() {
-        adapter = new FootprintAdapter(R.layout.item_footprint,list);
+        adapter = new FootprintAdapter(R.layout.item_footprint, list);
         mRvFootprint.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvFootprint.setAdapter(adapter);
         adapter.setOnItemClickListener((adapter, view, position) -> {
-            Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
-            intent.putExtra("id",list.get(position).getProductId());
+            Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+            intent.putExtra("id", list.get(position).getProductId());
             startActivity(intent);
         });
     }
@@ -83,6 +89,37 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         mPresenter.GetHistoryVisite(userKey);
+
+        /*下拉刷新*/
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+          /*      if (!list.isEmpty()){ //当有数据的时候
+                    ll_empty.setVisibility(View.INVISIBLE);//隐藏空的界面
+                }*/
+                pagaNo=1;
+                list.clear();
+                mPresenter.GetHistoryVisite(userKey);
+                adapter.notifyDataSetChanged();
+                refreshlayout.finishRefresh();
+                mRefreshLayout.setNoMoreData(false);
+            }
+        });
+
+
+        //没满屏时禁止上拉
+        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
+        //上拉加载更多
+        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                pagaNo++; //页数加1
+                mPresenter.GetHistoryVisite(userKey);
+                adapter.notifyDataSetChanged();
+                refreshlayout.finishLoadmore();
+            }
+        });
+
     }
 
     @Override
@@ -99,7 +136,7 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
                 break;
@@ -108,7 +145,7 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
 
     @Override
     public void GetHistoryVisite(HistoryVisite result) {
-        if (result.isSuccess()){
+        if (result.isSuccess()) {
             list.addAll(result.getProduct());
             adapter.setNewData(list);
         }

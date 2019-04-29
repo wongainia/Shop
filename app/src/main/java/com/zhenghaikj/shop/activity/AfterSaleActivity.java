@@ -8,19 +8,24 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AfterSaleAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.Refund;
+import com.zhenghaikj.shop.mvp.contract.RefundContract;
+import com.zhenghaikj.shop.mvp.model.RefundModel;
+import com.zhenghaikj.shop.mvp.presenter.RefundPresent;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AfterSaleActivity extends BaseActivity implements View.OnClickListener{
+public class AfterSaleActivity extends BaseActivity<RefundPresent, RefundModel> implements View.OnClickListener, RefundContract.View {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -37,9 +42,11 @@ public class AfterSaleActivity extends BaseActivity implements View.OnClickListe
     RecyclerView mRvAfterSale;
     @BindView(R.id.srl_after_sale)
     SmartRefreshLayout mSrlAfterSale;
-
-    private ArrayList<Product> afterSaleList=new ArrayList<>();
+    private int pageNo=1;
+    private ArrayList<Refund.DataBean> afterSaleList=new ArrayList<>();
     private AfterSaleAdapter afterSaleAdapter;
+    private SPUtils spUtil;
+    private String userKey;
 
     @Override
     protected int setLayoutId() {
@@ -59,9 +66,11 @@ public class AfterSaleActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
-        for (int i=0;i<10;i++){
-            afterSaleList.add(new Product());
-        }
+        spUtil = SPUtils.getInstance("token");
+        userKey = spUtil.getString("UserKey");
+        mPresenter.GetRefundList(Integer.toString(pageNo),"10", userKey);
+
+
         afterSaleAdapter = new AfterSaleAdapter(R.layout.item_after_sale,afterSaleList);
         mRvAfterSale.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvAfterSale.setAdapter(afterSaleAdapter);
@@ -91,6 +100,14 @@ public class AfterSaleActivity extends BaseActivity implements View.OnClickListe
             case R.id.icon_back:
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    public void GetRefundList(Refund result) {
+        if (result.isSuccess()){
+            afterSaleList.addAll(result.getData());
+            afterSaleAdapter.setNewData(afterSaleList);
         }
     }
 }

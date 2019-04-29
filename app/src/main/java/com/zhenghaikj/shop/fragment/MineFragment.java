@@ -166,19 +166,23 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     protected void initData() {
-
-    }
-
-    @Override
-    protected void initView() {
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         mPresenter.PersonalInformation(userKey);
         mPresenter.GetHistoryVisite(userKey);
     }
 
+    @Override
+    protected void initView() {
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
+        if (!"PersonalInformation".equals(name)){
+            return;
+        }
+        mPresenter.PersonalInformation(userKey);
 
     }
 

@@ -8,6 +8,7 @@ import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.CollectionProduct;
+import com.zhenghaikj.shop.entity.CollectionShop;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
@@ -18,6 +19,7 @@ import com.zhenghaikj.shop.entity.Logout;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.entity.RegionResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
@@ -381,6 +383,9 @@ public interface ApiService {
                                       @Query("sign") String sign
     );
 
+    /*
+     * 新增或取消商品收藏
+     * */
     @FormUrlEncoded
     @POST("api/product/PostAddFavoriteProduct")
     Observable<CollectResult> PostAddFavoriteProduct(@Field("productId") String productId,
@@ -400,4 +405,24 @@ public interface ApiService {
                                                            @Query("timestamp") String timestamp,
                                                            @Query("sign") String sign);
 
+    /*
+     * 获取用户收藏的商品
+     * */
+    @GET("api/UserCenter/GetUserCollectionShop")
+    Observable<CollectionShop> GetUserCollectionShop(@Query("pageNo") String pageNo,
+                                                     @Query("pageSize") String pageSize,
+                                                     @Query("userkey") String userkey,
+                                                     @Query("app_key") String app_key,
+                                                     @Query("timestamp") String timestamp,
+                                                     @Query("sign") String sign);
+    /*
+     * 获取申请售后/退款列表
+     * */
+    @GET("api/OrderRefund/GetRefundList")
+    Observable<Refund> GetRefundList(@Query("pageNo") String pageNo,
+                                     @Query("pageSize") String pageSize,
+                                     @Query("userkey") String userkey,
+                                     @Query("app_key") String app_key,
+                                     @Query("timestamp") String timestamp,
+                                     @Query("sign") String sign);
 }

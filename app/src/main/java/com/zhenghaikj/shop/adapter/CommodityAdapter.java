@@ -25,5 +25,7 @@ public class CommodityAdapter extends BaseQuickAdapter<CollectionProduct.DataBea
                 .setText(R.id.tv_goods_money,item.getSalePrice());
         ImageView icon=helper.getView(R.id.iv_goods_picture);
         GlideUtil.loadImageViewLoding(mContext,item.getImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
+        helper.addOnClickListener(R.id.tv_delete)
+                .addOnClickListener(R.id.ll_commodity);
     }
 }

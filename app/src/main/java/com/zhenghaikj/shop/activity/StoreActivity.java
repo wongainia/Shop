@@ -2,28 +2,36 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.StoreAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
-import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.CollectionShop;
+import com.zhenghaikj.shop.mvp.contract.CollectionShopContract;
+import com.zhenghaikj.shop.mvp.model.CollectionShopModel;
+import com.zhenghaikj.shop.mvp.presenter.CollectionShopPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /*关注的店铺*/
-public class StoreActivity extends BaseActivity implements View.OnClickListener{
+public class StoreActivity extends BaseActivity<CollectionShopPresenter, CollectionShopModel> implements View.OnClickListener, CollectionShopContract.View {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -38,8 +46,14 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener{
     Toolbar mToolbar;
     @BindView(R.id.rv_store)
     RecyclerView mRvStore;
-    private List<Product> storeList=new ArrayList<>();
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
+    private int pageNo = 1;
+    private List<CollectionShop.DataBean> storeList = new ArrayList<>();
     private StoreAdapter storeAdapter;
+    private SPUtils spUtils;
+    private String userKey;
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_store;
@@ -59,28 +73,60 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initData() {
-        for (int i=0;i<10;i++){
-            storeList.add(new Product());
-        }
-        storeAdapter = new StoreAdapter(R.layout.item_store,storeList);
-        mRvStore.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvStore.setAdapter(storeAdapter);
-        storeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        mPresenter.GetUserCollectionShop(Integer.toString(pageNo), "10", userKey);
+        /*下拉刷新*/
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
-                    case R.id.ll_store:
-                        startActivity(new Intent(mActivity,ShopHomeActivity.class));
-                        break;
-                }
+            public void onRefresh(RefreshLayout refreshlayout) {
+          /*      if (!list.isEmpty()){ //当有数据的时候
+                    ll_empty.setVisibility(View.INVISIBLE);//隐藏空的界面
+                }*/
+                pageNo=1;
+                storeList.clear();
+                mPresenter.GetUserCollectionShop(Integer.toString(pageNo), "10", userKey);
+                storeAdapter.notifyDataSetChanged();
+                refreshlayout.finishRefresh();
+                mRefreshLayout.setNoMoreData(false);
             }
         });
+
+
+        //没满屏时禁止上拉
+        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
+        //上拉加载更多
+        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                pageNo++; //页数加1
+                mPresenter.GetUserCollectionShop(Integer.toString(pageNo), "10", userKey);
+                storeAdapter.notifyDataSetChanged();
+                refreshlayout.finishLoadmore();
+            }
+        });
+
+
     }
 
     @Override
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("我的关注");
+
+        storeAdapter = new StoreAdapter(R.layout.item_store, storeList);
+        mRvStore.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvStore.setAdapter(storeAdapter);
+        storeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.ll_store:
+                        startActivity(new Intent(mActivity, ShopHomeActivity.class));
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -97,10 +143,18 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    public void GetUserCollectionShop(CollectionShop result) {
+        if (result.isSuccess()) {
+            storeList.addAll(result.getData());
+            storeAdapter.setNewData(storeList);
         }
     }
 }
