@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.api;
 
+import com.zhenghaikj.shop.activity.CartResult;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
@@ -425,4 +426,14 @@ public interface ApiService {
                                      @Query("app_key") String app_key,
                                      @Query("timestamp") String timestamp,
                                      @Query("sign") String sign);
+    /*删除购物车众多商品*/
+    @FormUrlEncoded
+    @POST("api/Cart/PostDeleteCartProduct")
+    Observable<CartResult> PostDeleteCartProduct(@Field("skuIds") String skuIds,
+                                                 @Field("Userkey") String Userkey,
+                                                 @Query("app_key") String app_key,
+                                                 @Query("timestamp") String timestamp,
+                                                 @Query("sign") String sign);
+
+
 }

@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
+import com.zhenghaikj.shop.activity.CartResult;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.SearchResult;
@@ -32,6 +33,20 @@ public class CartModel implements CartContract.Model {
         sign = ApiRetrofit.SignTopRequest(map);
 
         return ApiRetrofit.getDefault().GetCartProduct(Userkey,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<CartResult> PostDeleteCartProduct(String skuIds, String Userkey) {
+        map = new HashMap<>();
+        map.put("skuids",skuIds);
+        map.put("userkey",Userkey);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().PostDeleteCartProduct(skuIds,Userkey,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

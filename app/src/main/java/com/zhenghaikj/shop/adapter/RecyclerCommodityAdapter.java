@@ -1,16 +1,23 @@
 package com.zhenghaikj.shop.adapter;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.widget.AdderView;
+import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
 import java.util.List;
 import java.util.zip.Inflater;
@@ -19,9 +26,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommodityAdapter.MyHolder> {
     private List<CommodityBean> list;
+    private Context mContext;
 
-    public RecyclerCommodityAdapter(List<CommodityBean> list) {
+    public RecyclerCommodityAdapter(List<CommodityBean> list,Context context) {
         this.list = list;
+        this.mContext=context;
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder {
@@ -33,8 +42,10 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
         private TextView tv_goods_name;
         private TextView tv_goods_type;
         private TextView tv_price;
+        private LinearLayout ll_goods_type;
         private AdderView adderView;
-
+        private TextView tv_lose;
+        private ImageView iv_goods_picture;
 
         public CheckBox getCheckBox() {
             return cb_choose;
@@ -47,7 +58,10 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
             tv_goods_name=itemView.findViewById(R.id.tv_goods_name);
             tv_goods_type=itemView.findViewById(R.id.tv_goods_type);
             tv_price=itemView.findViewById(R.id.tv_price);
+            ll_goods_type=itemView.findViewById(R.id.ll_goods_type);
             adderView=itemView.findViewById(R.id.adderview);
+            tv_lose=itemView.findViewById(R.id.tv_lose);
+            iv_goods_picture=itemView.findViewById(R.id.iv_goods_picture);
         }
     }
 
@@ -65,7 +79,41 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
     public void onBindViewHolder(final MyHolder holder, final int position) {
         holder.tv_goods_name.setText(list.get(position).getName());
         holder.adderView.setValue(Integer.parseInt(list.get(position).getCount()));
-        holder.tv_price.setText(list.get(position).getPrice());
+        holder.tv_price.setText("¥"+list.get(position).getPrice());
+
+
+        Glide.with(mContext).load(list.get(position).getImgUrl())
+                .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mContext, 5)))
+                .into(holder.iv_goods_picture);
+
+        if (list.get(position).getStatus()==0){//失效
+           // holder.cb_choose.setVisibility(View.INVISIBLE);
+            holder.tv_lose.setVisibility(View.VISIBLE);
+            holder.adderView.setVisibility(View.GONE);
+            holder.tv_lose.setVisibility(View.VISIBLE);
+            holder.tv_goods_name.setTextColor(Color.RED);
+
+        }
+
+
+
+       String type="";
+       if (list.get(position).getSize()!=null||list.get(position).getColor()!=null){
+           holder.ll_goods_type.setVisibility(View.VISIBLE);
+         if (list.get(position).getColor()!=null){
+             type=list.get(position).getColor();
+            holder.tv_goods_type.setText(type);
+         }
+         if (list.get(position).getSize()!=null){
+             type=type+" "+list.get(position).getSize();
+            holder.tv_goods_type.setText(type);
+         }
+
+
+
+       }
+
+
         holder.getCheckBox().setChecked(list.get(position).isIscheck());
         holder.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -48,7 +52,6 @@
             android:id="@+id/tv_number_of_products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="共40件宝贝"
             android:textSize="14sp"
             android:textColor="@color/white"
             android:layout_marginLeft="@dimen/dp_10"/>
@@ -150,6 +153,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/tv_move_to_favorites"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -188,3 +192,4 @@
     </FrameLayout>
 
 </LinearLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

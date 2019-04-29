@@ -62,7 +62,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
     public void onBindViewHolder(final MyHolder holder, final int position) {
 
         holder.ShopName.setText(list.get(position).getShopName());
-        holder.adapter = new RecyclerCommodityAdapter(list.get(position).getList());
+        holder.adapter = new RecyclerCommodityAdapter(list.get(position).getList(),mcontext);
         holder.recyclerView.setAdapter(holder.adapter);
         holder.getCheckBox().setChecked(list.get(position).isIscheck());
         holder.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

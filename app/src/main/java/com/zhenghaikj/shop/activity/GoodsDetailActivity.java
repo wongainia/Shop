@@ -49,6 +49,8 @@ import com.zhenghaikj.shop.widget.CircleImageView;
 import com.zhenghaikj.shop.widget.IdeaScrollView;
 import com.zhenghaikj.shop.widget.RoundImageView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -775,6 +777,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     public void PostAddProductToCart(AddtoCartResult Result) {
         if (Result.getSuccess().equals("true")) {
             Toast.makeText(this, "已添加至购物车", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post("cart");
             mPopupWindow.dismiss();
         }
 
