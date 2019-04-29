@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.CollectResult;
+import com.zhenghaikj.shop.entity.CollectionProduct;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
@@ -388,5 +389,15 @@ public interface ApiService {
                                                      @Query("timestamp") String timestamp,
                                                      @Query("sign") String sign);
 
+    /*
+     * 获取用户收藏的商品
+     * */
+    @GET("api/UserCenter/GetUserCollectionProduct")
+    Observable<CollectionProduct> GetUserCollectionProduct(@Query("pageNo") String pageNo,
+                                                           @Query("pageSize") String pageSize,
+                                                           @Query("userkey") String userkey,
+                                                           @Query("app_key") String app_key,
+                                                           @Query("timestamp") String timestamp,
+                                                           @Query("sign") String sign);
 
 }

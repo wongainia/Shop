@@ -26,6 +26,7 @@ import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.SearchActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
+import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Global;
@@ -109,10 +110,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     RecyclerView mRvPanicBuying;
     @BindView(R.id.rv_exchange)
     RecyclerView mRvExchange;
+    @BindView(R.id.rv_panic)
+    RecyclerView mRvPanic;
 
-    private List<Product> panicBuyList=new ArrayList<>();
-    private List<Product> exchageList=new ArrayList<>();
-
+    private List<Product> panicBuyList = new ArrayList<>();
+    private List<Product> exchageList = new ArrayList<>();
+    private ArrayList<Product> limitedTimeList=new ArrayList<>();
 
     private ArrayList<MenuItem> mMainMenus;
     private int fadingHeight = 600; // 当ScrollView滑动到什么位置时渐变消失（根据需要进行调整）
@@ -148,11 +151,11 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     protected void initData() {
         mPresenter.Get(Integer.toString(pageNo), "10");
 
-        for (int i = 0; i <10 ; i++) {
+        for (int i = 0; i < 10; i++) {
             panicBuyList.add(new Product());
             exchageList.add(new Product());
         }
-        ExchageAdapter exchageAdapter=new ExchageAdapter(R.layout.item_exchage,panicBuyList);
+        ExchageAdapter exchageAdapter = new ExchageAdapter(R.layout.item_exchage, panicBuyList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRvPanicBuying.setLayoutManager(linearLayoutManager);
@@ -162,6 +165,13 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRvExchange.setLayoutManager(linearLayoutManager1);
         mRvExchange.setAdapter(exchageAdapter);
+
+        for (int i=0;i<10;i++){
+            limitedTimeList.add(new Product());
+        }
+        LimitedTimeAdapter limitedTimeAdapter=new LimitedTimeAdapter(R.layout.item_panic_buying,limitedTimeList);
+        mRvPanic.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvPanic.setAdapter(limitedTimeAdapter);
 
         mMainMenus = new ArrayList<>();
         for (int i = 0; i < 10; i++) {

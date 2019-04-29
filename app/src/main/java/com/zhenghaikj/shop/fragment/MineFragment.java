@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
+import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
@@ -52,7 +54,7 @@ import butterknife.Unbinder;
 
 public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View{
 
-
+    private static final String TAG = "MineFragment";//
     Unbinder unbinder;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -172,6 +174,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         mPresenter.PersonalInformation(userKey);
+        mPresenter.GetHistoryVisite(userKey);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -378,6 +381,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             }
             mTvFocusOnTheStore.setText(result.getFavoriteShop());
             mTvFavorites.setText(result.getFavoriteProduct());
+        }
+    }
+
+    @Override
+    public void GetHistoryVisite(HistoryVisite result) {
+        if (result.isSuccess()){
+            Log.d(TAG,"数量"+result.getProduct().size());
+//            String number=result.getProduct().size();
+            mTvBaby.setText(""+result.getProduct().size());
         }
     }
 }

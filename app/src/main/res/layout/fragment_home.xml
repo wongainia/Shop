@@ -53,8 +53,21 @@
                                 android:padding="10dp"
                                 android:visibility="gone"/>
                         </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:descendantFocusability="blocksDescendants">
 
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/rv_panic"
+                            android:nestedScrollingEnabled="false"
+                            android:overScrollMode="never"
+                            android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
+                        </RelativeLayout>
                         <LinearLayout
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_10"
