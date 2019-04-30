@@ -256,7 +256,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mRvRecommend.setAdapter(shopRecommendationAdapter1);
 
         id = getIntent().getStringExtra("id");
-        Log.d("=====>", String.valueOf(id));
+
         // Userkey="YVdzb1BrelMyRXA0YU4xNExrUnJJWUxCdjZkN2ZxbEU4am1SM0dTd2ZiazlWWS80T1VQdnJ3SVdYNlc0WkZSKw==";
         if (!"".equals(id) && id != null) {
             mPresenter.GetProductDetail(id, Userkey);

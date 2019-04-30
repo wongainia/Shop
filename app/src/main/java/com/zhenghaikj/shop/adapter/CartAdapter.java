@@ -88,11 +88,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
             @Override
             public void OnAddReduceListner(int value, int childposition) {
                 if (mCallBack!=null){
-
                     mCallBack.OnItemAddReduceListener(value,position,childposition);
                 }
 
             }
+
+            @Override
+            public void OnItemClickDetailListner(View view, int childposition) {
+                if (mCallBack!=null){
+                    mCallBack.OnItemClickDetailListner(view,position,childposition);
+                }
+
+            }
+
 
         });
         holder.itemView.setTag(list.get(position));
@@ -117,6 +125,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
         public void OnItemCheckListener(boolean isSelected,int parentposition,int chaildposition);
 
         public void OnItemAddReduceListener(int value,int parentposition,int chaildposition);
+
+        public void OnItemClickDetailListner(View view,int parentposition,int chaildposition);
     }
 
 }

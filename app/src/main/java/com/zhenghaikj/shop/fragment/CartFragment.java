@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.CartResult;
+import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.adapter.CartAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
@@ -447,6 +449,17 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                      Gson gson=new Gson();
                      String jsonstr = gson.toJson(cartItem);
                      mPresenter.PostUpdateCartItem(jsonstr,Userkey);
+
+
+
+            }
+
+            /*点击进入详情页*/
+            @Override
+            public void OnItemClickDetailListner(View view, int parentposition, int chaildposition) {
+              Intent intent=new Intent(mActivity,GoodsDetailActivity.class);
+              intent.putExtra("id",shopBeanslist.get(parentposition).getList().get(chaildposition).getId());
+              startActivity(intent);
 
 
 

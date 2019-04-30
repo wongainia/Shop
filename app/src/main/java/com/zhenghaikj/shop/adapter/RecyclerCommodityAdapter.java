@@ -48,15 +48,27 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
         private TextView tv_lose;
         private ImageView iv_goods_picture;
 
+        private LinearLayout ll_goods;
+
         public CheckBox getCheckBox() {
             return cb_choose;
         }
-
 
         public AdderView getAdderView() {
             return adderView;
         }
 
+        public void setAdderView(AdderView adderView) {
+            this.adderView = adderView;
+        }
+
+        public LinearLayout getLl_goods() {
+            return ll_goods;
+        }
+
+        public void setLl_goods(LinearLayout ll_goods) {
+            this.ll_goods = ll_goods;
+        }
 
         public MyHolder(View itemView) {
             super(itemView);
@@ -68,6 +80,7 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
             adderView=itemView.findViewById(R.id.adderview);
             tv_lose=itemView.findViewById(R.id.tv_lose);
             iv_goods_picture=itemView.findViewById(R.id.iv_goods_picture);
+            ll_goods=itemView.findViewById(R.id.ll_goods);
         }
     }
 
@@ -142,6 +155,16 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
             }
         });
 
+        holder.getLl_goods().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCallBack!=null){
+                    mCallBack.OnItemClickDetailListner(v,position);
+                }
+
+            }
+        });
+
 
     }
 
@@ -162,6 +185,8 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
         public void OnCheckListener(boolean isChecked, int childpostion);
 
         public void OnAddReduceListner(int value,int childposition);
+
+        public void OnItemClickDetailListner(View view,int childposition);
     }
 
 
