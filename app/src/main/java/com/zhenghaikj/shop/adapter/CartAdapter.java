@@ -85,6 +85,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
                 }
             }
 
+            @Override
+            public void OnAddReduceListner(int value, int childposition) {
+                if (mCallBack!=null){
+
+                    mCallBack.OnItemAddReduceListener(value,position,childposition);
+                }
+
+            }
+
         });
         holder.itemView.setTag(list.get(position));
 
@@ -106,7 +115,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
         public void OnCheckListener(boolean isSelected,int position);
         //回调函数 将店铺商品的checkbox的点击变化事件进行回调
         public void OnItemCheckListener(boolean isSelected,int parentposition,int chaildposition);
-    }
 
+        public void OnItemAddReduceListener(int value,int parentposition,int chaildposition);
+    }
 
 }

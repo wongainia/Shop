@@ -30,6 +30,9 @@ import com.zhenghaikj.shop.entity.ShippingAddressList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -435,5 +438,13 @@ public interface ApiService {
                                                  @Query("timestamp") String timestamp,
                                                  @Query("sign") String sign);
 
+    /*提交订单时同步数量到后台*/
+    @FormUrlEncoded
+    @POST("api/Cart/PostUpdateCartItem")
+    Observable<CartResult> PostUpdateCartItem(@Field("jsonstr") String jsonstr,
+                                              @Field("Userkey") String Userkey,
+                                              @Query("app_key") String app_key,
+                                              @Query("timestamp") String timestamp,
+                                              @Query("sign") String sign);
 
 }

@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.mvp.model;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.activity.CartResult;
 import com.zhenghaikj.shop.api.ApiRetrofit;
@@ -15,6 +16,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 public class CartModel implements CartContract.Model {
 
@@ -47,6 +49,21 @@ public class CartModel implements CartContract.Model {
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().PostDeleteCartProduct(skuIds,Userkey,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<CartResult> PostUpdateCartItem(String json,String Userkey) {
+        map = new HashMap<>();
+        map.put("jsonstr",json);
+        map.put("userkey", Userkey);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+
+        return ApiRetrofit.getDefault().PostUpdateCartItem(json,Userkey,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

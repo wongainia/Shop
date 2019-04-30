@@ -7,6 +7,8 @@ import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.CartContract;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
 
+import okhttp3.ResponseBody;
+
 public class CartPresenter extends CartContract.Presenter {
     @Override
     public void GetCartProduct(String Userkey) {
@@ -26,6 +28,17 @@ public class CartPresenter extends CartContract.Presenter {
                     @Override
                     protected void onHandleSuccess(CartResult value) {
                         mView.PostDeleteCartProduct(value);
+                    }
+                });
+    }
+
+    @Override
+    public void PostUpdateCartItem(String json,String Userkey) {
+        mModel.PostUpdateCartItem(json,Userkey)
+                .subscribe(new BaseObserver<CartResult>() {
+                    @Override
+                    protected void onHandleSuccess(CartResult value) {
+                        mView.PostUpdateCartItem(value);
                     }
                 });
     }

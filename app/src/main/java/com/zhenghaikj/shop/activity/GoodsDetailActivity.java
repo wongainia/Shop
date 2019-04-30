@@ -21,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.youth.banner.Banner;
@@ -46,6 +48,7 @@ import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.AdderView;
 import com.zhenghaikj.shop.widget.AutoLineFeedLayoutManager;
 import com.zhenghaikj.shop.widget.CircleImageView;
+import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zhenghaikj.shop.widget.IdeaScrollView;
 import com.zhenghaikj.shop.widget.RoundImageView;
 
@@ -441,6 +444,15 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         }
         MyUtils.setWindowAlpa(mActivity, true);
 
+        /*glide图片*/
+            if (!result.getProduct().getImagePath().isEmpty()){
+                Glide.with(mActivity)
+                        .load(result.getProduct().getImagePath().get(0))
+                        .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
+                        .into((ImageView) popupWindow_view.findViewById(R.id.img_shop));
+            }
+
+
 
         /*用于显示没有颜色没尺寸时候的价格和库存*/
         if (result.getColor().isEmpty() && result.getSize().isEmpty()) {
@@ -463,7 +475,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             popupWindow_view.findViewById(R.id.ll_cloose_color).setVisibility(View.VISIBLE);
             RecyclerView rv_color = popupWindow_view.findViewById(R.id.rv_color);
             rv_color.setLayoutManager(new AutoLineFeedLayoutManager());
-            chooseColorAdapter = new ChooseColorAdapter(R.layout.item_color, result.getColor());
+            chooseColorAdapter = new ChooseColorAdapter(R.layout.item_color, result.getColor(),mActivity);
             rv_color.setAdapter(chooseColorAdapter);
             ChooseColor(rv_color, result.getColor());
         }
@@ -654,10 +666,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             adapter.getViewByPosition(rv_color, position, R.id.rl_choose).setSelected(false);
                         } else {
                             adapter.getViewByPosition(rv_color, position, R.id.rl_choose).setSelected(true);
+
+                            Glide.with(mActivity)
+                                    .load(result.getColor().get(position).getImg())
+                                    .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
+                                    .into((ImageView) popupWindow_view.findViewById(R.id.img_shop));
+
+
                             skuId_color = ((ShopColor) adapter.getItem(position)).getSkuId();
                             color_name = ((ShopColor) adapter.getItem(position)).getValue();
 
-                            if (!size_name.equals("") && !color_name.equals("")) {
+                            if (!size_name.equals("") || !color_name.equals("")) {
                                 ((TextView) popupWindow_view.findViewById(R.id.tv_choose)).setText("已选：" + size_name + " " + color_name);
 
                             }
@@ -709,7 +728,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             skuId_size = ((ShopSize) adapter.getItem(position)).getSkuId();
                             size_name = ((ShopSize) adapter.getItem(position)).getValue();
 
-                            if (!size_name.equals("") && !color_name.equals("")) {
+                            if (!size_name.equals("") || !color_name.equals("")) {
                                 ((TextView) popupWindow_view.findViewById(R.id.tv_choose)).setText("已选：" + size_name + " " + color_name);
                             }
 

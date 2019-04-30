@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -27,6 +28,7 @@ import com.zhenghaikj.shop.adapter.CartAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.Cart;
+import com.zhenghaikj.shop.entity.CartItem;
 import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.StoreBean;
 import com.zhenghaikj.shop.mvp.contract.CartContract;
@@ -78,8 +80,15 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
 
     private CartAdapter cartAdapter;
     private List<StoreBean> shopBeanslist = new ArrayList<>();
+    private CartItem cartItem;
+    private List<CartItem.SkuIdsBean> list;
+    CartItem.SkuIdsBean bean;
+
+
     private SPUtils spUtils=SPUtils.getInstance("token");
     private String Userkey;
+    private String skuid_add; //添加删除的skuid
+    private String count_add; //增加删除保存的count
 
     private int commoditycount=0;
     //String sku_delete="";
@@ -142,6 +151,8 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             public void onRefresh(RefreshLayout refreshLayout) {
             mPresenter.GetCartProduct(Userkey);
             smartRefreshLayout.finishRefresh();
+
+
             }
         });
 
@@ -245,9 +256,13 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     public void GetCartProduct(Cart Result) {
     if (Result.getSuccess().equals("true")){
         sku_delete_map.clear();
-        commoditycount=0;
-        shopBeanslist.clear();
-        mCbCircleCart.setSelected(false);
+            commoditycount=0;
+            shopBeanslist.clear();
+            mCbCircleCart.setChecked(false);
+            mTvMoney.setText("¥0");
+            mTvSettlement.setText("结算(0)");
+
+
 
       for (int i = 0; i < Result.getShop().size(); i++) {
 
@@ -283,6 +298,8 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         mRvCart.setHasFixedSize(true);
         cartAdapter = new CartAdapter(shopBeanslist,mActivity);
         mRvCart.setAdapter(cartAdapter);
+        getTotalMoneyAndCloseCount(shopBeanslist);
+
 
 
         //全选CheckBox监听  全选店铺
@@ -294,8 +311,6 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                         //选择店铺
                         if (!shopBeanslist.get(i).isIscheck()) {
                             shopBeanslist.get(i).setIscheck(true);
-
-
                         }
                         for (int j = 0; j < shopBeanslist.get(i).getList().size(); j++) {
                             //选择店铺的商品
@@ -391,7 +406,6 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                 //保存商品点击状态
                 shopBeanslist.get(parentposition).getList().get(chaildposition).setIscheck(isSelected);
 
-
                 //通知店铺选择的状态
                 if (allChildSelect(parentposition) == shopBeanslist.get(parentposition).getList().size()) {
                     shopBeanslist.get(parentposition).setIscheck(true);
@@ -402,21 +416,44 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                 }
 
                 if (shopBeanslist.get(parentposition).getList().get(chaildposition).isIscheck()){
-                    Log.d("==========>",shopBeanslist.get(parentposition).getList().get(chaildposition).getSkuId());
                       sku_delete_map.put(shopBeanslist.get(parentposition).getList().get(chaildposition).getCartItemId(),shopBeanslist.get(parentposition).getList().get(chaildposition).getSkuId());
 
 
                 }else {
                     sku_delete_map.remove(shopBeanslist.get(parentposition).getList().get(chaildposition).getCartItemId());
                 }
+
                 getTotalMoneyAndCloseCount(shopBeanslist);
 
-                 Log.d("==========>", String.valueOf(sku_delete_map.size()));
 
               UpdateRecyclerView();
             }
-        });
 
+            /*商品数量添加删减操作*/
+            @Override
+            public void OnItemAddReduceListener(int value, int parentposition, int chaildposition) {
+
+                     skuid_add=shopBeanslist.get(parentposition).getList().get(chaildposition).getSkuId();
+                     count_add= String.valueOf(value);
+
+                     cartItem=new CartItem();
+                     bean=new CartItem.SkuIdsBean();
+                     list=new ArrayList<>();
+                     bean.setSkuId(skuid_add);
+                     bean.setCount(count_add);
+                     list.add(bean);
+                     cartItem.setUserkey(Userkey);
+                     cartItem.setSkus(list);
+                     Gson gson=new Gson();
+                     String jsonstr = gson.toJson(cartItem);
+                     mPresenter.PostUpdateCartItem(jsonstr,Userkey);
+
+
+
+            }
+
+
+        });
 
 
 
@@ -434,6 +471,19 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
              // smartRefreshLayout.autoRefresh();
               mPresenter.GetCartProduct(Userkey);
           }
+
+    }
+
+
+    /*更新购物车中商品的数量*/
+    @Override
+    public void PostUpdateCartItem(CartResult Result) {
+
+       if (Result.getSuccess().equals("true")){
+           UpdataCount(shopBeanslist,skuid_add,count_add);
+
+        }
+
 
     }
 
@@ -494,7 +544,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             }
         }
 
-        mTvMoney.setText("¥"+Money);
+        mTvMoney.setText("¥"+String.format("%.2f", Money)); //保留两位小数
         mTvSettlement.setText("结算"+"("+CloseCount+")");
 
 
@@ -550,5 +600,19 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
 
     }
 
+      /*进行商品数量加减后对内存中shopBeanslist里面的count进行改变*/
+    public void UpdataCount(List<StoreBean> shopBeanslist,String skuid,String count){
+        for (int i = 0; i <shopBeanslist.size() ; i++) {
+            for (int j = 0; j <shopBeanslist.get(i).getList().size();j++) {
+                if (shopBeanslist.get(i).getList().get(j).getSkuId().equals(skuid)){
+                    shopBeanslist.get(i).getList().get(j).setCount(count);
+                    getTotalMoneyAndCloseCount(shopBeanslist);
+
+                }
+
+            }
+        }
+
+    }
 
 }

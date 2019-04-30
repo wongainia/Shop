@@ -24,6 +24,7 @@ import java.util.zip.Inflater;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*购物车二级列表adapter*/
 public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommodityAdapter.MyHolder> {
     private List<CommodityBean> list;
     private Context mContext;
@@ -49,6 +50,11 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
 
         public CheckBox getCheckBox() {
             return cb_choose;
+        }
+
+
+        public AdderView getAdderView() {
+            return adderView;
         }
 
 
@@ -92,7 +98,6 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
             holder.adderView.setVisibility(View.GONE);
             holder.tv_lose.setVisibility(View.VISIBLE);
             holder.tv_goods_name.setTextColor(Color.RED);
-
         }
 
 
@@ -115,6 +120,7 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
 
 
         holder.getCheckBox().setChecked(list.get(position).isIscheck());
+
         holder.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -125,6 +131,18 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
             }
         });
         holder.itemView.setId(position);
+
+        holder.getAdderView().setOnValueChangeListene(new AdderView.OnValueChangeListener() {
+            @Override
+            public void onValueChange(int value) {
+
+                if (mCallBack!=null){
+                    mCallBack.OnAddReduceListner(value,position);
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -142,5 +160,9 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
     public interface allCheck {
         //回调函数 将店铺商品的checkbox的点击变化事件进行回调
         public void OnCheckListener(boolean isChecked, int childpostion);
+
+        public void OnAddReduceListner(int value,int childposition);
     }
+
+
 }
