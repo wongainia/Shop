@@ -45,11 +45,10 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     LinearLayout mLlAddress;
     @BindView(R.id.rv_confirm_order)
     RecyclerView mRvConfirmOrder;
-    @BindView(R.id.tv_total)
-    TextView mTvTotal;
-    @BindView(R.id.tv_submit_orders)
-    TextView mTvSubmitOrders;
-
+    @BindView(R.id.tv_totalmoney)
+    TextView mTvtotalmoney;
+    @BindView(R.id.tv_submit)
+    TextView mTvsubmit;
     private List<Product> list=new ArrayList<>();
     private ConfirmOrderAdapter adapter;
 

@@ -32,6 +32,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
         private TextView ShopName;
         private CheckBox checkBox;
         private RecyclerCommodityAdapter adapter;
+        private TextView tv_coupon;
+
 
         public CheckBox getCheckBox() {
             return checkBox;
@@ -44,7 +46,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
             recyclerView = view.findViewById(R.id.rv_shop_type);
             checkBox =  view.findViewById(R.id.cb_choose_all);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
+            tv_coupon=view.findViewById(R.id.tv_coupon);
         }
     }
 
@@ -64,6 +66,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
         holder.ShopName.setText(list.get(position).getShopName());
         holder.adapter = new RecyclerCommodityAdapter(list.get(position).getList(),mcontext);
         holder.recyclerView.setAdapter(holder.adapter);
+
+        holder.tv_coupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              if (mCallBack!=null){
+                  mCallBack.OnCheckCoupListner(position);
+              }
+            }
+        });
+
+
         holder.getCheckBox().setChecked(list.get(position).isIscheck());
         holder.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -127,6 +140,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
         public void OnItemAddReduceListener(int value,int parentposition,int chaildposition);
 
         public void OnItemClickDetailListner(View view,int parentposition,int chaildposition);
+
+        public void OnCheckCoupListner(int parentposition);
     }
 
 }

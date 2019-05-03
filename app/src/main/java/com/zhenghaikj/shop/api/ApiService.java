@@ -1,6 +1,6 @@
 package com.zhenghaikj.shop.api;
 
-import com.zhenghaikj.shop.activity.CartResult;
+import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
@@ -13,6 +13,7 @@ import com.zhenghaikj.shop.entity.CollectionShop;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
+import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LoginResult;
@@ -26,13 +27,11 @@ import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
+import com.zhenghaikj.shop.entity.ShopCoupResult;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -447,4 +446,24 @@ public interface ApiService {
                                               @Query("timestamp") String timestamp,
                                               @Query("sign") String sign);
 
+
+    /*获取商铺优惠券列表*/
+    @GET("api/coupon/GetShopCouponList")
+    Observable<ShopCoupResult> GetShopCouponList(@Query("shopId") String shopId,
+                                                 @Query("app_key") String app_key,
+                                                 @Query("timestamp") String timestamp,
+                                                 @Query("sign") String sign);
+
+
+
+
+    /*领取优惠券*/
+    @FormUrlEncoded
+    @POST("api/coupon/PostAcceptCoupon")
+    Observable<GetShopCoupResult> PostAcceptCoupon(@Field("vshopId") String vshopId,
+                                                   @Field("couponId") String couponId,
+                                                   @Field("Userkey") String Userkey,
+                                                   @Query("app_key") String app_key,
+                                                   @Query("timestamp") String timestamp,
+                                                   @Query("sign") String sign);
 }

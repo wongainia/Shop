@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEEEEE"
+        />
+    <TextView
+        android:id="@+id/tv_coupname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_OrderAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tv_coupname"
+
+        />
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_below="@+id/tv_coupname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="5dp"
+        android:text="¥50"
+        />
+<TextView
+    android:id="@+id/tv_time"
+    android:layout_below="@+id/tv_price"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10sp"
+    android:layout_marginTop="10dp"
+    android:textSize="12sp"
+    android:layout_marginBottom="10dp"
+    android:text="有效期:"/>
+
+    <TextView
+        android:id="@+id/tv_getcoup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:text="领取"/>
+</RelativeLayout>

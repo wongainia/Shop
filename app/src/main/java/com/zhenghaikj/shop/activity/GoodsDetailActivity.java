@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -332,7 +333,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         // mTvcollection.setOnClickListener(this);
         mLlcollect.setOnClickListener(this);
         mTvaddcart.setOnClickListener(this);
-
+        mTvBuy.setOnClickListener(this);
     }
 
 
@@ -401,10 +402,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 break;
 
             case R.id.tv_addcart:
-                showPopupWindow();
-
+                showPopupWindow(1); //1为购物车  2为购买
                 break;
 
+            case R.id.tv_buy:
+                showPopupWindow(2);
+                break;
 
         }
     }
@@ -413,7 +416,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     /**
      * 弹出Popupwindow
      */
-    public void showPopupWindow() {
+    public void showPopupWindow(int type) {
         //   img_bankcancle = popupWindow_view.findViewById(R.id.img_bankcancle);
         mPopupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
@@ -499,11 +502,18 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 switch (v.getId()) {
                     case R.id.tv_submit:
                         /*有颜色没尺寸*/
-                        if (!result.getColor().isEmpty() && result.getColor().isEmpty()) {
+                        if (!result.getColor().isEmpty() && result.getSize().isEmpty()) {
                             if (skuId_color.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择颜色", Toast.LENGTH_SHORT).show();
                             } else {
-                                mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_0_0", count, Userkey);
+                                if (type==1){
+                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_0_0", count, Userkey);
+                                }else {
+                                    Intent intent=new Intent(mActivity,ConfirmOrderActivity.class);
+                                    startActivity(intent);
+                                }
+
+
                             }
                         }
                         /*有尺寸没颜色*/
@@ -511,7 +521,14 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             if (skuId_size.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择尺寸", Toast.LENGTH_SHORT).show();
                             } else {
-                                mPresenter.PostAddProductToCart(id + "_0" + "_" + skuId_size + "_0", count, Userkey);
+                                if (type==1){
+                                    mPresenter.PostAddProductToCart(id + "_0" + "_" + skuId_size + "_0", count, Userkey);
+                                }
+                                else {
+                                    Intent intent=new Intent(mActivity,ConfirmOrderActivity.class);
+                                    startActivity(intent);
+                                }
+
                             }
                         }
 
@@ -520,7 +537,14 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             if (skuId_size.equals("0") || skuId_color.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择尺寸和颜色", Toast.LENGTH_SHORT).show();
                             } else {
-                                mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_0", count, Userkey);
+                                if (type==1){
+                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_0", count, Userkey);
+                                }
+                                else {
+                                    Intent intent=new Intent(mActivity,ConfirmOrderActivity.class);
+                                    startActivity(intent);
+                                }
+
                             }
 
 
@@ -528,9 +552,13 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
                         //没有标签直接提交
                         if (result.getColor().isEmpty() && result.getSize().isEmpty()) {
-                            mPresenter.PostAddProductToCart(id + "_0_0_0", count, Userkey);
-                            Log.d("=====>", id + "_0_0_0");
-                            Log.d("=====>", count);
+                            if (type==1){
+                                mPresenter.PostAddProductToCart(id + "_0_0_0", count, Userkey);
+                            }else {
+                                Intent intent=new Intent(mActivity,ConfirmOrderActivity.class);
+                                startActivity(intent);
+                            }
+
 
                         }
 
@@ -539,7 +567,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             }
         });
 
-
+            popupWindow_view.findViewById(R.id.img_cancle).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPopupWindow.dismiss();
+                }
+            });
 
 
 
@@ -815,7 +848,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     /*收藏*/
     @Override
     public void PostAddFavoriteProduct(CollectResult Result) {
-        Log.d("========>", "进入收藏");
     }
 
 }
