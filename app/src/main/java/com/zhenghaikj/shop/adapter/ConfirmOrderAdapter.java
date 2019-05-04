@@ -1,31 +1,46 @@
 package com.zhenghaikj.shop.adapter;
 
+import android.view.View;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.StoreBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ConfirmOrderAdapter extends BaseQuickAdapter<Product, BaseViewHolder> {
-    private List<Product> list=new ArrayList<>();
-    public ConfirmOrderAdapter(int layoutResId, @Nullable List<Product> data) {
+public class ConfirmOrderAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
+    private List<StoreBean> list;
+    public ConfirmOrderAdapter(int layoutResId, @Nullable List<StoreBean> data) {
         super(layoutResId, data);
+        list=data;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Product item) {
-        for (int i = 0; i <2 ; i++) {
-            list.add(new Product());
+    protected void convert(BaseViewHolder helper, StoreBean item) {
+
+        helper.setText(R.id.tv_goods_number,"共"+item.getList().size()+"件商品");
+
+        double Money = 0;
+        for (int i = 0; i < item.getList().size(); i++) {
+            double count = Double.parseDouble(item.getList().get(i).getCount());
+            double price = Double.parseDouble(item.getList().get(i).getPrice());
+            Money += count * price;
         }
-        ConfirmOrderListAdapter adapter=new ConfirmOrderListAdapter(R.layout.item_confirm_order_list,list);
-        RecyclerView rv=helper.getView(R.id.rv_confirm_order_list);
-        rv.setLayoutManager(new LinearLayoutManager(mContext));
-        rv.setAdapter(adapter);
+        helper.setText(R.id.tv_subtotal,"¥"+String.format("%.2f", Money));
+
+
+        helper.setText(R.id.tv_store_name,item.getShopName());
+        ConfirmOrderListAdapter confirmOrderListAdapter=new ConfirmOrderListAdapter(R.layout.item_confirm_order_list,item.getList());
+        RecyclerView recyclerView = helper.getView(R.id.rv_confirm_order_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setAdapter(confirmOrderListAdapter);
+
+
+
     }
 }

@@ -58,10 +58,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,12 +115,12 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     private View popupWindow_view;
     private PopupWindow mPopupWindow;
 
-
     private List<ShopCoupResult.CouponBean> couplist=new ArrayList<>();//用于存放优惠券列表
     private int commoditycount = 0;
     //String sku_delete="";
     private HashMap<String, String> sku_delete_map = new HashMap<>();
     private HashMap<String, String> sku_close_delte_map = new HashMap<>();//失效商品
+
 
     @Override
     protected int setLayoutId() {
@@ -234,7 +237,6 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                                 CleanfailureShop(shopBeanslist);
                                 dialog.dismiss();
                             }
-
                             @Override
                             public void onNegtiveClick() {//取消
                                 dialog.dismiss();
@@ -251,13 +253,16 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
 
                 break;
 
-
-
             /*结算*/
             case R.id.tv_settlement:
                 switch (Isfailure(shopBeanslist)) {
                     case 1:
-                        Toast.makeText(mActivity, "提交成功待开发", Toast.LENGTH_SHORT).show();
+                        if (!shopBeanslist.isEmpty()){
+                            Intent intent = new Intent(mActivity,ConfirmOrderActivity.class);
+                            intent.putExtra("checkshop",(Serializable) (GetCheckShopList(shopBeanslist)));//传递集合
+                            startActivity(intent);
+                        }
+
                         break;
                     case -1:
                         Toast.makeText(mActivity, "提交失败存在失效商品", Toast.LENGTH_SHORT).show();
@@ -277,6 +282,8 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     @Override
     public void GetCartProduct(Cart Result) {
         if (Result.getSuccess().equals("true")) {
+
+
             sku_delete_map.clear();
             commoditycount = 0;
             shopBeanslist.clear();
@@ -306,6 +313,8 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                     commodityBean.setStatus(Result.getShop().get(i).get(j).getStatus());
                     // commodityBean.setVersion(Result.getShop().get(i).get(j).getVersion());
                     commodityBean.setAddTime(Result.getShop().get(i).get(j).getAddTime());//添加时间
+                    commodityBean.setShopName(Result.getShop().get(i).get(j).getShopName());
+                    commodityBean.setShopLogo(Result.getShop().get(i).get(j).getShopLogo());
                     list.add(commodityBean);
                     storeBean.setList(list);
                     commoditycount++;
@@ -673,6 +682,56 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         }
 
     }
+
+    /*获取选中的商品集合*/
+    public List<StoreBean> GetCheckShopList(List<StoreBean> shoplist){
+        Map<Integer,StoreBean> map=new HashMap();
+        //list.addAll(shoplist);
+        for (int i = 0; i <shoplist.size(); i++) {
+            List<CommodityBean> listbean = new ArrayList<>();
+            for (int j = 0; j < shoplist.get(i).getList().size(); j++) {
+                if (shoplist.get(i).getList().get(j).isIscheck()==true){
+                    StoreBean storeBean=new StoreBean();
+                    storeBean.setShopName(shoplist.get(i).getList().get(j).getShopName());
+                    storeBean.setShopLogo(shoplist.get(i).getList().get(j).getShopLogo());
+                    if (shoplist.get(i).isIscheck()){
+                        storeBean.setIscheck(true);
+                    }
+
+                        CommodityBean commodityBean = new CommodityBean();
+                        commodityBean.setCartItemId(shoplist.get(i).getList().get(j).getCartItemId());
+                        commodityBean.setSkuId(shoplist.get(i).getList().get(j).getSkuId());
+                        commodityBean.setId(shoplist.get(i).getList().get(j).getId());
+                        commodityBean.setImgUrl(shoplist.get(i).getList().get(j).getImgUrl());
+                        commodityBean.setName(shoplist.get(i).getList().get(j).getName());
+                        commodityBean.setPrice(shoplist.get(i).getList().get(j).getPrice());
+                        commodityBean.setCount(shoplist.get(i).getList().get(j).getCount());
+                        commodityBean.setSize(shoplist.get(i).getList().get(j).getSize());
+                        commodityBean.setColor(shoplist.get(i).getList().get(j).getColor());
+                        commodityBean.setStatus(shoplist.get(i).getList().get(j).getStatus());
+                        commodityBean.setAddTime(shoplist.get(i).getList().get(j).getAddTime());//添加时间
+                        commodityBean.setIscheck(true);
+                        listbean.add(commodityBean);
+                        storeBean.setList(listbean);
+                        map.put(i,storeBean);
+                }
+
+            }
+
+        }
+
+
+        List<StoreBean> list=new ArrayList<>();
+        Collection<StoreBean> collection = map.values();
+        Iterator<StoreBean> iterator = collection.iterator();
+        while (iterator.hasNext()) {
+            StoreBean value =  iterator.next();
+            list.add(value);
+        }
+
+        return list;
+    }
+
 
 
     public void showPopupWindow(String shopname) {

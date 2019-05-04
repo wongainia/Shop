@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
 android:layout_height="wrap_content"
+    android:background="@color/white"
+
 android:orientation="vertical">
 
 <LinearLayout
     android:id="@+id/ll_address"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -43,14 +46,12 @@ android:orientation="vertical">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="呀呀呀"
                 android:textSize="16sp"
                 android:textColor="#333"/>
             <TextView
                 android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="123456789"
                 android:textSize="16sp"
                 android:textColor="#333"
                 android:layout_marginRight="30dp"/>
@@ -59,7 +60,6 @@ android:orientation="vertical">
             android:id="@+id/tv_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="收货地址：浙江省宁波市江北区宁波企协"
             android:layout_marginTop="10dp"
             android:textSize="12sp"
             android:textColor="#333"

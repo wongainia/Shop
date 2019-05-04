@@ -5,12 +5,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ConfirmOrderAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
+import com.zhenghaikj.shop.entity.StoreBean;
+import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
+import com.zhenghaikj.shop.mvp.model.ConfirmOrderModel;
+import com.zhenghaikj.shop.mvp.presenter.ConfirmOrderPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ConfirmOrderActivity extends BaseActivity implements View.OnClickListener {
+public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, ConfirmOrderModel> implements View.OnClickListener, ConfirmOrderContract.View {
 
     @BindView(R.id.view)
     View mView;
@@ -49,9 +56,10 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     TextView mTvtotalmoney;
     @BindView(R.id.tv_submit)
     TextView mTvsubmit;
-    private List<Product> list=new ArrayList<>();
-    private ConfirmOrderAdapter adapter;
+    private String Userkey;
+    private SPUtils spUtils=SPUtils.getInstance("token");
 
+    private ConfirmOrderAdapter confirmOrderAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -68,12 +76,25 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     }
     @Override
     protected void initData() {
-        for (int i = 0; i <2 ; i++) {
-            list.add(new Product());
-        }
-        adapter = new ConfirmOrderAdapter(R.layout.item_confirm_order,list);
+           Userkey=spUtils.getString("UserKey");
+           mPresenter.GetShippingAddressList(Userkey);
+          List<StoreBean> list = (List<StoreBean>)getIntent().getSerializableExtra("checkshop");
+        confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order,list);
         mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvConfirmOrder.setAdapter(adapter);
+        mRvConfirmOrder.setAdapter(confirmOrderAdapter);
+
+
+        double Money=0;
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).getList().size(); j++) {
+               double Count= Double.parseDouble(list.get(i).getList().get(j).getCount());
+               double Price=Double.parseDouble(list.get(i).getList().get(j).getPrice());
+                Money+=Count*Price;
+            }
+        }
+       /*总价*/
+        mTvtotalmoney.setText("合计¥:"+String.format("%.2f", Money));
+
     }
 
     @Override
@@ -101,5 +122,25 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    /*获取地址*/
+    @Override
+    public void GetShippingAddressList(ShippingAddressList result) {
+     if (result.isSuccess()){
+        /*没有默认地址  默认显示第一个*/
+
+         if (!result.getShippingAddress().isEmpty()){
+             mTvName.setText(result.getShippingAddress().get(0).getShipTo());
+             mTvPhone.setText(result.getShippingAddress().get(0).getPhone());
+             mTvAddress.setText(result.getShippingAddress().get(0).getRegionFullName());
+
+         }else {
+             Toast.makeText(mActivity,"没有地址",Toast.LENGTH_SHORT).show();
+         }
+
+
+     }
+
     }
 }

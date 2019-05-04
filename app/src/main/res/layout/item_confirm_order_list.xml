@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:id="@+id/ll_confirm_order_list"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:background="#ffffff">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#eee"
         android:paddingTop="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"
         android:id="@+id/ll_goods">
@@ -15,7 +19,8 @@
             android:id="@+id/iv_goods_picture"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/goods"/>
+            android:layout_marginLeft="10dp"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,18 +30,15 @@
             <TextView
                 android:id="@+id/tv_goods_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#333"
-                android:text="啦啦啦啦啦啦啦啦绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿绿"
-                android:textSize="12sp"
+                android:layout_height="28dp"
+                android:ellipsize="end"
                 android:maxLines="2"
-                android:ellipsize="end"/>
-
+                android:textColor="#333"
+                android:textSize="12sp" />
             <TextView
                 android:id="@+id/tv_goods_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="白色"
                 android:textSize="12sp"
                 android:textColor="#808080"
                 android:layout_marginTop="10dp"/>
@@ -50,14 +52,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="¥123.00"
                     android:textColor="@color/red"
                     android:textSize="14sp"/>
                 <TextView
                     android:id="@+id/tv_goods_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="×1"
                     android:textColor="#333"
                     android:textSize="12sp"
                     android:layout_gravity="right"
