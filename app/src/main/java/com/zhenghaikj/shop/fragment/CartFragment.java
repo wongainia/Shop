@@ -675,12 +675,9 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                 if (shopBeanslist.get(i).getList().get(j).getSkuId().equals(skuid)) {
                     shopBeanslist.get(i).getList().get(j).setCount(count);
                     getTotalMoneyAndCloseCount(shopBeanslist);
-
                 }
-
             }
         }
-
     }
 
     /*获取选中的商品集合*/

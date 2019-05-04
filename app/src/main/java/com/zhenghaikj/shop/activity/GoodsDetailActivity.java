@@ -35,11 +35,13 @@ import com.zhenghaikj.shop.adapter.ShopRecommendationAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
+import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.ShopColor;
 import com.zhenghaikj.shop.entity.ShopSize;
+import com.zhenghaikj.shop.entity.StoreBean;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
 import com.zhenghaikj.shop.mvp.model.DetailModel;
 import com.zhenghaikj.shop.mvp.presenter.DetailPresenter;
@@ -55,8 +57,13 @@ import com.zhenghaikj.shop.widget.RoundImageView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.IdRes;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -424,7 +431,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
-
             @Override
             public void onDismiss() {
                 MyUtils.setWindowAlpa(mActivity, false);
@@ -509,11 +515,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 if (type==1){
                                     mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_0_0", count, Userkey);
                                 }else {
+                                    List<StoreBean> list = GetCheckShopList(result, id+"_"+skuId_color+"_0_0", count, getPrice(id+"_"+skuId_color+"_0_0"), skuId_color, "");
                                     Intent intent=new Intent(mActivity,ConfirmOrderActivity.class);
+                                    intent.putExtra("checkshop",(Serializable) (list));//传递集合
                                     startActivity(intent);
                                 }
-
-
                             }
                         }
                         /*有尺寸没颜色*/
@@ -525,7 +531,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                     mPresenter.PostAddProductToCart(id + "_0" + "_" + skuId_size + "_0", count, Userkey);
                                 }
                                 else {
+                                    List<StoreBean> list = GetCheckShopList(result, id+"_0"+"_"+skuId_size+"_0", count, getPrice(id+"_0"+"_"+skuId_size+"_0"), "", skuId_size);
                                     Intent intent=new Intent(mActivity,ConfirmOrderActivity.class);
+                                    intent.putExtra("checkshop",(Serializable) (list));//传递集合
                                     startActivity(intent);
                                 }
 
@@ -541,7 +549,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                     mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_0", count, Userkey);
                                 }
                                 else {
+                                    List<StoreBean> list = GetCheckShopList(result, id+"_"+skuId_color+"_"+skuId_size+"_0", count, getPrice(id+"_"+skuId_color+"_"+skuId_size+"_0"), skuId_color, skuId_size);
                                     Intent intent=new Intent(mActivity,ConfirmOrderActivity.class);
+                                    intent.putExtra("checkshop",(Serializable) (list));//传递集合
                                     startActivity(intent);
                                 }
 
@@ -555,7 +565,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             if (type==1){
                                 mPresenter.PostAddProductToCart(id + "_0_0_0", count, Userkey);
                             }else {
+                                List<StoreBean> list = GetCheckShopList(result, id+"_0_0_0", count, getPrice(id + "_0_0_0"), "", "");
                                 Intent intent=new Intent(mActivity,ConfirmOrderActivity.class);
+                                intent.putExtra("checkshop",(Serializable) (list));//传递集合
                                 startActivity(intent);
                             }
 
@@ -574,14 +586,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 }
             });
 
-
-
-     /*   img_bankcancle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPopupWindow.dismiss();
-            }
-        });*/
     }
 
 
@@ -779,7 +783,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 }
                             });
 
-
                             //价格
                             String price = getPrice(SkuId);
                             ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(price);
@@ -792,6 +795,32 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         });
 
     }
+
+   /*获取所选的颜色*/
+    public String getColorValue(String skuid_color){
+        String color="";
+        for (int i = 0; i < result.getColor().size(); i++) {
+            if (skuid_color==result.getColor().get(i).getSkuId()){
+                color=result.getColor().get(i).getValue();
+            }
+        }
+        return color;
+    }
+
+    /*获取所选的尺寸*/
+
+    public String getSizeValue(String skuid_size){
+        String size="";
+        for (int i = 0; i < result.getSize().size(); i++) {
+            if (skuid_size==result.getSize().get(i).getSkuId()){
+                size=result.getSize().get(i).getValue();
+            }
+        }
+        return size;
+    }
+
+
+
 
 
     /*获取商品库存*/
@@ -822,6 +851,44 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         }
         return price;
     }
+
+
+    /*详情中获取选中的商品*/
+    public List<StoreBean> GetCheckShopList(DetailResult result,String skuid,String count,String price,String skuid_color,String skuid_size){
+        List<StoreBean> list=new ArrayList<>();
+        StoreBean storeBean=new StoreBean();
+        storeBean.setShopName(result.getShop().getName());
+        storeBean.setShopLogo(result.getVShopLog());
+
+        List<CommodityBean> commodityBeanlist=new ArrayList<>();
+        CommodityBean commodityBean = new CommodityBean();
+        //commodityBean.setCartItemId(shoplist.get(i).getList().get(j).getCartItemId());
+        commodityBean.setSkuId(skuid);
+       // commodityBean.setId(shoplist.get(i).getList().get(j).getId());
+        if (!result.getProduct().getImagePath().isEmpty()){
+            commodityBean.setImgUrl(result.getProduct().getImagePath().get(0));
+        }else {
+            commodityBean.setImgUrl("");
+        }
+        commodityBean.setName(result.getProduct().getProductName());
+        commodityBean.setPrice(price);
+        commodityBean.setCount(count);
+        commodityBean.setColor(getColorValue(skuid_color));
+        commodityBean.setSize(getSizeValue(skuid_size));
+        commodityBean.setStatus(result.getProduct().getProductSaleStatus());
+        commodityBean.setAddTime("");//添加时间
+        commodityBean.setIscheck(true);
+        commodityBeanlist.add(commodityBean);
+        storeBean.setList(commodityBeanlist);
+        list.add(storeBean);
+
+
+
+
+        return list;
+    }
+
+
 
 
     /*添加到购物车*/
