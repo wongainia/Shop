@@ -5,12 +5,18 @@
     android:orientation="vertical"
     android:background="#EEEEEE">
 
+
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@drawable/mine_bg_shape"></androidx.appcompat.widget.Toolbar>
 
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -287,7 +293,7 @@
                 android:src="@mipmap/svip" />
         </RelativeLayout>
     </LinearLayout>
-
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -1101,4 +1107,5 @@
         </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

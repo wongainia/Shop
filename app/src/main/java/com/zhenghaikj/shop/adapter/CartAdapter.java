@@ -4,6 +4,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,9 @@ import com.zhenghaikj.shop.entity.Bean;
 import com.zhenghaikj.shop.entity.StoreBean;
 
 import java.util.List;
+
+import static android.view.View.GONE;
+import static androidx.constraintlayout.solver.widgets.ConstraintWidget.VISIBLE;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
     private List<StoreBean> list;
@@ -143,5 +148,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
 
         public void OnCheckCoupListner(int parentposition);
     }
+
 
 }

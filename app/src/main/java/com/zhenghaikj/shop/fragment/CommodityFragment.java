@@ -107,6 +107,7 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
         commodityAdapter = new CommodityAdapter(R.layout.item_commodity, commodityList);
         mRvCommodity.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvCommodity.setAdapter(commodityAdapter);
+        commodityAdapter.setEmptyView(getEmptyViewCommodity());
         commodityAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {

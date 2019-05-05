@@ -81,6 +81,7 @@ public class StoreFragment extends BaseLazyFragment<CollectionShopPresenter, Col
         storeAdapter = new StoreAdapter(R.layout.item_store, storeList);
         mRvStore.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvStore.setAdapter(storeAdapter);
+        storeAdapter.setEmptyView(getEmptyViewCommodity());
         storeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

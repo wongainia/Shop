@@ -17,6 +17,8 @@ import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.fragment.ShopFragment;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import androidx.fragment.app.Fragment;
@@ -85,11 +87,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         cartFragment = new CartFragment();
         shopFragment = new ShopFragment();
         mineFragment = new MineFragment();
-        mFragments.add(homeFragment);
-        mFragments.add(classificationFragment);
-        mFragments.add(cartFragment);
-        mFragments.add(shopFragment);
-        mFragments.add(mineFragment);
+        mFragments.add(HomeFragment.newInstance("",""));
+        mFragments.add(ClassificationFragment.newInstance("",""));
+        mFragments.add(CartFragment.newInstance("",""));
+        mFragments.add(ShopFragment.newInstance("",""));
+        mFragments.add(MineFragment.newInstance("",""));
 
         mViewPager.setCurrentItem(0);
     }
@@ -235,4 +237,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -121,6 +122,16 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private int fadingHeight = 600; // 当ScrollView滑动到什么位置时渐变消失（根据需要进行调整）
     private static final int START_ALPHA = 0;//scrollview滑动开始位置
     private static final int END_ALPHA = 255;//scrollview滑动结束位置
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     private List<HomeResult.ProductBean> mDatas = new ArrayList<>();
     private Integer[] icons = new Integer[]{

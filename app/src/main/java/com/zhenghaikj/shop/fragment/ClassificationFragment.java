@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,7 +47,16 @@ public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, 
     RecyclerView mRvLeft;
     @BindView(R.id.rv_right)
     RecyclerView mRvRight;
-
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    public static ClassificationFragment newInstance(String param1, String param2) {
+        ClassificationFragment fragment = new ClassificationFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
     private CategoryAdapter firstAdapter;
     private CategoryAdapter secondAdapter;
     private List<Category.CategoryBean> firstList=new ArrayList<>();

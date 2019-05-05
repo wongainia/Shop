@@ -15,6 +15,10 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AfterSaleActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
@@ -54,7 +58,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View{
+public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View {
 
     private static final String TAG = "MineFragment";//
     Unbinder unbinder;
@@ -152,6 +156,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     LinearLayout mLlService;
     @BindView(R.id.ll_get_work_order)
     LinearLayout mLlGetWorkOrder;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
     private ServiceDialog serviceDialog;
@@ -160,6 +166,18 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private Intent intent;
     private SPUtils spUtils;
     private String userKey;
+    private int pageIndex;
+
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    public static MineFragment newInstance(String param1, String param2) {
+        MineFragment fragment = new MineFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected int setLayoutId() {
@@ -172,6 +190,27 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         userKey = spUtils.getString("UserKey");
         mPresenter.PersonalInformation(userKey);
         mPresenter.GetHistoryVisite(userKey);
+        /*下拉刷新*/
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                mPresenter.PersonalInformation(userKey);
+                refreshlayout.finishRefresh(1000);
+            }
+        });
+
+
+
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden){
+            return;
+        }else {
+            mPresenter.PersonalInformation(userKey);
+        }
     }
 
     @Override
@@ -181,7 +220,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if (!"PersonalInformation".equals(name)){
+        if (!"PersonalInformation".equals(name)) {
             return;
         }
         mPresenter.PersonalInformation(userKey);
@@ -318,7 +357,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_purse:
                 //我的钱包
-                startActivity(new Intent(mActivity,WalletActivity.class));
+                startActivity(new Intent(mActivity, WalletActivity.class));
                 break;
 
             case R.id.ll_free_installation:
@@ -380,20 +419,20 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         rv_service.setAdapter(serviceAdapter);
     }
 
-    private void getWorkOrder(){
-        WordOrderDialog wordOrderDialog=new WordOrderDialog(getContext());
+    private void getWorkOrder() {
+        WordOrderDialog wordOrderDialog = new WordOrderDialog(getContext());
         wordOrderDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         wordOrderDialog.show();
     }
 
     @Override
     public void PersonalInformation(PersonalInformation result) {
-        if (result.isSuccess()){
+        if (result.isSuccess()) {
             mTvUsername.setText(result.getUserName());
             /*设置头像*/
-            if (result.getPhoto()==null){//显示默认头像
+            if (result.getPhoto() == null) {//显示默认头像
                 return;
-            }else {
+            } else {
                 byte[] decode;
                 decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
                 Glide.with(mActivity).asBitmap().load(decode).into(mIvAvatar);
@@ -405,10 +444,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void GetHistoryVisite(HistoryVisite result) {
-        if (result.isSuccess()){
-            Log.d(TAG,"数量"+result.getProduct().size());
+        if (result.isSuccess()) {
+            Log.d(TAG, "数量" + result.getProduct().size());
 //            String number=result.getProduct().size();
-            mTvBaby.setText(""+result.getProduct().size());
+            mTvBaby.setText("" + result.getProduct().size());
         }
     }
 

@@ -341,6 +341,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mLlcollect.setOnClickListener(this);
         mTvaddcart.setOnClickListener(this);
         mTvBuy.setOnClickListener(this);
+
     }
 
 
@@ -411,7 +412,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             case R.id.tv_addcart:
                 showPopupWindow(1); //1为购物车  2为购买
                 break;
-
             case R.id.tv_buy:
                 showPopupWindow(2);
                 break;

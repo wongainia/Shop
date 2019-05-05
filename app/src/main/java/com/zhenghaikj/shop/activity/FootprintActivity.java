@@ -74,6 +74,7 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
         adapter = new FootprintAdapter(R.layout.item_footprint, list);
         mRvFootprint.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvFootprint.setAdapter(adapter);
+        adapter.setEmptyView(getEmptyView());
         adapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
             intent.putExtra("id", list.get(position).getProductId());

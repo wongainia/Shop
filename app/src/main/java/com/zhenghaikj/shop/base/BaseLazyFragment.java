@@ -192,6 +192,10 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
     public View getEmptyView() {
         return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_data,null);
     }
+
+    public View getEmptyViewCommodity() {
+        return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_data_commodity,null);
+    }
     /**
      * 初始化沉浸式
      */

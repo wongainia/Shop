@@ -117,6 +117,7 @@ public class StoreActivity extends BaseActivity<CollectionShopPresenter, Collect
         storeAdapter = new StoreAdapter(R.layout.item_store, storeList);
         mRvStore.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvStore.setAdapter(storeAdapter);
+        storeAdapter.setEmptyView(getEmptyView());
         storeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

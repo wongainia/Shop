@@ -154,6 +154,39 @@
                 android:layout_marginLeft="6dp"
                 android:src="@drawable/youjiantou" />
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:background="#E4E4E4" />
+        <LinearLayout
+            android:id="@+id/ll_modify_payment_password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="修改支付密码"
+                android:textColor="#333"
+                android:textSize="14sp" />
+
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="6dp"
+                android:src="@drawable/youjiantou" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

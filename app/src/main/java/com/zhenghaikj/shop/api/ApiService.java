@@ -7,12 +7,15 @@ import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
+import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.CollectionProduct;
 import com.zhenghaikj.shop.entity.CollectionShop;
+import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
+import com.zhenghaikj.shop.entity.GetPayPwd;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.HomeResult;
@@ -28,6 +31,7 @@ import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
+import com.zhenghaikj.shop.entity.SubmitOrder;
 
 import java.util.List;
 
@@ -308,6 +312,36 @@ public interface ApiService {
     );
 
     /**
+     * 取消订单
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/MemberOrder/PostCloseOrder")
+    Observable<CloseOrder> PostCloseOrder(
+            @Field("orderId") String orderId,
+            @Field("userkey") String userkey,
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+
+    /**
+     * 确认收货
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/MemberOrder/PostConfirmOrder")
+    Observable<ConfirmOrder> PostConfirmOrder(
+            @Field("orderId") String orderId,
+            @Field("userkey") String userkey,
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+
+    /**
      * 获取我的足迹（商品浏览记录）列表
      *
      * @return
@@ -446,6 +480,43 @@ public interface ApiService {
                                               @Query("timestamp") String timestamp,
                                               @Query("sign") String sign);
 
+    /*
+     * 是否设置支付密码
+     * */
+    @GET("api/Payment/GetPayPwd")
+    Observable<GetPayPwd> GetPayPwd(
+                                     @Query("app_key") String app_key,
+                                     @Query("timestamp") String timestamp,
+                                     @Query("sign") String sign);
+
+    /*设置支付密码*/
+    @FormUrlEncoded
+    @POST("api/payment/PostSetPayPwd")
+    Observable<CartResult> PostSetPayPwd(@Field("password") String password,
+                                         @Query("app_key") String app_key,
+                                         @Query("timestamp") String timestamp,
+                                         @Query("sign") String sign);
+
+    /*立即购买提交订单*/
+    @FormUrlEncoded
+    @POST("api/Order/PostSubmitOrder")
+    Observable<SubmitOrder> PostSubmitOrder(@Field("skuIds") String skuIds,
+                                            @Field("counts") String counts,
+                                            @Field("recieveAddressId") String recieveAddressId,
+                                            @Field("couponIds") String couponIds,
+                                            @Field("integral") String integral,
+                                            @Field("isCashOnDelivery") String isCashOnDelivery,
+                                            @Field("invoiceType") String invoiceType,
+                                            @Field("invoiceContext") String invoiceContext,
+                                            @Field("invoiceTitle") String invoiceTitle,
+                                            @Field("orderRemarks") String orderRemarks,
+                                            @Field("CommonModel") String CommonModel,
+                                            @Field("OrderShop") String OrderShop,
+                                            @Field("OrderShops") String OrderShops,
+                                            @Field("userkey") String userkey,
+                                            @Query("app_key") String app_key,
+                                            @Query("timestamp") String timestamp,
+                                            @Query("sign") String sign);
 
     /*获取商铺优惠券列表*/
     @GET("api/coupon/GetShopCouponList")

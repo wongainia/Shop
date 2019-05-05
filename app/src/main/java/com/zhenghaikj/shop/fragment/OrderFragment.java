@@ -15,6 +15,8 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.OrderDetailActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.entity.CloseOrder;
+import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 import com.zhenghaikj.shop.mvp.model.OrderModel;
@@ -89,6 +91,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 getData();
             }
         });
+
+//        mPresenter.PostCloseOrder("2017021489566321",userKey);
     }
 
     @Override
@@ -97,13 +101,21 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         orderListAdapter = new OrderListAdapter(R.layout.item_order, cartList, mParam1);
         mRvOrder.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvOrder.setAdapter(orderListAdapter);
-
+        orderListAdapter.setEmptyView(getEmptyViewCommodity());
         orderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_trading_status:
-                        startActivity(new Intent(mActivity, OrderDetailActivity.class));
+//                        startActivity(new Intent(mActivity, OrderDetailActivity.class));
+                        mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
+                        break;
+                    case R.id.tv_delete_order:
+                        Log.d(TAG,"编号："+cartList.get(position).getId());
+                        mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
+                        break;
+                    case R.id.tv_confirm_receipt:
+                        mPresenter.PostConfirmOrder(cartList.get(position).getId(),userKey);
                         break;
                 }
             }
@@ -188,5 +200,15 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 mRefreshLayout.finishLoadMore();
             }
         }
+    }
+
+    @Override
+    public void PostCloseOrder(CloseOrder Result) {
+
+    }
+
+    @Override
+    public void PostConfirmOrder(ConfirmOrder Result) {
+
     }
 }

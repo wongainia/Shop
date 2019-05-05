@@ -75,6 +75,17 @@ public class ShopFragment extends BaseLazyFragment {
     RecyclerView mRvShop;
     @BindView(R.id.rv_exchage)
     RecyclerView mRvExchage;
+
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    public static ShopFragment newInstance(String param1, String param2) {
+        ShopFragment fragment = new ShopFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
     private ArrayList<String> hotsearchList = new ArrayList<>();
     private String[] hot = new String[]{"冰箱", "电视机", "衣服", "玩具"};
     private HotSearchAdapter hotSearchAdapter;

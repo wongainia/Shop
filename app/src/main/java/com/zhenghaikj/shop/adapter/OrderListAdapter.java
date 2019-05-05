@@ -36,6 +36,8 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
                 .setText(R.id.tv_goods_price,"合计："+item.getOrderTotalAmount());
         helper.setText(R.id.tv_trading_status,item.getStatus());
         helper.addOnClickListener(R.id.tv_trading_status);
+        helper.addOnClickListener(R.id.tv_delete_order);
+        helper.addOnClickListener(R.id.tv_confirm_receipt);
         RecyclerView rv=helper.getView(R.id.rv_order_list);
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.setAdapter(orderListAdapter2);

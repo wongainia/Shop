@@ -3,13 +3,7 @@ package com.zhenghaikj.shop.fragment;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -32,16 +24,14 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.ConfirmOrderActivity;
-import com.zhenghaikj.shop.adapter.ChooseColorAdapter;
-import com.zhenghaikj.shop.adapter.ChooseSizeAdapter;
-import com.zhenghaikj.shop.adapter.ShopCoupAdapter;
-import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.adapter.CartAdapter;
+import com.zhenghaikj.shop.adapter.ShopCoupAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.CartItem;
+import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
@@ -50,9 +40,7 @@ import com.zhenghaikj.shop.mvp.contract.CartContract;
 import com.zhenghaikj.shop.mvp.model.CartModel;
 import com.zhenghaikj.shop.mvp.presenter.CartPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
-import com.zhenghaikj.shop.widget.AdderView;
-import com.zhenghaikj.shop.widget.AutoLineFeedLayoutManager;
-import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
+import com.zhenghaikj.shop.widget.EmptyRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -66,6 +54,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -82,8 +73,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     TextView mTvMoney;
     @BindView(R.id.tv_settlement)
     TextView mTvSettlement;
-    @BindView(R.id.rv_cart)
-    RecyclerView mRvCart;
+
     Unbinder unbinder;
     @BindView(R.id.cb_circle_cart)
     CheckBox mCbCircleCart;
@@ -99,6 +89,21 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     LinearLayout mLlFinish;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout smartRefreshLayout;
+    @BindView(R.id.rv_cart)
+    EmptyRecyclerView mRvCart;
+    @BindView(R.id.empty_iv)
+    ImageView mEmptyIv;
+
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    public static CartFragment newInstance(String param1, String param2) {
+        CartFragment fragment = new CartFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     private CartAdapter cartAdapter;
     private List<StoreBean> shopBeanslist = new ArrayList<>();
@@ -115,7 +120,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     private View popupWindow_view;
     private PopupWindow mPopupWindow;
 
-    private List<ShopCoupResult.CouponBean> couplist=new ArrayList<>();//用于存放优惠券列表
+    private List<ShopCoupResult.CouponBean> couplist = new ArrayList<>();//用于存放优惠券列表
     private int commoditycount = 0;
     //String sku_delete="";
     private HashMap<String, String> sku_delete_map = new HashMap<>();
@@ -237,6 +242,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                                 CleanfailureShop(shopBeanslist);
                                 dialog.dismiss();
                             }
+
                             @Override
                             public void onNegtiveClick() {//取消
                                 dialog.dismiss();
@@ -257,9 +263,9 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             case R.id.tv_settlement:
                 switch (Isfailure(shopBeanslist)) {
                     case 1:
-                        if (!shopBeanslist.isEmpty()){
-                            Intent intent = new Intent(mActivity,ConfirmOrderActivity.class);
-                            intent.putExtra("checkshop",(Serializable) (GetCheckShopList(shopBeanslist)));//传递集合
+                        if (!shopBeanslist.isEmpty()) {
+                            Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
+                            intent.putExtra("checkshop", (Serializable) (GetCheckShopList(shopBeanslist)));//传递集合
                             startActivity(intent);
                         }
 
@@ -328,12 +334,13 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             mRvCart.setHasFixedSize(true);
             cartAdapter = new CartAdapter(shopBeanslist, mActivity);
             mRvCart.setAdapter(cartAdapter);
+            mRvCart.setEmptyView(mEmptyIv);
             getTotalMoneyAndCloseCount(shopBeanslist);
 
 
             //全选CheckBox监听  全选店铺
             mCbCircleCart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
+                    @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         for (int i = 0; i < shopBeanslist.size(); i++) {
@@ -547,11 +554,11 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     @Override
     public void PostAcceptCoupon(GetShopCoupResult Result) {
 
-        if (Result.getSuccess().equals("true")){
+        if (Result.getSuccess().equals("true")) {
 
-            Toast.makeText(mActivity,"领取成功",Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(mActivity,Result.getErrorMsg(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, "领取成功", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -681,36 +688,36 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     }
 
     /*获取选中的商品集合*/
-    public List<StoreBean> GetCheckShopList(List<StoreBean> shoplist){
-        Map<Integer,StoreBean> map=new HashMap();
+    public List<StoreBean> GetCheckShopList(List<StoreBean> shoplist) {
+        Map<Integer, StoreBean> map = new HashMap();
         //list.addAll(shoplist);
-        for (int i = 0; i <shoplist.size(); i++) {
+        for (int i = 0; i < shoplist.size(); i++) {
             List<CommodityBean> listbean = new ArrayList<>();
             for (int j = 0; j < shoplist.get(i).getList().size(); j++) {
-                if (shoplist.get(i).getList().get(j).isIscheck()==true){
-                    StoreBean storeBean=new StoreBean();
+                if (shoplist.get(i).getList().get(j).isIscheck() == true) {
+                    StoreBean storeBean = new StoreBean();
                     storeBean.setShopName(shoplist.get(i).getList().get(j).getShopName());
                     storeBean.setShopLogo(shoplist.get(i).getList().get(j).getShopLogo());
-                    if (shoplist.get(i).isIscheck()){
+                    if (shoplist.get(i).isIscheck()) {
                         storeBean.setIscheck(true);
                     }
 
-                        CommodityBean commodityBean = new CommodityBean();
-                        commodityBean.setCartItemId(shoplist.get(i).getList().get(j).getCartItemId());
-                        commodityBean.setSkuId(shoplist.get(i).getList().get(j).getSkuId());
-                        commodityBean.setId(shoplist.get(i).getList().get(j).getId());
-                        commodityBean.setImgUrl(shoplist.get(i).getList().get(j).getImgUrl());
-                        commodityBean.setName(shoplist.get(i).getList().get(j).getName());
-                        commodityBean.setPrice(shoplist.get(i).getList().get(j).getPrice());
-                        commodityBean.setCount(shoplist.get(i).getList().get(j).getCount());
-                        commodityBean.setSize(shoplist.get(i).getList().get(j).getSize());
-                        commodityBean.setColor(shoplist.get(i).getList().get(j).getColor());
-                        commodityBean.setStatus(shoplist.get(i).getList().get(j).getStatus());
-                        commodityBean.setAddTime(shoplist.get(i).getList().get(j).getAddTime());//添加时间
-                        commodityBean.setIscheck(true);
-                        listbean.add(commodityBean);
-                        storeBean.setList(listbean);
-                        map.put(i,storeBean);
+                    CommodityBean commodityBean = new CommodityBean();
+                    commodityBean.setCartItemId(shoplist.get(i).getList().get(j).getCartItemId());
+                    commodityBean.setSkuId(shoplist.get(i).getList().get(j).getSkuId());
+                    commodityBean.setId(shoplist.get(i).getList().get(j).getId());
+                    commodityBean.setImgUrl(shoplist.get(i).getList().get(j).getImgUrl());
+                    commodityBean.setName(shoplist.get(i).getList().get(j).getName());
+                    commodityBean.setPrice(shoplist.get(i).getList().get(j).getPrice());
+                    commodityBean.setCount(shoplist.get(i).getList().get(j).getCount());
+                    commodityBean.setSize(shoplist.get(i).getList().get(j).getSize());
+                    commodityBean.setColor(shoplist.get(i).getList().get(j).getColor());
+                    commodityBean.setStatus(shoplist.get(i).getList().get(j).getStatus());
+                    commodityBean.setAddTime(shoplist.get(i).getList().get(j).getAddTime());//添加时间
+                    commodityBean.setIscheck(true);
+                    listbean.add(commodityBean);
+                    storeBean.setList(listbean);
+                    map.put(i, storeBean);
                 }
 
             }
@@ -718,17 +725,16 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         }
 
 
-        List<StoreBean> list=new ArrayList<>();
+        List<StoreBean> list = new ArrayList<>();
         Collection<StoreBean> collection = map.values();
         Iterator<StoreBean> iterator = collection.iterator();
         while (iterator.hasNext()) {
-            StoreBean value =  iterator.next();
+            StoreBean value = iterator.next();
             list.add(value);
         }
 
         return list;
     }
-
 
 
     public void showPopupWindow(String shopname) {
@@ -750,33 +756,33 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         }
         MyUtils.setWindowAlpa(mActivity, true);
 
-          popupWindow_view.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  mPopupWindow.dismiss();
-              }
-          });
+        popupWindow_view.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
 
-          popupWindow_view.findViewById(R.id.img_cha).setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  mPopupWindow.dismiss();
-              }
-          });
+        popupWindow_view.findViewById(R.id.img_cha).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
 
 
-        ((TextView)popupWindow_view.findViewById(R.id.tv_coup)).setText(shopname);
-        RecyclerView rv=popupWindow_view.findViewById(R.id.rv_coup);
+        ((TextView) popupWindow_view.findViewById(R.id.tv_coup)).setText(shopname);
+        RecyclerView rv = popupWindow_view.findViewById(R.id.rv_coup);
         rv.setLayoutManager(new LinearLayoutManager(mActivity));
-        ShopCoupAdapter shopCoupAdapter=new ShopCoupAdapter(R.layout.item_shopcoup,couplist);
+        ShopCoupAdapter shopCoupAdapter = new ShopCoupAdapter(R.layout.item_shopcoup, couplist);
         rv.setAdapter(shopCoupAdapter);
 
         shopCoupAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.tv_getcoup:
-                        mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean)adapter.getData().get(position)).getVShopId(),((ShopCoupResult.CouponBean)adapter.getData().get(position)).getCouponId(),Userkey);
+                        mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean) adapter.getData().get(position)).getVShopId(), ((ShopCoupResult.CouponBean) adapter.getData().get(position)).getCouponId(), Userkey);
                         break;
                 }
 
@@ -784,10 +790,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         });
 
 
-
-
     }
-
 
 
 }
