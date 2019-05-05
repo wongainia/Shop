@@ -2,10 +2,6 @@ package com.zhenghaikj.shop.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +13,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AfterSaleActivity;
@@ -32,9 +29,11 @@ import com.zhenghaikj.shop.activity.WalletActivity;
 import com.zhenghaikj.shop.adapter.LogisticsAdapter;
 import com.zhenghaikj.shop.adapter.ServiceAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Product;
@@ -48,6 +47,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -220,6 +222,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlGift.setOnClickListener(this);
         mLlBaby.setOnClickListener(this);
         mLlPurse.setOnClickListener(this);
+
+        mLlFreeInstallation.setOnClickListener(this);
+        mLlFreeRepair.setOnClickListener(this);
     }
 
     @Override
@@ -316,6 +321,16 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity,WalletActivity.class));
                 break;
 
+            case R.id.ll_free_installation:
+                //免费安装
+                mPresenter.AddOrder("2", "安装", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
+
+                break;
+            case R.id.ll_free_repair:
+                //免费维修
+                mPresenter.AddOrder("1", "维修", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
+                break;
+
         }
     }
 
@@ -394,6 +409,29 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             Log.d(TAG,"数量"+result.getProduct().size());
 //            String number=result.getProduct().size();
             mTvBaby.setText(""+result.getProduct().size());
+        }
+    }
+
+    @Override
+    public void AddOrder(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("title", "待接单");
+//                    bundle.putInt("position", 0);
+//                    Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
+//                    intent.putExtras(bundle);
+//                    startActivity(intent);
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+//                ToastUtils.showShort(data.getItem2());
+                break;
         }
     }
 }

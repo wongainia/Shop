@@ -14,7 +14,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 //import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -52,11 +51,13 @@ public class GlideUtil {
         Glide.with(mContext).load(path).apply(options).thumbnail(0.1f).into(mImageView);
     }
     public static void loadImageViewLodingRadius(Context mContext, String path, ImageView mImageView, int lodingImage, int errorImageView,int radius) {
+        CornerTransform transform=new CornerTransform(mContext,radius);
+        transform.setExceptCorner(false,false,true,true);
         RequestOptions options = new RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(lodingImage)
                 .error(errorImageView)
-                .bitmapTransform(new RoundedCorners(radius));
+                .bitmapTransform(transform);
         Glide.with(mContext).asBitmap().load(path).apply(options).thumbnail(0.1f).into(mImageView);
     }
 

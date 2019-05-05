@@ -4,17 +4,17 @@ package com.zhenghaikj.shop.base;
  * Created by Administrator on 2018/5/2.
  */
 public class BaseResult<B> {
-    private boolean success;
+    private int StatusCode;
     private String Info;
     private B Data;
 
 
-    public boolean isSuccess() {
-        return success;
+    public int getStatusCode() {
+        return StatusCode;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setStatusCode(int statusCode) {
+        StatusCode = statusCode;
     }
 
     public String getInfo() {

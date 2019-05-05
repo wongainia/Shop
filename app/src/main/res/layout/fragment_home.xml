@@ -35,8 +35,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="205dp"
-                        android:background="@drawable/gray_shape"
+                        android:background="#EEEEEE"
+                        android:layout_marginTop="210dp"
                         android:orientation="vertical">
 
                         <RelativeLayout
@@ -120,7 +120,7 @@
 
                             <View
                                 android:layout_width="match_parent"
-                                android:layout_height="1dp"
+                                android:layout_height="0.5dp"
                                 android:layout_marginTop="12dp"
                                 android:background="#eeeeee" />
 
@@ -133,7 +133,8 @@
                                     android:id="@+id/ll_panic_buying"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="12dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
                                     android:layout_marginTop="14dp"
                                     android:layout_weight="1"
                                     android:orientation="vertical">
@@ -220,7 +221,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:id="@+id/rv_panic_buying"
-                                            android:layout_marginTop="5dp"></androidx.recyclerview.widget.RecyclerView>
+                                            android:layout_margin="5dp"/>
                                     </LinearLayout>
 
 
@@ -290,7 +291,7 @@
 
                             <View
                                 android:layout_width="match_parent"
-                                android:layout_height="1dp"
+                                android:layout_height="0.5dp"
                                 android:background="#eeeeee" />
 
                             <LinearLayout
@@ -302,7 +303,8 @@
                                     android:id="@+id/ll_watermelon_coin_mall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="12dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
                                     android:layout_marginTop="14dp"
                                     android:layout_weight="1"
                                     android:orientation="vertical">
@@ -341,7 +343,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:id="@+id/rv_exchange"
-                                        android:layout_marginTop="5dp"></androidx.recyclerview.widget.RecyclerView>
+                                        android:layout_margin="5dp"/>
                                     <ImageView
                                         android:id="@+id/iv_coin_mall"
                                         android:layout_width="161dp"
