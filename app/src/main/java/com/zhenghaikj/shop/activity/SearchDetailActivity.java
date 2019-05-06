@@ -3,7 +3,6 @@ package com.zhenghaikj.shop.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.SearchDetailAdapetr;
 import com.zhenghaikj.shop.adapter.SearchDetailWaterFallAdapetr;
@@ -26,7 +23,6 @@ import com.zhenghaikj.shop.mvp.model.SearchModel;
 import com.zhenghaikj.shop.mvp.presenter.SearchPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,12 +100,13 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
             mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", "1", Integer.toString(pagaNo), "5");
         }
         searchDetailAdapetr = new SearchDetailAdapetr(R.layout.item_search_detail, searchDatailList);
+        searchDetailAdapetr.setEmptyView(getEmptyView());
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSearchDetail.setAdapter(searchDetailAdapetr);
 
 
         searchDetailWaterFallAdapetr = new SearchDetailWaterFallAdapetr(R.layout.item_recommend, searchDatailList);
-
+        searchDetailWaterFallAdapetr.setEmptyView(getEmptyView());
 
         searchDetailAdapetr.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()) {

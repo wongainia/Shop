@@ -2,9 +2,6 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,6 +16,9 @@ import com.zhenghaikj.shop.entity.Product;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -43,6 +43,7 @@ public class BrandCardActivity extends BaseActivity implements View.OnClickListe
     FrameLayout mFlAddCard;
 
     private List<Product> list = new ArrayList<>();
+    private BrankCardAdapter adapter;
 
     @Override
     protected int setLayoutId() {
@@ -64,7 +65,8 @@ public class BrandCardActivity extends BaseActivity implements View.OnClickListe
             list.add(new Product());
         }
 
-        BrankCardAdapter adapter = new BrankCardAdapter(R.layout.item_brank_card, list);
+        adapter = new BrankCardAdapter(R.layout.item_brank_card, list);
+        adapter.setEmptyView(getEmptyView());
         mRvBrankCard.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvBrankCard.setAdapter(adapter);
     }

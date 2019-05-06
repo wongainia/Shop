@@ -4,19 +4,23 @@ import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.UploadImgResult;
 
 import io.reactivex.Observable;
 
 public interface PersonalInformationContract {
     interface Model extends BaseModel{
         Observable<PersonalInformation> PersonalInformation(String UserKey);
+        Observable<UploadImgResult> UploadPic(String picStr,String UserKey);
     }
 
     interface View extends BaseView{
         void PersonalInformation(PersonalInformation result);
+        void UploadPic(UploadImgResult result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void PersonalInformation(String UserKey);
+        public abstract void UploadPic(String picStr,String UserKey);
     }
 }

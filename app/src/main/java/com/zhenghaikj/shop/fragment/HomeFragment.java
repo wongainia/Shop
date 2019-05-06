@@ -25,7 +25,7 @@ import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
-import com.zhenghaikj.shop.activity.SearchActivity;
+import com.zhenghaikj.shop.activity.SearchDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
@@ -53,14 +53,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
-import butterknife.Unbinder;
 
 public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements View.OnClickListener, HomeContract.View {
 
 
     @BindView(R.id.banner_home)
     Banner mBannerHome;
-    Unbinder unbinder;
     @BindView(R.id.rv_main_menu)
     RecyclerView mRvMainMenu;
     @BindView(R.id.tv_message)
@@ -290,7 +288,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_search:
-                startActivity(new Intent(mActivity, SearchActivity.class));
+                startActivity(new Intent(mActivity, SearchDetailActivity.class));
                 break;
             case R.id.ll_panic_buying:
                 startActivity(new Intent(mActivity, PanicBuyingActivity.class));
@@ -380,12 +378,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         }
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
 
 }

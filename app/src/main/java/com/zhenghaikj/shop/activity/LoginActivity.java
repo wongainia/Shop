@@ -2,7 +2,6 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,6 +18,8 @@ import com.zhenghaikj.shop.mvp.contract.LoginContract;
 import com.zhenghaikj.shop.mvp.model.LoginModel;
 import com.zhenghaikj.shop.mvp.presenter.LoginPresenter;
 import com.zhenghaikj.shop.widget.ClearEditText;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -127,6 +128,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             spUtils.put("UserKey",Result.getUserKey());
             spUtils.put("userName",userName);
             spUtils.put("password",password);
+            spUtils.put("isLogin",true);
+            EventBus.getDefault().post("PersonalInformation");
             startActivity(new Intent(mActivity,MainActivity.class));
             finish();
         }else {

@@ -162,6 +162,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     @Override
     protected void initView() {
         adapter = new OrderDetailAdapter(R.layout.item_order_list, orderItemBeans);
+        adapter.setEmptyView(getEmptyView());
         mRvOrderList.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvOrderList.setAdapter(adapter);
     }

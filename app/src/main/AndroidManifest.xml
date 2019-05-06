@@ -42,8 +42,8 @@
         tools:replace="android:theme"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"
-            android:theme="@style/AppSplash"
+        <activity android:name=".activity.SplashActivity"
+            android:theme="@style/ThemeSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
@@ -54,6 +54,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.CallChageActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.MainActivity"
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
@@ -170,7 +175,9 @@
         <activity android:name=".activity.ConfirmOrderActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
-
+        <activity android:name="com.yalantis.ucrop.UCropActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
 
         <!-- alipay sdk begin -->
 

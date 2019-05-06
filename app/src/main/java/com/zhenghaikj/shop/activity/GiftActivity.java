@@ -2,9 +2,6 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +17,9 @@ import com.zhenghaikj.shop.entity.Product;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -45,6 +45,7 @@ public class GiftActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.rv_friends)
     RecyclerView mRvFriends;
     private List<Product> list = new ArrayList<>();
+    private GiftAdapter adapter;
 
     @Override
     protected int setLayoutId() {
@@ -66,7 +67,8 @@ public class GiftActivity extends BaseActivity implements View.OnClickListener {
             list.add(new Product());
         }
 
-        GiftAdapter adapter = new GiftAdapter(R.layout.item_friends, list);
+        adapter = new GiftAdapter(R.layout.item_friends, list);
+        adapter.setEmptyView(getEmptyView());
         mRvFriends.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvFriends.setAdapter(adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

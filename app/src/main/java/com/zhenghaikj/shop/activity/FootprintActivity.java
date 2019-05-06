@@ -72,6 +72,7 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
     @Override
     protected void initData() {
         adapter = new FootprintAdapter(R.layout.item_footprint, list);
+        adapter.setEmptyView(getEmptyView());
         mRvFootprint.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvFootprint.setAdapter(adapter);
         adapter.setEmptyView(getEmptyView());

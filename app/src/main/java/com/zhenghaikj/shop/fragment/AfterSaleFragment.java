@@ -1,12 +1,7 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhenghaikj.shop.R;
@@ -20,15 +15,16 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class AfterSaleFragment extends BaseLazyFragment {
     @BindView(R.id.rv_sale)
     RecyclerView mRvSale;
-    Unbinder unbinder;
+
     private ArrayList<Product> saleList=new ArrayList<>();
+    private SaleAdapter saleAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -46,7 +42,8 @@ public class AfterSaleFragment extends BaseLazyFragment {
             saleList.add(new Product());
         }
 
-        SaleAdapter saleAdapter=new SaleAdapter(R.layout.item_sale,saleList);
+        saleAdapter = new SaleAdapter(R.layout.item_sale,saleList);
+        saleAdapter.setEmptyView(getEmptyView());
         mRvSale.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSale.setAdapter(saleAdapter);
         saleAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -71,17 +68,4 @@ public class AfterSaleFragment extends BaseLazyFragment {
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 }

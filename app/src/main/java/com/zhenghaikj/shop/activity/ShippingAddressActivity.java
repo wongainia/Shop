@@ -70,6 +70,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     protected void initData() {
 //        addressAdapter = new AddressAdapter(R.layout.item_address, list);
         addressAdapter = new AddressAdapter(R.layout.item_address, addressList);
+        addressAdapter.setEmptyView(getEmptyView());
         mRvAddress.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvAddress.setAdapter(addressAdapter);
         addressAdapter.setOnItemChildClickListener((adapter, view, position) -> {

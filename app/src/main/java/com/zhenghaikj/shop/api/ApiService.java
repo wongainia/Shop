@@ -1,9 +1,9 @@
 package com.zhenghaikj.shop.api;
 
-import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.Address;
-import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
+import com.zhenghaikj.shop.entity.Cart;
+import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
@@ -32,6 +32,7 @@ import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.SubmitOrder;
+import com.zhenghaikj.shop.entity.UploadImgResult;
 
 import java.util.List;
 
@@ -537,4 +538,17 @@ public interface ApiService {
                                                    @Query("app_key") String app_key,
                                                    @Query("timestamp") String timestamp,
                                                    @Query("sign") String sign);
+
+    /**
+     * 上传图片
+     * @param picStr
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/PublicOperation/UploadPhoto")
+    Observable<UploadImgResult> UploadPic(@Field("picStr") String picStr,
+                                          @Query("userkey") String userkey,
+                                          @Query("app_key") String app_key,
+                                          @Query("timestamp") String timestamp,
+                                          @Query("sign") String sign);
 }

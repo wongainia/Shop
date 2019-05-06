@@ -79,4 +79,9 @@ dependencies {
     implementation project(':magicindicator')
     implementation project(':SwipeBackLayout')
 
+    //头像裁剪
+    implementation 'com.yalantis:ucrop:1.4.1'
+
+    implementation 'com.zhihu.android:matisse:0.5.2-beta3'
+
 }

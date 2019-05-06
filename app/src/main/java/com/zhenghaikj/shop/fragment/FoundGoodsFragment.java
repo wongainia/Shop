@@ -1,12 +1,5 @@
 package com.zhenghaikj.shop.fragment;
 
-import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.FoundGoodsAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
@@ -18,15 +11,15 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 //发现好货
 public class FoundGoodsFragment extends BaseLazyFragment {
     @BindView(R.id.rv_found_goods)
     RecyclerView mRvFoundGoods;
-    Unbinder unbinder;
+
     private List<Product> foundGoodsList=new ArrayList<>();
 
     @Override
@@ -57,19 +50,5 @@ public class FoundGoodsFragment extends BaseLazyFragment {
     @Override
     protected void setListener() {
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

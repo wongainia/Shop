@@ -2,11 +2,8 @@ package com.zhenghaikj.shop.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,7 +13,6 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
@@ -55,13 +51,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View {
 
     private static final String TAG = "MineFragment";//
-    Unbinder unbinder;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.iv_avatar)
@@ -225,20 +219,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         }
         mPresenter.PersonalInformation(userKey);
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override
@@ -432,10 +412,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             /*设置头像*/
             if (result.getPhoto() == null) {//显示默认头像
                 return;
-            } else {
-                byte[] decode;
-                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
-                Glide.with(mActivity).asBitmap().load(decode).into(mIvAvatar);
+            }else {
+//                byte[] decode;
+//                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
+                Glide.with(mActivity).asBitmap().load(result.getPhoto()).into(mIvAvatar);
             }
             mTvFocusOnTheStore.setText(result.getFavoriteShop());
             mTvFavorites.setText(result.getFavoriteProduct());

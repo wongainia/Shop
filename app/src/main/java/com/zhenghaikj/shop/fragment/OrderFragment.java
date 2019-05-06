@@ -1,6 +1,5 @@
 package com.zhenghaikj.shop.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.activity.OrderDetailActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.CloseOrder;
@@ -178,11 +176,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         }
     }
 
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 
     @Override
     public void GetOrders(Order result) {

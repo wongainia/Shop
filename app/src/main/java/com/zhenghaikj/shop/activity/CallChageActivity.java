@@ -1,8 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +14,8 @@ import com.zhenghaikj.shop.entity.CallChage;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -53,6 +53,7 @@ public class CallChageActivity extends BaseActivity implements View.OnClickListe
             callChageList.add(new CallChage(callChage[i], callChagePrice[i]));
         }
         callChageAdapter = new CallChageAdapter(R.layout.item_phone_money, callChageList);
+        callChageAdapter.setEmptyView(getEmptyView());
         mRvPhoneMoney.setLayoutManager(new GridLayoutManager(mActivity, 3));
         mRvPhoneMoney.setAdapter(callChageAdapter);
 

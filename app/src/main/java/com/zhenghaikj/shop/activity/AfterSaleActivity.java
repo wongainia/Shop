@@ -1,9 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +11,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AfterSaleAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
-import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.mvp.contract.RefundContract;
 import com.zhenghaikj.shop.mvp.model.RefundModel;
@@ -22,6 +18,9 @@ import com.zhenghaikj.shop.mvp.presenter.RefundPresent;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -72,6 +71,7 @@ public class AfterSaleActivity extends BaseActivity<RefundPresent, RefundModel> 
 
 
         afterSaleAdapter = new AfterSaleAdapter(R.layout.item_after_sale,afterSaleList);
+        afterSaleAdapter.setEmptyView(getEmptyView());
         mRvAfterSale.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvAfterSale.setAdapter(afterSaleAdapter);
     }

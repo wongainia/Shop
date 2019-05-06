@@ -42,7 +42,6 @@ import com.zhenghaikj.shop.mvp.presenter.CartPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.EmptyRecyclerView;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -58,8 +57,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> implements View.OnClickListener, CartContract.View {
 
@@ -73,8 +70,6 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     TextView mTvMoney;
     @BindView(R.id.tv_settlement)
     TextView mTvSettlement;
-
-    Unbinder unbinder;
     @BindView(R.id.cb_circle_cart)
     CheckBox mCbCircleCart;
     @BindView(R.id.ll_calculation)
@@ -148,23 +143,6 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     protected void initView() {
         popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.popwindow_shopcoups, null);
         mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        EventBus.getDefault().register(this);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-        EventBus.getDefault().unregister(this);
     }
 
 

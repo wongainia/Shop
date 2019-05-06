@@ -1,9 +1,7 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,8 +35,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class ShopFragment extends BaseLazyFragment {
 
@@ -48,7 +44,7 @@ public class ShopFragment extends BaseLazyFragment {
     EditText mEtSearch;
     @BindView(R.id.rv_hot_search)
     RecyclerView mRvHotSearch;
-    Unbinder unbinder;
+
     @BindView(R.id.banner_shop)
     Banner mBannerShop;
     @BindView(R.id.rv_main_menu)
@@ -235,20 +231,6 @@ public class ShopFragment extends BaseLazyFragment {
 //        for (int i = 48; i < 57; i++) {
 //            mDatas.add("¥" + (char) i);
 //        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     public class MenuItem {

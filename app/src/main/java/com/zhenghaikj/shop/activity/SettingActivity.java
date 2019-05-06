@@ -2,7 +2,6 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
@@ -142,8 +142,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
                 startActivity(new Intent(mActivity, BindPhoneActivity.class));
                 break;
             case R.id.btn_exit:
+                spUtils.clear();
                 mPresenter.PostLogout();
                 startActivity(new Intent(mActivity, LoginActivity.class));
+                ActivityUtils.finishAllActivities();
+
                 break;
         }
     }
@@ -187,9 +190,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
             if (result.getPhoto()==null){//显示默认头像
                 return;
             }else {
-                byte[] decode;
-                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
-                Glide.with(mActivity).asBitmap().load(decode).into(mIvAvatar);
+//                byte[] decode;
+//                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
+                Glide.with(mActivity).asBitmap().load(result.getPhoto()).into(mIvAvatar);
             }
         }
     }

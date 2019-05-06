@@ -2,9 +2,6 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +17,9 @@ import com.zhenghaikj.shop.entity.Product;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -51,6 +51,7 @@ public class GiftRecordActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
     private List<Product> list = new ArrayList<>();
+    private GiftRecordAdapter adapter;
 
     @Override
     protected int setLayoutId() {
@@ -72,7 +73,8 @@ public class GiftRecordActivity extends BaseActivity implements View.OnClickList
             list.add(new Product());
         }
 
-        GiftRecordAdapter adapter = new GiftRecordAdapter(R.layout.item_gift_record, list);
+        adapter = new GiftRecordAdapter(R.layout.item_gift_record, list);
+        adapter.setEmptyView(getEmptyView());
         mRvGiftRecode.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvGiftRecode.setAdapter(adapter);
 

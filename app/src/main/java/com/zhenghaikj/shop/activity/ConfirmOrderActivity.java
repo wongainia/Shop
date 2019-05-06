@@ -12,14 +12,12 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ConfirmOrderAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
-import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.StoreBean;
 import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 import com.zhenghaikj.shop.mvp.model.ConfirmOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.ConfirmOrderPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -80,6 +78,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
            mPresenter.GetShippingAddressList(Userkey);
           List<StoreBean> list = (List<StoreBean>)getIntent().getSerializableExtra("checkshop");
         confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order,list);
+        confirmOrderAdapter.setEmptyView(getEmptyView());
         mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvConfirmOrder.setAdapter(confirmOrderAdapter);
 

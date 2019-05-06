@@ -3,9 +3,7 @@ package com.zhenghaikj.shop.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,12 +16,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
-import com.zhenghaikj.shop.activity.OrderDetailActivity;
 import com.zhenghaikj.shop.adapter.CommodityAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.CollectionProduct;
-import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.mvp.contract.CollectionProductContract;
 import com.zhenghaikj.shop.mvp.model.CollectionProductModel;
 import com.zhenghaikj.shop.mvp.presenter.CollectionProductPresenter;
@@ -37,8 +33,6 @@ import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class CommodityFragment extends BaseLazyFragment<CollectionProductPresenter, CollectionProductModel> implements CollectionProductContract.View {
     private static final String ARG_PARAM1 = "param1";//
@@ -54,7 +48,7 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
     LinearLayout mLlStatus;
     @BindView(R.id.rv_commodity)
     RecyclerView mRvCommodity;
-    Unbinder unbinder;
+
     @BindView(R.id.cb_circle_management)
     CheckBox mCbCircleManagement;
     @BindView(R.id.tv_smart_cleaning)
@@ -159,20 +153,6 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
     @Override
     protected void setListener() {
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override

@@ -115,6 +115,7 @@ public class StoreActivity extends BaseActivity<CollectionShopPresenter, Collect
         mTvTitle.setText("我的关注");
 
         storeAdapter = new StoreAdapter(R.layout.item_store, storeList);
+        storeAdapter.setEmptyView(getEmptyView());
         mRvStore.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvStore.setAdapter(storeAdapter);
         storeAdapter.setEmptyView(getEmptyView());

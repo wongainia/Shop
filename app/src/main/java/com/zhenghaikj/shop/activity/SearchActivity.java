@@ -2,8 +2,6 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -19,6 +17,8 @@ import com.zhenghaikj.shop.entity.Search;
 
 import java.util.ArrayList;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -65,6 +65,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             searchArrayList.add(new Search(title[i]));
         }
         searchAdapter = new SearchAdapter(R.layout.item_search_discovery, searchArrayList);
+        searchAdapter.setEmptyView(getEmptyView());
         mRvSearchDiscovery.setLayoutManager(new GridLayoutManager(mActivity, 2));
         mRvSearchDiscovery.setAdapter(searchAdapter);
 
