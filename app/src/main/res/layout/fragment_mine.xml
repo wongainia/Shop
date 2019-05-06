@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#EEEEEE">
 
@@ -13,10 +14,7 @@
         android:layout_height="30dp"
         android:background="@drawable/mine_bg_shape"></androidx.appcompat.widget.Toolbar>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,6 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="17dp"
+            android:layout_marginBottom="@dimen/dp_10"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -226,6 +225,7 @@
             android:layout_marginTop="17dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="13dp"
+            android:visibility="gone"
             android:background="@drawable/white_shape">
 
             <ImageView
@@ -293,11 +293,14 @@
                 android:src="@mipmap/svip" />
         </RelativeLayout>
     </LinearLayout>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srlEnableLoadMore="false">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -1107,5 +1110,5 @@
         </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

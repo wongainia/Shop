@@ -37,6 +37,7 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
 import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
@@ -164,6 +165,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private UserInfo.UserInfoDean userInfo;
+
     public static MineFragment newInstance(String param1, String param2) {
         MineFragment fragment = new MineFragment();
         Bundle args = new Bundle();
@@ -410,7 +413,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         if (result.isSuccess()) {
             mTvUsername.setText(result.getUserName());
             /*设置头像*/
-            if (result.getPhoto() == null) {//显示默认头像
+            if (result.getPhoto() == null||"".equals(result.getPhoto())) {//显示默认头像
                 return;
             }else {
 //                byte[] decode;
@@ -432,10 +435,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     }
 
     @Override
-    public void AddOrder(BaseResult<Data<String>> baseResult) {
-        switch (baseResult.getStatusCode()) {
+    public void AddOrder(BaseResult<Data<String>> Result) {
+        switch (Result.getStatusCode()) {
             case 200:
-                Data<String> data = baseResult.getData();
+                Data<String> data = Result.getData();
                 if (data.isItem1()) {
                     ToastUtils.showShort(data.getItem2());
 //                    Bundle bundle = new Bundle();
@@ -451,6 +454,30 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             default:
 //                ToastUtils.showShort(data.getItem2());
                 break;
+        }
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                if (Result.getData().getData()==null){
+
+                }else {
+                    userInfo = Result.getData().getData().get(0);
+                    if (userInfo !=null){
+//                        mTvMoney.setText();本月消费
+                        mTvWalletBalance.setText(userInfo.getTotalMoney()+"");//钱包余额
+//                        mTvAccountBalance.setText();西瓜币
+                    }
+                }
+
+
+                break;
+
+            default:
+                break;
+
         }
     }
 }

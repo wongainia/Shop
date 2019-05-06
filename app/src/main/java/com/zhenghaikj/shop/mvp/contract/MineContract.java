@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.UserInfo;
 
 import io.reactivex.Observable;
 
@@ -39,12 +40,14 @@ public interface MineContract {
                                                       String ExtraTime,
                                                       String ExtraFee,
                                                       String Num);
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
     }
 
     interface View extends BaseView {
         void PersonalInformation(PersonalInformation result);
         void GetHistoryVisite(HistoryVisite result);
         void AddOrder(BaseResult<Data<String>> baseResult);
+        void GetUserInfoList(BaseResult<UserInfo> Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -75,5 +78,7 @@ public interface MineContract {
                                       String ExtraTime,
                                       String ExtraFee,
                                       String Num);
+        public abstract void GetUserInfoList(String userName, String limit);
     }
+
 }

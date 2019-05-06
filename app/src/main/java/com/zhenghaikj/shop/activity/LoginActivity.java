@@ -13,6 +13,8 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
 import com.zhenghaikj.shop.mvp.model.LoginModel;
@@ -108,6 +110,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     ToastUtils.showShort("请输入密码！");
                 }else {
                     mPresenter.GetUser(userName, password,"","","");
+                    mPresenter.LoginOn(userName, password);
                 }
                 break;
         }
@@ -134,6 +137,26 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             finish();
         }else {
             ToastUtils.showShort(Result.getErrorMsg());
+        }
+    }
+
+    @Override
+    public void LoginOn(BaseResult<Data<String>> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                Data<String> data=Result.getData();
+                if (data.isItem1()){
+                    spUtils.put("adminToken", data.getItem2());
+                    spUtils.put("userName2", userName);
+//                    spUtils.put("passWord", password);
+//                    spUtils.put("isLogin", true);
+//                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"7",userName);
+//                    startActivity(new Intent(mActivity, MainActivity.class));
+//                    finish();
+                }else{
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
         }
     }
 }

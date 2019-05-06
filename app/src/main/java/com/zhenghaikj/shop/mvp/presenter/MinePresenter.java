@@ -6,6 +6,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 
 public class MinePresenter extends MineContract.Presenter {
@@ -36,6 +37,17 @@ public class MinePresenter extends MineContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.AddOrder(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetUserInfoList(String userName, String limit) {
+        mModel.GetUserInfoList(userName, limit)
+                .subscribe(new BaseObserver2<UserInfo>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<UserInfo> value) {
+                        mView.GetUserInfoList(value);
                     }
                 });
     }

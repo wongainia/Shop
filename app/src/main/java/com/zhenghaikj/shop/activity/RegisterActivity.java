@@ -81,6 +81,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     protected void initView() {
+        mImgAgreement.setSelected(true);
         mPresenter.GetImageCheckCode();
 
     }
@@ -153,10 +154,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     public void Reg(RegisterResult baseResult) {
         if (baseResult.isSuccess()){
             ToastUtils.showShort("注册成功");
-            finish();
             mPresenter.GetUser(userName, password,"","","");
         }else {
-            ToastUtils.showShort(baseResult.getMsg());
             ToastUtils.showShort(baseResult.getErrorMsg());
         }
 

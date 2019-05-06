@@ -265,7 +265,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     /*获取购物车*/
     @Override
     public void GetCartProduct(Cart Result) {
-        if (Result.getSuccess().equals("true")) {
+        if (("true").equals(Result.getSuccess())) {
 
 
             sku_delete_map.clear();

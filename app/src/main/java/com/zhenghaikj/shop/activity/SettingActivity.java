@@ -187,7 +187,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
             mTvNickname.setText(result.getUserName());
             mTvMemberName.setText("会员名："+result.getUserName());
             /*设置头像*/
-            if (result.getPhoto()==null){//显示默认头像
+            if (result.getPhoto()==null||"".equals(result.getPhoto())){//显示默认头像
                 return;
             }else {
 //                byte[] decode;

@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.api;
 
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 
 import io.reactivex.Observable;
@@ -11,6 +12,20 @@ import retrofit2.http.POST;
 
 public interface ApiService2 {
 
+
+    /**
+     * app用户登录
+     */
+    @FormUrlEncoded
+    @POST("Account/LoginOn")
+    Observable<BaseResult<Data<String>>> LoginOn(@Field("userName") String userName,
+                                                 @Field("passWord") String passWord,
+                                                 @Field("RoleType") String RoleType);
+    /*获取用户信息*/
+    @FormUrlEncoded
+    @POST("Account/GetUserInfoList")
+    Observable<BaseResult<UserInfo>> GetUserInfoList(@Field("UserID") String UserID,
+                                                     @Field("limit") String limit);
     /**
      * 发布工单
      * TypeID;//分类ID 1维修 2安装 3其他服务
