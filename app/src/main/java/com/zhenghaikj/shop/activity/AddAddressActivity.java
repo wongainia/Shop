@@ -1,15 +1,19 @@
 package com.zhenghaikj.shop.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,12 +34,14 @@ import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.AddressContract;
 import com.zhenghaikj.shop.mvp.model.AddressModel;
 import com.zhenghaikj.shop.mvp.presenter.AddressPresenter;
+import com.zhenghaikj.shop.utils.InputMethodUtils;
 import com.zhenghaikj.shop.utils.MyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -117,6 +123,8 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
         }else{
             mTvTitle.setText("添加收货地址");
         }
+
+        mPresenter.GetAllRegion();
     }
 
     @Override
@@ -140,7 +148,8 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                 finish();
                 break;
             case R.id.tv_area:
-                mPresenter.GetAllRegion();
+                InputMethodUtils.hideKeyboard(v);
+                showPopWindowGetAddress(mTvArea);
                 break;
             case R.id.tv_province:
                 provinceAdapter.setNewData(provinceList);
@@ -226,7 +235,6 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     public void GetAllRegion(List<RegionResult> Result) {
         provinceList = Result;
         provinceAdapter = new ProvinceAdapter(R.layout.region_item, provinceList);
-        showPopWindowGetAddress(mTvArea);
         /*if (popupWindow != null) {
             if (popupWindow.isShowing()) {
                 rv_address_choose.setAdapter(provinceAdapter);

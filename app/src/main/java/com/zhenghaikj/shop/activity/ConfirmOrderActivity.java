@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,8 @@ import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ConfirmOrderAdapter;
+import com.zhenghaikj.shop.api.Config;
+import com.zhenghaikj.shop.api.Config2;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.StoreBean;
@@ -18,8 +21,10 @@ import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 import com.zhenghaikj.shop.mvp.model.ConfirmOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.ConfirmOrderPresenter;
 
+import java.io.Serializable;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,10 +59,14 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     TextView mTvtotalmoney;
     @BindView(R.id.tv_submit)
     TextView mTvsubmit;
+    @BindView(R.id.ll_address_choose)
+    LinearLayout mLladdress_choose;
+
     private String Userkey;
     private SPUtils spUtils=SPUtils.getInstance("token");
 
     private ConfirmOrderAdapter confirmOrderAdapter;
+
 
     @Override
     protected int setLayoutId() {
@@ -76,11 +85,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     protected void initData() {
            Userkey=spUtils.getString("UserKey");
            mPresenter.GetShippingAddressList(Userkey);
-          List<StoreBean> list = (List<StoreBean>)getIntent().getSerializableExtra("checkshop");
-        confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order,list);
-        confirmOrderAdapter.setEmptyView(getEmptyView());
-        mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvConfirmOrder.setAdapter(confirmOrderAdapter);
+           List<StoreBean> list = (List<StoreBean>)getIntent().getSerializableExtra("checkshop");
+           confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order,list);
+           confirmOrderAdapter.setEmptyView(getEmptyView());
+           mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
+           mRvConfirmOrder.setAdapter(confirmOrderAdapter);
 
 
         double Money=0;
@@ -105,6 +114,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mLladdress_choose.setOnClickListener(this);
     }
 
     @Override
@@ -113,6 +123,12 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             case R.id.icon_back:
                 finish();
                 break;
+            case R.id.ll_address_choose:
+                Intent intent=new Intent(mActivity,ShippingAddressActivity.class);
+                intent.putExtra("CHOOSE_ADDRESS_REQUEST",true);
+                startActivityForResult(intent, Config.CHOOSE_ADDRESS_REQUEST) ;
+                break;
+
         }
     }
 
@@ -132,14 +148,32 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
          if (!result.getShippingAddress().isEmpty()){
              mTvName.setText(result.getShippingAddress().get(0).getShipTo());
              mTvPhone.setText(result.getShippingAddress().get(0).getPhone());
-             mTvAddress.setText(result.getShippingAddress().get(0).getRegionFullName());
+             mTvAddress.setText(result.getShippingAddress().get(0).getRegionFullName()+" "+result.getShippingAddress().get(0).getAddress());
 
          }else {
              Toast.makeText(mActivity,"没有地址",Toast.LENGTH_SHORT).show();
          }
 
-
      }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*处理选择的地址*/
+        if (resultCode==Config.CHOOSE_ADDRESS_RESULT){
+            if (requestCode==Config.CHOOSE_ADDRESS_REQUEST){
+
+                ShippingAddressList.ShippingAddressBean address = (ShippingAddressList.ShippingAddressBean)data.getSerializableExtra("Address");
+                mTvName.setText(address.getShipTo());
+                mTvPhone.setText(address.getPhone());
+                mTvAddress.setText(address.getRegionFullName()+" "+address.getAddress());
+
+
+            }
+
+        }
 
     }
 }

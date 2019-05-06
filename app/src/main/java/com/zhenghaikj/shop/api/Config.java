@@ -13,6 +13,11 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class Config {
     public static boolean IS_DEBUG = true;
     public static final String URL = "http://47.96.126.145:8830/";//测试服
+
+    public static final int CHOOSE_ADDRESS_REQUEST=10001; //选择地址请求码
+    public static final int CHOOSE_ADDRESS_RESULT=10002; //选择地址返回
+
+
     static HttpLoggingInterceptor loggingInterceptor;
 
     public static HttpLoggingInterceptor getLoggingInterceptor() {

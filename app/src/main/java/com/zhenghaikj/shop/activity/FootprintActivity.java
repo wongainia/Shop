@@ -111,7 +111,8 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
 
         //没满屏时禁止上拉
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
-        //上拉加载更多
+
+    /*    //上拉加载更多
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -120,7 +121,7 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
                 adapter.notifyDataSetChanged();
                 refreshlayout.finishLoadmore();
             }
-        });
+        });*/
 
     }
 

@@ -31,6 +31,9 @@ public class Config2 {
 
     public static final String SAVE_CITY_KEY = "save_city_key";
 
+
+
+
     //测试用服务器
 //    public static final String BASE_URL = "http://onlygx.oicp.io/";
 //    public static final String URL = "http://onlygx.oicp.io/app/";

@@ -551,4 +551,43 @@ public interface ApiService {
                                           @Query("app_key") String app_key,
                                           @Query("timestamp") String timestamp,
                                           @Query("sign") String sign);
+
+
+
+    /*string cartItemIds;*//*逗号隔开*//*
+    long recieveAddressId;
+    string couponIds; *//*逗号隔开*//*
+    int integral
+    Bool isCashOnDelivery; 是否为货到付款
+    Int invoiceType; 0:不需要发票 2：普通发票
+    String invoiceContext; 发票内容
+    String invoiceTitle; 发票抬头
+    string orderRemarks  订单备注（多订单情况下，订单备注用“,“分隔）
+    CommonModel.OrderShop[] OrderShops;*//*自提订单相关信息*//*
+    String userkey 用户凭证*/
+
+
+    /*立即购买提交订单*/
+    @FormUrlEncoded
+    @POST("api/Order/PostSubmitOrder")
+    Observable<String> PostSubmitOrder(@Field("cartItemIds") String cartItemIds,
+                                       @Field("recieveAddressId") Long recieveAddressId,
+                                       @Field("couponIds") String couponIds,
+                                       @Field("integral") Integer integral,
+                                       @Field("isCashOnDelivery") Boolean isCashOnDelivery,
+                                       @Field("invoiceType") Integer invoiceType,
+                                       @Field("invoiceContext") String invoiceContext,
+                                       @Field("invoiceTitle") String invoiceTitle,
+                                       @Field("orderRemarks") String orderRemarks,
+
+                                       @Field("userkey") String userkey
+                                       );
+
+
+    /*购物车提交订单*/
+
+
+
+
+
 }

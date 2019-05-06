@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AddressAdapter;
+import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.ShippingAddressListContract;
@@ -80,6 +81,22 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
                     intent.putExtra("address",list.get(position));
                     startActivityForResult(intent,100);
                     break;
+                case R.id.ll_address:
+                    boolean choose_address_request = getIntent().getBooleanExtra("CHOOSE_ADDRESS_REQUEST", false);
+                    if (choose_address_request){
+                        ShippingAddressList.ShippingAddressBean shippingAddressBean=new ShippingAddressList.ShippingAddressBean();
+                        shippingAddressBean=((ShippingAddressList.ShippingAddressBean)adapter.getData().get(position));
+                        Intent intent1=new Intent();
+                        intent1.putExtra("Address",shippingAddressBean);
+                        setResult(Config.CHOOSE_ADDRESS_RESULT,intent1);
+                        this.finish();
+                    }else {
+                        return;
+                    }
+
+
+                    break;
+
                 default:
                     break;
             }
