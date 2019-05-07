@@ -44,7 +44,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.SplashActivity"
             android:theme="@style/ThemeSplash"
-            android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -175,7 +174,8 @@
         <activity android:name=".activity.ConfirmOrderActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
-        <activity android:name="com.yalantis.ucrop.UCropActivity" android:theme="@style/AppSplash"
+        <activity android:name="com.yalantis.ucrop.UCropActivity"
+            android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
 
@@ -216,6 +216,10 @@
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
 
+        <activity android:name=".activity.PhotosViewActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask">
+        </activity>
 
         <receiver
             android:name=".wxapi.AppRegister">

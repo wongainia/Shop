@@ -28,6 +28,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ChooseColorAdapter;
 import com.zhenghaikj.shop.adapter.ChooseSizeAdapter;
@@ -591,7 +592,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Override
     public void GetProductDetail(DetailResult Result) {
-        Log.d("========>", "进入详情");
 
         if (Result.getSuccess().equals("true")) {
             /*ImagePath顶部图片轮播*/
@@ -603,12 +603,28 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mBannerGoods.setImages(images);
             mBannerGoods.setBannerStyle(BannerConfig.NUM_INDICATOR);
             mBannerGoods.setIndicatorGravity(BannerConfig.CENTER);
+            mBannerGoods.setDelayTime(4000);
+
+            mBannerGoods.setOnBannerListener(new OnBannerListener() {
+                @Override
+                public void OnBannerClick(int position) {
+                    Intent intent=new Intent(mActivity,PhotosViewActivity.class);
+                    intent.putExtra("photo_list",(Serializable)images);
+                    intent.putExtra("photo_position",position);
+                    startActivity(intent);
+
+
+                }
+            });
+
             mBannerGoods.start();
+
+
+
             result = Result;
 
             /*判断是否收藏*/
             if (Result.getProduct().isIsFavorite()) {
-
                 mImgcollect.setSelected(true);
                 mTvcollection.setText("已收藏");
             } else {
