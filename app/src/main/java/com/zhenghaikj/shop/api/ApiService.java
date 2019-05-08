@@ -19,6 +19,8 @@ import com.zhenghaikj.shop.entity.GetPayPwd;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.HomeResult;
+import com.zhenghaikj.shop.entity.LimitBuyListResult;
+import com.zhenghaikj.shop.entity.LimitBuyProductResult;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.Logout;
 import com.zhenghaikj.shop.entity.Order;
@@ -587,7 +589,35 @@ public interface ApiService {
     /*购物车提交订单*/
 
 
-
-
-
+    /**
+     * 获取抢购列表
+     * @param pageNo
+     * @param pageSize
+     * @param cateName
+     * @param app_key
+     * @param timestamp
+     * @param sign
+     * @return
+     */
+    @GET("api/LimitTimeBuy/GetLismitBuyList")
+    Observable<LimitBuyListResult> GetLismitBuyList(@Query("pageNo") String pageNo,
+                                                    @Query("pageSize") String pageSize,
+                                                    @Query("cateName") String cateName,
+                                                    @Query("app_key") String app_key,
+                                                    @Query("timestamp") String timestamp,
+                                                    @Query("sign") String sign);    /**
+     /** 获取抢购商品详情
+     * @param id
+     * @param userkey
+     * @param app_key
+     * @param timestamp
+     * @param sign
+     * @return
+     */
+    @GET("api/LimitTimeBuy/GetLimitBuyProduct")
+    Observable<LimitBuyProductResult> GetLimitBuyProduct(@Query("id") String id,
+                                                         @Query("userkey") String userkey,
+                                                         @Query("app_key") String app_key,
+                                                         @Query("timestamp") String timestamp,
+                                                         @Query("sign") String sign);
 }

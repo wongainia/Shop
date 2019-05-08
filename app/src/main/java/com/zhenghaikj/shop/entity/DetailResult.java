@@ -41,7 +41,7 @@ public class DetailResult implements Serializable {
      */
 
     private String Success;
-    private String IsOnLimitBuy;
+    private boolean IsOnLimitBuy;
     private boolean IsFightGroupActive;
     private int ActiveId;
     private int ActiveStatus;
@@ -81,11 +81,11 @@ public class DetailResult implements Serializable {
         this.Success = Success;
     }
 
-    public String getIsOnLimitBuy() {
+    public boolean getIsOnLimitBuy() {
         return IsOnLimitBuy;
     }
 
-    public void setIsOnLimitBuy(String IsOnLimitBuy) {
+    public void setIsOnLimitBuy(boolean IsOnLimitBuy) {
         this.IsOnLimitBuy = IsOnLimitBuy;
     }
 
@@ -129,8 +129,8 @@ public class DetailResult implements Serializable {
         this.Title = Title;
     }
 
-    public double getSecond() {
-        return Second;
+    public long getSecond() {
+        return (long) Second;
     }
 
     public void setSecond(double Second) {

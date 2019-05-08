@@ -2,11 +2,9 @@ package com.zhenghaikj.shop.widget;
 
 import android.content.Context;
 import android.graphics.Point;
-import androidx.appcompat.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.WindowManager;
 import android.widget.ScrollView;
-
 
 import com.youth.banner.Banner;
 
@@ -84,6 +82,7 @@ public class IdeaScrollView extends ScrollView {
 
     private void scrollToPosition(int position){
         scrollTo(0,arrayDistance.get(position));
+        smoothScrollTo(0,arrayDistance.get(position));
     }
 
     public void setViewPager(Banner viewPager, int headerHeight){

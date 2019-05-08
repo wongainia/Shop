@@ -493,7 +493,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     /*从购物车删除商品*/
     @Override
     public void PostDeleteCartProduct(CartResult Result) {
-        if (Result.getSuccess().equals("true")) {
+        if ("true".equals(Result.getSuccess())) {
             Toast.makeText(mActivity, "删除成功", Toast.LENGTH_SHORT).show();
 //              UpdateRecyclerView();
             // smartRefreshLayout.autoRefresh();
@@ -507,7 +507,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     @Override
     public void PostUpdateCartItem(CartResult Result) {
 
-        if (Result.getSuccess().equals("true")) {
+        if ("true".equals(Result.getSuccess())) {
             UpdataCount(shopBeanslist, skuid_add, count_add);
 
         }
@@ -517,7 +517,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
 
     @Override
     public void GetShopCouponList(ShopCoupResult Result) {
-        if (Result.getSuccess().equals("true")) {
+        if ("true".equals(Result.getSuccess())) {
             couplist.clear();
             couplist.addAll(Result.getCoupon());
             showPopupWindow(Result.getCoupon().get(0).getShopName());
@@ -532,7 +532,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     @Override
     public void PostAcceptCoupon(GetShopCoupResult Result) {
 
-        if (Result.getSuccess().equals("true")) {
+        if ("true".equals(Result.getSuccess())) {
 
             Toast.makeText(mActivity, "领取成功", Toast.LENGTH_SHORT).show();
         } else {

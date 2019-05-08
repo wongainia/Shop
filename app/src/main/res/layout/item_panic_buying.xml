@@ -14,7 +14,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp">
 
-            <com.zhenghaikj.shop.widget.RoundImageView
+            <com.zhenghaikj.shop.widget.MyImageView
                 android:id="@+id/iv_goods_picture"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
@@ -34,6 +34,7 @@
                     android:textSize="12dp"/>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -71,6 +72,7 @@
                             android:textSize="16sp"/>
 
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/tv_money_old"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -83,6 +85,8 @@
                             android:id="@+id/tv_send"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
                             android:text="收货送100西瓜币"
                             android:textSize="10sp"
                             android:textColor="@color/red"/>
@@ -95,6 +99,7 @@
                         android:layout_marginTop="5dp">
 
                         <com.zhenghaikj.shop.widget.SaleProgressView
+                            android:visibility="gone"
                             android:id="@+id/spv"
                             android:layout_width="100dp"
                             android:layout_height="15dp"

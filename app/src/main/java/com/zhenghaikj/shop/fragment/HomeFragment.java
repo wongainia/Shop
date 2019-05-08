@@ -32,6 +32,7 @@ import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Global;
 import com.zhenghaikj.shop.entity.HomeResult;
+import com.zhenghaikj.shop.entity.LimitBuyListResult;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.mvp.contract.HomeContract;
 import com.zhenghaikj.shop.mvp.model.HomeModel;
@@ -114,7 +115,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     private List<Product> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
-    private ArrayList<Product> limitedTimeList=new ArrayList<>();
+    private List<LimitBuyListResult.ListBean> limitedTimeList=new ArrayList<>();
 
     private ArrayList<MenuItem> mMainMenus;
     private int fadingHeight = 600; // 当ScrollView滑动到什么位置时渐变消失（根据需要进行调整）
@@ -122,6 +123,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private static final int END_ALPHA = 255;//scrollview滑动结束位置
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private LimitedTimeAdapter limitedTimeAdapter;
+    private ExchageAdapter exchageAdapter;
+
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -159,12 +163,13 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @Override
     protected void initData() {
         mPresenter.Get(Integer.toString(pageNo), "10");
+        mPresenter.GetLismitBuyList(Integer.toString(pageNo), "10","");
 
         for (int i = 0; i < 10; i++) {
             panicBuyList.add(new Product());
             exchageList.add(new Product());
         }
-        ExchageAdapter exchageAdapter = new ExchageAdapter(R.layout.item_exchage, panicBuyList);
+        exchageAdapter = new ExchageAdapter(R.layout.item_exchage, panicBuyList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRvPanicBuying.setLayoutManager(linearLayoutManager);
@@ -175,12 +180,25 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mRvExchange.setLayoutManager(linearLayoutManager1);
         mRvExchange.setAdapter(exchageAdapter);
 
-        for (int i=0;i<10;i++){
-            limitedTimeList.add(new Product());
-        }
-        LimitedTimeAdapter limitedTimeAdapter=new LimitedTimeAdapter(R.layout.item_panic_buying,limitedTimeList);
+        limitedTimeAdapter = new LimitedTimeAdapter(R.layout.item_panic_buying,limitedTimeList);
         mRvPanic.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvPanic.setAdapter(limitedTimeAdapter);
+        limitedTimeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+                intent.putExtra("id", limitedTimeList.get(position).getProductId()+"");
+                startActivity(intent);
+            }
+        });
+        limitedTimeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mActivity, PanicBuyingActivity.class);
+//                intent.putExtra("id", limitedTimeList.get(position).getId());
+                startActivity(intent);
+            }
+        });
 
         mMainMenus = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -250,6 +268,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             pageNo = 1;
             mDatas.clear();
             mPresenter.Get(Integer.toString(pageNo), "10");
+            mPresenter.GetLismitBuyList(Integer.toString(pageNo), "10","");
             refreshLayout.setNoMoreData(false);
             refreshLayout.finishRefresh(1000);
         });
@@ -326,6 +345,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             mBannerHome.setIndicatorGravity(BannerConfig.CENTER);
             mBannerHome.start();
         }
+    }
+
+    @Override
+    public void GetLismitBuyList(LimitBuyListResult Result) {
+        limitedTimeList=Result.getList();
+        limitedTimeAdapter.setNewData(limitedTimeList);
     }
 
     public class MenuItem {

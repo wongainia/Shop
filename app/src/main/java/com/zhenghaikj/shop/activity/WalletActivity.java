@@ -2,21 +2,30 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.HistoryVisite;
+import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.mvp.contract.MineContract;
+import com.zhenghaikj.shop.mvp.model.MineModel;
+import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
 import com.zhenghaikj.shop.widget.CircleImageView;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WalletActivity extends BaseActivity implements View.OnClickListener {
+public class WalletActivity extends BaseActivity<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View {
 
     @BindView(R.id.view)
     View mView;
@@ -60,6 +69,9 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
     LinearLayout mLlLivingPayment;
     @BindView(R.id.ll_credit_card_payments)
     LinearLayout mLlCreditCardPayments;
+    private SPUtils spUtils;
+    private String userName;
+    private UserInfo.UserInfoDean userInfo;
 
     @Override
     protected int setLayoutId() {
@@ -77,7 +89,9 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initData() {
-
+        spUtils = SPUtils.getInstance("token");
+        userName = spUtils.getString("userName2");
+        mPresenter.GetUserInfoList(userName,"1");
     }
 
     @Override
@@ -124,5 +138,43 @@ public class WalletActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void PersonalInformation(PersonalInformation result) {
+
+    }
+
+    @Override
+    public void GetHistoryVisite(HistoryVisite result) {
+
+    }
+
+    @Override
+    public void AddOrder(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                if (Result.getData().getData()==null){
+
+                }else {
+                    userInfo = Result.getData().getData().get(0);
+                    if (userInfo !=null){
+                        mTvBalance.setText(""+userInfo.getTotalMoney()+"");//钱包余额
+                        mTvWatermelonBalance.setText("￥"+userInfo.getCon()+"");//西瓜币
+                    }
+                }
+
+
+                break;
+
+            default:
+                break;
+
+        }
     }
 }

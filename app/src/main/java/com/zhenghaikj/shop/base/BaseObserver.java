@@ -1,12 +1,12 @@
 package com.zhenghaikj.shop.base;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.NetworkUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.JsonSyntaxException;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
@@ -53,6 +53,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
             disposable.dispose();
         }
         onHandleError(errMsg);
+        EventBus.getDefault().post(e);
     }
 
     @Override

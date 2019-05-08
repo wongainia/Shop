@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -24,8 +25,13 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.PayResult;
 import com.zhenghaikj.shop.entity.WXpayInfo;
+import com.zhenghaikj.shop.mvp.contract.RechargeContract;
+import com.zhenghaikj.shop.mvp.model.RechargeModel;
+import com.zhenghaikj.shop.mvp.presenter.RechargePresenter;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -36,7 +42,7 @@ import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RechargeActivity extends BaseActivity implements View.OnClickListener {
+public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeModel> implements View.OnClickListener, RechargeContract.View {
 
 
     @BindView(R.id.view)
@@ -68,6 +74,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private String orderinfo;
     private WXpayInfo wXpayInfo;
     private IWXAPI api;
+    private SPUtils spUtils;
+    private String userName;
 
     @Override
     protected int setLayoutId() {
@@ -85,6 +93,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
+        spUtils = SPUtils.getInstance("token");
+        userName = spUtils.getString("userName2");
+
         api = WXAPIFactory.createWXAPI(this, "wxd6509c9c912f0015");
         // 将该app注册到微信
         api.registerApp("wxd6509c9c912f0015");
@@ -95,7 +106,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView() {
-        mTvTitle.setText("我的银行卡");
+        mTvTitle.setText("充值");
         mTvTitle.setVisibility(View.VISIBLE);
     }
 
@@ -157,11 +168,11 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 }
                 switch (payway){
                     case 1:
-//                        mPresenter.GetOrderStr(userID, value);
+                        mPresenter.GetOrderStr(userName, value);
 //                        alipay();
                         break;
                     case 2:
-//                        mPresenter.GetWXOrderStr(userID, value);
+                        mPresenter.GetWXOrderStr(userName, value);
 //                        WXpay();
                         break;
                 }
@@ -264,7 +275,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     public void Event(BaseResp resp) {
         switch (resp.errCode){
             case 0:
-//                mPresenter.WXNotifyManual(wXpayInfo.getOut_trade_no());
+                mPresenter.WXNotifyManual(wXpayInfo.getOut_trade_no());
                 ToastUtils.showShort("支付成功");
                 break;
             case -1:
@@ -274,5 +285,48 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 ToastUtils.showShort("支付取消");
                 break;
         }
+    }
+
+    @Override
+    public void GetOrderStr(BaseResult<Data<String>> baseResult) {
+        switch(baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    orderinfo =baseResult.getData().getItem2();
+                    if (!"".equals(orderinfo)){
+                        alipay();
+                    }
+                }else{
+                    ToastUtils.showShort("获取支付信息失败！");
+                }
+                break;
+            default:
+                ToastUtils.showShort("获取支付信息失败！");
+                break;
+        }
+    }
+
+    @Override
+    public void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult) {
+        switch(baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    wXpayInfo = baseResult.getData().getItem2();
+                    if (wXpayInfo!=null){
+                        WXpay();
+                    }
+                }else{
+                    ToastUtils.showShort("获取支付信息失败！");
+                }
+                break;
+            default:
+                ToastUtils.showShort("获取支付信息失败！");
+                break;
+        }
+    }
+
+    @Override
+    public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
+
     }
 }

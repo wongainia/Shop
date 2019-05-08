@@ -70,7 +70,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         HomeResult.ProductBean bean=list.get(position);
         holder.tv_goods_name.setText(bean.getName());
         holder.tv_goods_money.setText("￥"+bean.getSalePrice()+"");
-        GlideUtil.loadImageViewLodingRadius(context,bean.getImageUrl(),holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,8);
+        GlideUtil.loadImageViewLodingRadius(context,bean.getImageUrl(),holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
 
         //由于需要实现瀑布流的效果,所以就需要动态的改变控件的高度了
 //        ViewGroup.LayoutParams params = holder.tv_goods_money.getLayoutParams();

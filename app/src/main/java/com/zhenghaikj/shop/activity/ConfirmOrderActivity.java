@@ -13,7 +13,6 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ConfirmOrderAdapter;
 import com.zhenghaikj.shop.api.Config;
-import com.zhenghaikj.shop.api.Config2;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.StoreBean;
@@ -21,7 +20,6 @@ import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 import com.zhenghaikj.shop.mvp.model.ConfirmOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.ConfirmOrderPresenter;
 
-import java.io.Serializable;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -109,12 +107,14 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     protected void initView() {
         mTvTitle.setText("确认订单");
         mTvTitle.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mLladdress_choose.setOnClickListener(this);
+        mTvsubmit.setOnClickListener(this);
     }
 
     @Override
@@ -128,7 +128,10 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 intent.putExtra("CHOOSE_ADDRESS_REQUEST",true);
                 startActivityForResult(intent, Config.CHOOSE_ADDRESS_REQUEST) ;
                 break;
+            case R.id.tv_submit:
+                //结算
 
+                break;
         }
     }
 

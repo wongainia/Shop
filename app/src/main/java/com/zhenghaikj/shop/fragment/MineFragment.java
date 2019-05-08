@@ -166,6 +166,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private UserInfo.UserInfoDean userInfo;
+    private String userName;
 
     public static MineFragment newInstance(String param1, String param2) {
         MineFragment fragment = new MineFragment();
@@ -185,6 +186,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     protected void initData() {
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
+        mPresenter.GetUserInfoList(userName,"1");
         mPresenter.PersonalInformation(userKey);
         mPresenter.GetHistoryVisite(userKey);
         /*下拉刷新*/
@@ -468,7 +471,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     if (userInfo !=null){
 //                        mTvMoney.setText();本月消费
                         mTvWalletBalance.setText(userInfo.getTotalMoney()+"");//钱包余额
-//                        mTvAccountBalance.setText();西瓜币
+                        mTvAccountBalance.setText(userInfo.getCon()+"");//西瓜币
+//                        mTvHowMoney.setText();兑换了多少西瓜币
                     }
                 }
 
