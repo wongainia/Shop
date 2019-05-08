@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
@@ -59,9 +58,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     TextView mTvsubmit;
     @BindView(R.id.ll_address_choose)
     LinearLayout mLladdress_choose;
+    @BindView(R.id.ll_add_address)
+    LinearLayout mLlAddAddress;
 
     private String Userkey;
-    private SPUtils spUtils=SPUtils.getInstance("token");
+    private SPUtils spUtils = SPUtils.getInstance("token");
 
     private ConfirmOrderAdapter confirmOrderAdapter;
 
@@ -79,27 +80,28 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
+
     @Override
     protected void initData() {
-           Userkey=spUtils.getString("UserKey");
-           mPresenter.GetShippingAddressList(Userkey);
-           List<StoreBean> list = (List<StoreBean>)getIntent().getSerializableExtra("checkshop");
-           confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order,list);
-           confirmOrderAdapter.setEmptyView(getEmptyView());
-           mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-           mRvConfirmOrder.setAdapter(confirmOrderAdapter);
+        Userkey = spUtils.getString("UserKey");
+        mPresenter.GetShippingAddressList(Userkey);
+        List<StoreBean> list = (List<StoreBean>) getIntent().getSerializableExtra("checkshop");
+        confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list);
+        confirmOrderAdapter.setEmptyView(getEmptyView());
+        mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvConfirmOrder.setAdapter(confirmOrderAdapter);
 
 
-        double Money=0;
+        double Money = 0;
         for (int i = 0; i < list.size(); i++) {
             for (int j = 0; j < list.get(i).getList().size(); j++) {
-               double Count= Double.parseDouble(list.get(i).getList().get(j).getCount());
-               double Price=Double.parseDouble(list.get(i).getList().get(j).getPrice());
-                Money+=Count*Price;
+                double Count = Double.parseDouble(list.get(i).getList().get(j).getCount());
+                double Price = Double.parseDouble(list.get(i).getList().get(j).getPrice());
+                Money += Count * Price;
             }
         }
-       /*总价*/
-        mTvtotalmoney.setText("合计¥:"+String.format("%.2f", Money));
+        /*总价*/
+        mTvtotalmoney.setText("合计¥:" + String.format("%.2f", Money));
 
     }
 
@@ -119,14 +121,14 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
                 break;
             case R.id.ll_address_choose:
-                Intent intent=new Intent(mActivity,ShippingAddressActivity.class);
-                intent.putExtra("CHOOSE_ADDRESS_REQUEST",true);
-                startActivityForResult(intent, Config.CHOOSE_ADDRESS_REQUEST) ;
+                Intent intent = new Intent(mActivity, ShippingAddressActivity.class);
+                intent.putExtra("CHOOSE_ADDRESS_REQUEST", true);
+                startActivityForResult(intent, Config.CHOOSE_ADDRESS_REQUEST);
                 break;
             case R.id.tv_submit:
                 //结算
@@ -145,19 +147,21 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     /*获取地址*/
     @Override
     public void GetShippingAddressList(ShippingAddressList result) {
-     if (result.isSuccess()){
-        /*没有默认地址  默认显示第一个*/
+        if (result.isSuccess()) {
+            /*没有默认地址  默认显示第一个*/
 
-         if (!result.getShippingAddress().isEmpty()){
-             mTvName.setText(result.getShippingAddress().get(0).getShipTo());
-             mTvPhone.setText(result.getShippingAddress().get(0).getPhone());
-             mTvAddress.setText(result.getShippingAddress().get(0).getRegionFullName()+" "+result.getShippingAddress().get(0).getAddress());
+            if (!result.getShippingAddress().isEmpty()) {
+                mTvName.setText(result.getShippingAddress().get(0).getShipTo());
+                mTvPhone.setText(result.getShippingAddress().get(0).getPhone());
+                mTvAddress.setText(result.getShippingAddress().get(0).getRegionFullName() + " " + result.getShippingAddress().get(0).getAddress());
+                mLlAddress.setVisibility(View.VISIBLE);
+                mLlAddAddress.setVisibility(View.GONE);
+            } else {
+                mLlAddress.setVisibility(View.GONE);
+                mLlAddAddress.setVisibility(View.VISIBLE);
+            }
 
-         }else {
-             Toast.makeText(mActivity,"没有地址",Toast.LENGTH_SHORT).show();
-         }
-
-     }
+        }
 
     }
 
@@ -165,13 +169,13 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         /*处理选择的地址*/
-        if (resultCode==Config.CHOOSE_ADDRESS_RESULT){
-            if (requestCode==Config.CHOOSE_ADDRESS_REQUEST){
+        if (resultCode == Config.CHOOSE_ADDRESS_RESULT) {
+            if (requestCode == Config.CHOOSE_ADDRESS_REQUEST) {
 
-                ShippingAddressList.ShippingAddressBean address = (ShippingAddressList.ShippingAddressBean)data.getSerializableExtra("Address");
+                ShippingAddressList.ShippingAddressBean address = (ShippingAddressList.ShippingAddressBean) data.getSerializableExtra("Address");
                 mTvName.setText(address.getShipTo());
                 mTvPhone.setText(address.getPhone());
-                mTvAddress.setText(address.getRegionFullName()+" "+address.getAddress());
+                mTvAddress.setText(address.getRegionFullName() + " " + address.getAddress());
 
 
             }

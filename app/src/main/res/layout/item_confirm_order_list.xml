@@ -30,7 +30,7 @@
             <TextView
                 android:id="@+id/tv_goods_name"
                 android:layout_width="wrap_content"
-                android:layout_height="28dp"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:textColor="#333"
