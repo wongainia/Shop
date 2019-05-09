@@ -49,4 +49,15 @@ public class AddressPresenter extends AddressContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void PostSetDefaultAddress(String addId, String userkey) {
+        mModel.PostSetDefaultAddress(addId,userkey)
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onHandleSuccess(String value) {
+                        mView.PostSetDefaultAddress(value);
+                    }
+                });
+    }
 }

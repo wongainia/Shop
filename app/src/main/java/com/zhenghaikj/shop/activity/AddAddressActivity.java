@@ -71,6 +71,8 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     Switch mSwitcherAcceptTheRepairWorkOrder;
     @BindView(R.id.iv_add)
     ImageView mIvAdd;
+    @BindView(R.id.ll_defalut_address)
+    LinearLayout mLldefalut_address;
     private TextView tv_province;
     private TextView tv_city;
     private TextView tv_area;
@@ -120,8 +122,11 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
             regionId=shippingAddressBean.getRegionId();
             mEtAddress.setText(shippingAddressBean.getAddress());
             mTvTitle.setText("编辑收货地址");
+            mLldefalut_address.setVisibility(View.VISIBLE);
         }else{
             mTvTitle.setText("添加收货地址");
+            mLldefalut_address.setVisibility(View.GONE);
+
         }
 
         mPresenter.GetAllRegion();
@@ -131,6 +136,8 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     protected void initView() {
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
+
+
     }
 
     @Override
@@ -139,11 +146,22 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
         mIvAdd.setOnClickListener(this);
         mTvArea.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
+        mSwitcherAcceptTheRepairWorkOrder.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.switcher_accept_the_repair_work_order:
+                if (mSwitcherAcceptTheRepairWorkOrder.isChecked()){
+                    Log.d("=====>","设置默认地址");
+                  mPresenter.PostSetDefaultAddress(shippingAddressBean.getId(),userKey);
+                }else {
+
+                    Log.d("=====>","关闭");
+                }
+                break;
+
             case R.id.icon_back:
                 finish();
                 break;
@@ -235,22 +253,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     public void GetAllRegion(List<RegionResult> Result) {
         provinceList = Result;
         provinceAdapter = new ProvinceAdapter(R.layout.region_item, provinceList);
-        /*if (popupWindow != null) {
-            if (popupWindow.isShowing()) {
-                rv_address_choose.setAdapter(provinceAdapter);
-                provinceAdapter.setOnItemClickListener((adapter, view, position) -> {
-                    regionResult = provinceList.get(position);
-                    provinceAdapter.setNewData(regionResult.getSub());
-                    tv_province.setText(regionResult.getName());
-                    tv_province.setVisibility(View.VISIBLE);
-                    tv_city.setVisibility(View.VISIBLE);
-                });
-            } else {
-                showPopWindowGetAddress(mTvArea);
-            }
-        } else {
-            showPopWindowGetAddress(mTvArea);
-        }*/
+
     }
 
     @Override
@@ -279,6 +282,11 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
         }else {
             ToastUtils.showShort("修改失败");
         }
+    }
+
+    @Override
+    public void PostSetDefaultAddress(String Result) {
+
     }
 
     public void showPopWindowGetAddress(final TextView tv) {

@@ -13,6 +13,7 @@ import com.zhenghaikj.shop.entity.CollectionProduct;
 import com.zhenghaikj.shop.entity.CollectionShop;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.GetPayPwd;
@@ -555,6 +556,38 @@ public interface ApiService {
                                           @Query("sign") String sign);
 
 
+    /*设置默认收货地址路径*/
+    @FormUrlEncoded
+    @POST("api/ShippingAddress/PostSetDefaultAddress")
+    Observable<String> PostSetDefaultAddress(@Field("addId") String addId,
+                                             @Field("userkey") String userkey,
+                                             @Query("app_key") String app_key,
+                                             @Query("timestamp") String timestamp,
+                                             @Query("sign") String sign);
+
+
+    /*取提交MODEL*/
+    @GET("api/Order/GetSubmitModel")
+    Observable<GetConfirmModel>GetSubmitModel(@Query("skuId") String skuId,
+                                              @Query("count") String count,
+                                              @Query("userkey") String userkey,
+                                              @Query("app_key") String app_key,
+                                              @Query("timestamp") String timestamp,
+                                              @Query("sign") String sign);
+
+
+
+    /*取购物车提交的MODEL*/
+    @GET("api/Order/GetSubmitByCartModel")
+    Observable<GetConfirmModel> GetSubmitByCartModel(@Query("CartItemId") String CartItemId,
+                                                     @Query("userkey") String UserKey,
+                                                     @Query("app_key") String app_key,
+                                                     @Query("timestamp") String timestamp,
+                                                     @Query("sign") String sign);
+
+
+
+
 
     /*string cartItemIds;*//*逗号隔开*//*
     long recieveAddressId;
@@ -572,21 +605,24 @@ public interface ApiService {
     /*立即购买提交订单*/
     @FormUrlEncoded
     @POST("api/Order/PostSubmitOrder")
-    Observable<String> PostSubmitOrder(@Field("cartItemIds") String cartItemIds,
-                                       @Field("recieveAddressId") Long recieveAddressId,
+    Observable<String> PostSubmitOrder(@Field("skuIds") String cartItemIds,
+                                       @Field("counts") String counts,
+                                       @Field("recieveAddressId") String recieveAddressId,
                                        @Field("couponIds") String couponIds,
-                                       @Field("integral") Integer integral,
-                                       @Field("isCashOnDelivery") Boolean isCashOnDelivery,
-                                       @Field("invoiceType") Integer invoiceType,
+                                       @Field("integral") String integral,
+                                       @Field("isCashOnDelivery") String isCashOnDelivery,
+                                       @Field("invoiceType") String invoiceType,
                                        @Field("invoiceContext") String invoiceContext,
                                        @Field("invoiceTitle") String invoiceTitle,
                                        @Field("orderRemarks") String orderRemarks,
-
-                                       @Field("userkey") String userkey
+                                       @Field("userkey") String userkey,
+                                       @Query("app_key") String app_key,
+                                       @Query("timestamp") String timestamp,
+                                       @Query("sign") String sign
                                        );
 
 
-    /*购物车提交订单*/
+
 
 
     /**

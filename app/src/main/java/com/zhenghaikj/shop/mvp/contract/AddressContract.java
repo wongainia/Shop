@@ -28,6 +28,8 @@ public interface AddressContract {
                                                    String latitude,
                                                    String longitude,
                                                    String Userkey);
+
+        Observable<String> PostSetDefaultAddress(String addId,String userkey);
     }
 
     interface View extends BaseView {
@@ -35,6 +37,7 @@ public interface AddressContract {
         void GetSubRegion(List<RegionResult> Result);
         void PostAddShippingAddres(Address Result);
         void PostEditShippingAddress(Address Result);
+        void PostSetDefaultAddress(String Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -54,5 +57,7 @@ public interface AddressContract {
                                                    String latitude,
                                                    String longitude,
                                                    String Userkey);
+
+        public abstract void PostSetDefaultAddress(String addId,String userkey);
     }
 }

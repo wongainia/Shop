@@ -148,14 +148,17 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
             } else {
                 addressList=result.getShippingAddress();
                 list.clear();
-                for (int i = 0; i < addressList.size(); i++) {
+              /*  for (int i = 0; i < addressList.size(); i++) {
                     if(addressList.get(i).isDefault()){
                         list.add(0,result.getShippingAddress().get(i));
                     }else {
                         list.add(result.getShippingAddress().get(i));
                     }
                     addressAdapter.setNewData(list);
-                }
+                }*/
+              list.addAll(addressList);
+              addressAdapter.setNewData(list);
+
 
             }
         }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +89,9 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     EmptyRecyclerView mRvCart;
     @BindView(R.id.empty_iv)
     ImageView mEmptyIv;
+
+
+
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -243,7 +247,16 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                     case 1:
                         if (!shopBeanslist.isEmpty()) {
                             Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
-                            intent.putExtra("checkshop", (Serializable) (GetCheckShopList(shopBeanslist)));//传递集合
+                          //  intent.putExtra("checkshop", (Serializable) (GetCheckShopList(shopBeanslist)));//传递集合
+
+                            String cartitems = SelectAllCartitems(shopBeanslist);
+                            String substring = cartitems.substring(1, cartitems.length());
+                            Log.d("=======>",substring);
+                            //将cartitemids传给结算界面
+                            Bundle bundle=new Bundle();
+                            bundle.putString("TYPE","2");
+                            bundle.putString("cartItemIds",substring);
+                            intent.putExtras(bundle);
                             startActivity(intent);
                         }
 
@@ -768,6 +781,22 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         });
 
 
+    }
+
+
+
+    public String SelectAllCartitems(List<StoreBean> shoplist){
+        String mCartitems=""; //记录cartitem 传给结算页面
+        for (int i = 0; i < shoplist.size(); i++) {
+            for (int j = 0; j < shoplist.get(i).getList().size(); j++) {
+                if (shoplist.get(i).getList().get(j).isIscheck() == true) {
+                    mCartitems+=","+shoplist.get(i).getList().get(j).getCartItemId();
+                }
+
+            }
+
+        }
+            return mCartitems;
     }
 
 

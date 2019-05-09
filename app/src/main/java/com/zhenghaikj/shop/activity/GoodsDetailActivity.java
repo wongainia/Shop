@@ -254,13 +254,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
      */
     protected void initImmersionBar() {
 
-        /*添加到购物车*/
-     /*   findViewById(R.id.add_to_cart).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {   `
-                mPresenter.PostAddProductToCart("699_0_0_0","1",Userkey);
-            }
-        });*/
 
 
         mImmersionBar = ImmersionBar.with(this);
@@ -573,9 +566,14 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_0_0", count, Userkey);
                                 } else {
-                                    List<StoreBean> list = GetCheckShopList(result, id + "_" + skuId_color + "_0_0", count, getPrice(id + "_" + skuId_color + "_0_0"), skuId_color, "");
+                                    //List<StoreBean> list = GetCheckShopList(result, id + "_" + skuId_color + "_0_0", count, getPrice(id + "_" + skuId_color + "_0_0"), skuId_color, "");
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
-                                    intent.putExtra("checkshop", (Serializable) (list));//传递集合
+                                    //intent.putExtra("checkshop", (Serializable) (list));//传递集合
+                                    Bundle bundle=new Bundle();
+                                    bundle.putString("TYPE","1");//TYPE 为购买类型  1为直接购买  2为购物购买
+                                    bundle.putString("skuid",id+"_"+skuId_color+"_0_0");
+                                    bundle.putString("count",count);
+                                    intent.putExtras(bundle);
                                     startActivity(intent);
                                 }
                             }
@@ -588,9 +586,13 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_0" + "_" + skuId_size + "_0", count, Userkey);
                                 } else {
-                                    List<StoreBean> list = GetCheckShopList(result, id + "_0" + "_" + skuId_size + "_0", count, getPrice(id + "_0" + "_" + skuId_size + "_0"), "", skuId_size);
+                                    //List<StoreBean> list = GetCheckShopList(result, id + "_0" + "_" + skuId_size + "_0", count, getPrice(id + "_0" + "_" + skuId_size + "_0"), "", skuId_size);
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
-                                    intent.putExtra("checkshop", (Serializable) (list));//传递集合
+                                    Bundle bundle=new Bundle();
+                                    bundle.putString("TYPE","1");//TYPE 为购买类型  1为直接购买  2为购物购买
+                                    bundle.putString("skuid",id+"_0"+"_"+skuId_size+"_0");
+                                    bundle.putString("count",count);
+                                    intent.putExtras(bundle);
                                     startActivity(intent);
                                 }
 
@@ -605,9 +607,13 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_0", count, Userkey);
                                 } else {
-                                    List<StoreBean> list = GetCheckShopList(result, id + "_" + skuId_color + "_" + skuId_size + "_0", count, getPrice(id + "_" + skuId_color + "_" + skuId_size + "_0"), skuId_color, skuId_size);
+                                    //List<StoreBean> list = GetCheckShopList(result, id + "_" + skuId_color + "_" + skuId_size + "_0", count, getPrice(id + "_" + skuId_color + "_" + skuId_size + "_0"), skuId_color, skuId_size);
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
-                                    intent.putExtra("checkshop", (Serializable) (list));//传递集合
+                                    Bundle bundle=new Bundle();
+                                    bundle.putString("TYPE","1");//TYPE 为购买类型  1为直接购买  2为购物购买
+                                    bundle.putString("skuid",id+"_"+skuId_color+"_"+skuId_size+"_0");
+                                    bundle.putString("count",count);
+                                    intent.putExtras(bundle);
                                     startActivity(intent);
                                 }
 
@@ -621,9 +627,13 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             if (type == 1) {
                                 mPresenter.PostAddProductToCart(id + "_0_0_0", count, Userkey);
                             } else {
-                                List<StoreBean> list = GetCheckShopList(result, id + "_0_0_0", count, getPrice(id + "_0_0_0"), "", "");
+                               // List<StoreBean> list = GetCheckShopList(result, id + "_0_0_0", count, getPrice(id + "_0_0_0"), "", "");
                                 Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
-                                intent.putExtra("checkshop", (Serializable) (list));//传递集合
+                                Bundle bundle=new Bundle();
+                                bundle.putString("TYPE","1");//TYPE 为购买类型  1为直接购买  2为购物购买
+                                bundle.putString("skuid",id+"_0"+"_0"+"_0");
+                                bundle.putString("count",count);
+                                intent.putExtras(bundle);
                                 startActivity(intent);
                             }
 

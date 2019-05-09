@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ConfirmOrderAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.StoreBean;
 import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
@@ -85,6 +87,9 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     protected void initData() {
         Userkey = spUtils.getString("UserKey");
         mPresenter.GetShippingAddressList(Userkey);
+
+/*
+
         List<StoreBean> list = (List<StoreBean>) getIntent().getSerializableExtra("checkshop");
         confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list);
         confirmOrderAdapter.setEmptyView(getEmptyView());
@@ -100,8 +105,33 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 Money += Count * Price;
             }
         }
-        /*总价*/
+        */
+/*总价*//*
+
         mTvtotalmoney.setText("合计¥:" + String.format("%.2f", Money));
+*/
+
+
+        /*String skuid=list.get(0).getList().get(0).getSkuId();
+        String count=list.get(0).getList().get(0).getCount();
+        mPresenter.GetSubmitModel(skuid,count,Userkey);*/
+        Bundle extras = getIntent().getExtras();
+        if ("1".equals(extras.getString("TYPE"))){ //直接购买
+            String skuid = extras.getString("skuid");
+            String count = extras.getString("count");
+            mPresenter.GetSubmitModel(skuid,count,Userkey);
+
+        }else if ("2".equals(extras.getString("TYPE"))){//购物车购买
+            String cartItemIds = extras.getString("cartItemIds");
+
+            mPresenter.GetSubmitByCartModel(cartItemIds,Userkey);
+        }else {
+
+
+
+        }
+
+
 
     }
 
@@ -166,6 +196,29 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     }
 
     @Override
+    public void GetSubmitModel(GetConfirmModel result) {
+
+
+
+
+
+
+    }
+
+    @Override
+    public void GetSubmitByCartModel(GetConfirmModel result) {
+
+    }
+
+    /*立即购买提交*/
+    @Override
+    public void PostSubmitOrder(String result) {
+
+
+    }
+
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         /*处理选择的地址*/
@@ -176,7 +229,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 mTvName.setText(address.getShipTo());
                 mTvPhone.setText(address.getPhone());
                 mTvAddress.setText(address.getRegionFullName() + " " + address.getAddress());
-
 
             }
 
