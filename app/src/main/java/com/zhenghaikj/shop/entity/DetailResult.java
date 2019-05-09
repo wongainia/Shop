@@ -14,11 +14,11 @@ public class DetailResult implements Serializable {
      * MaxSaleCount : 0
      * Title :
      * Second : 0.0
-     * Product : {"ProductId":733,"ProductSaleStatus":1,"AuditStatus":2,"ImagePath":[],"ProductName":"丹麦依诺维绅 功能沙发床 时尚沙发 书房必用 小鸟","MarketPrice":5000,"ShortDescription":"丹麦设计 独立袋装弹簧 北欧时尚简约","ProductDescription":"<p><img src=\"http://47.96.126.145:8830//Storage/Shop/1/Products/733/remark/97ae97b480ba4ff6b83cf39c79c55b5a.jpg\" title=\"605303069192223693765340_x.jpg\" alt=\"605303069192223693765340_x.jpg\"/><\/p>","MinSalePrice":3982.5,"IsFavorite":true,"Consultations":0,"CommentCount":0,"NicePercent":100,"IsOnLimitBuy":false}
+     * Product : {"ProductId":733,"ProductSaleStatus":1,"AuditStatus":2,"ImagePath":[],"ProductName":"丹麦依诺维绅 功能沙发床 时尚沙发 书房必用 小鸟","MarketPrice":5000,"ShortDescription":"丹麦设计 独立袋装弹簧 北欧时尚简约","ProductDescription":"<p><img src=\"http://mall.xigyu.com//Storage/Shop/1/Products/733/remark/97ae97b480ba4ff6b83cf39c79c55b5a.jpg\" title=\"605303069192223693765340_x.jpg\" alt=\"605303069192223693765340_x.jpg\"/><\/p>","MinSalePrice":3982.5,"IsFavorite":true,"Consultations":0,"CommentCount":0,"NicePercent":100,"IsOnLimitBuy":false}
      * CashDepositsServer : {"IsSevenDayNoReasonReturn":false,"IsTimelyShip":false,"IsCustomerSecurity":true,"CanSelfTake":false}
      * ProductAddress : 北京 北京市
      * Free : 免运费
-     * VShopLog : http://47.96.126.145:8830//Storage/Shop/1/VShop/201702141734365302700.png
+     * VShopLog : http://mall.xigyu.com//Storage/Shop/1/VShop/201702141734365302700.png
      * Shop : {"Name":"官方自营店","Id":1,"ProductMark":0,"PackMark":5,"ServiceMark":5,"ComprehensiveMark":5,"CompanyName":null,"Address":null,"Phone":null,"FreeFreight":11,"ProductNum":33,"CouponCount":0,"VShopId":10,"ProductAndDescription":5,"SellerServiceAttitude":5,"SellerDeliverySpeed":5,"FavoriteShopCount":2}
      * IsFavoriteShop : false
      * Color : []
@@ -338,7 +338,7 @@ public class DetailResult implements Serializable {
          * ProductName : 丹麦依诺维绅 功能沙发床 时尚沙发 书房必用 小鸟
          * MarketPrice : 5000.0
          * ShortDescription : 丹麦设计 独立袋装弹簧 北欧时尚简约
-         * ProductDescription : <p><img src="http://47.96.126.145:8830//Storage/Shop/1/Products/733/remark/97ae97b480ba4ff6b83cf39c79c55b5a.jpg" title="605303069192223693765340_x.jpg" alt="605303069192223693765340_x.jpg"/></p>
+         * ProductDescription : <p><img src="http://mall.xigyu.com//Storage/Shop/1/Products/733/remark/97ae97b480ba4ff6b83cf39c79c55b5a.jpg" title="605303069192223693765340_x.jpg" alt="605303069192223693765340_x.jpg"/></p>
          * MinSalePrice : 3982.5
          * IsFavorite : true
          * Consultations : 0

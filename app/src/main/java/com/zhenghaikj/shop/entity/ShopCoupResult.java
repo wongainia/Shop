@@ -53,7 +53,7 @@ public class ShopCoupResult implements Serializable {
          * EndTime : 2019/6/3 0:00:00
          * CreateTime : 2019/5/3 13:58:04
          * CouponName : 满减100
-         * VShopLogo : http://47.96.126.145:8830//Storage/Shop/1/VShop/201904271426408530240.jpg
+         * VShopLogo : http://mall.xigyu.com//Storage/Shop/1/VShop/201904271426408530240.jpg
          * VShopId : 10
          * ShopName : 官方自营店
          * Receive : 0

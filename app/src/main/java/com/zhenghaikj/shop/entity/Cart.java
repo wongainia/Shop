@@ -8,7 +8,7 @@ public class Cart implements Serializable {
 
     /**
      * Success : true
-     * Shop : [[{"CartItemId":"182","SkuId":"707_675_661_0","Id":"707","ImgUrl":"http://47.96.126.145:8830//Storage/Shop/1/Products/707/1_150.png","Name":"ONLY春季新品含莱卡面料五分袖修身露肩一字领针织连衣裙女E|116361504 010黑 175/92A/XL","Price":"90.00","Count":"2","Size":"165/84(S)","Color":"蓝色","Version":null,"ShopId":"1","VShopId":"10","ShopName":"官方自营店","ShopLogo":"http://47.96.126.145:8830//Storage/Shop/1/VShop/201702141737310419930.png","Url":"http://47.96.126.145:8830//m-IOS/product/detail/707","Status":1,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","AddTime":"2019-04-27T10:24:49","ShopBranchId":0,"ShopBranchName":null,"ShopBranchLogo":null},{"CartItemId":"173","SkuId":"733_0_0_0","Id":"733","ImgUrl":"http://47.96.126.145:8830//Storage/Shop/1/Products/733/1_150.png","Name":"丹麦依诺维绅 功能沙发床 时尚沙发 书房必用 小鸟","Price":"3982.50","Count":"18","Size":null,"Color":null,"Version":null,"ShopId":"1","VShopId":"10","ShopName":"官方自营店","ShopLogo":"http://47.96.126.145:8830//Storage/Shop/1/VShop/201702141737310419930.png","Url":"http://47.96.126.145:8830//m-IOS/product/detail/733","Status":1,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","AddTime":"2019-04-26T14:54:10","ShopBranchId":0,"ShopBranchName":null,"ShopBranchLogo":null},{"CartItemId":"172","SkuId":"699_0_0_0","Id":"699","ImgUrl":"http://47.96.126.145:8830//Storage/Shop/1/Products/699/1_150.png","Name":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味","Price":"44.91","Count":"10","Size":null,"Color":null,"Version":null,"ShopId":"1","VShopId":"10","ShopName":"官方自营店","ShopLogo":"http://47.96.126.145:8830//Storage/Shop/1/VShop/201702141737310419930.png","Url":"http://47.96.126.145:8830//m-IOS/product/detail/699","Status":1,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","AddTime":"2019-04-23T16:14:32","ShopBranchId":0,"ShopBranchName":null,"ShopBranchLogo":null}],[{"CartItemId":"181","SkuId":"702_0_0_0","Id":"702","ImgUrl":"http://47.96.126.145:8830//Storage/Shop/1/Products/702/1_150.png","Name":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)","Price":"11.90","Count":"1","Size":null,"Color":null,"Version":null,"ShopId":"314","VShopId":"0","ShopName":"卫龙零食店","ShopLogo":"","Url":"http://47.96.126.145:8830//m-IOS/product/detail/702","Status":1,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","AddTime":"2019-04-27T09:24:29","ShopBranchId":0,"ShopBranchName":null,"ShopBranchLogo":null}]]
+     * Shop : [[{"CartItemId":"182","SkuId":"707_675_661_0","Id":"707","ImgUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/707/1_150.png","Name":"ONLY春季新品含莱卡面料五分袖修身露肩一字领针织连衣裙女E|116361504 010黑 175/92A/XL","Price":"90.00","Count":"2","Size":"165/84(S)","Color":"蓝色","Version":null,"ShopId":"1","VShopId":"10","ShopName":"官方自营店","ShopLogo":"http://mall.xigyu.com//Storage/Shop/1/VShop/201702141737310419930.png","Url":"http://mall.xigyu.com//m-IOS/product/detail/707","Status":1,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","AddTime":"2019-04-27T10:24:49","ShopBranchId":0,"ShopBranchName":null,"ShopBranchLogo":null},{"CartItemId":"173","SkuId":"733_0_0_0","Id":"733","ImgUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/733/1_150.png","Name":"丹麦依诺维绅 功能沙发床 时尚沙发 书房必用 小鸟","Price":"3982.50","Count":"18","Size":null,"Color":null,"Version":null,"ShopId":"1","VShopId":"10","ShopName":"官方自营店","ShopLogo":"http://mall.xigyu.com//Storage/Shop/1/VShop/201702141737310419930.png","Url":"http://mall.xigyu.com//m-IOS/product/detail/733","Status":1,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","AddTime":"2019-04-26T14:54:10","ShopBranchId":0,"ShopBranchName":null,"ShopBranchLogo":null},{"CartItemId":"172","SkuId":"699_0_0_0","Id":"699","ImgUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/699/1_150.png","Name":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味","Price":"44.91","Count":"10","Size":null,"Color":null,"Version":null,"ShopId":"1","VShopId":"10","ShopName":"官方自营店","ShopLogo":"http://mall.xigyu.com//Storage/Shop/1/VShop/201702141737310419930.png","Url":"http://mall.xigyu.com//m-IOS/product/detail/699","Status":1,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","AddTime":"2019-04-23T16:14:32","ShopBranchId":0,"ShopBranchName":null,"ShopBranchLogo":null}],[{"CartItemId":"181","SkuId":"702_0_0_0","Id":"702","ImgUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/702/1_150.png","Name":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)","Price":"11.90","Count":"1","Size":null,"Color":null,"Version":null,"ShopId":"314","VShopId":"0","ShopName":"卫龙零食店","ShopLogo":"","Url":"http://mall.xigyu.com//m-IOS/product/detail/702","Status":1,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","AddTime":"2019-04-27T09:24:29","ShopBranchId":0,"ShopBranchName":null,"ShopBranchLogo":null}]]
      */
 
     private String Success;
@@ -36,7 +36,7 @@ public class Cart implements Serializable {
          * CartItemId : 182
          * SkuId : 707_675_661_0
          * Id : 707
-         * ImgUrl : http://47.96.126.145:8830//Storage/Shop/1/Products/707/1_150.png
+         * ImgUrl : http://mall.xigyu.com//Storage/Shop/1/Products/707/1_150.png
          * Name : ONLY春季新品含莱卡面料五分袖修身露肩一字领针织连衣裙女E|116361504 010黑 175/92A/XL
          * Price : 90.00
          * Count : 2
@@ -46,8 +46,8 @@ public class Cart implements Serializable {
          * ShopId : 1
          * VShopId : 10
          * ShopName : 官方自营店
-         * ShopLogo : http://47.96.126.145:8830//Storage/Shop/1/VShop/201702141737310419930.png
-         * Url : http://47.96.126.145:8830//m-IOS/product/detail/707
+         * ShopLogo : http://mall.xigyu.com//Storage/Shop/1/VShop/201702141737310419930.png
+         * Url : http://mall.xigyu.com//m-IOS/product/detail/707
          * Status : 1
          * ColorAlias : 颜色
          * SizeAlias : 尺码

@@ -40,7 +40,7 @@ public class OrderListAdapter2 extends BaseQuickAdapter<Order.itemInfoBean, Base
 //            version=";"+item.getVersion();
 //        }
         helper.setText(R.id.tv_goods_name,item.getProductName())
-                .setText(R.id.tv_goods_type,item.getColor()+item.getSize()+item.getVersion())
+                .setText(R.id.tv_goods_type,item.getColor()+"  "+item.getSize()+"  "+item.getVersion())
                 .setText(R.id.tv_good_money,item.getPrice())
                 .setText(R.id.tv_goods_number,"×"+item.getCount());
         ImageView icon = helper.getView(R.id.iv_goods_picture);

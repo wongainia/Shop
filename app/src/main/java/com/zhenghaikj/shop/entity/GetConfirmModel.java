@@ -10,7 +10,7 @@ public class GetConfirmModel implements Serializable {
      * Address : {"Id":180,"ShipTo":"拜仁","Phone":"18892621501","Address":"天津 天津市 河东区 大直沽街道 12375","RegionId":3991}
      * Success : true
      * InvoiceContext : [{"Id":36,"Name":"个人"},{"Id":47,"Name":"个人"},{"Id":48,"Name":"公司"}]
-     * products : [{"shopId":1,"ShopName":"官方自营店","Freight":0,"FreeFreight":11,"CartItemModels":[{"skuId":"756_0_0_0","size":null,"color":null,"version":null,"id":756,"imgUrl":"http://47.96.126.145:8830//Storage/Shop/1/Products/756/1_100.png","shopName":null,"name":"Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱","price":18,"count":1,"shopId":1,"vshopId":0,"IsSelf":true,"productCode":"sf","unit":"台","UserCoupons":null,"isDis":false,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","collpid":0,"IsLimit":false,"ShopBranchId":null,"ShopBranchName":null}],"UserCoupons":[],"FullDiscount":0,"ShopTotal":18,"ShopTotalWithoutFreight":18,"UserBonus":null,"BaseCoupons":null,"OneCoupons":{"BaseId":890,"BasePrice":18,"BaseName":"新用户优惠券","BaseType":0,"BaseShopName":"官方自营店","BaseEndTime":"2019-06-03T00:00:00","BaseShopId":1,"OrderAmount":0},"freightProductGroup":null,"IsFreeFreight":false,"VshopId":10,"IsSelf":true,"ExistShopBranch":false,"ShopBranchId":null,"ShopBranchName":null}]
+     * products : [{"shopId":1,"ShopName":"官方自营店","Freight":0,"FreeFreight":11,"CartItemModels":[{"skuId":"756_0_0_0","size":null,"color":null,"version":null,"id":756,"imgUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/756/1_100.png","shopName":null,"name":"Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱","price":18,"count":1,"shopId":1,"vshopId":0,"IsSelf":true,"productCode":"sf","unit":"台","UserCoupons":null,"isDis":false,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","collpid":0,"IsLimit":false,"ShopBranchId":null,"ShopBranchName":null}],"UserCoupons":[],"FullDiscount":0,"ShopTotal":18,"ShopTotalWithoutFreight":18,"UserBonus":null,"BaseCoupons":null,"OneCoupons":{"BaseId":890,"BasePrice":18,"BaseName":"新用户优惠券","BaseType":0,"BaseShopName":"官方自营店","BaseEndTime":"2019-06-03T00:00:00","BaseShopId":1,"OrderAmount":0},"freightProductGroup":null,"IsFreeFreight":false,"VshopId":10,"IsSelf":true,"ExistShopBranch":false,"ShopBranchId":null,"ShopBranchName":null}]
      * integralPerMoney : 0.0
      * userIntegrals : 0.0
      * TotalAmount : 18.0
@@ -208,7 +208,7 @@ public class GetConfirmModel implements Serializable {
          * ShopName : 官方自营店
          * Freight : 0.0
          * FreeFreight : 11.0
-         * CartItemModels : [{"skuId":"756_0_0_0","size":null,"color":null,"version":null,"id":756,"imgUrl":"http://47.96.126.145:8830//Storage/Shop/1/Products/756/1_100.png","shopName":null,"name":"Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱","price":18,"count":1,"shopId":1,"vshopId":0,"IsSelf":true,"productCode":"sf","unit":"台","UserCoupons":null,"isDis":false,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","collpid":0,"IsLimit":false,"ShopBranchId":null,"ShopBranchName":null}]
+         * CartItemModels : [{"skuId":"756_0_0_0","size":null,"color":null,"version":null,"id":756,"imgUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/756/1_100.png","shopName":null,"name":"Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱","price":18,"count":1,"shopId":1,"vshopId":0,"IsSelf":true,"productCode":"sf","unit":"台","UserCoupons":null,"isDis":false,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","collpid":0,"IsLimit":false,"ShopBranchId":null,"ShopBranchName":null}]
          * UserCoupons : []
          * FullDiscount : 0.0
          * ShopTotal : 18.0
@@ -490,7 +490,7 @@ public class GetConfirmModel implements Serializable {
              * color : null
              * version : null
              * id : 756
-             * imgUrl : http://47.96.126.145:8830//Storage/Shop/1/Products/756/1_100.png
+             * imgUrl : http://mall.xigyu.com//Storage/Shop/1/Products/756/1_100.png
              * shopName : null
              * name : Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱
              * price : 18.0

@@ -5,19 +5,16 @@ import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.SearchDetailActivity;
-import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.utils.GlideUtil;
 
 import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CategoryAdapter extends BaseMultiItemQuickAdapter<Category.CategoryBean, BaseViewHolder> {
@@ -71,7 +68,7 @@ public class CategoryAdapter extends BaseMultiItemQuickAdapter<Category.Category
                 tv = helper.getView(R.id.name);
                 ImageView icon = helper.getView(R.id.icon);
                 tv.setText(item.getName());
-                GlideUtil.loadImageViewLoding(mContext,"http://47.96.126.145:8830"+item.getImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
+                GlideUtil.loadImageViewLoding(mContext,"http://mall.xigyu.com"+item.getImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
                 break;
             default:
                 break;

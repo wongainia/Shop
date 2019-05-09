@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.OrderDetailAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -20,6 +21,9 @@ import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
 import com.zhenghaikj.shop.mvp.model.OrderDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.OrderDetailPresenter;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +121,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     TextView mTvBuy;
     @BindView(R.id.ll_to_be_delivered)
     LinearLayout mLlToBeDelivered;
+    @BindView(R.id.stateLayout)
+    StateFrameLayout mStateLayout;
     private String userKey;
     private SPUtils spUtils;
 
@@ -127,6 +133,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private List<OrderDetail.OrderBean> orderBeans = new ArrayList<>();
     private List<OrderDetail.OrderItemBean> orderItemBeans = new ArrayList<>();
     private OrderDetailAdapter adapter;
+    private String id;
 
     @Override
     protected int setLayoutId() {
@@ -152,7 +159,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
-        String id = getIntent().getStringExtra("orderId");
+        id = getIntent().getStringExtra("orderId");
         Log.d(TAG, "订单单号：" + id);
         mPresenter.GetOrderDetail(id, userKey);
 
@@ -161,6 +168,30 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
     @Override
     protected void initView() {
+        mStateLayout.changeState(StateFrameLayout.LOADING);
+        //是否在展示内容布局的时候开启动画（200ms的Alpha动画）
+        mStateLayout.enableContentAnim(false);
+
+        //设置网络错误重试监听【不传netRetryId的话需要在对应布局中设置触发控件的id为android:id="@id/id_sfl_net_error_retry"】
+        mStateLayout.setOnNetErrorRetryListener(new StateFrameLayout.OnNetErrorRetryListener()
+        {
+            @Override
+            public void onNetErrorRetry()
+            {
+                //TODO 在这里相应重试操作
+                mPresenter.GetOrderDetail(id, userKey);
+            }
+        });
+        //设置空数据重试监听【不传emptyRetryId的话需要在对应布局中设置触发控件的id为android:id="@id/id_sfl_empty_retry"】
+        mStateLayout.setOnEmptyRetryListener(new StateFrameLayout.OnEmptyRetryListener()
+        {
+            @Override
+            public void onEmptyRetry()
+            {
+                //TODO 在这里相应重试操作
+                mPresenter.GetOrderDetail(id, userKey);
+            }
+        });
         adapter = new OrderDetailAdapter(R.layout.item_order_list, orderItemBeans);
         adapter.setEmptyView(getEmptyView());
         mRvOrderList.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -180,7 +211,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 finish();
                 break;
             case R.id.tv_copy:
-                String id=mTvOrderNumber.getText().toString();
+                String id = mTvOrderNumber.getText().toString();
                 myClip = ClipData.newPlainText("", id);
                 myClipboard.setPrimaryClip(myClip);
                 ToastUtils.showShort("复制成功");
@@ -214,33 +245,38 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             adapter.setNewData(orderItemBeans);
 //           mTvShip.setText(orderBeans.get(0).getStatus());
 
-            if ("5".equals(result.getOrder().getOrderStatus())){
+            if ("5".equals(result.getOrder().getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.INVISIBLE);
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.VISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
             }
 
-            if ("1".equals(result.getOrder().getOrderStatus())){
+            if ("1".equals(result.getOrder().getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.VISIBLE);
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
             }
 
-            if ("2".equals(result.getOrder().getOrderStatus())){
+            if ("2".equals(result.getOrder().getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.INVISIBLE);
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.VISIBLE);
             }
 
-            if ("3".equals(result.getOrder().getOrderStatus())){
+            if ("3".equals(result.getOrder().getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.INVISIBLE);
                 mLlPendingReceipt.setVisibility(View.VISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
             }
         }
+        mStateLayout.changeState(StateFrameLayout.SUCCESS);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(Throwable e) {
+        mStateLayout.changeState(StateFrameLayout.NET_ERROR);
     }
 }

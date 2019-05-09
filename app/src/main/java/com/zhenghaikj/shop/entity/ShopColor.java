@@ -11,7 +11,7 @@ public class ShopColor implements Serializable {
      * SkuId : 655
      * EnabledClass : enabled
      * SelectedClass :
-     * Img : http://47.96.126.145:8830//Storage/Shop/1/Products/707/skus/707_655_663_0.png
+     * Img : http://mall.xigyu.com//Storage/Shop/1/Products/707/skus/707_655_663_0.png
      */
 
     private String Name;

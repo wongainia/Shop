@@ -17,7 +17,7 @@ public class CommodityBean implements Serializable {
      * CartItemId : 182
      * SkuId : 707_675_661_0
      * Id : 707
-     * ImgUrl : http://47.96.126.145:8830//Storage/Shop/1/Products/707/1_150.png
+     * ImgUrl : http://mall.xigyu.com//Storage/Shop/1/Products/707/1_150.png
      * Name : ONLY春季新品含莱卡面料五分袖修身露肩一字领针织连衣裙女E|116361504 010黑 175/92A/XL
      * Price : 90.00
      * Count : 2
@@ -27,8 +27,8 @@ public class CommodityBean implements Serializable {
      * ShopId : 1
      * VShopId : 10
      * ShopName : 官方自营店
-     * ShopLogo : http://47.96.126.145:8830//Storage/Shop/1/VShop/201702141737310419930.png
-     * Url : http://47.96.126.145:8830//m-IOS/product/detail/707
+     * ShopLogo : http://mall.xigyu.com//Storage/Shop/1/VShop/201702141737310419930.png
+     * Url : http://mall.xigyu.com//m-IOS/product/detail/707
      * Status : 1
      * ColorAlias : 颜色
      * SizeAlias : 尺码

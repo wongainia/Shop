@@ -32,7 +32,7 @@ public class CollectionShop implements Serializable {
     public static class DataBean{
         /*
         * "Id":10,
-        * "Logo":"http://47.96.126.145:8830//Storage/Shop/1/VShop/201904271426408530240.jpg",
+        * "Logo":"http://mall.xigyu.com//Storage/Shop/1/VShop/201904271426408530240.jpg",
         * "Name":"官方自营店"
         * */
 

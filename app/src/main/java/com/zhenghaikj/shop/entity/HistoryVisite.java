@@ -6,7 +6,7 @@ import java.util.List;
 public class HistoryVisite implements Serializable {
     /*
      * "Success":"true",
-     * "Product":[{"ProductId":699,"ProductPrice":49.90,"ProductName":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味","ImagePath":"http://47.96.126.145:8830//Storage/Shop/1/Products/699/1_100.png","BrowseTime":"2019-04-25T10:47:58","UserId":0}]}
+     * "Product":[{"ProductId":699,"ProductPrice":49.90,"ProductName":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味","ImagePath":"http://mall.xigyu.com//Storage/Shop/1/Products/699/1_100.png","BrowseTime":"2019-04-25T10:47:58","UserId":0}]}
     * */
 
     private boolean Success;
@@ -32,7 +32,7 @@ public class HistoryVisite implements Serializable {
     * "ProductId":699,
     * "ProductPrice":49.90,
     * "ProductName":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味",
-    * "ImagePath":"http://47.96.126.145:8830//Storage/Shop/1/Products/699/1_100.png",
+    * "ImagePath":"http://mall.xigyu.com//Storage/Shop/1/Products/699/1_100.png",
     * "BrowseTime":"2019-04-25T10:47:58",
     * "UserId":0
     * */

@@ -7,7 +7,7 @@ public class CollectResult implements Serializable {
 
     /*
     * "Success":true,
-    * "Data":[{"Id":699,"Image":"http://47.96.126.145:8830//Storage/Shop/1/Products/699/1_220.png","ProductName":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味","SalePrice":"49.90","Evaluation":0}],
+    * "Data":[{"Id":699,"Image":"http://mall.xigyu.com//Storage/Shop/1/Products/699/1_220.png","ProductName":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味","SalePrice":"49.90","Evaluation":0}],
     * "Total":1
     * */
 //    private String productId;
@@ -59,7 +59,7 @@ public class CollectResult implements Serializable {
 
     /*
      * "Id":699,
-     * "Image":"http://47.96.126.145:8830//Storage/Shop/1/Products/699/1_220.png",
+     * "Image":"http://mall.xigyu.com//Storage/Shop/1/Products/699/1_220.png",
      * "ProductName":"三只松鼠_开口松子218gx2袋零食坚果特产炒货东北红松子原味",
      * "SalePrice":"49.90",
      * "Evaluation":0

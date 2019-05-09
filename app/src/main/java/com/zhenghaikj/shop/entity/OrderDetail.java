@@ -7,7 +7,7 @@ public class OrderDetail implements Serializable {
     /*
     * "Success":"true",
     * "Order":{"Id":2017021483156396,"OrderType":null,"OrderTypeName":"","Status":"待消费","JoinStatus":-2,"ShipTo":"小蘑菇","Phone":"18216367122","Address":"湖南省 长沙市 芙蓉区 文艺路街道 湖南大剧院19楼","HasExpressStatus":false,"ExpressCompanyName":null,"Freight":0.00,"IntegralDiscount":0.00,"RealTotalAmount":11.90,"RefundTotalAmount":0.00,"OrderDate":"2017-02-14 10:32:08","ShopName":"官方自营店","VShopId":10,"commentCount":0,"ShopId":1,"orderStatus":2,"Invoice":"不需要发票","InvoiceValue":0,"InvoiceContext":null,"InvoiceTitle":null,"PaymentType":"线上支付","PaymentTypeValue":1,"FullDiscount":0.00,"DiscountAmount":0.00,"OrderRemarks":"","HasBonus":false,"ShareHref":"","ShareTitle":"","ShareDetail":"","IsCanRefund":true,"EnabledRefundAmount":11.90,"HasAppendComment":false,"SelfTake":0},
-    * "OrderItem":[{"ItemId":1086,"ProductId":702,"ProductName":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)","Count":1,"Price":11.90,"ProductImage":"http://47.96.126.145:8830//Storage/Shop/1/Products/702/1_100.png","color":null,"size":null,"version":null,"IsCanRefund":true,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","EnabledRefundAmount":11.90}],
+    * "OrderItem":[{"ItemId":1086,"ProductId":702,"ProductName":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)","Count":1,"Price":11.90,"ProductImage":"http://mall.xigyu.com//Storage/Shop/1/Products/702/1_100.png","color":null,"size":null,"version":null,"IsCanRefund":true,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","EnabledRefundAmount":11.90}],
     * "StoreInfo":{"ShopName":null,"ShopBranchInTagNames":null,"ShopBranchTagId":null,"Id":26,"ShopId":1,"ShopBranchName":"辣条君","AddressId":27073,"AddressDetail":"湖南省长沙市韶山北路139号湖南文化大厦","AddressFullName":"湖南省长沙市芙蓉区文艺路街道韶山北路139号湖南文化大厦","ContactUser":"李广田","ContactPhone":"13306589754","Status":0,"CreateDate":"0001-01-01T00:00:00","UserName":"admin","PasswordOne":null,"PasswordTwo":null,"RegionIdPath":null,"ServeRadius":0,"Longitude":0.0,"Latitude":0.0,"ShopImages":null,"Distance":0.0,"DistanceUnit":null,"Enabled":false,"AddressPath":"1812,1813,1814,27073,","IsStoreDelive":false,"IsAboveSelf":false,"DeliveFee":0,"FreeMailFee":0,"DeliveTotalFee":0,"StoreOpenStartTime":"08:00:00","StoreOpenEndTime":"20:00:00","RecommendSequence":0,"IsRecommend":false}
     * "CustomerServices":[]}
     * */
@@ -445,7 +445,7 @@ public class OrderDetail implements Serializable {
     * "ProductName":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)",
     * "Count":1,
     * "Price":11.90,
-    * "ProductImage":"http://47.96.126.145:8830//Storage/Shop/1/Products/702/1_100.png",
+    * "ProductImage":"http://mall.xigyu.com//Storage/Shop/1/Products/702/1_100.png",
     * "color":null,
     * "size":null,
     * "version":null,
@@ -521,7 +521,7 @@ public class OrderDetail implements Serializable {
         }
 
         public String getColor() {
-            return color;
+            return color==null?"":color;
         }
 
         public void setColor(String color) {
@@ -529,7 +529,7 @@ public class OrderDetail implements Serializable {
         }
 
         public String getSize() {
-            return size;
+            return size==null?"":size;
         }
 
         public void setSize(String size) {
@@ -537,7 +537,7 @@ public class OrderDetail implements Serializable {
         }
 
         public String getVersion() {
-            return version;
+            return version==null?"":version;
         }
 
         public void setVersion(String version) {

@@ -83,7 +83,7 @@ public class Order implements Serializable {
         * "commentCount":0,
         * "pickupCode":null,
         * "EnabledRefundAmount":11.90,
-        * "itemInfo":[{"productId":702,"productName":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)","image":"http://47.96.126.145:8830//Storage/Shop/1/Products/702/1_350.png","count":1,"price":11.90,"Unit":"包","color":null,"size":null,"version":null,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","RefundStats":null,"OrderRefundId":0,"EnabledRefundAmount":11.90}],
+        * "itemInfo":[{"productId":702,"productName":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)","image":"http://mall.xigyu.com//Storage/Shop/1/Products/702/1_350.png","count":1,"price":11.90,"Unit":"包","color":null,"size":null,"version":null,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","RefundStats":null,"OrderRefundId":0,"EnabledRefundAmount":11.90}],
         * "RefundStats":0,
         * "OrderRefundId":0,
         * "HasExpressStatus":false,
@@ -319,7 +319,7 @@ public class Order implements Serializable {
     /*
     *"productId":702,
     * "productName":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)",
-    * "image":"http://47.96.126.145:8830//Storage/Shop/1/Products/702/1_350.png",
+    * "image":"http://mall.xigyu.com//Storage/Shop/1/Products/702/1_350.png",
     * "count":1,
     * "price":11.90,
     * "Unit":"包",
@@ -400,7 +400,7 @@ public class Order implements Serializable {
         }
 
         public String getColor() {
-            return color;
+            return color==null?"":color;
         }
 
         public void setColor(String color) {
@@ -408,7 +408,7 @@ public class Order implements Serializable {
         }
 
         public String getSize() {
-            return size;
+            return size==null?"":size;
         }
 
         public void setSize(String size) {
@@ -416,7 +416,7 @@ public class Order implements Serializable {
         }
 
         public String getVersion() {
-            return version;
+            return version==null?"":version;
         }
 
         public void setVersion(String version) {

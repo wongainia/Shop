@@ -8,7 +8,7 @@ public class LimitBuyListResult implements Serializable {
 
     /**
      * Total : 3
-     * List : [{"Id":52,"ProductId":756,"ProductImg":"http://47.96.126.145:8830//Storage/Shop/1/Products/756/1_350.png","ProductName":"Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱","MinPrice":20,"EndDate":"2019-05-10T17:30:16"},{"Id":53,"ProductId":749,"ProductImg":"http://47.96.126.145:8830//Storage/Shop/1/Products/749/1_350.png","ProductName":"积家（Jaeger）Master Control大师系列机械男表Q1552520 银色","MinPrice":20000,"EndDate":"2019-05-18T17:30:39"},{"Id":54,"ProductId":745,"ProductImg":"http://47.96.126.145:8830//Storage/Shop/1/Products/745/1_350.png","ProductName":"新西兰蔓越莓蜂蜜480g 进口蜂蜜选新西兰蜂蜜品牌 NatureBeing","MinPrice":219,"EndDate":"2019-05-26T02:30:55"}]
+     * List : [{"Id":52,"ProductId":756,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/756/1_350.png","ProductName":"Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱","MinPrice":20,"EndDate":"2019-05-10T17:30:16"},{"Id":53,"ProductId":749,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/749/1_350.png","ProductName":"积家（Jaeger）Master Control大师系列机械男表Q1552520 银色","MinPrice":20000,"EndDate":"2019-05-18T17:30:39"},{"Id":54,"ProductId":745,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/745/1_350.png","ProductName":"新西兰蔓越莓蜂蜜480g 进口蜂蜜选新西兰蜂蜜品牌 NatureBeing","MinPrice":219,"EndDate":"2019-05-26T02:30:55"}]
      */
 
     private int Total;
@@ -34,7 +34,7 @@ public class LimitBuyListResult implements Serializable {
         /**
          * Id : 52
          * ProductId : 756
-         * ProductImg : http://47.96.126.145:8830//Storage/Shop/1/Products/756/1_350.png
+         * ProductImg : http://mall.xigyu.com//Storage/Shop/1/Products/756/1_350.png
          * ProductName : Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱
          * MinPrice : 20.0
          * EndDate : 2019-05-10T17:30:16
