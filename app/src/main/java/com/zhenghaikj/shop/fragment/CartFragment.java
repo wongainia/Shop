@@ -228,7 +228,6 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                             @Override
                             public void onNegtiveClick() {//取消
                                 dialog.dismiss();
-                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
                             }
                         }).show();
 

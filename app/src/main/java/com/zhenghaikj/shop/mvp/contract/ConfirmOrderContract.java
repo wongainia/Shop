@@ -9,6 +9,7 @@ import com.zhenghaikj.shop.entity.ShippingAddressList;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
+import retrofit2.http.Query;
 
 public interface ConfirmOrderContract {
     interface Model extends BaseModel{
@@ -29,6 +30,19 @@ public interface ConfirmOrderContract {
                                                  String invoiceTitle,
                                                  String orderRemarks,
                                                  String userkey);
+
+        Observable<ConfirmModel> PostSubmitOrderByCart(
+                                                 String cartItemIds,
+                                                 String recieveAddressId,
+                                                 String couponIds,
+                                                 String integral,
+                                                 String isCashOnDelivery,
+                                                 String invoiceType,
+                                                 String invoiceContext,
+                                                 String invoiceTitle,
+                                                 String orderRemarks,
+                                                 String userkey
+        );
     }
 
     interface View extends BaseView{
@@ -36,6 +50,7 @@ public interface ConfirmOrderContract {
         void GetSubmitModel(GetConfirmModel result);
         void GetSubmitByCartModel(GetConfirmModel result);
         void PostSubmitOrder(ConfirmModel result);
+        void PostSubmitOrderByCart(ConfirmModel result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -44,15 +59,28 @@ public interface ConfirmOrderContract {
 
         public abstract void GetSubmitByCartModel(String CartItemId,String userkey);
         public abstract void PostSubmitOrder (String skuIds,
-                                             String counts,
-                                             String recieveAddressId,
-                                             String couponIds,
-                                             String integral,
-                                             String isCashOnDelivery,
-                                             String invoiceType,
-                                             String invoiceContext,
-                                             String invoiceTitle,
-                                             String orderRemarks,
-                                             String userkey);
+                                              String counts,
+                                              String recieveAddressId,
+                                              String couponIds,
+                                              String integral,
+                                              String isCashOnDelivery,
+                                              String invoiceType,
+                                              String invoiceContext,
+                                              String invoiceTitle,
+                                              String orderRemarks,
+                                              String userkey);
+        public abstract void PostSubmitOrderByCart(
+                                              String cartItemIds,
+                                              String recieveAddressId,
+                                              String couponIds,
+                                              String integral,
+                                              String isCashOnDelivery,
+                                              String invoiceType,
+                                              String invoiceContext,
+                                              String invoiceTitle,
+                                              String orderRemarks,
+                                              String userkey
+        );
+
     }
 }

@@ -25,8 +25,12 @@ import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 import com.zhenghaikj.shop.mvp.model.ConfirmOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.ConfirmOrderPresenter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -35,7 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, ConfirmOrderModel> implements View.OnClickListener, ConfirmOrderContract.View {
+public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, ConfirmOrderModel> implements View.OnClickListener, ConfirmOrderContract.View, ConfirmOrderAdapter.SaveEditTextStrListener {
 
     @BindView(R.id.view)
     View mView;
@@ -73,13 +77,14 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     Bundle extras;
 
     String addressid="";
-    String message=""; //存放留言信息
     private ConfirmOrderAdapter confirmOrderAdapter;
     private ShippingAddressList.ShippingAddressBean address;
 
 
     List<StoreBean> list = new ArrayList<>();
 
+
+    HashMap<Integer,String> messagemap=new HashMap<>(); //留言map
     @Override
     protected int setLayoutId() {
         return R.layout.activity_confirm_order;
@@ -107,7 +112,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
         } else if ("2".equals(extras.getString("TYPE"))) {//购物车购买
             String cartItemIds = extras.getString("cartItemIds");
-
             mPresenter.GetSubmitByCartModel(cartItemIds, Userkey);
         } else {
 
@@ -146,10 +150,34 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 if ("1".equals(extras.getString("TYPE"))) {//直接购买
                     String skuId = list.get(0).getList().get(0).getSkuId();
                     String count = list.get(0).getList().get(0).getCount();
-                    mPresenter.PostSubmitOrder(skuId,count,addressid,"","0","false","0","","","121",Userkey);
+
+                    String message = null;
+                    if (messagemap.isEmpty()){
+                        message=""; //没留言的情况
+                    }else {
+                        message = messagemap.get(0);  //只有一个店铺 取第一个
+                    }
+
+                    mPresenter.PostSubmitOrder(skuId,count,addressid,"","0","false","0","","",message,Userkey);
+                }else {
+                    String cartItemIds = extras.getString("cartItemIds");
+
+                    String message="";
+                    if (messagemap.isEmpty()){
+                        message=""; //没留言的情况
+                    }else {
+
+                        for (int i = 0; i < CartSumcount(list); i++) {  //留言添加
+                            if (messagemap.get(i)==null){
+                                message+=",";
+                            }else {
+                                message+=","+messagemap.get(i);
+                            }
+                        }
+                        mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,"","0","false","0","","",message.substring(1,message.length()),Userkey);
+                    }
 
                 }
-
 
                 break;
         }
@@ -232,7 +260,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             storeBean.setList(list_shop);
             list.add(storeBean);
 
-            confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list);
+            confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list,mActivity);
             confirmOrderAdapter.setEmptyView(getEmptyView());
             mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
 /*
@@ -241,12 +269,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
              message = et_message.getText().toString();
 */
 
-
             mRvConfirmOrder.setAdapter(confirmOrderAdapter);
-            double price = Double.parseDouble(result.getProducts().get(0).getCartItemModels().get(0).getPrice());
+           /* double price = Double.parseDouble(result.getProducts().get(0).getCartItemModels().get(0).getPrice());
             double count = Double.parseDouble(result.getProducts().get(0).getCartItemModels().get(0).getCount());
-            double Money = price * count;
-            mTvtotalmoney.setText("合计¥:" + String.format("%.2f", Money));
+            double Money = price * count;*/
+            mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getTotalAmount()));
         }
 
 
@@ -259,6 +286,70 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @Override
     public void GetSubmitByCartModel(GetConfirmModel result) {
 
+        if (result.getSuccess().equals("true")) {
+            if (result.getAddress() != null) {
+                addressid= String.valueOf(result.getAddress().getId());
+                mTvName.setText(result.getAddress().getShipTo());
+                mTvPhone.setText(result.getAddress().getPhone());
+                mTvAddress.setText(result.getAddress().getAddress());
+                mLlAddress.setVisibility(View.VISIBLE);
+                mLlAddAddress.setVisibility(View.GONE);
+            } else {
+                mLlAddress.setVisibility(View.GONE);
+                mLlAddAddress.setVisibility(View.VISIBLE);
+            }
+
+        }
+
+
+
+        if (!result.getProducts().isEmpty()) {
+
+            for (int i = 0; i <result.getProducts().size() ; i++) {
+                StoreBean storeBean = new StoreBean();
+                storeBean.setShopLogo(""); //没店铺图标
+                storeBean.setShopName(result.getProducts().get(i).getShopName());
+                List<CommodityBean> list_shop = new ArrayList<>();
+                for (int j = 0; j < result.getProducts().get(i).getCartItemModels().size() ; j++) {
+                    CommodityBean commodityBean = new CommodityBean();
+                    commodityBean.setSkuId(result.getProducts().get(i).getCartItemModels().get(j).getSkuId());
+                    commodityBean.setColor(result.getProducts().get(i).getCartItemModels().get(j).getColor());
+                    commodityBean.setSize(result.getProducts().get(i).getCartItemModels().get(j).getSize());
+                    commodityBean.setVersion(result.getProducts().get(i).getCartItemModels().get(j).getVersion());
+                    commodityBean.setId(result.getProducts().get(i).getCartItemModels().get(j).getId());
+                    commodityBean.setImgUrl(result.getProducts().get(i).getCartItemModels().get(j).getImgUrl());
+                    commodityBean.setName(result.getProducts().get(i).getCartItemModels().get(j).getName());
+                    commodityBean.setPrice(result.getProducts().get(i).getCartItemModels().get(j).getPrice());
+                    commodityBean.setCount(result.getProducts().get(i).getCartItemModels().get(j).getCount());
+                    commodityBean.setShopId(result.getProducts().get(i).getCartItemModels().get(j).getShopId());
+                    commodityBean.setVShopId(result.getProducts().get(i).getCartItemModels().get(j).getVshopId());
+
+                    list_shop.add(commodityBean);
+                }
+                storeBean.setList(list_shop);
+                list.add(storeBean);
+
+            }
+
+            confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list,mActivity);
+            confirmOrderAdapter.setEmptyView(getEmptyView());
+            mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
+            mRvConfirmOrder.setAdapter(confirmOrderAdapter);
+            mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getTotalAmount()));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     /*立即购买提交*/
@@ -269,6 +360,17 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             Toast.makeText(mActivity,"提交成功待支付",Toast.LENGTH_SHORT).show();
         }
 
+
+    }
+
+    @Override
+    public void PostSubmitOrderByCart(ConfirmModel result) {
+
+        if (result.getSuccess().equals("true")){
+            ConfirmOrderActivity.this.finish();
+            EventBus.getDefault().post("cart");
+            Toast.makeText(mActivity,"提交成功待支付",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -287,6 +389,34 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 mTvAddress.setText(address.getRegionFullName() + " " + address.getAddress());
 
             }
+
+        }
+
+    }
+
+    /*计算购物车中提交的数量*/
+    public int CartSumcount(List<StoreBean> list){
+        int count=0;
+
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).getList().size(); j++) {
+                 count++;
+            }
+        }
+
+        return count;
+    }
+
+
+
+
+    @Override
+    public void SaveEdit(int position, String string) {
+        Log.d("位置为"+position,"留言内容为"+string);
+        messagemap.put(position,string);
+
+        if ("".equals(string)){
+            messagemap.remove(position);
 
         }
 

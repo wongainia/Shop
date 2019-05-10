@@ -53,7 +53,7 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
     @Override
     public Observable<GetConfirmModel> GetSubmitByCartModel(String CartItemId, String userkey) {
         map = new HashMap<>();
-        map.put("cartitemid",CartItemId);
+        map.put("cartitemids",CartItemId);
         map.put("userkey",userkey);
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
@@ -83,6 +83,28 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
         map.put("timestamp", timestamp);
         sign= ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().PostSubmitOrder(skuIds,counts,recieveAddressId,couponIds,integral,isCashOnDelivery,invoiceType,invoiceContext,invoiceTitle,orderRemarks,userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<ConfirmModel> PostSubmitOrderByCart(String cartItemIds, String recieveAddressId, String couponIds, String integral, String isCashOnDelivery, String invoiceType, String invoiceContext, String invoiceTitle, String orderRemarks, String userkey) {
+        map = new HashMap<>();
+        map.put("cartitemids",cartItemIds);
+        map.put("recieveaddressid",recieveAddressId);
+        map.put("couponids",couponIds);
+        map.put("integral",integral);
+        map.put("iscashondelivery",isCashOnDelivery);
+        map.put("invoicetype",invoiceType);
+        map.put("invoicecontext",invoiceContext);
+        map.put("invoicetitle",invoiceTitle);
+        map.put("orderremarks",orderRemarks);
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign= ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().PostSubmitOrderByCart(cartItemIds,recieveAddressId,couponIds,integral,isCashOnDelivery,invoiceType,invoiceContext,invoiceTitle,orderRemarks,userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

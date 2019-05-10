@@ -581,7 +581,7 @@ public interface ApiService {
 
     /*取购物车提交的MODEL*/
     @GET("api/Order/GetSubmitByCartModel")
-    Observable<GetConfirmModel> GetSubmitByCartModel(@Query("CartItemId") String CartItemId,
+    Observable<GetConfirmModel> GetSubmitByCartModel(@Query("cartItemIds") String CartItemId,
                                                      @Query("userkey") String UserKey,
                                                      @Query("app_key") String app_key,
                                                      @Query("timestamp") String timestamp,
@@ -622,6 +622,24 @@ public interface ApiService {
                                              @Query("timestamp") String timestamp,
                                              @Query("sign") String sign
                                        );
+
+      /*购物车提交订单*/
+    @FormUrlEncoded
+    @POST("api/Order/PostSubmitOrderByCart")
+    Observable<ConfirmModel> PostSubmitOrderByCart(@Field("cartItemIds") String cartItemIds,
+                                                   @Field("recieveAddressId") String recieveAddressId,
+                                                   @Field("couponIds") String couponIds,
+                                                   @Field("integral") String integral,
+                                                   @Field("isCashOnDelivery") String isCashOnDelivery,
+                                                   @Field("invoiceType") String invoiceType,
+                                                   @Field("invoiceContext") String invoiceContext,
+                                                   @Field("invoiceTitle") String invoiceTitle,
+                                                   @Field("orderRemarks") String orderRemarks,
+                                                   @Field("userkey") String userkey,
+                                                   @Query("app_key") String app_key,
+                                                   @Query("timestamp") String timestamp,
+                                                   @Query("sign") String sign
+                                                   );
 
 
 

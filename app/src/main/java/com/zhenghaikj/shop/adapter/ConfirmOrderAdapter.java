@@ -1,6 +1,10 @@
 package com.zhenghaikj.shop.adapter;
 
+import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -15,9 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ConfirmOrderAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
     private List<StoreBean> list;
-    public ConfirmOrderAdapter(int layoutResId, @Nullable List<StoreBean> data) {
+    private Context mContext;
+    public ConfirmOrderAdapter(int layoutResId, @Nullable List<StoreBean> data,Context context) {
         super(layoutResId, data);
         list=data;
+        mContext=context;
     }
 
     @Override
@@ -40,7 +46,42 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<StoreBean, BaseViewHol
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(confirmOrderListAdapter);
 
+        helper.getView(R.id.et_leave_a_message).setTag(helper.getLayoutPosition());
+        ((EditText)helper.getView(R.id.et_leave_a_message)).addTextChangedListener(new TextSwitcher(helper));
+    }
 
 
+
+
+    public interface SaveEditTextStrListener{
+        void SaveEdit(int position, String string);
+    }
+
+    class TextSwitcher implements TextWatcher{
+        private BaseViewHolder holder;
+
+        public TextSwitcher(BaseViewHolder holder) {
+            this.holder=holder;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            SaveEditTextStrListener listener=(SaveEditTextStrListener)mContext;
+
+            if(s!=null){
+                listener.SaveEdit(Integer.parseInt(holder.getView(R.id.et_leave_a_message).getTag().toString()),s.toString());
+            }
+
+        }
     }
 }

@@ -55,4 +55,15 @@ public class ConfirmOrderPresenter extends ConfirmOrderContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void PostSubmitOrderByCart(String cartItemIds, String recieveAddressId, String couponIds, String integral, String isCashOnDelivery, String invoiceType, String invoiceContext, String invoiceTitle, String orderRemarks, String userkey) {
+        mModel.PostSubmitOrderByCart(cartItemIds,recieveAddressId,couponIds,integral,isCashOnDelivery,invoiceType,invoiceContext,invoiceTitle,orderRemarks,userkey)
+                .subscribe(new BaseObserver<ConfirmModel>() {
+                    @Override
+                    protected void onHandleSuccess(ConfirmModel value) {
+                        mView.PostSubmitOrderByCart(value);
+                    }
+                });
+    }
 }
