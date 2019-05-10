@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
+import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
@@ -47,9 +48,9 @@ public class ConfirmOrderPresenter extends ConfirmOrderContract.Presenter {
     @Override
     public void PostSubmitOrder(String skuIds, String counts, String recieveAddressId, String couponIds, String integral, String isCashOnDelivery, String invoiceType, String invoiceContext, String invoiceTitle, String orderRemarks, String userkey) {
         mModel.PostSubmitOrder(skuIds,counts,recieveAddressId,couponIds,integral,isCashOnDelivery,invoiceType,invoiceContext,invoiceTitle,orderRemarks,userkey)
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<ConfirmModel>() {
                     @Override
-                    protected void onHandleSuccess(String value) {
+                    protected void onHandleSuccess(ConfirmModel value) {
                         mView.PostSubmitOrder(value);
                     }
                 });

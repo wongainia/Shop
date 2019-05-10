@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.mvp.contract;
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 
@@ -17,24 +18,24 @@ public interface ConfirmOrderContract {
         Observable<GetConfirmModel> GetSubmitByCartModel(String CartItemId,String userkey);
 
 
-        Observable<String> PostSubmitOrder(String skuIds,
-                                           String counts,
-                                           String recieveAddressId,
-                                           String couponIds,
-                                           String integral,
-                                           String isCashOnDelivery,
-                                           String invoiceType,
-                                           String invoiceContext,
-                                           String invoiceTitle,
-                                           String orderRemarks,
-                                           String userkey);
+        Observable<ConfirmModel> PostSubmitOrder(String skuIds,
+                                                 String counts,
+                                                 String recieveAddressId,
+                                                 String couponIds,
+                                                 String integral,
+                                                 String isCashOnDelivery,
+                                                 String invoiceType,
+                                                 String invoiceContext,
+                                                 String invoiceTitle,
+                                                 String orderRemarks,
+                                                 String userkey);
     }
 
     interface View extends BaseView{
         void GetShippingAddressList(ShippingAddressList result);
         void GetSubmitModel(GetConfirmModel result);
         void GetSubmitByCartModel(GetConfirmModel result);
-        void PostSubmitOrder(String result);
+        void PostSubmitOrder(ConfirmModel result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{

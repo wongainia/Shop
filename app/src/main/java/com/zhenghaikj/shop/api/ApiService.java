@@ -11,6 +11,7 @@ import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.CollectionProduct;
 import com.zhenghaikj.shop.entity.CollectionShop;
+import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
@@ -605,20 +606,20 @@ public interface ApiService {
     /*立即购买提交订单*/
     @FormUrlEncoded
     @POST("api/Order/PostSubmitOrder")
-    Observable<String> PostSubmitOrder(@Field("skuIds") String cartItemIds,
-                                       @Field("counts") String counts,
-                                       @Field("recieveAddressId") String recieveAddressId,
-                                       @Field("couponIds") String couponIds,
-                                       @Field("integral") String integral,
-                                       @Field("isCashOnDelivery") String isCashOnDelivery,
-                                       @Field("invoiceType") String invoiceType,
-                                       @Field("invoiceContext") String invoiceContext,
-                                       @Field("invoiceTitle") String invoiceTitle,
-                                       @Field("orderRemarks") String orderRemarks,
-                                       @Field("userkey") String userkey,
-                                       @Query("app_key") String app_key,
-                                       @Query("timestamp") String timestamp,
-                                       @Query("sign") String sign
+    Observable<ConfirmModel> PostSubmitOrder(@Field("skuIds") String cartItemIds,
+                                             @Field("counts") String counts,
+                                             @Field("recieveAddressId") String recieveAddressId,
+                                             @Field("couponIds") String couponIds,
+                                             @Field("integral") String integral,
+                                             @Field("isCashOnDelivery") String isCashOnDelivery,
+                                             @Field("invoiceType") String invoiceType,
+                                             @Field("invoiceContext") String invoiceContext,
+                                             @Field("invoiceTitle") String invoiceTitle,
+                                             @Field("orderRemarks") String orderRemarks,
+                                             @Field("userkey") String userkey,
+                                             @Query("app_key") String app_key,
+                                             @Query("timestamp") String timestamp,
+                                             @Query("sign") String sign
                                        );
 
 

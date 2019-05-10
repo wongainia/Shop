@@ -512,29 +512,29 @@ public class GetConfirmModel implements Serializable {
              */
 
             private String skuId;
-            private Object size;
-            private Object color;
-            private Object version;
-            private int id;
+            private String size;
+            private String color;
+            private String version;
+            private String id;
             private String imgUrl;
-            private Object shopName;
+            private String shopName;
             private String name;
-            private double price;
-            private int count;
-            private int shopId;
-            private int vshopId;
+            private String price;
+            private String count;
+            private String shopId;
+            private String vshopId;
             private boolean IsSelf;
             private String productCode;
             private String unit;
-            private Object UserCoupons;
+            private String UserCoupons;
             private boolean isDis;
             private String ColorAlias;
             private String SizeAlias;
             private String VersionAlias;
-            private int collpid;
+            private String collpid;
             private boolean IsLimit;
-            private Object ShopBranchId;
-            private Object ShopBranchName;
+            private String ShopBranchId;
+            private String ShopBranchName;
 
             public String getSkuId() {
                 return skuId;
@@ -544,35 +544,35 @@ public class GetConfirmModel implements Serializable {
                 this.skuId = skuId;
             }
 
-            public Object getSize() {
+            public String getSize() {
                 return size;
             }
 
-            public void setSize(Object size) {
+            public void setSize(String size) {
                 this.size = size;
             }
 
-            public Object getColor() {
+            public String getColor() {
                 return color;
             }
 
-            public void setColor(Object color) {
+            public void setColor(String color) {
                 this.color = color;
             }
 
-            public Object getVersion() {
+            public String getVersion() {
                 return version;
             }
 
-            public void setVersion(Object version) {
+            public void setVersion(String version) {
                 this.version = version;
             }
 
-            public int getId() {
+            public String getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(String id) {
                 this.id = id;
             }
 
@@ -588,7 +588,7 @@ public class GetConfirmModel implements Serializable {
                 return shopName;
             }
 
-            public void setShopName(Object shopName) {
+            public void setShopName(String shopName) {
                 this.shopName = shopName;
             }
 
@@ -600,35 +600,35 @@ public class GetConfirmModel implements Serializable {
                 this.name = name;
             }
 
-            public double getPrice() {
+            public String getPrice() {
                 return price;
             }
 
-            public void setPrice(double price) {
+            public void setPrice(String price) {
                 this.price = price;
             }
 
-            public int getCount() {
+            public String getCount() {
                 return count;
             }
 
-            public void setCount(int count) {
+            public void setCount(String count) {
                 this.count = count;
             }
 
-            public int getShopId() {
+            public String getShopId() {
                 return shopId;
             }
 
-            public void setShopId(int shopId) {
+            public void setShopId(String shopId) {
                 this.shopId = shopId;
             }
 
-            public int getVshopId() {
+            public String getVshopId() {
                 return vshopId;
             }
 
-            public void setVshopId(int vshopId) {
+            public void setVshopId(String vshopId) {
                 this.vshopId = vshopId;
             }
 
@@ -656,11 +656,11 @@ public class GetConfirmModel implements Serializable {
                 this.unit = unit;
             }
 
-            public Object getUserCoupons() {
+            public String getUserCoupons() {
                 return UserCoupons;
             }
 
-            public void setUserCoupons(Object UserCoupons) {
+            public void setUserCoupons(String UserCoupons) {
                 this.UserCoupons = UserCoupons;
             }
 
@@ -696,11 +696,11 @@ public class GetConfirmModel implements Serializable {
                 this.VersionAlias = VersionAlias;
             }
 
-            public int getCollpid() {
+            public String getCollpid() {
                 return collpid;
             }
 
-            public void setCollpid(int collpid) {
+            public void setCollpid(String collpid) {
                 this.collpid = collpid;
             }
 
@@ -712,19 +712,19 @@ public class GetConfirmModel implements Serializable {
                 this.IsLimit = IsLimit;
             }
 
-            public Object getShopBranchId() {
+            public String getShopBranchId() {
                 return ShopBranchId;
             }
 
-            public void setShopBranchId(Object ShopBranchId) {
+            public void setShopBranchId(String ShopBranchId) {
                 this.ShopBranchId = ShopBranchId;
             }
 
-            public Object getShopBranchName() {
+            public String getShopBranchName() {
                 return ShopBranchName;
             }
 
-            public void setShopBranchName(Object ShopBranchName) {
+            public void setShopBranchName(String ShopBranchName) {
                 this.ShopBranchName = ShopBranchName;
             }
         }

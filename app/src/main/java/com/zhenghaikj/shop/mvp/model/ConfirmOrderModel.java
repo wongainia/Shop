@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
@@ -64,7 +65,7 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
     }
 
     @Override
-    public Observable<String> PostSubmitOrder(String skuIds, String counts, String recieveAddressId, String couponIds, String integral, String isCashOnDelivery, String invoiceType, String invoiceContext, String invoiceTitle, String orderRemarks, String userkey) {
+    public Observable<ConfirmModel> PostSubmitOrder(String skuIds, String counts, String recieveAddressId, String couponIds, String integral, String isCashOnDelivery, String invoiceType, String invoiceContext, String invoiceTitle, String orderRemarks, String userkey) {
         map = new HashMap<>();
         map.put("skuids",skuIds);
         map.put("counts",counts);
