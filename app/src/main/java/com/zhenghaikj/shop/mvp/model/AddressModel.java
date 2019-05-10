@@ -69,7 +69,7 @@ public class AddressModel implements AddressContract.Model {
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<Address> PostEditShippingAddress(String id,String regionId, String address, String phone, String shipTo, String latitude, String longitude, String Userkey) {
+    public Observable<Address> PostEditShippingAddress(String id,String regionId, String address, String phone, String shipTo, String latitude, String longitude,String IsDefault, String Userkey) {
         map = new HashMap<>();
         map.put("id",id);
         map.put("regionid",regionId);
@@ -78,12 +78,13 @@ public class AddressModel implements AddressContract.Model {
         map.put("shipto",shipTo);
         map.put("latitude",latitude);
         map.put("longitude",longitude);
+        map.put("isdefault",IsDefault);
         map.put("userkey",Userkey);
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().PostEditShippingAddress(id,regionId,address,phone,shipTo,latitude,longitude,Userkey,"himalltest",timestamp,sign)
+        return ApiRetrofit.getDefault().PostEditShippingAddress(id,regionId,address,phone,shipTo,latitude,longitude,IsDefault,Userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

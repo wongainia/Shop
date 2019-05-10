@@ -24,6 +24,8 @@ public class AddressAdapter extends BaseQuickAdapter<ShippingAddressList.Shippin
                 .setText(R.id.tv_name_first,item.getShipTo().substring(0,1));
         if (item.isDefault()){
             helper.setVisible(R.id.tv_default,true);
+        }else {
+             helper.setGone(R.id.tv_default,false);
         }
 
         helper.addOnClickListener(R.id.tv_edit);

@@ -40,8 +40,8 @@ public class AddressPresenter extends AddressContract.Presenter {
                 });
     }
     @Override
-    public void PostEditShippingAddress(String id,String regionId, String address, String phone, String shipTo, String latitude, String longitude, String Userkey) {
-        mModel.PostEditShippingAddress(id,regionId, address, phone, shipTo, latitude, longitude, Userkey)
+    public void PostEditShippingAddress(String id,String regionId, String address, String phone, String shipTo, String latitude, String longitude,String IsDefault, String Userkey) {
+        mModel.PostEditShippingAddress(id,regionId, address, phone, shipTo, latitude, longitude,IsDefault, Userkey)
                 .subscribe(new BaseObserver<Address>() {
                     @Override
                     protected void onHandleSuccess(Address value) {

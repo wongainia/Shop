@@ -95,6 +95,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     private SPUtils spUtils;
     private String userKey;
     private ShippingAddressList.ShippingAddressBean shippingAddressBean;
+    private String IsDefault="false";
 
     @Override
     protected int setLayoutId() {
@@ -122,6 +123,13 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
             regionId=shippingAddressBean.getRegionId();
             mEtAddress.setText(shippingAddressBean.getAddress());
             mTvTitle.setText("编辑收货地址");
+
+            if (shippingAddressBean.isDefault()){
+                mSwitcherAcceptTheRepairWorkOrder.setChecked(true);
+            }else {
+                mSwitcherAcceptTheRepairWorkOrder.setChecked(false);
+            }
+
             mLldefalut_address.setVisibility(View.VISIBLE);
         }else{
             mTvTitle.setText("添加收货地址");
@@ -136,7 +144,6 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     protected void initView() {
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
-
 
     }
 
@@ -155,10 +162,14 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
             case R.id.switcher_accept_the_repair_work_order:
                 if (mSwitcherAcceptTheRepairWorkOrder.isChecked()){
                     Log.d("=====>","设置默认地址");
-                  mPresenter.PostSetDefaultAddress(shippingAddressBean.getId(),userKey);
+                 // mPresenter.PostSetDefaultAddress(shippingAddressBean.getId(),userKey);
+                    IsDefault="true";
+
+
                 }else {
 
                     Log.d("=====>","关闭");
+                    IsDefault="false";
                 }
                 break;
 
@@ -202,7 +213,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                     ToastUtils.showShort("请输入详细地址");
                 }else {
                     if (shippingAddressBean != null) {
-                        mPresenter.PostEditShippingAddress(shippingAddressBean.getId(),regionId,address,phone,name,"","",userKey);
+                        mPresenter.PostEditShippingAddress(shippingAddressBean.getId(),regionId,address,phone,name,"","",IsDefault,userKey);
                     }else{
                         mPresenter.PostAddShippingAddress(regionId,address,phone,name,"","",userKey);
                     }
@@ -228,9 +239,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                         String number = cursor.getString(0);
                         String name = cursor.getString(1);
                         mEtCellphoneNumber.setText(number);
-//                        if (mEtReceiver.getText().toString().isEmpty()){
                             mEtReceiver.setText(name);
-//                        }
 
                     }
                 }

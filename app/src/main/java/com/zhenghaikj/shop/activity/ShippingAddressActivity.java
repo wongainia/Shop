@@ -17,6 +17,9 @@ import com.zhenghaikj.shop.mvp.contract.ShippingAddressListContract;
 import com.zhenghaikj.shop.mvp.model.ShippingAddressListModel;
 import com.zhenghaikj.shop.mvp.presenter.ShippingAddressListPresenter;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +72,6 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
 
     @Override
     protected void initData() {
-//        addressAdapter = new AddressAdapter(R.layout.item_address, list);
         addressAdapter = new AddressAdapter(R.layout.item_address, addressList);
         addressAdapter.setEmptyView(getEmptyView());
         mRvAddress.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -148,17 +150,9 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
             } else {
                 addressList=result.getShippingAddress();
                 list.clear();
-              /*  for (int i = 0; i < addressList.size(); i++) {
-                    if(addressList.get(i).isDefault()){
-                        list.add(0,result.getShippingAddress().get(i));
-                    }else {
-                        list.add(result.getShippingAddress().get(i));
-                    }
-                    addressAdapter.setNewData(list);
-                }*/
-              list.addAll(addressList);
-              addressAdapter.setNewData(list);
-
+                list.addAll(addressList);
+                addressAdapter.setNewData(list);
+                addressAdapter.notifyDataSetChanged();
 
             }
         }
@@ -170,5 +164,17 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
         if (requestCode==100){
             mPresenter.GetShippingAddressList(userkey);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String message) {
+        switch (message){
+            case "Refresh_address":
+                mPresenter.GetShippingAddressList(userkey);
+                break;
+            default:
+                break;
+        }
+
     }
 }

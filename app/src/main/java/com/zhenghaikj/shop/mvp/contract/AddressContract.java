@@ -27,6 +27,7 @@ public interface AddressContract {
                                                    String shipTo,
                                                    String latitude,
                                                    String longitude,
+                                                   String IsDefault,
                                                    String Userkey);
 
         Observable<String> PostSetDefaultAddress(String addId,String userkey);
@@ -55,7 +56,7 @@ public interface AddressContract {
                                                    String phone,
                                                    String shipTo,
                                                    String latitude,
-                                                   String longitude,
+                                                   String longitude, String IsDefault,
                                                    String Userkey);
 
         public abstract void PostSetDefaultAddress(String addId,String userkey);
