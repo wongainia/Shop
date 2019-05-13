@@ -16,6 +16,7 @@ import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.ShippingAddressListContract;
 import com.zhenghaikj.shop.mvp.model.ShippingAddressListModel;
 import com.zhenghaikj.shop.mvp.presenter.ShippingAddressListPresenter;
+import com.zhenghaikj.shop.utils.SingleClick;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -122,7 +123,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
         mIconBack.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
     }
-
+    @SingleClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 // 依赖插件脚本
 apply from: 'tinker-support.gradle'
+// 注意：主App中请确保添加aspectjx
+apply plugin: 'android-aspectjx'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -105,4 +107,5 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     //扫描条形码
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+    implementation 'org.aspectj:aspectjrt:1.8.9'
 }

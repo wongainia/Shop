@@ -15,6 +15,7 @@
         android:layout_height="50dp">
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_scan"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -22,12 +23,14 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/dp_10" />
         <LinearLayout
+            android:id="@+id/ll_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:background="@drawable/search_edit_gray_shape"
             android:padding="@dimen/dp_10">
             <ImageView
@@ -37,11 +40,11 @@
                 android:src="@mipmap/sou"
                 android:layout_marginRight="@dimen/dp_10"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/tv_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="hhh"
+                android:hint="搜索"
                 android:background="@null"
                 android:layout_gravity="center"
                 android:textColor="#BCBDC2"
@@ -49,6 +52,7 @@
         </LinearLayout>
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_message"
             android:layout_width="25dp"
             android:layout_height="25dp"

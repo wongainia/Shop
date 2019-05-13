@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.SearchDetailAdapetr;
 import com.zhenghaikj.shop.adapter.SearchDetailWaterFallAdapetr;
@@ -120,11 +122,38 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                     break;
             }
         });
-        mRefreshLayout.setEnableRefresh(false);
+        searchDetailWaterFallAdapetr.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.ll_good:
+                    Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
+                    intent.putExtra("id",searchDatailList.get(position).getProductId());
+                    startActivity(intent);
+                    break;
+                case R.id.ll_into_the_store:
+                    startActivity(new Intent(mActivity, StoreActivity.class));
+                    break;
+            }
+        });
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                clear();
+                if (categoryBean!=null){
+                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", "1", Integer.toString(pagaNo), "5");
+                }else{
+                    mPresenter.GetSearchProducts(keywords, "", null, null, "1", "1", Integer.toString(pagaNo), "5");
+                }
+                mRefreshLayout.finishRefresh(1000);
+            }
+        });
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
             pagaNo++;
-            mPresenter.GetSearchProducts(keywords, "", null, null, "1", "1", Integer.toString(pagaNo), "5");
-            refreshLayout.finishLoadMore(1000);
+            if (categoryBean!=null){
+                mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", "1", Integer.toString(pagaNo), "5");
+            }else{
+                mPresenter.GetSearchProducts(keywords, "", null, null, "1", "1", Integer.toString(pagaNo), "5");
+            }
+//            refreshLayout.finishLoadMore(1000);
         });
     }
 
@@ -154,6 +183,7 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                     return true;
                 }
                 clear();
+                categoryBean=null;
                 mPresenter.GetSearchProducts(keywords, "", null, null, "1", "1", Integer.toString(pagaNo), "5");
                 return true;
             }
@@ -191,6 +221,7 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                     return;
                 }
                 clear();
+                categoryBean=null;
                 mPresenter.GetSearchProducts(keywords, "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
                 break;
             case R.id.ll_default:
@@ -201,7 +232,12 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                     orderType = "1";
                 }
                 clear();
-                mPresenter.GetSearchProducts(keywords, "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
+                if (categoryBean!=null){
+                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", orderType, Integer.toString(pagaNo), "5");
+                }else{
+                    mPresenter.GetSearchProducts(keywords, "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
+                }
+//                mPresenter.GetSearchProducts(keywords, "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
                 break;
             case R.id.ll_price:
                 setSelected(mLlPrice);
@@ -211,7 +247,12 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                     orderType = "1";
                 }
                 clear();
-                mPresenter.GetSearchProducts(keywords, "", null, null, "3", orderType, Integer.toString(pagaNo), "5");
+                if (categoryBean!=null){
+                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "3", orderType, Integer.toString(pagaNo), "5");
+                }else{
+                    mPresenter.GetSearchProducts(keywords, "", null, null, "3", orderType, Integer.toString(pagaNo), "5");
+                }
+//                mPresenter.GetSearchProducts(keywords, "", null, null, "3", orderType, Integer.toString(pagaNo), "5");
                 break;
             case R.id.ll_sales_volume:
                 setSelected(mLlSalesVolume);
@@ -221,7 +262,12 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                     orderType = "1";
                 }
                 clear();
-                mPresenter.GetSearchProducts(keywords, "", null, null, "2", orderType, Integer.toString(pagaNo), "5");
+                if (categoryBean!=null){
+                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "2", orderType, Integer.toString(pagaNo), "5");
+                }else{
+                    mPresenter.GetSearchProducts(keywords, "", null, null, "2", orderType, Integer.toString(pagaNo), "5");
+                }
+//                mPresenter.GetSearchProducts(keywords, "", null, null, "2", orderType, Integer.toString(pagaNo), "5");
                 break;
             case R.id.ll_comment_count:
                 setSelected(mLlCommentCount);
@@ -231,7 +277,12 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                     orderType = "1";
                 }
                 clear();
-                mPresenter.GetSearchProducts(keywords, "", null, null, "4", orderType, Integer.toString(pagaNo), "5");
+                if (categoryBean!=null){
+                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "4", orderType, Integer.toString(pagaNo), "5");
+                }else{
+                    mPresenter.GetSearchProducts(keywords, "", null, null, "4", orderType, Integer.toString(pagaNo), "5");
+                }
+//                mPresenter.GetSearchProducts(keywords, "", null, null, "4", orderType, Integer.toString(pagaNo), "5");
                 break;
             case R.id.ll_list:
                 if (mIvList.isSelected()) {
@@ -256,10 +307,16 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
             searchDatailList.addAll(Result.getProduct());
             searchDetailAdapetr.setNewData(searchDatailList);
             searchDetailWaterFallAdapetr.setNewData(searchDatailList);
+            if (pagaNo != 1 && Result.getProduct().size()==0) {
+                mRefreshLayout.finishLoadMoreWithNoMoreData();
+            } else {
+                mRefreshLayout.finishLoadMore();
+            }
         }
     }
-    public void clear(){
-        pagaNo=1;
+    public void clear() {
+        pagaNo = 1;
         searchDatailList.clear();
+        mRefreshLayout.setNoMoreData(false);
     }
 }
