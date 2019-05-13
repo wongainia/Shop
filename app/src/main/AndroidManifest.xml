@@ -42,6 +42,25 @@
         tools:replace="android:theme"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
+        <provider
+
+            android:name="androidx.core.content.FileProvider"
+
+            android:authorities="com.zhenghaikj.shop.fileProvider"
+
+            android:grantUriPermissions="true"
+
+            android:exported="false"
+            tools:replace="android:authorities">
+
+            <meta-data
+
+                android:name="android.support.FILE_PROVIDER_PATHS"
+
+                android:resource="@xml/file_paths"/>
+
+        </provider>
+
         <activity android:name=".activity.SplashActivity"
             android:theme="@style/ThemeSplash"
             android:configChanges="orientation|screenSize"
@@ -94,6 +113,9 @@
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.ServiceActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.ScanActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.OrderActivity" android:theme="@style/AppSplash"
@@ -215,6 +237,11 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
+
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent" />
 
         <activity android:name=".activity.PhotosViewActivity"
             android:theme="@style/AppSplash"

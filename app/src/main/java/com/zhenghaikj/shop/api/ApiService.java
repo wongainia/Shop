@@ -29,6 +29,10 @@ import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Refund;
+import com.zhenghaikj.shop.entity.RefundApplyResult;
+import com.zhenghaikj.shop.entity.RefundDetailResult;
+import com.zhenghaikj.shop.entity.RefundModelResult;
+import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
 import com.zhenghaikj.shop.entity.RegionResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
@@ -468,6 +472,93 @@ public interface ApiService {
                                      @Query("app_key") String app_key,
                                      @Query("timestamp") String timestamp,
                                      @Query("sign") String sign);
+
+    /**
+     * 获取 申请售后/退款（此时未生成单） 详情
+     * @param id
+     * @param itemId
+     * @param userkey
+     * @return
+     */
+    @GET("api/OrderRefund/GetOrderRefundModel")
+    Observable<RefundModelResult> GetOrderRefundModel(@Query("id") String id,
+                                                      @Query("itemId") String itemId,
+                                                      @Query("userkey") String userkey,
+                                                      @Query("app_key") String app_key,
+                                                      @Query("timestamp") String timestamp,
+                                                      @Query("sign") String sign);
+    /**
+     *提交 申请售后/退款
+     * @param OrderId 订单号
+     * @param OrderItemId 子订单号，可以为空
+     * @param RefundType 售后类型：1仅退款 2：退款退货
+     * @param ReturnQuantity 退货数量
+     * @param Amount 退款金额
+     * @param Reason 理由
+     * @param ContactPerson 联系人
+     * @param ContactCellPhone 联系电话
+     * @param RefundPayType 退款支付方式 1： 原理返回  3：退到预付款
+     * @param userkey 用户凭证
+     * @return
+     */
+    @GET("api/OrderRefund/PostRefundApply")
+    Observable<RefundApplyResult> PostRefundApply(
+                                     @Query("OrderId") String OrderId,
+                                     @Query("OrderItemId") String OrderItemId,
+                                     @Query("RefundType") String RefundType,
+                                     @Query("ReturnQuantity") String ReturnQuantity,
+                                     @Query("Amount") String Amount,
+                                     @Query("Reason") String Reason,
+                                     @Query("ContactPerson") String ContactPerson,
+                                     @Query("ContactCellPhone") String ContactCellPhone,
+                                     @Query("RefundPayType") String RefundPayType,
+                                     @Query("userkey") String userkey,
+                                     @Query("app_key") String app_key,
+                                     @Query("timestamp") String timestamp,
+                                     @Query("sign") String sign
+    );
+    /**
+     * 提交买家寄货
+     * @param Id 订单号
+     * @param ExpressCompanyName 物流公司名称
+     * @param ShipOrderNumber 物流公司单号
+     * @param userkey 用户凭证
+     * @return
+     */
+    @GET("api/OrderRefund/PostSellerSendGoods")
+    Observable<RefundApplyResult> PostSellerSendGoods(@Query("Id") String Id,
+                                     @Query("ExpressCompanyName") String ExpressCompanyName,
+                                     @Query("ShipOrderNumber") String ShipOrderNumber,
+                                     @Query("userkey") String userkey,
+                                     @Query("app_key") String app_key,
+                                     @Query("timestamp") String timestamp,
+                                     @Query("sign") String sign);
+
+    /**
+     * 获取  申请售后/退款单 详情
+     * @param id
+     * @param userkey
+     * @return
+     */
+    @GET("api/OrderRefund/GetRefundDetail")
+    Observable<RefundDetailResult> GetRefundDetail(@Query("id") String id,
+                                                   @Query("userkey") String userkey,
+                                                   @Query("app_key") String app_key,
+                                                   @Query("timestamp") String timestamp,
+                                                   @Query("sign") String sign);
+
+    /**
+     *获取  申请售后/退款单进程 详情
+     * @param id
+     * @param userkey
+     * @return
+     */
+    @GET("api/OrderRefund/GetRefundProcessDetail")
+    Observable<RefundProcessDetailResult> GetRefundProcessDetail(@Query("id") String id,
+                                                                 @Query("userkey") String userkey,
+                                                                 @Query("app_key") String app_key,
+                                                                 @Query("timestamp") String timestamp,
+                                                                 @Query("sign") String sign);
     /*删除购物车众多商品*/
     @FormUrlEncoded
     @POST("api/Cart/PostDeleteCartProduct")

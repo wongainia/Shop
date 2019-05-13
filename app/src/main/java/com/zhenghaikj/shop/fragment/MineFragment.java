@@ -10,13 +10,11 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.activity.AfterSaleActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
@@ -33,7 +31,6 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
-import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Product;
@@ -269,7 +266,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_after_sale:
                 //售后
-                startActivity(new Intent(mActivity, AfterSaleActivity.class));
+                startActivity(new Intent(mActivity, ReturnActivity.class));
                 break;
             case R.id.ll_focus_on_the_store:
                 //关注的店铺
@@ -349,13 +346,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_free_installation:
                 //免费安装
 //                mPresenter.AddOrder("2", "安装", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
-                mPresenter.AddOrder("2", "安装", "18767773654", "", "", "250", "", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
+//                mPresenter.AddOrder("2", "安装", "18767773654", "", "", "", "", "251", "", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
 
                 break;
             case R.id.ll_free_repair:
                 //免费维修
 //                mPresenter.AddOrder("1", "维修", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
-                mPresenter.AddOrder("1", "维修", "18767773654", "", "", "250", "", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
+//                mPresenter.AddOrder("1", "维修", "18767773654", "", "", "", "", "251", "", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
                 break;
 
         }
@@ -439,28 +436,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         }
     }
 
-    @Override
-    public void AddOrder(BaseResult<Data<String>> Result) {
-        switch (Result.getStatusCode()) {
-            case 200:
-                Data<String> data = Result.getData();
-                if (data.isItem1()) {
-                    ToastUtils.showShort(data.getItem2());
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("title", "待接单");
-//                    bundle.putInt("position", 0);
-//                    Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
-                } else {
-                    ToastUtils.showShort(data.getItem2());
-                }
-                break;
-            default:
-//                ToastUtils.showShort(data.getItem2());
-                break;
-        }
-    }
 
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> Result) {

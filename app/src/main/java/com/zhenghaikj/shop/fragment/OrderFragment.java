@@ -1,8 +1,16 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,6 +27,7 @@ import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 import com.zhenghaikj.shop.mvp.model.OrderModel;
 import com.zhenghaikj.shop.mvp.presenter.OrderPresenter;
+import com.zhenghaikj.shop.utils.MyUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -28,6 +37,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -52,6 +62,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private int pagaNo = 1;
     private String mParam1;
     private OrderListAdapter orderListAdapter;
+    private View popupWindow_view;
+    private PopupWindow mPopupWindow;
 
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
@@ -104,16 +116,37 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
-                    case R.id.tv_trading_status:
+                    case R.id.tv_buy:
+                    case R.id.tv_buy_again://再次购买
 //                        startActivity(new Intent(mActivity, OrderDetailActivity.class));
-                        mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
+//                        mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                         break;
-                    case R.id.tv_delete_order:
+                    case R.id.tv_delete_order://删除订单
                         Log.d(TAG,"编号："+cartList.get(position).getId());
                         mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                         break;
-                    case R.id.tv_confirm_receipt:
+                    case R.id.tv_confirm_receipt://确认收货
                         mPresenter.PostConfirmOrder(cartList.get(position).getId(),userKey);
+                        break;
+                    case R.id.tv_payment://付款
+                        showPopupWindow();
+                        break;
+                    case R.id.tv_logistics:
+                    case R.id.tv_see_logistics:
+                    case R.id.tv_view_logistics://查看物流
+                        showPopupWindow();
+                        break;
+                    case R.id.tv_extended_receipt://延长收货
+                        showPopupWindow();
+                        break;
+                    case R.id.tv_evaluation://评价
+                        showPopupWindow();
+                        break;
+                    case R.id.tv_change_address://修改地址
+                        showPopupWindow();
+                        break;
+                    case R.id.tv_friend_pay://朋友代付
+                        showPopupWindow();
                         break;
                 }
             }
@@ -187,7 +220,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 orderListAdapter.setNewData(cartList);
             }
             mRefreshLayout.finishRefresh();
-            if (pagaNo != 1 && "0".equals(result.getOrders().size())) {
+            if (pagaNo != 1 && result.getOrders().size()==0) {
                 mRefreshLayout.finishLoadMoreWithNoMoreData();
             } else {
                 mRefreshLayout.finishLoadMore();
@@ -203,5 +236,48 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     @Override
     public void PostConfirmOrder(ConfirmOrder Result) {
 
+    }
+    /**
+     * 弹出付款Popupwindow
+     */
+    public void showPopupWindow() {
+        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.payway_layout, null);
+        LinearLayout ll_alipay = popupWindow_view.findViewById(R.id.ll_alipay);
+        LinearLayout ll_wxpay = popupWindow_view.findViewById(R.id.ll_wxpay);
+        Button cancel_btn = popupWindow_view.findViewById(R.id.cancel_btn);
+        ll_alipay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+            }
+        });
+        ll_wxpay.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+            }
+        });
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+            }
+        });
+        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+            mPopupWindow.showAtLocation(popupWindow_view, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
     }
 }

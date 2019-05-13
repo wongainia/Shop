@@ -77,7 +77,9 @@ public interface ApiService2 {
                                                   @Field("Extra") String Extra,
                                                   @Field("ExtraTime") String ExtraTime,
                                                   @Field("ExtraFee") String ExtraFee,
-                                                  @Field("Num") String Num);
+                                                  @Field("Num") String Num,
+                                                  @Field("IsRecevieGoods") String IsRecevieGoods,
+                                                  @Field("ExpressNo") String ExpressNo);
 
 
     @FormUrlEncoded

@@ -12,7 +12,6 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
-import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.UserInfo;
@@ -147,11 +146,6 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
 
     @Override
     public void GetHistoryVisite(HistoryVisite result) {
-
-    }
-
-    @Override
-    public void AddOrder(BaseResult<Data<String>> baseResult) {
 
     }
 

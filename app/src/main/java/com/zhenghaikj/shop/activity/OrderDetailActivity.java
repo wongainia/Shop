@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
 import com.zhenghaikj.shop.R;
@@ -134,6 +136,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private List<OrderDetail.OrderItemBean> orderItemBeans = new ArrayList<>();
     private OrderDetailAdapter adapter;
     private String id;
+    private OrderDetail.OrderBean orderBean;
 
     @Override
     protected int setLayoutId() {
@@ -192,10 +195,26 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mPresenter.GetOrderDetail(id, userKey);
             }
         });
-        adapter = new OrderDetailAdapter(R.layout.item_order_list, orderItemBeans);
+        adapter = new OrderDetailAdapter(R.layout.item_order_list, orderItemBeans,"");
         adapter.setEmptyView(getEmptyView());
         mRvOrderList.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvOrderList.setAdapter(adapter);
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch(view.getId()){
+                    case R.id.tv_apply_refund:
+                        Intent intent=new Intent(mActivity,AfterSalesTypeActivity.class);
+                        intent.putExtra("storeName", orderBean.getShopName());
+                        intent.putExtra("product", orderItemBeans.get(position));
+                        intent.putExtra("order", orderBean);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -231,42 +250,44 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
         if (result.isSuccess()) {
 //           orderBeans.addAll(result.getOrder());
-            mTvShip.setText(result.getOrder().getStatus());
-            mTvName.setText(result.getOrder().getShipTo());
-            mTvAddress.setText(result.getOrder().getAddress());
-            mTvPhone.setText(result.getOrder().getPhone());
-            mTvStoreName.setText(result.getOrder().getShopName());
-            mTvTotalPriceOfGoods.setText(result.getOrder().getRealTotalAmount());
-            mTvTotalOrderPrice.setText(result.getOrder().getRealTotalAmount());
-            mTvRealPayment.setText(result.getOrder().getRealTotalAmount());
-            mTvOrderNumber.setText(result.getOrder().getId());
-            mTvCreationTime.setText(result.getOrder().getOrderDate());
+            orderBean = result.getOrder();
+            mTvShip.setText(orderBean.getStatus());
+            mTvName.setText(orderBean.getShipTo());
+            mTvAddress.setText(orderBean.getAddress());
+            mTvPhone.setText(orderBean.getPhone());
+            mTvStoreName.setText(orderBean.getShopName());
+            mTvTotalPriceOfGoods.setText("￥"+orderBean.getRealTotalAmount());
+            mTvTotalOrderPrice.setText("￥"+orderBean.getRealTotalAmount());
+            mTvRealPayment.setText("￥"+orderBean.getRealTotalAmount());
+            mTvOrderNumber.setText(orderBean.getId());
+            mTvCreationTime.setText(orderBean.getOrderDate());
             orderItemBeans.addAll(result.getOrderItem());
             adapter.setNewData(orderItemBeans);
+            adapter.setStatus(orderBean.getOrderStatus());
 //           mTvShip.setText(orderBeans.get(0).getStatus());
 
-            if ("5".equals(result.getOrder().getOrderStatus())) {
+            if ("5".equals(orderBean.getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.INVISIBLE);
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.VISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
             }
 
-            if ("1".equals(result.getOrder().getOrderStatus())) {
+            if ("1".equals(orderBean.getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.VISIBLE);
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
             }
 
-            if ("2".equals(result.getOrder().getOrderStatus())) {
+            if ("2".equals(orderBean.getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.INVISIBLE);
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.VISIBLE);
             }
 
-            if ("3".equals(result.getOrder().getOrderStatus())) {
+            if ("3".equals(orderBean.getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.INVISIBLE);
                 mLlPendingReceipt.setVisibility(View.VISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);

@@ -97,7 +97,7 @@ public class OrderDetail implements Serializable {
     * "HasAppendComment":false,
     * "SelfTake":0},
     * */
-    public static class OrderBean{
+    public static class OrderBean implements Serializable{
         private String Id;
         private String OrderType;
         private String OrderTypeName;
@@ -456,7 +456,7 @@ public class OrderDetail implements Serializable {
     * "EnabledRefundAmount":11.90
     * */
 
-    public static class OrderItemBean{
+    public static class OrderItemBean implements Serializable{
         private String ItemId;
         private String ProductId;
         private String ProductName;

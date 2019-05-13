@@ -13,18 +13,19 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/start" />
 
         <TextView
+            android:id="@+id/tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="V1.0.0"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="14sp" />
 

@@ -107,11 +107,11 @@
             android:text="申请数量"
             android:textColor="#393939"
             android:textSize="14sp"/>
-        
+
         <com.zhenghaikj.shop.widget.AdderView
             android:id="@+id/adderview"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></com.zhenghaikj.shop.widget.AdderView>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout
@@ -123,6 +123,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/ll_install"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="19dp"
+            android:paddingRight="23dp"
+            android:paddingBottom="17dp"
+            android:paddingLeft="23dp">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@mipmap/weixiu"
+                android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                android:textColor="#393939"
+                android:text="安装"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="10sp"
+                android:textColor="#8E8E8E"
+                android:layout_gravity="center"
+                android:text="已收到货，需要安装已收到的商品"/>
+            <ImageView
+                android:layout_width="6dp"
+                android:layout_height="11dp"
+                android:src="@mipmap/youjiantou"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_10"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BFBFBF"
+            android:layout_marginLeft="23dp"
+            android:layout_marginRight="23dp"/>
         <LinearLayout
             android:id="@+id/ll_service"
             android:layout_width="match_parent"

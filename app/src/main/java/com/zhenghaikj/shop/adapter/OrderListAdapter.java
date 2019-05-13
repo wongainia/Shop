@@ -2,7 +2,6 @@ package com.zhenghaikj.shop.adapter;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -10,7 +9,6 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.OrderDetailActivity;
 import com.zhenghaikj.shop.entity.Order;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -33,11 +31,20 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
         orderListAdapter2 = new OrderListAdapter2(R.layout.item_order_list,item.getItemInfo());
         helper.setText(R.id.tv_store_name,item.getShopname())
                 .setText(R.id.tv_goods_number,"共"+item.getProductCount()+"件商品")
-                .setText(R.id.tv_goods_price,"合计："+item.getOrderTotalAmount());
+                .setText(R.id.tv_goods_price,"合计：￥"+item.getOrderTotalAmount());
         helper.setText(R.id.tv_trading_status,item.getStatus());
-        helper.addOnClickListener(R.id.tv_trading_status);
-        helper.addOnClickListener(R.id.tv_delete_order);
-        helper.addOnClickListener(R.id.tv_confirm_receipt);
+        helper.addOnClickListener(R.id.tv_delete_order);//删除订单
+        helper.addOnClickListener(R.id.tv_confirm_receipt);//确认收货
+        helper.addOnClickListener(R.id.tv_payment);//付款
+        helper.addOnClickListener(R.id.tv_friend_pay);//朋友代付
+        helper.addOnClickListener(R.id.tv_buy_again);//再次购买
+        helper.addOnClickListener(R.id.tv_buy);//再次购买
+        helper.addOnClickListener(R.id.tv_extended_receipt);//延长收货
+        helper.addOnClickListener(R.id.tv_see_logistics);//查看物流
+        helper.addOnClickListener(R.id.tv_view_logistics);//查看物流
+        helper.addOnClickListener(R.id.tv_logistics);//查看物流
+        helper.addOnClickListener(R.id.tv_evaluation);//评价
+        helper.addOnClickListener(R.id.tv_change_address);//修改地址
         RecyclerView rv=helper.getView(R.id.rv_order_list);
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.setAdapter(orderListAdapter2);

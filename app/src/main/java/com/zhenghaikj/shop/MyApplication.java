@@ -14,6 +14,8 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -87,13 +89,13 @@ public class MyApplication extends MultiDexApplication {
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
 // 初始化Bugly
-        CrashReport.initCrashReport(context, "e1a0d72980", true, strategy);*/
+        CrashReport.initCrashReport(context, "52f54c7015", true, strategy);*/
 
         // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true
-        /*Bugly.init(this, "f916d84816", true);
+        Bugly.init(this, "52f54c7015", true);
 
-        UMConfigure.init(this,"5cac29a83fc195f908001564"
+        /*UMConfigure.init(this,"5cac29a83fc195f908001564"
                 ,"umeng", UMConfigure.DEVICE_TYPE_PHONE,"");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
         //微信
         PlatformConfig.setWeixin("wxd6509c9c912f0015", "345fe20ab087a2b0aa97cd0c8f09a2e6");
@@ -146,6 +148,6 @@ public class MyApplication extends MultiDexApplication {
 
 
         // 安装tinker
-//        Beta.installTinker();
+        Beta.installTinker();
     }
 }

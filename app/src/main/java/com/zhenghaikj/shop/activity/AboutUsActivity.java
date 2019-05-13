@@ -1,16 +1,18 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
+import com.tencent.bugly.beta.Beta;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.utils.MyUtils;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -39,6 +41,8 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     LinearLayout mLlPrivacyPolicy;
     @BindView(R.id.tv_company_english)
     TextView mTvCompanyEnglish;
+    @BindView(R.id.tv_version)
+    TextView mTvVersion;
 
     @Override
     protected int setLayoutId() {
@@ -56,7 +60,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
-
+        mTvVersion.setText("v"+MyUtils.getAppVersionName(mActivity));
     }
 
 
@@ -69,6 +73,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mLlCheckForUpdates.setOnClickListener(this);
     }
 
     @Override
@@ -76,6 +81,9 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.icon_back:
                 finish();
+                break;
+            case R.id.ll_check_for_updates:
+                Beta.checkUpgrade();
                 break;
 
         }

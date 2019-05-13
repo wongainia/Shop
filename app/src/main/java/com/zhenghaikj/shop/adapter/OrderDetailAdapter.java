@@ -13,17 +13,41 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 public class OrderDetailAdapter extends BaseQuickAdapter<OrderDetail.OrderItemBean, BaseViewHolder> {
-    public OrderDetailAdapter(int layoutResId, @Nullable List<OrderDetail.OrderItemBean> data) {
+    private String status;
+    public OrderDetailAdapter(int layoutResId, @Nullable List<OrderDetail.OrderItemBean> data,String status) {
         super(layoutResId, data);
+        this.status=status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+        notifyDataSetChanged();
     }
 
     @Override
     protected void convert(BaseViewHolder helper, OrderDetail.OrderItemBean item) {
         helper.setText(R.id.tv_goods_name,item.getProductName())
                 .setText(R.id.tv_goods_type,item.getColor()+item.getSize()+item.getVersion())
-                .setText(R.id.tv_good_money,item.getPrice())
+                .setText(R.id.tv_good_money,"￥"+item.getPrice())
                 .setText(R.id.tv_goods_number,"×"+item.getCount());
         ImageView icon = helper.getView(R.id.iv_goods_picture);
         GlideUtil.loadImageViewLoding(mContext,item.getProductImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
+        switch(status){
+            case "1"://待付款
+            case "2"://待消费
+            case "4"://已关闭
+                helper.setGone(R.id.tv_apply_refund,false);
+                break;
+            case "3"://待收货
+            case "5"://已完成
+            case "6"://待自提
+            case "7"://未评价
+                helper.setGone(R.id.tv_apply_refund,true);
+                break;
+            default:
+                helper.setGone(R.id.tv_apply_refund,false);
+                break;
+        }
+        helper.addOnClickListener(R.id.tv_apply_refund);
     }
 }

@@ -1,31 +1,32 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.fragment.AfterSaleFragment;
-import com.zhenghaikj.shop.fragment.AfterSalesEvaluationFragment;
-import com.zhenghaikj.shop.fragment.ApplicationRecordFragment;
-import com.zhenghaikj.shop.fragment.ProcessingFragment;
+import com.zhenghaikj.shop.mvp.contract.RefundContract;
+import com.zhenghaikj.shop.mvp.model.RefundModel;
+import com.zhenghaikj.shop.mvp.presenter.RefundPresent;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ReturnActivity extends BaseActivity implements View.OnClickListener {
+public class ReturnActivity extends BaseActivity<RefundPresent, RefundModel> implements View.OnClickListener, RefundContract.View {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -79,14 +80,10 @@ public class ReturnActivity extends BaseActivity implements View.OnClickListener
         title.add("处理中");
         title.add("售后评价");
         title.add("申请记录");
-        AfterSaleFragment afterSaleFragment=new AfterSaleFragment();
-        ProcessingFragment processingFragment=new ProcessingFragment();
-        AfterSalesEvaluationFragment afterSalesEvaluationFragment=new AfterSalesEvaluationFragment();
-        ApplicationRecordFragment applicationRecordFragment=new ApplicationRecordFragment();
-       fragmentsList.add(afterSaleFragment);
-       fragmentsList.add(processingFragment);
-        fragmentsList.add(afterSalesEvaluationFragment);
-        fragmentsList.add(applicationRecordFragment);
+        fragmentsList.add(AfterSaleFragment.newInstance("售后申请",""));
+        fragmentsList.add(AfterSaleFragment.newInstance("处理中",""));
+        fragmentsList.add(AfterSaleFragment.newInstance("售后评价",""));
+        fragmentsList.add(AfterSaleFragment.newInstance("申请记录",""));
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragmentsList, title);
         myPagerAdapter.getCount();
         mTabReturnLayout.setTabMode(TabLayout.MODE_FIXED);
@@ -121,5 +118,10 @@ public class ReturnActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetRefundList(Refund result) {
+
     }
 }
