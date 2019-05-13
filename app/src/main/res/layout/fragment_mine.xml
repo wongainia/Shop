@@ -46,11 +46,12 @@
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="不可思议"
+                    android:text="未登录"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_integral"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -97,9 +98,11 @@
                 android:layout_width="19dp"
                 android:layout_height="19dp"
                 android:layout_marginTop="25dp"
+                android:layout_marginRight="25dp"
                 android:src="@mipmap/setting" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/iv_message"
                 android:layout_width="19dp"
                 android:layout_height="19dp"
@@ -128,7 +131,7 @@
                     android:id="@+id/tv_favorites"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="44"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
@@ -153,7 +156,7 @@
                     android:id="@+id/tv_focus_on_the_store"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="44"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
@@ -178,7 +181,7 @@
                     android:id="@+id/tv_baby"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="44"
+                    android:text="0"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
@@ -782,7 +785,7 @@
                            android:id="@+id/tv_money"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:text="198.80"
+                           android:text="0.00"
                            android:textColor="#FF484A"
                            android:textSize="27sp"/>
                        <TextView
@@ -831,7 +834,7 @@
                             android:id="@+id/tv_wallet_balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0.80"
+                            android:text="0.00"
                             android:textColor="#FF484A"
                             android:textSize="27sp"/>
                         <TextView
@@ -926,7 +929,7 @@
                                 android:id="@+id/tv_account_balance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1980.00"
+                                android:text="0.00"
                                 android:textColor="#202020"
                                 android:textSize="14sp"/>
                             <ImageView
@@ -1025,7 +1028,7 @@
                             android:id="@+id/tv_how_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="198.80"
+                            android:text="0.00"
                             android:textSize="27sp"
                             android:textColor="#FF484A"/>
 

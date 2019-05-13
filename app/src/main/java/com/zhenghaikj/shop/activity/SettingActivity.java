@@ -142,10 +142,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
                 startActivity(new Intent(mActivity, BindPhoneActivity.class));
                 break;
             case R.id.btn_exit:
-                spUtils.put("isLogin",false);
+                spUtils.clear();
 //                mPresenter.PostLogout();
-                startActivity(new Intent(mActivity, LoginActivity.class));
                 ActivityUtils.finishAllActivities();
+
+                startActivity(new Intent(mActivity, MainActivity.class));
 
                 break;
         }

@@ -18,6 +18,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
+import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.OrderActivity;
 import com.zhenghaikj.shop.activity.PersonalInformationActivity;
 import com.zhenghaikj.shop.activity.ReturnActivity;
@@ -164,6 +165,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private static final String ARG_PARAM2 = "param2";
     private UserInfo.UserInfoDean userInfo;
     private String userName;
+    private boolean isLogin;
 
     public static MineFragment newInstance(String param1, String param2) {
         MineFragment fragment = new MineFragment();
@@ -184,14 +186,22 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
-        mPresenter.GetUserInfoList(userName,"1");
-        mPresenter.PersonalInformation(userKey);
-        mPresenter.GetHistoryVisite(userKey);
+        isLogin = spUtils.getBoolean("isLogin");
+        if (!"".equals(userName)&&!"".equals(userKey)){
+            mPresenter.GetUserInfoList(userName,"1");
+            mPresenter.PersonalInformation(userKey);
+            mPresenter.GetHistoryVisite(userKey);
+        }
+
         /*下拉刷新*/
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                mPresenter.PersonalInformation(userKey);
+                if (!"".equals(userName)&&!"".equals(userKey)){
+                    mPresenter.GetUserInfoList(userName,"1");
+                    mPresenter.PersonalInformation(userKey);
+                    mPresenter.GetHistoryVisite(userKey);
+                }
                 refreshlayout.finishRefresh(1000);
             }
         });
@@ -199,7 +209,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
 
     }
-
+/*
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -208,7 +218,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         }else {
             mPresenter.PersonalInformation(userKey);
         }
-    }
+    }*/
 
     @Override
     protected void initView() {
@@ -220,8 +230,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         if (!"PersonalInformation".equals(name)) {
             return;
         }
-        mPresenter.PersonalInformation(userKey);
-
+        if (!"".equals(userName)&&!"".equals(userKey)){
+            mPresenter.GetUserInfoList(userName,"1");
+            mPresenter.PersonalInformation(userKey);
+            mPresenter.GetHistoryVisite(userKey);
+        }
     }
 
     @Override
@@ -251,6 +264,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void onClick(View v) {
+        if ("".equals(userName)&&"".equals(userKey)){
+            startActivity(new Intent(mActivity, LoginActivity.class));
+            return;
+        }
         switch (v.getId()) {
             case R.id.iv_avatar:
                 //个人信息

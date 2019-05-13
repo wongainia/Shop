@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.CartFragment;
@@ -72,6 +74,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MineFragment mineFragment;
 
     private long mExittime;
+    private SPUtils spUtils;
+    private String userKey;
+    private String userName;
+    private boolean isLogin;
 
     @Override
     protected int setLayoutId() {
@@ -94,6 +100,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mFragments.add(MineFragment.newInstance("",""));
 
         mViewPager.setCurrentItem(0);
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
+        isLogin = spUtils.getBoolean("isLogin");
     }
 
     @Override
@@ -137,6 +147,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 tabSelected(mLlCategory);
                 break;
             case 2:
+                if ("".equals(userName)&&"".equals(userKey)){
+                    startActivity(new Intent(mActivity,LoginActivity.class));
+                    return;
+                }
                 tabSelected(mLlCar);
                 break;
             case 3:
@@ -165,6 +179,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 tabSelected(mLlCategory);
                 break;
             case  R.id.ll_car:
+                if ("".equals(userName)&&"".equals(userKey)){
+                    startActivity(new Intent(mActivity,LoginActivity.class));
+                    return;
+                }
                 mViewPager.setCurrentItem(2);
                 tabSelected(mLlCar);
                 break;

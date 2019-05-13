@@ -67,7 +67,8 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void goHome() {
-        spUtils = SPUtils.getInstance("token");
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        /*spUtils = SPUtils.getInstance("token");
         userName = spUtils.getString("userName");
         passWord = spUtils.getString("password");
         isLogin = spUtils.getBoolean("isLogin");
@@ -75,7 +76,7 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
         }else{
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-        }
+        }*/
         finish();
     }
 

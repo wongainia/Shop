@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
@@ -109,7 +110,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 }else if (password.isEmpty()){
                     ToastUtils.showShort("请输入密码！");
                 }else {
-                    mPresenter.GetUser(userName, password,"","","");
                     mPresenter.LoginOn(userName, password);
                 }
                 break;
@@ -127,14 +127,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     public void GetUser(LoginResult Result) {
 
         if (Result.getSuccess()){
-            spUtils = SPUtils.getInstance("token");
             spUtils.put("UserKey",Result.getUserKey());
             spUtils.put("userName",userName);
             spUtils.put("password",password);
             spUtils.put("isLogin",true);
             EventBus.getDefault().post("PersonalInformation");
+            ActivityUtils.finishAllActivities();
             startActivity(new Intent(mActivity,MainActivity.class));
-            finish();
+
         }else {
             ToastUtils.showShort(Result.getErrorMsg());
         }
@@ -148,6 +148,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 if (data.isItem1()){
                     spUtils.put("adminToken", data.getItem2());
                     spUtils.put("userName2", userName);
+                    mPresenter.GetUser(userName, password,"","","");
 //                    spUtils.put("passWord", password);
 //                    spUtils.put("isLogin", true);
 //                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"7",userName);
