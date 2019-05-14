@@ -31,6 +31,7 @@ import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Global;
+import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
 import com.zhenghaikj.shop.entity.Product;
@@ -125,6 +126,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private static final String ARG_PARAM2 = "param2";
     private LimitedTimeAdapter limitedTimeAdapter;
     private ExchageAdapter exchageAdapter;
+    private List<HomeJsonResult.LModulesBean> modules;
+    private List<HomeJsonResult.LModulesBean.ContentBean.DatasetBean> dataset=new ArrayList<>();
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -162,6 +165,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initData() {
+        mPresenter.Get();
         mPresenter.Get(Integer.toString(pageNo), "10");
         mPresenter.GetLismitBuyList(Integer.toString(pageNo), "10","");
 
@@ -267,6 +271,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             pageNo = 1;
             mDatas.clear();
+            mPresenter.Get();
             mPresenter.Get(Integer.toString(pageNo), "10");
             mPresenter.GetLismitBuyList(Integer.toString(pageNo), "10","");
             refreshLayout.setNoMoreData(false);
@@ -335,7 +340,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 mDatas.addAll(Result.getProduct());
                 myRecyclerViewAdapter.setList(mDatas);
             }
-            List<String> images = new ArrayList<>();
+            /*List<String> images = new ArrayList<>();
             for (int i = 0; i < Result.getSlide().size(); i++) {
                 images.add(Result.getSlide().get(i).getImageUrl());
             }
@@ -343,8 +348,27 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             mBannerHome.setImages(images);
             mBannerHome.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
             mBannerHome.setIndicatorGravity(BannerConfig.CENTER);
-            mBannerHome.start();
+            mBannerHome.start();*/
         }
+    }
+
+    @Override
+    public void Get(HomeJsonResult Result) {
+        modules =Result.getLModules();
+        for (int i = 0; i < modules.size(); i++) {
+            if (modules.get(i).getType()==9){
+                dataset =modules.get(i).getContent().getDataset();
+            }
+        }
+        List<String> images = new ArrayList<>();
+        for (int i = 0; i < dataset.size(); i++) {
+            images.add(dataset.get(i).getPic());
+        }
+        mBannerHome.setImageLoader(new GlideImageLoader());
+        mBannerHome.setImages(images);
+        mBannerHome.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        mBannerHome.setIndicatorGravity(BannerConfig.CENTER);
+        mBannerHome.start();
     }
 
     @Override

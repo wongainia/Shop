@@ -1,19 +1,16 @@
 package com.zhenghaikj.shop.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,7 +23,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.adapter.ProvinceAdapter;
+import com.zhenghaikj.shop.adapter.ProvinceAdapter2;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.RegionResult;
@@ -41,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,7 +59,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     EditText mEtReceiver;
     @BindView(R.id.et_cellphone_number)
     EditText mEtCellphoneNumber;
-    @BindView(R.id.tv_area)
+    @BindView(R.id.tv_areas)
     TextView mTvArea;
     @BindView(R.id.et_address)
     EditText mEtAddress;
@@ -81,7 +77,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     private RecyclerView rv_address_choose;
     private ImageView iv_close;
     private PopupWindow popupWindow;
-    private ProvinceAdapter provinceAdapter;
+    private ProvinceAdapter2 provinceAdapter2;
     private List<RegionResult> provinceList=new ArrayList<>();
     private List<RegionResult> cityList=new ArrayList<>();
     private List<RegionResult> areaList=new ArrayList<>();
@@ -176,21 +172,21 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
             case R.id.icon_back:
                 finish();
                 break;
-            case R.id.tv_area:
+            case R.id.tv_areas:
                 InputMethodUtils.hideKeyboard(v);
                 showPopWindowGetAddress(mTvArea);
                 break;
             case R.id.tv_province:
-                provinceAdapter.setNewData(provinceList);
+                provinceAdapter2.setNewData(provinceList);
                 break;
             case R.id.tv_city:
-                provinceAdapter.setNewData(cityList);
+                provinceAdapter2.setNewData(cityList);
                 break;
-            case R.id.tv_areas:
-                provinceAdapter.setNewData(areaList);
+            case R.id.tv_area:
+                provinceAdapter2.setNewData(areaList);
                 break;
             case R.id.tv_district:
-                provinceAdapter.setNewData(districtList);
+                provinceAdapter2.setNewData(districtList);
                 break;
             case R.id.iv_add:
 //                startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), 0);
@@ -261,14 +257,14 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     @Override
     public void GetAllRegion(List<RegionResult> Result) {
         provinceList = Result;
-        provinceAdapter = new ProvinceAdapter(R.layout.region_item, provinceList);
+        provinceAdapter2 = new ProvinceAdapter2(R.layout.region_item, provinceList);
 
     }
 
     @Override
     public void GetSubRegion(List<RegionResult> Result) {
         districtList=Result;
-        provinceAdapter.setNewData(districtList);
+        provinceAdapter2.setNewData(districtList);
     }
 
     @Override
@@ -303,7 +299,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null);
         tv_province = contentView.findViewById(R.id.tv_province);
         tv_city = contentView.findViewById(R.id.tv_city);
-        tv_area = contentView.findViewById(R.id.tv_areas);
+        tv_area = contentView.findViewById(R.id.tv_area);
         tv_district = contentView.findViewById(R.id.tv_district);
         tv_city.setOnClickListener(this);
         tv_province.setOnClickListener(this);
@@ -314,22 +310,22 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
         iv_close = contentView.findViewById(R.id.iv_close);
         iv_close.setOnClickListener(v -> popupWindow.dismiss());
         rv_address_choose.setLayoutManager(new LinearLayoutManager(mActivity));
-        rv_address_choose.setAdapter(provinceAdapter);
-        provinceAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (provinceAdapter.getData().equals(provinceList)){
+        rv_address_choose.setAdapter(provinceAdapter2);
+        provinceAdapter2.setOnItemClickListener((adapter, view, position) -> {
+            if (provinceAdapter2.getData().equals(provinceList)){
                 regionResult=provinceList.get(position);
                 cityList=regionResult.getSub();
-                provinceAdapter.setNewData(cityList);
+                provinceAdapter2.setNewData(cityList);
                 mProvince=regionResult.getName();
                 tv_province.setText(mProvince);
                 tv_province.setVisibility(View.VISIBLE);
                 tv_city.setVisibility(View.VISIBLE);
                 return;
             }
-            if (provinceAdapter.getData().equals(cityList)){
+            if (provinceAdapter2.getData().equals(cityList)){
                 regionResult=cityList.get(position);
                 areaList=regionResult.getSub();
-                provinceAdapter.setNewData(areaList);
+                provinceAdapter2.setNewData(areaList);
                 mCity=regionResult.getName();
                 tv_city.setText(mCity);
                 tv_province.setVisibility(View.VISIBLE);
@@ -337,7 +333,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                 tv_area.setVisibility(View.VISIBLE);
                 return;
             }
-            if (provinceAdapter.getData().equals(areaList)){
+            if (provinceAdapter2.getData().equals(areaList)){
                 regionResult=areaList.get(position);
 
                 mArea=regionResult.getName();
@@ -349,7 +345,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                 tv_district.setVisibility(View.VISIBLE);
                 return;
             }
-            if (provinceAdapter.getData().equals(districtList)){
+            if (provinceAdapter2.getData().equals(districtList)){
                 regionResult=districtList.get(position);
                 mDistrict=regionResult.getName();
                 regionId=regionResult.getId();

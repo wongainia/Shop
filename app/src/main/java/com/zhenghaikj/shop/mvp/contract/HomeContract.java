@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.mvp.contract;
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
 
@@ -13,6 +14,7 @@ public interface HomeContract {
         Observable<HomeResult> Get(
                 String pageNo, String pageSize
         );
+        Observable<HomeJsonResult> Get();
         Observable<LimitBuyListResult> GetLismitBuyList(
                 String pageNo, String pageSize,String cateName
         );
@@ -20,6 +22,7 @@ public interface HomeContract {
 
     interface View extends BaseView {
         void Get(HomeResult Result);
+        void Get(HomeJsonResult Result);
         void GetLismitBuyList(LimitBuyListResult Result);
     }
 
@@ -27,6 +30,7 @@ public interface HomeContract {
         public abstract void Get(
                 String pageNo, String pageSize
         );
+        public abstract void Get();
         public abstract void GetLismitBuyList(
                 String pageNo, String pageSize,String cateName
         );

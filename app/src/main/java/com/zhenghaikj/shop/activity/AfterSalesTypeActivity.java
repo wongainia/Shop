@@ -56,6 +56,8 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
     LinearLayout mLlDialNumber;
     @BindView(R.id.ll_install)
     LinearLayout mLlInstall;
+    @BindView(R.id.ll_product)
+    LinearLayout mLlProduct;
     private OrderDetail.OrderItemBean bean;
     private String storeName;
     private Intent intent;
@@ -71,11 +73,11 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
     protected void initData() {
         bean = (OrderDetail.OrderItemBean) getIntent().getSerializableExtra("product");
         order = (OrderDetail.OrderBean) getIntent().getSerializableExtra("order");
-        storeName =  getIntent().getStringExtra("storeName");
+        storeName = getIntent().getStringExtra("storeName");
         mTvGoodsName.setText(bean.getProductName());
-        GlideUtil.loadImageViewLodingRadius(mActivity,bean.getProductImage(),mIvGoodsPicture,R.drawable.image_loading,R.drawable.image_loading,10);
-        mTvPrice.setText("价格：￥"+bean.getPrice());
-        mTvNumber.setText("数量："+bean.getCount());
+        GlideUtil.loadImageViewLodingRadius(mActivity, bean.getProductImage(), mIvGoodsPicture, R.drawable.image_loading, R.drawable.image_loading, 10);
+        mTvPrice.setText("价格：￥" + bean.getPrice());
+        mTvNumber.setText("数量：" + bean.getCount());
         mTvStoreName.setText(storeName);
     }
 
@@ -92,16 +94,18 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
         mLlInstall.setOnClickListener(this);
         mLlReturn.setOnClickListener(this);
         mLlExchange.setOnClickListener(this);
+        mLlProduct.setOnClickListener(this);
         mAdderview.setOnValueChangeListene(new AdderView.OnValueChangeListener() {
             @Override
             public void onValueChange(int value) {
-                if (value>Integer.parseInt(bean.getCount())){
+                if (value > Integer.parseInt(bean.getCount())) {
                     ToastUtils.showShort("申请数量不能大于商品数量!");
                     mAdderview.setValue(Integer.parseInt(bean.getCount()));
                 }
             }
         });
     }
+
     /**
      * 初始化沉浸式
      */
@@ -113,10 +117,16 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
+
     @Override
     public void onClick(View v) {
         intent = new Intent(mActivity, ServiceActivity.class);
         switch (v.getId()) {
+            case R.id.ll_product:
+                intent = new Intent(mActivity, GoodsDetailActivity.class);
+                intent.putExtra("id", bean.getProductId() + "");
+                startActivity(intent);
+                break;
             case R.id.icon_back:
                 finish();
                 break;
@@ -125,7 +135,7 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
                 intent.putExtra("storeName", storeName);
                 intent.putExtra("product", bean);
                 intent.putExtra("order", order);
-                intent.putExtra("num", mAdderview.getValue()+"");
+                intent.putExtra("num", mAdderview.getValue() + "");
                 startActivity(intent);
                 break;
             case R.id.ll_service:
@@ -133,7 +143,7 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
                 intent.putExtra("storeName", storeName);
                 intent.putExtra("product", bean);
                 intent.putExtra("order", order);
-                intent.putExtra("num", mAdderview.getValue()+"");
+                intent.putExtra("num", mAdderview.getValue() + "");
                 startActivity(intent);
                 break;
             case R.id.ll_return:
@@ -141,7 +151,7 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
                 intent.putExtra("storeName", storeName);
                 intent.putExtra("product", bean);
                 intent.putExtra("order", order);
-                intent.putExtra("num", mAdderview.getValue()+"");
+                intent.putExtra("num", mAdderview.getValue() + "");
                 startActivity(intent);
                 break;
             case R.id.ll_exchange:
@@ -149,7 +159,7 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
                 intent.putExtra("storeName", storeName);
                 intent.putExtra("product", bean);
                 intent.putExtra("order", order);
-                intent.putExtra("num", mAdderview.getValue()+"");
+                intent.putExtra("num", mAdderview.getValue() + "");
                 startActivity(intent);
                 break;
 //            case R.id.ll_return:
