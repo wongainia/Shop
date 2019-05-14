@@ -164,6 +164,34 @@
             android:layout_height="1dp"
             android:background="#eee"/>
 
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_coupons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="优惠券:"
+                android:textColor="#333"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/tv_coupons"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:layout_marginRight="10dp"
+                />
+        </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

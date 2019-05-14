@@ -32,4 +32,6 @@ public class OrderDetailModel implements OrderDetailContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+
 }

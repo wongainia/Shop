@@ -44,24 +44,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="300dp"></com.youth.banner.Banner>
 
-                            <!--<FrameLayout-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content">-->
-                            <!--<com.zhenghaikj.shop.widget.IdeaViewPager-->
-                            <!--android:id="@+id/viewpager"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content" />-->
-                            <!--<com.zhenghaikj.shop.widget.NumberIndicater-->
-                            <!--android:id="@+id/number_indicater"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_gravity="bottom|end"-->
-                            <!--android:layout_margin="10dp"-->
-                            <!--android:elevation="1dp"-->
-                            <!--app:circle_color="#fffdd63b"-->
-                            <!--app:circle_size="48dp"-->
-                            <!--app:number_size="14sp"/>-->
-                            <!--</FrameLayout>-->
 
 
                             <LinearLayout
@@ -932,11 +914,6 @@
 
             </RadioGroup>
 
-            <!--<View-->
-            <!--android:id="@+id/layer"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="48dp"-->
-            <!--android:background="#00FFFFFF" />-->
 
 
             <ImageView

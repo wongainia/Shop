@@ -163,8 +163,9 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         id = getIntent().getStringExtra("orderId");
-        Log.d(TAG, "订单单号：" + id);
-        mPresenter.GetOrderDetail(id, userKey);
+
+       mPresenter.GetOrderDetail(id, userKey);
+
 
         myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
     }
@@ -296,6 +297,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         }
         mStateLayout.changeState(StateFrameLayout.SUCCESS);
     }
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(Throwable e) {
         mStateLayout.changeState(StateFrameLayout.NET_ERROR);

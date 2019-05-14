@@ -14,6 +14,8 @@ import com.zhenghaikj.shop.entity.CollectionShop;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.EvaluateResult;
+import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
@@ -767,4 +769,63 @@ public interface ApiService {
                                                          @Query("app_key") String app_key,
                                                          @Query("timestamp") String timestamp,
                                                          @Query("sign") String sign);
+
+
+    /*获取评论详情*/
+    @GET("api/Comment/GetComment")
+    Observable<EvaluateResult> GetComment(@Query("orderId") String orderId,
+                                          @Query("userkey") String userkey,
+                                          @Query("app_key") String app_key,
+                                          @Query("timestamp") String timestamp,
+                                          @Query("sign") String sign);
+
+    /*获取物流信息*/
+
+    @GET("api/MemberOrder/GetExpressInfo")
+    Observable<String> GetExpressInfo(@Query("orderId") String orderId,
+                                      @Query("userkey") String userkey,
+                                      @Query("app_key") String app_key,
+                                      @Query("timestamp") String timestamp,
+                                      @Query("sign") String sign);
+
+
+
+
+    /*获取商品评论第一条*/
+
+    @GET("api/product/GetProductCommentShow")
+    Observable<GetCommentResult> GetProductCommentShow(@Query("id") String id,
+                                                       @Query("userkey") String userkey,
+                                                       @Query("app_key") String app_key,
+                                                       @Query("timestamp") String timestamp,
+                                                       @Query("sign") String sign);
+
+    /*获取全部评论信息*/
+
+    @GET("api/Product/GetProductComment")
+    Observable<String> GetProductComment (@Query("pId") String pId,
+                                          @Query("pageNo") String pageNo,
+                                          @Query("pageSize ") String pageSize,
+                                          @Query("commentType") String commentType, //评论类型： 0：所有 默认 1：好评 2：中评 3：差评 4：有图 5：追加
+                                          @Query("app_key") String app_key,
+                                          @Query("timestamp") String timestamp,
+                                          @Query("sign") String sign);
+
+    /*评价图片上传*/
+     @FormUrlEncoded
+     @POST("api/PublicOperation/UploadPic")
+     Observable<String> UploadPicEvaluate(@Field("picStr") String picStr,
+                                          @Query("app_key") String app_key,
+                                          @Query("timestamp") String timestamp,
+                                          @Query("sign") String sign);
+
+
+    /*提交评价*/
+    @FormUrlEncoded
+    @POST("api/Comment/PostAddComment")
+    Observable<String> PostAddComment(@Field("userkey") String userkey,
+                                      @Field("jsonstr") String jsonstr,
+                                      @Query("app_key") String app_key,
+                                      @Query("timestamp") String timestamp,
+                                      @Query("sign") String sign);
 }

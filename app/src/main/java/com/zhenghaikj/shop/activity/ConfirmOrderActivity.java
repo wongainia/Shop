@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ConfirmOrderAdapter;
 import com.zhenghaikj.shop.api.Config;
@@ -72,6 +73,9 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @BindView(R.id.ll_add_address)
     LinearLayout mLlAddAddress;
 
+    @BindView(R.id.stateLayout)
+    StateFrameLayout mStateLayout;
+
     private String Userkey;
     private SPUtils spUtils = SPUtils.getInstance("token");
     Bundle extras;
@@ -85,6 +89,8 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
 
     HashMap<Integer,String> messagemap=new HashMap<>(); //留言map
+
+    GetConfirmModel GetConfirmModel=new GetConfirmModel();
     @Override
     protected int setLayoutId() {
         return R.layout.activity_confirm_order;
@@ -113,7 +119,9 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         } else if ("2".equals(extras.getString("TYPE"))) {//购物车购买
             String cartItemIds = extras.getString("cartItemIds");
             mPresenter.GetSubmitByCartModel(cartItemIds, Userkey);
-        } else {
+        }
+
+        else {
 
 
         }
@@ -123,6 +131,56 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
     @Override
     protected void initView() {
+        mStateLayout.changeState(StateFrameLayout.LOADING);
+        //是否在展示内容布局的时候开启动画（200ms的Alpha动画）
+        mStateLayout.enableContentAnim(false);
+
+        //设置网络错误重试监听【不传netRetryId的话需要在对应布局中设置触发控件的id为android:id="@id/id_sfl_net_error_retry"】
+        mStateLayout.setOnNetErrorRetryListener(new StateFrameLayout.OnNetErrorRetryListener()
+        {
+            @Override
+            public void onNetErrorRetry()
+            {
+
+                extras = getIntent().getExtras();
+                if ("1".equals(extras.getString("TYPE"))) { //直接购买
+                    String skuid = extras.getString("skuid");
+                    String count = extras.getString("count");
+                    mPresenter.GetSubmitModel(skuid, count, Userkey);
+
+                } else if ("2".equals(extras.getString("TYPE"))) {//购物车购买
+                    String cartItemIds = extras.getString("cartItemIds");
+                    mPresenter.GetSubmitByCartModel(cartItemIds, Userkey);
+                }
+
+
+            }
+        });
+        //设置空数据重试监听【不传emptyRetryId的话需要在对应布局中设置触发控件的id为android:id="@id/id_sfl_empty_retry"】
+        mStateLayout.setOnEmptyRetryListener(new StateFrameLayout.OnEmptyRetryListener()
+        {
+            @Override
+            public void onEmptyRetry()
+            {
+                extras = getIntent().getExtras();
+                if ("1".equals(extras.getString("TYPE"))) { //直接购买
+                    String skuid = extras.getString("skuid");
+                    String count = extras.getString("count");
+                    mPresenter.GetSubmitModel(skuid, count, Userkey);
+
+                } else if ("2".equals(extras.getString("TYPE"))) {//购物车购买
+                    String cartItemIds = extras.getString("cartItemIds");
+                    mPresenter.GetSubmitByCartModel(cartItemIds, Userkey);
+                }
+
+            }
+        });
+
+
+
+
+
+
         mTvTitle.setText("确认订单");
         mTvTitle.setVisibility(View.VISIBLE);
     }
@@ -150,32 +208,12 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 if ("1".equals(extras.getString("TYPE"))) {//直接购买
                     String skuId = list.get(0).getList().get(0).getSkuId();
                     String count = list.get(0).getList().get(0).getCount();
-
-                    String message = null;
-                    if (messagemap.isEmpty()){
-                        message=""; //没留言的情况
-                    }else {
-                        message = messagemap.get(0);  //只有一个店铺 取第一个
-                    }
-
-                    mPresenter.PostSubmitOrder(skuId,count,addressid,"","0","false","0","","",message,Userkey);
+                    mPresenter.PostSubmitOrder(skuId,count,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),Userkey);
                 }else {
                     String cartItemIds = extras.getString("cartItemIds");
 
-                    String message="";
-                    if (messagemap.isEmpty()){
-                        message=""; //没留言的情况
-                    }else {
-
-                        for (int i = 0; i < CartSumcount(list); i++) {  //留言添加
-                            if (messagemap.get(i)==null){
-                                message+=",";
-                            }else {
-                                message+=","+messagemap.get(i);
-                            }
-                        }
-                        mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,"","0","false","0","","",message.substring(1,message.length()),Userkey);
-                    }
+                     Log.d("====>优惠券",getcoupons(list)) ;
+                   mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),Userkey);
 
                 }
 
@@ -190,26 +228,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         ButterKnife.bind(this);
     }
 
- /*   *//*获取地址*//*
-    @Override
-    public void GetShippingAddressList(ShippingAddressList result) {
-        if (result.isSuccess()) {
-            *//*没有默认地址  默认显示第一个*//*
-
-            if (!result.getShippingAddress().isEmpty()) {
-                mTvName.setText(result.getShippingAddress().get(0).getShipTo());
-                mTvPhone.setText(result.getShippingAddress().get(0).getPhone());
-                mTvAddress.setText(result.getShippingAddress().get(0).getRegionFullName() + " " + result.getShippingAddress().get(0).getAddress());
-                mLlAddress.setVisibility(View.VISIBLE);
-                mLlAddAddress.setVisibility(View.GONE);
-            } else {
-                mLlAddress.setVisibility(View.GONE);
-                mLlAddAddress.setVisibility(View.VISIBLE);
-            }
-
-        }
-
-    }*/
 
 
     @Override
@@ -221,6 +239,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @Override
     public void GetSubmitModel(GetConfirmModel result) {
         if (result.getSuccess().equals("true")) {
+            GetConfirmModel=result;
             if (result.getAddress() != null) {
                 addressid= String.valueOf(result.getAddress().getId());
                 mTvName.setText(result.getAddress().getShipTo());
@@ -242,6 +261,22 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             StoreBean storeBean = new StoreBean();
             storeBean.setShopLogo(""); //没店铺图标
             storeBean.setShopName(result.getProducts().get(0).getShopName());
+
+            /*如果存在优惠券则存入*/
+            if (result.getProducts().get(0).getOneCoupons()!=null){
+                /*设置优惠券OneCoupons*/
+                StoreBean.OneCoupons oneCoupons=new StoreBean.OneCoupons();
+                oneCoupons.setBaseId(result.getProducts().get(0).getOneCoupons().getBaseId());
+                oneCoupons.setBasePrice(result.getProducts().get(0).getOneCoupons().getBasePrice());
+                oneCoupons.setBaseName(result.getProducts().get(0).getOneCoupons().getBaseName());
+                oneCoupons.setBaseType(result.getProducts().get(0).getOneCoupons().getBaseType());
+                oneCoupons.setBaseShopName(result.getProducts().get(0).getOneCoupons().getBaseShopName());
+                oneCoupons.setBaseEndTime(result.getProducts().get(0).getOneCoupons().getBaseEndTime());
+                oneCoupons.setBaseShopId(result.getProducts().get(0).getOneCoupons().getBaseShopId());
+                oneCoupons.setOrderAmount(result.getProducts().get(0).getOneCoupons().getOrderAmount());
+                storeBean.setOneCoupons(oneCoupons);
+            }
+
             /**/
             List<CommodityBean> list_shop = new ArrayList<>();
             CommodityBean commodityBean = new CommodityBean();
@@ -259,23 +294,17 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             list_shop.add(commodityBean);
             storeBean.setList(list_shop);
             list.add(storeBean);
-
             confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list,mActivity);
             confirmOrderAdapter.setEmptyView(getEmptyView());
             mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-/*
-
-            EditText et_message = (EditText) confirmOrderAdapter.getViewByPosition(0, R.id.et_leave_a_message);
-             message = et_message.getText().toString();
-*/
-
             mRvConfirmOrder.setAdapter(confirmOrderAdapter);
-           /* double price = Double.parseDouble(result.getProducts().get(0).getCartItemModels().get(0).getPrice());
-            double count = Double.parseDouble(result.getProducts().get(0).getCartItemModels().get(0).getCount());
-            double Money = price * count;*/
-            mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getTotalAmount()));
+          //  mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getTotalAmount()));
+            //优惠后的价格
+            mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getOrderAmount()));
+            mStateLayout.changeState(StateFrameLayout.SUCCESS);
+        }else{
+            mStateLayout.changeState(StateFrameLayout.EMPTY);
         }
-
 
     }
 
@@ -287,6 +316,10 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     public void GetSubmitByCartModel(GetConfirmModel result) {
 
         if (result.getSuccess().equals("true")) {
+
+
+            GetConfirmModel=result;
+
             if (result.getAddress() != null) {
                 addressid= String.valueOf(result.getAddress().getId());
                 mTvName.setText(result.getAddress().getShipTo());
@@ -309,6 +342,22 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 StoreBean storeBean = new StoreBean();
                 storeBean.setShopLogo(""); //没店铺图标
                 storeBean.setShopName(result.getProducts().get(i).getShopName());
+                /*如果存在优惠券则存入*/
+                if (result.getProducts().get(i).getOneCoupons()!=null){
+                    /*设置优惠券OneCoupons*/
+                    StoreBean.OneCoupons oneCoupons=new StoreBean.OneCoupons();
+                    oneCoupons.setBaseId(result.getProducts().get(i).getOneCoupons().getBaseId());
+                    oneCoupons.setBasePrice(result.getProducts().get(i).getOneCoupons().getBasePrice());
+                    oneCoupons.setBaseName(result.getProducts().get(i).getOneCoupons().getBaseName());
+                    oneCoupons.setBaseType(result.getProducts().get(i).getOneCoupons().getBaseType());
+                    oneCoupons.setBaseShopName(result.getProducts().get(i).getOneCoupons().getBaseShopName());
+                    oneCoupons.setBaseEndTime(result.getProducts().get(i).getOneCoupons().getBaseEndTime());
+                    oneCoupons.setBaseShopId(result.getProducts().get(i).getOneCoupons().getBaseShopId());
+                    oneCoupons.setOrderAmount(result.getProducts().get(i).getOneCoupons().getOrderAmount());
+                    storeBean.setOneCoupons(oneCoupons);
+                }
+
+
                 List<CommodityBean> list_shop = new ArrayList<>();
                 for (int j = 0; j < result.getProducts().get(i).getCartItemModels().size() ; j++) {
                     CommodityBean commodityBean = new CommodityBean();
@@ -323,7 +372,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     commodityBean.setCount(result.getProducts().get(i).getCartItemModels().get(j).getCount());
                     commodityBean.setShopId(result.getProducts().get(i).getCartItemModels().get(j).getShopId());
                     commodityBean.setVShopId(result.getProducts().get(i).getCartItemModels().get(j).getVshopId());
-
                     list_shop.add(commodityBean);
                 }
                 storeBean.setList(list_shop);
@@ -335,19 +383,15 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             confirmOrderAdapter.setEmptyView(getEmptyView());
             mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
             mRvConfirmOrder.setAdapter(confirmOrderAdapter);
-            mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getTotalAmount()));
+         //   mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getTotalAmount()));
+           //优惠后的价格
+            mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getOrderAmount()));
+
+            mStateLayout.changeState(StateFrameLayout.SUCCESS);
+
+        }else {
+            mStateLayout.changeState(StateFrameLayout.EMPTY);
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
     }
@@ -394,22 +438,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
     }
 
-    /*计算购物车中提交的数量*/
-    public int CartSumcount(List<StoreBean> list){
-        int count=0;
-
-        for (int i = 0; i < list.size(); i++) {
-            for (int j = 0; j < list.get(i).getList().size(); j++) {
-                 count++;
-            }
-        }
-
-        return count;
-    }
-
-
-
-
     @Override
     public void SaveEdit(int position, String string) {
         Log.d("位置为"+position,"留言内容为"+string);
@@ -421,4 +449,49 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         }
 
     }
+
+
+    /*留言添加方法*/
+    public String getleave_message(HashMap<Integer,String> hashMap){
+        String message="";
+        if (hashMap.isEmpty()){
+            message="";
+        }else {
+            for (int i = 0; i < list.size(); i++) {  //留言添加
+                if (messagemap.get(i)==null){
+                    message+=",";
+                }else {
+                    message+=","+messagemap.get(i);
+                }
+            }
+
+            if (message.length()>1){
+                message=message.substring(1,message.length());
+            }else {
+                message="";
+            }
+        }
+
+        return message;
+    }
+
+    /*获得优惠券添加方法*/
+    public String getcoupons(List<StoreBean> list){
+         String onecoupons="";
+        for (int i = 0; i < list.size(); i++) {  //购物券添加
+            if (list.get(i).getOneCoupons()==null){
+                onecoupons+=",";
+            }else {
+                onecoupons+=",_"+list.get(i).getOneCoupons().getBaseId();
+            }
+        }
+
+        if (onecoupons.length()>1){
+            onecoupons=onecoupons.substring(1,onecoupons.length());
+        }else {
+            onecoupons="";
+        }
+         return onecoupons;
+    }
+
 }

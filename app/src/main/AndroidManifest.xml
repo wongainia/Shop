@@ -248,6 +248,17 @@
             android:launchMode="singleTask">
         </activity>
 
+
+        <activity android:name=".activity.AllCommentsActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
+
+        <activity android:name=".activity.EvaluateActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
+
         <receiver
             android:name=".wxapi.AppRegister">
             <intent-filter>

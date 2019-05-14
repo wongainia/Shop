@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,14 +15,19 @@ import android.widget.PopupWindow;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.EvaluateActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.CloseOrder;
+import com.zhenghaikj.shop.entity.CommentModel;
+import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
@@ -64,7 +70,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private OrderListAdapter orderListAdapter;
     private View popupWindow_view;
     private PopupWindow mPopupWindow;
-
+    private int receipt_position;
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
@@ -116,6 +122,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
+                    case R.id.tv_trading_status:
+                        mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                     case R.id.tv_buy:
                     case R.id.tv_buy_again://再次购买
 //                        startActivity(new Intent(mActivity, OrderDetailActivity.class));
@@ -127,26 +135,32 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         break;
                     case R.id.tv_confirm_receipt://确认收货
                         mPresenter.PostConfirmOrder(cartList.get(position).getId(),userKey);
+                        receipt_position=position;
                         break;
                     case R.id.tv_payment://付款
-                        showPopupWindow();
-                        break;
-                    case R.id.tv_logistics:
-                    case R.id.tv_see_logistics:
-                    case R.id.tv_view_logistics://查看物流
                         showPopupWindow();
                         break;
                     case R.id.tv_extended_receipt://延长收货
                         showPopupWindow();
                         break;
-                    case R.id.tv_evaluation://评价
-                        showPopupWindow();
-                        break;
+                   // case R.id.tv_evaluation://评价
+                   //     showPopupWindow();
+                   //    break;
                     case R.id.tv_change_address://修改地址
                         showPopupWindow();
                         break;
                     case R.id.tv_friend_pay://朋友代付
                         showPopupWindow();
+                        break;
+                    case R.id.tv_evaluation:
+                        Intent intent=new Intent(mActivity, EvaluateActivity.class);
+                        intent.putExtra("OrderID",cartList.get(position).getId());
+                        startActivity(intent);
+                        break;
+                    case R.id.tv_see_logistics://查看物流
+                    case R.id.tv_logistics:
+                    case R.id.tv_view_logistics:
+                        mPresenter.GetExpressInfo(cartList.get(position).getId(),userKey);
                         break;
                 }
             }
@@ -235,7 +249,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     public void PostConfirmOrder(ConfirmOrder Result) {
-
+     if (equals(Result.getSuccess())){
+         orderListAdapter.remove(receipt_position);
+     }
     }
     /**
      * 弹出付款Popupwindow
@@ -279,5 +295,17 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             mPopupWindow.showAtLocation(popupWindow_view, Gravity.BOTTOM, 0, 0);
         }
         MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+    @Override
+    public void GetExpressInfo(String Result) {
+
+    }
+
+    @Override
+    public void PostAddComment(String Result) {
+
+
+
     }
 }

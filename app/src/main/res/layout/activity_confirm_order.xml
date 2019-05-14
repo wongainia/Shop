@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.lwkandroid.widget.stateframelayout.StateFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/stateLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:enableContentAnim="true"
+    app:emptyLayoutResId="@layout/layout_empty"
+    app:loadingLayoutResId="@layout/layout_loading"
+    app:netErrorLayoutResId="@layout/layout_net_error">
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eee"
@@ -34,3 +45,4 @@
 
 
     </LinearLayout>
+</com.lwkandroid.widget.stateframelayout.StateFrameLayout>

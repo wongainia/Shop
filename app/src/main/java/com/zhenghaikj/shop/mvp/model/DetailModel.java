@@ -6,6 +6,7 @@ import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
@@ -86,5 +87,19 @@ public class DetailModel implements DetailContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
 
+    }
+
+    @Override
+    public Observable<GetCommentResult> GetProductCommentShow(String id, String userkey) {
+        map = new HashMap<>();
+        map.put("id",id);
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetProductCommentShow(id,userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
     }
 }

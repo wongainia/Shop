@@ -39,4 +39,26 @@ public class OrderPresenter extends OrderContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void GetExpressInfo(String orderId, String userkey) {
+        mModel.GetExpressInfo(orderId, userkey)
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onHandleSuccess(String value) {
+                        mView.GetExpressInfo(value);
+                    }
+                });
+    }
+
+    @Override
+    public void PostAddComment(String userkey, String jsonstr) {
+        mModel.PostAddComment(userkey, jsonstr)
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onHandleSuccess(String value) {
+                        mView.PostAddComment(value);
+                    }
+                });
+    }
 }

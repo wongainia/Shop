@@ -37,7 +37,22 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<StoreBean, BaseViewHol
             double price = Double.parseDouble(item.getList().get(i).getPrice());
             Money += count * price;
         }
-        helper.setText(R.id.tv_subtotal,"¥"+String.format("%.2f", Money));
+
+        if (item.getOneCoupons()!=null){
+        helper.setVisible(R.id.ll_coupons,true);
+        helper.setText(R.id.tv_coupons,item.getOneCoupons().getBaseName()+" 优惠:"+item.getOneCoupons().getBasePrice()+"元");
+
+         double discounts=item.getOneCoupons().getBasePrice();
+         //算出优惠的价格
+         helper.setText(R.id.tv_subtotal,"¥"+String.format("%.2f",  Money-discounts));
+
+        }else {
+
+            helper.setText(R.id.tv_subtotal,"¥"+String.format("%.2f", Money));
+        }
+
+
+
 
 
         helper.setText(R.id.tv_store_name,item.getShopName());
@@ -77,7 +92,6 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<StoreBean, BaseViewHol
         @Override
         public void afterTextChanged(Editable s) {
             SaveEditTextStrListener listener=(SaveEditTextStrListener)mContext;
-
             if(s!=null){
                 listener.SaveEdit(Integer.parseInt(holder.getView(R.id.et_leave_a_message).getTag().toString()),s.toString());
             }

@@ -45,6 +45,7 @@ import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.ShopColor;
@@ -282,6 +283,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         // Userkey="YVdzb1BrelMyRXA0YU4xNExrUnJJWUxCdjZkN2ZxbEU4am1SM0dTd2ZiazlWWS80T1VQdnJ3SVdYNlc0WkZSKw==";
         if (!"".equals(id) && id != null) {
             mPresenter.GetProductDetail(id, Userkey);
+            mPresenter.GetProductCommentShow(id,Userkey);
             mPresenter.GetSKUInfo(id);
 
 
@@ -922,9 +924,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     /*获取商品库存*/
     public int getinventory(String skuId) {
         int inventory = 0;
-        // Log.d("====>skuId", skuId);
-        // Log.d("====>size", String.valueOf(skuArray.size()));
-        // Log.d("====>getSKUId", String.valueOf(skuArray.get(0).getSKUId()));
         for (int i = 0; i < skuArray.size(); i++) {
             if (skuId.equals(skuArray.get(i).getSkuId())) {
                 inventory = skuArray.get(i).getStock();
@@ -1007,6 +1006,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     /*收藏*/
     @Override
     public void PostAddFavoriteProduct(CollectResult Result) {
+    }
+
+    /*获取商品第一条评论*/
+    @Override
+    public void GetProductCommentShow(GetCommentResult result) {
+
     }
 
 }

@@ -14,17 +14,27 @@ public interface OrderContract {
         Observable<Order> GetOrders(String orderStatus,String pageNo,String pageSize,String userkey );
         Observable<CloseOrder> PostCloseOrder(String orderId, String userkey);
         Observable<ConfirmOrder> PostConfirmOrder(String orderId, String userkey);
+        //查询物流
+        Observable<String> GetExpressInfo(String orderId,String userkey);
+
+        Observable<String> PostAddComment(String userkey,String jsonstr);
+
+
     }
 
     interface View extends BaseView{
         void GetOrders(Order result);
         void PostCloseOrder(CloseOrder Result);
         void PostConfirmOrder(ConfirmOrder Result);
+        void GetExpressInfo(String Result);
+        void PostAddComment(String Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void GetOrders(String orderStatus,String pageNo,String pageSize,String userkey );
         public abstract void PostCloseOrder(String orderId, String userkey);
         public abstract void PostConfirmOrder(String orderId, String userkey);
+        public abstract void GetExpressInfo(String orderId,String userkey);
+        public abstract void PostAddComment(String userkey,String jsonstr);
     }
 }

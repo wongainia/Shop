@@ -4,6 +4,7 @@ import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
@@ -49,6 +50,17 @@ public class DetailPresenter extends DetailContract.Presenter {
                     @Override
                     protected void onHandleSuccess(CollectResult value) {
                         mView.PostAddFavoriteProduct(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetProductCommentShow(String id,String userkey) {
+        mModel.GetProductCommentShow(id,userkey)
+                .subscribe(new BaseObserver<GetCommentResult>() {
+                    @Override
+                    protected void onHandleSuccess(GetCommentResult value) {
+                        mView.GetProductCommentShow(value);
                     }
                 });
     }

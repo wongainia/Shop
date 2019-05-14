@@ -18,5 +18,6 @@ public interface OrderDetailContract {
 
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void GetOrderDetail(String id,String userkey);
+
     }
 }

@@ -30,9 +30,10 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
     protected void convert(BaseViewHolder helper, Order.OrdersBean item) {
         orderListAdapter2 = new OrderListAdapter2(R.layout.item_order_list,item.getItemInfo());
         helper.setText(R.id.tv_store_name,item.getShopname())
-                .setText(R.id.tv_goods_number,"共"+item.getProductCount()+"件商品")
-                .setText(R.id.tv_goods_price,"合计：￥"+item.getOrderTotalAmount());
+         .setText(R.id.tv_goods_number,"共"+item.getProductCount()+"件商品")
+         .setText(R.id.tv_goods_price,"合计："+item.getOrderTotalAmount());
         helper.setText(R.id.tv_trading_status,item.getStatus());
+        helper.addOnClickListener(R.id.tv_trading_status);
         helper.addOnClickListener(R.id.tv_delete_order);//删除订单
         helper.addOnClickListener(R.id.tv_confirm_receipt);//确认收货
         helper.addOnClickListener(R.id.tv_payment);//付款
@@ -48,13 +49,9 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
         RecyclerView rv=helper.getView(R.id.rv_order_list);
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.setAdapter(orderListAdapter2);
-//        if (item.getOrderStatus()==0){
-//            helper.setText(R.id.tv_trading_status,item.getStatus());
-//        }
 
         if (item.getOrderStatus()==5){
 
-//            helper.setVisible(R.id.tv_trading_status,true);
             helper.setVisible(R.id.ll_pending_payment,false);
             helper.setVisible(R.id.ll_pending_receipt,false);
             helper.setVisible(R.id.ll_all_orders,true);

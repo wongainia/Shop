@@ -6,6 +6,7 @@ import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.SearchResult;
 
@@ -20,6 +21,9 @@ public interface DetailContract {
         Observable<GetGoodSKu> GetSKUInfo(String productId);
 
         Observable<CollectResult> PostAddFavoriteProduct(String productId,String Userkey);
+
+
+        Observable<GetCommentResult> GetProductCommentShow(String id, String userkey);
     }
 
     interface View extends BaseView {
@@ -30,13 +34,14 @@ public interface DetailContract {
 
         void GetSKUInfo(GetGoodSKu Result);
         void PostAddFavoriteProduct(CollectResult Result);
+        void GetProductCommentShow(GetCommentResult result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetProductDetail(String id,String Userkey);
         public abstract void PostAddProductToCart(String skuId,String count,String Userkey);
         public abstract void GetSKUInfo(String productId);
-
         public abstract void PostAddFavoriteProduct(String productId,String Userkey);
+        public abstract void GetProductCommentShow(String id,String userkey);
     }
 }
