@@ -244,16 +244,10 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             @Override
             public void onClick(View view) {
                 if (requestPermissions()) {
-//                    Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-//                    i.addCategory(Intent.CATEGORY_OPENABLE);
-//                    i.setType("image/*");
-//                    startActivityForResult(Intent.createChooser(i, "test"), code2);
                     Matisse.from(PersonalInformationActivity.this)
                             .choose(MimeType.ofImage())
                             .countable(true)
                             .maxSelectable(1)
-//                            .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-//                            .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                             .thumbnailScale(0.85f)
                             .imageEngine(new Glide4Engine())
@@ -366,6 +360,8 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                     if (mSelected.size()==1){
                         uri = mSelected.get(0);
                     }
+
+
 //                    Uri uri = data.getData();
                     Glide.with(mActivity).load(uri).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(mIvAvatar);
                     file = new File(MyUtils.getRealPathFromUri(mActivity, uri));

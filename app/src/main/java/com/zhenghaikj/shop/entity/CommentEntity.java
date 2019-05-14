@@ -3,8 +3,9 @@ package com.zhenghaikj.shop.entity;
 import java.io.Serializable;
 import java.util.List;
 
-public class CommentModel implements Serializable {
+public class CommentEntity implements Serializable {
 
+    /*用于提交的评价实体类*/
 
     /**
      * orderId : 2016022392950672
@@ -73,7 +74,7 @@ public class CommentModel implements Serializable {
         private String content;
         private String orderItemId;
         private List<String> Images;
-        private List<?> WXmediaId;
+        private List<String> WXmediaId;
 
         public String getMark() {
             return mark;
@@ -107,11 +108,11 @@ public class CommentModel implements Serializable {
             this.Images = Images;
         }
 
-        public List<?> getWXmediaId() {
+        public List<String> getWXmediaId() {
             return WXmediaId;
         }
 
-        public void setWXmediaId(List<?> WXmediaId) {
+        public void setWXmediaId(List<String> WXmediaId) {
             this.WXmediaId = WXmediaId;
         }
     }

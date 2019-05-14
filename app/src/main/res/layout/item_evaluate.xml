@@ -80,11 +80,22 @@
         android:textSize="12sp"
         />
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/icon_add_ac_add"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.zhenghaikj.shop.widget.flowtaglayout.FlowTagLayout
+            android:id="@+id/fl_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+        </com.zhenghaikj.shop.widget.flowtaglayout.FlowTagLayout>
+
+    </LinearLayout>
+
+
 </LinearLayout>

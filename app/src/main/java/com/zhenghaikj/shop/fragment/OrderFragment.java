@@ -15,7 +15,6 @@ import android.widget.PopupWindow;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -24,10 +23,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.EvaluateActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
-import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.CloseOrder;
-import com.zhenghaikj.shop.entity.CommentModel;
-import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
