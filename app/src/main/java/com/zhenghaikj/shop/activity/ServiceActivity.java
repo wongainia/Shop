@@ -1,7 +1,14 @@
 package com.zhenghaikj.shop.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -9,29 +16,47 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.adapter.AreaAdapter;
+import com.zhenghaikj.shop.adapter.CityAdapter;
+import com.zhenghaikj.shop.adapter.DistrictAdapter;
+import com.zhenghaikj.shop.adapter.ProvinceAdapter;
+import com.zhenghaikj.shop.adapter.ProvinceAdapter2;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Area;
+import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.District;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.Province;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.AddOrderContract;
 import com.zhenghaikj.shop.mvp.model.AddOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.AddOrderPresenter;
 import com.zhenghaikj.shop.utils.GlideUtil;
+import com.zhenghaikj.shop.utils.MyUtils;
+
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -130,6 +155,22 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
     AppCompatSpinner mSpinner;
     @BindView(R.id.tv_expedited)
     TextView mTvExpedited;
+    @BindView(R.id.et_name)
+    EditText mEtName;
+    @BindView(R.id.iv_add_name)
+    ImageView mIvAddName;
+    @BindView(R.id.et_phone)
+    EditText mEtPhone;
+    @BindView(R.id.tv_pca)
+    TextView mTvPca;
+    @BindView(R.id.et_detail)
+    EditText mEtDetail;
+    @BindView(R.id.iv_microphone)
+    ImageView mIvMicrophone;
+    @BindView(R.id.ll_microphone)
+    LinearLayout mLlMicrophone;
+    @BindView(R.id.ll_product)
+    LinearLayout mLlProduct;
     private OrderDetail.OrderItemBean bean;
     private String storeName;
     private String num;
@@ -163,6 +204,30 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
     private String AreaCode;//区code
     private String DistrictCode;//街道code
     private SPUtils spUtil;
+    private List<Province> provinceList;
+    private ProvinceAdapter2 provinceAdapter2;
+    private List<City> cityList;
+    private ProvinceAdapter provinceAdapter;
+    private String ProvinceName;
+    private List<District> districtList;
+    private DistrictAdapter districtAdapter;
+    private TextView tv_province;
+    private TextView tv_city;
+    private TextView tv_area;
+    private TextView tv_district;
+    private TextView tv_choose;
+    private RecyclerView rv_address_choose;
+    private ImageView iv_close;
+    private PopupWindow popupWindow;
+    private String DistrictName;
+    private List<Area> areaList;
+    private AreaAdapter areaAdapter;
+    private String AreaName;
+    private CityAdapter cityAdapter;
+    private String CityName;
+    private String DetailAddress;
+    private String Address;
+    private Intent intent;
 
     @Override
     protected int setLayoutId() {
@@ -183,12 +248,12 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
         mTvNumber.setText("数量：" + bean.getCount());
         mTvNumberOfApplications.setText("申请数量：" + num);
         mTvStoreName.setText(storeName);
-        addressStr = order.getAddress();
-        name = order.getShipTo();
-        phone = order.getPhone();
-        mTvAddress.setText(order.getAddress());
-        mTvContact.setText(order.getShipTo());
-        mTvContactNumber.setText(order.getPhone());
+//        addressStr = order.getAddress();
+//        name = order.getShipTo();
+//        phone = order.getPhone();
+//        mTvAddress.setText(order.getAddress());
+//        mTvContact.setText(order.getShipTo());
+//        mTvContactNumber.setText(order.getPhone());
 
         //默认保内
         mCbUnderWarranty.setChecked(true);
@@ -236,6 +301,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
         mIconBack.setOnClickListener(this);
         mTvSubmit.setOnClickListener(this);
         mLlAddress.setOnClickListener(this);
+        mLlProduct.setOnClickListener(this);
         mSwitcherInstallationWorkOrder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -249,6 +315,9 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                 }
             }
         });
+
+        mIvAddName.setOnClickListener(this);
+        mTvAddress.setOnClickListener(this);
 
         mLlUnderWarranty.setOnClickListener(this);
         mLlOutsideTheWarranty.setOnClickListener(this);
@@ -300,11 +369,34 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_add_name:
+//                startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), 0);
+                intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+                startActivityForResult(intent, 0);
+                break;
+            case R.id.ll_product:
+                intent = new Intent(mActivity, GoodsDetailActivity.class);
+                intent.putExtra("id", bean.getProductId()+"");
+                startActivity(intent);
+                break;
+            case R.id.tv_address:
+                mPresenter.GetProvince();
+                break;
+            case R.id.tv_province:
+                mPresenter.GetProvince();
+                break;
+            case R.id.tv_city:
+                mPresenter.GetCity(ProvinceCode);
+                break;
+            case R.id.tv_area:
+                mPresenter.GetArea(CityCode);
+                break;
             case R.id.icon_back:
                 finish();
                 break;
             case R.id.ll_address:
-                Intent intent = new Intent(mActivity, ShippingAddressActivity.class);
+                intent = new Intent(mActivity, ShippingAddressActivity.class);
                 intent.putExtra("CHOOSE_ADDRESS_REQUEST", true);
                 startActivityForResult(intent, Config.CHOOSE_ADDRESS_REQUEST);
                 break;
@@ -354,6 +446,11 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                 integrator.initiateScan();
                 break;
             case R.id.tv_submit:
+
+                DetailAddress = mEtDetail.getText().toString();
+                Address = mTvPca.getText().toString() + DetailAddress;
+                name = mEtName.getText().toString();
+                phone = mEtPhone.getText().toString();
                 spUtil = SPUtils.getInstance("token");
                 userID = spUtil.getString("userName2");
                 RecycleOrderHour = mEtRecoveryTime.getText().toString();
@@ -362,34 +459,66 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                     ToastUtils.showShort("请填写问题描述！");
                     return;
                 }
+                if (DetailAddress == null || "".equals(DetailAddress)) {
+                    MyUtils.showToast(mActivity, "请输入详细地址！");
+                    return;
+                }
+                if (name == null || "".equals(name)) {
+                    MyUtils.showToast(mActivity, "请输入联系人！");
+                    return;
+                }
+                if (phone == null || "".equals(phone)) {
+                    MyUtils.showToast(mActivity, "请输入联系电话！");
+                    return;
+                }
+                if (!RegexUtils.isMobileExact(phone)) {
+                    MyUtils.showToast(mActivity, "手机号格式不正确！");
+                    return;
+                }
+                if (ProvinceCode == null) {
+                    MyUtils.showToast(mActivity, "请选择省！");
+                    return;
+                }
+                if (CityCode == null) {
+                    MyUtils.showToast(mActivity, "请选择市！");
+                    return;
+                }
+                if (AreaCode == null) {
+                    MyUtils.showToast(mActivity, "请选择区！");
+                    return;
+                }
+                if (DistrictCode == null) {
+                    MyUtils.showToast(mActivity, "请选择街道、乡、镇");
+                }
+
                 if (Guarantee == null || "".equals(Guarantee)) {
                     ToastUtils.showShort("请选择保修期内或保修期外！");
                     return;
                 }
                 if (RecycleOrderHour == null || "".equals(RecycleOrderHour)) {
-                    ToastUtils.showShort( "请输入回收时间！");
+                    ToastUtils.showShort("请输入回收时间！");
                     return;
                 }
                 if (!(Integer.parseInt(RecycleOrderHour) >= 12 || Integer.parseInt(RecycleOrderHour) <= 48)) {
-                    ToastUtils.showShort( "回收时间需大于等于12小于等于48！");
+                    ToastUtils.showShort("回收时间需大于等于12小于等于48！");
                     return;
                 }
                 switch (title) {
                     case "安装":
                         OrderMoney = "100";
-                        if (SigningState ==null||"".equals(SigningState)){
-                            ToastUtils.showShort( "请选择客户是否为已签收产品");
+                        if (SigningState == null || "".equals(SigningState)) {
+                            ToastUtils.showShort("请选择客户是否为已签收产品");
                             return;
                         }
                         number = mEtExpressno.getText().toString();
-                        if (mCbNoSigning.isChecked()){
-                            if ("".equals(number)){
-                                ToastUtils.showShort( "请填写快递单号");
+                        if (mCbNoSigning.isChecked()) {
+                            if ("".equals(number)) {
+                                ToastUtils.showShort("请填写快递单号");
                                 return;
                             }
                         }
 
-                        mPresenter.AddOrder("2", "安装", userID, BrandID, BrandName, ParentID, ParentName, FCategoryID, FCategoryName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number);
+                        mPresenter.AddOrder("2", "安装", userID, BrandID, BrandName, ParentID, ParentName, FCategoryID, FCategoryName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number);
                         break;
                     case "维修":
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
@@ -397,7 +526,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                             return;
                         }
                         OrderMoney = "100";
-                        mPresenter.AddOrder("1", "维修", userID, BrandID, BrandName, ParentID, ParentName, FCategoryID, FCategoryName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num,null,null);
+                        mPresenter.AddOrder("1", "维修", userID, BrandID, BrandName, ParentID, ParentName, FCategoryID, FCategoryName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null);
                         break;
                     default:
                         break;
@@ -412,6 +541,204 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetProvince(BaseResult<List<Province>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                provinceList = baseResult.getData();
+                provinceAdapter = new ProvinceAdapter(R.layout.category_item, provinceList);
+//                showPopWindow(mTvProvince, provinceAdapter2, provinceList);
+                if (popupWindow != null) {
+                    if (popupWindow.isShowing()) {
+                        rv_address_choose.setAdapter(provinceAdapter2);
+                        provinceAdapter2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                ProvinceName = provinceList.get(position).getName();
+                                ProvinceCode = provinceList.get(position).getCode();
+                                mPresenter.GetCity(ProvinceCode);
+                                tv_province.setText(ProvinceName);
+                                tv_province.setVisibility(View.VISIBLE);
+                                tv_city.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    } else {
+                        showPopWindowGetAddress(mTvAddress);
+                    }
+                } else {
+                    showPopWindowGetAddress(mTvAddress);
+                }
+
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetCity(BaseResult<Data<List<City>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<List<City>> data = baseResult.getData();
+                if (data.isItem1()) {
+                    cityList = data.getItem2();
+                    cityAdapter = new CityAdapter(R.layout.category_item, cityList);
+                    rv_address_choose.setAdapter(cityAdapter);
+                    tv_choose.setText("选择城市");
+                    cityAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            CityName = cityList.get(position).getName();
+                            CityCode = cityList.get(position).getCode();
+                            mPresenter.GetArea(CityCode);
+                            tv_city.setText(CityName);
+                            tv_province.setVisibility(View.VISIBLE);
+                            tv_city.setVisibility(View.VISIBLE);
+                            tv_area.setVisibility(View.VISIBLE);
+                        }
+                    });
+//                    showPopWindow(mTvCity, cityAdapter, cityList);
+                } else {
+                    MyUtils.showToast(mActivity, "获取市失败！");
+                }
+
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetArea(BaseResult<Data<List<Area>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<List<Area>> data = baseResult.getData();
+                if (data.isItem1()) {
+                    areaList = data.getItem2();
+                    areaAdapter = new AreaAdapter(R.layout.category_item, areaList);
+                    rv_address_choose.setAdapter(areaAdapter);
+                    tv_choose.setText("选择区/县");
+                    areaAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            AreaName = areaList.get(position).getName();
+                            AreaCode = areaList.get(position).getCode();
+                            mPresenter.GetDistrict(AreaCode);
+                            tv_area.setText(AreaName);
+                            tv_province.setVisibility(View.VISIBLE);
+                            tv_city.setVisibility(View.VISIBLE);
+                            tv_area.setVisibility(View.VISIBLE);
+                        }
+                    });
+//                    showPopWindow(mTvArea, areaAdapter, areaList);
+                } else {
+                    MyUtils.showToast(mActivity, "获取区失败！");
+                }
+
+                break;
+            case 401:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetDistrict(BaseResult<Data<List<District>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<List<District>> data = baseResult.getData();
+                if (data.isItem1()) {
+                    districtList = data.getItem2();
+                    districtAdapter = new DistrictAdapter(R.layout.category_item, districtList);
+                    rv_address_choose.setAdapter(districtAdapter);
+                    tv_choose.setText("选择街道/乡/镇");
+                    districtAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                            DistrictName = districtList.get(position).getName();
+                            DistrictCode = districtList.get(position).getCode();
+                            tv_district.setText(DistrictName);
+                            tv_province.setVisibility(View.VISIBLE);
+                            tv_city.setVisibility(View.VISIBLE);
+                            tv_area.setVisibility(View.VISIBLE);
+                            tv_district.setVisibility(View.VISIBLE);
+                            popupWindow.dismiss();
+                            mTvAddress.setText(ProvinceName + CityName + AreaName + DistrictName);
+                            mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
+                        }
+                    });
+                } else {
+                    MyUtils.showToast(mActivity, "获取街道/乡/镇失败");
+                }
+                break;
+            case 401:
+                break;
+        }
+    }
+
+    public void showPopWindowGetAddress(final TextView tv) {
+
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.address_pop, null);
+        tv_province = contentView.findViewById(R.id.tv_province);
+        tv_city = contentView.findViewById(R.id.tv_city);
+        tv_area = contentView.findViewById(R.id.tv_area);
+        tv_district = contentView.findViewById(R.id.tv_district);
+        tv_city.setOnClickListener(this);
+        tv_province.setOnClickListener(this);
+        tv_area.setOnClickListener(this);
+        tv_choose = contentView.findViewById(R.id.tv_choose);
+        tv_choose.setText("选择省份/地区");
+        rv_address_choose = contentView.findViewById(R.id.rv_address_choose);
+        iv_close = contentView.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        rv_address_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+        rv_address_choose.setAdapter(provinceAdapter);
+        provinceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ProvinceName = provinceList.get(position).getName();
+                ProvinceCode = provinceList.get(position).getCode();
+                mPresenter.GetCity(ProvinceCode);
+                tv_province.setText(ProvinceName);
+                tv_province.setVisibility(View.VISIBLE);
+                tv_city.setVisibility(View.VISIBLE);
+//                try {
+//                    JSONObject json=new JSONObject("");
+//                    json.g
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
+            }
+        });
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, ScreenUtils.getScreenHeight() - 700);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+//                MyUtils.backgroundAlpha(mActivity,1);
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+//            MyUtils.backgroundAlpha(mActivity,0.5f);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
     }
 
     @Override
@@ -457,6 +784,26 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                 name = address.getShipTo();
                 phone = address.getPhone();
                 mTvAddress.setText(address.getRegionFullName() + " " + address.getAddress());
+            }
+
+        }
+        if (resultCode == Activity.RESULT_OK && requestCode == 0) {
+            if (data != null) {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    Cursor cursor = getContentResolver()
+                            .query(uri,
+                                    new String[]{
+                                            ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME},
+                                    null, null, null);
+                    while (cursor.moveToNext()) {
+                        String number = cursor.getString(0);
+                        String name = cursor.getString(1);
+                        mEtPhone.setText(number.trim());
+                        mEtName.setText(name);
+
+                    }
+                }
             }
 
         }

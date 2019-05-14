@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
 import com.zhenghaikj.shop.mvp.contract.HomeContract;
@@ -33,6 +34,19 @@ public class HomeModel implements HomeContract.Model {
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().Get(pageNo,pageSize,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<HomeJsonResult> Get() {
+        map = new HashMap<>();
+
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().Get("himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

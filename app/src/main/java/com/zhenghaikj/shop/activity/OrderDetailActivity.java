@@ -5,7 +5,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -137,6 +136,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private OrderDetailAdapter adapter;
     private String id;
     private OrderDetail.OrderBean orderBean;
+    private Intent intent;
 
     @Override
     protected int setLayoutId() {
@@ -214,6 +214,14 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     default:
                         break;
                 }
+            }
+        });
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                intent = new Intent(mActivity, GoodsDetailActivity.class);
+                intent.putExtra("id", orderItemBeans.get(position).getProductId()+"");
+                startActivity(intent);
             }
         });
     }

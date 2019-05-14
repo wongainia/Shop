@@ -31,6 +31,7 @@ public class AfterSaleFragment extends BaseLazyFragment {
     private ArrayList<Product> saleList=new ArrayList<>();
     private SaleAdapter saleAdapter;
     private String mParam1;
+    private Intent intent;
 
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
@@ -77,6 +78,7 @@ public class AfterSaleFragment extends BaseLazyFragment {
                 }
             }
         });
+
     }
     public void getData() {
         switch (mParam1) {

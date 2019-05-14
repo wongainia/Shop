@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -122,16 +123,12 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                     break;
             }
         });
-        searchDetailWaterFallAdapetr.setOnItemChildClickListener((adapter, view, position) -> {
-            switch (view.getId()) {
-                case R.id.ll_good:
-                    Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
-                    intent.putExtra("id",searchDatailList.get(position).getProductId());
-                    startActivity(intent);
-                    break;
-                case R.id.ll_into_the_store:
-                    startActivity(new Intent(mActivity, StoreActivity.class));
-                    break;
+        searchDetailWaterFallAdapetr.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
+                intent.putExtra("id",searchDatailList.get(position).getProductId());
+                startActivity(intent);
             }
         });
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {

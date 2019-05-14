@@ -1,9 +1,15 @@
 package com.zhenghaikj.shop.api;
 
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Area;
+import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.District;
+import com.zhenghaikj.shop.entity.Province;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -26,6 +32,33 @@ public interface ApiService2 {
     @POST("Account/GetUserInfoList")
     Observable<BaseResult<UserInfo>> GetUserInfoList(@Field("UserID") String UserID,
                                                      @Field("limit") String limit);
+
+    /**
+     * 获取省
+     */
+    @POST("Config/GetProvince")
+    Observable<BaseResult<List<Province>>> GetProvince();
+
+    /**
+     * 获取市
+     */
+    @FormUrlEncoded
+    @POST("Config/GetCity")
+    Observable<BaseResult<Data<List<City>>>> GetCity(@Field("parentcode") String parentcode);
+
+    /**
+     * 获取区
+     */
+    @FormUrlEncoded
+    @POST("Config/GetArea")
+    Observable<BaseResult<Data<List<Area>>>> GetArea(@Field("parentcode") String parentcode);
+
+    /*
+     * 获取街道，乡镇
+     * */
+    @FormUrlEncoded
+    @POST("Config/GetDistrict")
+    Observable<BaseResult<Data<List<District>>>> GetDistrict(@Field("parentcode") String parentcode);
     /**
      * 发布工单
      * TypeID;//分类ID 1维修 2安装 3其他服务

@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
+import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
 import com.zhenghaikj.shop.mvp.contract.HomeContract;
@@ -12,6 +13,17 @@ public class HomePresenter extends HomeContract.Presenter {
                 .subscribe(new BaseObserver<HomeResult>() {
                     @Override
                     protected void onHandleSuccess(HomeResult value) {
+                        mView.Get(value);
+                    }
+                });
+    }
+
+    @Override
+    public void Get() {
+        mModel.Get()
+                .subscribe(new BaseObserver<HomeJsonResult>() {
+                    @Override
+                    protected void onHandleSuccess(HomeJsonResult value) {
                         mView.Get(value);
                     }
                 });

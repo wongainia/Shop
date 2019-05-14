@@ -22,6 +22,7 @@ import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.GetPayPwd;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.HistoryVisite;
+import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
 import com.zhenghaikj.shop.entity.LimitBuyProductResult;
@@ -252,6 +253,16 @@ public interface ApiService {
     Observable<HomeResult> Get(
             @Query("pageNo") String pageNo,
             @Query("pageSize") String pageSize,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+    /**
+     * 获取首页
+     * @return
+     */
+    @GET("AppHome/data/default.json")
+    Observable<HomeJsonResult> Get(
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
