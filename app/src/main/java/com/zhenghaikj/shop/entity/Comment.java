@@ -106,21 +106,22 @@ public class Comment implements Serializable {
     public static class listData{
         /*
         * "Sku":"",
-        * "UserName":"18892621501",
-        * "ReviewContent":"呵呵红红火火恍恍惚惚",
-        * "AppendContent":null,
-        * "AppendDate":"",
-        * "ReplyAppendContent":null,
-        * "ReplyAppendDate":"",
-        * "FinshDate":"2019-05-13 10:13:31",
-        * "Images":[{"CommentImage":"http://mall.xigyu.com//Storage/Plat/Comment/64520190513104529602966.png"}],
-        * "AppendImages":[],
-        * "ReviewDate":"2019-05-13 10:46:10",
-        * "ReplyContent":"暂无回复",
-        * "ReplyDate":" ",
+        * "UserName":"18767772222",
+        * "ReviewContent":"加咯咯哦哦lol",
+        * "AppendContent":"好几口人咯了",
+        * "AppendDate":"2019-05-10 14:34:09",
+        * "ReplyAppendContent":"是的发送到费",
+        * "ReplyAppendDate":"2019-05-10 14:44:34",
+        * "FinshDate":"",
+        * "Images":[{"CommentImage":"http://mall.xigyu.com//Storage/Plat/Comment/65420190510143152868683.png"},{"CommentImage":"http://mall.xigyu.com//Storage/Plat/Comment/65420190510143200759342.png"},{"CommentImage":"http://mall.xigyu.com//Storage/Plat/Comment/65420190510143208165533.png"},{"CommentImage":"http://mall.xigyu.com//Storage/Plat/Comment/65420190510143214165524.png"},{"CommentImage":"http://mall.xigyu.com//Storage/Plat/Comment/65420190510143221149937.png"}],
+        * "AppendImages":[{"CommentImage":"http://mall.xigyu.com//Storage/Plat/Comment/65420190510143408196773.png"}],
+        * "ReviewDate":"2019-05-10 14:32:38",
+        * "ReplyContent":"东方闪电",
+        * "ReplyDate":"2019-05-10 14:44:34",
         * "ReviewMark":5,
-        * "BuyDate":"2019-05-09 15:15:08",
+        * "BuyDate":"2019-05-10 11:49:19",
         * "AppendDays":0
+        *
         * */
 
         private String Sku;
@@ -278,6 +279,18 @@ public class Comment implements Serializable {
     }
 
     public static class AppendImagesData{
+        /*
+        * "CommentImage":"http://mall.xigyu.com//Storage/Plat/Comment/65420190510143408196773.png"
+        * */
 
+        private String CommentImage;
+
+        public String getCommentImage() {
+            return CommentImage;
+        }
+
+        public void setCommentImage(String commentImage) {
+            CommentImage = commentImage;
+        }
     }
 }

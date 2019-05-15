@@ -5,6 +5,7 @@ import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
+import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
@@ -24,6 +25,11 @@ public interface DetailContract {
 
 
         Observable<GetCommentResult> GetProductCommentShow(String id, String userkey);
+
+        Observable<Comment> ProductComment(String pId,
+                                           String pageNo,
+                                           String pageSize,
+                                           String commentType);
     }
 
     interface View extends BaseView {
@@ -35,6 +41,7 @@ public interface DetailContract {
         void GetSKUInfo(GetGoodSKu Result);
         void PostAddFavoriteProduct(CollectResult Result);
         void GetProductCommentShow(GetCommentResult result);
+        void ProductComment(Comment Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -43,5 +50,9 @@ public interface DetailContract {
         public abstract void GetSKUInfo(String productId);
         public abstract void PostAddFavoriteProduct(String productId,String Userkey);
         public abstract void GetProductCommentShow(String id,String userkey);
+        public abstract void ProductComment(String pId,
+                                            String pageNo,
+                                            String pageSize,
+                                            String commentType);
     }
 }
