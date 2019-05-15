@@ -77,6 +77,8 @@
         android:layout_height="80dp"
         android:background="@drawable/ed_bg_shape"
         android:hint="请输入您对该商品的使用心得"
+        android:gravity="left|top"
+        android:padding="5dp"
         android:textSize="12sp"
         />
 

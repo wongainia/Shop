@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,18 +20,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
 import com.yalantis.ucrop.UCrop;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.photoadapter.CommentAdapter;
 import com.zhenghaikj.shop.adapter.EvaluateAdapter;
+import com.zhenghaikj.shop.adapter.photoadapter.TagAdapter;
+import com.zhenghaikj.shop.entity.CommentEntity;
 import com.zhenghaikj.shop.entity.CommentsInfo;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
 import com.zhenghaikj.shop.entity.EvaluateResult;
+import com.zhenghaikj.shop.entity.PostPostAddComment;
 import com.zhenghaikj.shop.mvp.contract.EvaluateContract;
 import com.zhenghaikj.shop.mvp.model.EvaluateModel;
 import com.zhenghaikj.shop.mvp.presenter.EvaluatePresenter;
@@ -41,10 +48,14 @@ import com.zhenghaikj.shop.widget.StarBarView;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
@@ -52,21 +63,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateModel> implements EvaluateContract.View, CommentAdapter.OnStatusListener {
+public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateModel> implements EvaluateContract.View, EvaluateAdapter.OnStatusListener, View.OnClickListener {
     @BindView(R.id.rv_rvaluate)
     RecyclerView mRvrvaluate;
+    @BindView(R.id.tv_submit)
+    TextView mTv_submit;
 
-    ArrayList<CommentsInfo> commentslist=new ArrayList<>();
+    List<CommentsInfo> commentslist=new ArrayList<>();
 
     List<EvaluateResult.ProductBean> list=new ArrayList<>();
-     private CommentAdapter commentAdapter;
-    private StarBarView baozhuang_star,sudu_star,peisong_star;
-    private TextView tv_baozhuang,tv_sudu,tv_peisong;
     private EvaluateAdapter evaluateAdapter;
-
     private View popupWindow_view;
     private PopupWindow mPopupWindow;
-    private View view;
+    private View footerview;
     private String Userkey;
     private SPUtils spUtils = SPUtils.getInstance("token");
     private String FilePath;
@@ -74,6 +83,14 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     private int size;
     private List<Uri> mSelected;
     private Uri uri;
+
+    private CommentEntity mCommentEntity=new CommentEntity();//提交评价的实体类
+
+
+    private Map<Integer,CommentsInfo> map=new HashMap<>();//用于存放评分 留言 图片
+
+
+    private int position; //当前点击添加照片的位置
     @Override
     protected int setLayoutId() {
         return R.layout.activity_evaluate;
@@ -84,17 +101,25 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
         Userkey = spUtils.getString("UserKey");
         String orderID = getIntent().getStringExtra("OrderID");
         mPresenter.GetComment(orderID,Userkey);
+        /*初始化提交的实体类*/
+        mCommentEntity.setOrderId(orderID);
+        mCommentEntity.setServiceMark("5");
+        mCommentEntity.setDeliveryMark("5");
+        mCommentEntity.setPackMark("5");
+
 
     }
 
     @Override
     protected void initView() {
-        view= LayoutInflater.from(mActivity).inflate(R.layout.item_evaluate_store,null);
+        footerview= LayoutInflater.from(mActivity).inflate(R.layout.item_evaluate_store,null);
 
     }
 
     @Override
     protected void setListener() {
+        mTv_submit.setOnClickListener(this);
+
 
     }
 
@@ -103,21 +128,34 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     public void GetComment(EvaluateResult Result) {
         if (Result.isSuccess()){
 
+            for (int i = 0; i <Result.getOrderItemIds().size(); i++) {
+                CommentsInfo mCommentsInfo=new CommentsInfo();
+                mCommentsInfo.setOrderItemId(Result.getOrderItemIds().get(i).toString());
+                mCommentsInfo.setMark("5"); //默认5分
+                mCommentsInfo.setCommentContent("");//
+                map.put(i,mCommentsInfo);  //存入orderItemId
+            }
+
 
             for(int i=0;i<Result.getProduct().size();i++){
                 CommentsInfo commentsInfo = new CommentsInfo();
                 List<String> commentImgs = new ArrayList<>();
+                List<String> src=new ArrayList<>();
                 commentImgs.add("");
+                src.add("");
                 commentsInfo.setCommentImgs(commentImgs);
+                commentsInfo.setSrc(src);
                 commentslist.add(commentsInfo);
             }
 
+
             list.addAll(Result.getProduct());
             mRvrvaluate.setLayoutManager(new LinearLayoutManager(mActivity));
-            commentAdapter = new CommentAdapter(list,mActivity,commentslist);
-            commentAdapter.setOnStatusListener(this);
-            mRvrvaluate.setAdapter(commentAdapter);
-
+            evaluateAdapter=new EvaluateAdapter(R.layout.item_evaluate,list,commentslist,mActivity);
+            evaluateAdapter.setOnStatusListener(this);
+            evaluateAdapter.addFooterView(footerview);
+            ShowStarState(evaluateAdapter);
+            mRvrvaluate.setAdapter(evaluateAdapter);
 
 
 
@@ -125,10 +163,114 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
     }
 
-    @Override
-    public void UploadPicEvaluate(String Result) {
+    private void ShowStarState(EvaluateAdapter evaluateAdapter) {
+        StarBarView baozhuang_star = evaluateAdapter.getFooterLayout().findViewById(R.id.baozhuang_star);
+        StarBarView sudu_star = evaluateAdapter.getFooterLayout().findViewById(R.id.sudu_star);
+        StarBarView peisong_star = evaluateAdapter.getFooterLayout().findViewById(R.id.peisong_star);
+
+
+        TextView tv_baozhuang=evaluateAdapter.getFooterLayout().findViewById(R.id.tv_baozhuang);
+        TextView tv_sudu=evaluateAdapter.getFooterLayout().findViewById(R.id.tv_sudu);
+        TextView tv_peisong=evaluateAdapter.getFooterLayout().findViewById(R.id.tv_peisong);
+
+
+        baozhuang_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float starRating = baozhuang_star.getStarRating();
+                setStarName(tv_baozhuang,starRating);
+                /*包装*/
+                mCommentEntity.setPackMark(String.valueOf(starRating));
+            }
+        });
+
+        sudu_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float starRating = sudu_star.getStarRating();
+                setStarName(tv_sudu,starRating);
+                /*速度*/
+                mCommentEntity.setDeliveryMark(String.valueOf(starRating));
+            }
+        });
+
+        peisong_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float starRating = peisong_star.getStarRating();
+                setStarName(tv_peisong,starRating);
+                 /*配送*/
+                mCommentEntity.setServiceMark(String.valueOf(starRating));
+
+            }
+        });
+
 
     }
+
+
+    /*上传base64的图片获取 图片在服务器中的地址*/
+
+    /*
+    *
+    *
+    *
+    * */
+
+    @Override
+    public void UploadPicEvaluate(EvaluatePhotoEntity Result) {
+
+         if (Result.isSuccess()){
+           if(commentslist.get(position).getCommentImgs().size()<3){
+            CommentsInfo commentsInfo = commentslist.get(position);
+            List<String> commentImgs = commentsInfo.getCommentImgs();
+            commentImgs.add(0,Result.getRomoteImage());
+
+            List<String> imgSrc= commentsInfo.getSrc();
+            imgSrc.add(0,Result.getSrc());
+
+            commentsInfo.setCommentImgs(commentImgs);
+            commentsInfo.setSrc(imgSrc);
+            commentslist.set(position,commentsInfo);
+            evaluateAdapter.notifyItemChanged(position);
+
+           }else if(commentslist.get(position).getCommentImgs().size()==3){
+            CommentsInfo commentsInfo = commentslist.get(position);
+            List<String> commentImgs = commentsInfo.getCommentImgs();
+            List<String> imgSrc=commentsInfo.getSrc();
+
+            commentImgs.set(commentImgs.size()-1,Result.getRomoteImage());
+            imgSrc.set(imgSrc.size()-1,Result.getSrc());
+
+
+            commentsInfo.setCommentImgs(commentImgs);
+            commentsInfo.setSrc(imgSrc);
+            commentslist.set(position,commentsInfo);
+            evaluateAdapter.notifyItemChanged(position);
+        }
+
+
+
+         }
+
+
+
+
+    }
+
+    @Override
+    public void PostAddComment(PostPostAddComment Result) {
+
+        if (Result.getSuccess().equals("true")){
+            Toast.makeText(mActivity,"评价成功",Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post("evaluate");
+
+            EvaluateActivity.this.finish();
+
+        }
+
+    }
+
 
 
     /**
@@ -149,44 +291,302 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
     }
 
+    /*新增图片*/
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onSetStatusListener(int pos) {
-      if(commentslist.get(pos).getCommentImgs().size()<5){
-            CommentsInfo commentsInfo = commentslist.get(pos);
-            List<String> commentImgs = commentsInfo.getCommentImgs();
-            commentImgs.add(0,"http://img.xsmore.com/cjyp/Product/2ef24a07-f3b0-4497-8549-2acc0f7ca4b0.jpg");
-            commentsInfo.setCommentImgs(commentImgs);
-            commentslist.set(pos,commentsInfo);
-            commentAdapter.notifyItemChanged(pos);
-        }else if(commentslist.get(pos).getCommentImgs().size()==5){
-            CommentsInfo commentsInfo = commentslist.get(pos);
-            List<String> commentImgs = commentsInfo.getCommentImgs();
-            commentImgs.set(commentImgs.size()-1,"http://img.xsmore.com/cjyp/Product/2ef24a07-f3b0-4497-8549-2acc0f7ca4b0.jpg");
-            commentsInfo.setCommentImgs(commentImgs);
-            commentslist.set(pos,commentsInfo);
-            commentAdapter.notifyItemChanged(pos);
+        position=pos;
+        if (requestPermissions()){
+            showPopupWindow(101, 201,pos);
+        }else{
+            requestPermissions(permissions.toArray(new String[permissions.size()]), 10001);
         }
 
 
 
     }
+
+    /*删除图片*/
+   @Override
+   public void onDeleteListener(int pos, int tagPos) {
+       CommentsInfo commentsInfo = commentslist.get(pos);
+       List<String> commentImgs = commentsInfo.getCommentImgs();
+       List<String> src=commentsInfo.getSrc();
+
+
+       if(!commentImgs.get(commentImgs.size()-1).equals("")){
+           commentImgs.add("");
+           src.add("");
+       }
+       commentImgs.remove(tagPos);
+       src.remove(tagPos);
+
+       commentsInfo.setCommentImgs(commentImgs);
+       commentsInfo.setSrc(src);
+
+       commentslist.set(pos,commentsInfo);
+       evaluateAdapter.notifyItemChanged(pos);
+
+
+   }
+
+
+
+   /*星级评分*/
+    @Override
+    public void onStarBarListner(int position, float Star) {
+        Log.d("====="+position,"星级评分"+Star);
+        CommentsInfo commentsInfo = map.get(position);
+        commentsInfo.setMark(String.valueOf(Star));
+        map.put(position,commentsInfo);
+
+
+    }
+
+    /*留言回调*/
+    @Override
+    public void onTextChangeLinstener(int position, String message) {
+        CommentsInfo commentsInfo = map.get(position);
+        commentsInfo.setCommentContent(message);
+        map.put(position,commentsInfo);
+
+    }
+
+    /**
+     * 弹出Popupwindow
+     */
+    public void showPopupWindow(final int code1, final int code2,int pos) {
+        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.camera_layout, null);
+        Button camera_btn = popupWindow_view.findViewById(R.id.camera_btn);
+        Button photo_btn = popupWindow_view.findViewById(R.id.photo_btn);
+        Button cancel_btn = popupWindow_view.findViewById(R.id.cancel_btn);
+        camera_btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                if (requestPermissions()) {
+                    Intent intent = new Intent();
+                    // 指定开启系统相机的Action
+                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    String f = System.currentTimeMillis() + ".jpg";
+                    String fileDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xgy";
+                    FilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/xgy/" + f;
+                    File dirfile = new File(fileDir);
+                    if (!dirfile.exists()) {
+                        dirfile.mkdirs();
+                    }
+                    File file = new File(FilePath);
+                    Uri fileUri;
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        fileUri = FileProvider.getUriForFile(mActivity, "com.zhenghaikj.shop.fileProvider", file);
+                    } else {
+                        fileUri = Uri.fromFile(file);
+                    }
+
+
+                    /*启动照相机*/
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                    startActivityForResult(intent, code1);
+
+                } else {
+                    requestPermissions(permissions.toArray(new String[permissions.size()]), 10001);
+                }
+                mPopupWindow.dismiss();
+            }
+        });
+        photo_btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                if (requestPermissions()) {
+                    Matisse.from(EvaluateActivity.this)
+                            .choose(MimeType.ofImage())
+                            .countable(true)
+                            .maxSelectable(getResiduePhoto(commentslist,position))
+                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                            .thumbnailScale(0.85f)
+                            .imageEngine(new Glide4Engine())
+
+                            .forResult(code2);
+                    mPopupWindow.dismiss();
+                } else {
+                    requestPermissions(permissions.toArray(new String[permissions.size()]), 10002);
+                }
+
+            }
+        });
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+            }
+        });
+        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+            mPopupWindow.showAtLocation(popupWindow_view, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
+    //请求权限
+    private boolean requestPermissions() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissions = new ArrayList<>();
+            if (mActivity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            if (mActivity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (mActivity.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.CAMERA);
+            }
+            if (permissions.size() == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //申请相关权限:返回监听
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        size = 0;
+        for (int i = 0; i < grantResults.length; i++) {
+            if (grantResults[i]==PackageManager.PERMISSION_GRANTED){
+                size++;
+            }
+        }
+        switch (requestCode) {
+            case 10001:
+                if (size ==grantResults.length) {//允许
+                    showPopupWindow(101, 201,position);
+                } else {//拒绝
+                    MyUtils.showToast(mActivity, "相关权限未开启");
+                }
+                break;
+
+            default:
+                break;
+
+        }
+    }
+    //返回图片处理
+    @SuppressLint("NewApi")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
+        switch (requestCode) {
+            //拍照获取图片
+            case 101:
+                if (resultCode == -1) {
+                    file = new File(FilePath);
+                     File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(file);
+                     mPresenter.UploadPicEvaluate(MyUtils.fileToBase64(newFile));
+
+                }
+
+                break;
+            //从相册中获取
+            case 201:
+                if (data != null) {
+                    mSelected = Matisse.obtainResult(data);
+                    if (mSelected.size()!=0){
+                        for (int i = 0; i < mSelected.size(); i++) {
+                            uri = mSelected.get(i);
+                            file = new File(MyUtils.getRealPathFromUri(mActivity, uri));
+                            File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(file);
+                            mPresenter.UploadPicEvaluate(MyUtils.fileToBase64(newFile));
+                        }
+                    }
+
+
+
+
+                }
+
+                break;
+
+
+            default:
+                break;
+        }
+
+    }
+
+     /*判断当前position下评价还能传几张图片*/
+     public int getResiduePhoto(List<CommentsInfo> list,int position){
+
+         if ("".equals(list.get(position).getCommentImgs().get(0))){
+             return 3;
+         }
+
+         if ("".equals(list.get(position).getCommentImgs().get(1))){
+
+             return 2;
+         }
+
+         return 1;
+
+     }
+
 
     @Override
-    public void onDeleteListener(int pos, int tagPos) {
-        CommentsInfo commentsInfo = commentslist.get(pos);
-        List<String> commentImgs = commentsInfo.getCommentImgs();
-        if(!commentImgs.get(commentImgs.size()-1).equals("")){
-            commentImgs.add("");
-        }
-        commentImgs.remove(tagPos);
-        commentsInfo.setCommentImgs(commentImgs);
-        commentslist.set(pos,commentsInfo);
-        commentAdapter.notifyItemChanged(pos);
+    public void onClick(View v) {
+
+         switch (v.getId()){
+             case R.id.tv_submit:
+
+                 /*添加图片*/
+                 for (int i = 0; i < commentslist.size(); i++) {
+                     if (commentslist.get(i).getCommentImgs()!=null&&commentslist.get(i).getCommentImgs().size()>0){
+                         CommentsInfo commentsInfo = map.get(i);
+                         commentsInfo.setSrc(commentslist.get(i).getSrc());
+                         map.put(i,commentsInfo);
+                     }
+                 }
+
+                 List<CommentEntity.ProductCommentsBean> list=new ArrayList<>();
+                 for (int i = 0; i <map.size() ; i++) {
+                     CommentEntity.ProductCommentsBean bean=new CommentEntity.ProductCommentsBean();
+
+                     for (int j = 0; j < map.get(i).getSrc().size(); j++) {
+
+                         if (map.get(i).getSrc().get(j).equals("")){
+                         map.get(i).getSrc().set(j,null);
+                         }
+                     }
+
+                     bean.setImages(map.get(i).getSrc());
+                     bean.setContent(map.get(i).getCommentContent());
+                     bean.setMark(map.get(i).getMark());
+                     bean.setOrderItemId(map.get(i).getOrderItemId());
+                     list.add(bean);
+
+                 }
+                 mCommentEntity.setProductComments(list);
+
+                 Gson gson=new Gson();
+                 String json = gson.toJson(mCommentEntity);
+                 Log.d("=====>json",json);
+                 mPresenter.PostAddComment(Userkey,json);
+                 break;
+         }
+
+
     }
-
-
-
-
-
-
 }

@@ -3,17 +3,18 @@ package com.zhenghaikj.shop.entity;
 import java.util.List;
 
 public class CommentsInfo {
-    private int ProductId;
+    private String orderItemId;
     private String CommentContent;
     public List<String> CommentImgs;
-    private double StarCount;
+    private String mark;
+    private List<String> Src; //发到服务端的地址
 
-    public int getProductId() {
-        return ProductId;
+    public String getOrderItemId() {
+        return orderItemId;
     }
 
-    public void setProductId(int productId) {
-        ProductId = productId;
+    public void setOrderItemId(String orderItemId) {
+        this.orderItemId = orderItemId;
     }
 
     public String getCommentContent() {
@@ -32,12 +33,19 @@ public class CommentsInfo {
         CommentImgs = commentImgs;
     }
 
-    public double getStarCount() {
-        return StarCount;
+    public String getMark() {
+        return mark;
     }
 
-    public void setStarCount(double starCount) {
-        StarCount = starCount;
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 
+    public List<String> getSrc() {
+        return Src;
+    }
+
+    public void setSrc(List<String> src) {
+        Src = src;
+    }
 }

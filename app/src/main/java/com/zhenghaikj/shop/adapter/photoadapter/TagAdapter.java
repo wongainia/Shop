@@ -11,7 +11,10 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.adapter.EvaluateAdapter;
+import com.zhenghaikj.shop.widget.flowtaglayout.FlowTagLayout;
 import com.zhenghaikj.shop.widget.flowtaglayout.OnInitSelectedPosition;
+import com.zhenghaikj.shop.widget.flowtaglayout.OnTagSelectListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,9 @@ public class TagAdapter<T> extends BaseAdapter implements OnInitSelectedPosition
 
     private final Context mContext;
     private final List<T> mDataList;
+
+
+
 
     public TagAdapter(Context context) {
         this.mContext = context;
@@ -50,25 +56,27 @@ public class TagAdapter<T> extends BaseAdapter implements OnInitSelectedPosition
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.tag_item2, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.tag_item2, null,false);
 
-        ImageView ivImage = (ImageView) view.findViewById(R.id.iv_comment_image);
+        ImageView ivImage =  view.findViewById(R.id.iv_comment_image);
+        ImageView iv_cancle=view.findViewById(R.id.iv_del);
+
         T t = mDataList.get(position);
 
         if (t instanceof String) {
             if(t.equals("")){
                 ivImage.setBackground(mContext.getResources().getDrawable(R.mipmap.iv_up_image));
+                iv_cancle.setVisibility(View.GONE);
             }else{
-             //   ImageLoader.getInstance().displayImage(t.toString(), ivImage);
-
                 Glide.with(mContext).load(t.toString()).into(ivImage);
+                iv_cancle.setVisibility(View.VISIBLE);
+
             }
         }
         return view;
     }
 
     public void onlyAddAll(List<T> datas) {
-
         if (datas==null){
             Log.d("=====>","数据为空");
         }
@@ -89,4 +97,6 @@ public class TagAdapter<T> extends BaseAdapter implements OnInitSelectedPosition
         }
         return false;
     }
+
+
 }

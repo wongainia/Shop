@@ -1,7 +1,11 @@
 package com.zhenghaikj.shop.adapter;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,19 +27,22 @@ import androidx.annotation.Nullable;
 
 public class EvaluateAdapter extends BaseQuickAdapter<EvaluateResult.ProductBean, BaseViewHolder> {
    private Context mContext;
-    private ArrayList<CommentsInfo> list;
+    private List<CommentsInfo> list;
     private OnStatusListener onStatusListener;
     private FlowTagLayout flowTagLayout;
+
+
+    public EvaluateAdapter(int layoutResId,List<EvaluateResult.ProductBean> data,List<CommentsInfo> list,Context context) {
+        super(layoutResId, data);
+        this.list=list;
+        this.mContext=context;
+    }
 
     public void setOnStatusListener(OnStatusListener onStatusListener) {
         this.onStatusListener = onStatusListener;
     }
 
-    public EvaluateAdapter(int layoutResId, @Nullable List<EvaluateResult.ProductBean> data, Context context,ArrayList<CommentsInfo> list) {
-        super(layoutResId, data);
-        this.mContext=context;
-        this.list=list;
-    }
+
     @Override
     protected void convert(BaseViewHolder helper, EvaluateResult.ProductBean item) {
     Glide.with(mContext).load(item.getImage()).into((ImageView) helper.getView(R.id.img_goods));
@@ -47,13 +54,39 @@ public class EvaluateAdapter extends BaseQuickAdapter<EvaluateResult.ProductBean
                 float starRating = ((StarBarView) helper.getView(R.id.good_star)).getStarRating();
                 setStarName(helper.getView(R.id.tv_evaluate),starRating);
 
+                //星级接口回调
+                onStatusListener.onStarBarListner(helper.getLayoutPosition(),starRating);
+
             }
         });
+
+        ((EditText)helper.getView(R.id.et_content)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+              if (s!=null){
+                onStatusListener.onTextChangeLinstener(helper.getLayoutPosition(),s.toString());
+                }
+
+            }
+        });
+
+
+
 
         flowTagLayout=helper.getView(R.id.fl_comment);
         flowTagLayout.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
         TagAdapter<String> TagAdapter = new TagAdapter<>(mContext);
-
+        flowTagLayout.setAdapter(TagAdapter);
         TagAdapter.onlyAddAll(list.get(helper.getLayoutPosition()).getCommentImgs());
 
         flowTagLayout.setOnTagSelectListener(new OnTagSelectListener() {
@@ -61,12 +94,15 @@ public class EvaluateAdapter extends BaseQuickAdapter<EvaluateResult.ProductBean
             public void onItemSelect(FlowTagLayout parent, List<Integer> selectedList) {
                 if(list.get(helper.getLayoutPosition()).getCommentImgs().get(selectedList.get(0)).equals("")){
                     onStatusListener.onSetStatusListener(helper.getLayoutPosition());
-                }else{
-                    onStatusListener.onDeleteListener(helper.getLayoutPosition(),selectedList.get(0));
+                }
+               else{
+                  onStatusListener.onDeleteListener(helper.getLayoutPosition(),selectedList.get(0));
                 }
 
             }
         });
+
+
 
 
     }
@@ -89,8 +125,11 @@ public class EvaluateAdapter extends BaseQuickAdapter<EvaluateResult.ProductBean
 
     }
 
+
     public interface OnStatusListener {
         void onSetStatusListener(int pos);
-        void onDeleteListener(int pos, int tagPos);
+       void onDeleteListener(int pos, int tagPos);
+       void onStarBarListner(int position,float Star);
+       void onTextChangeLinstener(int position,String message);
     }
 }

@@ -15,6 +15,7 @@ import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
 import com.zhenghaikj.shop.entity.EvaluateResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
@@ -32,6 +33,7 @@ import com.zhenghaikj.shop.entity.Logout;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.PostPostAddComment;
 import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
@@ -840,20 +842,23 @@ public interface ApiService {
 //                                          @Query("sign") String sign);
 
     /*评价图片上传*/
+
+
+
      @FormUrlEncoded
      @POST("api/PublicOperation/UploadPic")
-     Observable<String> UploadPicEvaluate(@Field("picStr") String picStr,
-                                          @Query("app_key") String app_key,
-                                          @Query("timestamp") String timestamp,
-                                          @Query("sign") String sign);
+     Observable<EvaluatePhotoEntity> UploadPicEvaluate(@Field("picStr") String picStr,
+                                                       @Query("app_key") String app_key,
+                                                       @Query("timestamp") String timestamp,
+                                                       @Query("sign") String sign);
 
 
     /*提交评价*/
     @FormUrlEncoded
     @POST("api/Comment/PostAddComment")
-    Observable<String> PostAddComment(@Field("userkey") String userkey,
-                                      @Field("jsonstr") String jsonstr,
-                                      @Query("app_key") String app_key,
-                                      @Query("timestamp") String timestamp,
-                                      @Query("sign") String sign);
+    Observable<PostPostAddComment> PostAddComment(@Field("userkey") String userkey,
+                                                  @Field("jsonstr") String jsonstr,
+                                                  @Query("app_key") String app_key,
+                                                  @Query("timestamp") String timestamp,
+                                                  @Query("sign") String sign);
 }

@@ -17,7 +17,6 @@ public interface OrderContract {
         //查询物流
         Observable<String> GetExpressInfo(String orderId,String userkey);
 
-        Observable<String> PostAddComment(String userkey,String jsonstr);
 
 
     }
@@ -27,7 +26,6 @@ public interface OrderContract {
         void PostCloseOrder(CloseOrder Result);
         void PostConfirmOrder(ConfirmOrder Result);
         void GetExpressInfo(String Result);
-        void PostAddComment(String Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -35,6 +33,5 @@ public interface OrderContract {
         public abstract void PostCloseOrder(String orderId, String userkey);
         public abstract void PostConfirmOrder(String orderId, String userkey);
         public abstract void GetExpressInfo(String orderId,String userkey);
-        public abstract void PostAddComment(String userkey,String jsonstr);
     }
 }

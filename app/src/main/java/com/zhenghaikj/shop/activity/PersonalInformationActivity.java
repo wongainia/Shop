@@ -362,15 +362,10 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                     }
 
 
-//                    Uri uri = data.getData();
                     Glide.with(mActivity).load(uri).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(mIvAvatar);
                     file = new File(MyUtils.getRealPathFromUri(mActivity, uri));
                     startCrop(Uri.fromFile(file));
                 }
-              /*  if (file!=null){
-                    File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(file);
-                    uploadImg(newFile);
-                }*/
 
                 break;
             //裁剪后的效果

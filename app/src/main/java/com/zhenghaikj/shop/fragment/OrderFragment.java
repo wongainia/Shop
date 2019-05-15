@@ -208,6 +208,13 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
+        switch (name){
+            case "evaluate":
+                mPresenter.GetOrders("5", Integer.toString(pagaNo), "10", userKey);
+                break;
+
+        }
+
 
     }
 
@@ -245,7 +252,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     public void PostConfirmOrder(ConfirmOrder Result) {
-     if (equals(Result.getSuccess())){
+     if ("true".equals(Result.getSuccess())){
          orderListAdapter.remove(receipt_position);
      }
     }
@@ -298,10 +305,4 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     }
 
-    @Override
-    public void PostAddComment(String Result) {
-
-
-
-    }
 }

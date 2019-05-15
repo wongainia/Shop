@@ -79,19 +79,6 @@ public class OrderModel implements OrderContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
-    @Override
-    public Observable<String> PostAddComment(String userkey,String jsonstr) {
-        map = new HashMap<>();
-        map.put("userkey",userkey);
-        map.put("jsonstr",jsonstr);
-        map.put("app_key","himalltest");
-        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-        map.put("timestamp",timestamp);
-        sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().PostAddComment(userkey,jsonstr,"himalltest",timestamp,sign)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io());
-    }
 
 
 }
