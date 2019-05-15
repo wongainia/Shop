@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.mvp.presenter;
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
+import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
@@ -14,9 +15,9 @@ public class AllCommentsPresenter extends AllCommentsContract.Presenter {
     @Override
     public void GetProductComment(String pId, String pageNo, String pageSize, String commentType) {
         mModel.GetProductComment(pId,pageNo,pageSize,commentType)
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<Comment>() {
                     @Override
-                    protected void onHandleSuccess(String value) {
+                    protected void onHandleSuccess(Comment value) {
                         mView.GetProductComment(value);
                     }
                 });

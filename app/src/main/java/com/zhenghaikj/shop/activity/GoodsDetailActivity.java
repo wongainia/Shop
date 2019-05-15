@@ -389,6 +389,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mTvaddcart.setOnClickListener(this);
         mTvBuy.setOnClickListener(this);
         mTvLimitBuy.setOnClickListener(this);
+//        mLlEvaluation.setOnClickListener(this);
 
     }
 
@@ -464,6 +465,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             case R.id.tv_limit_buy:
                 showPopupWindow(2);
                 break;
+//            case R.id.ll_evaluation:
+//                startActivity(new Intent(mActivity,EvaluationDetailsActivity.class));
+//                break;
 
         }
     }
@@ -662,6 +666,15 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Override
     public void GetProductDetail(DetailResult Result) {
+
+        mLlEvaluation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mActivity,EvaluationDetailsActivity.class);
+                intent.putExtra("productId",String.valueOf(Result.getProduct().getProductId()));
+                startActivity(intent);
+            }
+        });
 
         if ("true".equals(Result.getSuccess())) {
             if (Result.getIsOnLimitBuy()) {

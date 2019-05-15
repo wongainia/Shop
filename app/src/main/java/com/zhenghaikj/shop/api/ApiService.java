@@ -11,6 +11,7 @@ import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.CollectionProduct;
 import com.zhenghaikj.shop.entity.CollectionShop;
+import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.DetailResult;
@@ -475,6 +476,7 @@ public interface ApiService {
                                                      @Query("app_key") String app_key,
                                                      @Query("timestamp") String timestamp,
                                                      @Query("sign") String sign);
+
     /*
      * 获取申请售后/退款列表
      * */
@@ -501,54 +503,57 @@ public interface ApiService {
                                                       @Query("timestamp") String timestamp,
                                                       @Query("sign") String sign);
     /**
-     *提交 申请售后/退款
-     * @param OrderId 订单号
-     * @param OrderItemId 子订单号，可以为空
-     * @param RefundType 售后类型：1仅退款 2：退款退货
-     * @param ReturnQuantity 退货数量
-     * @param Amount 退款金额
-     * @param Reason 理由
-     * @param ContactPerson 联系人
+     * 提交 申请售后/退款
+     *
+     * @param OrderId          订单号
+     * @param OrderItemId      子订单号，可以为空
+     * @param RefundType       售后类型：1仅退款 2：退款退货
+     * @param ReturnQuantity   退货数量
+     * @param Amount           退款金额
+     * @param Reason           理由
+     * @param ContactPerson    联系人
      * @param ContactCellPhone 联系电话
-     * @param RefundPayType 退款支付方式 1： 原理返回  3：退到预付款
-     * @param userkey 用户凭证
+     * @param RefundPayType    退款支付方式 1： 原理返回  3：退到预付款
+     * @param userkey          用户凭证
      * @return
      */
     @GET("api/OrderRefund/PostRefundApply")
     Observable<RefundApplyResult> PostRefundApply(
-                                     @Query("OrderId") String OrderId,
-                                     @Query("OrderItemId") String OrderItemId,
-                                     @Query("RefundType") String RefundType,
-                                     @Query("ReturnQuantity") String ReturnQuantity,
-                                     @Query("Amount") String Amount,
-                                     @Query("Reason") String Reason,
-                                     @Query("ContactPerson") String ContactPerson,
-                                     @Query("ContactCellPhone") String ContactCellPhone,
-                                     @Query("RefundPayType") String RefundPayType,
-                                     @Query("userkey") String userkey,
-                                     @Query("app_key") String app_key,
-                                     @Query("timestamp") String timestamp,
-                                     @Query("sign") String sign
+            @Query("OrderId") String OrderId,
+            @Query("OrderItemId") String OrderItemId,
+            @Query("RefundType") String RefundType,
+            @Query("ReturnQuantity") String ReturnQuantity,
+            @Query("Amount") String Amount,
+            @Query("Reason") String Reason,
+            @Query("ContactPerson") String ContactPerson,
+            @Query("ContactCellPhone") String ContactCellPhone,
+            @Query("RefundPayType") String RefundPayType,
+            @Query("userkey") String userkey,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
     );
     /**
      * 提交买家寄货
-     * @param Id 订单号
+     *
+     * @param Id                 订单号
      * @param ExpressCompanyName 物流公司名称
-     * @param ShipOrderNumber 物流公司单号
-     * @param userkey 用户凭证
+     * @param ShipOrderNumber    物流公司单号
+     * @param userkey            用户凭证
      * @return
      */
     @GET("api/OrderRefund/PostSellerSendGoods")
     Observable<RefundApplyResult> PostSellerSendGoods(@Query("Id") String Id,
-                                     @Query("ExpressCompanyName") String ExpressCompanyName,
-                                     @Query("ShipOrderNumber") String ShipOrderNumber,
-                                     @Query("userkey") String userkey,
-                                     @Query("app_key") String app_key,
-                                     @Query("timestamp") String timestamp,
-                                     @Query("sign") String sign);
+                                                      @Query("ExpressCompanyName") String ExpressCompanyName,
+                                                      @Query("ShipOrderNumber") String ShipOrderNumber,
+                                                      @Query("userkey") String userkey,
+                                                      @Query("app_key") String app_key,
+                                                      @Query("timestamp") String timestamp,
+                                                      @Query("sign") String sign);
 
     /**
      * 获取  申请售后/退款单 详情
+     *
      * @param id
      * @param userkey
      * @return
@@ -561,7 +566,8 @@ public interface ApiService {
                                                    @Query("sign") String sign);
 
     /**
-     *获取  申请售后/退款单进程 详情
+     * 获取  申请售后/退款单进程 详情
+     *
      * @param id
      * @param userkey
      * @return
@@ -572,6 +578,7 @@ public interface ApiService {
                                                                  @Query("app_key") String app_key,
                                                                  @Query("timestamp") String timestamp,
                                                                  @Query("sign") String sign);
+
     /*删除购物车众多商品*/
     @FormUrlEncoded
     @POST("api/Cart/PostDeleteCartProduct")
@@ -595,9 +602,9 @@ public interface ApiService {
      * */
     @GET("api/Payment/GetPayPwd")
     Observable<GetPayPwd> GetPayPwd(
-                                     @Query("app_key") String app_key,
-                                     @Query("timestamp") String timestamp,
-                                     @Query("sign") String sign);
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign);
 
     /*设置支付密码*/
     @FormUrlEncoded
@@ -636,8 +643,6 @@ public interface ApiService {
                                                  @Query("sign") String sign);
 
 
-
-
     /*领取优惠券*/
     @FormUrlEncoded
     @POST("api/coupon/PostAcceptCoupon")
@@ -650,6 +655,7 @@ public interface ApiService {
 
     /**
      * 上传图片
+     *
      * @param picStr
      * @return
      */
@@ -674,13 +680,12 @@ public interface ApiService {
 
     /*取提交MODEL*/
     @GET("api/Order/GetSubmitModel")
-    Observable<GetConfirmModel>GetSubmitModel(@Query("skuId") String skuId,
-                                              @Query("count") String count,
-                                              @Query("userkey") String userkey,
-                                              @Query("app_key") String app_key,
-                                              @Query("timestamp") String timestamp,
-                                              @Query("sign") String sign);
-
+    Observable<GetConfirmModel> GetSubmitModel(@Query("skuId") String skuId,
+                                               @Query("count") String count,
+                                               @Query("userkey") String userkey,
+                                               @Query("app_key") String app_key,
+                                               @Query("timestamp") String timestamp,
+                                               @Query("sign") String sign);
 
 
     /*取购物车提交的MODEL*/
@@ -725,9 +730,9 @@ public interface ApiService {
                                              @Query("app_key") String app_key,
                                              @Query("timestamp") String timestamp,
                                              @Query("sign") String sign
-                                       );
+    );
 
-      /*购物车提交订单*/
+    /*购物车提交订单*/
     @FormUrlEncoded
     @POST("api/Order/PostSubmitOrderByCart")
     Observable<ConfirmModel> PostSubmitOrderByCart(@Field("cartItemIds") String cartItemIds,
@@ -743,14 +748,12 @@ public interface ApiService {
                                                    @Query("app_key") String app_key,
                                                    @Query("timestamp") String timestamp,
                                                    @Query("sign") String sign
-                                                   );
-
-
-
+    );
 
 
     /**
      * 获取抢购列表
+     *
      * @param pageNo
      * @param pageSize
      * @param cateName
@@ -765,8 +768,11 @@ public interface ApiService {
                                                     @Query("cateName") String cateName,
                                                     @Query("app_key") String app_key,
                                                     @Query("timestamp") String timestamp,
-                                                    @Query("sign") String sign);    /**
-     /** 获取抢购商品详情
+                                                    @Query("sign") String sign);
+
+    /**
+     * /** 获取抢购商品详情
+     *
      * @param id
      * @param userkey
      * @param app_key
@@ -780,6 +786,17 @@ public interface ApiService {
                                                          @Query("app_key") String app_key,
                                                          @Query("timestamp") String timestamp,
                                                          @Query("sign") String sign);
+
+    /*获取商品评论信息 */
+    @GET("api/Product/GetProductComment")
+    Observable<Comment> GetProductComment(@Query("pId") String pId,
+                                          @Query("pageNo") String pageNo,
+                                          @Query("pageSize") String pageSize,
+                                          @Query("commentType") String commentType,
+                                          @Query("app_key") String app_key,
+                                          @Query("timestamp") String timestamp,
+                                          @Query("sign") String sign);
+
 
 
     /*获取评论详情*/
@@ -811,16 +828,16 @@ public interface ApiService {
                                                        @Query("timestamp") String timestamp,
                                                        @Query("sign") String sign);
 
-    /*获取全部评论信息*/
-
-    @GET("api/Product/GetProductComment")
-    Observable<String> GetProductComment (@Query("pId") String pId,
-                                          @Query("pageNo") String pageNo,
-                                          @Query("pageSize ") String pageSize,
-                                          @Query("commentType") String commentType, //评论类型： 0：所有 默认 1：好评 2：中评 3：差评 4：有图 5：追加
-                                          @Query("app_key") String app_key,
-                                          @Query("timestamp") String timestamp,
-                                          @Query("sign") String sign);
+//    /*获取全部评论信息*/
+//
+//    @GET("api/Product/GetProductComment")
+//    Observable<String> GetProductComment (@Query("pId") String pId,
+//                                          @Query("pageNo") String pageNo,
+//                                          @Query("pageSize ") String pageSize,
+//                                          @Query("commentType") String commentType, //评论类型： 0：所有 默认 1：好评 2：中评 3：差评 4：有图 5：追加
+//                                          @Query("app_key") String app_key,
+//                                          @Query("timestamp") String timestamp,
+//                                          @Query("sign") String sign);
 
     /*评价图片上传*/
      @FormUrlEncoded

@@ -196,6 +196,9 @@
         <activity android:name=".activity.ConfirmOrderActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.EvaluationDetailsActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name="com.yalantis.ucrop.UCropActivity"
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
