@@ -43,6 +43,7 @@ import com.zhenghaikj.shop.adapter.ShopRecommendationAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
+import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
@@ -285,7 +286,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mPresenter.GetProductDetail(id, Userkey);
             mPresenter.GetProductCommentShow(id,Userkey);
             mPresenter.GetSKUInfo(id);
-
+            mPresenter.ProductComment(id,String.valueOf(1),"10","0");
 
         }
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -1024,7 +1025,19 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     /*获取商品第一条评论*/
     @Override
     public void GetProductCommentShow(GetCommentResult result) {
+        if (result.isSuccess()){
+//            GlideUtil.loadImageViewLoding(mActivity,result.getData().get(0).getAppendImages(),mIvPicture,R.drawable.image_loading,R.drawable.image_loading);
+            mTvUsername.setText(result.getData().get(0).getUserName());
+            mTvContent.setText(result.getData().get(0).getReviewContent());
+        }else {
+            mTvUsername.setVisibility(View.GONE);
+            mTvContent.setText(result.getErrorMsg());
+        }
+    }
 
+    @Override
+    public void ProductComment(Comment Result) {
+        mTvBabyEvaluation.setText("宝贝评价("+Result.getAllCommentCount()+")");
     }
 
 }

@@ -2,13 +2,15 @@ package com.zhenghaikj.shop.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.CommentAdapter;
 import com.zhenghaikj.shop.adapter.CommentCategoryAdapter;
@@ -47,11 +49,14 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
     RecyclerView mRvList;
     @BindView(R.id.rv_evaluation)
     RecyclerView mRvEvaluation;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     private String productId;
+    private int pageIndex = 1;  //默认当前页数为1
     private String[] faceValues = new String[]{"全部", "好评", "中评", "差评", "有图", "追加"};
     private List<CommentCategory> CommentCategoryList = new ArrayList<>();
     private CommentCategoryAdapter commentCategoryAdapter;
-    private  Comment data=new Comment();
+    private Comment data = new Comment();
 
     private List<Comment.listData> CommentList = new ArrayList<>();
     private CommentAdapter commentAdapter;
@@ -86,7 +91,6 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
     protected void initData() {
 
 
-
     }
 
     @SuppressLint("LongLogTag")
@@ -102,8 +106,8 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
 //        }
 //        CommentCategoryList.get(0).setSelect(true);
 //        CommentCategoryList.clear();
-        commentCategoryAdapter = new CommentCategoryAdapter(R.layout.item_list,CommentCategoryList);
-        mRvList.setLayoutManager(new GridLayoutManager(mActivity,5));
+        commentCategoryAdapter = new CommentCategoryAdapter(R.layout.item_list, CommentCategoryList);
+        mRvList.setLayoutManager(new GridLayoutManager(mActivity, 5));
         mRvList.setAdapter(commentCategoryAdapter);
         commentCategoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -112,7 +116,7 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
                     if (i == position) {
                         CommentCategoryList.get(i).setSelect(true);
                         CommentList.clear();
-                        mPresenter.ProductComment(productId,String.valueOf("1"),"10",String.valueOf(position));
+                        mPresenter.ProductComment(productId, String.valueOf(pageIndex), "10", String.valueOf(position));
                         size = position;
                     } else {
                         CommentCategoryList.get(i).setSelect(false);
@@ -123,11 +127,22 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
             }
         });
 
-        commentAdapter = new CommentAdapter(R.layout.item_evaluation,CommentList);
+        commentAdapter = new CommentAdapter(R.layout.item_evaluation, CommentList);
         mRvEvaluation.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvEvaluation.setAdapter(commentAdapter);
-        mPresenter.ProductComment(productId,String.valueOf("1"),"10","0");
+        commentAdapter.setEmptyView(getEmptyViewComment());
+        mPresenter.ProductComment(productId, String.valueOf(pageIndex), "10", "0");
 
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            pageIndex = 1;
+
+            refreshLayout.setNoMoreData(false);
+            refreshLayout.finishRefresh(1000);
+        });
+        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            pageIndex++;
+            refreshLayout.finishLoadMore(1000);
+        });
     }
 
     @Override
@@ -144,22 +159,23 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
                 break;
         }
     }
+
     @Override
     public void ProductComment(Comment Result) {
-        data=Result;
+        data = Result;
         CommentCategoryList.clear();
-        comment = new CommentCategory("全部("+data.getAllCommentCount()+")",false);
-        comment1 = new CommentCategory("好评("+data.getGoodCount()+")",false);
-        comment2 = new CommentCategory("中评("+data.getMediumCount()+")",false);
-        comment3 = new CommentCategory("差评("+data.getBadCount()+")",false);
-        comment4 = new CommentCategory("有图("+data.getImageCount()+")",false);
-        comment5 = new CommentCategory("追加("+data.getAppendCount()+")",false);
+        comment = new CommentCategory("全部(" + data.getAllCommentCount() + ")", false);
+        comment1 = new CommentCategory("好评(" + data.getGoodCount() + ")", false);
+        comment2 = new CommentCategory("中评(" + data.getMediumCount() + ")", false);
+        comment3 = new CommentCategory("差评(" + data.getBadCount() + ")", false);
+        comment4 = new CommentCategory("有图(" + data.getImageCount() + ")", false);
+        comment5 = new CommentCategory("追加(" + data.getAppendCount() + ")", false);
         CommentCategoryList.add(comment);
         CommentCategoryList.add(comment1);
         CommentCategoryList.add(comment2);

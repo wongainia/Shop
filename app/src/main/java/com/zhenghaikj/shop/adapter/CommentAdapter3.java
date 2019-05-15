@@ -12,13 +12,13 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class CommentAdapter2 extends BaseQuickAdapter<Comment.ImagesData, BaseViewHolder> {
-    public CommentAdapter2(int layoutResId, @Nullable List<Comment.ImagesData> data) {
+public class CommentAdapter3 extends BaseQuickAdapter<Comment.AppendImagesData, BaseViewHolder> {
+    public CommentAdapter3(int layoutResId, @Nullable List<Comment.AppendImagesData> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Comment.ImagesData item) {
+    protected void convert(BaseViewHolder helper, Comment.AppendImagesData item) {
         ImageView icon = helper.getView(R.id.icon);
         GlideUtil.loadImageViewLoding(mContext,item.getCommentImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
         helper.addOnClickListener(R.id.icon);
