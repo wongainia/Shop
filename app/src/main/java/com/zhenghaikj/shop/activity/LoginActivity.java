@@ -22,8 +22,6 @@ import com.zhenghaikj.shop.mvp.model.LoginModel;
 import com.zhenghaikj.shop.mvp.presenter.LoginPresenter;
 import com.zhenghaikj.shop.widget.ClearEditText;
 
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -131,7 +129,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             spUtils.put("userName",userName);
             spUtils.put("password",password);
             spUtils.put("isLogin",true);
-            EventBus.getDefault().post("PersonalInformation");
+//            EventBus.getDefault().post("PersonalInformation");
             ActivityUtils.finishAllActivities();
             startActivity(new Intent(mActivity,MainActivity.class));
 
