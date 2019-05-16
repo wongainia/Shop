@@ -4,19 +4,20 @@ import java.io.Serializable;
 import java.util.List;
 
 public class OrderDetail implements Serializable {
-    /*
-    * "Success":"true",
-    * "Order":{"Id":2017021483156396,"OrderType":null,"OrderTypeName":"","Status":"待消费","JoinStatus":-2,"ShipTo":"小蘑菇","Phone":"18216367122","Address":"湖南省 长沙市 芙蓉区 文艺路街道 湖南大剧院19楼","HasExpressStatus":false,"ExpressCompanyName":null,"Freight":0.00,"IntegralDiscount":0.00,"RealTotalAmount":11.90,"RefundTotalAmount":0.00,"OrderDate":"2017-02-14 10:32:08","ShopName":"官方自营店","VShopId":10,"commentCount":0,"ShopId":1,"orderStatus":2,"Invoice":"不需要发票","InvoiceValue":0,"InvoiceContext":null,"InvoiceTitle":null,"PaymentType":"线上支付","PaymentTypeValue":1,"FullDiscount":0.00,"DiscountAmount":0.00,"OrderRemarks":"","HasBonus":false,"ShareHref":"","ShareTitle":"","ShareDetail":"","IsCanRefund":true,"EnabledRefundAmount":11.90,"HasAppendComment":false,"SelfTake":0},
-    * "OrderItem":[{"ItemId":1086,"ProductId":702,"ProductName":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)","Count":1,"Price":11.90,"ProductImage":"http://mall.xigyu.com//Storage/Shop/1/Products/702/1_100.png","color":null,"size":null,"version":null,"IsCanRefund":true,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","EnabledRefundAmount":11.90}],
-    * "StoreInfo":{"ShopName":null,"ShopBranchInTagNames":null,"ShopBranchTagId":null,"Id":26,"ShopId":1,"ShopBranchName":"辣条君","AddressId":27073,"AddressDetail":"湖南省长沙市韶山北路139号湖南文化大厦","AddressFullName":"湖南省长沙市芙蓉区文艺路街道韶山北路139号湖南文化大厦","ContactUser":"李广田","ContactPhone":"13306589754","Status":0,"CreateDate":"0001-01-01T00:00:00","UserName":"admin","PasswordOne":null,"PasswordTwo":null,"RegionIdPath":null,"ServeRadius":0,"Longitude":0.0,"Latitude":0.0,"ShopImages":null,"Distance":0.0,"DistanceUnit":null,"Enabled":false,"AddressPath":"1812,1813,1814,27073,","IsStoreDelive":false,"IsAboveSelf":false,"DeliveFee":0,"FreeMailFee":0,"DeliveTotalFee":0,"StoreOpenStartTime":"08:00:00","StoreOpenEndTime":"20:00:00","RecommendSequence":0,"IsRecommend":false}
-    * "CustomerServices":[]}
-    * */
+
+    /**
+     * Success : true
+     * Order : {"Id":2019051066544565,"OrderType":null,"OrderTypeName":"","Status":"已完成","JoinStatus":-2,"ShipTo":"钉钉官方短信","Phone":"10655059113144","Address":"河北省 唐山市 路南区 学院南路街道 4","HasExpressStatus":false,"ExpressCompanyName":null,"Freight":0,"StringegralDiscount":0,"RealTotalAmount":1619.1,"RefundTotalAmount":0,"OrderDate":"2019-05-10 11:49:06","ShopName":"官方自营店","VShopId":10,"commentCount":0,"ShopId":1,"orderStatus":5,"Invoice":"不需要发票","InvoiceValue":0,"InvoiceContext":null,"InvoiceTitle":null,"PaymentType":"","PaymentTypeValue":0,"FullDiscount":0,"DiscountAmount":0,"OrderRemarks":"","HasBonus":false,"ShareHref":"","ShareTitle":"","ShareDetail":"","IsCanRefund":false,"EnabledRefundAmount":1619.1,"HasAppendComment":false,"SelfTake":0}
+     * OrderItem : [{"ItemId":1176,"ProductId":779,"BrandId":356,"BrandName":"aux","CategoryId":251,"CategoryName":"单门 容积X≤100","ParentCategoryId":250,"ParentCategoryName":"冰箱","ProductName":"AUX奥克斯KFR35GWNFI193大15匹冷暖定频壁挂式家用空调挂机","Count":1,"Price":1619.1,"ProductImage":"http://mall.xigyu.com//Storage/Shop/1/Products/779/1_100.png","color":null,"size":null,"version":null,"IsCanRefund":false,"ColorAlias":"颜色","SizeAlias":"尺码","VersionAlias":"规格","EnabledRefundAmount":1619.1}]
+     * StoreInfo : null
+     * CustomerServices : []
+     */
 
     private boolean Success;
     private OrderBean Order;
-    private StoreInfoBean StoreInfo;
-    private List<CustomerServicesBean> CustomerServices;
+    private String StoreInfo;
     private List<OrderItemBean> OrderItem;
+    private List<?> CustomerServices;
 
     public boolean isSuccess() {
         return Success;
@@ -30,74 +31,75 @@ public class OrderDetail implements Serializable {
         return Order;
     }
 
-    public void setOrder(OrderBean order) {
-        Order = order;
+    public void setOrder(OrderBean Order) {
+        this.Order = Order;
     }
 
-    public StoreInfoBean getStoreInfo() {
+    public String getStoreInfo() {
         return StoreInfo;
     }
 
-    public void setStoreInfo(StoreInfoBean storeInfo) {
-        StoreInfo = storeInfo;
-    }
-
-    public List<CustomerServicesBean> getCustomerServices() {
-        return CustomerServices;
-    }
-
-    public void setCustomerServices(List<CustomerServicesBean> customerServices) {
-        CustomerServices = customerServices;
+    public void setStoreInfo(String StoreInfo) {
+        this.StoreInfo = StoreInfo;
     }
 
     public List<OrderItemBean> getOrderItem() {
         return OrderItem;
     }
 
-    public void setOrderItem(List<OrderItemBean> orderItem) {
-        OrderItem = orderItem;
+    public void setOrderItem(List<OrderItemBean> OrderItem) {
+        this.OrderItem = OrderItem;
     }
 
-    /*
-    * "Id":2017021483156396,
-    * "OrderType":null,
-    * "OrderTypeName":"",
-    * "Status":"待消费",
-    * "JoinStatus":-2,
-    * "ShipTo":"小蘑菇",
-    * "Phone":"18216367122",
-    * "Address":"湖南省 长沙市 芙蓉区 文艺路街道 湖南大剧院19楼",
-    * "HasExpressStatus":false,
-    * "ExpressCompanyName":null,
-    * "Freight":0.00,
-    * "IntegralDiscount":0.00,  整体折扣
-    * "RealTotalAmount":11.90,   实际金额
-    * "RefundTotalAmount":0.00,   退款总金额
-    * "OrderDate":"2017-02-14 10:32:08",
-    * "ShopName":"官方自营店",
-    * "VShopId":10,
-    * "commentCount":0,
-    * "ShopId":1,
-    * "orderStatus":2,
-    * "Invoice":"不需要发票",
-    * "InvoiceValue":0,
-    * "InvoiceContext":null,
-    * "InvoiceTitle":null,
-    * "PaymentType":"线上支付",
-    * "PaymentTypeValue":1,
-    * "FullDiscount":0.00,  全额折扣
-    * "DiscountAmount":0.00,  折扣金额
-    * "OrderRemarks":"",   订单备注
-    * "HasBonus":false,
-    * "ShareHref":"",
-    * "ShareTitle":"",
-    * "ShareDetail":"",
-    * "IsCanRefund":true,
-    * "EnabledRefundAmount":11.90,  退款金额
-    * "HasAppendComment":false,
-    * "SelfTake":0},
-    * */
+    public List<?> getCustomerServices() {
+        return CustomerServices;
+    }
+
+    public void setCustomerServices(List<?> CustomerServices) {
+        this.CustomerServices = CustomerServices;
+    }
+
     public static class OrderBean implements Serializable{
+        /**
+         * Id : 2019051066544565
+         * OrderType : null
+         * OrderTypeName : 
+         * Status : 已完成
+         * JoinStatus : -2
+         * ShipTo : 钉钉官方短信
+         * Phone : 10655059113144
+         * Address : 河北省 唐山市 路南区 学院南路街道 4
+         * HasExpressStatus : false
+         * ExpressCompanyName : null
+         * Freight : 0.0
+         * StringegralDiscount : 0.0
+         * RealTotalAmount : 1619.1
+         * RefundTotalAmount : 0.0
+         * OrderDate : 2019-05-10 11:49:06
+         * ShopName : 官方自营店
+         * VShopId : 10
+         * commentCount : 0
+         * ShopId : 1
+         * orderStatus : 5
+         * Invoice : 不需要发票
+         * InvoiceValue : 0
+         * InvoiceContext : null
+         * InvoiceTitle : null
+         * PaymentType : 
+         * PaymentTypeValue : 0
+         * FullDiscount : 0.0
+         * DiscountAmount : 0.0
+         * OrderRemarks : 
+         * HasBonus : false
+         * ShareHref : 
+         * ShareTitle : 
+         * ShareDetail : 
+         * IsCanRefund : false
+         * EnabledRefundAmount : 1619.1
+         * HasAppendComment : false
+         * SelfTake : 0
+         */
+
         private String Id;
         private String OrderType;
         private String OrderTypeName;
@@ -108,10 +110,10 @@ public class OrderDetail implements Serializable {
         private String Address;
         private boolean HasExpressStatus;
         private String ExpressCompanyName;
-        private String Freight;
-        private String IntegralDiscount;
-        private String RealTotalAmount;
-        private String RefundTotalAmount;
+        private double Freight;
+        private double StringegralDiscount;
+        private double RealTotalAmount;
+        private double RefundTotalAmount;
         private String OrderDate;
         private String ShopName;
         private String VShopId;
@@ -124,15 +126,15 @@ public class OrderDetail implements Serializable {
         private String InvoiceTitle;
         private String PaymentType;
         private String PaymentTypeValue;
-        private String FullDiscount;
-        private String DiscountAmount;
+        private double FullDiscount;
+        private double DiscountAmount;
         private String OrderRemarks;
         private boolean HasBonus;
         private String ShareHref;
         private String ShareTitle;
         private String ShareDetail;
         private boolean IsCanRefund;
-        private String EnabledRefundAmount;
+        private double EnabledRefundAmount;
         private boolean HasAppendComment;
         private String SelfTake;
 
@@ -140,152 +142,128 @@ public class OrderDetail implements Serializable {
             return Id;
         }
 
-        public void setId(String id) {
-            Id = id;
+        public void setId(String Id) {
+            this.Id = Id;
         }
 
         public String getOrderType() {
             return OrderType;
         }
 
-        public void setOrderType(String orderType) {
-            OrderType = orderType;
+        public void setOrderType(String OrderType) {
+            this.OrderType = OrderType;
         }
 
         public String getOrderTypeName() {
             return OrderTypeName;
         }
 
-        public void setOrderTypeName(String orderTypeName) {
-            OrderTypeName = orderTypeName;
+        public void setOrderTypeName(String OrderTypeName) {
+            this.OrderTypeName = OrderTypeName;
         }
 
         public String getStatus() {
             return Status;
         }
 
-        public void setStatus(String status) {
-            Status = status;
+        public void setStatus(String Status) {
+            this.Status = Status;
         }
 
         public String getJoinStatus() {
             return JoinStatus;
         }
 
-        public void setJoinStatus(String joinStatus) {
-            JoinStatus = joinStatus;
+        public void setJoinStatus(String JoinStatus) {
+            this.JoinStatus = JoinStatus;
         }
 
         public String getShipTo() {
             return ShipTo;
         }
 
-        public void setShipTo(String shipTo) {
-            ShipTo = shipTo;
+        public void setShipTo(String ShipTo) {
+            this.ShipTo = ShipTo;
         }
 
         public String getPhone() {
             return Phone;
         }
 
-        public void setPhone(String phone) {
-            Phone = phone;
+        public void setPhone(String Phone) {
+            this.Phone = Phone;
         }
 
         public String getAddress() {
             return Address;
         }
 
-        public void setAddress(String address) {
-            Address = address;
+        public void setAddress(String Address) {
+            this.Address = Address;
         }
 
         public boolean isHasExpressStatus() {
             return HasExpressStatus;
         }
 
-        public void setHasExpressStatus(boolean hasExpressStatus) {
-            HasExpressStatus = hasExpressStatus;
-        }
-
-        public boolean isHasBonus() {
-            return HasBonus;
-        }
-
-        public void setHasBonus(boolean hasBonus) {
-            HasBonus = hasBonus;
-        }
-
-        public boolean isCanRefund() {
-            return IsCanRefund;
-        }
-
-        public void setCanRefund(boolean canRefund) {
-            IsCanRefund = canRefund;
-        }
-
-        public boolean isHasAppendComment() {
-            return HasAppendComment;
-        }
-
-        public void setHasAppendComment(boolean hasAppendComment) {
-            HasAppendComment = hasAppendComment;
+        public void setHasExpressStatus(boolean HasExpressStatus) {
+            this.HasExpressStatus = HasExpressStatus;
         }
 
         public String getExpressCompanyName() {
             return ExpressCompanyName;
         }
 
-        public void setExpressCompanyName(String expressCompanyName) {
-            ExpressCompanyName = expressCompanyName;
+        public void setExpressCompanyName(String ExpressCompanyName) {
+            this.ExpressCompanyName = ExpressCompanyName;
         }
 
-        public String getFreight() {
+        public double getFreight() {
             return Freight;
         }
 
-        public void setFreight(String freight) {
-            Freight = freight;
+        public void setFreight(double Freight) {
+            this.Freight = Freight;
         }
 
-        public String getIntegralDiscount() {
-            return IntegralDiscount;
+        public double getStringegralDiscount() {
+            return StringegralDiscount;
         }
 
-        public void setIntegralDiscount(String integralDiscount) {
-            IntegralDiscount = integralDiscount;
+        public void setStringegralDiscount(double StringegralDiscount) {
+            this.StringegralDiscount = StringegralDiscount;
         }
 
-        public String getRealTotalAmount() {
+        public double getRealTotalAmount() {
             return RealTotalAmount;
         }
 
-        public void setRealTotalAmount(String realTotalAmount) {
-            RealTotalAmount = realTotalAmount;
+        public void setRealTotalAmount(double RealTotalAmount) {
+            this.RealTotalAmount = RealTotalAmount;
         }
 
-        public String getRefundTotalAmount() {
+        public double getRefundTotalAmount() {
             return RefundTotalAmount;
         }
 
-        public void setRefundTotalAmount(String refundTotalAmount) {
-            RefundTotalAmount = refundTotalAmount;
+        public void setRefundTotalAmount(double RefundTotalAmount) {
+            this.RefundTotalAmount = RefundTotalAmount;
         }
 
         public String getOrderDate() {
             return OrderDate;
         }
 
-        public void setOrderDate(String orderDate) {
-            OrderDate = orderDate;
+        public void setOrderDate(String OrderDate) {
+            this.OrderDate = OrderDate;
         }
 
         public String getShopName() {
             return ShopName;
         }
 
-        public void setShopName(String shopName) {
-            ShopName = shopName;
+        public void setShopName(String ShopName) {
+            this.ShopName = ShopName;
         }
 
         public String getVShopId() {
@@ -308,8 +286,8 @@ public class OrderDetail implements Serializable {
             return ShopId;
         }
 
-        public void setShopId(String shopId) {
-            ShopId = shopId;
+        public void setShopId(String ShopId) {
+            this.ShopId = ShopId;
         }
 
         public String getOrderStatus() {
@@ -324,200 +302,278 @@ public class OrderDetail implements Serializable {
             return Invoice;
         }
 
-        public void setInvoice(String invoice) {
-            Invoice = invoice;
+        public void setInvoice(String Invoice) {
+            this.Invoice = Invoice;
         }
 
         public String getInvoiceValue() {
             return InvoiceValue;
         }
 
-        public void setInvoiceValue(String invoiceValue) {
-            InvoiceValue = invoiceValue;
+        public void setInvoiceValue(String InvoiceValue) {
+            this.InvoiceValue = InvoiceValue;
         }
 
         public String getInvoiceContext() {
             return InvoiceContext;
         }
 
-        public void setInvoiceContext(String invoiceContext) {
-            InvoiceContext = invoiceContext;
+        public void setInvoiceContext(String InvoiceContext) {
+            this.InvoiceContext = InvoiceContext;
         }
 
         public String getInvoiceTitle() {
             return InvoiceTitle;
         }
 
-        public void setInvoiceTitle(String invoiceTitle) {
-            InvoiceTitle = invoiceTitle;
+        public void setInvoiceTitle(String InvoiceTitle) {
+            this.InvoiceTitle = InvoiceTitle;
         }
 
         public String getPaymentType() {
             return PaymentType;
         }
 
-        public void setPaymentType(String paymentType) {
-            PaymentType = paymentType;
+        public void setPaymentType(String PaymentType) {
+            this.PaymentType = PaymentType;
         }
 
         public String getPaymentTypeValue() {
             return PaymentTypeValue;
         }
 
-        public void setPaymentTypeValue(String paymentTypeValue) {
-            PaymentTypeValue = paymentTypeValue;
+        public void setPaymentTypeValue(String PaymentTypeValue) {
+            this.PaymentTypeValue = PaymentTypeValue;
         }
 
-        public String getFullDiscount() {
+        public double getFullDiscount() {
             return FullDiscount;
         }
 
-        public void setFullDiscount(String fullDiscount) {
-            FullDiscount = fullDiscount;
+        public void setFullDiscount(double FullDiscount) {
+            this.FullDiscount = FullDiscount;
         }
 
-        public String getDiscountAmount() {
+        public double getDiscountAmount() {
             return DiscountAmount;
         }
 
-        public void setDiscountAmount(String discountAmount) {
-            DiscountAmount = discountAmount;
+        public void setDiscountAmount(double DiscountAmount) {
+            this.DiscountAmount = DiscountAmount;
         }
 
         public String getOrderRemarks() {
             return OrderRemarks;
         }
 
-        public void setOrderRemarks(String orderRemarks) {
-            OrderRemarks = orderRemarks;
+        public void setOrderRemarks(String OrderRemarks) {
+            this.OrderRemarks = OrderRemarks;
         }
 
+        public boolean isHasBonus() {
+            return HasBonus;
+        }
 
+        public void setHasBonus(boolean HasBonus) {
+            this.HasBonus = HasBonus;
+        }
 
         public String getShareHref() {
             return ShareHref;
         }
 
-        public void setShareHref(String shareHref) {
-            ShareHref = shareHref;
+        public void setShareHref(String ShareHref) {
+            this.ShareHref = ShareHref;
         }
 
         public String getShareTitle() {
             return ShareTitle;
         }
 
-        public void setShareTitle(String shareTitle) {
-            ShareTitle = shareTitle;
+        public void setShareTitle(String ShareTitle) {
+            this.ShareTitle = ShareTitle;
         }
 
         public String getShareDetail() {
             return ShareDetail;
         }
 
-        public void setShareDetail(String shareDetail) {
-            ShareDetail = shareDetail;
+        public void setShareDetail(String ShareDetail) {
+            this.ShareDetail = ShareDetail;
         }
 
+        public boolean isIsCanRefund() {
+            return IsCanRefund;
+        }
 
-        public String getEnabledRefundAmount() {
+        public void setIsCanRefund(boolean IsCanRefund) {
+            this.IsCanRefund = IsCanRefund;
+        }
+
+        public double getEnabledRefundAmount() {
             return EnabledRefundAmount;
         }
 
-        public void setEnabledRefundAmount(String enabledRefundAmount) {
-            EnabledRefundAmount = enabledRefundAmount;
+        public void setEnabledRefundAmount(double EnabledRefundAmount) {
+            this.EnabledRefundAmount = EnabledRefundAmount;
         }
 
+        public boolean isHasAppendComment() {
+            return HasAppendComment;
+        }
 
+        public void setHasAppendComment(boolean HasAppendComment) {
+            this.HasAppendComment = HasAppendComment;
+        }
 
         public String getSelfTake() {
             return SelfTake;
         }
 
-        public void setSelfTake(String selfTake) {
-            SelfTake = selfTake;
+        public void setSelfTake(String SelfTake) {
+            this.SelfTake = SelfTake;
         }
     }
 
-
-    /*
-    * "ItemId":1086,
-    * "ProductId":702,
-    * "ProductName":"卫龙 休闲零食 辣条 小面筋 办公室休闲食品 22g*20包(新老包装随机发货)",
-    * "Count":1,
-    * "Price":11.90,
-    * "ProductImage":"http://mall.xigyu.com//Storage/Shop/1/Products/702/1_100.png",
-    * "color":null,
-    * "size":null,
-    * "version":null,
-    * "IsCanRefund":true,
-    * "ColorAlias":"颜色",
-    * "SizeAlias":"尺码",
-    * "VersionAlias":"规格",
-    * "EnabledRefundAmount":11.90
-    * */
-
     public static class OrderItemBean implements Serializable{
+        /**
+         * ItemId : 1176
+         * ProductId : 779
+         * BrandId : 356
+         * BrandName : aux
+         * CategoryId : 251
+         * CategoryName : 单门 容积X≤100
+         * ParentCategoryId : 250
+         * ParentCategoryName : 冰箱
+         * ProductName : AUX奥克斯KFR35GWNFI193大15匹冷暖定频壁挂式家用空调挂机
+         * Count : 1
+         * Price : 1619.1
+         * ProductImage : http://mall.xigyu.com//Storage/Shop/1/Products/779/1_100.png
+         * color : null
+         * size : null
+         * version : null
+         * IsCanRefund : false
+         * ColorAlias : 颜色
+         * SizeAlias : 尺码
+         * VersionAlias : 规格
+         * EnabledRefundAmount : 1619.1
+         */
+
         private String ItemId;
         private String ProductId;
+        private String BrandId;
+        private String BrandName;
+        private String CategoryId;
+        private String CategoryName;
+        private String ParentCategoryId;
+        private String ParentCategoryName;
         private String ProductName;
         private String Count;
-        private String Price;
+        private double Price;
         private String ProductImage;
         private String color;
         private String size;
         private String version;
-        private String IsCanRefund;
+        private boolean IsCanRefund;
         private String ColorAlias;
         private String SizeAlias;
         private String VersionAlias;
-        private String EnabledRefundAmount;
+        private double EnabledRefundAmount;
 
         public String getItemId() {
             return ItemId;
         }
 
-        public void setItemId(String itemId) {
-            ItemId = itemId;
+        public void setItemId(String ItemId) {
+            this.ItemId = ItemId;
         }
 
         public String getProductId() {
             return ProductId;
         }
 
-        public void setProductId(String productId) {
-            ProductId = productId;
+        public void setProductId(String ProductId) {
+            this.ProductId = ProductId;
+        }
+
+        public String getBrandId() {
+            return BrandId;
+        }
+
+        public void setBrandId(String BrandId) {
+            this.BrandId = BrandId;
+        }
+
+        public String getBrandName() {
+            return BrandName;
+        }
+
+        public void setBrandName(String BrandName) {
+            this.BrandName = BrandName;
+        }
+
+        public String getCategoryId() {
+            return CategoryId;
+        }
+
+        public void setCategoryId(String CategoryId) {
+            this.CategoryId = CategoryId;
+        }
+
+        public String getCategoryName() {
+            return CategoryName;
+        }
+
+        public void setCategoryName(String CategoryName) {
+            this.CategoryName = CategoryName;
+        }
+
+        public String getParentCategoryId() {
+            return ParentCategoryId;
+        }
+
+        public void setParentCategoryId(String ParentCategoryId) {
+            this.ParentCategoryId = ParentCategoryId;
+        }
+
+        public String getParentCategoryName() {
+            return ParentCategoryName;
+        }
+
+        public void setParentCategoryName(String ParentCategoryName) {
+            this.ParentCategoryName = ParentCategoryName;
         }
 
         public String getProductName() {
             return ProductName;
         }
 
-        public void setProductName(String productName) {
-            ProductName = productName;
+        public void setProductName(String ProductName) {
+            this.ProductName = ProductName;
         }
 
         public String getCount() {
             return Count;
         }
 
-        public void setCount(String count) {
-            Count = count;
+        public void setCount(String Count) {
+            this.Count = Count;
         }
 
-        public String getPrice() {
+        public double getPrice() {
             return Price;
         }
 
-        public void setPrice(String price) {
-            Price = price;
+        public void setPrice(double Price) {
+            this.Price = Price;
         }
 
         public String getProductImage() {
             return ProductImage;
         }
 
-        public void setProductImage(String productImage) {
-            ProductImage = productImage;
+        public void setProductImage(String ProductImage) {
+            this.ProductImage = ProductImage;
         }
 
         public String getColor() {
@@ -544,395 +600,44 @@ public class OrderDetail implements Serializable {
             this.version = version;
         }
 
-        public String getIsCanRefund() {
+        public boolean isIsCanRefund() {
             return IsCanRefund;
         }
 
-        public void setIsCanRefund(String isCanRefund) {
-            IsCanRefund = isCanRefund;
+        public void setIsCanRefund(boolean IsCanRefund) {
+            this.IsCanRefund = IsCanRefund;
         }
 
         public String getColorAlias() {
             return ColorAlias;
         }
 
-        public void setColorAlias(String colorAlias) {
-            ColorAlias = colorAlias;
+        public void setColorAlias(String ColorAlias) {
+            this.ColorAlias = ColorAlias;
         }
 
         public String getSizeAlias() {
             return SizeAlias;
         }
 
-        public void setSizeAlias(String sizeAlias) {
-            SizeAlias = sizeAlias;
+        public void setSizeAlias(String SizeAlias) {
+            this.SizeAlias = SizeAlias;
         }
 
         public String getVersionAlias() {
             return VersionAlias;
         }
 
-        public void setVersionAlias(String versionAlias) {
-            VersionAlias = versionAlias;
+        public void setVersionAlias(String VersionAlias) {
+            this.VersionAlias = VersionAlias;
         }
 
-        public String getEnabledRefundAmount() {
+        public double getEnabledRefundAmount() {
             return EnabledRefundAmount;
         }
 
-        public void setEnabledRefundAmount(String enabledRefundAmount) {
-            EnabledRefundAmount = enabledRefundAmount;
+        public void setEnabledRefundAmount(double EnabledRefundAmount) {
+            this.EnabledRefundAmount = EnabledRefundAmount;
         }
-    }
-
-    /*
-    * "ShopName":null,
-    * "ShopBranchInTagNames":null,
-    * "ShopBranchTagId":null,
-    * "Id":26,
-    * "ShopId":1,
-    * "ShopBranchName":"辣条君",
-    * "AddressId":27073,
-    * "AddressDetail":"湖南省长沙市韶山北路139号湖南文化大厦",
-    * "AddressFullName":"湖南省长沙市芙蓉区文艺路街道韶山北路139号湖南文化大厦",
-    * "ContactUser":"李广田",
-    * "ContactPhone":"13306589754",
-    * "Status":0,
-    * "CreateDate":"0001-01-01T00:00:00",
-    * "UserName":"admin",
-    * "PasswordOne":null,
-    * "PasswordTwo":null,
-    * "RegionIdPath":null,
-    * "ServeRadius":0,
-    * "Longitude":0.0,
-    * "Latitude":0.0,
-    * "ShopImages":null,
-    * "Distance":0.0,
-    * "DistanceUnit":null,
-    * "Enabled":false,
-    * "AddressPath":"1812,1813,1814,27073,",
-    * "IsStoreDelive":false,
-    * "IsAboveSelf":false,
-    * "DeliveFee":0,
-    * "FreeMailFee":0,
-    * "DeliveTotalFee":0,
-    * "StoreOpenStartTime":"08:00:00",
-    * "StoreOpenEndTime":"20:00:00",
-    * "RecommendSequence":0,
-    * "IsRecommend":false}
-    * */
-
-    public static class StoreInfoBean{
-        private String ShopName;
-        private String ShopBranchInTagNames;
-        private String ShopBranchTagId;
-        private String Id;
-        private String ShopId;
-        private String ShopBranchName;
-        private String AddressId;
-        private String AddressDetail;
-        private String AddressFullName;
-        private String ContactUser;
-        private String ContactPhone;
-        private String Status;
-        private String CreateDate;
-        private String UserName;
-        private String PasswordOne;
-        private String PasswordTwo;
-        private String RegionIdPath;
-        private String ServeRadius;
-        private String Longitude;
-        private String Latitude;
-        private String ShopImages;
-        private String Distance;
-        private String DistanceUnit;
-        private String Enabled;
-        private String AddressPath;
-        private String IsStoreDelive;
-        private String IsAboveSelf;
-        private String DeliveFee;
-        private String FreeMailFee;
-        private String DeliveTotalFee;
-        private String StoreOpenStartTime;
-        private String StoreOpenEndTime;
-        private String RecommendSequence;
-        private String IsRecommend;
-
-        public String getShopName() {
-            return ShopName;
-        }
-
-        public void setShopName(String shopName) {
-            ShopName = shopName;
-        }
-
-        public String getShopBranchInTagNames() {
-            return ShopBranchInTagNames;
-        }
-
-        public void setShopBranchInTagNames(String shopBranchInTagNames) {
-            ShopBranchInTagNames = shopBranchInTagNames;
-        }
-
-        public String getShopBranchTagId() {
-            return ShopBranchTagId;
-        }
-
-        public void setShopBranchTagId(String shopBranchTagId) {
-            ShopBranchTagId = shopBranchTagId;
-        }
-
-        public String getId() {
-            return Id;
-        }
-
-        public void setId(String id) {
-            Id = id;
-        }
-
-        public String getShopId() {
-            return ShopId;
-        }
-
-        public void setShopId(String shopId) {
-            ShopId = shopId;
-        }
-
-        public String getShopBranchName() {
-            return ShopBranchName;
-        }
-
-        public void setShopBranchName(String shopBranchName) {
-            ShopBranchName = shopBranchName;
-        }
-
-        public String getAddressId() {
-            return AddressId;
-        }
-
-        public void setAddressId(String addressId) {
-            AddressId = addressId;
-        }
-
-        public String getAddressDetail() {
-            return AddressDetail;
-        }
-
-        public void setAddressDetail(String addressDetail) {
-            AddressDetail = addressDetail;
-        }
-
-        public String getAddressFullName() {
-            return AddressFullName;
-        }
-
-        public void setAddressFullName(String addressFullName) {
-            AddressFullName = addressFullName;
-        }
-
-        public String getContactUser() {
-            return ContactUser;
-        }
-
-        public void setContactUser(String contactUser) {
-            ContactUser = contactUser;
-        }
-
-        public String getContactPhone() {
-            return ContactPhone;
-        }
-
-        public void setContactPhone(String contactPhone) {
-            ContactPhone = contactPhone;
-        }
-
-        public String getStatus() {
-            return Status;
-        }
-
-        public void setStatus(String status) {
-            Status = status;
-        }
-
-        public String getCreateDate() {
-            return CreateDate;
-        }
-
-        public void setCreateDate(String createDate) {
-            CreateDate = createDate;
-        }
-
-        public String getUserName() {
-            return UserName;
-        }
-
-        public void setUserName(String userName) {
-            UserName = userName;
-        }
-
-        public String getPasswordOne() {
-            return PasswordOne;
-        }
-
-        public void setPasswordOne(String passwordOne) {
-            PasswordOne = passwordOne;
-        }
-
-        public String getPasswordTwo() {
-            return PasswordTwo;
-        }
-
-        public void setPasswordTwo(String passwordTwo) {
-            PasswordTwo = passwordTwo;
-        }
-
-        public String getRegionIdPath() {
-            return RegionIdPath;
-        }
-
-        public void setRegionIdPath(String regionIdPath) {
-            RegionIdPath = regionIdPath;
-        }
-
-        public String getServeRadius() {
-            return ServeRadius;
-        }
-
-        public void setServeRadius(String serveRadius) {
-            ServeRadius = serveRadius;
-        }
-
-        public String getLongitude() {
-            return Longitude;
-        }
-
-        public void setLongitude(String longitude) {
-            Longitude = longitude;
-        }
-
-        public String getLatitude() {
-            return Latitude;
-        }
-
-        public void setLatitude(String latitude) {
-            Latitude = latitude;
-        }
-
-        public String getShopImages() {
-            return ShopImages;
-        }
-
-        public void setShopImages(String shopImages) {
-            ShopImages = shopImages;
-        }
-
-        public String getDistance() {
-            return Distance;
-        }
-
-        public void setDistance(String distance) {
-            Distance = distance;
-        }
-
-        public String getDistanceUnit() {
-            return DistanceUnit;
-        }
-
-        public void setDistanceUnit(String distanceUnit) {
-            DistanceUnit = distanceUnit;
-        }
-
-        public String getEnabled() {
-            return Enabled;
-        }
-
-        public void setEnabled(String enabled) {
-            Enabled = enabled;
-        }
-
-        public String getAddressPath() {
-            return AddressPath;
-        }
-
-        public void setAddressPath(String addressPath) {
-            AddressPath = addressPath;
-        }
-
-        public String getIsStoreDelive() {
-            return IsStoreDelive;
-        }
-
-        public void setIsStoreDelive(String isStoreDelive) {
-            IsStoreDelive = isStoreDelive;
-        }
-
-        public String getIsAboveSelf() {
-            return IsAboveSelf;
-        }
-
-        public void setIsAboveSelf(String isAboveSelf) {
-            IsAboveSelf = isAboveSelf;
-        }
-
-        public String getDeliveFee() {
-            return DeliveFee;
-        }
-
-        public void setDeliveFee(String deliveFee) {
-            DeliveFee = deliveFee;
-        }
-
-        public String getFreeMailFee() {
-            return FreeMailFee;
-        }
-
-        public void setFreeMailFee(String freeMailFee) {
-            FreeMailFee = freeMailFee;
-        }
-
-        public String getDeliveTotalFee() {
-            return DeliveTotalFee;
-        }
-
-        public void setDeliveTotalFee(String deliveTotalFee) {
-            DeliveTotalFee = deliveTotalFee;
-        }
-
-        public String getStoreOpenStartTime() {
-            return StoreOpenStartTime;
-        }
-
-        public void setStoreOpenStartTime(String storeOpenStartTime) {
-            StoreOpenStartTime = storeOpenStartTime;
-        }
-
-        public String getStoreOpenEndTime() {
-            return StoreOpenEndTime;
-        }
-
-        public void setStoreOpenEndTime(String storeOpenEndTime) {
-            StoreOpenEndTime = storeOpenEndTime;
-        }
-
-        public String getRecommendSequence() {
-            return RecommendSequence;
-        }
-
-        public void setRecommendSequence(String recommendSequence) {
-            RecommendSequence = recommendSequence;
-        }
-
-        public String getIsRecommend() {
-            return IsRecommend;
-        }
-
-        public void setIsRecommend(String isRecommend) {
-            IsRecommend = isRecommend;
-        }
-    }
-
-
-    public static class CustomerServicesBean{
-
     }
 }

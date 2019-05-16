@@ -2,7 +2,7 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.api.ApiService;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
@@ -70,6 +70,12 @@ public class RegisterModel implements RegisterContract.Model {
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetUser(userName, password, oauthType, oauthOpenId, oauthNickName,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<Data<String>>> LoginOn(String userName, String passWord) {
+        return ApiRetrofit2.getDefault().LoginOn(userName, passWord,"8")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

@@ -9,12 +9,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
@@ -83,7 +86,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     protected void initView() {
         mImgAgreement.setSelected(true);
         mPresenter.GetImageCheckCode();
-
+        spUtils = SPUtils.getInstance("token");
     }
 
     @Override
@@ -154,7 +157,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     public void Reg(RegisterResult baseResult) {
         if (baseResult.isSuccess()){
             ToastUtils.showShort("注册成功");
-            mPresenter.GetUser(userName, password,"","","");
+            mPresenter.LoginOn(userName, password);
         }else {
             ToastUtils.showShort(baseResult.getErrorMsg());
         }
@@ -172,15 +175,39 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void GetUser(LoginResult Result) {
+
         if (Result.getSuccess()){
-            spUtils = SPUtils.getInstance("token");
-            spUtils.put("UserKey",Result.getUserId());
+            spUtils.put("UserKey",Result.getUserKey());
             spUtils.put("userName",userName);
             spUtils.put("password",password);
+            spUtils.put("isLogin",true);
+//            EventBus.getDefault().post("PersonalInformation");
+            ActivityUtils.finishAllActivities();
             startActivity(new Intent(mActivity,MainActivity.class));
-            finish();
+
         }else {
             ToastUtils.showShort(Result.getErrorMsg());
+        }
+    }
+
+    @Override
+    public void LoginOn(BaseResult<Data<String>> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                Data<String> data=Result.getData();
+                if (data.isItem1()){
+                    spUtils.put("adminToken", data.getItem2());
+                    spUtils.put("userName2", userName);
+                    mPresenter.GetUser(userName, password,"","","");
+//                    spUtils.put("passWord", password);
+//                    spUtils.put("isLogin", true);
+//                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"7",userName);
+//                    startActivity(new Intent(mActivity, MainActivity.class));
+//                    finish();
+                }else{
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
         }
     }
 
