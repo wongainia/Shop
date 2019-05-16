@@ -814,7 +814,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             adapter.getViewByPosition(rv_color, i, R.id.rl_choose).setSelected(false);
                         }
                         if (adapter.getViewByPosition(rv_color, position, R.id.rl_choose).isSelected()) {
-
                             adapter.getViewByPosition(rv_color, position, R.id.rl_choose).setSelected(false);
                         } else {
                             adapter.getViewByPosition(rv_color, position, R.id.rl_choose).setSelected(true);

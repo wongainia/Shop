@@ -1,5 +1,7 @@
 package com.zhenghaikj.shop.entity;
 
+import com.zhenghaikj.shop.activity.ShopVersion;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class DetailResult implements Serializable {
     private boolean IsOpenStore;
     private List<ShopColor> Color;
     private List<ShopSize> Size;
-    private List<String> Version;
+    private List<ShopVersion> Version;
     private List<String> CustomerServices;
 
     public String getSuccess() {
@@ -313,11 +315,11 @@ public class DetailResult implements Serializable {
         this.Size = Size;
     }
 
-    public List<String> getVersion() {
+    public List<ShopVersion> getVersion() {
         return Version;
     }
 
-    public void setVersion(List<String> Version) {
+    public void setVersion(List<ShopVersion> Version) {
         this.Version = Version;
     }
 

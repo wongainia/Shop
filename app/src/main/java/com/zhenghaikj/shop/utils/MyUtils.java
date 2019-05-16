@@ -618,4 +618,12 @@ public class MyUtils {
         }
         return base64;
     }
+
+
+    /*将x.0 转变为x*/
+    public static String floatToString(float num){
+        String str_num= String.valueOf(num);
+        str_num.substring(0,1);
+        return str_num;
+    }
 }

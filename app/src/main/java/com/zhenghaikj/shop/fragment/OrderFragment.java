@@ -96,6 +96,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 getData();
             }
         });
+        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -162,6 +163,11 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             }
         });
 
+
+    }
+
+    @Override
+    protected void setListener() {
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -171,6 +177,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 getData();
             }
         });
+
+
+
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -178,11 +187,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 getData();
             }
         });
-    }
-
-    @Override
-    protected void setListener() {
-
     }
 
     public void getData() {
@@ -232,6 +236,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         if (result.isSuccess()) {
             Log.d(TAG, "00000" + result.getOrders());
             if (result.getOrders() != null) {
+                cartList.clear();
                 cartList.addAll(result.getOrders());
 //            orderAdapter = new OrderAdapter(cartList, mParam1);
                 orderListAdapter.setNewData(cartList);

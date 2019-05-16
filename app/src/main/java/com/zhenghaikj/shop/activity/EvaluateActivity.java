@@ -132,7 +132,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                 CommentsInfo mCommentsInfo=new CommentsInfo();
                 mCommentsInfo.setOrderItemId(Result.getOrderItemIds().get(i).toString());
                 mCommentsInfo.setMark("5"); //默认5分
-                mCommentsInfo.setCommentContent("");//
+                mCommentsInfo.setCommentContent("用户未填写评论！");//
                 map.put(i,mCommentsInfo);  //存入orderItemId
             }
 
@@ -180,7 +180,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                 float starRating = baozhuang_star.getStarRating();
                 setStarName(tv_baozhuang,starRating);
                 /*包装*/
-                mCommentEntity.setPackMark(String.valueOf(starRating));
+                mCommentEntity.setPackMark(MyUtils.floatToString(starRating));
             }
         });
 
@@ -190,7 +190,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                 float starRating = sudu_star.getStarRating();
                 setStarName(tv_sudu,starRating);
                 /*速度*/
-                mCommentEntity.setDeliveryMark(String.valueOf(starRating));
+                mCommentEntity.setDeliveryMark(MyUtils.floatToString(starRating));
             }
         });
 
@@ -200,7 +200,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                 float starRating = peisong_star.getStarRating();
                 setStarName(tv_peisong,starRating);
                  /*配送*/
-                mCommentEntity.setServiceMark(String.valueOf(starRating));
+                mCommentEntity.setServiceMark(MyUtils.floatToString(starRating));
 
             }
         });
@@ -340,9 +340,8 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     public void onStarBarListner(int position, float Star) {
         Log.d("====="+position,"星级评分"+Star);
         CommentsInfo commentsInfo = map.get(position);
-        commentsInfo.setMark(String.valueOf(Star));
+        commentsInfo.setMark(MyUtils.floatToString(Star));
         map.put(position,commentsInfo);
-
 
     }
 
@@ -592,4 +591,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
 
     }
+
+
 }
