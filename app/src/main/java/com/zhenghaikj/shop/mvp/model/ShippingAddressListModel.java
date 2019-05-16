@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.ShippingAddressListContract;
 
@@ -28,6 +29,20 @@ public class ShippingAddressListModel implements ShippingAddressListContract.Mod
         map.put("timestamp", timestamp);
         sign= ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetShippingAddressList(userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<EasyResult> PostDeleteShippingAddress(String id, String userkey) {
+        map = new HashMap<>();
+        map.put("id",id);
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign= ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().PostDeleteShippingAddress(id,userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

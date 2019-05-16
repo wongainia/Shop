@@ -15,6 +15,7 @@ import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
 import com.zhenghaikj.shop.entity.EvaluateResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
@@ -415,6 +416,20 @@ public interface ApiService {
             @Field("latitude") String latitude,
             @Field("longitude") String longitude,
             @Field("IsDefault") String IsDefault,
+            @Field("Userkey") String Userkey,
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+    /**
+     * 删除收货地址
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/ShippingAddress/PostDeleteShippingAddress")
+    Observable<EasyResult> PostDeleteShippingAddress(
+            @Field("id") String id,
             @Field("Userkey") String Userkey,
             @Field("app_key") String app_key,
             @Field("timestamp") String timestamp,

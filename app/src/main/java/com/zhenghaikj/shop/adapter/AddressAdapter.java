@@ -29,6 +29,7 @@ public class AddressAdapter extends BaseQuickAdapter<ShippingAddressList.Shippin
         }
 
         helper.addOnClickListener(R.id.tv_edit);
+        helper.addOnClickListener(R.id.tv_delete);
         helper.addOnClickListener(R.id.ll_address);
 
     }

@@ -97,5 +97,15 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="@dimen/dp_10"/>
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="删除"
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="@dimen/dp_10"/>
     </LinearLayout>
 </LinearLayout>

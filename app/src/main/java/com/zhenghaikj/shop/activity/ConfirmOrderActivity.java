@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +30,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -427,11 +425,17 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             if (requestCode == Config.CHOOSE_ADDRESS_REQUEST) {
 
                  address = (ShippingAddressList.ShippingAddressBean) data.getSerializableExtra("Address");
-                addressid=address.getId();
-                mTvName.setText(address.getShipTo());
-                mTvPhone.setText(address.getPhone());
-                mTvAddress.setText(address.getRegionFullName() + " " + address.getAddress());
-
+                if (address != null) {
+                    addressid=address.getId();
+                    mTvName.setText(address.getShipTo());
+                    mTvPhone.setText(address.getPhone());
+                    mTvAddress.setText(address.getRegionFullName() + " " + address.getAddress());
+                    mLlAddress.setVisibility(View.VISIBLE);
+                    mLlAddAddress.setVisibility(View.GONE);
+                } else {
+                    mLlAddress.setVisibility(View.GONE);
+                    mLlAddAddress.setVisibility(View.VISIBLE);
+                }
             }
 
         }

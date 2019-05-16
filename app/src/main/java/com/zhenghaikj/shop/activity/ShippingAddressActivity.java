@@ -1,5 +1,7 @@
 package com.zhenghaikj.shop.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AddressAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.ShippingAddressListContract;
 import com.zhenghaikj.shop.mvp.model.ShippingAddressListModel;
@@ -48,8 +52,6 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     Toolbar mToolbar;
     @BindView(R.id.rv_address)
     RecyclerView mRvAddress;
-    @BindView(R.id.tv_no_address)
-    TextView mTvNoAddress;
 
     private List<ShippingAddressList.ShippingAddressBean> addressList = new ArrayList<>();
     private List<ShippingAddressList.ShippingAddressBean> list = new ArrayList<>();
@@ -75,7 +77,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     @Override
     protected void initData() {
         addressAdapter = new AddressAdapter(R.layout.item_address, addressList);
-        addressAdapter.setEmptyView(getEmptyView());
+        addressAdapter.setEmptyView(getEmptyViewNoAddress());
         mRvAddress.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvAddress.setAdapter(addressAdapter);
         addressAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -83,6 +85,20 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
+                    case R.id.tv_delete:
+                        new AlertDialog.Builder(mActivity).setMessage("确定删除该地址吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                mPresenter.PostDeleteShippingAddress(list.get(position).getId(),userkey);
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+                        break;
                     case R.id.tv_edit:
                         Intent intent = new Intent(mActivity, AddAddressActivity.class);
                         intent.putExtra("address", list.get(position));
@@ -151,16 +167,20 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     @Override
     public void GetShippingAddressList(ShippingAddressList result) {
         if (result.isSuccess()) {
-            if (result.getShippingAddress().size() == 0) {
-                    mTvNoAddress.setVisibility(View.VISIBLE);
-            } else {
-                addressList=result.getShippingAddress();
-                list.clear();
-                list.addAll(addressList);
-                addressAdapter.setNewData(list);
-                addressAdapter.notifyDataSetChanged();
+            addressList=result.getShippingAddress();
+            list.clear();
+            list.addAll(addressList);
+            addressAdapter.setNewData(list);
+        }
+    }
 
-            }
+    @Override
+    public void PostDeleteShippingAddress(EasyResult result) {
+        if (result.getSuccess()) {
+            ToastUtils.showShort("删除成功！");
+            mPresenter.GetShippingAddressList(userkey);
+        }else{
+            ToastUtils.showShort("删除失败！");
         }
     }
 
