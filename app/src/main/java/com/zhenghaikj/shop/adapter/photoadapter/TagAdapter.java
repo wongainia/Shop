@@ -78,7 +78,6 @@ public class TagAdapter<T> extends BaseAdapter implements OnInitSelectedPosition
 
     public void onlyAddAll(List<T> datas) {
         if (datas==null){
-            Log.d("=====>","数据为空");
         }
         mDataList.clear();
         mDataList.addAll(datas);

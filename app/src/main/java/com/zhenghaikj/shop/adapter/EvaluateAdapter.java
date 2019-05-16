@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.adapter;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,9 @@ import com.zhenghaikj.shop.widget.flowtaglayout.FlowTagLayout;
 import com.zhenghaikj.shop.widget.flowtaglayout.OnTagSelectListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 
@@ -31,6 +34,9 @@ public class EvaluateAdapter extends BaseQuickAdapter<EvaluateResult.ProductBean
     private OnStatusListener onStatusListener;
     private FlowTagLayout flowTagLayout;
 
+
+    private Map<Integer,CommentsInfo> commentsInfoMap=new HashMap<>();
+    private CommentsInfo commentsInfo= new CommentsInfo();
 
     public EvaluateAdapter(int layoutResId,List<EvaluateResult.ProductBean> data,List<CommentsInfo> list,Context context) {
         super(layoutResId, data);
@@ -60,7 +66,16 @@ public class EvaluateAdapter extends BaseQuickAdapter<EvaluateResult.ProductBean
             }
         });
 
-        ((EditText)helper.getView(R.id.et_content)).addTextChangedListener(new TextWatcher() {
+
+
+       EditText et_content=helper.getView(R.id.et_content);
+        if (et_content.getTag()!=null&&et_content.getTag() instanceof TextWatcher){
+            et_content.removeTextChangedListener((TextWatcher) et_content.getTag());
+
+        }
+        et_content.setText(list.get(helper.getLayoutPosition()).getCommentContent());
+
+        final  TextWatcher textWatcher=new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -73,14 +88,20 @@ public class EvaluateAdapter extends BaseQuickAdapter<EvaluateResult.ProductBean
 
             @Override
             public void afterTextChanged(Editable s) {
-              if (s!=null){
-                onStatusListener.onTextChangeLinstener(helper.getLayoutPosition(),s.toString());
-                }
 
+                list.get(helper.getLayoutPosition()).setCommentContent(s.toString());
+                    if (et_content.hasFocus()){
+                        onStatusListener.onTextChangeLinstener(helper.getLayoutPosition(),s.toString());
+                    }
             }
-        });
+        };
 
 
+        et_content.addTextChangedListener(textWatcher);
+        et_content.setTag(textWatcher);
+        if (!"".equals(et_content.getText().toString())){
+            et_content.setSelection(et_content.getText().length());
+        }
 
 
         flowTagLayout=helper.getView(R.id.fl_comment);

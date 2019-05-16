@@ -267,6 +267,9 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
             EvaluateActivity.this.finish();
 
+        }else {
+            Toast.makeText(mActivity,"评价失败",Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -325,7 +328,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
        commentsInfo.setSrc(src);
 
        commentslist.set(pos,commentsInfo);
-       evaluateAdapter.notifyItemChanged(pos);
+      evaluateAdapter.notifyItemChanged(pos);
 
 
    }
@@ -567,7 +570,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                      for (int j = 0; j < map.get(i).getSrc().size(); j++) {
 
                          if (map.get(i).getSrc().get(j).equals("")){
-                         map.get(i).getSrc().set(j,null);
+                         map.get(i).getSrc().remove(j);
                          }
                      }
 
@@ -583,7 +586,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                  Gson gson=new Gson();
                  String json = gson.toJson(mCommentEntity);
                  Log.d("=====>json",json);
-                 mPresenter.PostAddComment(Userkey,json);
+                   mPresenter.PostAddComment(Userkey,json);
                  break;
          }
 
