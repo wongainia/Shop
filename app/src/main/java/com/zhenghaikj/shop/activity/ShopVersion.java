@@ -15,7 +15,7 @@ public class ShopVersion implements Serializable {
 
     private String Name;
     private String Value;
-    private int SkuId;
+    private String SkuId;
     private String EnabledClass;
     private String SelectedClass;
     private Object Img;
@@ -36,11 +36,11 @@ public class ShopVersion implements Serializable {
         this.Value = Value;
     }
 
-    public int getSkuId() {
+    public String getSkuId() {
         return SkuId;
     }
 
-    public void setSkuId(int SkuId) {
+    public void setSkuId(String SkuId) {
         this.SkuId = SkuId;
     }
 

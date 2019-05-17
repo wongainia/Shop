@@ -5,10 +5,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.ShopColor;
+import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
 import java.util.List;
 
@@ -28,7 +30,9 @@ public class ChooseColorAdapter extends BaseQuickAdapter<ShopColor, BaseViewHold
     if ("".equals(item.getImg())){
         helper.getView(R.id.img_color).setVisibility(View.GONE);
     }else {
-        Glide.with(mContext).load(item.getImg()).into((ImageView) helper.getView(R.id.img_color));
+        Glide.with(mContext).load(item.getImg())
+                .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mContext, 2)))
+                .into((ImageView) helper.getView(R.id.img_color));
     }
         }
     }

@@ -116,7 +116,7 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
 
 
        String type="";
-       if (list.get(position).getSize()!=null||list.get(position).getColor()!=null){
+       if (list.get(position).getSize()!=null||list.get(position).getColor()!=null||list.get(position).getVersion()!=null){
            holder.ll_goods_type.setVisibility(View.VISIBLE);
          if (list.get(position).getColor()!=null){
              type=list.get(position).getColor();
@@ -125,6 +125,10 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
          if (list.get(position).getSize()!=null){
              type=type+" "+list.get(position).getSize();
             holder.tv_goods_type.setText(type);
+         }
+         if (list.get(position).getVersion()!=null){
+             type=type+" "+list.get(position).getVersion();
+             holder.tv_goods_type.setText(type);
          }
 
 

@@ -26,13 +26,18 @@ public class ConfirmOrderListAdapter extends BaseQuickAdapter<CommodityBean, Bas
     protected void convert(BaseViewHolder helper, CommodityBean item) {
       helper.setText(R.id.tv_goods_name,item.getName());
         String type="";
-        if (item.getSize()!=null||item.getColor()!=null){
+        if (item.getSize()!=null||item.getColor()!=null||item.getVersion()!=null){
             if (item.getColor()!=null){
                 type=item.getColor();
                 helper.setText(R.id.tv_goods_type,type);
             }
             if (item.getSize()!=null){
                 type=type+" "+item.getSize();
+                helper.setText(R.id.tv_goods_type,type);
+            }
+
+            if (item.getVersion()!=null){
+                type=type+" "+item.getVersion();
                 helper.setText(R.id.tv_goods_type,type);
             }
         }

@@ -307,7 +307,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                     commodityBean.setSize(Result.getShop().get(i).get(j).getSize());
                     commodityBean.setColor(Result.getShop().get(i).get(j).getColor());
                     commodityBean.setStatus(Result.getShop().get(i).get(j).getStatus());
-                    // commodityBean.setVersion(Result.getShop().get(i).get(j).getVersion());
+                    commodityBean.setVersion(Result.getShop().get(i).get(j).getVersion());
                     commodityBean.setAddTime(Result.getShop().get(i).get(j).getAddTime());//添加时间
                     commodityBean.setShopName(Result.getShop().get(i).get(j).getShopName());
                     commodityBean.setShopLogo(Result.getShop().get(i).get(j).getShopLogo());
@@ -675,55 +675,6 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                 }
             }
         }
-    }
-
-    /*获取选中的商品集合*/
-    public List<StoreBean> GetCheckShopList(List<StoreBean> shoplist) {
-        Map<Integer, StoreBean> map = new HashMap();
-        //list.addAll(shoplist);
-        for (int i = 0; i < shoplist.size(); i++) {
-            List<CommodityBean> listbean = new ArrayList<>();
-            for (int j = 0; j < shoplist.get(i).getList().size(); j++) {
-                if (shoplist.get(i).getList().get(j).isIscheck() == true) {
-                    StoreBean storeBean = new StoreBean();
-                    storeBean.setShopName(shoplist.get(i).getList().get(j).getShopName());
-                    storeBean.setShopLogo(shoplist.get(i).getList().get(j).getShopLogo());
-                    if (shoplist.get(i).isIscheck()) {
-                        storeBean.setIscheck(true);
-                    }
-
-                    CommodityBean commodityBean = new CommodityBean();
-                    commodityBean.setCartItemId(shoplist.get(i).getList().get(j).getCartItemId());
-                    commodityBean.setSkuId(shoplist.get(i).getList().get(j).getSkuId());
-                    commodityBean.setId(shoplist.get(i).getList().get(j).getId());
-                    commodityBean.setImgUrl(shoplist.get(i).getList().get(j).getImgUrl());
-                    commodityBean.setName(shoplist.get(i).getList().get(j).getName());
-                    commodityBean.setPrice(shoplist.get(i).getList().get(j).getPrice());
-                    commodityBean.setCount(shoplist.get(i).getList().get(j).getCount());
-                    commodityBean.setSize(shoplist.get(i).getList().get(j).getSize());
-                    commodityBean.setColor(shoplist.get(i).getList().get(j).getColor());
-                    commodityBean.setStatus(shoplist.get(i).getList().get(j).getStatus());
-                    commodityBean.setAddTime(shoplist.get(i).getList().get(j).getAddTime());//添加时间
-                    commodityBean.setIscheck(true);
-                    listbean.add(commodityBean);
-                    storeBean.setList(listbean);
-                    map.put(i, storeBean);
-                }
-
-            }
-
-        }
-
-
-        List<StoreBean> list = new ArrayList<>();
-        Collection<StoreBean> collection = map.values();
-        Iterator<StoreBean> iterator = collection.iterator();
-        while (iterator.hasNext()) {
-            StoreBean value = iterator.next();
-            list.add(value);
-        }
-
-        return list;
     }
 
 

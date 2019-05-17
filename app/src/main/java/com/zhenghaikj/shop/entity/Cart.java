@@ -67,7 +67,7 @@ public class Cart implements Serializable {
         private String Count;
         private String Size;
         private String Color;
-        private Object Version;
+        private String Version;
         private String ShopId;
         private String VShopId;
         private String ShopName;
@@ -154,11 +154,11 @@ public class Cart implements Serializable {
             this.Color = Color;
         }
 
-        public Object getVersion() {
+        public String getVersion() {
             return Version;
         }
 
-        public void setVersion(Object Version) {
+        public void setVersion(String Version) {
             this.Version = Version;
         }
 

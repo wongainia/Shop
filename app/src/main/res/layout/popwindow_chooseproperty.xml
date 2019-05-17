@@ -81,11 +81,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
+
                 android:id="@+id/ll_cloose_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible"
+                android:visibility="gone"
                 >
                 <View
                     android:layout_width="match_parent"
@@ -99,7 +100,9 @@
                     android:textSize="15sp"
                     android:text="颜色"
                     android:textColor="@color/black"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
                     />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_color"
@@ -114,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible"
+                android:visibility="gone"
                 >
                 <View
                     android:layout_width="match_parent"
@@ -128,7 +131,9 @@
                     android:textSize="15sp"
                     android:text="尺码"
                     android:textColor="@color/black"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
                     />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_size"
@@ -143,7 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible"
+                android:visibility="gone"
                 >
                 <View
                     android:layout_width="match_parent"
@@ -156,7 +161,9 @@
                     android:textSize="15sp"
                     android:text="规格"
                     android:textColor="@color/black"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
                     />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_version"
