@@ -20,6 +20,7 @@ import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseViewHolder> {
     String name;
     private OrderListAdapter2 orderListAdapter2;
+    private Intent intent;
 
     public OrderListAdapter(int layoutResId, @Nullable List<Order.OrdersBean> data,String name) {
         super(layoutResId, data);
@@ -85,9 +86,16 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.ll_goods:
-                        Intent intent=new Intent(mContext,OrderDetailActivity.class);
+                        intent =new Intent(mContext,OrderDetailActivity.class);
                         intent.putExtra("orderId",item.getId());
                         startActivity(intent);
+                        break;
+                    case R.id.tv_apply_refund:
+//                        intent =new Intent(mContext, AfterSalesTypeActivity.class);
+//                        intent.putExtra("storeName", item.getShopname());
+//                        intent.putExtra("product", item.getItemInfo().get(position));
+//                        intent.putExtra("order", item);
+//                        startActivity(intent);
                         break;
                 }
             }

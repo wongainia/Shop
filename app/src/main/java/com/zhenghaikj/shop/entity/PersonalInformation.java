@@ -3,31 +3,43 @@ package com.zhenghaikj.shop.entity;
 import java.io.Serializable;
 
 public class PersonalInformation implements Serializable {
-    /*
-    * "Success":"true",请求状态
-    * "UserName":"xiaohe",用户名
-    * "UserId":283,用户ID
-    * "Photo":"",用户头像
-    * "AllOrders":"131",订单总数
-    * "WaitingForPay":"0",待付款订单数
-    * "WaitingForRecieve":"0",待发货订单数
-    * "WaitingForComments":"10",待评价订单数
-    * "FavoriteShop":"3",收藏的店铺数
-    * "FavoriteProduct": "4",收藏的商品数
-    * "Counpon": "12"未使用的优惠券数
-    * MyGroup: 我的拼团
-    * */
+
+    /**
+     * Success : true
+     * UserName : 18767776789
+     * UserId : 669
+     * Photo : http://mall.xigyu.com//avator/20190516144009743673c0b85a17df3e47619b5375e95429a0d7.png
+     * AllOrders : 2
+     * WaitingForPay : 2
+     * WaitingForRecieve : 0
+     * WaitingForDelivery : 0
+     * WaitingForComments : 0
+     * RefundOrders : 0
+     * CellPhone : 18767776789
+     * FavoriteShop : 0
+     * FavoriteProduct : 0
+     * Counpon : 0
+     * Stringegral : 0
+     * GroupTotal : 0
+     * MyGroup : 0
+     */
 
     private boolean Success;
     private String UserName;
+    private String UserId;
     private String Photo;
     private String AllOrders;
     private String WaitingForPay;
     private String WaitingForRecieve;
+    private String WaitingForDelivery;
     private String WaitingForComments;
+    private String RefundOrders;
+    private String CellPhone;
     private String FavoriteShop;
     private String FavoriteProduct;
     private String Counpon;
+    private String Stringegral;
+    private String GroupTotal;
     private String MyGroup;
 
     public boolean isSuccess() {
@@ -42,79 +54,127 @@ public class PersonalInformation implements Serializable {
         return UserName;
     }
 
-    public void setUserName(String userName) {
-        UserName = userName;
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String UserId) {
+        this.UserId = UserId;
     }
 
     public String getPhoto() {
         return Photo;
     }
 
-    public void setPhoto(String photo) {
-        Photo = photo;
+    public void setPhoto(String Photo) {
+        this.Photo = Photo;
     }
 
     public String getAllOrders() {
         return AllOrders;
     }
 
-    public void setAllOrders(String allOrders) {
-        AllOrders = allOrders;
+    public void setAllOrders(String AllOrders) {
+        this.AllOrders = AllOrders;
     }
 
     public String getWaitingForPay() {
         return WaitingForPay;
     }
 
-    public void setWaitingForPay(String waitingForPay) {
-        WaitingForPay = waitingForPay;
+    public void setWaitingForPay(String WaitingForPay) {
+        this.WaitingForPay = WaitingForPay;
     }
 
     public String getWaitingForRecieve() {
         return WaitingForRecieve;
     }
 
-    public void setWaitingForRecieve(String waitingForRecieve) {
-        WaitingForRecieve = waitingForRecieve;
+    public void setWaitingForRecieve(String WaitingForRecieve) {
+        this.WaitingForRecieve = WaitingForRecieve;
+    }
+
+    public String getWaitingForDelivery() {
+        return WaitingForDelivery;
+    }
+
+    public void setWaitingForDelivery(String WaitingForDelivery) {
+        this.WaitingForDelivery = WaitingForDelivery;
     }
 
     public String getWaitingForComments() {
         return WaitingForComments;
     }
 
-    public void setWaitingForComments(String waitingForComments) {
-        WaitingForComments = waitingForComments;
+    public void setWaitingForComments(String WaitingForComments) {
+        this.WaitingForComments = WaitingForComments;
+    }
+
+    public String getRefundOrders() {
+        return RefundOrders;
+    }
+
+    public void setRefundOrders(String RefundOrders) {
+        this.RefundOrders = RefundOrders;
+    }
+
+    public String getCellPhone() {
+        return CellPhone;
+    }
+
+    public void setCellPhone(String CellPhone) {
+        this.CellPhone = CellPhone;
     }
 
     public String getFavoriteShop() {
         return FavoriteShop;
     }
 
-    public void setFavoriteShop(String favoriteShop) {
-        FavoriteShop = favoriteShop;
+    public void setFavoriteShop(String FavoriteShop) {
+        this.FavoriteShop = FavoriteShop;
     }
 
     public String getFavoriteProduct() {
         return FavoriteProduct;
     }
 
-    public void setFavoriteProduct(String favoriteProduct) {
-        FavoriteProduct = favoriteProduct;
+    public void setFavoriteProduct(String FavoriteProduct) {
+        this.FavoriteProduct = FavoriteProduct;
     }
 
     public String getCounpon() {
         return Counpon;
     }
 
-    public void setCounpon(String counpon) {
-        Counpon = counpon;
+    public void setCounpon(String Counpon) {
+        this.Counpon = Counpon;
+    }
+
+    public String getStringegral() {
+        return Stringegral;
+    }
+
+    public void setStringegral(String Stringegral) {
+        this.Stringegral = Stringegral;
+    }
+
+    public String getGroupTotal() {
+        return GroupTotal;
+    }
+
+    public void setGroupTotal(String GroupTotal) {
+        this.GroupTotal = GroupTotal;
     }
 
     public String getMyGroup() {
         return MyGroup;
     }
 
-    public void setMyGroup(String myGroup) {
-        MyGroup = myGroup;
+    public void setMyGroup(String MyGroup) {
+        this.MyGroup = MyGroup;
     }
 }

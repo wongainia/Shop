@@ -19,7 +19,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.SearchDetailAdapetr;
 import com.zhenghaikj.shop.adapter.SearchDetailWaterFallAdapetr;
 import com.zhenghaikj.shop.base.BaseActivity;
-import com.zhenghaikj.shop.entity.Category;
+import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.SearchContract;
 import com.zhenghaikj.shop.mvp.model.SearchModel;
@@ -78,7 +78,7 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
     private int pagaNo = 1;
     private String keywords;
     private String orderType = "1";
-    private Category.CategoryBean categoryBean;
+    private CategoryMall.CategoryBean categoryBean;
 
 
     @Override
@@ -98,7 +98,7 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
 
     @Override
     protected void initData() {
-        categoryBean =(Category.CategoryBean)getIntent().getSerializableExtra("tag");
+        categoryBean =(CategoryMall.CategoryBean)getIntent().getSerializableExtra("tag");
         if (categoryBean!=null){
             mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", "1", Integer.toString(pagaNo), "5");
         }

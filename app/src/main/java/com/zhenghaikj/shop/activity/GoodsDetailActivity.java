@@ -45,14 +45,12 @@ import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.Comment;
-import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.ShopColor;
 import com.zhenghaikj.shop.entity.ShopSize;
-import com.zhenghaikj.shop.entity.StoreBean;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
 import com.zhenghaikj.shop.mvp.model.DetailModel;
 import com.zhenghaikj.shop.mvp.presenter.DetailPresenter;
@@ -248,6 +246,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             }
         }
     };
+    private String userName;
 
 
     @Override
@@ -272,6 +271,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Override
     protected void initData() {
         Userkey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
         for (int i = 0; i < 6; i++) {
             shopRecommendationList.add(new Product());
         }
@@ -448,6 +448,10 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 finish();
                 break;
             case R.id.ll_collect:
+                if ("".equals(userName) && "".equals(Userkey)) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                    return;
+                }
                 Log.d("=====>", String.valueOf(id));
 
                 if (mImgcollect.isSelected()) {
@@ -464,10 +468,18 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 break;
 
             case R.id.tv_addcart:
+                if ("".equals(userName) && "".equals(Userkey)) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                    return;
+                }
                 showPopupWindow(1); //1为购物车  2为购买
                 break;
             case R.id.tv_buy:
             case R.id.tv_limit_buy:
+                if ("".equals(userName) && "".equals(Userkey)) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                    return;
+                }
                 showPopupWindow(2);
                 break;
 //            case R.id.ll_evaluation:

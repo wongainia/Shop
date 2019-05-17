@@ -20,7 +20,6 @@ import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -471,10 +470,10 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                     MyUtils.showToast(mActivity, "请输入联系电话！");
                     return;
                 }
-                if (!RegexUtils.isMobileExact(phone)) {
-                    MyUtils.showToast(mActivity, "手机号格式不正确！");
-                    return;
-                }
+//                if (!RegexUtils.isMobileExact(phone)) {
+//                    MyUtils.showToast(mActivity, "手机号格式不正确！");
+//                    return;
+//                }
                 if (ProvinceCode == null) {
                     MyUtils.showToast(mActivity, "请选择省！");
                     return;

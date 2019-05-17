@@ -46,6 +46,7 @@ public class OrderListAdapter2 extends BaseQuickAdapter<Order.itemInfoBean, Base
         ImageView icon = helper.getView(R.id.iv_goods_picture);
         GlideUtil.loadImageViewLoding(mContext,item.getImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
         helper.addOnClickListener(R.id.ll_goods);
+        helper.addOnClickListener(R.id.tv_apply_refund);
         helper.setGone(R.id.tv_apply_refund,false);
     }
 }

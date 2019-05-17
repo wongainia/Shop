@@ -25,6 +25,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="67dp"
@@ -63,6 +64,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,6 +125,27 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/ll_add_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/white"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/plus"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="添加产品"
+                        android:padding="20dp"
+                        android:textColor="#333"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -160,7 +183,29 @@
                     android:layout_marginLeft="10dp"
                     android:src="@mipmap/dian" />
             </LinearLayout>
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:paddingLeft="24dp"
+                android:paddingBottom="18dp"
+                android:paddingTop="18dp"
+                android:paddingRight="27dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="申请数量"
+                    android:textColor="#393939"
+                    android:textSize="14sp"/>
 
+                <com.zhenghaikj.shop.widget.AdderView
+                    android:id="@+id/adderview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -175,7 +220,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="问题描述"
+                    android:text="备注"
                     android:textColor="#393939"
                     android:textSize="14sp" />
 
@@ -194,7 +239,7 @@
                         android:gravity="top"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="必填：否则维修工单无法正确发布"
+                        android:hint="必填：否则工单无法正确发布"
                         android:textColor="#8E8E8E"
                         android:textSize="12sp" />
 

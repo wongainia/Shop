@@ -96,7 +96,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 getData();
             }
         });
-        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
+//        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
@@ -138,16 +138,16 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         showPopupWindow();
                         break;
                     case R.id.tv_extended_receipt://延长收货
-                        showPopupWindow();
+//                        showPopupWindow();
                         break;
                    // case R.id.tv_evaluation://评价
                    //     showPopupWindow();
                    //    break;
                     case R.id.tv_change_address://修改地址
-                        showPopupWindow();
+//                        showPopupWindow();
                         break;
                     case R.id.tv_friend_pay://朋友代付
-                        showPopupWindow();
+//                        showPopupWindow();
                         break;
                     case R.id.tv_evaluation:
                         Intent intent=new Intent(mActivity, EvaluateActivity.class);
@@ -236,9 +236,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         if (result.isSuccess()) {
             Log.d(TAG, "00000" + result.getOrders());
             if (result.getOrders() != null) {
-                cartList.clear();
                 cartList.addAll(result.getOrders());
-//            orderAdapter = new OrderAdapter(cartList, mParam1);
                 orderListAdapter.setNewData(cartList);
             }
             mRefreshLayout.finishRefresh();

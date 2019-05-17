@@ -2,7 +2,7 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.entity.Category;
+import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.mvp.contract.CategoryContract;
 
 import java.text.SimpleDateFormat;
@@ -20,7 +20,7 @@ public class CategoryModel implements CategoryContract.Model {
     private String timestamp;
 
     @Override
-    public Observable<Category> GetCategories() {
+    public Observable<CategoryMall> GetCategories() {
         map = new HashMap<>();
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));

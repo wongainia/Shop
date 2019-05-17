@@ -3,17 +3,17 @@ package com.zhenghaikj.shop.mvp.contract;
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
-import com.zhenghaikj.shop.entity.Category;
+import com.zhenghaikj.shop.entity.CategoryMall;
 
 import io.reactivex.Observable;
 
 public interface CategoryContract {
     interface Model extends BaseModel {
-        Observable<Category> GetCategories();
+        Observable<CategoryMall> GetCategories();
     }
 
     interface View extends BaseView {
-        void GetCategories(Category Result);
+        void GetCategories(CategoryMall Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {

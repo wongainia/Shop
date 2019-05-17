@@ -115,6 +115,9 @@
         <activity android:name=".activity.ServiceActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.AddWorkOrderActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.ScanActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
@@ -188,6 +191,21 @@
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.FootprintActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.CouponActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.WorkOrderActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.AddOrderActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.BrandActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.WorkOrderDetailActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.OrderDetailActivity" android:theme="@style/AppSplash"

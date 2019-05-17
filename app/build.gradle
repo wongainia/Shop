@@ -109,4 +109,9 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
     implementation 'org.aspectj:aspectjrt:1.8.9'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
+    //基础工具库
+    implementation 'com.github.vondear.RxTool:RxKit:v2.2.7'
+
+    //UI库
+    implementation 'com.github.vondear.RxTool:RxUI:v2.2.7'
 }

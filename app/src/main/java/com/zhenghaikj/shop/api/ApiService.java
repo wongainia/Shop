@@ -4,7 +4,7 @@ import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.CartResult;
-import com.zhenghaikj.shop.entity.Category;
+import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.CloseOrder;
@@ -48,6 +48,7 @@ import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.SubmitOrder;
 import com.zhenghaikj.shop.entity.UploadImgResult;
+import com.zhenghaikj.shop.entity.UserCouponListResult;
 
 import java.util.List;
 
@@ -177,8 +178,8 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("api/Category/GetCategories")
-    Observable<Category> GetCategories(
+    @GET("api/CategoryMall/GetCategories")
+    Observable<CategoryMall> GetCategories(
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
@@ -666,6 +667,13 @@ public interface ApiService {
     Observable<GetShopCoupResult> PostAcceptCoupon(@Field("vshopId") String vshopId,
                                                    @Field("couponId") String couponId,
                                                    @Field("Userkey") String Userkey,
+                                                   @Query("app_key") String app_key,
+                                                   @Query("timestamp") String timestamp,
+                                                   @Query("sign") String sign);
+    /*我的优惠券列表*/
+    @GET("api/coupon/GetUserCounponList")
+    Observable<UserCouponListResult> GetUserCounponList(
+                                                   @Query("Userkey") String Userkey,
                                                    @Query("app_key") String app_key,
                                                    @Query("timestamp") String timestamp,
                                                    @Query("sign") String sign);

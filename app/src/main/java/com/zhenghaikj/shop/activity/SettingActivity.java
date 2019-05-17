@@ -62,6 +62,12 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     Button mBtnExit;
     @BindView(R.id.tv_member_name)
     TextView mTvMemberName;
+    @BindView(R.id.ll_brand)
+    LinearLayout mLlBrand;
+    @BindView(R.id.ll_type)
+    LinearLayout mLlType;
+    @BindView(R.id.ll_modify_payment_password)
+    LinearLayout mLlModifyPaymentPassword;
     private SPUtils spUtils;
     private String userKey;
 
@@ -103,11 +109,16 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
         mLlAboutUs.setOnClickListener(this);
         mLlModifyMobileNumber.setOnClickListener(this);
         mBtnExit.setOnClickListener(this);
+        mLlBrand.setOnClickListener(this);
+        mLlType.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_brand:
+                startActivity(new Intent(mActivity, BrandActivity.class));
+                break;
             case R.id.icon_back:
                 finish();
                 break;
@@ -186,11 +197,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     public void PersonalInformation(PersonalInformation result) {
         if (result.isSuccess()) {
             mTvNickname.setText(result.getUserName());
-            mTvMemberName.setText("会员名："+result.getUserName());
+            mTvMemberName.setText("会员名：" + result.getUserName());
             /*设置头像*/
-            if (result.getPhoto()==null||"".equals(result.getPhoto())){//显示默认头像
+            if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像
                 return;
-            }else {
+            } else {
 //                byte[] decode;
 //                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
                 Glide.with(mActivity).asBitmap().load(result.getPhoto()).into(mIvAvatar);

@@ -15,6 +15,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
+import com.zhenghaikj.shop.activity.CouponActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
@@ -25,7 +27,7 @@ import com.zhenghaikj.shop.activity.ReturnActivity;
 import com.zhenghaikj.shop.activity.SettingActivity;
 import com.zhenghaikj.shop.activity.StoreActivity;
 import com.zhenghaikj.shop.activity.WalletActivity;
-import com.zhenghaikj.shop.adapter.LogisticsAdapter;
+import com.zhenghaikj.shop.activity.WorkOrderActivity;
 import com.zhenghaikj.shop.adapter.ServiceAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
@@ -151,6 +153,20 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     LinearLayout mLlGetWorkOrder;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.tv_count_dfk)
+    TextView mTvCountDfk;
+    @BindView(R.id.tv_count_dfh)
+    TextView mTvCountDfh;
+    @BindView(R.id.tv_count_dsh)
+    TextView mTvCountDsh;
+    @BindView(R.id.tv_count_dpj)
+    TextView mTvCountDpj;
+    @BindView(R.id.tv_count_sh)
+    TextView mTvCountSh;
+    @BindView(R.id.tv_coupon)
+    TextView mTvCoupon;
+    @BindView(R.id.ll_coupon)
+    LinearLayout mLlCoupon;
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
     private ServiceDialog serviceDialog;
@@ -187,8 +203,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
         isLogin = spUtils.getBoolean("isLogin");
-        if (!"".equals(userName)&&!"".equals(userKey)){
-            mPresenter.GetUserInfoList(userName,"1");
+        if (!"".equals(userName) && !"".equals(userKey)) {
+            mPresenter.GetUserInfoList(userName, "1");
             mPresenter.PersonalInformation(userKey);
             mPresenter.GetHistoryVisite(userKey);
         }
@@ -197,15 +213,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                if (!"".equals(userName)&&!"".equals(userKey)){
-                    mPresenter.GetUserInfoList(userName,"1");
+                if (!"".equals(userName) && !"".equals(userKey)) {
+                    mPresenter.GetUserInfoList(userName, "1");
                     mPresenter.PersonalInformation(userKey);
                     mPresenter.GetHistoryVisite(userKey);
                 }
                 refreshlayout.finishRefresh(1000);
             }
         });
-
 
 
     }
@@ -230,8 +245,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         if (!"PersonalInformation".equals(name)) {
             return;
         }
-        if (!"".equals(userName)&&!"".equals(userKey)){
-            mPresenter.GetUserInfoList(userName,"1");
+        if (!"".equals(userName) && !"".equals(userKey)) {
+            mPresenter.GetUserInfoList(userName, "1");
             mPresenter.PersonalInformation(userKey);
             mPresenter.GetHistoryVisite(userKey);
         }
@@ -241,6 +256,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     protected void setListener() {
         mIvAvatar.setOnClickListener(this);
         mIvSetting.setOnClickListener(this);
+        mLlCoupon.setOnClickListener(this);
         mLlFavorites.setOnClickListener(this);
         mLlAfterSale.setOnClickListener(this);
         mLlFocusOnTheStore.setOnClickListener(this);
@@ -264,7 +280,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void onClick(View v) {
-        if ("".equals(userName)&&"".equals(userKey)){
+        if ("".equals(userName) && "".equals(userKey)) {
             startActivity(new Intent(mActivity, LoginActivity.class));
             return;
         }
@@ -276,6 +292,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.iv_setting:
                 //设置
                 startActivity(new Intent(mActivity, SettingActivity.class));
+                break;
+            case R.id.ll_coupon:
+                //优惠券
+                startActivity(new Intent(mActivity, CouponActivity.class));
                 break;
             case R.id.ll_favorites:
                 //收藏
@@ -295,11 +315,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_essential_service:
                 //发起服务
-                startActivity(new Intent(mActivity, ReturnActivity.class));
+                startActivity(new Intent(mActivity, WorkOrderActivity.class));
                 break;
             case R.id.ll_logistics:
                 //物流信息
-                showLogistucs();
+//                showLogistucs();
                 break;
             case R.id.ll_service:
                 //服务信息
@@ -311,7 +331,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_all_orders:
                 //订单界面
-                Intent intent = new Intent(getActivity(), OrderActivity.class);
+                intent = new Intent(getActivity(), OrderActivity.class);
                 intent.putExtra("intent", "全部");
                 startActivity(intent);
                 break;
@@ -364,10 +384,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 //免费安装
 //                mPresenter.AddOrder("2", "安装", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
 //                mPresenter.AddOrder("2", "安装", "18767773654", "", "", "", "", "251", "", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
-
+                intent = new Intent(mActivity, AddWorkOrderActivity.class);
+                intent.putExtra("title","免费安装");
+                startActivity(intent);
                 break;
             case R.id.ll_free_repair:
                 //免费维修
+                intent = new Intent(mActivity, AddWorkOrderActivity.class);
+                intent.putExtra("title","免费维修");
+                startActivity(intent);
 //                mPresenter.AddOrder("1", "维修", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
 //                mPresenter.AddOrder("1", "维修", "18767773654", "", "", "", "", "251", "", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
                 break;
@@ -378,7 +403,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     private ArrayList<Product> logisticsList = new ArrayList<>();
 
-    private void showLogistucs() {
+    /*private void showLogistucs() {
         customDialog = new CustomDialog(getContext());
         customDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         customDialog.show();
@@ -396,7 +421,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         LogisticsAdapter logisticsAdapter = new LogisticsAdapter(R.layout.item_logistics, logisticsList);
         rv_logistics.setLayoutManager(new LinearLayoutManager(mActivity));
         rv_logistics.setAdapter(logisticsAdapter);
-    }
+    }*/
 
 
     private ArrayList<Product> ServiceList = new ArrayList<>();
@@ -432,15 +457,47 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         if (result.isSuccess()) {
             mTvUsername.setText(result.getUserName());
             /*设置头像*/
-            if (result.getPhoto() == null||"".equals(result.getPhoto())) {//显示默认头像
+            if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像
                 return;
-            }else {
+            } else {
 //                byte[] decode;
 //                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
                 Glide.with(mActivity).asBitmap().load(result.getPhoto()).into(mIvAvatar);
             }
+            mTvCoupon.setText(result.getCounpon());
             mTvFocusOnTheStore.setText(result.getFavoriteShop());
             mTvFavorites.setText(result.getFavoriteProduct());
+
+            mTvCountDfk.setText(result.getWaitingForPay());
+            mTvCountDfh.setText(result.getWaitingForDelivery());
+            mTvCountDsh.setText(result.getWaitingForRecieve());
+            mTvCountDpj.setText(result.getWaitingForComments());
+            mTvCountSh.setText(result.getRefundOrders());
+            if ("0".equals(result.getWaitingForPay())) {
+                mTvCountDfk.setVisibility(View.GONE);
+            } else {
+                mTvCountDfk.setVisibility(View.VISIBLE);
+            }
+            if ("0".equals(result.getWaitingForDelivery())) {
+                mTvCountDfh.setVisibility(View.GONE);
+            } else {
+                mTvCountDfh.setVisibility(View.VISIBLE);
+            }
+            if ("0".equals(result.getWaitingForRecieve())) {
+                mTvCountDsh.setVisibility(View.GONE);
+            } else {
+                mTvCountDsh.setVisibility(View.VISIBLE);
+            }
+            if ("0".equals(result.getWaitingForComments())) {
+                mTvCountDpj.setVisibility(View.GONE);
+            } else {
+                mTvCountDpj.setVisibility(View.VISIBLE);
+            }
+            if ("0".equals(result.getRefundOrders())) {
+                mTvCountSh.setVisibility(View.GONE);
+            } else {
+                mTvCountSh.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -458,14 +515,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
         switch (Result.getStatusCode()) {
             case 200:
-                if (Result.getData().getData()==null){
+                if (Result.getData().getData() == null) {
 
-                }else {
+                } else {
                     userInfo = Result.getData().getData().get(0);
-                    if (userInfo !=null){
+                    if (userInfo != null) {
 //                        mTvMoney.setText();本月消费
-                        mTvWalletBalance.setText(userInfo.getTotalMoney()+"");//钱包余额
-                        mTvAccountBalance.setText(userInfo.getCon()+"");//西瓜币
+                        mTvWalletBalance.setText(userInfo.getTotalMoney() + "");//钱包余额
+                        mTvAccountBalance.setText(userInfo.getCon() + "");//西瓜币
 //                        mTvHowMoney.setText();兑换了多少西瓜币
                     }
                 }

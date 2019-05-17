@@ -1,13 +1,19 @@
 package com.zhenghaikj.shop.api;
 
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Area;
+import com.zhenghaikj.shop.entity.Brand;
+import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.Province;
+import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
+import com.zhenghaikj.shop.entity.WorkOrder;
 
 import java.util.List;
 
@@ -138,6 +144,170 @@ public interface ApiService2 {
                                                          @Field("RecycleOrderHour") String RecycleOrderHour,
                                                          @Field("Guarantee") String Guarantee,
                                                          @Field("Num") String Num);
+    /**
+     * 获取工单列表
+     * 废除-1，待审核0，派单中1，服务中2，已完成3
+     */
+    @FormUrlEncoded
+    @POST("Order/FactoryGetOrderList")
+    Observable<BaseResult<WorkOrder>> FactoryGetOrderList(@Field("UserID") String UserID, @Field("State") String state, @Field("page") String page, @Field("limit") String limit);
+    /*
+     * 取消订单
+     * */
+    @FormUrlEncoded
+    @POST("Order/UpdateOrderState")
+    Observable<BaseResult<Data<String>>> UpdateOrderState(
+            @Field("OrderID") String OrderID,
+            @Field("State") String State
+    );
+    /**
+     * 工厂投诉
+     * @param OrderID 订单id
+     * @param Content  投诉原因
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/FactoryComplaint")
+    Observable<BaseResult<Data<String>>> FactoryComplaint(
+            @Field("OrderID") String OrderID,
+            @Field("Content") String Content
+    );
+    /**
+     * 工厂确认订单 结算
+     * @param OrderID 订单id
+     * @param PayPassword  支付密码
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/FactoryEnsureOrder")
+    Observable<BaseResult<Data<String>>> FactoryEnsureOrder(
+            @Field("OrderID") String OrderID,
+            @Field("PayPassword") String PayPassword
+    );
+    /**
+     * 用户确认订单 结算
+     * @param OrderID 订单id
+     * @param PayPassword  支付密码
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/EnSureOrder")
+    Observable<BaseResult<Data<String>>> EnSureOrder(
+            @Field("OrderID") String OrderID,
+            @Field("PayPassword") String PayPassword
+    );
+    /*更新工单消息为已读*/
+    @FormUrlEncoded
+    @POST("Order/UpdateOrderFIsLook")
+    Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(@Field("OrderID") String OrderID,
+                                                            @Field("IsLook") String IsLook,
+                                                            @Field("FIsLook") String FIsLook);
+    /**
+     * 对某笔单子发起质保
+     * @param OrderID 订单id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/ApplyCustomService")
+    Observable<BaseResult<Data<String>>> ApplyCustomService(
+            @Field("OrderID") String OrderID
+    );
+
+    /**
+     * 审核远程费
+     * @param OrderID   订单id
+     * @param BeyondState   -1拒绝 1通过
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/ApproveBeyondMoney")
+    Observable<BaseResult<Data<String>>> ApproveBeyondMoney(
+            @Field("OrderID") String OrderID,
+            @Field("BeyondState") String BeyondState
+    );
+    /**
+     * 审核配件申请
+     * @param OrderID 订单id
+     * @param AccessoryApplyState  -1拒绝 1通过
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/ApproveOrderAccessory")
+    Observable<BaseResult<Data<String>>> ApproveOrderAccessory(
+            @Field("OrderID") String OrderID,
+            @Field("AccessoryApplyState") String AccessoryApplyState,
+            @Field("NewMoney") String NewMoney
+    );
+
+    /**
+     * 审核服务申请
+     * @param OrderID 订单id
+     * @param State  -1拒绝 1通过
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/ApproveOrderService")
+    Observable<BaseResult<Data<String>>> ApproveOrderService(
+            @Field("OrderID") String OrderID,
+            @Field("State") String State
+    );
+    /**
+     * 工厂添加配件快递信息
+     * @param OrderID 订单id
+     * @param ExpressNo  快递单号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/AddOrUpdateExpressNo")
+    Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(
+            @Field("OrderID") String OrderID,
+            @Field("ExpressNo") String ExpressNo
+    );
+    /**
+     * 旧件是否需要返件
+     * @param OrderID
+     * @param IsReturn
+     * @param AddressBack
+     * @param PostPayType
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/UpdateIsReturnByOrderID")
+    Observable<BaseResult<Data<String>>> UpdateIsReturnByOrderID(
+            @Field("OrderID") String OrderID,
+            @Field("IsReturn") String IsReturn,
+            @Field("AddressBack") String AddressBack,
+            @Field("PostPayType") String PostPayType
+    );
+    /**
+     * 获取收货地址列表
+     * @param UserID
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Account/GetAccountAddress")
+    Observable<BaseResult<List<Address>>> GetAccountAddress(
+            @Field("UserID") String UserID
+    );
+    /*工单跟踪*/
+    @FormUrlEncoded
+    @POST("Order/GetOrderRecordByOrderID")
+    Observable<BaseResult<List<Track>>> GetOrderRecordByOrderID(@Field("OrderID") String OrderID);
+    /**
+     * 快递信息
+     * @param ExpressNo  快递单号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/GetExpressInfo")
+    Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(@Field("ExpressNo") String ExpressNo);
+    /**
+     * 获取工单详情
+     * 通过OrderID获取工单详情
+     */
+    @FormUrlEncoded
+    @POST("Order/GetOrderInfo")
+    Observable<BaseResult<WorkOrder.DataBean>> GetOrderInfo(@Field("OrderID") String OrderID);
 
     /**
      * 充值信息
@@ -174,5 +344,35 @@ public interface ApiService2 {
     @POST("Pay/WXNotifyManual")
     Observable<BaseResult<Data<String>>> WXNotifyManual(@Field("OutTradeNo") String OutTradeNo);
 
+    /**
+     * 添加品牌
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/AddFactoryBrand")
+    Observable<BaseResult<Data>> AddFactoryBrand(@Field("UserID") String UserID, @Field("FBrandName") String FBrandName);
+    /**
+     * 获取品牌
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetFactoryBrand")
+    Observable<BaseResult<List<Brand>>> GetFactoryBrand(@Field("UserID") String UserID);
+    /**
+     *删除工厂品牌
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/DeleteFactoryBrand")
+    Observable<BaseResult<Data>> DeleteFactoryBrand(@Field("FBrandID") String FBrandID);
+    /**
+     * 获取分类
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetFactoryCategory")
+    Observable<BaseResult<CategoryData>> GetFactoryCategory(@Field("ParentID") String ParentID);
 
+    /**
+     * 获取子分类
+     */
+    @FormUrlEncoded
+    @POST("FactoryConfig/GetFactoryCategory")
+    Observable<BaseResult<CategoryData>> GetChildFactoryCategory(@Field("ParentID") String ParentID);
 }

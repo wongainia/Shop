@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.SearchDetailActivity;
-import com.zhenghaikj.shop.adapter.CategoryAdapter;
+import com.zhenghaikj.shop.adapter.CategoryAdapterMall;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
-import com.zhenghaikj.shop.entity.Category;
+import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.mvp.contract.CategoryContract;
 import com.zhenghaikj.shop.mvp.model.CategoryModel;
 import com.zhenghaikj.shop.mvp.presenter.CategoryPresenter;
@@ -64,10 +64,10 @@ public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, 
         return fragment;
     }
 
-    private CategoryAdapter firstAdapter;
-    private CategoryAdapter secondAdapter;
-    private List<Category.CategoryBean> firstList = new ArrayList<>();
-    private List<Category.CategoryBean> secondList = new ArrayList<>();
+    private CategoryAdapterMall firstAdapter;
+    private CategoryAdapterMall secondAdapter;
+    private List<CategoryMall.CategoryBean> firstList = new ArrayList<>();
+    private List<CategoryMall.CategoryBean> secondList = new ArrayList<>();
 
     @Override
     protected void initView() {
@@ -87,7 +87,7 @@ public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, 
 
     @Override
     protected void initData() {
-        firstAdapter = new CategoryAdapter(firstList);
+        firstAdapter = new CategoryAdapterMall(firstList);
         linearLayoutManager = new LinearLayoutManager(mActivity);
         mRvLeft.setLayoutManager(linearLayoutManager);
         mRvLeft.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
@@ -107,7 +107,7 @@ public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, 
             }
         });
 
-        secondAdapter = new CategoryAdapter(secondList);
+        secondAdapter = new CategoryAdapterMall(secondList);
         mRvRight.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvRight.setAdapter(secondAdapter);
 
@@ -127,7 +127,7 @@ public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, 
     }
 
     @Override
-    public void GetCategories(Category Result) {
+    public void GetCategories(CategoryMall Result) {
         if (Result.getSuccess()) {
             firstList = Result.getCategory();
             firstAdapter.setNewData(firstList);

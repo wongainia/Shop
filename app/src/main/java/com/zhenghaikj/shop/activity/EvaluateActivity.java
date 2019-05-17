@@ -5,11 +5,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -18,23 +17,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
-import com.yalantis.ucrop.UCrop;
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.adapter.photoadapter.CommentAdapter;
 import com.zhenghaikj.shop.adapter.EvaluateAdapter;
-import com.zhenghaikj.shop.adapter.photoadapter.TagAdapter;
+import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.CommentEntity;
 import com.zhenghaikj.shop.entity.CommentsInfo;
-import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
 import com.zhenghaikj.shop.entity.EvaluateResult;
 import com.zhenghaikj.shop.entity.PostPostAddComment;
@@ -51,17 +46,18 @@ import com.zhihu.matisse.MimeType;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateModel> implements EvaluateContract.View, EvaluateAdapter.OnStatusListener, View.OnClickListener {
     @BindView(R.id.rv_rvaluate)
@@ -69,9 +65,21 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     @BindView(R.id.tv_submit)
     TextView mTv_submit;
 
-    List<CommentsInfo> commentslist=new ArrayList<>();
+    List<CommentsInfo> commentslist = new ArrayList<>();
 
-    List<EvaluateResult.ProductBean> list=new ArrayList<>();
+    List<EvaluateResult.ProductBean> list = new ArrayList<>();
+    @BindView(R.id.view)
+    View mView;
+    @BindView(R.id.icon_back)
+    ImageView mIconBack;
+    @BindView(R.id.tv_title)
+    TextView mTvTitle;
+    @BindView(R.id.tv_save)
+    TextView mTvSave;
+    @BindView(R.id.icon_search)
+    ImageView mIconSearch;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     private EvaluateAdapter evaluateAdapter;
     private View popupWindow_view;
     private PopupWindow mPopupWindow;
@@ -84,13 +92,14 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     private List<Uri> mSelected;
     private Uri uri;
 
-    private CommentEntity mCommentEntity=new CommentEntity();//提交评价的实体类
+    private CommentEntity mCommentEntity = new CommentEntity();//提交评价的实体类
 
 
-    private Map<Integer,CommentsInfo> map=new HashMap<>();//用于存放评分 留言 图片
+    private Map<Integer, CommentsInfo> map = new HashMap<>();//用于存放评分 留言 图片
 
 
     private int position; //当前点击添加照片的位置
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_evaluate;
@@ -100,7 +109,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     protected void initData() {
         Userkey = spUtils.getString("UserKey");
         String orderID = getIntent().getStringExtra("OrderID");
-        mPresenter.GetComment(orderID,Userkey);
+        mPresenter.GetComment(orderID, Userkey);
         /*初始化提交的实体类*/
         mCommentEntity.setOrderId(orderID);
         mCommentEntity.setServiceMark("5");
@@ -109,38 +118,45 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
 
     }
-
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
     @Override
     protected void initView() {
-        footerview= LayoutInflater.from(mActivity).inflate(R.layout.item_evaluate_store,null);
-
+        footerview = LayoutInflater.from(mActivity).inflate(R.layout.item_evaluate_store, null);
+        mTvTitle.setVisibility(View.VISIBLE);
+        mTvTitle.setText("订单评价");
     }
 
     @Override
     protected void setListener() {
         mTv_submit.setOnClickListener(this);
-
-
+        mIconBack.setOnClickListener(this);
     }
 
     /*获取 “评论” 详情*/
     @Override
     public void GetComment(EvaluateResult Result) {
-        if (Result.isSuccess()){
+        if (Result.isSuccess()) {
 
-            for (int i = 0; i <Result.getOrderItemIds().size(); i++) {
-                CommentsInfo mCommentsInfo=new CommentsInfo();
+            for (int i = 0; i < Result.getOrderItemIds().size(); i++) {
+                CommentsInfo mCommentsInfo = new CommentsInfo();
                 mCommentsInfo.setOrderItemId(Result.getOrderItemIds().get(i).toString());
                 mCommentsInfo.setMark("5"); //默认5分
                 mCommentsInfo.setCommentContent("用户未填写评论！");//
-                map.put(i,mCommentsInfo);  //存入orderItemId
+                map.put(i, mCommentsInfo);  //存入orderItemId
             }
 
 
-            for(int i=0;i<Result.getProduct().size();i++){
+            for (int i = 0; i < Result.getProduct().size(); i++) {
                 CommentsInfo commentsInfo = new CommentsInfo();
                 List<String> commentImgs = new ArrayList<>();
-                List<String> src=new ArrayList<>();
+                List<String> src = new ArrayList<>();
                 commentImgs.add("");
                 src.add("");
                 commentsInfo.setCommentImgs(commentImgs);
@@ -151,12 +167,11 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
             list.addAll(Result.getProduct());
             mRvrvaluate.setLayoutManager(new LinearLayoutManager(mActivity));
-            evaluateAdapter=new EvaluateAdapter(R.layout.item_evaluate,list,commentslist,mActivity);
+            evaluateAdapter = new EvaluateAdapter(R.layout.item_evaluate, list, commentslist, mActivity);
             evaluateAdapter.setOnStatusListener(this);
             evaluateAdapter.addFooterView(footerview);
             ShowStarState(evaluateAdapter);
             mRvrvaluate.setAdapter(evaluateAdapter);
-
 
 
         }
@@ -169,16 +184,16 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
         StarBarView peisong_star = evaluateAdapter.getFooterLayout().findViewById(R.id.peisong_star);
 
 
-        TextView tv_baozhuang=evaluateAdapter.getFooterLayout().findViewById(R.id.tv_baozhuang);
-        TextView tv_sudu=evaluateAdapter.getFooterLayout().findViewById(R.id.tv_sudu);
-        TextView tv_peisong=evaluateAdapter.getFooterLayout().findViewById(R.id.tv_peisong);
+        TextView tv_baozhuang = evaluateAdapter.getFooterLayout().findViewById(R.id.tv_baozhuang);
+        TextView tv_sudu = evaluateAdapter.getFooterLayout().findViewById(R.id.tv_sudu);
+        TextView tv_peisong = evaluateAdapter.getFooterLayout().findViewById(R.id.tv_peisong);
 
 
         baozhuang_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 float starRating = baozhuang_star.getStarRating();
-                setStarName(tv_baozhuang,starRating);
+                setStarName(tv_baozhuang, starRating);
                 /*包装*/
                 mCommentEntity.setPackMark(MyUtils.floatToString(starRating));
             }
@@ -188,7 +203,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
             @Override
             public void onClick(View v) {
                 float starRating = sudu_star.getStarRating();
-                setStarName(tv_sudu,starRating);
+                setStarName(tv_sudu, starRating);
                 /*速度*/
                 mCommentEntity.setDeliveryMark(MyUtils.floatToString(starRating));
             }
@@ -198,8 +213,8 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
             @Override
             public void onClick(View v) {
                 float starRating = peisong_star.getStarRating();
-                setStarName(tv_peisong,starRating);
-                 /*配送*/
+                setStarName(tv_peisong, starRating);
+                /*配送*/
                 mCommentEntity.setServiceMark(MyUtils.floatToString(starRating));
 
             }
@@ -212,48 +227,45 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     /*上传base64的图片获取 图片在服务器中的地址*/
 
     /*
-    *
-    *
-    *
-    * */
+     *
+     *
+     *
+     * */
 
     @Override
     public void UploadPicEvaluate(EvaluatePhotoEntity Result) {
 
-         if (Result.isSuccess()){
-           if(commentslist.get(position).getCommentImgs().size()<3){
-            CommentsInfo commentsInfo = commentslist.get(position);
-            List<String> commentImgs = commentsInfo.getCommentImgs();
-            commentImgs.add(0,Result.getRomoteImage());
+        if (Result.isSuccess()) {
+            if (commentslist.get(position).getCommentImgs().size() < 3) {
+                CommentsInfo commentsInfo = commentslist.get(position);
+                List<String> commentImgs = commentsInfo.getCommentImgs();
+                commentImgs.add(0, Result.getRomoteImage());
 
-            List<String> imgSrc= commentsInfo.getSrc();
-            imgSrc.add(0,Result.getSrc());
+                List<String> imgSrc = commentsInfo.getSrc();
+                imgSrc.add(0, Result.getSrc());
 
-            commentsInfo.setCommentImgs(commentImgs);
-            commentsInfo.setSrc(imgSrc);
-            commentslist.set(position,commentsInfo);
-            evaluateAdapter.notifyItemChanged(position);
+                commentsInfo.setCommentImgs(commentImgs);
+                commentsInfo.setSrc(imgSrc);
+                commentslist.set(position, commentsInfo);
+                evaluateAdapter.notifyItemChanged(position);
 
-           }else if(commentslist.get(position).getCommentImgs().size()==3){
-            CommentsInfo commentsInfo = commentslist.get(position);
-            List<String> commentImgs = commentsInfo.getCommentImgs();
-            List<String> imgSrc=commentsInfo.getSrc();
+            } else if (commentslist.get(position).getCommentImgs().size() == 3) {
+                CommentsInfo commentsInfo = commentslist.get(position);
+                List<String> commentImgs = commentsInfo.getCommentImgs();
+                List<String> imgSrc = commentsInfo.getSrc();
 
-            commentImgs.set(commentImgs.size()-1,Result.getRomoteImage());
-            imgSrc.set(imgSrc.size()-1,Result.getSrc());
+                commentImgs.set(commentImgs.size() - 1, Result.getRomoteImage());
+                imgSrc.set(imgSrc.size() - 1, Result.getSrc());
 
 
-            commentsInfo.setCommentImgs(commentImgs);
-            commentsInfo.setSrc(imgSrc);
-            commentslist.set(position,commentsInfo);
-            evaluateAdapter.notifyItemChanged(position);
+                commentsInfo.setCommentImgs(commentImgs);
+                commentsInfo.setSrc(imgSrc);
+                commentslist.set(position, commentsInfo);
+                evaluateAdapter.notifyItemChanged(position);
+            }
+
+
         }
-
-
-
-         }
-
-
 
 
     }
@@ -261,34 +273,33 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     @Override
     public void PostAddComment(PostPostAddComment Result) {
 
-        if (Result.getSuccess().equals("true")){
-            Toast.makeText(mActivity,"评价成功",Toast.LENGTH_SHORT).show();
+        if (Result.getSuccess().equals("true")) {
+            Toast.makeText(mActivity, "评价成功", Toast.LENGTH_SHORT).show();
             EventBus.getDefault().post("evaluate");
 
             EvaluateActivity.this.finish();
 
-        }else {
-            Toast.makeText(mActivity,"评价失败",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mActivity, "评价失败", Toast.LENGTH_SHORT).show();
 
         }
 
     }
 
 
-
     /**
      * 设置星星文字
-     * */
+     */
     private void setStarName(TextView textView, float star_num) {
-        if (star_num==5.0f){
+        if (star_num == 5.0f) {
             textView.setText("非常好");
-        }else if (star_num==4.0f){
+        } else if (star_num == 4.0f) {
             textView.setText("很好");
-        }else if (star_num==3.0f){
+        } else if (star_num == 3.0f) {
             textView.setText("一般");
-        }else if (star_num==2.0f){
+        } else if (star_num == 2.0f) {
             textView.setText("很差");
-        }else if (star_num==1.0f){
+        } else if (star_num == 1.0f) {
             textView.setText("非常差");
         }
 
@@ -298,50 +309,48 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onSetStatusListener(int pos) {
-        position=pos;
-        if (requestPermissions()){
-            showPopupWindow(101, 201,pos);
-        }else{
+        position = pos;
+        if (requestPermissions()) {
+            showPopupWindow(101, 201, pos);
+        } else {
             requestPermissions(permissions.toArray(new String[permissions.size()]), 10001);
         }
-
 
 
     }
 
     /*删除图片*/
-   @Override
-   public void onDeleteListener(int pos, int tagPos) {
-       CommentsInfo commentsInfo = commentslist.get(pos);
-       List<String> commentImgs = commentsInfo.getCommentImgs();
-       List<String> src=commentsInfo.getSrc();
+    @Override
+    public void onDeleteListener(int pos, int tagPos) {
+        CommentsInfo commentsInfo = commentslist.get(pos);
+        List<String> commentImgs = commentsInfo.getCommentImgs();
+        List<String> src = commentsInfo.getSrc();
 
 
-       if(!commentImgs.get(commentImgs.size()-1).equals("")){
-           commentImgs.add("");
-           src.add("");
-       }
-       commentImgs.remove(tagPos);
-       src.remove(tagPos);
+        if (!commentImgs.get(commentImgs.size() - 1).equals("")) {
+            commentImgs.add("");
+            src.add("");
+        }
+        commentImgs.remove(tagPos);
+        src.remove(tagPos);
 
-       commentsInfo.setCommentImgs(commentImgs);
-       commentsInfo.setSrc(src);
+        commentsInfo.setCommentImgs(commentImgs);
+        commentsInfo.setSrc(src);
 
-       commentslist.set(pos,commentsInfo);
-      evaluateAdapter.notifyItemChanged(pos);
-
-
-   }
+        commentslist.set(pos, commentsInfo);
+        evaluateAdapter.notifyItemChanged(pos);
 
 
+    }
 
-   /*星级评分*/
+
+    /*星级评分*/
     @Override
     public void onStarBarListner(int position, float Star) {
-        Log.d("====="+position,"星级评分"+Star);
+        Log.d("=====" + position, "星级评分" + Star);
         CommentsInfo commentsInfo = map.get(position);
         commentsInfo.setMark(MyUtils.floatToString(Star));
-        map.put(position,commentsInfo);
+        map.put(position, commentsInfo);
 
     }
 
@@ -350,14 +359,14 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     public void onTextChangeLinstener(int position, String message) {
         CommentsInfo commentsInfo = map.get(position);
         commentsInfo.setCommentContent(message);
-        map.put(position,commentsInfo);
+        map.put(position, commentsInfo);
 
     }
 
     /**
      * 弹出Popupwindow
      */
-    public void showPopupWindow(final int code1, final int code2,int pos) {
+    public void showPopupWindow(final int code1, final int code2, int pos) {
         popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.camera_layout, null);
         Button camera_btn = popupWindow_view.findViewById(R.id.camera_btn);
         Button photo_btn = popupWindow_view.findViewById(R.id.photo_btn);
@@ -405,7 +414,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                     Matisse.from(EvaluateActivity.this)
                             .choose(MimeType.ofImage())
                             .countable(true)
-                            .maxSelectable(getResiduePhoto(commentslist,position))
+                            .maxSelectable(getResiduePhoto(commentslist, position))
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                             .thumbnailScale(0.85f)
                             .imageEngine(new Glide4Engine())
@@ -440,6 +449,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
+
     //请求权限
     private boolean requestPermissions() {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -468,14 +478,14 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         size = 0;
         for (int i = 0; i < grantResults.length; i++) {
-            if (grantResults[i]==PackageManager.PERMISSION_GRANTED){
+            if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                 size++;
             }
         }
         switch (requestCode) {
             case 10001:
-                if (size ==grantResults.length) {//允许
-                    showPopupWindow(101, 201,position);
+                if (size == grantResults.length) {//允许
+                    showPopupWindow(101, 201, position);
                 } else {//拒绝
                     MyUtils.showToast(mActivity, "相关权限未开启");
                 }
@@ -486,6 +496,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
         }
     }
+
     //返回图片处理
     @SuppressLint("NewApi")
     @Override
@@ -497,8 +508,8 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
             case 101:
                 if (resultCode == -1) {
                     file = new File(FilePath);
-                     File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(file);
-                     mPresenter.UploadPicEvaluate(MyUtils.fileToBase64(newFile));
+                    File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(file);
+                    mPresenter.UploadPicEvaluate(MyUtils.fileToBase64(newFile));
 
                 }
 
@@ -507,7 +518,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
             case 201:
                 if (data != null) {
                     mSelected = Matisse.obtainResult(data);
-                    if (mSelected.size()!=0){
+                    if (mSelected.size() != 0) {
                         for (int i = 0; i < mSelected.size(); i++) {
                             uri = mSelected.get(i);
                             file = new File(MyUtils.getRealPathFromUri(mActivity, uri));
@@ -515,8 +526,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                             mPresenter.UploadPicEvaluate(MyUtils.fileToBase64(newFile));
                         }
                     }
-
-
 
 
                 }
@@ -530,67 +539,76 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
     }
 
-     /*判断当前position下评价还能传几张图片*/
-     public int getResiduePhoto(List<CommentsInfo> list,int position){
+    /*判断当前position下评价还能传几张图片*/
+    public int getResiduePhoto(List<CommentsInfo> list, int position) {
 
-         if ("".equals(list.get(position).getCommentImgs().get(0))){
-             return 3;
-         }
+        if ("".equals(list.get(position).getCommentImgs().get(0))) {
+            return 3;
+        }
 
-         if ("".equals(list.get(position).getCommentImgs().get(1))){
+        if ("".equals(list.get(position).getCommentImgs().get(1))) {
 
-             return 2;
-         }
+            return 2;
+        }
 
-         return 1;
+        return 1;
 
-     }
+    }
 
 
     @Override
     public void onClick(View v) {
 
-         switch (v.getId()){
-             case R.id.tv_submit:
+        switch (v.getId()) {
+            case R.id.icon_back:
+                finish();
+                break;
+            case R.id.tv_submit:
 
-                 /*添加图片*/
-                 for (int i = 0; i < commentslist.size(); i++) {
-                     if (commentslist.get(i).getCommentImgs()!=null&&commentslist.get(i).getCommentImgs().size()>0){
-                         CommentsInfo commentsInfo = map.get(i);
-                         commentsInfo.setSrc(commentslist.get(i).getSrc());
-                         map.put(i,commentsInfo);
-                     }
-                 }
+                /*添加图片*/
+                for (int i = 0; i < commentslist.size(); i++) {
+                    if (commentslist.get(i).getCommentImgs() != null && commentslist.get(i).getCommentImgs().size() > 0) {
+                        CommentsInfo commentsInfo = map.get(i);
+                        commentsInfo.setSrc(commentslist.get(i).getSrc());
+                        map.put(i, commentsInfo);
+                    }
+                }
 
-                 List<CommentEntity.ProductCommentsBean> list=new ArrayList<>();
-                 for (int i = 0; i <map.size() ; i++) {
-                     CommentEntity.ProductCommentsBean bean=new CommentEntity.ProductCommentsBean();
+                List<CommentEntity.ProductCommentsBean> list = new ArrayList<>();
+                for (int i = 0; i < map.size(); i++) {
+                    CommentEntity.ProductCommentsBean bean = new CommentEntity.ProductCommentsBean();
 
-                     for (int j = 0; j < map.get(i).getSrc().size(); j++) {
+                    for (int j = 0; j < map.get(i).getSrc().size(); j++) {
 
-                         if (map.get(i).getSrc().get(j).equals("")){
-                         map.get(i).getSrc().remove(j);
-                         }
-                     }
+                        if (map.get(i).getSrc().get(j).equals("")) {
+                            map.get(i).getSrc().remove(j);
+                        }
+                    }
 
-                     bean.setImages(map.get(i).getSrc());
-                     bean.setContent(map.get(i).getCommentContent());
-                     bean.setMark(map.get(i).getMark());
-                     bean.setOrderItemId(map.get(i).getOrderItemId());
-                     list.add(bean);
+                    bean.setImages(map.get(i).getSrc());
+                    bean.setContent(map.get(i).getCommentContent());
+                    bean.setMark(map.get(i).getMark());
+                    bean.setOrderItemId(map.get(i).getOrderItemId());
+                    list.add(bean);
 
-                 }
-                 mCommentEntity.setProductComments(list);
+                }
+                mCommentEntity.setProductComments(list);
 
-                 Gson gson=new Gson();
-                 String json = gson.toJson(mCommentEntity);
-                 Log.d("=====>json",json);
-                   mPresenter.PostAddComment(Userkey,json);
-                 break;
-         }
+                Gson gson = new Gson();
+                String json = gson.toJson(mCommentEntity);
+                Log.d("=====>json", json);
+                mPresenter.PostAddComment(Userkey, json);
+                break;
+        }
 
 
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }
