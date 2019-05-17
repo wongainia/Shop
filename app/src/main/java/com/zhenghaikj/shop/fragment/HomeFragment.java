@@ -252,22 +252,22 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });
 
 
-        mSv.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (scrollY > fadingHeight) {
-                scrollY = fadingHeight;
-            } else if (scrollY < 0) {
-                scrollY = 0;
-            } else {
-
-            }
-            mToolbar.getBackground().setAlpha(scrollY * (END_ALPHA - START_ALPHA) / fadingHeight + START_ALPHA);
-        });
-        if (Global.appTheme != null) {
-            mToolbar.setBackgroundColor(Color.parseColor(Global.appTheme.getHome_top_color() != null ? Global.appTheme.getHome_top_color() : "#E82C00"));
-        } else {
-            mToolbar.setBackgroundColor(Color.parseColor("#E82C00"));
-        }
-        mToolbar.getBackground().setAlpha(START_ALPHA);
+//        mSv.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+//            if (scrollY > fadingHeight) {
+//                scrollY = fadingHeight;
+//            } else if (scrollY < 0) {
+//                scrollY = 0;
+//            } else {
+//
+//            }
+//            mToolbar.getBackground().setAlpha(scrollY * (END_ALPHA - START_ALPHA) / fadingHeight + START_ALPHA);
+//        });
+//        if (Global.appTheme != null) {
+//            mToolbar.setBackgroundColor(Color.parseColor(Global.appTheme.getHome_top_color() != null ? Global.appTheme.getHome_top_color() : "#E82C00"));
+//        } else {
+//            mToolbar.setBackgroundColor(Color.parseColor("#E82C00"));
+//        }
+//        mToolbar.getBackground().setAlpha(START_ALPHA);
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             pageNo = 1;
             mDatas.clear();

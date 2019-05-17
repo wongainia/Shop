@@ -24,6 +24,7 @@ public class CommentAdapter extends BaseQuickAdapter<Comment.listData,BaseViewHo
 
     private RecyclerView recyclerView;
     private CommentAdapter2 commentAdapter2;
+    private CommentAdapter3 commentAdapter3;
 
     public CommentAdapter(int layoutResId, @Nullable List<Comment.listData> data) {
         super(layoutResId, data);
@@ -62,7 +63,24 @@ public class CommentAdapter extends BaseQuickAdapter<Comment.listData,BaseViewHo
             helper.setText(R.id.tv_append,"用户"+item.getAppendDays()+"天后追评");
             helper.setText(R.id.tv_append_count,item.getAppendContent());
             RecyclerView rv=helper.getView(R.id.rv_append_picture);
-            CommentAdapter3 commentAdapter3=new CommentAdapter3(R.layout.item_picture,item.getAppendImages());
+            commentAdapter3 = new CommentAdapter3(R.layout.item_picture,item.getAppendImages());
+            commentAdapter3.setOnItemChildClickListener(new OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    switch (view.getId()){
+                        case R.id.icon:
+                            ArrayList<String> images = new ArrayList<>();
+                            for (int i = 0; i < item.getAppendImages().size(); i++) {
+                                images.add(item.getAppendImages().get(i).getCommentImage());
+                            }
+                            Intent intent=new Intent(mContext, PhotosViewActivity.class);
+                            intent.putExtra("photo_list",(Serializable)images);
+                            intent.putExtra("photo_position",position);
+                            startActivity(intent);
+                            break;
+                    }
+                }
+            });
             rv.setLayoutManager(new GridLayoutManager(mContext,3));
             rv.setAdapter(commentAdapter3);
         }

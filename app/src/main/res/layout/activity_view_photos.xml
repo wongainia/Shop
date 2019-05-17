@@ -27,4 +27,20 @@
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:src="@mipmap/icon_chacha"/>
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="保存"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/gray_shape"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
 </RelativeLayout>
