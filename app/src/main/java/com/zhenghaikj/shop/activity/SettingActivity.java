@@ -64,8 +64,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     TextView mTvMemberName;
     @BindView(R.id.ll_brand)
     LinearLayout mLlBrand;
-    @BindView(R.id.ll_type)
-    LinearLayout mLlType;
     @BindView(R.id.ll_modify_payment_password)
     LinearLayout mLlModifyPaymentPassword;
     private SPUtils spUtils;
@@ -110,7 +108,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
         mLlModifyMobileNumber.setOnClickListener(this);
         mBtnExit.setOnClickListener(this);
         mLlBrand.setOnClickListener(this);
-        mLlType.setOnClickListener(this);
     }
 
     @Override
