@@ -300,7 +300,6 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 
     @Override
     protected void initView() {
-
         mTvTitle.setVisibility(View.VISIBLE);
     }
 
