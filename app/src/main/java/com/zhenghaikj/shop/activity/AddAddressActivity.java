@@ -351,6 +351,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                 regionId=regionResult.getId();
                 mTvArea.setText(mProvince+mCity+mArea+mDistrict);
                 popupWindow.dismiss();
+                provinceAdapter2.setNewData(provinceList);
                 return;
             }
         });

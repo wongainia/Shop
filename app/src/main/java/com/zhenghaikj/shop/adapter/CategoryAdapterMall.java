@@ -68,7 +68,7 @@ public class CategoryAdapterMall extends BaseMultiItemQuickAdapter<CategoryMall.
                 tv = helper.getView(R.id.name);
                 ImageView icon = helper.getView(R.id.icon);
                 tv.setText(item.getName());
-                GlideUtil.loadImageViewLoding(mContext,"http://mall.xigyu.com"+item.getImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
+                GlideUtil.loadImageViewLoding(mContext,item.getImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
                 break;
             default:
                 break;

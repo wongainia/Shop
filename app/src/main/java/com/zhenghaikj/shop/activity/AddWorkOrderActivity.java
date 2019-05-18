@@ -34,7 +34,6 @@ import com.zhenghaikj.shop.adapter.CategoryAdapter;
 import com.zhenghaikj.shop.adapter.CityAdapter;
 import com.zhenghaikj.shop.adapter.DistrictAdapter;
 import com.zhenghaikj.shop.adapter.ProvinceAdapter;
-import com.zhenghaikj.shop.adapter.ProvinceAdapter2;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
@@ -202,7 +201,6 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String RecycleOrderHour;
     private String number;
     private String userID;
-    private String BrandID;//品牌id
     private String BrandName;//品牌名称  例如 海尔
     private String ParentID;//父级ID
     private String ParentName;//父级名称  例如  冰箱
@@ -214,7 +212,6 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String DistrictCode;//街道code
     private SPUtils spUtil;
     private List<Province> provinceList;
-    private ProvinceAdapter2 provinceAdapter2;
     private List<City> cityList;
     private ProvinceAdapter provinceAdapter;
     private String ProvinceName;
@@ -480,7 +477,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                     ToastUtils.showShort("请选择分类！");
                     return;
                 }
-                if (BrandID==null) {
+                if (FBrandID==null) {
                     ToastUtils.showShort("请选择品牌！");
                     return;
                 }
@@ -551,7 +548,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             }
                         }
 
-                        mPresenter.AddOrder("2", "安装", userID, BrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number);
+                        mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number);
                         break;
                     case "维修":
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
@@ -559,7 +556,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             return;
                         }
                         OrderMoney = "100";
-                        mPresenter.AddOrder("1", "维修", userID, BrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null);
+                        mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null);
                         break;
                     default:
                         break;
@@ -688,8 +685,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 //                showPopWindow(mTvProvince, provinceAdapter2, provinceList);
                 if (popupWindow != null) {
                     if (popupWindow.isShowing()) {
-                        rv_address_choose.setAdapter(provinceAdapter2);
-                        provinceAdapter2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        rv_address_choose.setAdapter(provinceAdapter);
+                        provinceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                 ProvinceName = provinceList.get(position).getName();

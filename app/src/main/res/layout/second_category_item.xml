@@ -11,8 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:gravity="center_vertical"
-        android:textColor="#333333"
+        android:textColor="@color/black"
         android:paddingLeft="20dp"
+        android:textSize="16sp"
         android:background="@drawable/layout_line"
         android:text="正宗汤料"/>
     <androidx.recyclerview.widget.RecyclerView
