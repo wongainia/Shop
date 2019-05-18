@@ -7,12 +7,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_shape"
+            android:background="@color/white"
             android:orientation="horizontal"
-            android:padding="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp">
+            android:padding="20dp"
+          >
 
             <com.zhenghaikj.shop.widget.MyImageView
                 android:id="@+id/iv_goods_picture"
@@ -31,17 +29,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="新鲜使用薄荷茶"
-                    android:textSize="12dp"/>
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="领券立减40"
-                    android:textSize="14sp"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/black"/>
+                    android:textSize="10sp"
+                    android:layout_marginTop="5dp" />
 
 
                 <TextView
@@ -61,18 +60,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="￥"
-                            android:textColor="@color/red"
-                            android:textSize="12sp"/>
+                            android:textColor="@color/black"
+                            android:textSize="18sp"/>
                         <TextView
                             android:id="@+id/tv_money_now"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="21.6"
-                            android:textColor="@color/red"
-                            android:textSize="16sp"/>
+                            android:textColor="@color/black"
+                            android:textSize="18sp"/>
 
                         <TextView
-                            android:visibility="gone"
                             android:id="@+id/tv_money_old"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -89,17 +87,16 @@
                             android:gravity="right"
                             android:text="收货送100西瓜币"
                             android:textSize="10sp"
-                            android:textColor="@color/red"/>
+                            android:textColor="@color/red"
+                            android:visibility="gone"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="5dp">
+                        android:orientation="horizontal">
 
                         <com.zhenghaikj.shop.widget.SaleProgressView
-                            android:visibility="gone"
                             android:id="@+id/spv"
                             android:layout_width="100dp"
                             android:layout_height="15dp"
@@ -114,14 +111,14 @@
                         android:id="@+id/tv_grab_immediately"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="马上抢"
-                        android:textSize="14sp"
-                        android:textColor="@color/red"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
+                        android:text="去抢购"
+                        android:textSize="12sp"
+                        android:textColor="@color/black"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
                         android:paddingTop="2dp"
                         android:paddingBottom="2dp"
-                        android:background="@drawable/red_shape"/>
+                        android:background="@drawable/red_buy_shape"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -130,4 +127,8 @@
 
 
         </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#eeeeee"/>
 </LinearLayout>

@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="重新加载"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:padding="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
         android:background="@drawable/btn_shape"/>

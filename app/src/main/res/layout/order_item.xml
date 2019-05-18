@@ -103,7 +103,7 @@
                     android:textSize="10sp"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:background="@drawable/btn_shape"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/black"/>
                 <TextView
                     android:id="@+id/tv_status"
                     android:layout_width="wrap_content"

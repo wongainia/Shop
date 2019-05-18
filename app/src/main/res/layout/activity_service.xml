@@ -1126,8 +1126,8 @@
                     android:gravity="center"
                     android:text="提  交"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:background="#FF484A"/>
+                    android:textColor="@color/black"
+                    android:background="#F3C62D"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

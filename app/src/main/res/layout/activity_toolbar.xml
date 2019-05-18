@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="@drawable/mine_bg_shape" >
+        android:background="#F3C62D" >
         <ImageView
             android:id="@+id/icon_back"
             android:layout_width="50dp"
@@ -20,7 +20,7 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:paddingRight="15dp"
-            android:src="@drawable/back"/>
+            android:src="@drawable/left_arrow"/>
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textSize="18sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/black"/>
         <TextView
             android:id="@+id/tv_save"
             android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:padding="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_10"
             android:textSize="@dimen/sp_14"
-            android:textColor="@color/white"/>
+            android:textColor="@color/black"/>
         <ImageView
             android:id="@+id/icon_search"
             android:layout_width="50dp"

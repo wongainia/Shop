@@ -44,10 +44,10 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="119dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/red_round_shape"
+            android:background="#F3C62D"
             android:text="下一步"
             android:textSize="15sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/black"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -100,6 +100,6 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/mine_bg_shape"
         android:text="下一步"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="16sp"/>
 </LinearLayout>

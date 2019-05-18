@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/logistics_bg_shape"
+        android:background="#F3C62D"
         android:layout_marginTop="20dp">
 
         <TextView
@@ -69,7 +69,7 @@
             android:gravity="center"
             android:layout_marginTop="16dp"
             android:text="已签收"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
 
         <LinearLayout
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:text="防滑胶带橡胶楼梯台接发那个纸发撒旦发....."
                     android:textSize="12sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:maxLines="1"/>
 
                 <TextView
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:text="韵达快递：3937651455914"
                     android:textSize="12sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_marginTop="5dp"/>
             </LinearLayout>
         </LinearLayout>
@@ -139,7 +139,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="【收货地址】安徽省图图市包图区 包图街道  包图车重点站对面的包图平价店"
                 android:textSize="10sp"
-                android:textColor="#868686"
+                android:textColor="@color/black"
                 android:layout_gravity="center"/>
         </LinearLayout>
     </LinearLayout>

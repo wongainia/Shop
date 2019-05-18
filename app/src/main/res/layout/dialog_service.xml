@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/logistics_bg_shape"
+        android:background="#F3C62D"
         android:layout_marginTop="20dp"
         android:paddingBottom="24dp">
 
@@ -70,7 +70,7 @@
             android:gravity="center"
             android:layout_marginTop="16dp"
             android:text="已完成"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"/>
 
         <LinearLayout
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:text="防滑胶带橡胶楼梯台接发那个纸发撒旦发....."
                     android:textSize="12sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:maxLines="1"/>
 
                 <LinearLayout
@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:text="订单号：123156461325"
                         android:textSize="12sp"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/black" />
 
                     <ImageView
                         android:layout_width="wrap_content"

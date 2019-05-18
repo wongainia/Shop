@@ -4,17 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red">
+        android:background="@drawable/mine_bg_shape">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="35dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="@dimen/dp_10"
             android:orientation="horizontal">
@@ -22,10 +23,10 @@
             <LinearLayout
                 android:id="@+id/ll_scan_it"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginRight="10dp">
+                android:layout_marginRight="10dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -36,10 +37,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="扫一扫"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:layout_gravity="center"/>
+                    android:textSize="10sp" />
 
 
             </LinearLayout>
@@ -47,11 +48,14 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/search_edit_shape"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
 
                 <LinearLayout
@@ -62,11 +66,10 @@
 
                     <ImageView
                         android:id="@+id/iv_search"
-                        android:layout_width="15dp"
-                        android:layout_height="17dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="9dp"
-                        android:src="@mipmap/search" />
+                        android:src="@mipmap/sousuo" />
 
                     <TextView
                         android:id="@+id/tv_search"
@@ -76,18 +79,18 @@
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:text="搜索"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
+                        android:textColor="#808080"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_member_code"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginRight="10dp">
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -98,10 +101,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="分享码"
                     android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:layout_gravity="center"/>
+                    android:textSize="10sp" />
 
 
             </LinearLayout>
@@ -109,33 +112,37 @@
             <LinearLayout
                 android:id="@+id/ll_mess"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical"
-                android:layout_gravity="center">
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:src="@mipmap/message" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginTop="5dp"
                     android:text="消息"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:layout_gravity="center|bottom" />
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
 
 
             </LinearLayout>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.zhenghaikj.shop.widget.ObservableScrollView
             android:id="@+id/sv"
             android:layout_width="match_parent"
@@ -155,7 +162,7 @@
                     <com.youth.banner.Banner
                         android:id="@+id/banner_home"
                         android:layout_width="match_parent"
-                        android:layout_height="210dp"
+                        android:layout_height="150dp"
                         app:image_scale_type="fit_xy"
                         app:indicator_margin="5dp" />
 
@@ -163,8 +170,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="150dp"
                         android:background="#EEEEEE"
-                        android:layout_marginTop="210dp"
                         android:orientation="vertical">
 
                         <RelativeLayout
@@ -179,30 +186,31 @@
                                 android:nestedScrollingEnabled="false"
                                 android:overScrollMode="never"
                                 android:padding="10dp"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
                         </RelativeLayout>
+
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:descendantFocusability="blocksDescendants">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/rv_panic"
-                            android:nestedScrollingEnabled="false"
-                            android:overScrollMode="never"
-                            android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_panic"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:nestedScrollingEnabled="false"
+                                android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
                         </RelativeLayout>
+
                         <LinearLayout
-                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_10"
-                            android:layout_marginRight="@dimen/dp_10"
                             android:layout_marginTop="10dp"
+                            android:layout_marginRight="@dimen/dp_10"
                             android:background="@drawable/white_shape"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -262,8 +270,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
-                                    android:layout_marginRight="10dp"
                                     android:layout_marginTop="14dp"
+                                    android:layout_marginRight="10dp"
                                     android:layout_weight="1"
                                     android:orientation="vertical">
 
@@ -329,27 +337,31 @@
                                             android:text="00"
                                             android:textColor="@color/white"
                                             android:textSize="14sp" />
+
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight="1"/>
+                                            android:layout_weight="1" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:layout_marginRight="10dp"
                                             android:text="限时限量抢半价"
                                             android:textColor="#535353"
-                                            android:textSize="12sp"
-                                            android:layout_marginRight="10dp"/>
+                                            android:textSize="12sp" />
                                     </LinearLayout>
+
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal">
+
                                         <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/rv_panic_buying"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:id="@+id/rv_panic_buying"
-                                            android:layout_margin="5dp"/>
+                                            android:layout_margin="5dp" />
                                     </LinearLayout>
 
 
@@ -360,14 +372,14 @@
                                         android:layout_marginTop="9dp"
                                         android:layout_marginBottom="17dp"
                                         android:src="@drawable/one"
-                                        android:visibility="gone"/>
+                                        android:visibility="gone" />
                                 </LinearLayout>
 
                                 <View
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
                                     android:background="#eeeeee"
-                                    android:visibility="gone"/>
+                                    android:visibility="gone" />
 
                                 <LinearLayout
                                     android:id="@+id/ll_found_good_goods"
@@ -432,8 +444,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
-                                    android:layout_marginRight="10dp"
                                     android:layout_marginTop="14dp"
+                                    android:layout_marginRight="10dp"
                                     android:layout_weight="1"
                                     android:orientation="vertical">
 
@@ -451,27 +463,29 @@
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight="1"
                                             android:layout_marginLeft="4dp"
+                                            android:layout_weight="1"
                                             android:text="西瓜币商城"
                                             android:textColor="#535353"
                                             android:textSize="15sp"
-                                            android:textStyle="bold"/>
+                                            android:textStyle="bold" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:layout_marginRight="10dp"
                                             android:text="免费兑换心仪的商品"
                                             android:textColor="#535353"
-                                            android:textSize="12sp"
-                                            android:layout_marginRight="10dp"/>
+                                            android:textSize="12sp" />
                                     </LinearLayout>
 
 
                                     <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/rv_exchange"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:id="@+id/rv_exchange"
-                                        android:layout_margin="5dp"/>
+                                        android:layout_margin="5dp" />
+
                                     <ImageView
                                         android:id="@+id/iv_coin_mall"
                                         android:layout_width="161dp"
@@ -479,14 +493,14 @@
                                         android:layout_marginTop="9dp"
                                         android:layout_marginBottom="17dp"
                                         android:src="@drawable/three"
-                                        android:visibility="gone"/>
+                                        android:visibility="gone" />
                                 </LinearLayout>
 
                                 <View
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
                                     android:background="#eeeeee"
-                                    android:visibility="gone"/>
+                                    android:visibility="gone" />
 
                                 <LinearLayout
                                     android:id="@+id/ll_good_daily_shop"

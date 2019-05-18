@@ -177,7 +177,7 @@
                             android:paddingRight="20dp"
                             android:paddingBottom="14dp"
                             android:text="充     值"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="16sp" />
 
                         <TextView
@@ -191,7 +191,7 @@
                             android:paddingRight="20dp"
                             android:paddingBottom="14dp"
                             android:text="提    现"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="16sp" />
 
                         <TextView
@@ -205,7 +205,7 @@
                             android:paddingRight="20dp"
                             android:paddingBottom="14dp"
                             android:text="赠    送"
-                            android:textColor="@color/white"
+                            android:textColor="@color/black"
                             android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>

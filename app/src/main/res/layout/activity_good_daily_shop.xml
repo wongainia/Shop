@@ -15,12 +15,12 @@
             android:layout_height="30dp"
             app:tabBackground="@color/white"
             app:tabGravity="center"
-            app:tabIndicatorColor="@color/red"
+            app:tabIndicatorColor="#F3C62D"
             app:tabIndicatorHeight="2dp"
             app:tabIndicatorFullWidth="false"
             app:tabMode="scrollable"
             app:tabPaddingBottom="3dp"
-            app:tabSelectedTextColor="@color/red"
+            app:tabSelectedTextColor="#F3C62D"
             app:tabTextAppearance="@style/MyCustomNewsTextAppearance"
             app:tabTextColor="@color/black"/>
     </LinearLayout>
