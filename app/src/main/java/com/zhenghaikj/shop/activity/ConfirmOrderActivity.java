@@ -412,6 +412,8 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             ConfirmOrderActivity.this.finish();
             EventBus.getDefault().post("cart");
             Toast.makeText(mActivity,"提交成功待支付",Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(mActivity,result.getMsg(),Toast.LENGTH_SHORT).show();
         }
 
     }

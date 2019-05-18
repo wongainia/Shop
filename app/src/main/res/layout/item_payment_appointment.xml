@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/ll_service"
+    android:layout_below="@+id/rl_shop"
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/bg_shop">
+
+    <ImageView
+        android:id="@+id/img_shifu1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/icon_shifu"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="是否为您立即发单预约上门安装师傅"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/img_shifu1"
+        android:layout_toLeftOf="@+id/tv_yuyue"
+        />
+    <TextView
+        android:id="@+id/tv_yuyue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="预约"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:textSize="16sp"
+        android:textColor="#FF245C"
+        />
+</RelativeLayout>
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="50dp"
+android:layout_marginTop="5dp"
+android:layout_marginLeft="10dp"
+android:layout_marginRight="10dp"
+android:background="@drawable/bg_shop">
+
+<ImageView
+    android:id="@+id/img_shifu2"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:src="@mipmap/icon_kuaidi"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="10dp"/>
+
+<TextView
+android:layout_toRightOf="@+id/img_shifu2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="14sp"
+    android:text="不急,到货后仍可以再申请安装"
+    android:layout_marginLeft="10dp"
+    android:textColor="@color/black"
+    android:layout_centerVertical="true"
+    />
+</RelativeLayout>
+</LinearLayout>

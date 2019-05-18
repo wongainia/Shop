@@ -598,7 +598,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         if (!result.getColor().isEmpty() && result.getSize().isEmpty()&&result.getVersion().isEmpty()) {
                             if (skuId_color.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择颜色", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }
+                             else if (getinventory==0){
+                             Toast.makeText(mActivity,"对不起！该商品暂无库存！！",Toast.LENGTH_SHORT).show();
+                             return;
+                            }
+                            else {
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_0_0", count, Userkey);
                                 } else {
@@ -618,10 +623,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         if (!result.getSize().isEmpty() && result.getColor().isEmpty()&&result.getVersion().isEmpty()) {
                             if (skuId_size.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择尺寸", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }
+                            else if (getinventory==0){
+                                Toast.makeText(mActivity,"对不起！该商品暂无库存！！",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else {
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_0" + "_" + skuId_size + "_0", count, Userkey);
-                                } else {
+                                }
+
+                                else {
                                     //List<StoreBean> list = GetCheckShopList(result, id + "_0" + "_" + skuId_size + "_0", count, getPrice(id + "_0" + "_" + skuId_size + "_0"), "", skuId_size);
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     Bundle bundle=new Bundle();
@@ -639,10 +651,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         if (!result.getSize().isEmpty() && !result.getColor().isEmpty()&result.getVersion().isEmpty()) {
                             if (skuId_size.equals("0") || skuId_color.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择尺寸和颜色", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }
+                            else if (getinventory==0){
+                                Toast.makeText(mActivity,"对不起！该商品暂无库存！！",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else {
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_0", count, Userkey);
-                                } else {
+                                }
+
+                                else {
                                     //List<StoreBean> list = GetCheckShopList(result, id + "_" + skuId_color + "_" + skuId_size + "_0", count, getPrice(id + "_" + skuId_color + "_" + skuId_size + "_0"), skuId_color, skuId_size);
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     Bundle bundle=new Bundle();
@@ -660,10 +679,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         if (!result.getSize().isEmpty() && !result.getColor().isEmpty()&!result.getVersion().isEmpty()) {
                             if (skuId_size.equals("0") || skuId_color.equals("0")||skuId_version.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择尺寸颜色规格", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }
+                            else if (getinventory==0){
+                                Toast.makeText(mActivity,"对不起！该商品暂无库存！！",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else {
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_"+skuId_version, count, Userkey);
-                                } else {
+                                }
+
+                                else {
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     Bundle bundle=new Bundle();
                                     bundle.putString("TYPE","1");//TYPE 为购买类型  1为直接购买  2为购物购买
@@ -679,10 +705,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         if (result.getSize().isEmpty() && !result.getColor().isEmpty()&!result.getVersion().isEmpty()) {
                             if (skuId_color.equals("0")||skuId_version.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择颜色规格", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }
+                            else if (getinventory==0){
+                                Toast.makeText(mActivity,"对不起！该商品暂无库存！！",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else {
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + "0" + "_"+skuId_version, count, Userkey);
-                                } else {
+                                }
+
+                                else {
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     Bundle bundle=new Bundle();
                                     bundle.putString("TYPE","1");//TYPE 为购买类型  1为直接购买  2为购物购买
@@ -699,10 +732,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         if (!result.getSize().isEmpty() && result.getColor().isEmpty()&!result.getVersion().isEmpty()) {
                             if (skuId_size.equals("0")||skuId_version.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择尺寸规格", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }
+                            else if (getinventory==0){
+                                Toast.makeText(mActivity,"对不起！该商品暂无库存！！",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else {
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_" + "0" + "_" + skuId_size + "_"+skuId_version, count, Userkey);
-                                } else {
+                                }
+
+                                else {
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     Bundle bundle=new Bundle();
                                     bundle.putString("TYPE","1");//TYPE 为购买类型  1为直接购买  2为购物购买
@@ -718,7 +758,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         if (result.getSize().isEmpty() && result.getColor().isEmpty()&!result.getVersion().isEmpty()) {
                             if (skuId_version.equals("0")) {
                                 Toast.makeText(GoodsDetailActivity.this, "请选择规格", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }
+                            else if (getinventory==0){
+                                Toast.makeText(mActivity,"对不起！该商品暂无库存！！",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else {
                                 if (type == 1) {
                                     mPresenter.PostAddProductToCart(id + "_" + "0" + "_" + "0" + "_"+skuId_version, count, Userkey);
                                 } else {
@@ -735,20 +780,20 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         }
 
                         /*没尺寸没颜色没规格*/
-                        if (result.getColor().isEmpty() && result.getSize().isEmpty()&&result.getVersion().isEmpty()) {
-                            if (type == 1) {
-                                mPresenter.PostAddProductToCart(id + "_0_0_0", count, Userkey);
-                            } else {
-                               // List<StoreBean> list = GetCheckShopList(result, id + "_0_0_0", count, getPrice(id + "_0_0_0"), "", "");
-                                Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
-                                Bundle bundle=new Bundle();
-                                bundle.putString("TYPE","1");//TYPE 为购买类型  1为直接购买  2为购物购买
-                                bundle.putString("skuid",id+"_0"+"_0"+"_0");
-                                bundle.putString("count",count);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                            }
+                             if (result.getColor().isEmpty() && result.getSize().isEmpty()&&result.getVersion().isEmpty()) {
 
+                                 if (type == 1) {
+                                     mPresenter.PostAddProductToCart(id + "_0_0_0", count, Userkey);
+                                 } else {
+                                    // List<StoreBean> list = GetCheckShopList(result, id + "_0_0_0", count, getPrice(id + "_0_0_0"), "", "");
+                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
+                                     Bundle bundle=new Bundle();
+                                     bundle.putString("TYPE","1");//TYPE 为购买类型  1为直接购买  2为购物购买
+                                     bundle.putString("skuid",id+"_0"+"_0"+"_0");
+                                     bundle.putString("count",count);
+                                     intent.putExtras(bundle);
+                                     startActivity(intent);
+                                 }
 
                         }
                         break;
@@ -911,6 +956,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     /*选择颜色*/
     private void ChooseColor(RecyclerView rv_color, List<ShopColor> list) {
+
         chooseColorAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -924,6 +970,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             adapter.getViewByPosition(rv_color, position, R.id.rl_choose).setSelected(false);
                         } else {
                             adapter.getViewByPosition(rv_color, position, R.id.rl_choose).setSelected(true);
+
+                            /*获取color的sku判断其他是否存在*/
+                            String colorskuId = ((ShopColor) adapter.getData().get(position)).getSkuId();
+
+
+
 
                             Glide.with(mActivity)
                                     .load(result.getColor().get(position).getImg())
@@ -1169,6 +1221,19 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Override
     public void ProductComment(Comment Result) {
         mTvBabyEvaluation.setText("宝贝评价("+Result.getAllCommentCount()+")");
+    }
+
+
+
+    /*查询选择后其他类型是否存在*/
+    public void CheckOtherNum(String colorskuid,String size_skuid,String version_skuid,
+                              ChooseColorAdapter chooseColorAdapter,ChooseSizeAdapter chooseSizeAdapter,
+                              ChooseVersionAdapter chooseVersionAdapter){
+    for (int i = 0; i < skuArray.size(); i++) {
+
+    }
+
+
     }
 
 }

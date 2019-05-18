@@ -622,8 +622,8 @@ public class MyUtils {
 
     /*将x.0 转变为x*/
     public static String floatToString(float num){
-        String str_num= String.valueOf(num);
-        str_num.substring(0,1);
+        int intnum= (int) num;
+        String str_num= String.valueOf(intnum);
         return str_num;
     }
 }
