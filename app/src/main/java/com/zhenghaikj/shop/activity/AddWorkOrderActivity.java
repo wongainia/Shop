@@ -24,10 +24,13 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.donkingliang.labels.LabelsView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AreaAdapter;
+import com.zhenghaikj.shop.adapter.BrandChooseAdapter;
+import com.zhenghaikj.shop.adapter.CategoryAdapter;
 import com.zhenghaikj.shop.adapter.CityAdapter;
 import com.zhenghaikj.shop.adapter.DistrictAdapter;
 import com.zhenghaikj.shop.adapter.ProvinceAdapter;
@@ -36,6 +39,9 @@ import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Area;
+import com.zhenghaikj.shop.entity.Brand;
+import com.zhenghaikj.shop.entity.Category;
+import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
@@ -49,6 +55,7 @@ import com.zhenghaikj.shop.mvp.presenter.AddOrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.AdderView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -60,6 +67,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrderModel> implements View.OnClickListener, AddOrderContract.View {
+
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -74,18 +82,22 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     Toolbar mToolbar;
     @BindView(R.id.tv_store_name)
     TextView mTvStoreName;
-    @BindView(R.id.iv_goods_picture)
-    ImageView mIvGoodsPicture;
-    @BindView(R.id.tv_goods_name)
-    TextView mTvGoodsName;
-    @BindView(R.id.tv_price)
-    TextView mTvPrice;
-    @BindView(R.id.tv_number)
-    TextView mTvNumber;
-    @BindView(R.id.tv_number_of_applications)
-    TextView mTvNumberOfApplications;
+    @BindView(R.id.tv_category)
+    TextView mTvCategory;
+    @BindView(R.id.ll_choose_category)
+    LinearLayout mLlChooseCategory;
+    @BindView(R.id.tv_brand)
+    TextView mTvBrand;
+    @BindView(R.id.ll_choose_brand)
+    LinearLayout mLlChooseBrand;
+    @BindView(R.id.tv_type)
+    TextView mTvType;
+    @BindView(R.id.ll_choose_type)
+    LinearLayout mLlChooseType;
     @BindView(R.id.ll_reason_for_application)
     LinearLayout mLlReasonForApplication;
+    @BindView(R.id.adderview)
+    AdderView mAdderview;
     @BindView(R.id.et_problem_description)
     EditText mEtProblemDescription;
     @BindView(R.id.tv_word_count)
@@ -96,18 +108,30 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     ImageView mIvPhoto;
     @BindView(R.id.switcher_installation_work_order)
     Switch mSwitcherInstallationWorkOrder;
-    @BindView(R.id.tv_address)
-    TextView mTvAddress;
     @BindView(R.id.tv_contact)
     TextView mTvContact;
     @BindView(R.id.tv_contact_number)
     TextView mTvContactNumber;
-    @BindView(R.id.tv_submit)
-    TextView mTvSubmit;
     @BindView(R.id.ll_address)
     LinearLayout mLlAddress;
     @BindView(R.id.ll_add_address)
     LinearLayout mLlAddAddress;
+    @BindView(R.id.et_name)
+    EditText mEtName;
+    @BindView(R.id.iv_add_name)
+    ImageView mIvAddName;
+    @BindView(R.id.et_phone)
+    EditText mEtPhone;
+    @BindView(R.id.tv_address)
+    TextView mTvAddress;
+    @BindView(R.id.tv_pca)
+    TextView mTvPca;
+    @BindView(R.id.et_detail)
+    EditText mEtDetail;
+    @BindView(R.id.iv_microphone)
+    ImageView mIvMicrophone;
+    @BindView(R.id.ll_microphone)
+    LinearLayout mLlMicrophone;
     @BindView(R.id.cb_under_warranty)
     CheckBox mCbUnderWarranty;
     @BindView(R.id.ll_under_warranty)
@@ -154,34 +178,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     AppCompatSpinner mSpinner;
     @BindView(R.id.tv_expedited)
     TextView mTvExpedited;
-    @BindView(R.id.et_name)
-    EditText mEtName;
-    @BindView(R.id.iv_add_name)
-    ImageView mIvAddName;
-    @BindView(R.id.et_phone)
-    EditText mEtPhone;
-    @BindView(R.id.tv_pca)
-    TextView mTvPca;
-    @BindView(R.id.et_detail)
-    EditText mEtDetail;
-    @BindView(R.id.iv_microphone)
-    ImageView mIvMicrophone;
-    @BindView(R.id.ll_microphone)
-    LinearLayout mLlMicrophone;
-    @BindView(R.id.tv_category)
-    TextView mTvCategory;
-    @BindView(R.id.ll_choose_category)
-    LinearLayout mLlChooseCategory;
-    @BindView(R.id.tv_brand)
-    TextView mTvBrand;
-    @BindView(R.id.ll_choose_brand)
-    LinearLayout mLlChooseBrand;
-    @BindView(R.id.tv_type)
-    TextView mTvType;
-    @BindView(R.id.ll_choose_type)
-    LinearLayout mLlChooseType;
-    @BindView(R.id.adderview)
-    AdderView mAdderview;
+    @BindView(R.id.tv_submit)
+    TextView mTvSubmit;
     private OrderDetail.OrderItemBean bean;
     private String storeName;
     private String num;
@@ -239,6 +237,19 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String DetailAddress;
     private String Address;
     private Intent intent;
+    private List<Category> popularList;
+    private LabelsView lv_popular;
+    private RecyclerView rv_choose;
+    private String CategoryName;
+    private List<Brand> brandList=new ArrayList<>();
+    private BrandChooseAdapter brandsAdapter;
+    private String FBrandID;
+    private List<Category> chooseList;
+    private CategoryAdapter chooseAdapter;
+    private String SubCategoryName;
+    private String SubCategoryID;
+    private String TypeID;
+    private String TypeName;
 
     @Override
     protected int setLayoutId() {
@@ -247,6 +258,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 
     @Override
     protected void initData() {
+        spUtil = SPUtils.getInstance("token");
+        userID = spUtil.getString("userName2");
         title = getIntent().getStringExtra("title");
         mTvTitle.setText(title);
 
@@ -368,13 +381,21 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_choose_brand:
-//                mPresenter.GetBrand(userID);
+                if (SubCategoryID==null){
+                    ToastUtils.showShort("请先选择分类");
+                    return;
+                }
+                mPresenter.GetBrand(userID);
                 break;
             case R.id.ll_choose_category:
-//                mPresenter.GetFactoryCategory("999");
+                mPresenter.GetFactoryCategory("999");
                 break;
             case R.id.ll_choose_type:
-
+                if (SubCategoryID==null){
+                    ToastUtils.showShort("请先选择分类");
+                    return;
+                }
+                mPresenter.GetChildFactoryCategory2(SubCategoryID);
                 break;
             case R.id.iv_add_name:
 //                startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI), 0);
@@ -453,10 +474,21 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 Address = mTvPca.getText().toString() + DetailAddress;
                 name = mEtName.getText().toString();
                 phone = mEtPhone.getText().toString();
-                spUtil = SPUtils.getInstance("token");
-                userID = spUtil.getString("userName2");
+
                 RecycleOrderHour = mEtRecoveryTime.getText().toString();
                 memo = mEtProblemDescription.getText().toString();
+                if (SubCategoryID==null) {
+                    ToastUtils.showShort("请选择分类！");
+                    return;
+                }
+                if (BrandID==null) {
+                    ToastUtils.showShort("请选择品牌！");
+                    return;
+                }
+                if (TypeID==null) {
+                    ToastUtils.showShort("请选择型号！");
+                    return;
+                }
                 if ("".equals(memo)) {
                     ToastUtils.showShort("请填写问题描述！");
                     return;
@@ -520,7 +552,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             }
                         }
 
-                        mPresenter.AddOrder("2", "安装", userID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number);
+                        mPresenter.AddOrder("2", "安装", userID, BrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number);
                         break;
                     case "维修":
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
@@ -528,7 +560,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             return;
                         }
                         OrderMoney = "100";
-                        mPresenter.AddOrder("1", "维修", userID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null);
+                        mPresenter.AddOrder("1", "维修", userID, BrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null);
                         break;
                     default:
                         break;
@@ -543,6 +575,109 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetFactoryCategory(BaseResult<CategoryData> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                CategoryData data = baseResult.getData();
+                if ("0".equals(data.getCode())) {
+                    popularList = data.getData();
+                    if (popularList.size() == 0) {
+                        ToastUtils.showShort("无分类，请联系管理员添加！");
+                    } else {
+                        showPopWindowGetCategory(mTvCategory);
+                    }
+                } else {
+                    ToastUtils.showShort("获取分类失败！");
+                }
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetChildFactoryCategory(BaseResult<CategoryData> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                CategoryData data = baseResult.getData();
+                if ("0".equals(data.getCode())) {
+                    chooseList = data.getData();
+                    if (chooseList.size() == 0) {
+                        ToastUtils.showShort("无分类，请联系管理员添加！");
+                    } else {
+                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+                        chooseAdapter = new CategoryAdapter(R.layout.item_choose, chooseList);
+                        rv_choose.setAdapter(chooseAdapter);
+                        chooseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                SubCategoryName = chooseList.get(position).getFCategoryName();
+                                mTvCategory.setText(SubCategoryName);
+                                TypeID=null;
+                                TypeName=null;
+                                mTvType.setText("");
+                                SubCategoryID = chooseList.get(position).getFCategoryID();
+                                popupWindow.dismiss();
+                                mPresenter.GetBrand(userID);
+                            }
+                        });
+                    }
+                } else {
+                    ToastUtils.showShort("获取分类失败！");
+                }
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+    @Override
+    public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                CategoryData data = baseResult.getData();
+                if ("0".equals(data.getCode())) {
+                    chooseList = data.getData();
+                    if (chooseList.size() == 0) {
+                        ToastUtils.showShort("无型号，请联系管理员添加！");
+                    } else {
+                        rv_choose.setLayoutManager(new LinearLayoutManager(mActivity));
+                        chooseAdapter = new CategoryAdapter(R.layout.item_choose, chooseList);
+                        showPopWindow(mTvType, chooseAdapter, chooseList);
+                    }
+                } else {
+                    ToastUtils.showShort("获取型号失败！");
+                }
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
+    }
+
+    @Override
+    public void GetBrand(BaseResult<List<Brand>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData()!=null){
+                    brandList = baseResult.getData();
+                }
+                if (brandList.size()==0) {
+                    ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
+                    startActivity(new Intent(mActivity, BrandActivity.class));
+                } else {
+                    brandsAdapter = new BrandChooseAdapter(R.layout.category_item, brandList);
+                    showPopWindow(mTvBrand, brandsAdapter, brandList);
+                }
+                break;
+            default:
+//                ToastUtils.showShort(baseResult.getData());
+                break;
+        }
     }
 
     @Override
@@ -742,6 +877,103 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
+    public void showPopWindowGetCategory(final TextView tv) {
+
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
+        lv_popular = contentView.findViewById(R.id.lv_popular);
+        rv_choose = contentView.findViewById(R.id.rv_choose);
+        iv_close = contentView.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
+            @Override
+            public CharSequence getLabelText(TextView label, int position, Category data) {
+                return data.getFCategoryName();
+            }
+        });
+        FCategoryID = popularList.get(0).getId();
+        CategoryName = popularList.get(0).getFCategoryName();
+        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
+        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
+            @Override
+            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
+                if (isSelect) {
+                    FCategoryID = ((Category) data).getId();
+                    CategoryName = ((Category) data).getFCategoryName();
+                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
+                }
+            }
+        });
+
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//        popupWindow.setWidth(tv.getWidth());
+        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+//            popupWindow.showAsDropDown(tv, 0, 10);
+            popupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
+    public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
+
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
+        final RecyclerView rv = contentView.findViewById(R.id.rv);
+        rv.setLayoutManager(new LinearLayoutManager(mActivity));
+        rv.setAdapter(adapter);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                popupWindow.dismiss();
+                if (list.get(position) instanceof Brand) {
+                    FBrandID = ((Brand) list.get(position)).getFBrandID();
+                    BrandName = ((Brand) list.get(position)).getFBrandName();
+                    tv.setText(BrandName);
+                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
+                }
+                if (list.get(position) instanceof Category) {
+                    TypeID = ((Category) list.get(position)).getFCategoryID();
+                    TypeName = ((Category) list.get(position)).getFCategoryName();
+                    tv.setText(TypeName);
+                }
+            }
+        });
+        popupWindow = new PopupWindow(contentView);
+        popupWindow.setWidth(tv.getWidth());
+        if (list.size() > 5) {
+            popupWindow.setHeight(600);
+        } else {
+            popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        }
+//        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+        if (popupWindow != null && !popupWindow.isShowing()) {
+            popupWindow.showAsDropDown(tv, 0, 10);
+//            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+    }
 
     @Override
     public void AddOrder(BaseResult<Data<String>> baseResult) {
@@ -811,4 +1043,5 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         }
 
     }
+
 }

@@ -36,6 +36,8 @@ import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Area;
+import com.zhenghaikj.shop.entity.Brand;
+import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
@@ -540,6 +542,26 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetFactoryCategory(BaseResult<CategoryData> baseResult) {
+
+    }
+
+    @Override
+    public void GetChildFactoryCategory(BaseResult<CategoryData> baseResult) {
+
+    }
+
+    @Override
+    public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
+
+    }
+
+    @Override
+    public void GetBrand(BaseResult<List<Brand>> baseResult) {
+
     }
 
     @Override

@@ -87,6 +87,12 @@
                 android:layout_marginLeft="6dp"
                 android:src="@drawable/youjiantou" />
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:background="#E4E4E4" />
         <LinearLayout
             android:id="@+id/ll_brand"
             android:layout_width="match_parent"

@@ -5,6 +5,8 @@ import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Area;
+import com.zhenghaikj.shop.entity.Brand;
+import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
@@ -17,6 +19,10 @@ import io.reactivex.Observable;
 
 public interface AddOrderContract {
     interface Model extends BaseModel {
+        Observable<BaseResult<CategoryData>> GetFactoryCategory(String ParentID);
+        Observable<BaseResult<CategoryData>> GetChildFactoryCategory(String ParentId);
+        Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentId);
+        Observable<BaseResult<List<Brand>>> GetBrand(String UserId);
         Observable<BaseResult<List<Province>>> GetProvince();
         Observable<BaseResult<Data<List<City>>>> GetCity(String parentcode);
         Observable<BaseResult<Data<List<Area>>>> GetArea(String parentcode);
@@ -52,6 +58,10 @@ public interface AddOrderContract {
     }
 
     interface View extends BaseView {
+        void GetFactoryCategory(BaseResult<CategoryData> baseResult);
+        void GetChildFactoryCategory(BaseResult<CategoryData> baseResult);
+        void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult);
+        void GetBrand(BaseResult<List<Brand>> baseResult);
         void GetProvince(BaseResult<List<Province>> baseResult);
         void GetCity(BaseResult<Data<List<City>>> baseResult);
         void GetArea(BaseResult<Data<List<Area>>> baseResult);
@@ -61,6 +71,10 @@ public interface AddOrderContract {
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
+        public abstract void GetFactoryCategory(String ParentID);
+        public abstract void GetChildFactoryCategory(String ParentId);
+        public abstract void GetChildFactoryCategory2(String ParentId);
+        public abstract void GetBrand(String UserId);
         public abstract void GetProvince();
 
         public abstract void GetCity(String parentcode);

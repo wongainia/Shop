@@ -3,6 +3,8 @@ package com.zhenghaikj.shop.mvp.presenter;
 import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Area;
+import com.zhenghaikj.shop.entity.Brand;
+import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
@@ -13,7 +15,48 @@ import com.zhenghaikj.shop.mvp.contract.AddOrderContract;
 import java.util.List;
 
 public class AddOrderPresenter extends AddOrderContract.Presenter {
+    @Override
+    public void GetFactoryCategory(String ParentID) {
+        mModel.GetFactoryCategory(ParentID)
+                .subscribe(new BaseObserver2<CategoryData>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
+                        mView.GetFactoryCategory(value);
+                    }
+                });
+    }
 
+    @Override
+    public void GetChildFactoryCategory(String ParentId) {
+        mModel.GetChildFactoryCategory(ParentId)
+                .subscribe(new BaseObserver2<CategoryData>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
+                        mView.GetChildFactoryCategory(value);
+                    }
+                });
+    }
+    @Override
+    public void GetChildFactoryCategory2(String ParentId) {
+        mModel.GetChildFactoryCategory2(ParentId)
+                .subscribe(new BaseObserver2<CategoryData>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<CategoryData> value) {
+                        mView.GetChildFactoryCategory2(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetBrand(String UserId) {
+        mModel.GetBrand(UserId)
+                .subscribe(new BaseObserver2<List<Brand>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<List<Brand>> value) {
+                        mView.GetBrand(value);
+                    }
+                });
+    }
     @Override
     public void GetProvince() {
         mModel.GetProvince()

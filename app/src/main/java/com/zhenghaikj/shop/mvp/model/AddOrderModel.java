@@ -3,6 +3,8 @@ package com.zhenghaikj.shop.mvp.model;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Area;
+import com.zhenghaikj.shop.entity.Brand;
+import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
@@ -17,7 +19,33 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class AddOrderModel implements AddOrderContract.Model {
+    @Override
+    public Observable<BaseResult<CategoryData>> GetFactoryCategory(String ParentID) {
+        return ApiRetrofit2.getDefault().GetFactoryCategory(ParentID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 
+    @Override
+    public Observable<BaseResult<CategoryData>> GetChildFactoryCategory(String ParentId) {
+        return ApiRetrofit2.getDefault().GetChildFactoryCategory(ParentId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentId) {
+        return ApiRetrofit2.getDefault().GetChildFactoryCategory(ParentId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+
+    @Override
+    public Observable<BaseResult<List<Brand>>> GetBrand(String UserId) {
+        return ApiRetrofit2.getDefault().GetFactoryBrand(UserId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
     @Override
     public Observable<BaseResult<List<Province>>> GetProvince() {
         return ApiRetrofit2.getDefault().GetProvince()

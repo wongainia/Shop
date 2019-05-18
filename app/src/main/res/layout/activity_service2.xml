@@ -84,10 +84,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:gravity="right|center"
-                        android:hint=">"
+                        android:layout_weight="1"
+                        android:hint=""
                         android:paddingLeft="@dimen/dp_10"
                         android:paddingRight="@dimen/dp_10"
                         android:textColor="@color/black" />
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/right_arrow"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/ll_choose_brand"
@@ -110,10 +115,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:gravity="right|center"
-                        android:hint=">"
+                        android:layout_weight="1"
+                        android:hint=""
                         android:paddingLeft="@dimen/dp_10"
                         android:paddingRight="@dimen/dp_10"
                         android:textColor="@color/black" />
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/right_arrow"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/ll_choose_type"
@@ -136,10 +146,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:gravity="right|center"
-                        android:hint=">"
+                        android:layout_weight="1"
+                        android:hint=""
                         android:paddingLeft="@dimen/dp_10"
                         android:paddingRight="@dimen/dp_10"
                         android:textColor="@color/black" />
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/right_arrow"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -563,10 +578,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:gravity="right|center"
-                        android:hint=">"
+                        android:layout_weight="1"
                         android:paddingLeft="@dimen/dp_10"
                         android:paddingRight="@dimen/dp_10"
                         android:textColor="@color/black" />
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/right_arrow"/>
                 </LinearLayout>
 
                 <View

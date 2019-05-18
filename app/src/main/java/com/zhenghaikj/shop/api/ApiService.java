@@ -178,7 +178,7 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("api/CategoryMall/GetCategories")
+    @GET("api/Category/GetCategories")
     Observable<CategoryMall> GetCategories(
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,

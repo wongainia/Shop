@@ -64,7 +64,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/ll_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/ll_add_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -184,6 +184,7 @@
                     android:src="@mipmap/dian" />
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
