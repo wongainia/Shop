@@ -12,8 +12,17 @@ public class ConfirmModel implements Serializable {
      */
 
     private String Success;
+    private String Msg;
     private boolean RealTotalIsZero;
     private List<Long> OrderIds;
+
+    public String getMsg() {
+        return Msg;
+    }
+
+    public void setMsg(String msg) {
+        Msg = msg;
+    }
 
     public String getSuccess() {
         return Success;

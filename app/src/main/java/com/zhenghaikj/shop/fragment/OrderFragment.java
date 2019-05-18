@@ -20,7 +20,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.DeliverySuccessActivity;
 import com.zhenghaikj.shop.activity.EvaluateActivity;
+import com.zhenghaikj.shop.activity.PaymentSuccessActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.CloseOrder;
@@ -67,6 +69,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private View popupWindow_view;
     private PopupWindow mPopupWindow;
     private int receipt_position;
+    private String OrderId="";
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
@@ -123,6 +126,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                     case R.id.tv_buy:
                     case R.id.tv_buy_again://再次购买
+
 //                        startActivity(new Intent(mActivity, OrderDetailActivity.class));
 //                        mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                         break;
@@ -131,10 +135,12 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                         break;
                     case R.id.tv_confirm_receipt://确认收货
+                        OrderId = cartList.get(position).getId();
                         mPresenter.PostConfirmOrder(cartList.get(position).getId(),userKey);
                         receipt_position=position;
                         break;
                     case R.id.tv_payment://付款
+                        OrderId = cartList.get(position).getId();
                         showPopupWindow();
                         break;
                     case R.id.tv_extended_receipt://延长收货
@@ -257,6 +263,10 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     public void PostConfirmOrder(ConfirmOrder Result) {
      if ("true".equals(Result.getSuccess())){
          orderListAdapter.remove(receipt_position);
+         Intent intent=new Intent(mActivity, DeliverySuccessActivity.class);
+         intent.putExtra("OrderID",OrderId);
+         startActivity(intent);
+
      }
     }
     /**
@@ -270,13 +280,20 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
+                intent.putExtra("OrderID",OrderId);
+                startActivity(intent);
                 mPopupWindow.dismiss();
             }
         });
+
         ll_wxpay.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
+                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
+                intent.putExtra("OrderID",OrderId);
+                startActivity(intent);
                 mPopupWindow.dismiss();
             }
         });

@@ -275,8 +275,8 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
         if (Result.getSuccess().equals("true")) {
             Toast.makeText(mActivity, "评价成功", Toast.LENGTH_SHORT).show();
+            setResult(401);
             EventBus.getDefault().post("evaluate");
-
             EvaluateActivity.this.finish();
 
         } else {
