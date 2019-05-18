@@ -165,9 +165,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         receipt_position=position;
                         break;
                     case R.id.tv_payment://付款
-                        showPopupWindow(cartList.get(position));
+
                         OrderId = cartList.get(position).getId();
-                        showPopupWindow();
+                        showPopupWindow(cartList.get(position));
                         break;
                     case R.id.tv_extended_receipt://延长收货
 //                        showPopupWindow();
@@ -307,7 +307,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(userName,ordersBean.getId(),ordersBean.getId(),ordersBean.getOrderTotalAmount());
+//                mPresenter.GetOrderStr(userName,ordersBean.getId(),ordersBean.getId(),ordersBean.getOrderTotalAmount());
                 Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
                 intent.putExtra("OrderID",OrderId);
                 startActivity(intent);
@@ -319,7 +319,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(userName,ordersBean.getId(),ordersBean.getId(),ordersBean.getOrderTotalAmount());
+//                mPresenter.GetOrderStr(userName,ordersBean.getId(),ordersBean.getId(),ordersBean.getOrderTotalAmount());
                 Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
                 intent.putExtra("OrderID",OrderId);
                 startActivity(intent);
