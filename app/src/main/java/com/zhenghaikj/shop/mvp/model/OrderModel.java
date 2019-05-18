@@ -2,9 +2,13 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.Order;
+import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 
 import java.text.SimpleDateFormat;
@@ -79,6 +83,23 @@ public class OrderModel implements OrderContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
-
+    @Override
+    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount) {
+        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount) {
+        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo) {
+        return ApiRetrofit2.getDefault().WXNotifyManual(OutTradeNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 
 }

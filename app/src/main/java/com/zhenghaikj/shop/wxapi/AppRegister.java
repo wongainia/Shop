@@ -14,6 +14,6 @@ public class AppRegister extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		final IWXAPI msgApi = WXAPIFactory.createWXAPI(context, null);
 
-		msgApi.registerApp("wxd6509c9c912f0015");
+		msgApi.registerApp("wx92928bf751e1628e");
 	}
 }

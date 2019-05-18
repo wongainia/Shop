@@ -15,9 +15,12 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.Order;
+import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 import com.zhenghaikj.shop.mvp.model.OrderModel;
 import com.zhenghaikj.shop.mvp.presenter.OrderPresenter;
@@ -177,6 +180,21 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
 
     @Override
     public void GetExpressInfo(String Result) {
+
+    }
+
+    @Override
+    public void GetOrderStr(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult) {
+
+    }
+
+    @Override
+    public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
 
     }
 }

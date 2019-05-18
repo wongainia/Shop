@@ -313,25 +313,29 @@ public interface ApiService2 {
      * 充值信息
      * @param UserID 账号
      * @param TotalAmount 金额
-     * @param Type  1余额 2 诚意金
+     * @param Type  1余额 2 诚意金 3订单支付
      * @return
      */
     @FormUrlEncoded
     @POST("Pay/GetOrderStr")
     Observable<BaseResult<Data<String>>> GetOrderStr(@Field("UserID") String UserID,
+                                                     @Field("BisId") String BisId,
+                                                     @Field("OrderId") String OrderId,
                                                      @Field("TotalAmount") String TotalAmount,
                                                      @Field("Type") String Type);
     /**
      * 充值信息
      * @param UserID 账号
      * @param TotalAmount 金额
-     * @param Type  1余额 2 诚意金
-     * @param Style  工厂传factory
+     * @param Type  1余额 2 诚意金 3订单支付
+     * @param Style  工厂传factory 商城mall
      * @return
      */
     @FormUrlEncoded
     @POST("Pay/GetWXOrderStr")
     Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(@Field("UserID") String UserID,
+                                                          @Field("BisId") String BisId,
+                                                          @Field("OrderId") String OrderId,
                                                           @Field("TotalAmount") String TotalAmount,
                                                           @Field("Type") String Type,
                                                           @Field("Style") String Style);

@@ -24,7 +24,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.pay_result);
         
-    	api = WXAPIFactory.createWXAPI(this, "wxd6509c9c912f0015");
+    	api = WXAPIFactory.createWXAPI(this, "wx92928bf751e1628e");
         api.handleIntent(getIntent(), this);
     }
 

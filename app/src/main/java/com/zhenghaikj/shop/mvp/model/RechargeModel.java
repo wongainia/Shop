@@ -16,13 +16,13 @@ public class RechargeModel implements RechargeContract.Model {
 
     @Override
     public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String TotalAmount) {
-        return ApiRetrofit2.getDefault().GetOrderStr(userid, TotalAmount,"1")
+        return ApiRetrofit2.getDefault().GetOrderStr(userid, "","",TotalAmount,"1")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
     @Override
     public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String TotalAmount) {
-        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, TotalAmount,"1","factory")
+        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, "","",TotalAmount,"1","mall")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

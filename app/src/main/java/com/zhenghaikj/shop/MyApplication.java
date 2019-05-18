@@ -100,7 +100,7 @@ public class MyApplication extends MultiDexApplication {
         /*UMConfigure.init(this,"5cac29a83fc195f908001564"
                 ,"umeng", UMConfigure.DEVICE_TYPE_PHONE,"");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
         //微信
-        PlatformConfig.setWeixin("wxd6509c9c912f0015", "345fe20ab087a2b0aa97cd0c8f09a2e6");
+        PlatformConfig.setWeixin("wx92928bf751e1628e", "345fe20ab087a2b0aa97cd0c8f09a2e6");
         //新浪
         PlatformConfig.setSinaWeibo("3639937394", "18ba4336bf8cae28d71360ac264065f2","http://sns.whalecloud.com");
         //QQ

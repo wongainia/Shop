@@ -96,9 +96,9 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
         spUtils = SPUtils.getInstance("token");
         userName = spUtils.getString("userName2");
 
-        api = WXAPIFactory.createWXAPI(this, "wxd6509c9c912f0015");
+        api = WXAPIFactory.createWXAPI(this, "wx92928bf751e1628e");
         // 将该app注册到微信
-        api.registerApp("wxd6509c9c912f0015");
+        api.registerApp("wx92928bf751e1628e");
 
 
         mIvAplipay.setSelected(true);//默认选中支付宝
