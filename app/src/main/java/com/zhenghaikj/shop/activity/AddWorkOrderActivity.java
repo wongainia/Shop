@@ -547,7 +547,6 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                                 return;
                             }
                         }
-
                         mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number);
                         break;
                     case "维修":
@@ -706,7 +705,6 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 
                 break;
             case 401:
-//                ToastUtils.showShort(baseResult.getData());
                 break;
         }
     }

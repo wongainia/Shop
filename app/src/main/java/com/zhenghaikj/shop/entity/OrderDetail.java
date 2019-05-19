@@ -102,6 +102,7 @@ public class OrderDetail implements Serializable {
 
         private String Id;
         private String OrderType;
+        private String BisId;
         private String OrderTypeName;
         private String Status;
         private String JoinStatus;
@@ -137,6 +138,14 @@ public class OrderDetail implements Serializable {
         private double EnabledRefundAmount;
         private boolean HasAppendComment;
         private String SelfTake;
+
+        public String getBisId() {
+            return BisId;
+        }
+
+        public void setBisId(String bisId) {
+            BisId = bisId;
+        }
 
         public String getId() {
             return Id;

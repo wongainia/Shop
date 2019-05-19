@@ -1,9 +1,15 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +48,7 @@ import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
 import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
 import com.zhenghaikj.shop.widget.CircleImageView;
+import com.zhenghaikj.shop.widget.StarBarView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -167,6 +174,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     TextView mTvCoupon;
     @BindView(R.id.ll_coupon)
     LinearLayout mLlCoupon;
+
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
     private ServiceDialog serviceDialog;
@@ -176,12 +184,43 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private SPUtils spUtils;
     private String userKey;
     private int pageIndex;
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private UserInfo.UserInfoDean userInfo;
     private String userName;
     private boolean isLogin;
+
+
+    /*弹出的评价view*/
+    private Window window;
+    private View view;
+    private AlertDialog EvalateDialog;
+    private TextView tv_orderid;
+    private TextView tv_serach;
+    private TextView tv_totle_grade;
+    private StarBarView good_star;
+    private TextView tv_good_content;
+
+    private StarBarView shangmen_star;
+    private TextView tv_shangmen_content;
+
+    private StarBarView weixiu_star;
+    private TextView tv_weixiu_content;
+
+    private StarBarView fuwu_star;
+    private TextView tv_fuwu_content;
+
+    private EditText et_content;
+    private TextView tv_submit;
+
+    private ImageView iv_close;
+
+
+
+
+
+
+
 
     public static MineFragment newInstance(String param1, String param2) {
         MineFragment fragment = new MineFragment();
@@ -237,7 +276,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     protected void initView() {
-
+        EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -276,6 +315,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
         mLlFreeInstallation.setOnClickListener(this);
         mLlFreeRepair.setOnClickListener(this);
+
+        mTvUsername.setOnClickListener(this);
     }
 
     @Override
@@ -397,6 +438,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                mPresenter.AddOrder("1", "维修", "18767773654", "", "", "", "", "251", "", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
                 break;
 
+
+              case R.id.tv_username:
+                  showOrderEvaluate();
+                  break;
+
+                  default:
+                      break;
         }
     }
 
@@ -534,5 +582,40 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
 
         }
+    }
+
+    /*弹出确认工单评价*/
+    public void showOrderEvaluate() {
+        view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_evaluate, null);
+        iv_close = view.findViewById(R.id.iv_close);
+        tv_orderid = view.findViewById(R.id.tv_orderid);
+        tv_serach = view.findViewById(R.id.tv_serach);
+
+        tv_totle_grade = view.findViewById(R.id.tv_totle_grade);
+        good_star = view.findViewById(R.id.good_star);
+        tv_good_content = view.findViewById(R.id.tv_good_content);
+
+        shangmen_star = view.findViewById(R.id.shangmen_star);
+        tv_shangmen_content = view.findViewById(R.id.tv_shangmen_content);
+        weixiu_star = view.findViewById(R.id.weixiu_star);
+        tv_weixiu_content = view.findViewById(R.id.tv_weixiu_content);
+        fuwu_star = view.findViewById(R.id.fuwu_star);
+        tv_fuwu_content = view.findViewById(R.id.tv_fuwu_content);
+
+
+
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EvalateDialog.dismiss();
+            }
+        });
+
+        EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
+        EvalateDialog.show();
+        window = EvalateDialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        window.setAttributes(lp);
+        window.setBackgroundDrawable(new ColorDrawable());
     }
 }

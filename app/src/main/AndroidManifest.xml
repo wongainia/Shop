@@ -291,6 +291,11 @@
             android:launchMode="singleTask"
             />
 
+
+        <activity android:name=".activity.OrderInstallActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
         <receiver
             android:name=".wxapi.AppRegister">
             <intent-filter>

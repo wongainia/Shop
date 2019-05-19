@@ -1,4 +1,5 @@
 package com.zhenghaikj.shop.activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.PaymentSuccessAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -26,7 +28,12 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
 
     private SPUtils spUtils=SPUtils.getInstance("token");
     private String userKey;
+    private String orderID;
 
+    @BindView(R.id.tv_count)
+    TextView mTvcount;
+    @BindView(R.id.view)
+    View mView;
     @BindView(R.id.icon_back)
     ImageView mIconBack;
     @BindView(R.id.ll_success)
@@ -42,8 +49,22 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.tv_yuyue)
+    TextView mTvyuyue;
 
     private PaymentSuccessAdapter paymentSuccessAdapter;
+
+    /**
+     * 初始化沉浸式
+     */
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
     @Override
     protected int setLayoutId() {
         return R.layout.activity_paymentsuccess;
@@ -52,7 +73,7 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
     @Override
     protected void initData() {
         userKey=spUtils.getString("UserKey");
-        String orderID = getIntent().getStringExtra("OrderID");
+        orderID = getIntent().getStringExtra("OrderID");
         Log.d("======>orderID",orderID);
         mPresenter.GetOrderDetail(orderID,userKey);
 
@@ -67,6 +88,7 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mTvyuyue.setOnClickListener(this);
     }
 
 
@@ -84,6 +106,12 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
             case R.id.icon_back:
             PaymentSuccessActivity.this.finish();
             break;
+            case R.id.tv_yuyue:
+                Intent intent=new Intent(mActivity,OrderInstallActivity.class);
+                intent.putExtra("OrderId",orderID);
+                startActivity(intent);
+                break;
+
 
         }
     }
@@ -100,8 +128,7 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
 
          mTvShop.setText(result.getOrderItem().get(0).getProductName());
 
-
-
+         mTvcount.setText("数量: "+result.getOrderItem().get(0).getCount());
      }
     }
 }
