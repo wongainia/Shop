@@ -10,6 +10,8 @@ import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 
+import org.json.JSONArray;
+
 public class OrderPresenter extends OrderContract.Presenter {
     @Override
     public void GetOrders(String orderStatus,String pageNo,String pageSize,String userkey ) {
@@ -55,8 +57,8 @@ public class OrderPresenter extends OrderContract.Presenter {
                 });
     }
     @Override
-    public void GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount) {
-        mModel.GetOrderStr(userid,Bisid,OrderId, TotalAmount)
+    public void GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr) {
+        mModel.GetOrderStr(userid,Bisid,OrderId, TotalAmount,jsonStr)
                 .subscribe(new BaseObserver2<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
@@ -65,8 +67,8 @@ public class OrderPresenter extends OrderContract.Presenter {
                 });
     }
     @Override
-    public void GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount) {
-        mModel.GetWXOrderStr(userid,Bisid,OrderId, TotalAmount)
+    public void GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr) {
+        mModel.GetWXOrderStr(userid,Bisid,OrderId, TotalAmount,jsonStr)
                 .subscribe(new BaseObserver2<Data<WXpayInfo>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<WXpayInfo>> value) {

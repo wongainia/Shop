@@ -2,7 +2,6 @@ package com.zhenghaikj.shop.fragment;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +29,6 @@ import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
-import com.zhenghaikj.shop.entity.Global;
 import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
@@ -166,8 +164,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @Override
     protected void initData() {
         mPresenter.Get();
-        mPresenter.Get(Integer.toString(pageNo), "10");
-        mPresenter.GetLismitBuyList(Integer.toString(pageNo), "10","");
+        mPresenter.Get(Integer.toString(pageNo), "999");
+        mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999","");
 
         for (int i = 0; i < 10; i++) {
             panicBuyList.add(new Product());
@@ -198,8 +196,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         limitedTimeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(mActivity, PanicBuyingActivity.class);
-//                intent.putExtra("id", limitedTimeList.get(position).getId());
+                Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+                intent.putExtra("id", limitedTimeList.get(position).getProductId()+"");
                 startActivity(intent);
             }
         });
@@ -272,16 +270,17 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             pageNo = 1;
             mDatas.clear();
             mPresenter.Get();
-            mPresenter.Get(Integer.toString(pageNo), "10");
-            mPresenter.GetLismitBuyList(Integer.toString(pageNo), "10","");
+            mPresenter.Get(Integer.toString(pageNo), "999");
+            mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999","");
             refreshLayout.setNoMoreData(false);
             refreshLayout.finishRefresh(1000);
         });
-        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            pageNo++;
-            mPresenter.Get(Integer.toString(pageNo), "10");
-            refreshLayout.finishLoadMore(1000);
-        });
+        mRefreshLayout.setEnableLoadMore(false);
+//        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+//            pageNo++;
+//            mPresenter.Get(Integer.toString(pageNo), "999");
+//            refreshLayout.finishLoadMore(1000);
+//        });
     }
 
     @Override

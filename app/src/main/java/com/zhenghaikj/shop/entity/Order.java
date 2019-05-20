@@ -104,7 +104,7 @@ public class Order implements Serializable {
         private String orderTypeName;
         private String shopname;
         private String vshopId;
-        private String orderTotalAmount;
+        private double orderTotalAmount;
         private String productCount;
         private String commentCount;
         private String pickupCode;
@@ -121,6 +121,15 @@ public class Order implements Serializable {
         private String PaymentType;
         private String PaymentTypeValue;
         private String CanRefund;
+        private String BisId;
+
+        public String getBisId() {
+            return BisId;
+        }
+
+        public void setBisId(String bisId) {
+            BisId = bisId;
+        }
 
         public String getId() {
             return id;
@@ -178,11 +187,11 @@ public class Order implements Serializable {
             this.vshopId = vshopId;
         }
 
-        public String getOrderTotalAmount() {
+        public double getOrderTotalAmount() {
             return orderTotalAmount;
         }
 
-        public void setOrderTotalAmount(String orderTotalAmount) {
+        public void setOrderTotalAmount(double orderTotalAmount) {
             this.orderTotalAmount = orderTotalAmount;
         }
 

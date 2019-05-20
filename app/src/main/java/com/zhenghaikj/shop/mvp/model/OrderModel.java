@@ -11,6 +11,8 @@ import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 
+import org.json.JSONArray;
+
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,14 +86,14 @@ public class OrderModel implements OrderContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount) {
-        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3")
+    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr) {
+        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3",jsonStr)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount) {
-        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall")
+    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr) {
+        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall",jsonStr)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

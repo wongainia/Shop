@@ -21,6 +21,7 @@ import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -39,6 +40,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.JsonStrOrderPay;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PayResult;
 import com.zhenghaikj.shop.entity.WXpayInfo;
@@ -49,6 +51,8 @@ import com.zhenghaikj.shop.utils.MyUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +94,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private String userName;
 
     private String OrderId="";
+    private List<JsonStrOrderPay> payList;
+    private JSONArray jsonArray;
+
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
@@ -172,9 +179,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     case R.id.tv_extended_receipt://延长收货
 //                        showPopupWindow();
                         break;
-                   // case R.id.tv_evaluation://评价
-                   //     showPopupWindow();
-                   //    break;
+                    // case R.id.tv_evaluation://评价
+                    //     showPopupWindow();
+                    //    break;
                     case R.id.tv_change_address://修改地址
 //                        showPopupWindow();
                         break;
@@ -287,19 +294,27 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     public void PostConfirmOrder(ConfirmOrder Result) {
-     if ("true".equals(Result.getSuccess())){
-         orderListAdapter.remove(receipt_position);
-         Intent intent=new Intent(mActivity, DeliverySuccessActivity.class);
-         intent.putExtra("OrderID",OrderId);
-         startActivity(intent);
+        if ("true".equals(Result.getSuccess())){
+            orderListAdapter.remove(receipt_position);
+            Intent intent=new Intent(mActivity, DeliverySuccessActivity.class);
+            intent.putExtra("OrderID",OrderId);
+            startActivity(intent);
 
-     }
+        }
     }
     /**
      * 弹出付款Popupwindow
      * @param ordersBean
      */
     public void showPopupWindow(Order.OrdersBean ordersBean) {
+        payList =new ArrayList<>();
+        payList.add(new JsonStrOrderPay(Long.parseLong(OrderId),ordersBean.getBisId(),ordersBean.getOrderTotalAmount()));
+        Gson gson=new Gson();
+        try {
+            jsonArray = new JSONArray(gson.toJson(payList));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.payway_layout, null);
         LinearLayout ll_alipay = popupWindow_view.findViewById(R.id.ll_alipay);
         LinearLayout ll_wxpay = popupWindow_view.findViewById(R.id.ll_wxpay);
@@ -307,10 +322,10 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                mPresenter.GetOrderStr(userName,ordersBean.getId(),ordersBean.getId(),ordersBean.getOrderTotalAmount());
-                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
-                intent.putExtra("OrderID",OrderId);
-                startActivity(intent);
+                mPresenter.GetOrderStr(userName,"","",ordersBean.getOrderTotalAmount()+"",jsonArray);
+//                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
+//                intent.putExtra("OrderID",OrderId);
+//                startActivity(intent);
                 mPopupWindow.dismiss();
             }
         });
@@ -319,10 +334,10 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-//                mPresenter.GetOrderStr(userName,ordersBean.getId(),ordersBean.getId(),ordersBean.getOrderTotalAmount());
-                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
-                intent.putExtra("OrderID",OrderId);
-                startActivity(intent);
+                mPresenter.GetWXOrderStr(userName,"","",ordersBean.getOrderTotalAmount()+"",jsonArray);
+//                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
+//                intent.putExtra("OrderID",OrderId);
+//                startActivity(intent);
                 mPopupWindow.dismiss();
             }
         });
@@ -422,6 +437,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付成功");
+                        Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
+                        intent.putExtra("OrderID",OrderId);
+                        startActivity(intent);
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付失败");
@@ -444,6 +462,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             case 0:
                 mPresenter.WXNotifyManual(wXpayInfo.getOut_trade_no());
                 ToastUtils.showShort("支付成功");
+                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
+                intent.putExtra("OrderID",OrderId);
+                startActivity(intent);
                 break;
             case -1:
                 ToastUtils.showShort("支付出错");

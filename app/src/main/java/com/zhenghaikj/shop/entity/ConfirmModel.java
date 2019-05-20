@@ -14,7 +14,7 @@ public class ConfirmModel implements Serializable {
     private String Success;
     private String Msg;
     private boolean RealTotalIsZero;
-    private List<Long> OrderIds;
+    private List<String> OrderIds;
 
     public String getMsg() {
         return Msg;
@@ -40,11 +40,11 @@ public class ConfirmModel implements Serializable {
         this.RealTotalIsZero = RealTotalIsZero;
     }
 
-    public List<Long> getOrderIds() {
+    public List<String> getOrderIds() {
         return OrderIds;
     }
 
-    public void setOrderIds(List<Long> OrderIds) {
+    public void setOrderIds(List<String> OrderIds) {
         this.OrderIds = OrderIds;
     }
 }

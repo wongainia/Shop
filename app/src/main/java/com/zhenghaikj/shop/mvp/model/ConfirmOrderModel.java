@@ -2,11 +2,16 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ConfirmModel;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
+import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
-import com.zhenghaikj.shop.mvp.contract.ShippingAddressListContract;
+
+import org.json.JSONArray;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -105,6 +110,25 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
         map.put("timestamp", timestamp);
         sign= ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().PostSubmitOrderByCart(cartItemIds,recieveAddressId,couponIds,integral,isCashOnDelivery,invoiceType,invoiceContext,invoiceTitle,orderRemarks,userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr) {
+        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3",JsonStr)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr) {
+        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall",JsonStr)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo) {
+        return ApiRetrofit2.getDefault().WXNotifyManual(OutTradeNo)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

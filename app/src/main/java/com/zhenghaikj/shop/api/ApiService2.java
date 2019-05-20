@@ -15,6 +15,8 @@ import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 
+import org.json.JSONArray;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -322,7 +324,9 @@ public interface ApiService2 {
                                                      @Field("BisId") String BisId,
                                                      @Field("OrderId") String OrderId,
                                                      @Field("TotalAmount") String TotalAmount,
-                                                     @Field("Type") String Type);
+                                                     @Field("Type") String Type,
+                                                     @Field("JsonStr")JSONArray JsonStr
+    );
     /**
      * 充值信息
      * @param UserID 账号
@@ -338,7 +342,8 @@ public interface ApiService2 {
                                                           @Field("OrderId") String OrderId,
                                                           @Field("TotalAmount") String TotalAmount,
                                                           @Field("Type") String Type,
-                                                          @Field("Style") String Style);
+                                                          @Field("Style") String Style,
+                                                          @Field("JsonStr")JSONArray JsonStr);
     /**
      * 微信人工回调OutTradeNo
      * @param OutTradeNo

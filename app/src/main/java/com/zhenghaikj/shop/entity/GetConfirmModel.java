@@ -29,8 +29,17 @@ public class GetConfirmModel implements Serializable {
     private double orderAmount;
     private boolean IsCashOnDelivery;
     private boolean IsOpenStore;
+    private String BisId;
     private List<InvoiceContextBean> InvoiceContext;
     private List<ProductsBean> products;
+
+    public String getBisId() {
+        return BisId;
+    }
+
+    public void setBisId(String bisId) {
+        BisId = bisId;
+    }
 
     public AddressBean getAddress() {
         return Address;

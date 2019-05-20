@@ -10,6 +10,8 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 
+import org.json.JSONArray;
+
 import io.reactivex.Observable;
 
 public interface OrderContract {
@@ -20,8 +22,8 @@ public interface OrderContract {
         //查询物流
         Observable<String> GetExpressInfo(String orderId,String userkey);
 
-        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount);
-        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid,String Bisid,String OrderId, String TotalAmount);
+        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr);
+        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid,String Bisid,String OrderId, String TotalAmount, JSONArray jsonStr);
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
 
     }
@@ -43,8 +45,8 @@ public interface OrderContract {
         public abstract void PostConfirmOrder(String orderId, String userkey);
         public abstract void GetExpressInfo(String orderId,String userkey);
 
-        public abstract void GetOrderStr(String userid,String Bisid,String OrderId,String TotalAmount);
-        public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount);
+        public abstract void GetOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
+        public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
         public abstract void WXNotifyManual(String OutTradeNo);
     }
 }
