@@ -200,19 +200,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private TextView tv_totle_grade;
     private StarBarView good_star;
     private TextView tv_good_content;
-
     private StarBarView shangmen_star;
     private TextView tv_shangmen_content;
-
     private StarBarView weixiu_star;
     private TextView tv_weixiu_content;
-
     private StarBarView fuwu_star;
     private TextView tv_fuwu_content;
-
     private EditText et_content;
     private TextView tv_submit;
-
     private ImageView iv_close;
 
 
@@ -601,16 +596,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         tv_weixiu_content = view.findViewById(R.id.tv_weixiu_content);
         fuwu_star = view.findViewById(R.id.fuwu_star);
         tv_fuwu_content = view.findViewById(R.id.tv_fuwu_content);
-
-
-
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EvalateDialog.dismiss();
             }
         });
-
         EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
         EvalateDialog.show();
         window = EvalateDialog.getWindow();

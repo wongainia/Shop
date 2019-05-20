@@ -258,9 +258,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
      * 初始化沉浸式
      */
     protected void initImmersionBar() {
-
-
-
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
         mImmersionBar.statusBarColor(R.color.transparent);
@@ -329,6 +326,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 mPresenter.GetProductDetail(id, Userkey);
             }
         });
+
+
         popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.popwindow_chooseproperty, null);
         mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         adderView = popupWindow_view.findViewById(R.id.adderview);
@@ -395,7 +394,14 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mTvBuy.setOnClickListener(this);
         mTvLimitBuy.setOnClickListener(this);
 //        mLlEvaluation.setOnClickListener(this);
-
+        mLlEvaluation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mActivity,EvaluationDetailsActivity.class);
+                intent.putExtra("productId",String.valueOf(result.getProduct().getProductId()));
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -820,15 +826,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Override
     public void GetProductDetail(DetailResult Result) {
 
-        mLlEvaluation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(mActivity,EvaluationDetailsActivity.class);
-                intent.putExtra("productId",String.valueOf(Result.getProduct().getProductId()));
-                startActivity(intent);
-            }
-        });
-
+        result = Result;
         if ("true".equals(Result.getSuccess())) {
             if (Result.getIsOnLimitBuy()) {
                 mLlLimit.setVisibility(View.VISIBLE);
@@ -865,7 +863,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
 
 
-            result = Result;
 
             /*判断是否收藏*/
             if (Result.getProduct().isIsFavorite()) {

@@ -77,9 +77,11 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
             }
         });
     }
+
+
     @Override
-    public void EnSureOrder(String OrderID, String PayPassword) {
-        mModel.EnSureOrder(OrderID, PayPassword)
+    public void EnSureOrder(String OrderID, String PayPassword, String Grade, String OrgAppraise) {
+        mModel.EnSureOrder(OrderID, PayPassword,Grade,OrgAppraise)
                 .subscribe(new BaseObserver2<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {

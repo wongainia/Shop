@@ -302,7 +302,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
         } else if (star_num == 1.0f) {
             textView.setText("非常差");
         }
-
     }
 
     /*新增图片*/

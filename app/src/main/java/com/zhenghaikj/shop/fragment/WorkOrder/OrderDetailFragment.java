@@ -2,9 +2,12 @@ package com.zhenghaikj.shop.fragment.WorkOrder;
 
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,6 +37,7 @@ import com.zhenghaikj.shop.mvp.contract.WorkOrdersDetailContract;
 import com.zhenghaikj.shop.mvp.model.WorkOrdersDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
+import com.zhenghaikj.shop.widget.StarBarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -251,6 +255,30 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private EditText et_new_money;
     private String newmoney;
 
+
+
+    /*弹出的评价view*/
+    private Window window;
+    private View view;
+    private AlertDialog EvalateDialog;
+    private TextView tv_orderid;
+    private TextView tv_serach;
+    private TextView tv_totle_grade;
+    private StarBarView good_star;
+    private TextView tv_good_content;
+    private StarBarView shangmen_star;
+    private TextView tv_shangmen_content;
+    private StarBarView weixiu_star;
+    private TextView tv_weixiu_content;
+    private StarBarView fuwu_star;
+    private TextView tv_fuwu_content;
+    private EditText et_content;
+    private TextView tv_submit;
+    private ImageView iv_close;
+
+
+
+
     public static OrderDetailFragment newInstance(String param1, String param2) {
         OrderDetailFragment fragment = new OrderDetailFragment();
         Bundle args = new Bundle();
@@ -426,7 +454,11 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 mPresenter.FactoryEnsureOrder(OrderID, "888888");
                 break;
             case R.id.positive:
-                mPresenter.EnSureOrder(OrderID, "888888");
+                //用户确认
+               // mPresenter.EnSureOrder(OrderID, "888888");
+
+                showOrderEvaluate();
+
                 break;
             case R.id.iv_bar_code:
                 for (int i = 0; i < data.getReturnaccessoryImg().size(); i++) {
@@ -750,11 +782,12 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
     @Override
     public void GetOrderInfo(BaseResult<WorkOrder.DataBean> baseResult) {
-        mRefreshLayout.finishRefresh();
         switch (baseResult.getStatusCode()) {
             case 200:
                 data = baseResult.getData();
-                mTvOrderState.setText(data.getState());
+                if (data.getState()!=null){
+                    mTvOrderState.setText(data.getState());
+                }
                 mTvName.setText(data.getUserName());
 
                 mTvBeyondMoney.setText("￥" + data.getBeyondMoney() + "");
@@ -1122,6 +1155,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 if (data.isItem1()) {
                     ToastUtils.showShort(data.getItem2());
                     mPresenter.GetOrderInfo(OrderID);
+                    if (EvalateDialog!=null){
+                        EvalateDialog.dismiss();
+                    }
                 } else {
                     ToastUtils.showShort(data.getItem2());
                 }
@@ -1189,6 +1225,132 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         }
     }
 
+
+
+    /*弹出确认工单评价*/
+    public void showOrderEvaluate() {
+        view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_evaluate, null);
+        EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
+        EvalateDialog.show();
+        window = EvalateDialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        window.setAttributes(lp);
+        window.setBackgroundDrawable(new ColorDrawable());
+
+
+        String appraise;//评轮内容
+        iv_close = view.findViewById(R.id.iv_close);
+        tv_orderid = view.findViewById(R.id.tv_orderid);//工单号
+        tv_serach = view.findViewById(R.id.tv_serach);
+        tv_submit =view.findViewById(R.id.tv_submit);//提交
+        et_content=view.findViewById(R.id.et_content);//评轮
+
+        tv_totle_grade = view.findViewById(R.id.tv_totle_grade); //分数
+        good_star = view.findViewById(R.id.good_star);//星星数
+        tv_good_content = view.findViewById(R.id.tv_good_content);//满意度
+
+        shangmen_star = view.findViewById(R.id.shangmen_star);
+        tv_shangmen_content = view.findViewById(R.id.tv_shangmen_content);
+
+        weixiu_star = view.findViewById(R.id.weixiu_star);
+        tv_weixiu_content = view.findViewById(R.id.tv_weixiu_content);
+
+        fuwu_star = view.findViewById(R.id.fuwu_star);
+        tv_fuwu_content = view.findViewById(R.id.tv_fuwu_content);
+
+         if (data!=null){
+             tv_orderid.setText("工单号:"+data.getOrderID());
+         }
+
+
+        good_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float starRating = good_star.getStarRating();
+                setStarName(tv_good_content, starRating);
+                if (starRating == 1.0f) {
+                    tv_totle_grade.setText("1");
+                }
+                else if (starRating == 2.0f)
+                 {
+                     tv_totle_grade.setText("2");
+                }
+                else if (starRating == 3.0f)
+                {
+                    tv_totle_grade.setText("3");
+                }
+                else if (starRating == 4.0f)
+                {
+                    tv_totle_grade.setText("4");
+                }
+                else
+                {
+                    tv_totle_grade.setText("5");
+                }
+
+            }
+        });
+
+        shangmen_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float starRating = shangmen_star.getStarRating();
+                setStarName(tv_shangmen_content, starRating);
+            }
+        });
+
+        weixiu_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float starRating = weixiu_star.getStarRating();
+                setStarName(tv_weixiu_content, starRating);
+            }
+        });
+        fuwu_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float starRating = fuwu_star.getStarRating();
+                setStarName(tv_fuwu_content, starRating);
+            }
+        });
+
+
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EvalateDialog.dismiss();
+            }
+        });
+        tv_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("".equals(et_content.getText().toString())){
+                    mPresenter.EnSureOrder(data.getOrderID(),"888888","5","用户暂无评价");
+                }else {
+                    mPresenter.EnSureOrder(data.getOrderID(),"888888","5",et_content.getText().toString());
+                }
+
+
+            }
+        });
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1213,5 +1375,24 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
             }
         }
     }*/
+
+
+    /**
+     * 设置星星文字
+     */
+    private void setStarName(TextView textView, float star_num) {
+        if (star_num == 5.0f) {
+            textView.setText("非常好");
+        } else if (star_num == 4.0f) {
+            textView.setText("很好");
+        } else if (star_num == 3.0f) {
+            textView.setText("一般");
+        } else if (star_num == 2.0f) {
+            textView.setText("很差");
+        } else if (star_num == 1.0f) {
+            textView.setText("非常差");
+        }
+    }
+
 
 }

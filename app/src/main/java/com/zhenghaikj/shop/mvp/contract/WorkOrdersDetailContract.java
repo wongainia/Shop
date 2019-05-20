@@ -23,7 +23,8 @@ public interface WorkOrdersDetailContract {
         Observable<BaseResult<Data<String>>> ApproveOrderService(String OrderID, String State);
         Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(String OrderID, String ExpressNo);
 
-        Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword);
+        /*用户确认*/
+        Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
         Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<Data<String>>> UpdateIsReturnByOrderID(String OrderID, String IsReturn, String AddressBack, String PostPayType);
         Observable<BaseResult<List<Address>>> GetAccountAddress(String UserId);
@@ -70,7 +71,7 @@ public interface WorkOrdersDetailContract {
         public abstract void ApproveOrderService(String OrderID,String State);
         public abstract void AddOrUpdateExpressNo(String OrderID,String ExpressNo);
 
-        public abstract void EnSureOrder(String OrderID, String PayPassword);
+        public abstract void EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
         public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
         public abstract void UpdateIsReturnByOrderID(String OrderID, String IsReturn,String AddressBack,String PostPayType);
         public abstract void GetAccountAddress(String UserId);

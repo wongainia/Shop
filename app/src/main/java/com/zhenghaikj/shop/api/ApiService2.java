@@ -183,8 +183,9 @@ public interface ApiService2 {
     @FormUrlEncoded
     @POST("Order/FactoryEnsureOrder")
     Observable<BaseResult<Data<String>>> FactoryEnsureOrder(
-            @Field("OrderID") String OrderID,
-            @Field("PayPassword") String PayPassword
+            @Field("PayPassword") String PayPassword,
+            @Field("OrderID") String OrderID
+
     );
     /**
      * 用户确认订单 结算
@@ -196,7 +197,11 @@ public interface ApiService2 {
     @POST("Order/EnSureOrder")
     Observable<BaseResult<Data<String>>> EnSureOrder(
             @Field("OrderID") String OrderID,
-            @Field("PayPassword") String PayPassword
+            @Field("PayPassword") String PayPassword,
+            @Field("Grade") String Grade,//暂时先一个分数 后续再加三个分数
+            @Field("OrgAppraise") String OrgAppraise //评价
+
+
     );
     /*更新工单消息为已读*/
     @FormUrlEncoded
@@ -204,6 +209,8 @@ public interface ApiService2 {
     Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(@Field("OrderID") String OrderID,
                                                             @Field("IsLook") String IsLook,
                                                             @Field("FIsLook") String FIsLook);
+
+
     /**
      * 对某笔单子发起质保
      * @param OrderID 订单id

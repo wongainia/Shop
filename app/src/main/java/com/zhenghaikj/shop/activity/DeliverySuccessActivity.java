@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.PaymentSuccessAdapter;
+import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.mvp.contract.PaymentSuccessContract;
@@ -45,9 +47,25 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
     TextView mTvpingjia;
     @BindView(R.id.tv_pingjia_txt)
     TextView mTvpingjia_txt;
-
+    @BindView(R.id.tv_yuyue)
+    TextView mTvyuyue;
+    @BindView(R.id.view)
+    View mView;
 
     private PaymentSuccessAdapter paymentSuccessAdapter;
+
+    /**
+     * 初始化沉浸式
+     */
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_deliverysuccess;
@@ -71,6 +89,7 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mTvpingjia.setOnClickListener(this);
+        mTvyuyue.setOnClickListener(this);
     }
 
 
@@ -87,7 +106,14 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
         switch (v.getId()){
             case R.id.icon_back:
             DeliverySuccessActivity.this.finish();
+
+
+            case R.id.tv_yuyue:
+                Intent intent0=new Intent(mActivity,OrderInstallActivity.class);
+                intent0.putExtra("OrderId",orderID);
+                startActivityForResult(intent0,Config.RECEIPT_REQUEST);
             break;
+
             case R.id.tv_pingjia:
                 Intent intent=new Intent(mActivity,EvaluateActivity.class);
                 intent.putExtra("OrderID",orderID);
@@ -123,5 +149,14 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
 
         }
 
+        if (requestCode== Config.RECEIPT_REQUEST){
+            if (resultCode==Config.RECEIPT_RESULT){
+                mTvyuyue.setText("已预约");
+                mTvyuyue.setClickable(false);
+            }
+        }
+
     }
+
+
 }

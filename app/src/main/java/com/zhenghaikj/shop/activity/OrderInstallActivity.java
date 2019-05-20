@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +24,7 @@ import com.zhenghaikj.shop.adapter.AreaAdapter;
 import com.zhenghaikj.shop.adapter.CityAdapter;
 import com.zhenghaikj.shop.adapter.DistrictAdapter;
 import com.zhenghaikj.shop.adapter.ProvinceAdapter;
+import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Area;
@@ -37,6 +39,8 @@ import com.zhenghaikj.shop.mvp.presenter.AddInstallOrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.AdderView;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import java.util.List;
 
@@ -52,6 +56,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     private OrderDetail.OrderItemBean bean=new OrderDetail.OrderItemBean();
     private OrderDetail.OrderBean order=new OrderDetail.OrderBean();
 
+    private ZLoadingDialog dialog;
 
     @BindView(R.id.img_shop)
     ImageView mImgshop;
@@ -138,7 +143,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
     @Override
     protected void initView() {
-
+        dialog = new ZLoadingDialog(mActivity);
     }
 
     @Override
@@ -259,13 +264,13 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                   "2",
                   "安装",
                   //order.getBisId(),//UserId传商家的bisid
-                   userID,
+                  userID,
                   bean.getBrandId(),
                   bean.getBrandName(),
-                  bean.getCategoryId(),
-                  bean.getCategoryName(),
                   bean.getParentCategoryId(),
                   bean.getParentCategoryName(),
+                  bean.getCategoryId(),
+                  bean.getCategoryName(),
                   ProvinceCode,
                   CityCode,
                   AreaCode,
@@ -275,28 +280,23 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                   phone,
                   Memo,
                   "100",
-                  "0", //回收时间先为0
+                  "48", //回收时间先为48小时
                   "Y",  //保内
-                  null,
-                  "Y",       //加急时间
+                  "N",
+                  "N",       //加急时间
                   "0",
                   "0", //加急费
                   String.valueOf(adderView.getValue()),
                   "N",//客户是否收到货
-                  "12124121215"
+                  "0"
                   );
-
-Log.d("=====>order","安装"+bean.getBrandName()
-        +" "+bean.getCategoryName()+" "+
-        bean.getParentCategoryName()+" "+
-        address+housenumber+" "+
-        name+" "+
-        Memo);
-
-
-
-
-
+                showLoading();
+              Log.d("=====>order","安装"+bean.getBrandName()
+                      +" "+bean.getCategoryName()+" "+
+                      bean.getParentCategoryName()+" "+
+                      address+housenumber+" "+
+                      name+" "+
+                      Memo);
                 break;
             case R.id.tv_address://地址选择
             case R.id.img_arrow:
@@ -505,16 +505,36 @@ Log.d("=====>order","安装"+bean.getBrandName()
     public void AddOrder(BaseResult<Data<String>> baseResult) {
 switch (baseResult.getStatusCode()){
     case 200:
-if (baseResult.getData().isItem1()){
-    Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
-    OrderInstallActivity.this.finish();
-}else {
-    Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
-}
-
+    if (baseResult.getData().isItem1()){
+        Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+        setResult(Config.RECEIPT_RESULT);
+        OrderInstallActivity.this.finish();
+    }else {
+        Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+    }
+    cancleLoading();
      break;
-}
+     default:
+         cancleLoading();
+         break;
+     }
     }
 
+
+    public void showLoading() {
+        dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("发单中请稍后...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(1) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+    public void cancleLoading() {
+        if (dialog!=null){
+            dialog.dismiss();
+        }
+    }
 
 }

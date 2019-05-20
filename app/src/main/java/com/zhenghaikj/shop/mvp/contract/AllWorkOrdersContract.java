@@ -16,7 +16,7 @@ public interface AllWorkOrdersContract {
         Observable<BaseResult<WorkOrder>> GetOrderInfoList(String UserID, String state, String page, String limit);
         Observable<BaseResult<Data<String>>> UpdateOrderState(String OrderID, String Content);
         Observable<BaseResult<Data<String>>> FactoryComplaint(String OrderID, String Content);
-        Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword);
+        Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
         Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(String OrderID, String IsLook, String FIsLook);
     }
@@ -34,7 +34,7 @@ public interface AllWorkOrdersContract {
         public abstract void GetOrderInfoList(String UserID,String state, String page,String limit);
         public abstract void UpdateOrderState(String OrderID,String Content);
         public abstract void FactoryComplaint(String OrderID,String Content);
-        public abstract void EnSureOrder(String OrderID, String PayPassword);
+        public abstract void EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
         public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
         public abstract void UpdateOrderFIsLook(String OrderID, String IsLook,String FIsLook);
     }

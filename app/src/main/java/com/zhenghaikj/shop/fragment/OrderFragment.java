@@ -37,6 +37,7 @@ import com.zhenghaikj.shop.activity.PaymentSuccessActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -168,8 +169,26 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         break;
                     case R.id.tv_confirm_receipt://确认收货
                         OrderId = cartList.get(position).getId();
-                        mPresenter.PostConfirmOrder(cartList.get(position).getId(),userKey);
                         receipt_position=position;
+                        final CommonDialog_Home dialog = new CommonDialog_Home(getActivity());
+                        dialog.setImageResId(R.mipmap.icon_shouhuo)
+                                .setTitle("是否确认收货?")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//确认收货
+                            mPresenter.PostConfirmOrder(cartList.get(position).getId(),userKey);
+                            dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                            }
+                        }).show();
+
+
+
+
                         break;
                     case R.id.tv_payment://付款
 
@@ -207,6 +226,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     protected void setListener() {
+
+        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {

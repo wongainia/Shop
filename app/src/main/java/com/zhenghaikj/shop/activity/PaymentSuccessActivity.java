@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.PaymentSuccessAdapter;
+import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.mvp.contract.PaymentSuccessContract;
@@ -20,6 +22,7 @@ import com.zhenghaikj.shop.mvp.model.PaymentSuccessModel;
 import com.zhenghaikj.shop.mvp.presenter.PaymentSuccessPresenter;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,7 +112,7 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
             case R.id.tv_yuyue:
                 Intent intent=new Intent(mActivity,OrderInstallActivity.class);
                 intent.putExtra("OrderId",orderID);
-                startActivity(intent);
+                startActivityForResult(intent, Config.RECEIPT_REQUEST);
                 break;
 
 
@@ -130,5 +133,19 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
 
          mTvcount.setText("数量: "+result.getOrderItem().get(0).getCount());
      }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==Config.RECEIPT_REQUEST){
+            if (resultCode==Config.RECEIPT_RESULT){
+                mTvyuyue.setText("已预约");
+                mTvyuyue.setClickable(false);
+
+            }
+        }
+
+
     }
 }

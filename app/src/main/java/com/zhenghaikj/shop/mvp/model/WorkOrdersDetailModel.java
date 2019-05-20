@@ -58,12 +58,15 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
     @Override
-    public Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword) {
-        return ApiRetrofit2.getDefault().EnSureOrder(OrderID, PayPassword)
+    public Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword, String Grade, String OrgAppraise) {
+        return ApiRetrofit2.getDefault().EnSureOrder(OrderID, PayPassword,Grade,OrgAppraise)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+
     @Override
     public Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword) {
         return ApiRetrofit2.getDefault().FactoryEnsureOrder(OrderID, PayPassword)

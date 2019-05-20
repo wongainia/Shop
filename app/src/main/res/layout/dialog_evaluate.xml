@@ -63,7 +63,7 @@
               android:textSize="36sp"
                 android:layout_gravity="bottom"
                 android:textColor="#FF4F19"
-              android:text="4"
+              android:text="5"
              />
                <TextView
                 android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                  android:layout_height="wrap_content"
                  android:textSize="13sp"
                  android:layout_marginTop="10dp"
-                 android:text="(满意)"
+                 android:text="(非常好)"
                  />
 
         </LinearLayout>
@@ -146,7 +146,7 @@
             android:id="@+id/tv_shangmen_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="满意"
+            android:text="非常好"
             android:textColor="#FF4F19"
             />
 </LinearLayout>
@@ -185,7 +185,7 @@
                 android:id="@+id/tv_weixiu_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="满意"
+                android:text="非常好"
                 android:textColor="#FF4F19"
                 />
         </LinearLayout>
@@ -202,7 +202,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="维修速度"
+                android:text="服务态度"
                 android:textColor="@color/black"
                 />
             <com.zhenghaikj.shop.widget.StarBarView
@@ -226,7 +226,7 @@
                 android:id="@+id/tv_fuwu_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="满意"
+                android:text="非常好"
                 android:textColor="#FF4F19"
                 />
         </LinearLayout>

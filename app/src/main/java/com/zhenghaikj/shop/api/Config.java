@@ -17,6 +17,12 @@ public class Config {
     public static final int CHOOSE_ADDRESS_REQUEST=10001; //选择地址请求码
     public static final int CHOOSE_ADDRESS_RESULT=10002; //选择地址返回
 
+    public static final int RECEIPT_REQUEST=20001;//发单请求码
+    public static final int RECEIPT_RESULT=20002;//发单结果码
+
+
+
+
 
     static HttpLoggingInterceptor loggingInterceptor;
 
