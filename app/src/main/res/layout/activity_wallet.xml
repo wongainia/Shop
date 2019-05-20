@@ -117,7 +117,7 @@
                                     android:id="@+id/tv_balance"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="200.50"
+                                    android:text="0.00"
                                     android:textColor="#FF245C"
                                     android:textSize="32sp"
                                     android:layout_gravity="bottom"
@@ -149,7 +149,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="13dp"
-                                    android:text="￥600.50"
+                                    android:text="￥0.00"
                                     android:textColor="#272727"
                                     android:textSize="16sp" />
                             </LinearLayout>

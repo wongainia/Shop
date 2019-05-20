@@ -26,6 +26,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.ConfirmOrderActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
+import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.adapter.CartAdapter;
 import com.zhenghaikj.shop.adapter.ShopCoupAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
@@ -46,13 +47,10 @@ import com.zhenghaikj.shop.widget.EmptyRecyclerView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -91,10 +89,15 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     ImageView mEmptyIv;
 
 
-
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @BindView(R.id.ll_property)
+    LinearLayout mLlProperty;
+    @BindView(R.id.tv_go_shopping)
+    TextView mTvGoShopping;
+    @BindView(R.id.ll_empty)
+    LinearLayout mLlEmpty;
+
     public static CartFragment newInstance(String param1, String param2) {
         CartFragment fragment = new CartFragment();
         Bundle args = new Bundle();
@@ -156,6 +159,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         mTvDelete.setOnClickListener(this);
         mTvSettlement.setOnClickListener(this);
         mLlCleanUp.setOnClickListener(this);
+        mTvGoShopping.setOnClickListener(this);
         smartRefreshLayout.setEnableLoadMore(false);
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -178,6 +182,10 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_go_shopping:
+                MainActivity activity = (MainActivity) getActivity();
+                activity.setCurrentItem(0);
+                break;
             case R.id.tv_management:
                 if ("管理".equals(mTvManagement.getText())) {
                     mLlCalculation.setVisibility(View.GONE);
@@ -246,15 +254,15 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                     case 1:
                         if (!shopBeanslist.isEmpty()) {
                             Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
-                          //  intent.putExtra("checkshop", (Serializable) (GetCheckShopList(shopBeanslist)));//传递集合
+                            //  intent.putExtra("checkshop", (Serializable) (GetCheckShopList(shopBeanslist)));//传递集合
 
                             String cartitems = SelectAllCartitems(shopBeanslist);
                             String substring = cartitems.substring(1, cartitems.length());
-                            Log.d("=======>",substring);
+                            Log.d("=======>", substring);
                             //将cartitemids传给结算界面
-                            Bundle bundle=new Bundle();
-                            bundle.putString("TYPE","2");
-                            bundle.putString("cartItemIds",substring);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("TYPE", "2");
+                            bundle.putString("cartItemIds", substring);
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }
@@ -324,13 +332,13 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             mRvCart.setHasFixedSize(true);
             cartAdapter = new CartAdapter(shopBeanslist, mActivity);
             mRvCart.setAdapter(cartAdapter);
-            mRvCart.setEmptyView(mEmptyIv);
+            mRvCart.setEmptyView(mLlEmpty);
             getTotalMoneyAndCloseCount(shopBeanslist);
 
 
             //全选CheckBox监听  全选店铺
             mCbCircleCart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
+                @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         for (int i = 0; i < shopBeanslist.size(); i++) {
@@ -734,19 +742,18 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     }
 
 
-
-    public String SelectAllCartitems(List<StoreBean> shoplist){
-        String mCartitems=""; //记录cartitem 传给结算页面
+    public String SelectAllCartitems(List<StoreBean> shoplist) {
+        String mCartitems = ""; //记录cartitem 传给结算页面
         for (int i = 0; i < shoplist.size(); i++) {
             for (int j = 0; j < shoplist.get(i).getList().size(); j++) {
                 if (shoplist.get(i).getList().get(j).isIscheck() == true) {
-                    mCartitems+=","+shoplist.get(i).getList().get(j).getCartItemId();
+                    mCartitems += "," + shoplist.get(i).getList().get(j).getCartItemId();
                 }
 
             }
 
         }
-            return mCartitems;
+        return mCartitems;
     }
 
 

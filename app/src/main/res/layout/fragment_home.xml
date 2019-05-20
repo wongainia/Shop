@@ -26,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -45,7 +46,29 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_member_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/huiyuanma" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="分享码"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,30 +107,30 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_member_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:orientation="vertical">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ll_member_code"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:orientation="vertical">-->
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/huiyuanma" />
+                <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:src="@drawable/huiyuanma" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="分享码"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:text="分享码"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="10sp" />-->
 
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/ll_mess"
@@ -115,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_marginLeft="5dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -130,7 +153,7 @@
                     android:layout_gravity="center|bottom"
                     android:layout_marginTop="5dp"
                     android:text="消息"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="10sp" />
 
 
@@ -162,18 +185,66 @@
                     <com.youth.banner.Banner
                         android:id="@+id/banner_home"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="140dp"
                         app:image_scale_type="fit_xy"
                         app:indicator_margin="5dp" />
+
+
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="150dp"
+                        android:layout_marginTop="140dp"
                         android:background="#EEEEEE"
                         android:orientation="vertical">
-
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:background="@color/white">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/home_onee"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="精选品质制造商"
+                                android:textSize="12sp"
+                                android:layout_marginLeft="5dp"
+                                android:textColor="#333"/>
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:src="@drawable/home_two"
+                                android:layout_marginLeft="25dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="7天无理由退换"
+                                android:textSize="12sp"
+                                android:layout_marginLeft="5dp"
+                                android:textColor="#333"/>
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:src="@drawable/home_three"
+                                android:layout_marginLeft="25dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="自带服务"
+                                android:textSize="12sp"
+                                android:layout_marginLeft="5dp"
+                                android:textColor="#333"/>
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="#eee"/>
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -558,7 +629,7 @@
 
                             <ImageView
                                 android:layout_width="200dp"
-                                android:layout_height="75dp"
+                                android:layout_height="45dp"
                                 android:src="@drawable/title" />
 
                         </LinearLayout>
@@ -572,7 +643,9 @@
                                 android:id="@+id/rv_home"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
+                                android:nestedScrollingEnabled="false"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"></androidx.recyclerview.widget.RecyclerView>
                         </RelativeLayout>
 
                     </LinearLayout>

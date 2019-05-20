@@ -2,11 +2,17 @@ package com.zhenghaikj.shop.fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -37,6 +43,7 @@ import com.zhenghaikj.shop.activity.WorkOrderActivity;
 import com.zhenghaikj.shop.adapter.ServiceAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
@@ -47,6 +54,7 @@ import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
 import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
+import com.zhenghaikj.shop.utils.ZXingUtils;
 import com.zhenghaikj.shop.widget.CircleImageView;
 import com.zhenghaikj.shop.widget.StarBarView;
 
@@ -174,6 +182,16 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     TextView mTvCoupon;
     @BindView(R.id.ll_coupon)
     LinearLayout mLlCoupon;
+    @BindView(R.id.tv_phone)
+    TextView mTvPhone;
+    @BindView(R.id.tv_balance)
+    TextView mTvBalance;
+    @BindView(R.id.ll_customer_service)
+    LinearLayout mLlCustomerService;
+    @BindView(R.id.ll_merchant)
+    LinearLayout mLlMerchant;
+    @BindView(R.id.ll_coins)
+    LinearLayout mLlCoins;
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
@@ -189,6 +207,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private UserInfo.UserInfoDean userInfo;
     private String userName;
     private boolean isLogin;
+    private View under_review;
+    private AlertDialog underReviewDialog;
 
 
     /*弹出的评价view*/
@@ -310,6 +330,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
         mLlFreeInstallation.setOnClickListener(this);
         mLlFreeRepair.setOnClickListener(this);
+        mLlCustomerService.setOnClickListener(this);
+        mLlCoins.setOnClickListener(this);
 
         mTvUsername.setOnClickListener(this);
     }
@@ -421,16 +443,69 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                mPresenter.AddOrder("2", "安装", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
 //                mPresenter.AddOrder("2", "安装", "18767773654", "", "", "", "", "251", "", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
                 intent = new Intent(mActivity, AddWorkOrderActivity.class);
-                intent.putExtra("title","免费安装");
+                intent.putExtra("title", "免费安装");
                 startActivity(intent);
                 break;
             case R.id.ll_free_repair:
                 //免费维修
                 intent = new Intent(mActivity, AddWorkOrderActivity.class);
-                intent.putExtra("title","免费维修");
+                intent.putExtra("title", "免费维修");
                 startActivity(intent);
 //                mPresenter.AddOrder("1", "维修", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
 //                mPresenter.AddOrder("1", "维修", "18767773654", "", "", "", "", "251", "", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
+                break;
+            case R.id.ll_customer_service:
+                final CommonDialog_Home dialog = new CommonDialog_Home(getActivity());
+                dialog.setMessage("是否拨打电话给客服")
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {//拨打电话
+                        dialog.dismiss();
+                        call("tel:" + "4006262365");
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {//取消
+                        dialog.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+
+                break;
+            case R.id.ll_coins:
+                under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
+                Button btn_share_one = under_review.findViewById(R.id.btn_share_one);
+                ImageView iv_code_one = under_review.findViewById(R.id.iv_code_one);
+                Button btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
+                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone="+userName+"&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+                iv_code_one.setImageBitmap(bitmap);
+                btn_share_one.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        underReviewDialog.dismiss();
+//                        mShareAction.open();
+                    }
+                });
+
+                btn_go_to_the_mall.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        openShopApp("com.zhenghaikj.shop");
+                        underReviewDialog.dismiss();
+                    }
+                });
+
+                underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review)
+                         .create();
+                underReviewDialog.show();
+                window = underReviewDialog.getWindow();
+//                window.setContentView(under_review);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                window.setAttributes(lp);
+//                window.setDimAmount(0.1f);
+                window.setBackgroundDrawable(new ColorDrawable());
                 break;
 
 
@@ -499,6 +574,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     public void PersonalInformation(PersonalInformation result) {
         if (result.isSuccess()) {
             mTvUsername.setText(result.getUserName());
+            mTvPhone.setText(result.getCellPhone());
             /*设置头像*/
             if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像
                 return;

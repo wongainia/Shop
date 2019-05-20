@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
@@ -41,6 +42,10 @@ public class BrandCardActivity extends BaseActivity implements View.OnClickListe
     RecyclerView mRvBrankCard;
     @BindView(R.id.fl_add_card)
     FrameLayout mFlAddCard;
+    @BindView(R.id.ll_add_card)
+    LinearLayout mLlAddCard;
+    @BindView(R.id.tv_tips)
+    TextView mTvTips;
 
     private List<Product> list = new ArrayList<>();
     private BrankCardAdapter adapter;
@@ -75,12 +80,16 @@ public class BrandCardActivity extends BaseActivity implements View.OnClickListe
     protected void initView() {
         mTvTitle.setText("我的银行卡");
         mTvTitle.setVisibility(View.VISIBLE);
+        mTvSave.setVisibility(View.VISIBLE);
+        mTvSave.setText("添加银行卡");
     }
 
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mFlAddCard.setOnClickListener(this);
+        mTvSave.setOnClickListener(this);
+        mLlAddCard.setOnClickListener(this);
     }
 
     @Override
@@ -89,6 +98,8 @@ public class BrandCardActivity extends BaseActivity implements View.OnClickListe
             case R.id.icon_back:
                 finish();
                 break;
+            case R.id.tv_save:
+            case R.id.ll_add_card:
             case R.id.fl_add_card:
                 startActivity(new Intent(mActivity, AddBrankCardActivity.class));
                 break;

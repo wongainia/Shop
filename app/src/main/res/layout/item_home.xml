@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/dp_10"
-        android:background="@drawable/white_shape"
+        android:layout_margin="5dp"
+        android:background="@drawable/white_round_shape"
         android:orientation="vertical">
         <com.zhenghaikj.shop.widget.MyImageView
             android:id="@+id/iv_goods"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:scaleType="fitXY"
             android:src="@drawable/goods"/>
         <TextView
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="@dimen/dp_10"
             android:lines="2"
             android:text="浪奇 万丽洁厕液洁厕剂除菌除垢750g*2瓶装多效清洁有效去污"
@@ -35,16 +35,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dp_10">
 
             <TextView
                 android:id="@+id/tv_goods_money"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="¥69.00"
                 android:textColor="@color/red"
                 android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3人付款"
+                android:textColor="#808080"
+                android:textSize="12sp"
+                android:layout_marginLeft="@dimen/dp_10"/>
 
             <TextView
                 android:visibility="gone"

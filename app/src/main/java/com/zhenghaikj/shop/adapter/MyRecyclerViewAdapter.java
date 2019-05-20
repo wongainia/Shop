@@ -1,6 +1,9 @@
 package com.zhenghaikj.shop.adapter;
 
 import android.content.Context;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +73,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         HomeResult.ProductBean bean=list.get(position);
         holder.tv_goods_name.setText(bean.getName());
         holder.tv_goods_money.setText("￥"+bean.getSalePrice()+"");
+        String string = "￥"+bean.getMarketPrice();
+        SpannableString sp = new SpannableString(string);
+//
+        sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.tv_payment.setText(sp);
         GlideUtil.loadImageViewLodingRadius(context,bean.getImageUrl(),holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
 
         //由于需要实现瀑布流的效果,所以就需要动态的改变控件的高度了
@@ -107,6 +115,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TextView tv_goods_name;
         TextView tv_goods_money;
         TextView tv_look_similar;
+        TextView tv_payment;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -114,6 +123,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             tv_goods_name = itemView.findViewById(R.id.tv_goods_name);
             tv_goods_money = itemView.findViewById(R.id.tv_goods_money);
             tv_look_similar = itemView.findViewById(R.id.tv_look_similar);
+            tv_payment = itemView.findViewById(R.id.tv_payment);
         }
     }
 

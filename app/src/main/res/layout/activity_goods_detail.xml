@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.lwkandroid.widget.stateframelayout.StateFrameLayout
-        android:id="@+id/stateLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:enableContentAnim="true"
-        app:emptyLayoutResId="@layout/layout_empty"
-        app:loadingLayoutResId="@layout/layout_loading"
-        app:netErrorLayoutResId="@layout/layout_net_error">
+    <!--<com.lwkandroid.widget.stateframelayout.StateFrameLayout-->
+        <!--android:id="@+id/stateLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:enableContentAnim="true"-->
+        <!--app:emptyLayoutResId="@layout/layout_empty"-->
+        <!--app:loadingLayoutResId="@layout/layout_loading"-->
+        <!--app:netErrorLayoutResId="@layout/layout_net_error">-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,7 +44,63 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="300dp"></com.youth.banner.Banner>
 
-
+                            <LinearLayout
+                                android:id="@+id/ll_limit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="#D1F4BD00"
+                                android:padding="10dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="限时秒杀"
+                                    android:textSize="12sp"
+                                    android:textColor="#F4BD00" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="距离结束"
+                                    android:textColor="#333333"
+                                    android:textSize="12sp"
+                                    android:layout_marginLeft="10dp"/>
+                                <cn.iwgang.countdownview.CountdownView
+                                    android:id="@+id/countdownview"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_gravity="center"
+                                    app:isHideTimeBackground="false"
+                                    app:isShowDay="true"
+                                    app:isShowHour="true"
+                                    app:isShowMillisecond="false"
+                                    app:isShowMinute="true"
+                                    app:isShowSecond="true"
+                                    app:isShowTimeBgDivisionLine="false"
+                                    app:isTimeTextBold="true"
+                                    app:suffixGravity="center"
+                                    app:suffixDay=":"
+                                    app:suffixHour=":"
+                                    app:suffixMinute=":"
+                                    app:suffixTextColor="@color/black"
+                                    app:suffixTextSize="11sp"
+                                    app:timeBgColor="@color/black"
+                                    app:timeBgRadius="3dp"
+                                    app:timeTextColor="@color/white"
+                                    app:timeTextSize="11sp" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"/>
+                                <TextView
+                                    android:id="@+id/tv_only_left"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="#333"
+                                    android:text="仅剩500件"/>
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -59,13 +115,20 @@
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
                                     android:orientation="horizontal">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="秒杀价"
+                                        android:textColor="@color/red"
+                                        android:textSize="12sp" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="¥"
                                         android:textColor="@color/red"
-                                        android:textSize="20sp" />
+                                        android:textSize="20sp"
+                                        android:layout_marginLeft="8dp"/>
 
                                     <TextView
                                         android:id="@+id/tv_good_money"
@@ -85,9 +148,9 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="¥"
+                                        android:text="市场价 ¥"
                                         android:textColor="@color/gray_two"
-                                        android:textSize="15sp" />
+                                        android:textSize="12sp" />
 
                                     <TextView
                                         android:id="@+id/tv_good_money_max"
@@ -95,7 +158,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="19.8"
                                         android:textColor="@color/gray_two"
-                                        android:textSize="15sp" />
+                                        android:textSize="12sp" />
                                 </LinearLayout>
                             </LinearLayout>
                             <LinearLayout
@@ -154,18 +217,18 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="@dimen/dp_10"
-                                    android:text="快递：0.00"
-                                    android:textColor="#808080"
-                                    android:textSize="14sp" />
+                                    android:text="运费：￥0.00"
+                                    android:textColor="#999999"
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/tv_sales_volume"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
-                                    android:text="月销80万+"
-                                    android:textColor="#808080"
-                                    android:textSize="14sp" />
+                                    android:text="销量：0"
+                                    android:textColor="#999999"
+                                    android:textSize="12sp" />
 
                                 <TextView
                                     android:id="@+id/tv_address"
@@ -173,11 +236,42 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
                                     android:layout_marginRight="@dimen/dp_10"
-                                    android:text="浙江宁波"
-                                    android:textColor="#808080"
-                                    android:textSize="14sp" />
+                                    android:text="发货：宁波"
+                                    android:textColor="#999999"
+                                    android:textSize="12sp" />
                             </RelativeLayout>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:background="@color/white"
+                                android:paddingRight="10dp"
+                                android:paddingLeft="10dp"
+                                android:paddingBottom="10dp">
+                                <LinearLayout
+                                    android:id="@+id/ll_install_service"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:layout_gravity="right">
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@mipmap/fuwu"
+                                        android:layout_gravity="center"/>
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="此商品自带安装服务"
+                                        android:textColor="#B28850"
+                                        android:textSize="10dp"
+                                        android:padding="2dp"
+                                        android:layout_marginLeft="6dp"
+                                        android:background="@drawable/goods_detail_round"/>
+                                </LinearLayout>
+                            </LinearLayout>
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="10dp"
@@ -188,7 +282,35 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/white"
                                 android:orientation="vertical">
+                                <LinearLayout
+                                    android:id="@+id/ll_select"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:padding="@dimen/dp_10">
 
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="选择"
+                                        android:textColor="#000000"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_select"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_weight="1"
+                                        android:text="颜色"
+                                        android:textColor="#999999"
+                                        android:textSize="14sp" />
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:src="@drawable/youjiantou" />
+                                </LinearLayout>
                                 <LinearLayout
                                     android:id="@+id/ll_service"
                                     android:layout_width="match_parent"
@@ -200,7 +322,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="服务"
-                                        android:textColor="#808080"
+                                        android:textColor="#000000"
                                         android:textSize="14sp" />
 
                                     <TextView
@@ -210,7 +332,7 @@
                                         android:layout_marginLeft="20dp"
                                         android:layout_weight="1"
                                         android:text="7天无理由·7天内发货"
-                                        android:textColor="#333"
+                                        android:textColor="#999999"
                                         android:textSize="14sp" />
 
                                     <ImageView
@@ -234,8 +356,8 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="规格"
-                                            android:textColor="#808080"
+                                            android:text="优惠"
+                                            android:textColor="#000000"
                                             android:textSize="14sp" />
 
                                         <TextView
@@ -244,10 +366,15 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="20dp"
                                             android:layout_weight="1"
-                                            android:text="选择分类"
-                                            android:textColor="#333"
+                                            android:text="领券后至少可减￥10"
+                                            android:textColor="#999999"
                                             android:textSize="14sp" />
-
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="领券"
+                                            android:textColor="#999999"
+                                            android:textSize="14sp" />
                                         <ImageView
                                             android:layout_width="15dp"
                                             android:layout_height="15dp"
@@ -266,7 +393,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="参数"
-                                        android:textColor="#808080"
+                                        android:textColor="#000000"
                                         android:textSize="14sp" />
 
                                     <TextView
@@ -278,7 +405,7 @@
                                         android:ellipsize="end"
                                         android:maxLength="8"
                                         android:text="生产日期 品牌哈哈哈"
-                                        android:textColor="#333"
+                                        android:textColor="#999999"
                                         android:textSize="14sp" />
 
                                     <ImageView
@@ -308,7 +435,7 @@
                                 android:padding="10dp">
 
                                 <LinearLayout
-                                    android:id="@+id/ll_evaluation"
+
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
@@ -319,29 +446,22 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:text="宝贝评价(123456)"
+                                        android:text="商品评价(123456)"
                                         android:textColor="#333"
-                                        android:textSize="14sp" />
+                                        android:textSize="13sp" />
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="查看全部"
-                                        android:textColor="@color/red"
-                                        android:textSize="14sp" />
 
-                                    <ImageView
-                                        android:layout_width="15dp"
-                                        android:layout_height="15dp"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="10dp"
-                                        android:src="@drawable/right_arrow_red" />
                                 </LinearLayout>
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.5dp"
+                                    android:background="#DDDDDD"
+                                    android:layout_marginTop="15dp"/>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="15dp"
                                     android:orientation="horizontal">
 
                                     <com.zhenghaikj.shop.widget.CircleImageView
@@ -371,6 +491,33 @@
                                     android:text="东西不错不错北京市北京市副本健康减肥不打上来看说那倒是可能女王好难看面对失败说看VB迪士尼"
                                     android:textColor="#333"
                                     android:textSize="12sp" />
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.5dp"
+                                    android:background="#DDDDDD"
+                                    android:layout_marginTop="15dp"/>
+                                <LinearLayout
+                                    android:id="@+id/ll_evaluation"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginBottom="10dp">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="查看全部评价"
+                                        android:textColor="#B28850"
+                                        android:textSize="12sp" />
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="10dp"
+                                        android:src="@drawable/right_arrow_black" />
+                                </LinearLayout>
 
                                 <View
                                     android:visibility="gone"
@@ -787,43 +934,44 @@
                     android:text="立即购买"/>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/ll_limit"
+
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:orientation="horizontal"
                     android:background="@color/red">
-                    <cn.iwgang.countdownview.CountdownView
-                        android:id="@+id/countdownview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center"
-                        app:isHideTimeBackground="false"
-                        app:isShowDay="true"
-                        app:isShowHour="true"
-                        app:isShowMillisecond="false"
-                        app:isShowMinute="true"
-                        app:isShowSecond="true"
-                        app:isShowTimeBgDivisionLine="false"
-                        app:isTimeTextBold="true"
-                        app:suffixGravity="center"
-                        app:suffixDay="天"
-                        app:suffixHour="时"
-                        app:suffixMinute="分"
-                        app:suffixSecond="秒"
-                        app:suffixTextColor="@color/white"
-                        app:suffixTextSize="11sp"
-                        app:timeBgColor="#990000"
-                        app:timeBgRadius="3dp"
-                        app:timeTextColor="@color/white"
-                        app:timeTextSize="11sp" />
+                    <!--<cn.iwgang.countdownview.CountdownView-->
+                        <!--android:id="@+id/countdownview"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:padding="5dp"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--app:isHideTimeBackground="false"-->
+                        <!--app:isShowDay="true"-->
+                        <!--app:isShowHour="true"-->
+                        <!--app:isShowMillisecond="false"-->
+                        <!--app:isShowMinute="true"-->
+                        <!--app:isShowSecond="true"-->
+                        <!--app:isShowTimeBgDivisionLine="false"-->
+                        <!--app:isTimeTextBold="true"-->
+                        <!--app:suffixGravity="center"-->
+                        <!--app:suffixDay="天"-->
+                        <!--app:suffixHour="时"-->
+                        <!--app:suffixMinute="分"-->
+                        <!--app:suffixSecond="秒"-->
+                        <!--app:suffixTextColor="@color/white"-->
+                        <!--app:suffixTextSize="11sp"-->
+                        <!--app:timeBgColor="#990000"-->
+                        <!--app:timeBgRadius="3dp"-->
+                        <!--app:timeTextColor="@color/white"-->
+                        <!--app:timeTextSize="11sp" />-->
                 </LinearLayout>
 
                 <TextView
@@ -838,7 +986,7 @@
                     android:text="立即抢购"/>
             </LinearLayout>
         </LinearLayout>
-    </com.lwkandroid.widget.stateframelayout.StateFrameLayout>
+    <!--</com.lwkandroid.widget.stateframelayout.StateFrameLayout>-->
     <LinearLayout
         android:id="@+id/headerParent"
         android:layout_width="match_parent"

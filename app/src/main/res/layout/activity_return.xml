@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
-                android:hint="商品名称/商品编号/订单编号/序列号"
+                android:hint="商品名称/商品编号/订单编号"
                 android:textSize="12sp"
                 android:textColorHint="#ABABAB"
                 android:textColor="#333333"

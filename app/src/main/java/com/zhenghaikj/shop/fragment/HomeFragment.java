@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.fragment;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -196,6 +197,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         limitedTimeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+//                Intent intent = new Intent(mActivity, PanicBuyingActivity.class);
+////                intent.putExtra("id", limitedTimeList.get(position).getId());
+//                startActivity(intent);
+
+                Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+                intent.putExtra("id", limitedTimeList.get(position).getProductId()+"");
                 Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
                 intent.putExtra("id", limitedTimeList.get(position).getProductId()+"");
                 startActivity(intent);
