@@ -48,6 +48,7 @@ import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 import com.zhenghaikj.shop.mvp.model.ConfirmOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.ConfirmOrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
+import com.zhenghaikj.shop.utils.SingleClick;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -124,11 +125,12 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     private String orderinfo;
     private WXpayInfo wXpayInfo;
     private String userName;
-    private String OrderId;
+    private String OrderId="";
     private IWXAPI api;
 
     List<JsonStrOrderPay> payList=new ArrayList<>();
     private JSONArray jsonArray;
+    private Intent intent;
 
     @Override
     protected int setLayoutId() {
@@ -235,7 +237,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         mLladdress_choose.setOnClickListener(this);
         mTvsubmit.setOnClickListener(this);
     }
-
+    @SingleClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -447,13 +449,13 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 //            ConfirmOrderActivity.this.finish();
 //            Toast.makeText(mActivity,"提交成功待支付",Toast.LENGTH_SHORT).show();
             for (int i = 0; i < result.getOrderIds().size(); i++) {
-                OrderId+=result.getOrderIds()+",";
+                OrderId+=result.getOrderIds().get(i)+",";
             }
             OrderId=OrderId.substring(0,OrderId.lastIndexOf(","));
-            showPopupWindow(GetConfirmModel);
+            showPopupWindow(result);
+        }else{
+            Toast.makeText(mActivity,result.getMsg(),Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     @Override
@@ -463,7 +465,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 //            ConfirmOrderActivity.this.finish();
             EventBus.getDefault().post("cart");
 //            Toast.makeText(mActivity,"提交成功待支付",Toast.LENGTH_SHORT).show();
-            showPopupWindow(GetConfirmModel);
+            for (int i = 0; i < result.getOrderIds().size(); i++) {
+                OrderId+=result.getOrderIds().get(i)+",";
+            }
+            OrderId=OrderId.substring(0,OrderId.lastIndexOf(","));
+            showPopupWindow(result);
         }else {
             Toast.makeText(mActivity,result.getMsg(),Toast.LENGTH_SHORT).show();
         }
@@ -557,12 +563,10 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
      * 弹出付款Popupwindow
      * @param confirmModel
      */
-    public void showPopupWindow(GetConfirmModel confirmModel) {
-        payList=new ArrayList<>();
-        payList.add(new JsonStrOrderPay(Long.parseLong(OrderId),confirmModel.getBisId(),confirmModel.getTotalAmount()));
+    public void showPopupWindow(ConfirmModel confirmModel) {
         Gson gson=new Gson();
         try {
-            jsonArray = new JSONArray(gson.toJson(payList));
+            jsonArray = new JSONArray(gson.toJson(confirmModel.getPayInfo()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -573,7 +577,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(userName,"", "",confirmModel.getOrderAmount()+"",jsonArray);
+                mPresenter.GetOrderStr(userName,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -585,7 +589,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetWXOrderStr(userName,"", "",confirmModel.getOrderAmount()+"",jsonArray);
+                mPresenter.GetWXOrderStr(userName,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -684,12 +688,17 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付成功");
-                        Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
+                        intent = new Intent(mActivity, PaymentSuccessActivity.class);
                         intent.putExtra("OrderID", OrderId);
                         startActivity(intent);
+                        finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付失败");
+                        intent =new Intent(mActivity,OrderDetailActivity.class);
+                        intent.putExtra("orderId",OrderId);
+                        startActivity(intent);
+                        finish();
                     }
                     break;
                 }
@@ -712,12 +721,21 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
                 intent.putExtra("OrderID", OrderId);
                 startActivity(intent);
+                finish();
                 break;
             case -1:
                 ToastUtils.showShort("支付出错");
+                intent =new Intent(mActivity,OrderDetailActivity.class);
+                intent.putExtra("orderId",OrderId);
+                startActivity(intent);
+                finish();
                 break;
             case -2:
                 ToastUtils.showShort("支付取消");
+                intent =new Intent(mActivity,OrderDetailActivity.class);
+                intent.putExtra("orderId",OrderId);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -733,10 +751,18 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     }
                 }else{
                     ToastUtils.showShort("获取支付信息失败！");
+                    intent =new Intent(mActivity,OrderDetailActivity.class);
+                    intent.putExtra("orderId",OrderId);
+                    startActivity(intent);
+                    finish();
                 }
                 break;
             default:
                 ToastUtils.showShort("获取支付信息失败！");
+                intent =new Intent(mActivity,OrderDetailActivity.class);
+                intent.putExtra("orderId",OrderId);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -752,10 +778,18 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     }
                 }else{
                     ToastUtils.showShort("获取支付信息失败！");
+                    intent =new Intent(mActivity,OrderDetailActivity.class);
+                    intent.putExtra("orderId",OrderId);
+                    startActivity(intent);
+                    finish();
                 }
                 break;
             default:
                 ToastUtils.showShort("获取支付信息失败！");
+                intent =new Intent(mActivity,OrderDetailActivity.class);
+                intent.putExtra("orderId",OrderId);
+                startActivity(intent);
+                finish();
                 break;
         }
     }

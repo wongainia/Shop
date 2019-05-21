@@ -155,8 +155,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
-                    case R.id.tv_trading_status:
-                        mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                     case R.id.tv_buy:
                     case R.id.tv_buy_again://再次购买
 
@@ -310,7 +308,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     public void PostCloseOrder(CloseOrder Result) {
-
+        if (Result.isSuccess()){
+            getData();
+        }
     }
 
     @Override
