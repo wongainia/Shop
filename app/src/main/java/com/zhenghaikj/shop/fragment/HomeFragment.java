@@ -203,8 +203,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
                 Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
                 intent.putExtra("id", limitedTimeList.get(position).getProductId()+"");
-                Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
-                intent.putExtra("id", limitedTimeList.get(position).getProductId()+"");
                 startActivity(intent);
             }
         });

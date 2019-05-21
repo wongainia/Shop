@@ -1,9 +1,14 @@
 package com.zhenghaikj.shop.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +23,7 @@ import com.zhenghaikj.shop.fragment.HomeFragment;
 import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.fragment.ShopFragment;
 import com.zhenghaikj.shop.widget.CustomViewPager;
+import com.zhenghaikj.shop.widget.StarBarView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -78,6 +84,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private String userKey;
     private String userName;
     private boolean isLogin;
+    private View view;
+    private TextView tv_orderid;
+    private TextView tv_serach;
+    private TextView tv_totle_grade;
+    private StarBarView good_star;
+    private TextView tv_good_content;
+    private StarBarView shangmen_star;
+    private TextView tv_shangmen_content;
+    private StarBarView weixiu_star;
+    private TextView tv_weixiu_content;
+    private StarBarView fuwu_star;
+    private TextView tv_fuwu_content;
+    private AlertDialog EvalateDialog;
+    private Window window;
 
     @Override
     protected int setLayoutId() {
@@ -113,6 +133,44 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mViewPager.setScroll(false);
         mLlHome.setSelected(true);
 
+        showOrderEvaluate();
+    }
+
+    /*弹出确认工单评价*/
+    public void showOrderEvaluate() {
+        view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_evaluate, null);
+        ImageView iv_close = view.findViewById(R.id.iv_close);
+        tv_orderid = view.findViewById(R.id.tv_orderid);
+        tv_serach = view.findViewById(R.id.tv_serach);
+
+        tv_totle_grade = view.findViewById(R.id.tv_totle_grade);
+        good_star = view.findViewById(R.id.good_star);
+        tv_good_content = view.findViewById(R.id.tv_good_content);
+//        tv_totle_grade.setText(""+good_star.getStar());
+        shangmen_star = view.findViewById(R.id.shangmen_star);
+        tv_shangmen_content = view.findViewById(R.id.tv_shangmen_content);
+        weixiu_star = view.findViewById(R.id.weixiu_star);
+        tv_weixiu_content = view.findViewById(R.id.tv_weixiu_content);
+        fuwu_star = view.findViewById(R.id.fuwu_star);
+        tv_fuwu_content = view.findViewById(R.id.tv_fuwu_content);
+        good_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EvalateDialog.dismiss();
+            }
+        });
+        EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
+        EvalateDialog.show();
+        window = EvalateDialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        window.setAttributes(lp);
+        window.setBackgroundDrawable(new ColorDrawable());
     }
 
     @Override

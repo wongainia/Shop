@@ -116,4 +116,6 @@ dependencies {
     implementation 'com.github.vondear.RxTool:RxUI:v2.2.7'
     //标签
     implementation 'com.github.donkingliang:LabelsView:1.4.1'
+    //Zloading加载动画
+    implementation 'com.zyao89:zloading:1.2.0'
 }
