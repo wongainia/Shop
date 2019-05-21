@@ -12,13 +12,17 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
 import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
 import com.zhenghaikj.shop.widget.CircleImageView;
+
+import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -170,5 +174,20 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
                 break;
 
         }
+    }
+
+    @Override
+    public void GetOrderByhmall(BaseResult<Data<List<WorkOrder.DataBean>>> Result) {
+
+    }
+
+    @Override
+    public void EnSureOrder(BaseResult<Data<String>> Result) {
+
+    }
+
+    @Override
+    public void GetOrderInfoList(BaseResult<WorkOrder> baseResult) {
+
     }
 }

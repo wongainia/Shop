@@ -391,4 +391,30 @@ public interface ApiService2 {
     @FormUrlEncoded
     @POST("FactoryConfig/GetFactoryCategory")
     Observable<BaseResult<CategoryData>> GetChildFactoryCategory(@Field("ParentID") String ParentID);
+
+
+    /**
+     * 获取待支付订单
+     */
+    @FormUrlEncoded
+    @POST("Order/GetOrderByhmall")
+    Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmall(@Field("UserID") String UserID);
+
+    /**
+     * 用户确认订单 结算
+     * @param OrderID 订单id
+     * @param PayPassword  支付密码
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Order/EnSureOrder")
+    Observable<BaseResult<Data<String>>> EnSureOrder(
+            @Field("OrderID") String OrderID,
+            @Field("PayPassword") String PayPassword,
+            @Field("Grade") String Grade,
+            @Field("Grade1") String Grade1,
+            @Field("Grade2") String Grade2,
+            @Field("Grade3") String Grade3,
+            @Field("OrgAppraise") String OrgAppraise
+    );
 }

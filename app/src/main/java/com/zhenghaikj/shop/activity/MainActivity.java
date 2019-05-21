@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mViewPager.setScroll(false);
         mLlHome.setSelected(true);
 
-        showOrderEvaluate();
+//        showOrderEvaluate();
     }
 
     /*弹出确认工单评价*/

@@ -52,7 +52,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //找到item的布局
-        View view= LayoutInflater.from(context).inflate(R.layout.item_home,parent,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.item_home_two,parent,false);
         return new MyViewHolder(view);//将布局设置给holder
     }
 

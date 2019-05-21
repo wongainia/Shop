@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/bg_shop">
         <TextView
             android:id="@+id/tv_title"
@@ -106,7 +106,7 @@
                  android:layout_height="wrap_content"
                  android:textSize="13sp"
                  android:layout_marginTop="10dp"
-                 android:text="(非常好)"
+                 android:text="满意"
                  />
 
         </LinearLayout>
@@ -146,7 +146,7 @@
             android:id="@+id/tv_shangmen_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="非常好"
+            android:text="满意"
             android:textColor="#FF4F19"
             />
 </LinearLayout>
@@ -185,7 +185,7 @@
                 android:id="@+id/tv_weixiu_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="非常好"
+                android:text="满意"
                 android:textColor="#FF4F19"
                 />
         </LinearLayout>
@@ -226,7 +226,7 @@
                 android:id="@+id/tv_fuwu_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="非常好"
+                android:text="满意"
                 android:textColor="#FF4F19"
                 />
         </LinearLayout>

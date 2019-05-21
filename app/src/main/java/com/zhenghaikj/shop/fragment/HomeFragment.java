@@ -243,7 +243,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });
 
 //声名为瀑布流的布局方式: 2列,垂直方向
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mRvHome.setLayoutManager(staggeredGridLayoutManager);
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(), mDatas);
         mRvHome.setItemAnimator(new DefaultItemAnimator());

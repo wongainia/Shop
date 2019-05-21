@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,15 +12,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -47,21 +46,26 @@ import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
 import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
 import com.zhenghaikj.shop.utils.ZXingUtils;
 import com.zhenghaikj.shop.widget.CircleImageView;
 import com.zhenghaikj.shop.widget.StarBarView;
+import com.zhenghaikj.shop.widget.SwitchView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -192,6 +196,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     LinearLayout mLlMerchant;
     @BindView(R.id.ll_coins)
     LinearLayout mLlCoins;
+    @BindView(R.id.scrolltv)
+    SwitchView mScrolltv;
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
@@ -209,6 +215,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private boolean isLogin;
     private View under_review;
     private AlertDialog underReviewDialog;
+    private List<String> name=new ArrayList<>();
+    private List<String> state=new ArrayList<>();
+    private List<String> orderId=new ArrayList<>();
 
 
     /*弹出的评价view*/
@@ -229,12 +238,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private EditText et_content;
     private TextView tv_submit;
     private ImageView iv_close;
-
-
-
-
-
-
+    private WorkOrder.DataBean data;
+    private float starRating = 5;
+    private float starRating1 = 5;
+    private float starRating2 = 5;
+    private float starRating3 = 5;
+    private TextView tv_submit1;
+    private EditText et_content1;
+    private WorkOrder workOrder;
 
 
     public static MineFragment newInstance(String param1, String param2) {
@@ -257,10 +268,20 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
         isLogin = spUtils.getBoolean("isLogin");
+        mPresenter.GetOrderByhmall("17855837725");
+        mPresenter.GetOrderInfoList("17855837725","5","1","1");
+//        mPresenter.GetOrderInfoList("17855837725","1","1","1");
+//        mPresenter.GetOrderInfoList("17855837725","2","1","1");
+//        mPresenter.GetOrderInfoList("17855837725","3","1","1");
+//        mPresenter.GetOrderInfoList("17855837725","4","1","1");
+//        mPresenter.GetOrderInfoList("17855837725","5","1","1");
         if (!"".equals(userName) && !"".equals(userKey)) {
             mPresenter.GetUserInfoList(userName, "1");
             mPresenter.PersonalInformation(userKey);
             mPresenter.GetHistoryVisite(userKey);
+        } else {
+            mTvUsername.setText("未登录");
+            mTvPhone.setVisibility(View.GONE);
         }
 
         /*下拉刷新*/
@@ -276,6 +297,22 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             }
         });
 
+        mScrolltv.initView(R.layout.item_switchview, new SwitchView.ViewBuilder() {
+            @Override
+            public void initView(View view) {
+                TextView tv_name=(TextView) view.findViewById(R.id.tv_name);
+                TextView tv_orderid=(TextView) view.findViewById(R.id.tv_orderid);
+                TextView tv_state=(TextView) view.findViewById(R.id.tv_state);
+                for (int i=0;i<name.size();i++){
+//                    Log.d(TAG,"品牌名"+name);
+                    tv_name.setText(name.get(i));
+                    tv_orderid.setText(orderId.get(i));
+                    tv_state.setText(state.get(i));
+                }
+
+
+            }
+        });
 
     }
 /*
@@ -479,7 +516,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 Button btn_share_one = under_review.findViewById(R.id.btn_share_one);
                 ImageView iv_code_one = under_review.findViewById(R.id.iv_code_one);
                 Button btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
-                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone="+userName+"&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
+                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + userName + "&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.icon));
                 iv_code_one.setImageBitmap(bitmap);
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -498,7 +535,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 });
 
                 underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review)
-                         .create();
+                        .create();
                 underReviewDialog.show();
                 window = underReviewDialog.getWindow();
 //                window.setContentView(under_review);
@@ -509,12 +546,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
 
 
-              case R.id.tv_username:
-                  showOrderEvaluate();
-                  break;
+            case R.id.tv_username:
+                showOrderEvaluate();
+                break;
 
-                  default:
-                      break;
+            default:
+                break;
         }
     }
 
@@ -573,7 +610,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     @Override
     public void PersonalInformation(PersonalInformation result) {
         if (result.isSuccess()) {
-            mTvUsername.setText(result.getUserName());
+            if (result.getUserName().equals(result.getCellPhone())) {
+                mTvUsername.setText("未设置昵称");
+            } else {
+                mTvUsername.setText(result.getUserName());
+            }
+
             mTvPhone.setText(result.getCellPhone());
             /*设置头像*/
             if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像
@@ -655,12 +697,79 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         }
     }
 
+    @Override
+    public void GetOrderByhmall(BaseResult<Data<List<WorkOrder.DataBean>>> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+
+//                Log.d(TAG,"服务完成"+Result.getData().getState());
+                for (int i = 0; i < Result.getData().getItem2().size(); i++) {
+                    data = Result.getData().getItem2().get(i);
+                    if (data != null) {
+                        if ("服务完成".equals(data.getState())) {
+                            showOrderEvaluate();
+                        }
+                    }
+                }
+
+
+                break;
+        }
+    }
+
+    @Override
+    public void EnSureOrder(BaseResult<Data<String>> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                Data<String> data = Result.getData();
+                if (data.isItem1()) {
+                    ToastUtils.showShort(data.getItem2());
+//                    mPresenter.GetOrderInfo(OrderID);
+                } else {
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void GetOrderInfoList(BaseResult<WorkOrder> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                workOrder = baseResult.getData();
+                if (workOrder.getData()!=null){
+//                    workOrderList.addAll(workOrder.getData());
+//                    mWorkOrderAdapter.setNewData(workOrderList);
+                    for (int i=0;i<workOrder.getData().size();i++){
+                        name.add(workOrder.getData().get(i).getBrandName());
+                        orderId.add(workOrder.getData().get(i).getOrderID());
+                        state.add(workOrder.getData().get(i).getState());
+                    }
+
+                }
+//                mRefreshLayout.finishRefresh();
+//                if (pageIndex!=1&&"0".equals(workOrder.getCount())){
+//                    mRefreshLayout.finishLoadMoreWithNoMoreData();
+//                }else{
+//                    mRefreshLayout.finishLoadMore();
+//                }
+                break;
+            case 401:
+                ToastUtils.showShort(baseResult.getInfo());
+                break;
+        }
+    }
+
     /*弹出确认工单评价*/
     public void showOrderEvaluate() {
         view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_evaluate, null);
         iv_close = view.findViewById(R.id.iv_close);
         tv_orderid = view.findViewById(R.id.tv_orderid);
         tv_serach = view.findViewById(R.id.tv_serach);
+        TextView tv_orderid = view.findViewById(R.id.tv_orderid);
+        tv_orderid.setText("工单号：" + data.getOrderID());
 
         tv_totle_grade = view.findViewById(R.id.tv_totle_grade);
         good_star = view.findViewById(R.id.good_star);
@@ -672,12 +781,59 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         tv_weixiu_content = view.findViewById(R.id.tv_weixiu_content);
         fuwu_star = view.findViewById(R.id.fuwu_star);
         tv_fuwu_content = view.findViewById(R.id.tv_fuwu_content);
+
+        tv_submit1 = view.findViewById(R.id.tv_submit);
+        et_content1 = view.findViewById(R.id.et_content);
+        String content = et_content1.getText().toString();
+
+        good_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                starRating = good_star.getStarRating();
+                setStarName(tv_totle_grade, starRating);
+                setStarName2(tv_good_content, starRating);
+            }
+        });
+
+        shangmen_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                starRating1 = shangmen_star.getStarRating();
+                setStarName2(tv_shangmen_content, starRating1);
+            }
+        });
+        weixiu_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                starRating2 = weixiu_star.getStarRating();
+                setStarName2(tv_weixiu_content, starRating2);
+            }
+        });
+        fuwu_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                starRating3 = fuwu_star.getStarRating();
+                setStarName2(tv_fuwu_content, starRating3);
+            }
+        });
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EvalateDialog.dismiss();
             }
         });
+
+
+        tv_submit1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Log.d(TAG,"starRating"+starRating+"starRating1"+starRating1+"starRating2"+starRating2+"starRating3"+starRating3+"....");
+                mPresenter.EnSureOrder(data.getOrderID(), "888888", String.valueOf(starRating), String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
+                EvalateDialog.dismiss();
+            }
+        });
+
+
         EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
         EvalateDialog.show();
         window = EvalateDialog.getWindow();
@@ -685,4 +841,39 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         window.setAttributes(lp);
         window.setBackgroundDrawable(new ColorDrawable());
     }
+
+    /**
+     * 设置星星文字
+     */
+    private void setStarName(TextView textView, float star_num) {
+        if (star_num == 5.0f) {
+            textView.setText("5");
+        } else if (star_num == 4.0f) {
+            textView.setText("4");
+        } else if (star_num == 3.0f) {
+            textView.setText("3");
+        } else if (star_num == 2.0f) {
+            textView.setText("2");
+        } else if (star_num == 1.0f) {
+            textView.setText("1");
+        }
+    }
+
+    /**
+     * 设置星星文字
+     */
+    private void setStarName2(TextView textView, float star_num) {
+        if (star_num == 5.0f) {
+            textView.setText("很棒");
+        } else if (star_num == 4.0f) {
+            textView.setText("满意");
+        } else if (star_num == 3.0f) {
+            textView.setText("一般");
+        } else if (star_num == 2.0f) {
+            textView.setText("很差");
+        } else if (star_num == 1.0f) {
+            textView.setText("非常差");
+        }
+    }
+
 }

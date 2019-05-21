@@ -4,13 +4,16 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -49,6 +52,27 @@ public class MineModel implements MineContract.Model {
     @Override
     public Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit) {
         return ApiRetrofit2.getDefault().GetUserInfoList(userName, limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmall(String UserID) {
+        return ApiRetrofit2.getDefault().GetOrderByhmall(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword, String Grade, String Grade1, String Grade2, String Grade3, String OrgAppraise) {
+        return ApiRetrofit2.getDefault().EnSureOrder(OrderID, PayPassword, Grade, Grade1, Grade2, Grade3, OrgAppraise)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<WorkOrder>> GetOrderInfoList(String UserID, String state, String page, String limit) {
+        return ApiRetrofit2.getDefault().FactoryGetOrderList(UserID,state, page, limit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
