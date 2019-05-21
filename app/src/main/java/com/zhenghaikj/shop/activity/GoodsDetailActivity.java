@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -9,11 +10,15 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -276,6 +281,15 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         }
     };
     private String userName;
+    private View view;
+    private TextView tv_customersecurity;
+    private TextView tv_sevendaynoreasonreturn;
+    private TextView tv_timelyship;
+    private TextView tv_submit;
+    private AlertDialog serviceDialog;
+    private LinearLayout ll_customersecurity;
+    private LinearLayout ll_sevendaynoreasonreturn;
+    private LinearLayout ll_timelyship;
 
 
     @Override
@@ -424,6 +438,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mTvBuy.setOnClickListener(this);
         mTvLimitBuy.setOnClickListener(this);
 //        mLlEvaluation.setOnClickListener(this);
+        mLlService.setOnClickListener(this);
+        mLlSelect.setOnClickListener(this);
         mLlEvaluation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -510,6 +526,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 }
                 showPopupWindow(1); //1为购物车  2为购买
                 break;
+            case R.id.ll_select:
             case R.id.tv_buy:
             case R.id.tv_limit_buy:
                 if ("".equals(userName) && "".equals(Userkey)) {
@@ -518,11 +535,61 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 }
                 showPopupWindow(2);
                 break;
+            case R.id.ll_service:
+                Service();
+                break;
 //            case R.id.ll_evaluation:
 //                startActivity(new Intent(mActivity,EvaluationDetailsActivity.class));
 //                break;
 
         }
+    }
+
+    public void Service() {
+        view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_goods_service, null);
+        tv_customersecurity = view.findViewById(R.id.tv_customersecurity);
+        tv_sevendaynoreasonreturn = view.findViewById(R.id.tv_sevendaynoreasonreturn);
+        tv_timelyship = view.findViewById(R.id.tv_timelyship);
+        tv_submit = view.findViewById(R.id.tv_submit);
+        ll_customersecurity = view.findViewById(R.id.ll_customersecurity);
+        ll_sevendaynoreasonreturn = view.findViewById(R.id.ll_sevendaynoreasonreturn);
+        ll_timelyship = view.findViewById(R.id.ll_timelyship);
+        tv_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                serviceDialog.dismiss();
+            }
+        });
+
+        if (result.getCashDepositsServer().isIsSevenDayNoReasonReturn()) {
+
+            tv_sevendaynoreasonreturn.setText("七天无理由");
+        } else {
+            ll_sevendaynoreasonreturn.setVisibility(View.GONE);
+        }
+        if (result.getCashDepositsServer().isIsTimelyShip()) {
+
+            tv_timelyship.setText("及时发货");
+        } else {
+//                tv_timelyship.setText("不及时发货");
+            ll_timelyship.setVisibility(View.GONE);
+        }
+        if (result.getCashDepositsServer().isIsCustomerSecurity()) {
+            tv_customersecurity.setText("消费者保证");
+        } else {
+            ll_customersecurity.setVisibility(View.GONE);
+        }
+
+        serviceDialog = new AlertDialog.Builder(mActivity).setView(view).create();
+        serviceDialog.show();
+        Window window = serviceDialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.gravity = Gravity.BOTTOM;
+//        Display display = mActivity.getManager().getDefaultDisplay();
+        DisplayMetrics dm = new DisplayMetrics();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        window.setBackgroundDrawable(new ColorDrawable());
     }
 
 
@@ -914,12 +981,22 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
             if (Result.getCashDepositsServer().isIsSevenDayNoReasonReturn()) {
                 server = "七天无理由";
+//                tv_sevendaynoreasonreturn.setText("七天无理由");
+            } else {
+//                ll_sevendaynoreasonreturn.setVisibility(View.GONE);
             }
             if (Result.getCashDepositsServer().isIsTimelyShip()) {
                 server = server + " " + "及时发货";
+//                tv_timelyship.setText("及时发货");
+            } else {
+//                tv_timelyship.setText("不及时发货");
+//                ll_timelyship.setVisibility(View.GONE);
             }
             if (Result.getCashDepositsServer().isIsCustomerSecurity()) {
                 server = server + " " + "消费者保证";
+//                tv_customersecurity.setText("消费者保证");
+            } else {
+//                ll_customersecurity.setVisibility(View.GONE);
             }
             mTvService.setText(server);
 
