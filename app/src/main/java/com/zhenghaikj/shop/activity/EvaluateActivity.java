@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -42,6 +43,8 @@ import com.zhenghaikj.shop.utils.imageutil.Glide4Engine;
 import com.zhenghaikj.shop.widget.StarBarView;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -99,7 +102,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
 
     private int position; //当前点击添加照片的位置
-
+    private ZLoadingDialog dialog;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_evaluate;
@@ -115,8 +118,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
         mCommentEntity.setServiceMark("5");
         mCommentEntity.setDeliveryMark("5");
         mCommentEntity.setPackMark("5");
-
-
     }
     @Override
     protected void initImmersionBar() {
@@ -128,6 +129,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     }
     @Override
     protected void initView() {
+        dialog = new ZLoadingDialog(mActivity);
         footerview = LayoutInflater.from(mActivity).inflate(R.layout.item_evaluate_store, null);
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("订单评价");
@@ -163,8 +165,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                 commentsInfo.setSrc(src);
                 commentslist.add(commentsInfo);
             }
-
-
             list.addAll(Result.getProduct());
             mRvrvaluate.setLayoutManager(new LinearLayoutManager(mActivity));
             evaluateAdapter = new EvaluateAdapter(R.layout.item_evaluate, list, commentslist, mActivity);
@@ -234,7 +234,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
     @Override
     public void UploadPicEvaluate(EvaluatePhotoEntity Result) {
-
         if (Result.isSuccess()) {
             if (commentslist.get(position).getCommentImgs().size() < 3) {
                 CommentsInfo commentsInfo = commentslist.get(position);
@@ -243,7 +242,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
                 List<String> imgSrc = commentsInfo.getSrc();
                 imgSrc.add(0, Result.getSrc());
-
                 commentsInfo.setCommentImgs(commentImgs);
                 commentsInfo.setSrc(imgSrc);
                 commentslist.set(position, commentsInfo);
@@ -505,11 +503,11 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
         switch (requestCode) {
             //拍照获取图片
             case 101:
+
                 if (resultCode == -1) {
                     file = new File(FilePath);
                     File newFile = CompressHelper.getDefault(getApplicationContext()).compressToFile(file);
                     mPresenter.UploadPicEvaluate(MyUtils.fileToBase64(newFile));
-
                 }
 
                 break;
@@ -525,7 +523,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                             mPresenter.UploadPicEvaluate(MyUtils.fileToBase64(newFile));
                         }
                     }
-
 
                 }
 
@@ -609,5 +606,22 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+
+    public void showLoading() {
+        dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("图片上传中请稍后...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(1) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+    public void cancleLoading() {
+        if (dialog!=null){
+            dialog.dismiss();
+        }
     }
 }

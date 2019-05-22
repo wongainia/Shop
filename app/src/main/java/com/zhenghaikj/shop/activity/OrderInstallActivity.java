@@ -133,9 +133,6 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
     @Override
     protected void initData() {
-
-
-
         userKey=spUtils.getString("UserKey");
         orderID = getIntent().getStringExtra("OrderId");
         userID = spUtils.getString("userName2");
@@ -149,13 +146,10 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
     @Override
     protected void setListener() {
-
         mTvsave.setOnClickListener(this);
         mTvaddress.setOnClickListener(this);
         mImgarrow.setOnClickListener(this);
         mIconback.setOnClickListener(this);
-
-
         adderView.setOnValueChangeListene(new AdderView.OnValueChangeListener() {
             @Override
             public void onValueChange(int value) {
@@ -165,17 +159,9 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                 }
             }
         });
-
-
-
     }
-
-
-
-
     @Override
     public void GetOrderDetail(OrderDetail result) {
-
         if (result.isSuccess()){
             mTvsave.setVisibility(View.VISIBLE);
             mTvsave.setText("发单");
@@ -214,9 +200,6 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
             case R.id.tv_save://提交
              Log.d("====>code",ProvinceCode+" "+CityCode+" "+AreaCode+" "+DistrictCode);
-
-
-
              String name=mEtname.getText().toString();
              String phone=mEtphone.getText().toString();
              String address=mTvaddress.getText().toString();

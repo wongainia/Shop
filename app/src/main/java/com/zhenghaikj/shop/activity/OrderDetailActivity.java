@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
@@ -35,6 +36,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.OrderDetailAdapter;
+import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
@@ -59,6 +61,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -155,6 +158,11 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     LinearLayout mLlToBeDelivered;
     @BindView(R.id.stateLayout)
     StateFrameLayout mStateLayout;
+    @BindView(R.id.rl_serach_shifu)
+    RelativeLayout mRl_serach_shifu;
+    @BindView(R.id.tv_yuyue)
+    TextView mTv_yuyue;
+
     private String userKey;
     private SPUtils spUtils;
 
@@ -287,7 +295,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         mTvLogistics.setOnClickListener(this);
         mTvEvaluation.setOnClickListener(this);
         mTvChangeAddress.setOnClickListener(this);
-
+        mTv_yuyue.setOnClickListener(this);
     }
 
     @Override
@@ -349,6 +357,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             case R.id.tv_view_logistics:
                 mPresenter.GetExpressInfo(id,userKey);
                 break;
+            case R.id.tv_yuyue:
+                Intent intent1=new Intent(mActivity,OrderInstallActivity.class);
+                intent1.putExtra("OrderId",id);
+                startActivityForResult(intent1, Config.RECEIPT_REQUEST);
+                break;
+
         }
     }
 
@@ -385,6 +399,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.VISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
+                mRl_serach_shifu.setVisibility(View.VISIBLE);
             }
 
             if ("1".equals(orderBean.getOrderStatus())) {
@@ -392,6 +407,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
+
             }
 
             if ("2".equals(orderBean.getOrderStatus())) {
@@ -399,6 +415,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.VISIBLE);
+                mRl_serach_shifu.setVisibility(View.VISIBLE);
             }
 
             if ("3".equals(orderBean.getOrderStatus())) {
@@ -406,6 +423,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.VISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
+                mRl_serach_shifu.setVisibility(View.VISIBLE);
             }
         }
         mStateLayout.changeState(StateFrameLayout.SUCCESS);
@@ -646,6 +664,20 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
     @Override
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==Config.RECEIPT_REQUEST){
+            if (resultCode==Config.RECEIPT_RESULT){
+                mTv_yuyue.setText("已预约");
+                mTv_yuyue.setClickable(false);
+            }
+
+        }
+
 
     }
 }

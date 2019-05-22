@@ -21,7 +21,7 @@
 
     </androidx.appcompat.widget.Toolbar>
     <ImageView
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"
         android:id="@+id/icon_back"
         android:layout_width="25dp"

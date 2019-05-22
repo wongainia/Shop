@@ -126,8 +126,6 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
     @Override
     public void GetOrderDetail(OrderDetail result) {
      if (result.isSuccess()){
-
-
          Glide.with(mActivity).load(result.getOrderItem().get(0).getProductImage())
                  .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
                  .into(mImgShop);
