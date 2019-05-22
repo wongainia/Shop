@@ -106,14 +106,12 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
         switch (v.getId()){
             case R.id.icon_back:
             DeliverySuccessActivity.this.finish();
-
-
+              break;
             case R.id.tv_yuyue:
                 Intent intent0=new Intent(mActivity,OrderInstallActivity.class);
                 intent0.putExtra("OrderId",orderID);
                 startActivityForResult(intent0,Config.RECEIPT_REQUEST);
             break;
-
             case R.id.tv_pingjia:
                 Intent intent=new Intent(mActivity,EvaluateActivity.class);
                 intent.putExtra("OrderID",orderID);

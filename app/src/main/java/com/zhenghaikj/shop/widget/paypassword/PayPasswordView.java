@@ -97,7 +97,4 @@ public class PayPasswordView extends LinearLayout implements View.OnClickListene
     }
 
 
-
-
-
 }
