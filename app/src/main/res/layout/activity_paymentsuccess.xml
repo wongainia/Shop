@@ -17,15 +17,16 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/mine_bg_shape" >
-        <ImageView
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/icon_back"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/back"/>
     </androidx.appcompat.widget.Toolbar>
 
+
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/icon_back"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/back"/>
     <LinearLayout
         android:id="@+id/ll_success"
         android:layout_width="match_parent"

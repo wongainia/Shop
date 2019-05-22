@@ -34,6 +34,8 @@ import com.zhenghaikj.shop.mvp.presenter.AddressPresenter;
 import com.zhenghaikj.shop.utils.InputMethodUtils;
 import com.zhenghaikj.shop.utils.MyUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 

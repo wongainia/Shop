@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -49,6 +51,8 @@ import com.zhenghaikj.shop.mvp.contract.OrderContract;
 import com.zhenghaikj.shop.mvp.model.OrderModel;
 import com.zhenghaikj.shop.mvp.presenter.OrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
+import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
+import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -68,7 +72,7 @@ import butterknife.BindView;
 
 
 //全部订单
-public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> implements OrderContract.View {
+public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> implements OrderContract.View,PasswordEditText.PasswordFullListener {
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
     private static final String TAG = "OrderFragment";
@@ -97,6 +101,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private String OrderId="";
     private List<JsonStrOrderPay> payList;
     private JSONArray jsonArray;
+
+    private BottomSheetDialog bottomSheetDialog;
+
 
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
@@ -146,7 +153,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     protected void initView() {
-
         orderListAdapter = new OrderListAdapter(R.layout.item_order, cartList, mParam1);
         mRvOrder.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvOrder.setAdapter(orderListAdapter);
@@ -168,23 +174,13 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     case R.id.tv_confirm_receipt://确认收货
                         OrderId = cartList.get(position).getId();
                         receipt_position=position;
-                        final CommonDialog_Home dialog = new CommonDialog_Home(getActivity());
-                        dialog.setImageResId(R.mipmap.icon_shouhuo)
-                                .setTitle("是否确认收货?")
-                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                            @Override
-                            public void onPositiveClick() {//确认收货
-                            mPresenter.PostConfirmOrder(cartList.get(position).getId(),userKey);
-                            dialog.dismiss();
-                            }
-
-                            @Override
-                            public void onNegtiveClick() {//取消
-                                dialog.dismiss();
-                            }
-                        }).show();
 
 
+
+
+
+
+                        openPayPasswordDialog();
 
 
                         break;
@@ -245,6 +241,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 getData();
             }
         });
+
     }
 
     public void getData() {
@@ -317,6 +314,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     public void PostConfirmOrder(ConfirmOrder Result) {
         if ("true".equals(Result.getSuccess())){
             orderListAdapter.remove(receipt_position);
+            bottomSheetDialog.dismiss();
             Intent intent=new Intent(mActivity, DeliverySuccessActivity.class);
             intent.putExtra("OrderID",OrderId);
             startActivity(intent);
@@ -538,4 +536,38 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
 
     }
+
+
+    /*支付密码*/
+    private void openPayPasswordDialog() {
+        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
+        bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(payPasswordView);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.show();
+        /*注册监听*/
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        /*关闭*/
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+    }
+
+
+    @Override
+    public void passwordFull(String password) {
+     if ("888888".equals(password)){
+         mPresenter.PostConfirmOrder(OrderId,userKey);
+     }else {
+         Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+     }
+
+
+    }
+
+
 }

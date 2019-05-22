@@ -112,13 +112,8 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     String addressid="";
     private ConfirmOrderAdapter confirmOrderAdapter;
     private ShippingAddressList.ShippingAddressBean address;
-
-
     List<StoreBean> list = new ArrayList<>();
-
-
     HashMap<Integer,String> messagemap=new HashMap<>(); //留言map
-
     GetConfirmModel GetConfirmModel=new GetConfirmModel();
     private PopupWindow mPopupWindow;
     private View popupWindow_view;
@@ -361,11 +356,9 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @Override
     public void GetSubmitByCartModel(GetConfirmModel result) {
 
-        if (result.getSuccess().equals("true")) {
-
+        if ("true".equals(result.getSuccess())) {
 
             GetConfirmModel=result;
-
             if (result.getAddress() != null) {
                 addressid= String.valueOf(result.getAddress().getId());
                 mTvName.setText(result.getAddress().getShipTo());
@@ -738,6 +731,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 finish();
                 break;
         }
+
     }
 
     @Override

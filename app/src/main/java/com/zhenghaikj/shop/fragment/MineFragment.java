@@ -542,9 +542,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 window.setBackgroundDrawable(new ColorDrawable());
                 break;
 
-
             case R.id.tv_username:
-                showOrderEvaluate();
                 break;
 
             default:
@@ -767,18 +765,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         tv_serach = view.findViewById(R.id.tv_serach);
         TextView tv_orderid = view.findViewById(R.id.tv_orderid);
         tv_orderid.setText("工单号：" + data.getOrderID());
-
         tv_totle_grade = view.findViewById(R.id.tv_totle_grade);
         good_star = view.findViewById(R.id.good_star);
         tv_good_content = view.findViewById(R.id.tv_good_content);
-
         shangmen_star = view.findViewById(R.id.shangmen_star);
         tv_shangmen_content = view.findViewById(R.id.tv_shangmen_content);
         weixiu_star = view.findViewById(R.id.weixiu_star);
         tv_weixiu_content = view.findViewById(R.id.tv_weixiu_content);
         fuwu_star = view.findViewById(R.id.fuwu_star);
         tv_fuwu_content = view.findViewById(R.id.tv_fuwu_content);
-
         tv_submit1 = view.findViewById(R.id.tv_submit);
         et_content1 = view.findViewById(R.id.et_content);
         String content = et_content1.getText().toString();
