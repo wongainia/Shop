@@ -1,7 +1,9 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
+import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
@@ -9,6 +11,7 @@ import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
 import com.zhenghaikj.shop.entity.Province;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.AddOrderContract;
 
@@ -118,6 +121,26 @@ public class AddOrderPresenter extends AddOrderContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<UserInfo> value) {
                         mView.GetUserInfoList(value);
+                    }
+                });
+    }
+    @Override
+    public void GetRegion(String id) {
+        mModel.GetRegion(id)
+                .subscribe(new BaseObserver<AddressCodeResult>() {
+                    @Override
+                    protected void onHandleSuccess(AddressCodeResult value) {
+                        mView.GetRegion(value);
+                    }
+                });
+    }
+    @Override
+    public void GetShippingAddressList(String userkey) {
+        mModel.GetShippingAddressList(userkey)
+                .subscribe(new BaseObserver<ShippingAddressList>() {
+                    @Override
+                    protected void onHandleSuccess(ShippingAddressList value) {
+                        mView.GetShippingAddressList(value);
                     }
                 });
     }

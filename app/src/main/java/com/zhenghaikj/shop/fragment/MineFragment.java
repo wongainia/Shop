@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -62,7 +61,6 @@ import com.zhenghaikj.shop.widget.SwitchView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -268,8 +266,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
         isLogin = spUtils.getBoolean("isLogin");
-        mPresenter.GetOrderByhmall("17855837725");
-        mPresenter.GetOrderInfoList("17855837725","5","1","1");
+        mPresenter.GetOrderByhmall(userName);
+        mPresenter.GetOrderInfoList(userName,"5","1","1");
 //        mPresenter.GetOrderInfoList("17855837725","1","1","1");
 //        mPresenter.GetOrderInfoList("17855837725","2","1","1");
 //        mPresenter.GetOrderInfoList("17855837725","3","1","1");
@@ -486,7 +484,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_free_repair:
                 //免费维修
                 intent = new Intent(mActivity, AddWorkOrderActivity.class);
-                intent.putExtra("title", "免费维修");
                 startActivity(intent);
 //                mPresenter.AddOrder("1", "维修", "18767773654", "75", "格力", "250", "冰箱", "251", "单门 容积X≤100", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");
 //                mPresenter.AddOrder("1", "维修", "18767773654", "", "", "", "", "251", "", "330000", "330600", "330682", "330682001", "浙江省绍兴市上虞区百官街道 ", "又来", "18767773654", "测试测试测试测试", "42.0", "48", "Y", "N", "N", "0", "0", "1");

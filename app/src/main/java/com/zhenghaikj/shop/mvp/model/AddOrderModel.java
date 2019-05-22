@@ -1,7 +1,10 @@
 package com.zhenghaikj.shop.mvp.model;
 
+import com.blankj.utilcode.util.TimeUtils;
+import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
@@ -9,9 +12,12 @@ import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
 import com.zhenghaikj.shop.entity.Province;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.AddOrderContract;
 
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -19,6 +25,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class AddOrderModel implements AddOrderContract.Model {
+
+    private HashMap<String, String> map;
+    private String timestamp;
+    private String sign;
+
     @Override
     public Observable<BaseResult<CategoryData>> GetFactoryCategory(String ParentID) {
         return ApiRetrofit2.getDefault().GetFactoryCategory(ParentID)
@@ -84,6 +95,25 @@ public class AddOrderModel implements AddOrderContract.Model {
     @Override
     public Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit) {
         return ApiRetrofit2.getDefault().GetUserInfoList(userName, limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<AddressCodeResult> GetRegion(String id) {
+
+        return ApiRetrofit.getDefault().GetRegion(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<ShippingAddressList> GetShippingAddressList(String userkey) {
+        map = new HashMap<>();
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign= ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetShippingAddressList(userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

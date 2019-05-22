@@ -4,15 +4,13 @@ import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
-import com.zhenghaikj.shop.entity.Brand;
-import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Province;
-import com.zhenghaikj.shop.entity.UserInfo;
 
 import java.util.List;
 
@@ -53,6 +51,7 @@ public interface AddInstallOrderContract {
                                                       String ExpressNo);
 
         Observable<OrderDetail> GetOrderDetail(String id, String userkey);
+        Observable<AddressCodeResult> GetRegion(String id);
     }
 
     interface View extends BaseView {
@@ -62,6 +61,7 @@ public interface AddInstallOrderContract {
         void GetDistrict(BaseResult<Data<List<District>>> baseResult);
         void AddOrder(BaseResult<Data<String>> baseResult);
         void GetOrderDetail(OrderDetail result);
+        void GetRegion(AddressCodeResult result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -98,6 +98,7 @@ public interface AddInstallOrderContract {
                                       String ExpressNo);
 
         public abstract void GetOrderDetail(String id,String userkey);
+        public abstract void GetRegion(String id);
     }
 
 }

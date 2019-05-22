@@ -4,17 +4,14 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
-import com.zhenghaikj.shop.entity.Brand;
-import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Province;
-import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.AddInstallOrderContract;
-import com.zhenghaikj.shop.mvp.contract.AddOrderContract;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -75,6 +72,13 @@ public class AddInstallOrderModel implements AddInstallOrderContract.Model {
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetOrderDetail(id,userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<AddressCodeResult> GetRegion(String id) {
+
+        return ApiRetrofit.getDefault().GetRegion(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

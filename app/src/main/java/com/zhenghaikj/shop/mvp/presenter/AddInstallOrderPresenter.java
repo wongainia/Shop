@@ -3,17 +3,14 @@ package com.zhenghaikj.shop.mvp.presenter;
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
-import com.zhenghaikj.shop.entity.Brand;
-import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Province;
-import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.AddInstallOrderContract;
-import com.zhenghaikj.shop.mvp.contract.AddOrderContract;
 
 import java.util.List;
 
@@ -79,6 +76,16 @@ public class AddInstallOrderPresenter extends AddInstallOrderContract.Presenter 
                     @Override
                     protected void onHandleSuccess(OrderDetail value) {
                         mView.GetOrderDetail(value);
+                    }
+                });
+    }
+    @Override
+    public void GetRegion(String id) {
+        mModel.GetRegion(id)
+                .subscribe(new BaseObserver<AddressCodeResult>() {
+                    @Override
+                    protected void onHandleSuccess(AddressCodeResult value) {
+                        mView.GetRegion(value);
                     }
                 });
     }

@@ -4,6 +4,7 @@ import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
@@ -11,6 +12,7 @@ import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
 import com.zhenghaikj.shop.entity.Province;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.UserInfo;
 
 import java.util.List;
@@ -55,6 +57,9 @@ public interface AddOrderContract {
                                                       String IsRecevieGoods,
                                                       String ExpressNo);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
+        Observable<AddressCodeResult> GetRegion(String id);
+        Observable<ShippingAddressList> GetShippingAddressList(String userkey);
+
     }
 
     interface View extends BaseView {
@@ -68,6 +73,8 @@ public interface AddOrderContract {
         void GetDistrict(BaseResult<Data<List<District>>> baseResult);
         void AddOrder(BaseResult<Data<String>> baseResult);
         void GetUserInfoList(BaseResult<UserInfo> Result);
+        void GetRegion(AddressCodeResult result);
+        void GetShippingAddressList(ShippingAddressList result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -110,6 +117,8 @@ public interface AddOrderContract {
                                       String IsRecevieGoods,
                                       String ExpressNo);
         public abstract void GetUserInfoList(String userName, String limit);
+        public abstract void GetRegion(String id);
+        public abstract void GetShippingAddressList(String userkey);
     }
 
 }

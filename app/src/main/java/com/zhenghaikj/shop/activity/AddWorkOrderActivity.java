@@ -1,10 +1,7 @@
 package com.zhenghaikj.shop.activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Gravity;
@@ -12,12 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -37,6 +32,7 @@ import com.zhenghaikj.shop.adapter.ProvinceAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.Category;
@@ -67,6 +63,7 @@ import butterknife.ButterKnife;
 
 public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrderModel> implements View.OnClickListener, AddOrderContract.View {
 
+
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -79,6 +76,18 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.tv_name)
+    TextView mTvName;
+    @BindView(R.id.tv_phone)
+    TextView mTvPhone;
+    @BindView(R.id.tv_address)
+    TextView mTvAddress;
+    @BindView(R.id.ll_address)
+    LinearLayout mLlAddress;
+    @BindView(R.id.ll_add_address)
+    LinearLayout mLlAddAddress;
+    @BindView(R.id.ll_address_choose)
+    LinearLayout mLlAddressChoose;
     @BindView(R.id.tv_store_name)
     TextView mTvStoreName;
     @BindView(R.id.tv_category)
@@ -97,6 +106,14 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     LinearLayout mLlReasonForApplication;
     @BindView(R.id.adderview)
     AdderView mAdderview;
+    @BindView(R.id.cb_service)
+    CheckBox mCbService;
+    @BindView(R.id.ll_service)
+    LinearLayout mLlService;
+    @BindView(R.id.cb_installation)
+    CheckBox mCbInstallation;
+    @BindView(R.id.ll_installation)
+    LinearLayout mLlInstallation;
     @BindView(R.id.et_problem_description)
     EditText mEtProblemDescription;
     @BindView(R.id.tv_word_count)
@@ -105,32 +122,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     ImageView mIvSpeak;
     @BindView(R.id.iv_photo)
     ImageView mIvPhoto;
-    @BindView(R.id.switcher_installation_work_order)
-    Switch mSwitcherInstallationWorkOrder;
-    @BindView(R.id.tv_contact)
-    TextView mTvContact;
-    @BindView(R.id.tv_contact_number)
-    TextView mTvContactNumber;
-    @BindView(R.id.ll_address)
-    LinearLayout mLlAddress;
-    @BindView(R.id.ll_add_address)
-    LinearLayout mLlAddAddress;
-    @BindView(R.id.et_name)
-    EditText mEtName;
-    @BindView(R.id.iv_add_name)
-    ImageView mIvAddName;
-    @BindView(R.id.et_phone)
-    EditText mEtPhone;
-    @BindView(R.id.tv_address)
-    TextView mTvAddress;
-    @BindView(R.id.tv_pca)
-    TextView mTvPca;
-    @BindView(R.id.et_detail)
-    EditText mEtDetail;
-    @BindView(R.id.iv_microphone)
-    ImageView mIvMicrophone;
-    @BindView(R.id.ll_microphone)
-    LinearLayout mLlMicrophone;
+    @BindView(R.id.ll_description)
+    LinearLayout mLlDescription;
     @BindView(R.id.cb_under_warranty)
     CheckBox mCbUnderWarranty;
     @BindView(R.id.ll_under_warranty)
@@ -185,7 +178,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String title;
     private String memo;
     private ShippingAddressList.ShippingAddressBean address;
-    private String addressid;
+    private String addressid="";
     private OrderDetail.OrderBean order;
     private String addressStr;
     private String phone;
@@ -206,7 +199,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String ParentName;//父级名称  例如  冰箱
     private String FCategoryID;//子级ID
     private String FCategoryName;//子级名称  例如  单门 容积X≤100
-    private String ProvinceCode;//省code
+    private String ProvinceCode="";//省code
     private String CityCode;//市code
     private String AreaCode;//区code
     private String DistrictCode;//街道code
@@ -238,7 +231,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private LabelsView lv_popular;
     private RecyclerView rv_choose;
     private String CategoryName;
-    private List<Brand> brandList=new ArrayList<>();
+    private List<Brand> brandList = new ArrayList<>();
     private BrandChooseAdapter brandsAdapter;
     private String FBrandID;
     private List<Category> chooseList;
@@ -247,6 +240,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String SubCategoryID;
     private String TypeID;
     private String TypeName;
+    private String Userkey;
+    private List<ShippingAddressList.ShippingAddressBean> addressList;
 
     @Override
     protected int setLayoutId() {
@@ -256,9 +251,12 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     @Override
     protected void initData() {
         spUtil = SPUtils.getInstance("token");
+        Userkey = spUtil.getString("UserKey");
         userID = spUtil.getString("userName2");
-        title = getIntent().getStringExtra("title");
-        mTvTitle.setText(title);
+        mPresenter.GetShippingAddressList(Userkey);
+
+//        title = getIntent().getStringExtra("title");
+        mTvTitle.setText("召唤师傅");
 
         //默认保内
         mCbUnderWarranty.setChecked(true);
@@ -270,17 +268,9 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         AccessorySendState = "N";
 //        mPresenter.GetFactoryBrand(userID);
 
-        switch (title) {
-            case "安装":
-                mLlAccessories.setVisibility(View.GONE);
-                mLlSigning.setVisibility(View.VISIBLE);
-                break;
-            case "维修":
-                mLlAccessories.setVisibility(View.VISIBLE);
-                mLlSigning.setVisibility(View.GONE);
-                break;
-
-        }
+        mCbService.setChecked(true);
+        mCbInstallation.setChecked(false);
+        title = "维修";
     }
 
     /**
@@ -305,21 +295,9 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         mIconBack.setOnClickListener(this);
         mTvSubmit.setOnClickListener(this);
         mLlAddress.setOnClickListener(this);
-        mSwitcherInstallationWorkOrder.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    mLlAddress.setVisibility(View.GONE);
-                    addressStr = order.getAddress();
-                    name = order.getShipTo();
-                    phone = order.getPhone();
-                } else {
-                    mLlAddress.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        mLlAddAddress.setOnClickListener(this);
 
-        mIvAddName.setOnClickListener(this);
+
         mTvAddress.setOnClickListener(this);
 
         mLlUnderWarranty.setOnClickListener(this);
@@ -333,6 +311,9 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         mLlChooseCategory.setOnClickListener(this);
         mLlChooseBrand.setOnClickListener(this);
         mLlChooseType.setOnClickListener(this);
+
+        mLlService.setOnClickListener(this);
+        mLlInstallation.setOnClickListener(this);
 
 
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -377,7 +358,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_choose_brand:
-                if (SubCategoryID==null){
+                if (SubCategoryID == null) {
                     ToastUtils.showShort("请先选择分类");
                     return;
                 }
@@ -387,7 +368,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 mPresenter.GetFactoryCategory("999");
                 break;
             case R.id.ll_choose_type:
-                if (SubCategoryID==null){
+                if (SubCategoryID == null) {
                     ToastUtils.showShort("请先选择分类");
                     return;
                 }
@@ -399,21 +380,22 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
                 startActivityForResult(intent, 0);
                 break;
-            case R.id.tv_address:
-                mPresenter.GetProvince();
-                break;
-            case R.id.tv_province:
-                mPresenter.GetProvince();
-                break;
-            case R.id.tv_city:
-                mPresenter.GetCity(ProvinceCode);
-                break;
-            case R.id.tv_area:
-                mPresenter.GetArea(CityCode);
-                break;
+//            case R.id.tv_address:
+//                mPresenter.GetProvince();
+//                break;
+//            case R.id.tv_province:
+//                mPresenter.GetProvince();
+//                break;
+//            case R.id.tv_city:
+//                mPresenter.GetCity(ProvinceCode);
+//                break;
+//            case R.id.tv_area:
+//                mPresenter.GetArea(CityCode);
+//                break;
             case R.id.icon_back:
                 finish();
                 break;
+            case R.id.ll_add_address:
             case R.id.ll_address:
                 intent = new Intent(mActivity, ShippingAddressActivity.class);
                 intent.putExtra("CHOOSE_ADDRESS_REQUEST", true);
@@ -453,6 +435,22 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 mViewSig.setVisibility(View.VISIBLE);
                 mLlNumber.setVisibility(View.VISIBLE);
                 break;
+            case R.id.ll_service:
+                mCbService.setChecked(true);
+                mCbInstallation.setChecked(false);
+                title = "维修";
+                mLlDescription.setVisibility(View.VISIBLE);
+                mLlAccessories.setVisibility(View.VISIBLE);
+                mLlSigning.setVisibility(View.GONE);
+                break;
+            case R.id.ll_installation:
+                mCbService.setChecked(false);
+                mCbInstallation.setChecked(true);
+                title = "安装";
+                mLlDescription.setVisibility(View.GONE);
+                mLlAccessories.setVisibility(View.GONE);
+                mLlSigning.setVisibility(View.VISIBLE);
+                break;
             case R.id.ll_scan:
                 IntentIntegrator integrator = new IntentIntegrator(AddWorkOrderActivity.this);
                 // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
@@ -465,66 +463,69 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 integrator.initiateScan();
                 break;
             case R.id.tv_submit:
-
-                DetailAddress = mEtDetail.getText().toString();
-                Address = mTvPca.getText().toString() + DetailAddress;
-                name = mEtName.getText().toString();
-                phone = mEtPhone.getText().toString();
-
+                if ("".equals(ProvinceCode)){
+                    ToastUtils.showShort("请添加地址！");
+                    return;
+                }
                 RecycleOrderHour = mEtRecoveryTime.getText().toString();
                 memo = mEtProblemDescription.getText().toString();
-                if (SubCategoryID==null) {
+                if (SubCategoryID == null) {
                     ToastUtils.showShort("请选择分类！");
                     return;
                 }
-                if (FBrandID==null) {
+                if (FBrandID == null) {
                     ToastUtils.showShort("请选择品牌！");
                     return;
                 }
-                if (TypeID==null) {
+                if (TypeID == null) {
                     ToastUtils.showShort("请选择型号！");
                     return;
                 }
-                if ("".equals(memo)) {
-                    ToastUtils.showShort("请填写问题描述！");
-                    return;
+                if ("维修".equals(title)) {
+                    if ("".equals(memo)) {
+                        ToastUtils.showShort("请填写故障描述！");
+                        return;
+                    }
+                } else {
+                    memo = "安装" + BrandName + SubCategoryName + TypeName;
                 }
-                if (DetailAddress == null || "".equals(DetailAddress)) {
-                    MyUtils.showToast(mActivity, "请输入详细地址！");
-                    return;
-                }
-                if (name == null || "".equals(name)) {
-                    MyUtils.showToast(mActivity, "请输入联系人！");
-                    return;
-                }
-                if (phone == null || "".equals(phone)) {
-                    MyUtils.showToast(mActivity, "请输入联系电话！");
-                    return;
-                }
+
+//                if (DetailAddress == null || "".equals(DetailAddress)) {
+//                    MyUtils.showToast(mActivity, "请输入详细地址！");
+//                    return;
+//                }
+//                if (name == null || "".equals(name)) {
+//                    MyUtils.showToast(mActivity, "请输入联系人！");
+//                    return;
+//                }
+//                if (phone == null || "".equals(phone)) {
+//                    MyUtils.showToast(mActivity, "请输入联系电话！");
+//                    return;
+//                }
 //                if (!RegexUtils.isMobileExact(phone)) {
 //                    MyUtils.showToast(mActivity, "手机号格式不正确！");
 //                    return;
 //                }
-                if (ProvinceCode == null) {
-                    MyUtils.showToast(mActivity, "请选择省！");
-                    return;
-                }
-                if (CityCode == null) {
-                    MyUtils.showToast(mActivity, "请选择市！");
-                    return;
-                }
-                if (AreaCode == null) {
-                    MyUtils.showToast(mActivity, "请选择区！");
-                    return;
-                }
-                if (DistrictCode == null) {
-                    MyUtils.showToast(mActivity, "请选择街道、乡、镇");
-                }
+//                if (ProvinceCode == null) {
+//                    MyUtils.showToast(mActivity, "请选择省！");
+//                    return;
+//                }
+//                if (CityCode == null) {
+//                    MyUtils.showToast(mActivity, "请选择市！");
+//                    return;
+//                }
+//                if (AreaCode == null) {
+//                    MyUtils.showToast(mActivity, "请选择区！");
+//                    return;
+//                }
+//                if (DistrictCode == null) {
+//                    MyUtils.showToast(mActivity, "请选择街道、乡、镇");
+//                }
 
-                if (Guarantee == null || "".equals(Guarantee)) {
-                    ToastUtils.showShort("请选择保修期内或保修期外！");
-                    return;
-                }
+//                if (Guarantee == null || "".equals(Guarantee)) {
+//                    ToastUtils.showShort("请选择保修期内或保修期外！");
+//                    return;
+//                }
                 if (RecycleOrderHour == null || "".equals(RecycleOrderHour)) {
                     ToastUtils.showShort("请输入回收时间！");
                     return;
@@ -547,7 +548,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                                 return;
                             }
                         }
-                        mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number);
+                        mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", null, Extra, ExtraTime, ExtraFee, num, SigningState, number);
                         break;
                     case "维修":
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
@@ -555,7 +556,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             return;
                         }
                         OrderMoney = "100";
-                        mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null);
+                        mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null);
                         break;
                     default:
                         break;
@@ -612,8 +613,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                                 SubCategoryName = chooseList.get(position).getFCategoryName();
                                 mTvCategory.setText(SubCategoryName);
-                                TypeID=null;
-                                TypeName=null;
+                                TypeID = null;
+                                TypeName = null;
                                 mTvType.setText("");
                                 SubCategoryID = chooseList.get(position).getFCategoryID();
                                 popupWindow.dismiss();
@@ -630,6 +631,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 break;
         }
     }
+
     @Override
     public void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult) {
         switch (baseResult.getStatusCode()) {
@@ -658,10 +660,10 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     public void GetBrand(BaseResult<List<Brand>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData()!=null){
+                if (baseResult.getData() != null) {
                     brandList = baseResult.getData();
                 }
-                if (brandList.size()==0) {
+                if (brandList.size() == 0) {
                     ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
                     startActivity(new Intent(mActivity, BrandActivity.class));
                 } else {
@@ -799,7 +801,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             tv_district.setVisibility(View.VISIBLE);
                             popupWindow.dismiss();
                             mTvAddress.setText(ProvinceName + CityName + AreaName + DistrictName);
-                            mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
+//                            mTvPca.setText(ProvinceName + CityName + AreaName + DistrictName);
                         }
                     });
                 } else {
@@ -871,6 +873,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
+
     public void showPopWindowGetCategory(final TextView tv) {
 
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
@@ -921,6 +924,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
+
     public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
 
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
@@ -982,6 +986,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 //                    Intent intent = new Intent(mActivity, AllWorkOrdersActivity.class);
 //                    intent.putExtras(bundle);
 //                    startActivity(intent);
+                    finish();
                 } else {
                     ToastUtils.showShort(data.getItem2());
                 }
@@ -998,39 +1003,60 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     }
 
     @Override
+    public void GetRegion(AddressCodeResult result) {
+        ProvinceCode = result.getProvince();
+        CityCode = result.getCity();
+        AreaCode = result.getCounty();
+        DistrictCode = result.getTown();
+    }
+
+    @Override
+    public void GetShippingAddressList(ShippingAddressList result) {
+        if (result.isSuccess()) {
+            addressList = result.getShippingAddress();
+            if (addressList.size() != 0) {
+                for (int i = 0; i < addressList.size(); i++) {
+//                    if (addressList.get(0).isDefault()) {
+                        addressid = String.valueOf(addressList.get(0).getRegionId());
+                        mPresenter.GetRegion(addressid);
+                        mTvName.setText(addressList.get(0).getShipTo());
+                        mTvPhone.setText(addressList.get(0).getPhone());
+                        mTvAddress.setText(addressList.get(0).getRegionFullName() + " " + addressList.get(0).getAddress());
+                    addressStr = addressList.get(0).getRegionFullName() + " " + addressList.get(0).getAddress();
+                    name = addressList.get(0).getShipTo();
+                    phone = addressList.get(0).getPhone();
+//                    }
+                }
+                mLlAddress.setVisibility(View.VISIBLE);
+                mLlAddAddress.setVisibility(View.GONE);
+            } else {
+                mLlAddress.setVisibility(View.GONE);
+                mLlAddAddress.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         /*处理选择的地址*/
         if (resultCode == Config.CHOOSE_ADDRESS_RESULT) {
             if (requestCode == Config.CHOOSE_ADDRESS_REQUEST) {
-
                 address = (ShippingAddressList.ShippingAddressBean) data.getSerializableExtra("Address");
-                addressid = address.getId();
-                mTvContact.setText(address.getShipTo());
-                mTvContactNumber.setText(address.getPhone());
-                addressStr = address.getRegionFullName() + " " + address.getAddress();
-                name = address.getShipTo();
-                phone = address.getPhone();
-                mTvAddress.setText(address.getRegionFullName() + " " + address.getAddress());
-            }
-
-        }
-        if (resultCode == Activity.RESULT_OK && requestCode == 0) {
-            if (data != null) {
-                Uri uri = data.getData();
-                if (uri != null) {
-                    Cursor cursor = getContentResolver()
-                            .query(uri,
-                                    new String[]{
-                                            ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME},
-                                    null, null, null);
-                    while (cursor.moveToNext()) {
-                        String number = cursor.getString(0);
-                        String name = cursor.getString(1);
-                        mEtPhone.setText(number.trim());
-                        mEtName.setText(name);
-
-                    }
+                if (address != null) {
+                    addressid = address.getRegionId();
+                    mPresenter.GetRegion(addressid);
+                    mTvName.setText(address.getShipTo());
+                    mTvPhone.setText(address.getPhone());
+                    addressStr = address.getRegionFullName() + " " + address.getAddress();
+                    name = address.getShipTo();
+                    phone = address.getPhone();
+                    mTvAddress.setText(address.getRegionFullName() + " " + address.getAddress());
+                    mLlAddress.setVisibility(View.VISIBLE);
+                    mLlAddAddress.setVisibility(View.GONE);
+                } else {
+                    mLlAddress.setVisibility(View.GONE);
+                    mLlAddAddress.setVisibility(View.VISIBLE);
                 }
             }
 

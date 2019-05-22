@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.api;
 
 import com.zhenghaikj.shop.entity.Address;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.CartResult;
@@ -308,6 +309,17 @@ public interface ApiService {
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
+    );
+    /**
+     * 获取省市区code
+     *
+     * @return
+     * @id id
+     */
+    @FormUrlEncoded
+    @POST("common/RegionAPI/GetRegion")
+    Observable<AddressCodeResult> GetRegion(
+            @Field("Key") String id
     );
 
     /**

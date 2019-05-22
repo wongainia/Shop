@@ -109,6 +109,7 @@ public class OrderDetail implements Serializable {
         private String ShipTo;
         private String Phone;
         private String Address;
+        private String RegionId;
         private boolean HasExpressStatus;
         private String ExpressCompanyName;
         private double Freight;
@@ -138,6 +139,14 @@ public class OrderDetail implements Serializable {
         private double EnabledRefundAmount;
         private boolean HasAppendComment;
         private String SelfTake;
+
+        public String getRegionId() {
+            return RegionId;
+        }
+
+        public void setRegionId(String regionId) {
+            RegionId = regionId;
+        }
 
         public String getBisId() {
             return BisId;

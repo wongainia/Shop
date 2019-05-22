@@ -27,6 +27,7 @@ import com.zhenghaikj.shop.adapter.ProvinceAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
@@ -178,20 +179,30 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
         if (result.isSuccess()){
             mTvsave.setVisibility(View.VISIBLE);
             mTvsave.setText("发单");
+            order=result.getOrder();
+
             Glide.with(mActivity)
                     .load(result.getOrderItem().get(0).getProductImage())
                     .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
                     .into(mImgshop);
             mTvshop.setText(result.getOrderItem().get(0).getProductName());
             mTvcount.setText("数量: "+result.getOrderItem().get(0).getCount());
-            mTvtoAddress.setText(result.getOrder().getAddress());
-            mEtname.setText(result.getOrder().getShipTo());
-            mEtphone.setText(result.getOrder().getPhone());
+            mPresenter.GetRegion(order.getRegionId());
+            mTvtoAddress.setText(order.getAddress());
+            mEtname.setText(order.getShipTo());
+            mEtphone.setText(order.getPhone());
             adderView.setValue(Integer.parseInt(result.getOrderItem().get(0).getCount()));
             bean=result.getOrderItem().get(0);
-            order=result.getOrder();
         }
 
+    }
+
+    @Override
+    public void GetRegion(AddressCodeResult result) {
+        ProvinceCode = result.getProvince();
+        CityCode = result.getCity();
+        AreaCode = result.getCounty();
+        DistrictCode = result.getTown();
     }
 
     @Override
@@ -215,7 +226,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
                 Log.d("====>code",address+housenumber);
 
-             if ("".equals(name)||name==null){
+             /*if ("".equals(name)||name==null){
 
                  Toast.makeText(mActivity,"请输入联系人！",Toast.LENGTH_SHORT).show();
                  return;
@@ -231,7 +242,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
              if ("".equals(housenumber)||housenumber==null){
                  Toast.makeText(mActivity,"请输入详细门牌号！",Toast.LENGTH_SHORT).show();
                  return;
-             }
+             }*/
 
                 /**
                  * 发布工单
@@ -263,8 +274,8 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                   mPresenter.AddOrder(
                   "2",
                   "安装",
-                  //order.getBisId(),//UserId传商家的bisid
-                  userID,
+                  order.getBisId(),//UserId传商家的bisid
+//                  userID,
                   bean.getBrandId(),
                   bean.getBrandName(),
                   bean.getParentCategoryId(),
@@ -275,9 +286,12 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                   CityCode,
                   AreaCode,
                   DistrictCode,
-                  address+housenumber,
-                  name,
-                  phone,
+                          order.getAddress(),
+                          order.getShipTo(),
+                          order.getPhone(),
+//                  address+housenumber,
+//                  name,
+//                  phone,
                   Memo,
                   "100",
                   "48", //回收时间先为48小时

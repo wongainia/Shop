@@ -35,6 +35,7 @@ import com.zhenghaikj.shop.adapter.ProvinceAdapter2;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
@@ -457,7 +458,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                 RecycleOrderHour = mEtRecoveryTime.getText().toString();
                 memo = mEtProblemDescription.getText().toString();
                 if ("".equals(memo)) {
-                    ToastUtils.showShort("请填写问题描述！");
+                    ToastUtils.showShort("请填写故障描述！");
                     return;
                 }
                 if (DetailAddress == null || "".equals(DetailAddress)) {
@@ -787,6 +788,16 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
 
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
+
+    }
+
+    @Override
+    public void GetRegion(AddressCodeResult result) {
+
+    }
+
+    @Override
+    public void GetShippingAddressList(ShippingAddressList result) {
 
     }
 
