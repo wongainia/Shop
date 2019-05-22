@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
@@ -73,6 +74,20 @@ public class MineModel implements MineContract.Model {
     @Override
     public Observable<BaseResult<WorkOrder>> GetOrderInfoList(String UserID, String state, String page, String limit) {
         return ApiRetrofit2.getDefault().FactoryGetOrderList(UserID,state, page, limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID) {
+        return ApiRetrofit2.getDefault().GetOrderByhmalluserid(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<List<Track>>> GetOrderRecordByOrderID(String OrderId) {
+        return ApiRetrofit2.getDefault().GetOrderRecordByOrderID(OrderId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

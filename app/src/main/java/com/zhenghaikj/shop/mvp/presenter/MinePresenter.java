@@ -6,6 +6,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
@@ -75,6 +76,28 @@ public class MinePresenter extends MineContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<WorkOrder> value) {
                         mView.GetOrderInfoList(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetOrderByhmalluserid(String UserID) {
+        mModel.GetOrderByhmalluserid(UserID)
+                .subscribe(new BaseObserver2<Data<List<WorkOrder.DataBean>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<List<WorkOrder.DataBean>>> value) {
+                        mView.GetOrderByhmalluserid(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetOrderRecordByOrderID(String OrderId) {
+        mModel.GetOrderRecordByOrderID(OrderId)
+                .subscribe(new BaseObserver2<List<Track>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<List<Track>> value) {
+                        mView.GetOrderRecordByOrderID(value);
                     }
                 });
     }

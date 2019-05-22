@@ -16,7 +16,7 @@ public class ServiceDialog extends Dialog {
     private TextView titleTv;
     private TextView messageTv;
     private String titleStr;
-    private String messageStr;
+    private String order;
     private String yesStr, noStr;
     private ImageView img_authentication_cancel;
 
@@ -24,6 +24,9 @@ public class ServiceDialog extends Dialog {
 
     private onNoOnclickListener noOnclickListener;
     private onYesOnclickListener yesOnclickListener;
+    private TextView tv_order_number;
+    private TextView tv_logistics_status;
+    private String state;
 
     public interface onYesOnclickListener {
         void onYesClick();
@@ -121,12 +124,16 @@ public class ServiceDialog extends Dialog {
     private void initData() {
 
 //        //如果用户自定了title和message
-//        if (titleStr != null) {
-//            titleTv.setText(titleStr);
-//        }
-//        if (messageStr != null) {
-//            messageTv.setText(messageStr);
-//        }
+        if (titleStr != null||"".equals(titleStr)) {
+            titleTv.setText(titleStr);
+        }
+        if (order != null||"".equals(order)) {
+            tv_order_number.setText(order);
+        }
+
+        if (state != null||"".equals(state)) {
+            tv_logistics_status.setText(state);
+        }
 //        //如果设置按钮的文字
 //        if (yesStr != null) {
 //            yes.setText(yesStr);
@@ -144,20 +151,23 @@ public class ServiceDialog extends Dialog {
     private void initView() {
 //        yes =  findViewById(R.id.yes);
 //        no = findViewById(R.id.no);
-//        titleTv = findViewById(R.id.title);
-//        messageTv =  findViewById(R.id.message);
+        tv_logistics_status = findViewById(R.id.tv_logistics_status);
+        titleTv = findViewById(R.id.tv_goods_name);
+        tv_order_number = findViewById(R.id.tv_order_number);
         img_authentication_cancel=findViewById(R.id.iv_close);
 
     }
     /*  ---------------------------------- set方法 传值-------------------------------------  */
 //为外界设置一些public 公开的方法，来向自定义的dialog传递值
     public void setTitle(String title) {
-        titleStr = title;
+        this.titleStr = title;
     }
 
-    public void setMessage(String message) {
-        messageStr = message;
+    public void setOrderId(String orderId) {
+        this.order = orderId;
     }
-
+    public void setState(String State) {
+        this.state = State;
+    }
 
 }

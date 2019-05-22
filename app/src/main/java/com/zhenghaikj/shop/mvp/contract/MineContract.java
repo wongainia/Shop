@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 
@@ -33,6 +34,8 @@ public interface MineContract {
                                                          String Grade3,
                                                          String OrgAppraise);
         Observable<BaseResult<WorkOrder>> GetOrderInfoList(String UserID, String state, String page, String limit);
+        Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID);
+        Observable<BaseResult<List<Track>>> GetOrderRecordByOrderID(String OrderId);
     }
 
     interface View extends BaseView {
@@ -42,6 +45,8 @@ public interface MineContract {
         void GetOrderByhmall(BaseResult<Data<List<WorkOrder.DataBean>>> Result);
         void EnSureOrder(BaseResult<Data<String>> Result);
         void GetOrderInfoList(BaseResult<WorkOrder> baseResult);
+        void GetOrderByhmalluserid(BaseResult<Data<List<WorkOrder.DataBean>>> baseResult);
+        void GetOrderRecordByOrderID(BaseResult<List<Track>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -59,6 +64,8 @@ public interface MineContract {
                                          String Grade3,
                                          String OrgAppraise);
         public abstract void GetOrderInfoList(String UserID,String state, String page,String limit);
+        public abstract void GetOrderByhmalluserid(String UserID);
+        public abstract void GetOrderRecordByOrderID(String OrderId);
     }
 
 }

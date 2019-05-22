@@ -2,7 +2,6 @@ package com.zhenghaikj.shop.fragment;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -93,7 +92,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @BindView(R.id.tv_search)
     TextView mTvSearch;
     @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    LinearLayout mToolbar;
     @BindView(R.id.ll_good_daily_shop)
     LinearLayout mLlGoodDailyShop;
     @BindView(R.id.ll_watermelon_coin_mall)
@@ -112,10 +111,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     RecyclerView mRvExchange;
     @BindView(R.id.rv_panic)
     RecyclerView mRvPanic;
+    @BindView(R.id.tv_shop)
+    TextView mTvShop;
 
     private List<Product> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
-    private List<LimitBuyListResult.ListBean> limitedTimeList=new ArrayList<>();
+    private List<LimitBuyListResult.ListBean> limitedTimeList = new ArrayList<>();
 
     private ArrayList<MenuItem> mMainMenus;
     private int fadingHeight = 600; // 当ScrollView滑动到什么位置时渐变消失（根据需要进行调整）
@@ -126,7 +127,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private LimitedTimeAdapter limitedTimeAdapter;
     private ExchageAdapter exchageAdapter;
     private List<HomeJsonResult.LModulesBean> modules;
-    private List<HomeJsonResult.LModulesBean.ContentBean.DatasetBean> dataset=new ArrayList<>();
+    private List<HomeJsonResult.LModulesBean.ContentBean.DatasetBean> dataset = new ArrayList<>();
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -166,7 +167,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     protected void initData() {
         mPresenter.Get();
         mPresenter.Get(Integer.toString(pageNo), "999");
-        mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999","");
+        mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999", "");
 
         for (int i = 0; i < 10; i++) {
             panicBuyList.add(new Product());
@@ -183,14 +184,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mRvExchange.setLayoutManager(linearLayoutManager1);
         mRvExchange.setAdapter(exchageAdapter);
 
-        limitedTimeAdapter = new LimitedTimeAdapter(R.layout.item_panic_buying,limitedTimeList);
+        limitedTimeAdapter = new LimitedTimeAdapter(R.layout.item_panic_buying, limitedTimeList);
         mRvPanic.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvPanic.setAdapter(limitedTimeAdapter);
         limitedTimeAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
-                intent.putExtra("id", limitedTimeList.get(position).getProductId()+"");
+                intent.putExtra("id", limitedTimeList.get(position).getProductId() + "");
                 startActivity(intent);
             }
         });
@@ -202,7 +203,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //                startActivity(intent);
 
                 Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
-                intent.putExtra("id", limitedTimeList.get(position).getProductId()+"");
+                intent.putExtra("id", limitedTimeList.get(position).getProductId() + "");
                 startActivity(intent);
             }
         });
@@ -276,7 +277,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             mDatas.clear();
             mPresenter.Get();
             mPresenter.Get(Integer.toString(pageNo), "999");
-            mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999","");
+            mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999", "");
             refreshLayout.setNoMoreData(false);
             refreshLayout.finishRefresh(1000);
         });
@@ -310,6 +311,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mLlFoundGoodGoods.setOnClickListener(this);
         mLlGoodDailyShop.setOnClickListener(this);
         mLlWatermelonCoinMall.setOnClickListener(this);
+        mTvShop.setOnClickListener(this);
     }
 
     @Override
@@ -327,8 +329,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             case R.id.ll_good_daily_shop:
                 startActivity(new Intent(mActivity, GoodDailyShopActivity.class));
                 break;
+            case R.id.tv_shop:
             case R.id.ll_watermelon_coin_mall:
-
                 MainActivity activity = (MainActivity) getActivity();
                 activity.setCurrentItem(3);
                 break;
@@ -358,10 +360,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     public void Get(HomeJsonResult Result) {
-        modules =Result.getLModules();
+        modules = Result.getLModules();
         for (int i = 0; i < modules.size(); i++) {
-            if (modules.get(i).getType()==9){
-                dataset =modules.get(i).getContent().getDataset();
+            if (modules.get(i).getType() == 9) {
+                dataset = modules.get(i).getContent().getDataset();
             }
         }
         List<String> images = new ArrayList<>();
@@ -377,7 +379,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     public void GetLismitBuyList(LimitBuyListResult Result) {
-        limitedTimeList=Result.getList();
+        limitedTimeList = Result.getList();
         limitedTimeAdapter.setNewData(limitedTimeList);
     }
 
@@ -430,7 +432,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             helper.setText(R.id.tv_home, item.getName());
         }
     }
-
 
 
 }

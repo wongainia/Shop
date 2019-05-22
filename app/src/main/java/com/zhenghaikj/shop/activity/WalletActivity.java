@@ -15,6 +15,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
@@ -188,6 +189,16 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
 
     @Override
     public void GetOrderInfoList(BaseResult<WorkOrder> baseResult) {
+
+    }
+
+    @Override
+    public void GetOrderByhmalluserid(BaseResult<Data<List<WorkOrder.DataBean>>> baseResult) {
+
+    }
+
+    @Override
+    public void GetOrderRecordByOrderID(BaseResult<List<Track>> baseResult) {
 
     }
 }

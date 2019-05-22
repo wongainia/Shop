@@ -829,7 +829,8 @@
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="16dp"
                             android:orientation="horizontal"
-                            android:gravity="right">
+                            android:gravity="right"
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="match_parent"

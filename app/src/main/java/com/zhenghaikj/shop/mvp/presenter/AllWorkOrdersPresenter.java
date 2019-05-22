@@ -7,6 +7,8 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.AllWorkOrdersContract;
 
+import java.util.List;
+
 public class AllWorkOrdersPresenter extends AllWorkOrdersContract.Presenter {
 
     @Override
@@ -70,6 +72,17 @@ public class AllWorkOrdersPresenter extends AllWorkOrdersContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.UpdateOrderFIsLook(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetOrderByhmalluserid(String UserID) {
+        mModel.GetOrderByhmalluserid(UserID)
+                .subscribe(new BaseObserver2<Data<List<WorkOrder.DataBean>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<List<WorkOrder.DataBean>>> value) {
+                        mView.GetOrderByhmalluserid(value);
                     }
                 });
     }

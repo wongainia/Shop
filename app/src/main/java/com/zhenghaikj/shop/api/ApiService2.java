@@ -425,4 +425,13 @@ public interface ApiService2 {
             @Field("Grade3") String Grade3,
             @Field("OrgAppraise") String OrgAppraise
     );
+
+    /**
+     * 获取待支付订单
+     */
+    @FormUrlEncoded
+    @POST("Order/GetOrderByhmalluserid")
+    Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(@Field("UserID") String UserID);
+
+
 }

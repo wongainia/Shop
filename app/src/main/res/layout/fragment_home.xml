@@ -4,9 +4,10 @@
     xmlns:ratios="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <androidx.appcompat.widget.Toolbar
+    <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +25,8 @@
                 android:layout_marginTop="35dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="@dimen/dp_10"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp">
 
                 <LinearLayout
                     android:id="@+id/ll_scan_it"
@@ -111,7 +113,7 @@
                         android:text="分享码"
                         android:textColor="#808080"
                         android:textSize="10sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
@@ -140,7 +142,7 @@
                         android:text="消息"
                         android:textColor="#808080"
                         android:textSize="10sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
@@ -151,7 +153,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="13dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -169,6 +172,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_shop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -177,13 +181,15 @@
                     android:textColor="#808080"
                     android:textSize="14sp" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#eee" />
+
         </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
+
+
+    </LinearLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
@@ -201,6 +207,10 @@
                 android:layout_height="match_parent"
                 android:background="#F5F5F5"
                 android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/white"></LinearLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -663,12 +673,20 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:background="@color/white"
+                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="200dp"
-                                android:layout_height="45dp"
-                                android:src="@drawable/title" />
+                                android:layout_width="match_parent"
+                                android:layout_height="68dp"
+                                android:src="@drawable/renqi" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+                                android:background="#eee"
+                                android:layout_marginTop="10dp"/>
 
                         </LinearLayout>
 
@@ -681,8 +699,6 @@
                                 android:id="@+id/rv_home"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
                                 android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
                         </RelativeLayout>
 

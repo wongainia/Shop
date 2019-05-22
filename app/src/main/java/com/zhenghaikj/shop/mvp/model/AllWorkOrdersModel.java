@@ -6,6 +6,8 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.AllWorkOrdersContract;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -50,6 +52,14 @@ public class AllWorkOrdersModel implements AllWorkOrdersContract.Model {
     @Override
     public Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(String OrderID, String IsLook, String FIsLook) {
         return ApiRetrofit2.getDefault().UpdateOrderFIsLook(OrderID, IsLook,FIsLook)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+
+    @Override
+    public Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID) {
+        return ApiRetrofit2.getDefault().GetOrderByhmalluserid(UserID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

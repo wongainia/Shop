@@ -29,7 +29,7 @@
             android:id="@+id/iv_status"
             android:layout_width="6dp"
             android:layout_height="6dp"
-            android:background="@mipmap/servicebg"
+            android:background="@drawable/red_bot"
             android:layout_centerInParent="true" />
 
 

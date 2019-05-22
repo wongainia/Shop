@@ -85,7 +85,8 @@
                 android:id="@+id/iv_goods_picture"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:src="@drawable/goods"/>
+                android:src="@drawable/goods"
+                android:visibility="invisible"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -115,6 +116,7 @@
                         android:textColor="@color/black" />
 
                     <ImageView
+                        android:id="@+id/iv_copy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/fuzhi"

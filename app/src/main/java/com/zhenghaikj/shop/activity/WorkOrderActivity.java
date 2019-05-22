@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -99,6 +100,7 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
         mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, workOrderList, mParam1);
         mWorkOrderAdapter.setEmptyView(getEmptyView());
         mRvWorkOrder.setAdapter(mWorkOrderAdapter);
+        myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
         mWorkOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
@@ -166,7 +168,8 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         UserID = spUtils.getString("userName2");
-        mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+//        mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+        mPresenter.GetOrderByhmalluserid(UserID);
 
         /*下拉刷新*/
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -177,7 +180,8 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
                 }*/
                 pageIndex = 1;
                 workOrderList.clear();
-                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+//                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID);
                 refreshlayout.finishRefresh();
                 mRefreshLayout.setNoMoreData(false);
             }
@@ -192,7 +196,8 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 pageIndex++; //页数加1
-                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+//                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID);
                 refreshlayout.finishLoadmore();
             }
         });
@@ -224,17 +229,17 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
     public void GetOrderInfoList(BaseResult<WorkOrder> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                workOrder = baseResult.getData();
-                if (workOrder.getData()!=null){
-                    workOrderList.addAll(workOrder.getData());
-                    mWorkOrderAdapter.setNewData(workOrderList);
-                }
-                mRefreshLayout.finishRefresh();
-                if (pageIndex!=1&&"0".equals(workOrder.getCount())){
-                    mRefreshLayout.finishLoadMoreWithNoMoreData();
-                }else{
-                    mRefreshLayout.finishLoadMore();
-                }
+//                workOrder = baseResult.getData();
+//                if (workOrder.getData()!=null){
+//                    workOrderList.addAll(workOrder.getData());
+//                    mWorkOrderAdapter.setNewData(workOrderList);
+//                }
+//                mRefreshLayout.finishRefresh();
+//                if (pageIndex!=1&&"0".equals(workOrder.getCount())){
+//                    mRefreshLayout.finishLoadMoreWithNoMoreData();
+//                }else{
+//                    mRefreshLayout.finishLoadMore();
+//                }
                 break;
             case 401:
                 ToastUtils.showShort(baseResult.getInfo());
@@ -265,5 +270,27 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
     @Override
     public void UpdateOrderFIsLook(BaseResult<Data<String>> baseResult) {
 
+    }
+
+    @Override
+    public void GetOrderByhmalluserid(BaseResult<Data<List<WorkOrder.DataBean>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                workOrderList.clear();
+                if (baseResult.getData()!=null){
+                    workOrderList.addAll(baseResult.getData().getItem2());
+                    mWorkOrderAdapter.setNewData(workOrderList);
+                }
+                mRefreshLayout.finishRefresh();
+                if (pageIndex!=1&&"0".equals(baseResult.getData().getItem2().size())){
+                    mRefreshLayout.finishLoadMoreWithNoMoreData();
+                }else{
+                    mRefreshLayout.finishLoadMore();
+                }
+                break;
+            case 401:
+                ToastUtils.showShort(baseResult.getInfo());
+                break;
+        }
     }
 }

@@ -8,6 +8,8 @@ import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.WorkOrder;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 
@@ -19,6 +21,7 @@ public interface AllWorkOrdersContract {
         Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
         Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(String OrderID, String IsLook, String FIsLook);
+        Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID);
     }
 
     interface View extends BaseView {
@@ -28,6 +31,7 @@ public interface AllWorkOrdersContract {
         void EnSureOrder(BaseResult<Data<String>> baseResult);
         void FactoryEnsureOrder(BaseResult<Data<String>> baseResult);
         void UpdateOrderFIsLook(BaseResult<Data<String>> baseResult);
+        void GetOrderByhmalluserid(BaseResult<Data<List<WorkOrder.DataBean>>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -37,5 +41,6 @@ public interface AllWorkOrdersContract {
         public abstract void EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
         public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
         public abstract void UpdateOrderFIsLook(String OrderID, String IsLook,String FIsLook);
+        public abstract void GetOrderByhmalluserid(String UserID);
     }
 }
