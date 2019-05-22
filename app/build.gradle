@@ -22,6 +22,8 @@ android {
 
                 XG_ACCESS_ID:"2100334624",
                 XG_ACCESS_KEY : "A7MVQ818AX4Z",
+                HW_APPID: "100604229",
+                PACKAGE_NAME:"com.zhenghaikj.shop"
         ]
     }
     buildTypes {

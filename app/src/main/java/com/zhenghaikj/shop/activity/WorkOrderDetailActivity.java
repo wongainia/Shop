@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushManager;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
@@ -35,6 +37,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +177,8 @@ public class WorkOrderDetailActivity extends BaseActivity<WorkOrdersDetailPresen
     private String[] mTitleDataList = new String[]{
             "详情","留言", "工单跟踪", "寄件物流", "返件物流"
     };
-//    private XGPushClickedResult clickedResult;
+    private XGPushClickedResult clickedResult;
+    //    private XGPushClickedResult clickedResult;
 
     @Override
     protected int setLayoutId() {
@@ -193,7 +199,7 @@ public class WorkOrderDetailActivity extends BaseActivity<WorkOrdersDetailPresen
         mTvTitle.setText("工单详情");
         mTvTitle.setVisibility(View.VISIBLE);
 
-        /*//this必须为点击消息要跳转到页面的上下文。
+        //this必须为点击消息要跳转到页面的上下文。
         clickedResult = XGPushManager.onActivityStarted(this);
         if (clickedResult !=null){
             //获取消息附近参数
@@ -210,8 +216,8 @@ public class WorkOrderDetailActivity extends BaseActivity<WorkOrdersDetailPresen
 //            String s = clickedResult.getContent();
         }else{
             OrderId = getIntent().getStringExtra("OrderID");
-        }*/
-        OrderId = getIntent().getStringExtra("OrderID");
+        }
+//        OrderId = getIntent().getStringExtra("OrderID");
         mFragments = new ArrayList<>();
         mFragments.add(OrderDetailFragment.newInstance(OrderId, ""));
         mFragments.add(MessageFragment.newInstance(OrderId, ""));

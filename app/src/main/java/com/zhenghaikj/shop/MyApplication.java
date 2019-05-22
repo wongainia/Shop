@@ -66,7 +66,7 @@ public class MyApplication extends MultiDexApplication {
 //        Unicorn.init(this, "1b5d0202117baa53c3c796075d043590", options(), new GlideImageLoader2(getApplicationContext()));
         XGPushConfig.enableDebug(this,true);
         XGPushConfig.enableOtherPush(getApplicationContext(), true);
-        XGPushConfig.setHuaweiDebug(true);
+//        XGPushConfig.setHuaweiDebug(true);
 //        XGPushConfig.setMiPushAppId(getApplicationContext(), "2882303761517940129");
 //        XGPushConfig.setMiPushAppKey(getApplicationContext(), "5461794037129");
 //        XGPushConfig.setMzPushAppId(this, "3dda854c8a0b1");
