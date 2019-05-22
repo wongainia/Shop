@@ -18,6 +18,7 @@ public interface RegisterContract {
         Observable<LoginResult> GetUser(String userName, String password, String oauthType, String oauthOpenId, String oauthNickName);
         Observable<BaseResult<Data<String>>> LoginOn(String userName,String passWord);
         Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String type,String UserID);
+        Observable<BaseResult<Data>> AddFactoryBrand(String UserID, String FBrandName);
 
     }
 
@@ -27,6 +28,7 @@ public interface RegisterContract {
         void GetUser(LoginResult Result);
         void LoginOn(BaseResult<Data<String>> Result);
         void AddAndUpdatePushAccount(BaseResult<Data<String>> Result);
+        void AddFactoryBrand(BaseResult<Data> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -35,5 +37,6 @@ public interface RegisterContract {
         public abstract void GetUser(String userName, String password,String oauthType,String oauthOpenId,String oauthNickName);
         public abstract void LoginOn(String userName, String password);
         public abstract void AddAndUpdatePushAccount(String token,String type,String UserID);
+        public abstract void AddFactoryBrand(String UserID, String FBrandName);
     }
 }

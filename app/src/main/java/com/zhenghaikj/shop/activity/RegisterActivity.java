@@ -159,6 +159,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         if (baseResult.isSuccess()){
             ToastUtils.showShort("注册成功");
             mPresenter.LoginOn(userName, password);
+            mPresenter.AddFactoryBrand(userName, "其他");
         }else {
             ToastUtils.showShort(baseResult.getErrorMsg());
         }
@@ -223,6 +224,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 }
                 break;
         }
+    }
+
+    @Override
+    public void AddFactoryBrand(BaseResult<Data> baseResult) {
+
     }
 
 

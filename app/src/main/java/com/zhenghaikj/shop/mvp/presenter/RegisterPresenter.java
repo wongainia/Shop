@@ -63,4 +63,14 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                     }
                 });
     }
+    @Override
+    public void AddFactoryBrand(String UserID, String FBrandName) {
+        mModel.AddFactoryBrand(UserID, FBrandName)
+                .subscribe(new BaseObserver2<Data>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data> value) {
+                        mView.AddFactoryBrand(value);
+                    }
+                });
+    }
 }

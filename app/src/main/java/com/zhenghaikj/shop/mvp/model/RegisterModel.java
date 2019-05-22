@@ -85,4 +85,10 @@ public class RegisterModel implements RegisterContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+    @Override
+    public Observable<BaseResult<Data>> AddFactoryBrand(String UserID, String FBrandName) {
+        return ApiRetrofit2.getDefault().AddFactoryBrand(UserID, FBrandName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }
