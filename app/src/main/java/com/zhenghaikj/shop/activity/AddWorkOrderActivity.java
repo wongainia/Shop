@@ -174,7 +174,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     TextView mTvSubmit;
     private OrderDetail.OrderItemBean bean;
     private String storeName;
-    private String num;
+    private String num="1";
     private String title;
     private String memo;
     private ShippingAddressList.ShippingAddressBean address;
@@ -314,6 +314,12 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 
         mLlService.setOnClickListener(this);
         mLlInstallation.setOnClickListener(this);
+        mAdderview.setOnValueChangeListene(new AdderView.OnValueChangeListener() {
+            @Override
+            public void onValueChange(int value) {
+                num=Integer.toString(value);
+            }
+        });
 
 
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
