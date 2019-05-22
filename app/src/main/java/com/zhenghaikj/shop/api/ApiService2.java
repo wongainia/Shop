@@ -35,6 +35,14 @@ public interface ApiService2 {
     Observable<BaseResult<Data<String>>> LoginOn(@Field("userName") String userName,
                                                  @Field("passWord") String passWord,
                                                  @Field("RoleType") String RoleType);
+    /*
+     *新增获取更新推送账户的token以及tags， 工厂的type是6 师傅的type是7 ， createtime可以不传 UserID为登录用户名
+     * */
+    @FormUrlEncoded
+    @POST("Message/AddAndUpdatePushAccount")
+    Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(@Field("token") String token,
+                                                                 @Field("type") String type,
+                                                                 @Field("UserID") String UserID);
     /*获取用户信息*/
     @FormUrlEncoded
     @POST("Account/GetUserInfoList")

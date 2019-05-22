@@ -3,6 +3,7 @@ package com.zhenghaikj.shop;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.blankj.utilcode.util.Utils;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -14,6 +15,9 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 
@@ -60,13 +64,13 @@ public class MyApplication extends MultiDexApplication {
         Utils.init(this);
         // appKey 可以在七鱼管理系统->设置->APP接入 页面找到
 //        Unicorn.init(this, "1b5d0202117baa53c3c796075d043590", options(), new GlideImageLoader2(getApplicationContext()));
-        /*XGPushConfig.enableDebug(this,true);
+        XGPushConfig.enableDebug(this,true);
         XGPushConfig.enableOtherPush(getApplicationContext(), true);
         XGPushConfig.setHuaweiDebug(true);
-        XGPushConfig.setMiPushAppId(getApplicationContext(), "2882303761517940129");
-        XGPushConfig.setMiPushAppKey(getApplicationContext(), "5461794037129");
-        XGPushConfig.setMzPushAppId(this, "3dda854c8a0b1");
-        XGPushConfig.setMzPushAppKey(this, "143c2f4a39b0224cc8568280e3688a30");
+//        XGPushConfig.setMiPushAppId(getApplicationContext(), "2882303761517940129");
+//        XGPushConfig.setMiPushAppKey(getApplicationContext(), "5461794037129");
+//        XGPushConfig.setMzPushAppId(this, "3dda854c8a0b1");
+//        XGPushConfig.setMzPushAppKey(this, "143c2f4a39b0224cc8568280e3688a30");
         XGPushManager.registerPush(this, new XGIOperateCallback() {
             @Override
             public void onSuccess(Object data, int flag) {
@@ -79,7 +83,7 @@ public class MyApplication extends MultiDexApplication {
             }
         });
         XGPushManager.bindAccount(getApplicationContext(), "XINGE");
-        XGPushManager.setTag(this,"XINGE");*/
+        XGPushManager.setTag(this,"XINGE");
 
 
         /*Context context = getApplicationContext();

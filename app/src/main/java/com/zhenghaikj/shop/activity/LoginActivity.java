@@ -12,6 +12,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.tencent.android.tpush.XGPushConfig;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
@@ -149,9 +150,22 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     mPresenter.GetUser(userName, password,"","","");
 //                    spUtils.put("passWord", password);
 //                    spUtils.put("isLogin", true);
-//                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"7",userName);
+                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"8",userName);
 //                    startActivity(new Intent(mActivity, MainActivity.class));
 //                    finish();
+                }else{
+                    ToastUtils.showShort(data.getItem2());
+                }
+                break;
+        }
+    }
+    @Override
+    public void AddAndUpdatePushAccount(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                Data<String> data=baseResult.getData();
+                if (data.isItem1()){
+
                 }else{
                     ToastUtils.showShort(data.getItem2());
                 }

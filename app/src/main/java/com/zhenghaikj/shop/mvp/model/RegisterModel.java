@@ -79,4 +79,10 @@ public class RegisterModel implements RegisterContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+    @Override
+    public  Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String type,String UserID){
+        return ApiRetrofit2.getDefault().AddAndUpdatePushAccount(token,"8",UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }
