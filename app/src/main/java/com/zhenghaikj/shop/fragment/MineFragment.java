@@ -274,14 +274,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
         isLogin = spUtils.getBoolean("isLogin");
-        mPresenter.GetOrderByhmall(userName);
+//        mPresenter.GetOrderByhmall(userName);
 //        mPresenter.GetOrderInfoList(userName,"5","1","1");
 //        mPresenter.GetOrderByhmalluserid(userName);
         if (!"".equals(userName) && !"".equals(userKey)) {
             mPresenter.GetUserInfoList(userName, "1");
             mPresenter.PersonalInformation(userKey);
             mPresenter.GetHistoryVisite(userKey);
-//            mPresenter.GetOrderByhmall(userName);
+            mPresenter.GetOrderByhmall(userName);
 //        mPresenter.GetOrderInfoList(userName,"5","1","1");
             mPresenter.GetOrderByhmalluserid(userName);
         } else {
@@ -633,7 +633,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             mTvPhone.setText(result.getCellPhone());
             /*设置头像*/
             if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像
-                return;
+//                return;
             } else {
 //                byte[] decode;
 //                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
@@ -718,12 +718,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
 //                Log.d(TAG,"服务完成"+Result.getData().getState());
                 if (Result.getData().isItem1()){
-                    if (Result.getData().getItem2().size()>0){
-                        for (int i = 0; i < Result.getData().getItem2().size(); i++) {
-                            data = Result.getData().getItem2().get(i);
-                            if (data != null) {
-                                if ("服务完成".equals(data.getState())) {
-                                    showOrderEvaluate();
+                    if (Result.getData().getItem2()!=null){
+                        if (Result.getData().getItem2().size()>0){
+                            for (int i = 0; i < Result.getData().getItem2().size(); i++) {
+                                data = Result.getData().getItem2().get(i);
+                                if (data != null) {
+                                    if ("服务完成".equals(data.getState())) {
+                                        showOrderEvaluate();
+                                    }
                                 }
                             }
                         }

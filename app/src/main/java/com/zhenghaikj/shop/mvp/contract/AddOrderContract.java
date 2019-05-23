@@ -55,7 +55,8 @@ public interface AddOrderContract {
                                                       String ExtraFee,
                                                       String Num,
                                                       String IsRecevieGoods,
-                                                      String ExpressNo);
+                                                      String ExpressNo,
+                                                      String MallID);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
         Observable<AddressCodeResult> GetRegion(String id);
         Observable<ShippingAddressList> GetShippingAddressList(String userkey);
@@ -115,7 +116,8 @@ public interface AddOrderContract {
                                       String ExtraFee,
                                       String Num,
                                       String IsRecevieGoods,
-                                      String ExpressNo);
+                                      String ExpressNo,
+                                      String MallID);
         public abstract void GetUserInfoList(String userName, String limit);
         public abstract void GetRegion(String id);
         public abstract void GetShippingAddressList(String userkey);

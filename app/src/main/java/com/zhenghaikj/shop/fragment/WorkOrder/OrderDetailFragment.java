@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -53,6 +54,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
+    private static final String TAG = "OrderDetailFragment";
     @BindView(R.id.tv_beyond_money)
     TextView mTvBeyondMoney;
     @BindView(R.id.tv_accessory_money)
@@ -877,6 +879,7 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                     }
 
                 }*/
+
                 if (data.getOrderAccessroyDetail() == null) {
                     mLlApproveAccessory.setVisibility(View.GONE);
                     mLlOldAccessory.setVisibility(View.GONE);
@@ -934,8 +937,17 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                             mTvReject.setVisibility(View.VISIBLE);
                             mTvStatusAccessory.setVisibility(View.GONE);
                         }
+                        for (int i=0;i<data.getOrderAccessroyDetail().size();i++){
+                            if ("4".equals(data.getOrderAccessroyDetail().get(i).getSizeID())){
+                                mLlApproveAccessory.setVisibility(View.GONE);
+                                mLlSendAccessory.setVisibility(View.GONE);
+                                mLlOldAccessory.setVisibility(View.GONE);
+                            }else {
+                                mLlApproveAccessory.setVisibility(View.VISIBLE);
+                            }
+                        }
 
-                        mLlApproveAccessory.setVisibility(View.VISIBLE);
+//                        Log.d(TAG,"data.getSizeID()"+data.getOrderAccessroyDetail().get(0).getSizeID());
                         mLlOldAccessory.setVisibility(View.VISIBLE);
                         for (int i = 0; i < data.getOrderAccessroyDetail().size(); i++) {
                             if ("2".equals(data.getOrderAccessroyDetail().get(i).getState())) {

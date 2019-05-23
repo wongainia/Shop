@@ -285,8 +285,8 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                   "0", //加急费
                   String.valueOf(adderView.getValue()),
                   "N",//客户是否收到货
-                  "0"
-                  );
+                  "0",
+                          "123456789");
                 showLoading();
               Log.d("=====>order","安装"+bean.getBrandName()
                       +" "+bean.getCategoryName()+" "+

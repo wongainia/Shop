@@ -128,7 +128,8 @@ public interface ApiService2 {
                                                   @Field("ExtraFee") String ExtraFee,
                                                   @Field("Num") String Num,
                                                   @Field("IsRecevieGoods") String IsRecevieGoods,
-                                                  @Field("ExpressNo") String ExpressNo);
+                                                  @Field("ExpressNo") String ExpressNo,
+                                                  @Field("MallID") String MallID);
 
 
     @FormUrlEncoded
@@ -153,7 +154,8 @@ public interface ApiService2 {
                                                          @Field("OrderMoney") String OrderMoney,
                                                          @Field("RecycleOrderHour") String RecycleOrderHour,
                                                          @Field("Guarantee") String Guarantee,
-                                                         @Field("Num") String Num);
+                                                         @Field("Num") String Num,
+                                                         @Field("MallID") String MallID);
     /**
      * 获取工单列表
      * 废除-1，待审核0，派单中1，服务中2，已完成3
