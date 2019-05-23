@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 
@@ -25,6 +26,7 @@ public interface OrderDetailContract {
         Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr);
         Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr);
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
+        Observable<EasyResult> PostChangeOrderState(String orderId);
     }
 
     interface View extends BaseView{
@@ -36,6 +38,7 @@ public interface OrderDetailContract {
         void GetOrderStr(BaseResult<Data<String>> baseResult);
         void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult);
         void WXNotifyManual(BaseResult<Data<String>> baseResult);
+        void PostChangeOrderState(EasyResult baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -47,6 +50,7 @@ public interface OrderDetailContract {
         public abstract void GetOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
         public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
         public abstract void WXNotifyManual(String OutTradeNo);
+        public abstract void PostChangeOrderState(String orderId);
 
     }
 }

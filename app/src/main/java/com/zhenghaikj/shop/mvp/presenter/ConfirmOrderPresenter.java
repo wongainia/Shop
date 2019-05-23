@@ -5,6 +5,7 @@ import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.WXpayInfo;
@@ -13,6 +14,16 @@ import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 import org.json.JSONArray;
 
 public class ConfirmOrderPresenter extends ConfirmOrderContract.Presenter {
+    @Override
+    public void PostChangeOrderState(String orderId) {
+        mModel.PostChangeOrderState(orderId)
+                .subscribe(new BaseObserver<EasyResult>() {
+                    @Override
+                    protected void onHandleSuccess(EasyResult value) {
+                        mView.PostChangeOrderState(value);
+                    }
+                });
+    }
     @Override
     public void GetShippingAddressList(String userkey) {
         mModel.GetShippingAddressList(userkey)

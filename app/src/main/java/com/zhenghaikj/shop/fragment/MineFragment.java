@@ -56,7 +56,6 @@ import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
-import com.zhenghaikj.shop.fragment.WorkOrder.OrderDetailFragment;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
 import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
@@ -297,8 +296,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     mPresenter.GetUserInfoList(userName, "1");
                     mPresenter.PersonalInformation(userKey);
                     mPresenter.GetHistoryVisite(userKey);
-                    i=0;
-                    mPresenter.GetOrderByhmalluserid(userName);
+//                    i=0;
+//                    mPresenter.GetOrderByhmalluserid(userName);
 //                    mPresenter.GetOrderByhmall(userName);
                 }
 
@@ -730,7 +729,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                             }
                         }
                     }
-
                 }
 
 

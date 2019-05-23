@@ -6,6 +6,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
@@ -13,6 +14,16 @@ import com.zhenghaikj.shop.mvp.contract.OrderContract;
 import org.json.JSONArray;
 
 public class OrderPresenter extends OrderContract.Presenter {
+    @Override
+    public void PostChangeOrderState(String orderId) {
+        mModel.PostChangeOrderState(orderId)
+                .subscribe(new BaseObserver<EasyResult>() {
+                    @Override
+                    protected void onHandleSuccess(EasyResult value) {
+                        mView.PostChangeOrderState(value);
+                    }
+                });
+    }
     @Override
     public void GetOrders(String orderStatus,String pageNo,String pageSize,String userkey ) {
         mModel.GetOrders(orderStatus, pageNo, pageSize, userkey )

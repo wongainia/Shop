@@ -39,10 +39,10 @@ import com.zhenghaikj.shop.activity.PaymentSuccessActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
-import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.JsonStrOrderPay;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PayResult;
@@ -456,6 +456,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付成功");
+                        mPresenter.PostChangeOrderState(OrderId);
                         Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
                         intent.putExtra("OrderID",OrderId);
                         startActivity(intent);
@@ -481,6 +482,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             case 0:
                 mPresenter.WXNotifyManual(wXpayInfo.getOut_trade_no());
                 ToastUtils.showShort("支付成功");
+                mPresenter.PostChangeOrderState(OrderId);
                 Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
                 intent.putExtra("OrderID",OrderId);
                 startActivity(intent);
@@ -534,6 +536,11 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void PostChangeOrderState(EasyResult baseResult) {
 
     }
 

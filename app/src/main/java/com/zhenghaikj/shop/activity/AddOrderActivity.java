@@ -19,6 +19,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
@@ -195,6 +196,11 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
 
     @Override
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void PostChangeOrderState(EasyResult baseResult) {
 
     }
 }

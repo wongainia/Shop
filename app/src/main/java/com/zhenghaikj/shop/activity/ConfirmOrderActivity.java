@@ -38,6 +38,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.JsonStrOrderPay;
 import com.zhenghaikj.shop.entity.PayResult;
@@ -681,6 +682,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付成功");
+                        mPresenter.PostChangeOrderState(OrderId);
                         intent = new Intent(mActivity, PaymentSuccessActivity.class);
                         intent.putExtra("OrderID", OrderId);
                         startActivity(intent);
@@ -711,6 +713,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             case 0:
                 mPresenter.WXNotifyManual(wXpayInfo.getOut_trade_no());
                 ToastUtils.showShort("支付成功");
+                mPresenter.PostChangeOrderState(OrderId);
                 Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
                 intent.putExtra("OrderID", OrderId);
                 startActivity(intent);
@@ -790,6 +793,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
     @Override
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void PostChangeOrderState(EasyResult baseResult) {
 
     }
 }

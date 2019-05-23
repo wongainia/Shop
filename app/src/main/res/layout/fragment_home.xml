@@ -676,17 +676,20 @@
                             android:gravity="center"
                             android:background="@color/white"
                             android:orientation="vertical">
-
-                            <ImageView
+                            <com.zhenghaikj.shop.widget.RatioLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="68dp"
-                                android:src="@drawable/renqi" />
-
+                                android:layout_height="wrap_content"
+                                app:ratios="5.07">
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/renqi" />
+                            </com.zhenghaikj.shop.widget.RatioLayout>
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="0.5dp"
-                                android:background="#eee"
-                                android:layout_marginTop="10dp"/>
+                                android:background="#eee"/>
 
                         </LinearLayout>
 

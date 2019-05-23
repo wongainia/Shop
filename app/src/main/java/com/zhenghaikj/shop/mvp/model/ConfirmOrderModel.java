@@ -1,11 +1,13 @@
 package com.zhenghaikj.shop.mvp.model;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.WXpayInfo;
@@ -26,6 +28,8 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
     private Map<String, String> map;
     private String sign;
     private String timestamp;
+    private SPUtils spUtil;
+    private String Userkey;
 
     @Override
     public Observable<ShippingAddressList> GetShippingAddressList(String userkey) {
@@ -36,6 +40,21 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
         map.put("timestamp", timestamp);
         sign= ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetShippingAddressList(userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<EasyResult> PostChangeOrderState(String orderId) {
+        map = new HashMap<>();
+        spUtil = SPUtils.getInstance("token");
+        Userkey = spUtil.getString("UserKey");
+        map.put("userkey", Userkey);
+        map.put("orderid",orderId);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign= ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().PostChangeOrderState(orderId,Userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

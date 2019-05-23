@@ -337,6 +337,20 @@ public interface ApiService {
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
+    /**
+     * 更改订单状态为待发货
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/MemberOrder/PostChangeOrderState")
+    Observable<EasyResult> PostChangeOrderState(
+            @Field("orderId") String orderId,
+            @Field("userkey") String userkey,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
 
 
     /*
