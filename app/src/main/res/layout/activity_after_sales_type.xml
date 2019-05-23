@@ -231,7 +231,7 @@
                 android:layout_marginLeft="5dp"
                 android:textSize="14sp"
                 android:textColor="#393939"
-                android:text="退货"/>
+                android:text="仅退款"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -239,7 +239,7 @@
                 android:textSize="10sp"
                 android:textColor="#8E8E8E"
                 android:layout_gravity="center"
-                android:text="已收到货，需要退货"/>
+                android:text="没收到货,仅退款"/>
             <ImageView
                 android:layout_width="6dp"
                 android:layout_height="11dp"
@@ -275,7 +275,7 @@
                 android:layout_marginLeft="5dp"
                 android:textSize="14sp"
                 android:textColor="#393939"
-                android:text="换货"/>
+                android:text="退款退货"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -283,7 +283,7 @@
                 android:textSize="10sp"
                 android:textColor="#8E8E8E"
                 android:layout_gravity="center"
-                android:text="已收到货，需要换货"/>
+                android:text="已收到货，不满意需要退款退货"/>
             <ImageView
                 android:layout_width="6dp"
                 android:layout_height="11dp"

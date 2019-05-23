@@ -2,10 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartrefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
    <androidx.recyclerview.widget.RecyclerView
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="@dimen/dp_10"
-       android:id="@+id/rv_sale"></androidx.recyclerview.widget.RecyclerView>
+       android:layout_height="match_parent"
+       android:id="@+id/rv_sale">
+   </androidx.recyclerview.widget.RecyclerView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

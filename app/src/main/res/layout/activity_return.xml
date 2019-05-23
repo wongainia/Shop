@@ -28,6 +28,7 @@
         android:layout_height="1dp"
         android:background="#BFBFBF"/>
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -92,5 +93,7 @@
     <com.zhenghaikj.shop.widget.CustomViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/viewpager_return"></com.zhenghaikj.shop.widget.CustomViewPager>
+        android:id="@+id/viewpager_return">
+
+    </com.zhenghaikj.shop.widget.CustomViewPager>
 </LinearLayout>

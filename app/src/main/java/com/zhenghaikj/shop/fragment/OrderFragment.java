@@ -139,6 +139,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 getData();
             }
         });
+
+
 //        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override

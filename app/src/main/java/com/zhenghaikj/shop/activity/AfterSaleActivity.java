@@ -67,13 +67,12 @@ public class AfterSaleActivity extends BaseActivity<RefundPresent, RefundModel> 
     protected void initData() {
         spUtil = SPUtils.getInstance("token");
         userKey = spUtil.getString("UserKey");
-        mPresenter.GetRefundList(Integer.toString(pageNo),"10", userKey);
-
-
+   //     mPresenter.GetRefundList(Integer.toString(pageNo),"10", userKey);
+/*
         afterSaleAdapter = new AfterSaleAdapter(R.layout.item_after_sale,afterSaleList);
         afterSaleAdapter.setEmptyView(getEmptyView());
         mRvAfterSale.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvAfterSale.setAdapter(afterSaleAdapter);
+        mRvAfterSale.setAdapter(afterSaleAdapter);*/
     }
 
     @Override

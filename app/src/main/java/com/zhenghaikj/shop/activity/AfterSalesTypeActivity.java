@@ -62,6 +62,7 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
     private String storeName;
     private Intent intent;
     private OrderDetail.OrderBean order;
+    private String OrderId;
 
 
     @Override
@@ -73,6 +74,9 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
     protected void initData() {
         bean = (OrderDetail.OrderItemBean) getIntent().getSerializableExtra("product");
         order = (OrderDetail.OrderBean) getIntent().getSerializableExtra("order");
+        OrderId=order.getId();
+
+
         storeName = getIntent().getStringExtra("storeName");
         mTvGoodsName.setText(bean.getProductName());
         GlideUtil.loadImageViewLodingRadius(mActivity, bean.getProductImage(), mIvGoodsPicture, R.drawable.image_loading, R.drawable.image_loading, 10);
@@ -146,21 +150,29 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
                 intent.putExtra("num", mAdderview.getValue() + "");
                 startActivity(intent);
                 break;
-            case R.id.ll_return:
-                intent.putExtra("title", "退货");
-                intent.putExtra("storeName", storeName);
-                intent.putExtra("product", bean);
-                intent.putExtra("order", order);
-                intent.putExtra("num", mAdderview.getValue() + "");
+            case R.id.ll_return://仅退款
+                Intent intent = new Intent(mActivity, ReturnGoodsActivity.class);
+                Bundle bundle =new Bundle();
+                bundle.putString("title","仅退款");
+                bundle.putString("OrderId",OrderId);
+                bundle.putString("itemid",bean.getItemId());
+                bundle.putString("num",mAdderview.getValue()+"");
+                bundle.putDouble("price",bean.getPrice());
+                bundle.putString("RefundType","1");
+                intent.putExtras(bundle);
                 startActivity(intent);
                 break;
-            case R.id.ll_exchange:
-                intent.putExtra("title", "换货");
-                intent.putExtra("storeName", storeName);
-                intent.putExtra("product", bean);
-                intent.putExtra("order", order);
-                intent.putExtra("num", mAdderview.getValue() + "");
-                startActivity(intent);
+            case R.id.ll_exchange: //退款退货
+                Intent intent2 = new Intent(mActivity, ReturnGoodsActivity.class);
+                Bundle bundle2 =new Bundle();
+                bundle2.putString("title","退款退货");
+                bundle2.putString("OrderId",OrderId);
+                bundle2.putString("itemid",bean.getItemId());
+                bundle2.putString("num",mAdderview.getValue()+"");
+                bundle2.putDouble("price",bean.getPrice());
+                bundle2.putString("RefundType","2");
+                intent2.putExtras(bundle2);
+                startActivity(intent2);
                 break;
 //            case R.id.ll_return:
 //                startActivity(new Intent(mActivity, ServiceActivity.class));

@@ -561,18 +561,20 @@ public interface ApiService {
      * @param userkey          用户凭证
      * @return
      */
-    @GET("api/OrderRefund/PostRefundApply")
+
+    @FormUrlEncoded
+    @POST("api/OrderRefund/PostRefundApply")
     Observable<RefundApplyResult> PostRefundApply(
-            @Query("OrderId") String OrderId,
-            @Query("OrderItemId") String OrderItemId,
-            @Query("RefundType") String RefundType,
-            @Query("ReturnQuantity") String ReturnQuantity,
-            @Query("Amount") String Amount,
-            @Query("Reason") String Reason,
-            @Query("ContactPerson") String ContactPerson,
-            @Query("ContactCellPhone") String ContactCellPhone,
-            @Query("RefundPayType") String RefundPayType,
-            @Query("userkey") String userkey,
+            @Field("OrderId") String OrderId,
+            @Field("OrderItemId") String OrderItemId,
+            @Field("RefundType") String RefundType,
+            @Field("ReturnQuantity") String ReturnQuantity,
+            @Field("Amount") String Amount,
+            @Field("Reason") String Reason,
+            @Field("ContactPerson") String ContactPerson,
+            @Field("ContactCellPhone") String ContactCellPhone,
+            @Field("RefundPayType") String RefundPayType,
+            @Field("userkey") String userkey,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign

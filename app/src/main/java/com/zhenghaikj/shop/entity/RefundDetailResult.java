@@ -33,7 +33,7 @@ public class RefundDetailResult implements Serializable {
     private String SellerAuditDate;
     private String RefundStatus;
     private double Amount;
-    private int Id;
+    private String Id;
     private String ShopName;
     private String RefundMode;
     private int RefundModeValue;
@@ -115,12 +115,12 @@ public class RefundDetailResult implements Serializable {
         this.Amount = Amount;
     }
 
-    public int getId() {
+    public String getId() {
         return Id;
     }
 
-    public void setId(int Id) {
-        this.Id = Id;
+    public void setId(String id) {
+        Id = id;
     }
 
     public String getShopName() {

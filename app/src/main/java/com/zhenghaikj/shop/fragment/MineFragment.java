@@ -717,18 +717,21 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
 //                Log.d(TAG,"服务完成"+Result.getData().getState());
                 if (Result.getData().isItem1()){
-                    if (Result.getData().getItem2()!=null){
-                        if (Result.getData().getItem2().size()>0){
-                            for (int i = 0; i < Result.getData().getItem2().size(); i++) {
-                                data = Result.getData().getItem2().get(i);
-                                if (data != null) {
-                                    if ("服务完成".equals(data.getState())) {
-                                        showOrderEvaluate();
-                                    }
+
+                    if (Result.getData().getItem2()==null){
+                        return;
+                    }
+                    if (Result.getData().getItem2().size()>0){
+                        for (int i = 0; i < Result.getData().getItem2().size(); i++) {
+                            data = Result.getData().getItem2().get(i);
+                            if (data != null) {
+                                if ("服务完成".equals(data.getState())) {
+                                    showOrderEvaluate();
                                 }
                             }
                         }
                     }
+
                 }
 
 

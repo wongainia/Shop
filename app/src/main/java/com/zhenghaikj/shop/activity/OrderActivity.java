@@ -23,7 +23,7 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderActivity extends BaseActivity implements View.OnClickListener {
+public class  OrderActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)

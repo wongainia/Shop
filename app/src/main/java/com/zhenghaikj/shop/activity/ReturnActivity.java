@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -26,6 +27,8 @@ import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
+/*退换、售后*/
 public class ReturnActivity extends BaseActivity<RefundPresent, RefundModel> implements View.OnClickListener, RefundContract.View {
     @BindView(R.id.view)
     View mView;
@@ -52,6 +55,10 @@ public class ReturnActivity extends BaseActivity<RefundPresent, RefundModel> imp
     @BindView(R.id.viewpager_return)
     CustomViewPager mViewpagerReturn;
 
+    private SPUtils spUtil;
+    private String userKey;
+    private int pagaNo=1;
+
     private ArrayList<Fragment> fragmentsList=new ArrayList<>();
     private ArrayList<String> title=new ArrayList<>();
 //    private String[] title=new String[]{"售后申请","处理中","售后评价","申请记录"};
@@ -76,21 +83,24 @@ public class ReturnActivity extends BaseActivity<RefundPresent, RefundModel> imp
 
     @Override
     protected void initData() {
+        spUtil = SPUtils.getInstance("token");
+        userKey = spUtil.getString("UserKey");
+       // mPresenter.GetRefundList(String.valueOf(pagaNo),"8",userKey);
+
         title.add("售后申请");
         title.add("处理中");
         title.add("售后评价");
         title.add("申请记录");
+
         fragmentsList.add(AfterSaleFragment.newInstance("售后申请",""));
         fragmentsList.add(AfterSaleFragment.newInstance("处理中",""));
         fragmentsList.add(AfterSaleFragment.newInstance("售后评价",""));
         fragmentsList.add(AfterSaleFragment.newInstance("申请记录",""));
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragmentsList, title);
-        myPagerAdapter.getCount();
         mTabReturnLayout.setTabMode(TabLayout.MODE_FIXED);
         mViewpagerReturn.setAdapter(myPagerAdapter);
         mTabReturnLayout.setupWithViewPager(mViewpagerReturn);
         mViewpagerReturn.setCurrentItem(0);
-
     }
 
     @Override
