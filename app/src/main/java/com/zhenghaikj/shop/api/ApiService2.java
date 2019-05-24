@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.api;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Area;
+import com.zhenghaikj.shop.entity.BankCard;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
@@ -440,5 +441,23 @@ public interface ApiService2 {
     @POST("Order/GetOrderByhmalluserid")
     Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(@Field("UserID") String UserID);
 
+
+    /*添加银行卡*/
+    @FormUrlEncoded
+    @POST("Account/AddorUpdateAccountPayInfo")
+    Observable<BaseResult<Data<String>>> AddorUpdateAccountPayInfo(@Field("UserID") String UserID,
+                                                                   @Field("PayInfoCode") String PayInfoCode,
+                                                                   @Field("PayInfoName") String PayInfoName,
+                                                                   @Field("PayNo") String PayNo);
+    /*获取银行卡*/
+    @FormUrlEncoded
+    @POST("Account/GetAccountPayInfoList")
+    Observable <BaseResult<List<BankCard>>> GetAccountPayInfoList(@Field("UserID") String UserID);
+
+    /*根据银行卡号获取银行名 判断后台是否支持该银行的提现*/
+
+    @FormUrlEncoded
+    @POST("Account/GetBankNameByCardNo")
+    Observable<BaseResult<Data<String>>> GetBankNameByCardNo(@Field("CardNo") String CardNo);
 
 }

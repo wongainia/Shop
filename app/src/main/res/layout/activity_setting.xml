@@ -157,7 +157,8 @@
                     android:paddingLeft="14dp"
                     android:paddingTop="10dp"
                     android:paddingRight="14dp"
-                    android:paddingBottom="10dp">
+                    android:paddingBottom="10dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -182,7 +183,8 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="14dp"
                     android:layout_marginRight="14dp"
-                    android:background="#E4E4E4" />
+                    android:background="#E4E4E4"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:id="@+id/ll_modify_the_login_password"

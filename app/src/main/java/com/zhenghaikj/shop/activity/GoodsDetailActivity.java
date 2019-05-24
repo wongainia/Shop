@@ -437,6 +437,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //        mLlEvaluation.setOnClickListener(this);
         mLlService.setOnClickListener(this);
         mLlSelect.setOnClickListener(this);
+        mIvCart.setOnClickListener(this);
         mLlSpecification.setOnClickListener(this);
         mLlEvaluation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -543,6 +544,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //                startActivity(new Intent(mActivity,EvaluationDetailsActivity.class));
 //                break;
 
+            case R.id.iv_cart:
+                startActivity(new Intent(mActivity,CartActivity.class));
+                break;
         }
     }
 

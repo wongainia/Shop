@@ -1,61 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
-    <View
+    android:layout_marginBottom="@dimen/dp_6"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_6"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="#F4BD00"
+    app:cardCornerRadius="@dimen/dp_10"
+    app:cardElevation="0dp"
+    app:contentPadding="0dp">
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:background="#EEEEEE"-->
+    <!--/>-->
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#EEEEEE"
-        />
-    <TextView
-        android:id="@+id/tv_coupname"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:layout_marginLeft="10sp"
-        android:layout_marginTop="10dp"
-        />
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_OrderAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/tv_coupname"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
 
-        />
-    <TextView
-        android:id="@+id/tv_price"
-        android:layout_below="@+id/tv_coupname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/red"
-        android:textSize="20sp"
-        android:layout_marginLeft="10sp"
-        android:layout_marginTop="5dp"
-        android:text="¥50"
-        />
-<TextView
-    android:id="@+id/tv_time"
-    android:layout_below="@+id/tv_price"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="10sp"
-    android:layout_marginTop="10dp"
-    android:textSize="12sp"
-    android:layout_marginBottom="10dp"
-    android:text="有效期:"/>
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="优惠券"
+                android:textColor="@color/red"
+                android:textSize="20sp"
+                android:textStyle="normal"/>
 
-    <TextView
-        android:id="@+id/tv_getcoup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
-        android:text="领取"/>
-</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_coupname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="领取人数"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:id="@+id/tv_OrderAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0/0"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_12" />
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已使用"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_12"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/shape_bg_semi_circle_top"/>
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_bg_dotted_line"
+                android:layerType="software"/>
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/shape_bg_semi_circle_bottom"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3.5"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/tv_getcoup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="立即领取"
+                android:textColor="@color/black"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

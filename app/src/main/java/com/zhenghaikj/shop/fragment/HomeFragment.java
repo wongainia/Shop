@@ -1,19 +1,39 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
@@ -37,6 +57,7 @@ import com.zhenghaikj.shop.mvp.contract.HomeContract;
 import com.zhenghaikj.shop.mvp.model.HomeModel;
 import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
+import com.zhenghaikj.shop.utils.ZXingUtils;
 import com.zhenghaikj.shop.widget.ObservableScrollView;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -128,6 +149,15 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private ExchageAdapter exchageAdapter;
     private List<HomeJsonResult.LModulesBean> modules;
     private List<HomeJsonResult.LModulesBean.ContentBean.DatasetBean> dataset = new ArrayList<>();
+    private View under_review;
+    private AlertDialog underReviewDialog;
+    private Window window;
+    private CustomShareListener mShareListener;
+    private ShareAction mShareAction;
+    private SPUtils spUtils;
+    private String userKey;
+    private String userName;
+    private Boolean isLogin;
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -165,6 +195,41 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initData() {
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
+        isLogin = spUtils.getBoolean("isLogin");
+        UMShareConfig config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+        UMShareAPI.get(mActivity).setShareConfig(config);
+        mShareListener = new CustomShareListener(mActivity);
+        /*增加自定义按钮的分享面板*/
+        mShareAction = new ShareAction(mActivity).setDisplayList(
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.MORE)
+                .addButton("复制文本", "复制文本", "umeng_socialize_copy", "umeng_socialize_copy")
+                .addButton("复制链接", "复制链接", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+                .setShareboardclickCallback(new ShareBoardlistener() {
+                    @Override
+                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                        if (snsPlatform.mShowWord.equals("复制文本")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+                        } else if (snsPlatform.mShowWord.equals("复制链接")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + userName + "&type=8");
+                            web.setTitle("西瓜鱼");
+                            web.setDescription("注册送西瓜币了！！！！！");
+                            web.setThumb(new UMImage(mActivity, R.drawable.iconn));
+                            new ShareAction(mActivity).withMedia(web)
+                                    .setPlatform(share_media)
+                                    .setCallback(mShareListener)
+                                    .share();
+                        }
+                    }
+                });
+
         mPresenter.Get();
         mPresenter.Get(Integer.toString(pageNo), "999");
         mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999", "");
@@ -312,6 +377,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mLlGoodDailyShop.setOnClickListener(this);
         mLlWatermelonCoinMall.setOnClickListener(this);
         mTvShop.setOnClickListener(this);
+        mLlMemberCode.setOnClickListener(this);
     }
 
     @Override
@@ -334,6 +400,40 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 MainActivity activity = (MainActivity) getActivity();
                 activity.setCurrentItem(3);
                 break;
+            case R.id.ll_member_code:
+                under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
+                Button btn_share_one = under_review.findViewById(R.id.btn_share_one);
+                ImageView iv_code_one = under_review.findViewById(R.id.iv_code_one);
+                Button btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
+                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + userName + "&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.iconn));
+                iv_code_one.setImageBitmap(bitmap);
+                btn_share_one.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        underReviewDialog.dismiss();
+                        mShareAction.open();
+                    }
+                });
+
+                btn_go_to_the_mall.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        openShopApp("com.zhenghaikj.shop");
+                        underReviewDialog.dismiss();
+                    }
+                });
+
+                underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review)
+                        .create();
+                underReviewDialog.show();
+                window = underReviewDialog.getWindow();
+//                window.setContentView(under_review);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                window.setAttributes(lp);
+//                window.setDimAmount(0.1f);
+                window.setBackgroundDrawable(new ColorDrawable());
+                break;
+
         }
     }
 
@@ -430,6 +530,69 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             Glide.with(mContext).load(item.getIcon()).into((ImageView) helper.getView(R.id.iv_home));
             Glide.with(mContext).load(item.getPicture()).into((ImageView) helper.getView(R.id.iv_goods));
             helper.setText(R.id.tv_home, item.getName());
+        }
+    }
+
+    public static class CustomShareListener implements UMShareListener {
+        private Context mContext;
+
+        public CustomShareListener(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+
+            if (platform.name().equals("WEIXIN_FAVORITE")) {
+                Toast.makeText(mContext, platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+            } else {
+                if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
+                        && platform != SHARE_MEDIA.EMAIL
+                        && platform != SHARE_MEDIA.FLICKR
+                        && platform != SHARE_MEDIA.FOURSQUARE
+                        && platform != SHARE_MEDIA.TUMBLR
+                        && platform != SHARE_MEDIA.POCKET
+                        && platform != SHARE_MEDIA.PINTEREST
+
+                        && platform != SHARE_MEDIA.INSTAGRAM
+                        && platform != SHARE_MEDIA.GOOGLEPLUS
+                        && platform != SHARE_MEDIA.YNOTE
+                        && platform != SHARE_MEDIA.EVERNOTE) {
+                    Toast.makeText(mContext, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
+                    && platform != SHARE_MEDIA.EMAIL
+                    && platform != SHARE_MEDIA.FLICKR
+                    && platform != SHARE_MEDIA.FOURSQUARE
+                    && platform != SHARE_MEDIA.TUMBLR
+                    && platform != SHARE_MEDIA.POCKET
+                    && platform != SHARE_MEDIA.PINTEREST
+
+                    && platform != SHARE_MEDIA.INSTAGRAM
+                    && platform != SHARE_MEDIA.GOOGLEPLUS
+                    && platform != SHARE_MEDIA.YNOTE
+                    && platform != SHARE_MEDIA.EVERNOTE) {
+                Toast.makeText(mContext, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+
+            Toast.makeText(mContext, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -8,6 +8,7 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 
@@ -110,6 +111,17 @@ public class ConfirmOrderPresenter extends ConfirmOrderContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.WXNotifyManual(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetUserInfoList(String userName, String limit) {
+        mModel.GetUserInfoList(userName, limit)
+                .subscribe(new BaseObserver2<UserInfo>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<UserInfo> value) {
+                        mView.GetUserInfoList(value);
                     }
                 });
     }

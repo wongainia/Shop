@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -27,6 +28,15 @@ import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
 import com.zhenghaikj.shop.activity.CouponActivity;
@@ -251,6 +261,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private ClipboardManager myClipboard;
     private ServiceAdapter serviceAdapter;
     private List<WorkOrder.DataBean> datalist;
+    private CustomShareListener mShareListener;
+    private ShareAction mShareAction;
 
 
     public static MineFragment newInstance(String param1, String param2) {
@@ -269,6 +281,39 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     protected void initData() {
+
+        UMShareConfig config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+        UMShareAPI.get(mActivity).setShareConfig(config);
+        mShareListener = new CustomShareListener(mActivity);
+        /*增加自定义按钮的分享面板*/
+        mShareAction = new ShareAction(mActivity).setDisplayList(
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.MORE)
+                .addButton("复制文本", "复制文本", "umeng_socialize_copy", "umeng_socialize_copy")
+                .addButton("复制链接", "复制链接", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+                .setShareboardclickCallback(new ShareBoardlistener() {
+                    @Override
+                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                        if (snsPlatform.mShowWord.equals("复制文本")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+                        } else if (snsPlatform.mShowWord.equals("复制链接")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + userName + "&type=8");
+                            web.setTitle("西瓜鱼");
+                            web.setDescription("注册送西瓜币了！！！！！");
+                            web.setThumb(new UMImage(mActivity, R.drawable.iconn));
+                            new ShareAction(mActivity).withMedia(web)
+                                    .setPlatform(share_media)
+                                    .setCallback(mShareListener)
+                                    .share();
+                        }
+                    }
+                });
+
+
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
@@ -296,8 +341,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     mPresenter.GetUserInfoList(userName, "1");
                     mPresenter.PersonalInformation(userKey);
                     mPresenter.GetHistoryVisite(userKey);
-//                    i=0;
-//                    mPresenter.GetOrderByhmalluserid(userName);
+                    i=0;
+                    mPresenter.GetOrderByhmalluserid(userName);
 //                    mPresenter.GetOrderByhmall(userName);
                 }
 
@@ -515,7 +560,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     @Override
                     public void onClick(View v) {
                         underReviewDialog.dismiss();
-//                        mShareAction.open();
+                        mShareAction.open();
                     }
                 });
 
@@ -695,8 +740,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     userInfo = Result.getData().getData().get(0);
                     if (userInfo != null) {
 //                        mTvMoney.setText();本月消费
-                        mTvWalletBalance.setText(userInfo.getTotalMoney() + "");//钱包余额
-                        mTvAccountBalance.setText(userInfo.getCon() + "");//西瓜币
+//                        mTvWalletBalance.setText(userInfo.getTotalMoney() + "");//钱包余额
+                        mTvAccountBalance.setText(String.format("%.2f",userInfo.getCon()));//西瓜币
+                        mTvWalletBalance.setText(String.format("%.2f",userInfo.getCon()));//西瓜币
+//                        mTvBalance.setText(userInfo.getCon() + "");//西瓜币
+                        mTvBalance.setText("¥"+String.format("%.2f",userInfo.getCon()));
 //                        mTvHowMoney.setText();兑换了多少西瓜币
                     }
                 }
@@ -979,6 +1027,69 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             textView.setText("很差");
         } else if (star_num == 1.0f) {
             textView.setText("非常差");
+        }
+    }
+
+    public static class CustomShareListener implements UMShareListener {
+        private Context mContext;
+
+        public CustomShareListener(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+
+            if (platform.name().equals("WEIXIN_FAVORITE")) {
+                Toast.makeText(mContext, platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+            } else {
+                if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
+                        && platform != SHARE_MEDIA.EMAIL
+                        && platform != SHARE_MEDIA.FLICKR
+                        && platform != SHARE_MEDIA.FOURSQUARE
+                        && platform != SHARE_MEDIA.TUMBLR
+                        && platform != SHARE_MEDIA.POCKET
+                        && platform != SHARE_MEDIA.PINTEREST
+
+                        && platform != SHARE_MEDIA.INSTAGRAM
+                        && platform != SHARE_MEDIA.GOOGLEPLUS
+                        && platform != SHARE_MEDIA.YNOTE
+                        && platform != SHARE_MEDIA.EVERNOTE) {
+                    Toast.makeText(mContext, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
+                    && platform != SHARE_MEDIA.EMAIL
+                    && platform != SHARE_MEDIA.FLICKR
+                    && platform != SHARE_MEDIA.FOURSQUARE
+                    && platform != SHARE_MEDIA.TUMBLR
+                    && platform != SHARE_MEDIA.POCKET
+                    && platform != SHARE_MEDIA.PINTEREST
+
+                    && platform != SHARE_MEDIA.INSTAGRAM
+                    && platform != SHARE_MEDIA.GOOGLEPLUS
+                    && platform != SHARE_MEDIA.YNOTE
+                    && platform != SHARE_MEDIA.EVERNOTE) {
+                Toast.makeText(mContext, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+
+            Toast.makeText(mContext, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -217,6 +217,9 @@
         <activity android:name=".activity.EvaluationDetailsActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.CartActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name="com.yalantis.ucrop.UCropActivity"
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
@@ -353,6 +356,59 @@
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
         </receiver>
+
+        <!--新浪start-->
+        <activity
+            android:name="com.umeng.socialize.media.WBShareCallBackActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false"
+            android:launchMode="singleTask">
+        </activity>
+        <activity android:name="com.sina.weibo.sdk.web.WeiboSdkWebActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTask">
+
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:launchMode="singleTask"
+            android:name="com.sina.weibo.sdk.share.WbShareTransActivity" >
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+        <!--新浪end-->
+        <!--微信start-->
+        <!--<activity-->
+            <!--android:name=".wxapi.WXEntryActivity"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+            <!--android:exported="true"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" android:launchMode="singleTask"/>-->
+        <!--微信end-->
+        <!--QQstart-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1108047427" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTask"/>
+        <!--QQend-->
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 
@@ -148,6 +149,13 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
     @Override
     public Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo) {
         return ApiRetrofit2.getDefault().WXNotifyManual(OutTradeNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit) {
+        return ApiRetrofit2.getDefault().GetUserInfoList(userName, limit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

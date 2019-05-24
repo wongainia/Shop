@@ -20,6 +20,8 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -101,14 +103,14 @@ public class MyApplication extends MultiDexApplication {
         // 调试时，将第三个参数改为true
         Bugly.init(this, "52f54c7015", true);
 
-        /*UMConfigure.init(this,"5cac29a83fc195f908001564"
+        UMConfigure.init(this,"5ce64a753fc195674900125f"
                 ,"umeng", UMConfigure.DEVICE_TYPE_PHONE,"");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
         //微信
-        PlatformConfig.setWeixin("wx92928bf751e1628e", "345fe20ab087a2b0aa97cd0c8f09a2e6");
+        PlatformConfig.setWeixin("wx92928bf751e1628e", "81e1e0c14cade7740f765240b9838f40");
         //新浪
-        PlatformConfig.setSinaWeibo("3639937394", "18ba4336bf8cae28d71360ac264065f2","http://sns.whalecloud.com");
+        PlatformConfig.setSinaWeibo("2520420227", "e76b6df1fd9b46b41b7ea70008cde46a","http://sns.whalecloud.com");
         //QQ
-        PlatformConfig.setQQZone("1108693935", "U3MEougrEC2VG3r6");*/
+        PlatformConfig.setQQZone("1109159306", "h1ECHyxVEiZ18ews");
     }
 
     /**

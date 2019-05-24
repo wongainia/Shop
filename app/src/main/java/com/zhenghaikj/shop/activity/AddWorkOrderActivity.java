@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -26,6 +27,8 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AreaAdapter;
 import com.zhenghaikj.shop.adapter.BrandChooseAdapter;
 import com.zhenghaikj.shop.adapter.CategoryAdapter;
+import com.zhenghaikj.shop.adapter.CategoryAdapterMall;
+import com.zhenghaikj.shop.adapter.ChooseCategoryAdapter;
 import com.zhenghaikj.shop.adapter.CityAdapter;
 import com.zhenghaikj.shop.adapter.DistrictAdapter;
 import com.zhenghaikj.shop.adapter.ProvinceAdapter;
@@ -37,6 +40,7 @@ import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.CategoryData;
+import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
@@ -49,6 +53,7 @@ import com.zhenghaikj.shop.mvp.model.AddOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.AddOrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.AdderView;
+import com.zhenghaikj.shop.widget.RecyclerViewDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -228,7 +233,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String Address;
     private Intent intent;
     private List<Category> popularList;
-    private LabelsView lv_popular;
+    private RecyclerView lv_popular;
     private RecyclerView rv_choose;
     private String CategoryName;
     private List<Brand> brandList = new ArrayList<>();
@@ -242,6 +247,10 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String TypeName;
     private String Userkey;
     private List<ShippingAddressList.ShippingAddressBean> addressList;
+    private List<Category> firstList = new ArrayList<>();
+    private List<Category> secondList = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
+    private ChooseCategoryAdapter firstAdapter;
 
     @Override
     protected int setLayoutId() {
@@ -882,7 +891,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 
     public void showPopWindowGetCategory(final TextView tv) {
 
-        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand, null);
+        View contentView = LayoutInflater.from(mActivity).inflate(R.layout.dialog_brand2, null);
         lv_popular = contentView.findViewById(R.id.lv_popular);
         rv_choose = contentView.findViewById(R.id.rv_choose);
         iv_close = contentView.findViewById(R.id.iv_close);
@@ -892,25 +901,41 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 popupWindow.dismiss();
             }
         });
-        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
-            @Override
-            public CharSequence getLabelText(TextView label, int position, Category data) {
-                return data.getFCategoryName();
-            }
-        });
+        firstAdapter = new ChooseCategoryAdapter(popularList);
+        linearLayoutManager = new LinearLayoutManager(mActivity);
+        lv_popular.setLayoutManager(linearLayoutManager);
+        lv_popular.addItemDecoration(new RecyclerViewDivider(mActivity, LinearLayoutManager.HORIZONTAL));
+        lv_popular.setAdapter(firstAdapter);
         FCategoryID = popularList.get(0).getId();
         CategoryName = popularList.get(0).getFCategoryName();
         mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
-        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
-            @Override
-            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
-                if (isSelect) {
-                    FCategoryID = ((Category) data).getId();
-                    CategoryName = ((Category) data).getFCategoryName();
-                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
-                }
-            }
+        popularList.get(0).setSelected(true);
+        firstAdapter.setOnItemClickListener((adapter, view, position) -> {
+            scrollToMiddleH(view, position);
+            setSelect(position);
+            mPresenter.GetChildFactoryCategory(popularList.get(position).getFCategoryID());
+
         });
+
+//        lv_popular.setLabels(popularList, new LabelsView.LabelTextProvider<Category>() {
+//            @Override
+//            public CharSequence getLabelText(TextView label, int position, Category data) {
+//                return data.getFCategoryName();
+//            }
+//        });
+//        FCategoryID = popularList.get(0).getId();
+//        CategoryName = popularList.get(0).getFCategoryName();
+//        mPresenter.GetChildFactoryCategory(popularList.get(0).getId());
+//        lv_popular.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
+//            @Override
+//            public void onLabelSelectChange(TextView label, Object data, boolean isSelect, int position) {
+//                if (isSelect) {
+//                    FCategoryID = ((Category) data).getId();
+//                    CategoryName = ((Category) data).getFCategoryName();
+//                    mPresenter.GetChildFactoryCategory(((Category) data).getId());
+//                }
+//            }
+//        });
 
         popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 //        popupWindow.setWidth(tv.getWidth());
@@ -930,6 +955,41 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
+
+    public void setSelect(int position) {
+        for (int i = 0; i < popularList.size(); i++) {
+            if (i == position) {
+                popularList.get(i).setSelected(true);
+            } else {
+                popularList.get(i).setSelected(false);
+            }
+        }
+        firstAdapter.setNewData(popularList);
+    }
+
+
+    private void scrollToMiddleH(View view, int position) {
+
+        int vHeight = view.getHeight();
+
+        Rect rect = new Rect();
+
+        lv_popular.getGlobalVisibleRect(rect);
+
+//        int reHeight = rect.top- rect.bottom - vHeight;
+        int reHeight = rect.bottom - rect.top - vHeight;
+
+
+        final int firstPosition = linearLayoutManager.findFirstVisibleItemPosition();
+
+        int top = lv_popular.getChildAt(position - firstPosition).getTop();
+
+        int half = reHeight / 2;
+
+        lv_popular.smoothScrollBy(0, top - half);
+
+    }
+
 
     public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
 

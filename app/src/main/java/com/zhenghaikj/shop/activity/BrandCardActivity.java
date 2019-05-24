@@ -8,22 +8,31 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.BrankCardAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.BankCard;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.mvp.contract.CardContract;
+import com.zhenghaikj.shop.mvp.model.CardModel;
+import com.zhenghaikj.shop.mvp.presenter.CardPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BrandCardActivity extends BaseActivity implements View.OnClickListener {
+public class BrandCardActivity extends BaseActivity<CardPresenter, CardModel> implements View.OnClickListener, CardContract.View {
 
 
     @BindView(R.id.view)
@@ -47,8 +56,10 @@ public class BrandCardActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.tv_tips)
     TextView mTvTips;
 
-    private List<Product> list = new ArrayList<>();
+    private List<BankCard> list = new ArrayList<>();
     private BrankCardAdapter adapter;
+    private String userkey;
+    private String userName;
 
     @Override
     protected int setLayoutId() {
@@ -66,12 +77,17 @@ public class BrandCardActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
-        for (int i = 0; i < 10; i++) {
-            list.add(new Product());
-        }
+        SPUtils spUtils = SPUtils.getInstance("token");
+        userkey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
+        mPresenter.GetAccountPayInfoList(userName);
 
-        adapter = new BrankCardAdapter(R.layout.item_brank_card, list);
-        adapter.setEmptyView(getEmptyView());
+//        for (int i = 0; i < 10; i++) {
+//            list.add(new Product());
+//        }
+
+        adapter = new BrankCardAdapter(R.layout.item_brank_card, list,mActivity);
+//        adapter.setEmptyView(getEmptyViewCommodity());
         mRvBrankCard.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvBrankCard.setAdapter(adapter);
     }
@@ -101,7 +117,7 @@ public class BrandCardActivity extends BaseActivity implements View.OnClickListe
             case R.id.tv_save:
             case R.id.ll_add_card:
             case R.id.fl_add_card:
-                startActivity(new Intent(mActivity, AddBrankCardActivity.class));
+                startActivityForResult(new Intent(this, AddBrankCardActivity.class), 2002);
                 break;
         }
     }
@@ -111,5 +127,47 @@ public class BrandCardActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+
+    }
+
+    @Override
+    public void AddorUpdateAccountPayInfo(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetAccountPayInfoList(BaseResult<List<BankCard>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData() == null) {
+                    return;
+                } else {
+                    list.addAll(baseResult.getData());
+                    adapter.setNewData(list);
+
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void GetBankNameByCardNo(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 2000) {
+            if (requestCode == 2002) {//添加卡的请求
+                mPresenter.GetAccountPayInfoList(userName);
+            }
+        }
     }
 }

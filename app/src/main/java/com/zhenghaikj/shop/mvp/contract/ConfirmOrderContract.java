@@ -9,6 +9,7 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 
 import org.json.JSONArray;
@@ -51,6 +52,8 @@ public interface ConfirmOrderContract {
         Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount,JSONArray JsonStr);
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<EasyResult> PostChangeOrderState(String orderId);
+
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
     }
 
     interface View extends BaseView{
@@ -64,6 +67,7 @@ public interface ConfirmOrderContract {
         void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult);
         void WXNotifyManual(BaseResult<Data<String>> baseResult);
         void PostChangeOrderState(EasyResult baseResult);
+        void GetUserInfoList(BaseResult<UserInfo> Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -99,6 +103,8 @@ public interface ConfirmOrderContract {
         public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr);
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void PostChangeOrderState(String orderId);
+
+        public abstract void GetUserInfoList(String userName, String limit);
 
     }
 }

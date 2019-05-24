@@ -46,6 +46,7 @@ public class SwitchView extends ViewSwitcher implements ViewSwitcher.ViewFactory
         //设置ViewFactory后会调用makeView()
         setFactory(this);
         //发送启动消息
+        handler.removeMessages(0);
         handler.sendEmptyMessage(0);
     }
 

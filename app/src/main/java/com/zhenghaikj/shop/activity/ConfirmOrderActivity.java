@@ -44,6 +44,7 @@ import com.zhenghaikj.shop.entity.JsonStrOrderPay;
 import com.zhenghaikj.shop.entity.PayResult;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.StoreBean;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 import com.zhenghaikj.shop.mvp.model.ConfirmOrderModel;
@@ -127,6 +128,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     List<JsonStrOrderPay> payList=new ArrayList<>();
     private JSONArray jsonArray;
     private Intent intent;
+    private UserInfo.UserInfoDean userInfo;
 
     @Override
     protected int setLayoutId() {
@@ -146,7 +148,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     protected void initData() {
         Userkey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
-
+        mPresenter.GetUserInfoList(userName,"1");
         api = WXAPIFactory.createWXAPI(mActivity, "wx92928bf751e1628e");
         // 将该app注册到微信
         api.registerApp("wx92928bf751e1628e");
@@ -567,6 +569,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.payway_layout, null);
         LinearLayout ll_alipay = popupWindow_view.findViewById(R.id.ll_alipay);
         LinearLayout ll_wxpay = popupWindow_view.findViewById(R.id.ll_wxpay);
+        LinearLayout ll_balance=popupWindow_view.findViewById(R.id.ll_balance);
         Button cancel_btn = popupWindow_view.findViewById(R.id.cancel_btn);
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -588,6 +591,19 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
                 mPopupWindow.dismiss();
+            }
+        });
+
+        ll_balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userInfo.getTotalMoney()-GetConfirmModel.getTotalAmount()>=0){
+//                    mPresenter.GetOrderStr(userName,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
+                    mPopupWindow.dismiss();
+                }else {
+                    ToastUtils.showShort("余额不足，请充值或选择别的支付方式");
+                }
+
             }
         });
         cancel_btn.setOnClickListener(new View.OnClickListener() {
@@ -799,5 +815,28 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @Override
     public void PostChangeOrderState(EasyResult baseResult) {
 
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                if (Result.getData().getData()==null){
+
+                }else {
+                    userInfo = Result.getData().getData().get(0);
+//                    if (userInfo !=null){
+//                        mTvBalance.setText(""+userInfo.getTotalMoney()+"");//钱包余额
+//                        mTvWatermelonBalance.setText("￥"+userInfo.getCon()+"");//西瓜币
+//                    }
+                }
+
+
+                break;
+
+            default:
+                break;
+
+        }
     }
 }

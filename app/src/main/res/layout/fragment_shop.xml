@@ -97,14 +97,18 @@
                         android:layout_marginLeft="10dp" />
                 </LinearLayout>
             </LinearLayout>
+            <com.zhenghaikj.shop.widget.RatioLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:ratios="2.6">
 
             <com.youth.banner.Banner
                 android:id="@+id/banner_shop"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="match_parent"
                 app:image_scale_type="fit_xy"
                 app:indicator_margin="5dp" />
-
+            </com.zhenghaikj.shop.widget.RatioLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

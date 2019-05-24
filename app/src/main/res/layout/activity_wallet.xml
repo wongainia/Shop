@@ -192,7 +192,8 @@
                             android:paddingBottom="14dp"
                             android:text="提    现"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:id="@+id/tv_gift"
@@ -225,7 +226,8 @@
                     android:paddingLeft="23dp"
                     android:paddingTop="25dp"
                     android:paddingRight="23dp"
-                    android:paddingBottom="21dp">
+                    android:paddingBottom="21dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -264,7 +266,8 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="#EFEFEF" />
+                    android:background="#EFEFEF"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:id="@+id/ll_voucher"

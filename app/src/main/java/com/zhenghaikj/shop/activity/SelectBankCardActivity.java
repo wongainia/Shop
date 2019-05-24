@@ -10,6 +10,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.BrankCardAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.BankCard;
 import com.zhenghaikj.shop.entity.Product;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class SelectBankCardActivity extends BaseActivity implements View.OnClick
     @BindView(R.id.rv_choose_brank)
     RecyclerView mRvChooseBrank;
 
-    private List<Product> list=new ArrayList<>();
+    private List<BankCard> list=new ArrayList<>();
     private BrankCardAdapter adapter;
 
     @Override
@@ -59,10 +60,10 @@ public class SelectBankCardActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initData() {
         for (int i=0;i<10;i++){
-            list.add(new Product());
+            list.add(new BankCard());
         }
 
-        adapter = new BrankCardAdapter(R.layout.item_choose_brank,list);
+        adapter = new BrankCardAdapter(R.layout.item_choose_brank,list,mActivity);
         adapter.setEmptyView(getEmptyView());
         mRvChooseBrank.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvChooseBrank.setAdapter(adapter);
