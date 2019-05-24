@@ -9,7 +9,8 @@ import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
-import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.entity.GetShopCoupResult;
+import com.zhenghaikj.shop.entity.ShopCoupResult;
 
 import io.reactivex.Observable;
 
@@ -30,6 +31,8 @@ public interface DetailContract {
                                            String pageNo,
                                            String pageSize,
                                            String commentType);
+        Observable<ShopCoupResult> GetShopCouponList(String shopId);
+        Observable<GetShopCoupResult> PostAcceptCoupon(String vshopId,String couponId,String Userkey);
     }
 
     interface View extends BaseView {
@@ -42,6 +45,8 @@ public interface DetailContract {
         void PostAddFavoriteProduct(CollectResult Result);
         void GetProductCommentShow(GetCommentResult result);
         void ProductComment(Comment Result);
+        void GetShopCouponList(ShopCoupResult Result);
+        void PostAcceptCoupon(GetShopCoupResult Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -54,5 +59,7 @@ public interface DetailContract {
                                             String pageNo,
                                             String pageSize,
                                             String commentType);
+        public abstract void GetShopCouponList(String shopId);
+        public abstract void PostAcceptCoupon(String vshopId,String couponId,String Userkey);
     }
 }

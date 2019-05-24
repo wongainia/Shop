@@ -12,7 +12,6 @@ import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +44,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ChooseColorAdapter;
 import com.zhenghaikj.shop.adapter.ChooseSizeAdapter;
 import com.zhenghaikj.shop.adapter.ChooseVersionAdapter;
+import com.zhenghaikj.shop.adapter.ShopCoupAdapter;
 import com.zhenghaikj.shop.adapter.ShopRecommendationAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
@@ -53,8 +53,10 @@ import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
+import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.ShopColor;
+import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopSize;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
 import com.zhenghaikj.shop.mvp.model.DetailModel;
@@ -79,6 +81,7 @@ import java.util.List;
 
 import androidx.annotation.IdRes;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import butterknife.BindView;
@@ -290,6 +293,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private LinearLayout ll_customersecurity;
     private LinearLayout ll_sevendaynoreasonreturn;
     private LinearLayout ll_timelyship;
+    private List<ShopCoupResult.CouponBean> couplist=new ArrayList<>();
 
 
     @Override
@@ -326,17 +330,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         id = getIntent().getStringExtra("id");
 
         // Userkey="YVdzb1BrelMyRXA0YU4xNExrUnJJWUxCdjZkN2ZxbEU4am1SM0dTd2ZiazlWWS80T1VQdnJ3SVdYNlc0WkZSKw==";
-        if (!"".equals(id) && id != null) {
-            mPresenter.GetProductDetail(id, Userkey);
-            mPresenter.GetProductCommentShow(id, Userkey);
-            mPresenter.GetSKUInfo(id);
-            mPresenter.ProductComment(id, String.valueOf(1), "10", "0");
-
-        }
+        mPresenter.GetSKUInfo(id);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                mPresenter.GetProductDetail(id, Userkey);
+                mPresenter.GetSKUInfo(id);
                 mRefreshLayout.finishRefresh(1000);
             }
         });
@@ -345,6 +343,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Override
     protected void initView() {
+
         mStateLayout.changeState(StateFrameLayout.LOADING);
         //是否在展示内容布局的时候开启动画（200ms的Alpha动画）
         mStateLayout.enableContentAnim(false);
@@ -354,7 +353,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             @Override
             public void onNetErrorRetry() {
                 //TODO 在这里相应重试操作
-                mPresenter.GetProductDetail(id, Userkey);
+                mPresenter.GetSKUInfo(id);
             }
         });
         //设置空数据重试监听【不传emptyRetryId的话需要在对应布局中设置触发控件的id为android:id="@id/id_sfl_empty_retry"】
@@ -362,14 +361,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             @Override
             public void onEmptyRetry() {
                 //TODO 在这里相应重试操作
-                mPresenter.GetProductDetail(id, Userkey);
+                mPresenter.GetSKUInfo(id);
             }
         });
 
 
-        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.popwindow_chooseproperty, null);
-        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        adderView = popupWindow_view.findViewById(R.id.adderview);
+
 
 
         Rect rectangle = new Rect();
@@ -440,6 +437,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //        mLlEvaluation.setOnClickListener(this);
         mLlService.setOnClickListener(this);
         mLlSelect.setOnClickListener(this);
+        mLlSpecification.setOnClickListener(this);
         mLlEvaluation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -497,6 +495,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_specification:
+                mPresenter.GetShopCouponList(Integer.toString(result.getShop().getId()));
+                break;
             case R.id.iv_back:
                 finish();
                 break;
@@ -597,6 +598,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
      * 弹出Popupwindow
      */
     public void showPopupWindow(int type) {
+        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.popwindow_chooseproperty, null);
+        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        adderView = popupWindow_view.findViewById(R.id.adderview);
         //   img_bankcancle = popupWindow_view.findViewById(R.id.img_bankcancle);
         mPopupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
@@ -896,6 +900,30 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     }
 
     @Override
+    public void GetShopCouponList(ShopCoupResult Result) {
+        if ("true".equals(Result.getSuccess())) {
+            couplist.clear();
+            couplist.addAll(Result.getCoupon());
+            showPopupWindow(Result.getCoupon().get(0).getShopName());
+        } else {
+            Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+    /*获取优惠券*/
+    @Override
+    public void PostAcceptCoupon(GetShopCoupResult Result) {
+
+        if ("true".equals(Result.getSuccess())) {
+
+            Toast.makeText(mActivity, "领取成功", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
     public void GetProductDetail(DetailResult Result) {
 
         result = Result;
@@ -904,6 +932,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //                mLlLimit.setVisibility(View.VISIBLE);
 //                mLlNormal.setVisibility(View.GONE);
                 mCountdownview.start(Result.getSecond() * 1000);
+                mTvOnlyLeft.setText("仅剩"+skuArray.get(0).getStock()+"件");
             } else {
                 mLlLimit.setVisibility(View.GONE);
                 mLlNormal.setVisibility(View.VISIBLE);
@@ -1027,6 +1056,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mTvBabyDescriptionScore.setText(result.getShop().getProductMark() + "");
             mTvLogisticsServicesScore.setText(result.getShop().getPackMark() + "");
             mStateLayout.changeState(StateFrameLayout.SUCCESS);
+            mPresenter.GetProductCommentShow(id, Userkey);
+            mPresenter.ProductComment(id, String.valueOf(1), "10", "0");
         } else {
             mStateLayout.changeState(StateFrameLayout.EMPTY);
         }
@@ -1266,8 +1297,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         if (("true").equals(Result.getSuccess())) {
             // skuArray.addAll(Result.getSkuArray());
             skuArray.addAll(Result.getSkuArray());
-
-
+            mPresenter.GetProductDetail(id, Userkey);
         }
     }
 
@@ -1305,5 +1335,60 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
 
     }
+    public void showPopupWindow(String shopname) {
+        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.popwindow_shopcoups, null);
+        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setAnimationStyle(R.style.popwindow_anim_style);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
+
+            @Override
+            public void onDismiss() {
+                MyUtils.setWindowAlpa(mActivity, false);
+            }
+        });
+
+        if (mPopupWindow != null && !mPopupWindow.isShowing()) {
+            mPopupWindow.showAtLocation(popupWindow_view, Gravity.BOTTOM, 0, 0);
+        }
+        MyUtils.setWindowAlpa(mActivity, true);
+
+        popupWindow_view.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
+
+        popupWindow_view.findViewById(R.id.img_cha).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
+
+
+        ((TextView) popupWindow_view.findViewById(R.id.tv_coup)).setText(shopname);
+        RecyclerView rv = popupWindow_view.findViewById(R.id.rv_coup);
+        rv.setLayoutManager(new LinearLayoutManager(mActivity));
+        ShopCoupAdapter shopCoupAdapter = new ShopCoupAdapter(R.layout.item_shopcoup, couplist);
+        rv.setAdapter(shopCoupAdapter);
+
+        shopCoupAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.tv_getcoup:
+                        mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean) adapter.getData().get(position)).getVShopId(), ((ShopCoupResult.CouponBean) adapter.getData().get(position)).getCouponId(), Userkey);
+                        break;
+                }
+
+            }
+        });
+
+
+    }
 }

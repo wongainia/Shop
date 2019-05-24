@@ -7,7 +7,8 @@ import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
-import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.entity.GetShopCoupResult;
+import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
 
 public class DetailPresenter extends DetailContract.Presenter {
@@ -73,6 +74,26 @@ public class DetailPresenter extends DetailContract.Presenter {
                     @Override
                     protected void onHandleSuccess(Comment value) {
                         mView.ProductComment(value);
+                    }
+                });
+    }
+    @Override
+    public void GetShopCouponList(String shopId) {
+        mModel.GetShopCouponList(shopId)
+                .subscribe(new BaseObserver<ShopCoupResult>() {
+                    @Override
+                    protected void onHandleSuccess(ShopCoupResult value) {
+                        mView.GetShopCouponList(value);
+                    }
+                });
+    }
+    @Override
+    public void PostAcceptCoupon(String vshopId, String couponId, String Userkey) {
+        mModel.PostAcceptCoupon(vshopId,couponId,Userkey)
+                .subscribe(new BaseObserver<GetShopCoupResult>() {
+                    @Override
+                    protected void onHandleSuccess(GetShopCoupResult value) {
+                        mView.PostAcceptCoupon(value);
                     }
                 });
     }
