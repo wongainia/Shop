@@ -1,8 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,11 +12,14 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ChagePassword;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.mvp.contract.ChagePasswordContract;
 import com.zhenghaikj.shop.mvp.model.ChagePasswordModel;
 import com.zhenghaikj.shop.mvp.presenter.ChagePasswordPresenter;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -49,6 +50,7 @@ public class ChagePasswordActivity extends BaseActivity<ChagePasswordPresenter, 
     private String userId;
     private SPUtils spUtils;
     private String userKey;
+    private String UserID;
 
     @Override
     protected int setLayoutId() {
@@ -75,6 +77,7 @@ public class ChagePasswordActivity extends BaseActivity<ChagePasswordPresenter, 
     protected void initView() {
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
+        UserID = spUtils.getString("userName2");
 
     }
 
@@ -105,6 +108,7 @@ public class ChagePasswordActivity extends BaseActivity<ChagePasswordPresenter, 
                     ToastUtils.showShort("两次密码不一致");
                 }else {
                     mPresenter.PostChangePassword(oldPassword,password,userKey);
+                    mPresenter.UpdatePassword(UserID,password);
                 }
                 break;
         }
@@ -125,5 +129,10 @@ public class ChagePasswordActivity extends BaseActivity<ChagePasswordPresenter, 
         }else {
             ToastUtils.showShort(result.getMsg());
         }
+    }
+
+    @Override
+    public void UpdatePassword(BaseResult<Data> result) {
+
     }
 }

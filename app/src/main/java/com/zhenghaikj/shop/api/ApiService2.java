@@ -26,7 +26,12 @@ import retrofit2.http.POST;
 
 public interface ApiService2 {
 
+    /*修改密码*/
 
+    @FormUrlEncoded
+    @POST("Account/UpdatePassword")
+    Observable<BaseResult<Data>> UpdatePassword(@Field("UserID") String UserID,
+                                                @Field("Password") String Password);
     /**
      * app用户登录
      */

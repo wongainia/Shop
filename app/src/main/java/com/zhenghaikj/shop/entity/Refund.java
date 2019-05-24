@@ -5,193 +5,220 @@ import java.util.List;
 
 public class Refund implements Serializable {
 
-    /*
-    *"Total":0,
-    * "Data":[],
-    * "Success":true
-    * */
 
-    private String Total;
-    private List<DataBean> Data;
+    /**
+     * Total : 2
+     * Data : [{"ShopName":"官方自营店","Vshopid":10,"RefundStatus":"待商家审核","Id":254,"ProductName":"AUX奥克斯KFR35GWBpR3QYQ22大15匹冷暖家用2级变频壁挂空调","EnabledRefundAmount":2069.1,"Amount":2069.1,"Img":"http://mall.xigyu.com//Storage/Shop/1/Products/778/1_350.png","ShopId":1,"RefundMode":"订单退款","RefundModeValue":1,"OrderId":2019051086835370,"OrderItems":[{"ThumbnailsUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/778/1_350.png","ProductName":"AUX奥克斯KFR35GWBpR3QYQ22大15匹冷暖家用2级变频壁挂空调"}],"SellerAuditStatus":"待商家审核","SellerAuditStatusValue":1}]
+     * Success : true
+     */
+
+    private int Total;
     private boolean Success;
+    private List<DataBean> Data;
 
-    public String getTotal() {
+    public int getTotal() {
         return Total;
     }
 
-    public void setTotal(String total) {
-        Total = total;
-    }
-
-    public List<DataBean> getData() {
-        return Data;
-    }
-
-    public void setData(List<DataBean> data) {
-        Data = data;
+    public void setTotal(int Total) {
+        this.Total = Total;
     }
 
     public boolean isSuccess() {
         return Success;
     }
 
-    public void setSuccess(boolean success) {
-        Success = success;
+    public void setSuccess(boolean Success) {
+        this.Success = Success;
     }
 
-    public static class DataBean{
-        /*
-        * "ShopName": "官方自营店",     店铺名称
-        * "Vshopid": 12,                微店ID
-        * "RefundStatus": "待商家审核", 状态描述
-        * "Id": 35,
-         *"ProductName": "名称",        商品名称
-        *"EnabledRefundAmount": 0.1,   可退款金额
-        *"Amount": 0.1,                实际退款金额
-        *"Img": "url",
-        *"ShopId": 1,                  店铺ID
-        * "RefundMode": "货品退款",     1：订单退款2：货品退款3：退货退款
-        * "RefundModeValue": 2,
-        * "OrderId": 2016021988828332,
-        *"OrderItems": null,
-        *"SellerAuditStatus": "待商家审核",1：待商家审核2：待买家寄货3：待商家收货4：商家拒绝5：商家通过审核
-        *"SellerAuditStatusValue": 1
-         * */
+    public List<DataBean> getData() {
+        return Data;
+    }
+
+    public void setData(List<DataBean> Data) {
+        this.Data = Data;
+    }
+
+    public static class DataBean {
+        /**
+         * ShopName : 官方自营店
+         * Vshopid : 10
+         * RefundStatus : 待商家审核
+         * Id : 254
+         * ProductName : AUX奥克斯KFR35GWBpR3QYQ22大15匹冷暖家用2级变频壁挂空调
+         * EnabledRefundAmount : 2069.1
+         * Amount : 2069.1
+         * Img : http://mall.xigyu.com//Storage/Shop/1/Products/778/1_350.png
+         * ShopId : 1
+         * RefundMode : 订单退款
+         * RefundModeValue : 1
+         * OrderId : 2019051086835370
+         * OrderItems : [{"ThumbnailsUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/778/1_350.png","ProductName":"AUX奥克斯KFR35GWBpR3QYQ22大15匹冷暖家用2级变频壁挂空调"}]
+         * SellerAuditStatus : 待商家审核
+         * SellerAuditStatusValue : 1
+         */
 
         private String ShopName;
-        private String Vshopid;
+        private int Vshopid;
         private String RefundStatus;
-        private String Id;
+        private int Id;
         private String ProductName;
-        private String EnabledRefundAmount;
-        private String Amount;
+        private double EnabledRefundAmount;
+        private double Amount;
         private String Img;
-        private String ShopId;
+        private int ShopId;
         private String RefundMode;
-        private String RefundModeValue;
-        private String OrderId;
-        private String OrderItems;
+        private int RefundModeValue;
+        private long OrderId;
         private String SellerAuditStatus;
-        private String SellerAuditStatusValue;
+        private int SellerAuditStatusValue;
+        private List<OrderItemsBean> OrderItems;
 
         public String getShopName() {
             return ShopName;
         }
 
-        public void setShopName(String shopName) {
-            ShopName = shopName;
+        public void setShopName(String ShopName) {
+            this.ShopName = ShopName;
         }
 
-        public String getVshopid() {
+        public int getVshopid() {
             return Vshopid;
         }
 
-        public void setVshopid(String vshopid) {
-            Vshopid = vshopid;
+        public void setVshopid(int Vshopid) {
+            this.Vshopid = Vshopid;
         }
 
         public String getRefundStatus() {
             return RefundStatus;
         }
 
-        public void setRefundStatus(String refundStatus) {
-            RefundStatus = refundStatus;
+        public void setRefundStatus(String RefundStatus) {
+            this.RefundStatus = RefundStatus;
         }
 
-        public String getId() {
+        public int getId() {
             return Id;
         }
 
-        public void setId(String id) {
-            Id = id;
+        public void setId(int Id) {
+            this.Id = Id;
         }
 
         public String getProductName() {
             return ProductName;
         }
 
-        public void setProductName(String productName) {
-            ProductName = productName;
+        public void setProductName(String ProductName) {
+            this.ProductName = ProductName;
         }
 
-        public String getEnabledRefundAmount() {
+        public double getEnabledRefundAmount() {
             return EnabledRefundAmount;
         }
 
-        public void setEnabledRefundAmount(String enabledRefundAmount) {
-            EnabledRefundAmount = enabledRefundAmount;
+        public void setEnabledRefundAmount(double EnabledRefundAmount) {
+            this.EnabledRefundAmount = EnabledRefundAmount;
         }
 
-        public String getAmount() {
+        public double getAmount() {
             return Amount;
         }
 
-        public void setAmount(String amount) {
-            Amount = amount;
+        public void setAmount(double Amount) {
+            this.Amount = Amount;
         }
 
         public String getImg() {
             return Img;
         }
 
-        public void setImg(String img) {
-            Img = img;
+        public void setImg(String Img) {
+            this.Img = Img;
         }
 
-        public String getShopId() {
+        public int getShopId() {
             return ShopId;
         }
 
-        public void setShopId(String shopId) {
-            ShopId = shopId;
+        public void setShopId(int ShopId) {
+            this.ShopId = ShopId;
         }
 
         public String getRefundMode() {
             return RefundMode;
         }
 
-        public void setRefundMode(String refundMode) {
-            RefundMode = refundMode;
+        public void setRefundMode(String RefundMode) {
+            this.RefundMode = RefundMode;
         }
 
-        public String getRefundModeValue() {
+        public int getRefundModeValue() {
             return RefundModeValue;
         }
 
-        public void setRefundModeValue(String refundModeValue) {
-            RefundModeValue = refundModeValue;
+        public void setRefundModeValue(int RefundModeValue) {
+            this.RefundModeValue = RefundModeValue;
         }
 
-        public String getOrderId() {
+        public long getOrderId() {
             return OrderId;
         }
 
-        public void setOrderId(String orderId) {
-            OrderId = orderId;
-        }
-
-        public String getOrderItems() {
-            return OrderItems;
-        }
-
-        public void setOrderItems(String orderItems) {
-            OrderItems = orderItems;
+        public void setOrderId(long OrderId) {
+            this.OrderId = OrderId;
         }
 
         public String getSellerAuditStatus() {
             return SellerAuditStatus;
         }
 
-        public void setSellerAuditStatus(String sellerAuditStatus) {
-            SellerAuditStatus = sellerAuditStatus;
+        public void setSellerAuditStatus(String SellerAuditStatus) {
+            this.SellerAuditStatus = SellerAuditStatus;
         }
 
-        public String getSellerAuditStatusValue() {
+        public int getSellerAuditStatusValue() {
             return SellerAuditStatusValue;
         }
 
-        public void setSellerAuditStatusValue(String sellerAuditStatusValue) {
-            SellerAuditStatusValue = sellerAuditStatusValue;
+        public void setSellerAuditStatusValue(int SellerAuditStatusValue) {
+            this.SellerAuditStatusValue = SellerAuditStatusValue;
+        }
+
+        public List<OrderItemsBean> getOrderItems() {
+            return OrderItems;
+        }
+
+        public void setOrderItems(List<OrderItemsBean> OrderItems) {
+            this.OrderItems = OrderItems;
+        }
+
+        public static class OrderItemsBean {
+            /**
+             * ThumbnailsUrl : http://mall.xigyu.com//Storage/Shop/1/Products/778/1_350.png
+             * ProductName : AUX奥克斯KFR35GWBpR3QYQ22大15匹冷暖家用2级变频壁挂空调
+             */
+
+            private String ThumbnailsUrl;
+            private String ProductName;
+
+            public String getThumbnailsUrl() {
+                return ThumbnailsUrl;
+            }
+
+            public void setThumbnailsUrl(String ThumbnailsUrl) {
+                this.ThumbnailsUrl = ThumbnailsUrl;
+            }
+
+            public String getProductName() {
+                return ProductName;
+            }
+
+            public void setProductName(String ProductName) {
+                this.ProductName = ProductName;
+            }
         }
     }
 }

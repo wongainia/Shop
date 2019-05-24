@@ -2,7 +2,10 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ChagePassword;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.mvp.contract.ChagePasswordContract;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +33,13 @@ public class ChagePasswordModel implements ChagePasswordContract.Model {
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().PostChangePassword(oldPassword,password,userkey,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data>> UpdatePassword(String UserID, String password) {
+        return ApiRetrofit2.getDefault().UpdatePassword(UserID, password)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
