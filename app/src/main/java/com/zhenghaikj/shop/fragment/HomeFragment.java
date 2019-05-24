@@ -169,18 +169,27 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     }
 
     private List<HomeResult.ProductBean> mDatas = new ArrayList<>();
+//    private Integer[] icons = new Integer[]{
+//            R.mipmap.juxing, R.mipmap.juxing_one, R.mipmap.juxing_two, R.mipmap.juxing_three, R.mipmap.juxing_four, R.mipmap.juxing_five,
+//            R.mipmap.juxing_six, R.mipmap.juxing_seven, R.mipmap.juxing_eight, R.mipmap.juxing_nine
+//    };
+
     private Integer[] icons = new Integer[]{
-            R.mipmap.juxing, R.mipmap.juxing_one, R.mipmap.juxing_two, R.mipmap.juxing_three, R.mipmap.juxing_four, R.mipmap.juxing_five,
-            R.mipmap.juxing_six, R.mipmap.juxing_seven, R.mipmap.juxing_eight, R.mipmap.juxing_nine
+            R.mipmap.juxing, R.mipmap.juxing_five,
+            R.mipmap.juxing_six,  R.mipmap.juxing_eight, R.mipmap.juxing_four
     };
 
+//    private String[] names = new String[]{
+//            "免费兑", "家电", "服装", "数码", "领券", "签到", "充值", "品牌", "发现", "分类"
+//    };
+
     private String[] names = new String[]{
-            "免费兑", "家电", "服装", "数码", "领券", "签到", "充值", "品牌", "发现", "分类"
+            "免费兑", "签到", "充值", "抽免单", "领券"
     };
 
     private Integer[] picture = new Integer[]{
-            R.mipmap.duihuan, R.mipmap.bingxiang, R.mipmap.close, R.mipmap.shuma, R.mipmap.quan, R.mipmap.qiandao, R.mipmap.chongzhi, R.mipmap.pinpai,
-            R.mipmap.find, R.mipmap.leibie,
+            R.mipmap.duihuan, R.mipmap.qiandao, R.mipmap.chongzhi,
+            R.mipmap.find, R.mipmap.quan
     };
     private MenuAdapter mMainAdapter;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
@@ -274,7 +283,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });
 
         mMainMenus = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i <5; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i], picture[i]));
         }
         mMainAdapter = new MenuAdapter(R.layout.item_main_menu, mMainMenus);

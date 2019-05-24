@@ -200,12 +200,13 @@
             android:id="@+id/sv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:background="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#F5F5F5"
+                android:background="@color/white"
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -215,7 +216,8 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    ratios:ignore="ExtraText">
+                    ratios:ignore="ExtraText"
+                    android:background="@color/white">
 
                     <com.zhenghaikj.shop.widget.RatioLayout
                         android:layout_width="match_parent"
@@ -235,7 +237,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="140dp"
-                        android:background="#EEEEEE"
+                        android:background="@color/white"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -304,10 +306,15 @@
                                 android:layout_height="wrap_content"
                                 android:nestedScrollingEnabled="false"
                                 android:overScrollMode="never"
-                                android:padding="10dp"
-                                android:visibility="gone" />
+                                android:padding="10dp" />
                         </RelativeLayout>
 
+
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/home_banner_top"/>
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
