@@ -46,6 +46,33 @@ public class LimitBuyListResult implements Serializable {
         private String ProductName;
         private double MinPrice;
         private String EndDate;
+        private String MarketPrice;
+        private int SaleCount;
+        private int Quantity;
+
+        public String getMarketPrice() {
+            return MarketPrice;
+        }
+
+        public void setMarketPrice(String marketPrice) {
+            MarketPrice = marketPrice;
+        }
+
+        public int getSaleCount() {
+            return SaleCount;
+        }
+
+        public void setSaleCount(int saleCount) {
+            SaleCount = saleCount;
+        }
+
+        public int getQuantity() {
+            return Quantity;
+        }
+
+        public void setQuantity(int quantity) {
+            Quantity = quantity;
+        }
 
         public int getId() {
             return Id;

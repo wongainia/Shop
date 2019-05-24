@@ -4,114 +4,133 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        >
+
+        <com.zhenghaikj.shop.widget.MyImageView
+            android:id="@+id/iv_goods_picture"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/goods"/>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-          >
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
 
-            <com.zhenghaikj.shop.widget.MyImageView
-                android:id="@+id/iv_goods_picture"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/goods"/>
+            <TextView
+                android:id="@+id/tv_goods_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新鲜使用薄荷茶"
+                android:textSize="13sp"
+                android:textColor="@color/black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineSpacingExtra="3dp"/>
 
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="领券立减40"
+                android:textSize="10sp"
+                android:layout_marginTop="5dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp">
-
-                <TextView
-                    android:id="@+id/tv_goods_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="新鲜使用薄荷茶"
-                    android:textSize="13sp"
-                    android:textColor="@color/black"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:lineSpacingExtra="3dp"/>
-
-                <TextView
-                    android:id="@+id/tv_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="领券立减40"
-                    android:textSize="10sp"
-                    android:layout_marginTop="5dp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:orientation="vertical">
-                    <LinearLayout
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="￥"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"/>
+                    <TextView
+                        android:id="@+id/tv_money_now"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21.6"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_money_old"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="￥"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"/>
-                        <TextView
-                            android:id="@+id/tv_money_now"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="21.6"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"/>
+                        android:layout_weight="1"
+                        android:text="￥59"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="5dp"/>
 
-                        <TextView
-                            android:id="@+id/tv_money_old"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="￥59"
-                            android:textSize="10sp"
-                            android:layout_marginLeft="5dp"/>
-
-                        <TextView
-                            android:id="@+id/tv_send"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="right"
-                            android:text="收货送100西瓜币"
-                            android:textSize="10sp"
-                            android:textColor="@color/red"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_send"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="收货送100西瓜币"
+                        android:textSize="10sp"
+                        android:textColor="@color/red"
+                        android:visibility="gone"/>
+                </LinearLayout>
 
-                        <com.zhenghaikj.shop.widget.SaleProgressView
-                            android:id="@+id/spv"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.zhenghaikj.shop.widget.SaleProgressView
+                        android:id="@+id/spv"
+                        android:layout_width="100dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="5dp"
+                        app:nearOverText="@string/nearOverText"
+                        app:overText="@string/overText"
+                        android:visibility="visible"/>
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:layout_width="102dp"
+                        android:layout_height="12dp"
+                        android:background="@drawable/progress_shape"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <com.vondear.rxui.view.roundprogressbar.RxRoundProgressBar
+                            android:id="@+id/rx_round_pd4"
                             android:layout_width="100dp"
-                            android:layout_height="15dp"
-                            android:layout_marginTop="5dp"
-                            app:nearOverText="@string/nearOverText"
-                            app:overText="@string/overText"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
-                        <TextView
+                            android:layout_height="10dp"
+                            app:rcBackgroundColor="@color/white"
+                            app:rcMax="100"
+                            app:rcProgress="90"
+                            app:rcProgressColor="@color/custom_progress_orange_progress_half"
+                            app:rcRadius="5dp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <TextView
                         android:id="@+id/tv_grab_immediately"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,14 +142,14 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:background="@drawable/goods_detail_round"/>
-                    </LinearLayout>
-
                 </LinearLayout>
 
             </LinearLayout>
 
-
         </LinearLayout>
+
+
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"

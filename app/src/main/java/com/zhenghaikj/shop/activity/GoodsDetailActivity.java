@@ -1055,8 +1055,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mTvSellerServiceScore.setText(result.getShop().getServiceMark() + "");
             mTvBabyDescriptionScore.setText(result.getShop().getProductMark() + "");
             mTvLogisticsServicesScore.setText(result.getShop().getPackMark() + "");
-            mStateLayout.changeState(StateFrameLayout.SUCCESS);
-            mPresenter.GetProductCommentShow(id, Userkey);
             mPresenter.ProductComment(id, String.valueOf(1), "10", "0");
         } else {
             mStateLayout.changeState(StateFrameLayout.EMPTY);
@@ -1317,11 +1315,14 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mTvUsername.setVisibility(View.GONE);
             mTvContent.setText(result.getErrorMsg());
         }
+        mStateLayout.changeState(StateFrameLayout.SUCCESS);
+
     }
 
     @Override
     public void ProductComment(Comment Result) {
         mTvBabyEvaluation.setText("宝贝评价(" + Result.getAllCommentCount() + ")");
+        mPresenter.GetProductCommentShow(id, Userkey);
     }
 
 
