@@ -536,25 +536,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
         return message;
     }
-
-    /*获得优惠券添加方法*/
-    /*public String getcoupons(List<StoreBean> list){
-         String onecoupons="";
-        for (int i = 0; i < list.size(); i++) {  //购物券添加
-            if (list.get(i).getOneCoupons()==null){
-                onecoupons+=",";
-            }else {
-                onecoupons+=",_"+list.get(i).getOneCoupons().getBaseId();
-            }
-        }
-
-        if (onecoupons.length()>1){
-            onecoupons=onecoupons.substring(1,onecoupons.length());
-        }else {
-            onecoupons="";
-        }
-         return onecoupons;
-    }*/
     /*获得优惠券添加方法*/
     public String getcoupons(List<StoreBean> list){
         String onecoupons="";

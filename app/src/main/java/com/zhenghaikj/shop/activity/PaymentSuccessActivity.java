@@ -16,6 +16,8 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.PaymentSuccessAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.mvp.contract.PaymentSuccessContract;
 import com.zhenghaikj.shop.mvp.model.PaymentSuccessModel;
@@ -133,6 +135,11 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
 
          mTvcount.setText("数量: "+result.getOrderItem().get(0).getCount());
      }
+    }
+
+    @Override
+    public void IsMallid(BaseResult<Data<String>> baseResult) {
+
     }
 
     @Override

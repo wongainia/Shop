@@ -24,6 +24,18 @@ public class OrderDetailPresenter extends OrderDetailContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void IsMallid(String MallID) {
+        mModel.IsMallid(MallID)
+                .subscribe(new BaseObserver2<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.IsMallid(value);
+                    }
+                });
+    }
+
     @Override
     public void GetOrderDetail(String id, String userkey) {
         mModel.GetOrderDetail(id, userkey)

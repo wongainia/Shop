@@ -2,6 +2,9 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
 import com.zhenghaikj.shop.mvp.contract.PaymentSuccessContract;
@@ -34,5 +37,11 @@ public class PaymentSuccessModel implements PaymentSuccessContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
+    @Override
+    public Observable<BaseResult<Data<String>>> IsMallid(String MallID) {
+        return ApiRetrofit2.getDefault().IsMallid(MallID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
 
+    }
 }

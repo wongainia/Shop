@@ -32,6 +32,7 @@ public class OrderDetailAdapter extends BaseQuickAdapter<OrderDetail.OrderItemBe
                 .setText(R.id.tv_goods_number,"×"+item.getCount());
         ImageView icon = helper.getView(R.id.iv_goods_picture);
         GlideUtil.loadImageViewLoding(mContext,item.getProductImage(),icon,R.drawable.image_loading,R.drawable.image_loading);
+
         switch(status){
             case "1"://待付款
             case "2"://待消费
@@ -43,11 +44,21 @@ public class OrderDetailAdapter extends BaseQuickAdapter<OrderDetail.OrderItemBe
             case "6"://待自提
             case "7"://未评价
                 helper.setGone(R.id.tv_apply_refund,true);
+
+                if (!item.isIsCanRefund()){
+                    helper.getView(R.id.tv_apply_refund).setClickable(false);
+                    helper.setText(R.id.tv_apply_refund,"售后处理中..");
+                }else {
+                    helper.addOnClickListener(R.id.tv_apply_refund);
+                }
+
+
                 break;
             default:
                 helper.setGone(R.id.tv_apply_refund,false);
                 break;
         }
-        helper.addOnClickListener(R.id.tv_apply_refund);
+
+
     }
 }

@@ -62,7 +62,7 @@ public class Refund implements Serializable {
         private String ShopName;
         private int Vshopid;
         private String RefundStatus;
-        private int Id;
+        private String Id;
         private String ProductName;
         private double EnabledRefundAmount;
         private double Amount;
@@ -70,7 +70,7 @@ public class Refund implements Serializable {
         private int ShopId;
         private String RefundMode;
         private int RefundModeValue;
-        private long OrderId;
+        private String OrderId;
         private String SellerAuditStatus;
         private int SellerAuditStatusValue;
         private List<OrderItemsBean> OrderItems;
@@ -99,12 +99,12 @@ public class Refund implements Serializable {
             this.RefundStatus = RefundStatus;
         }
 
-        public int getId() {
+        public String getId() {
             return Id;
         }
 
-        public void setId(int Id) {
-            this.Id = Id;
+        public void setId(String id) {
+            Id = id;
         }
 
         public String getProductName() {
@@ -163,12 +163,12 @@ public class Refund implements Serializable {
             this.RefundModeValue = RefundModeValue;
         }
 
-        public long getOrderId() {
+        public String getOrderId() {
             return OrderId;
         }
 
-        public void setOrderId(long OrderId) {
-            this.OrderId = OrderId;
+        public void setOrderId(String orderId) {
+            OrderId = orderId;
         }
 
         public String getSellerAuditStatus() {

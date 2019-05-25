@@ -125,6 +125,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_install"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -162,12 +163,14 @@
                 android:layout_marginLeft="@dimen/dp_10"/>
         </LinearLayout>
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#BFBFBF"
             android:layout_marginLeft="23dp"
             android:layout_marginRight="23dp"/>
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_service"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -205,6 +208,7 @@
                 android:layout_marginLeft="@dimen/dp_10"/>
         </LinearLayout>
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#BFBFBF"

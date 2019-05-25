@@ -23,10 +23,16 @@ public interface OrderDetailContract {
         //查询物流Or
         Observable<String> GetExpressInfo(String orderId,String userkey);
 
+
         Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr);
         Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr);
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<EasyResult> PostChangeOrderState(String orderId);
+
+
+        /*判断商品工单号是否发起过保内安装*/
+        Observable<BaseResult<Data<String>>> IsMallid(String MallID);
+
     }
 
     interface View extends BaseView{
@@ -39,6 +45,8 @@ public interface OrderDetailContract {
         void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult);
         void WXNotifyManual(BaseResult<Data<String>> baseResult);
         void PostChangeOrderState(EasyResult baseResult);
+
+        void IsMallid(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -51,6 +59,8 @@ public interface OrderDetailContract {
         public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void PostChangeOrderState(String orderId);
+
+        public abstract void IsMallid(String MallID);
 
     }
 }

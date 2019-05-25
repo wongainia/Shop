@@ -319,6 +319,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             bottomSheetDialog.dismiss();
             Intent intent=new Intent(mActivity, DeliverySuccessActivity.class);
             intent.putExtra("OrderID",OrderId);
+    
+
+
             startActivity(intent);
 
         }

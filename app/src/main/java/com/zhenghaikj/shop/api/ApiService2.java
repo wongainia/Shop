@@ -135,7 +135,8 @@ public interface ApiService2 {
                                                   @Field("Num") String Num,
                                                   @Field("IsRecevieGoods") String IsRecevieGoods,
                                                   @Field("ExpressNo") String ExpressNo,
-                                                  @Field("MallID") String MallID);
+                                                  @Field("MallID") String MallID
+                                                  );
 
 
     @FormUrlEncoded
@@ -459,5 +460,14 @@ public interface ApiService2 {
     @FormUrlEncoded
     @POST("Account/GetBankNameByCardNo")
     Observable<BaseResult<Data<String>>> GetBankNameByCardNo(@Field("CardNo") String CardNo);
+
+
+
+    /*判断商品工单号是否发起过保内安装*/
+    @FormUrlEncoded
+    @POST("Order/IsMallid")
+    Observable<BaseResult<Data<String>>> IsMallid(@Field("MallID") String MallID);
+
+
 
 }

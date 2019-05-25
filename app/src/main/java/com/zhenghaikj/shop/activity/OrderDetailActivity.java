@@ -22,11 +22,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
 import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
@@ -52,6 +54,8 @@ import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
 import com.zhenghaikj.shop.mvp.model.OrderDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.OrderDetailPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
+import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
+import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -70,7 +74,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View {
+public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View, PasswordEditText.PasswordFullListener {
 
     private static final String TAG = "OrderDetailActivity";
     @BindView(R.id.view)
@@ -185,7 +189,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private WXpayInfo wXpayInfo;
     private String orderinfo;
     private PopupWindow mPopupWindow;
-
+    private BottomSheetDialog bottomSheetDialog;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_order_detail;
@@ -212,15 +216,16 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
         id = getIntent().getStringExtra("orderId");
+        mPresenter.GetOrderDetail(id, userKey);
+        mPresenter.IsMallid(id);
 
         api = WXAPIFactory.createWXAPI(mActivity, "wx92928bf751e1628e");
         // 将该app注册到微信
         api.registerApp("wx92928bf751e1628e");
 
-       mPresenter.GetOrderDetail(id, userKey);
-
-
         myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+
+
     }
 
     @Override
@@ -277,6 +282,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 startActivity(intent);
             }
         });
+
+
     }
 
     @Override
@@ -309,6 +316,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 myClip = ClipData.newPlainText("", id);
                 myClipboard.setPrimaryClip(myClip);
                 ToastUtils.showShort("复制成功");
+
                 break;
             case R.id.tv_buy:
             case R.id.tv_buy_again://再次购买
@@ -320,21 +328,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mPresenter.PostCloseOrder(id,userKey);
                 break;
             case R.id.tv_confirm_receipt://确认收货
-                final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                dialog.setImageResId(R.mipmap.icon_shouhuo)
-                        .setTitle("是否确认收货?")
-                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                    @Override
-                    public void onPositiveClick() {//确认收货
-                        mPresenter.PostConfirmOrder(id,userKey);
-                        dialog.dismiss();
-                    }
-
-                    @Override
-                    public void onNegtiveClick() {//取消
-                        dialog.dismiss();
-                    }
-                }).show();
+                openPayPasswordDialog();
                 break;
             case R.id.tv_payment://付款
                 showPopupWindow(orderBean);
@@ -378,7 +372,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     public void GetOrderDetail(OrderDetail result) {
 
         if (result.isSuccess()) {
-//           orderBeans.addAll(result.getOrder());
+
             orderBean = result.getOrder();
             mTvShip.setText(orderBean.getStatus());
             mTvName.setText(orderBean.getShipTo());
@@ -447,9 +441,11 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     @Override
     public void PostConfirmOrder(ConfirmOrder Result) {
         if ("true".equals(Result.getSuccess())){
+            bottomSheetDialog.dismiss();
             Intent intent=new Intent(mActivity, DeliverySuccessActivity.class);
             intent.putExtra("OrderID",id);
             startActivity(intent);
+            OrderDetailActivity.this.finish();
         }
     }
     /**
@@ -675,6 +671,20 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
     }
 
+
+    @Override
+    public void IsMallid(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                  if (!baseResult.getData().isItem1()){
+                      //没发过安装单可以安装
+                      mTv_yuyue.setText("已预约");
+                      mTv_yuyue.setClickable(false);
+                  }
+                break;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -685,7 +695,35 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             }
 
         }
+    }
 
+    /*支付密码*/
+    private void openPayPasswordDialog() {
+        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
+        bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(payPasswordView);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.show();
+        /*注册监听*/
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        /*关闭*/
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+    }
+
+    @Override
+    public void passwordFull(String password) {
+        if ("888888".equals(password)){
+            mPresenter.PostConfirmOrder(id,userKey);
+
+        }else {
+            Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

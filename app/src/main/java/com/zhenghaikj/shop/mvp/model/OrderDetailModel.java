@@ -121,4 +121,14 @@ public class OrderDetailModel implements OrderDetailContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> IsMallid(String MallID) {
+        return ApiRetrofit2.getDefault().IsMallid(MallID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+
+    }
+
+
 }

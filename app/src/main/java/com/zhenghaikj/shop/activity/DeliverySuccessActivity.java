@@ -17,6 +17,8 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.PaymentSuccessAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.mvp.contract.PaymentSuccessContract;
 import com.zhenghaikj.shop.mvp.model.PaymentSuccessModel;
@@ -132,6 +134,19 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
          mTvShop.setText(result.getOrderItem().get(0).getProductName());
 
      }
+    }
+
+    @Override
+    public void IsMallid(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (!baseResult.getData().isItem1()){
+                    mTvyuyue.setText("已预约");
+                    mTvyuyue.setClickable(false);
+                }
+                break;
+        }
+
     }
 
     @Override
