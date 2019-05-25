@@ -673,12 +673,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     @Override
     public void PersonalInformation(PersonalInformation result) {
         if (result.isSuccess()) {
-            if (result.getUserName().equals(result.getCellPhone())) {
-                mTvUsername.setText("未设置昵称");
-            } else {
-                mTvUsername.setText(result.getUserName());
-            }
-
+//            if (result.getUserName().equals(result.getCellPhone())) {
+//                mTvUsername.setText("未设置昵称");
+//            } else {
+//                mTvUsername.setText(result.getNick());
+//            }
+            mTvUsername.setText(result.getNick());
             mTvPhone.setText(result.getCellPhone());
             /*设置头像*/
             if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像

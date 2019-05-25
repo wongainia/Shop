@@ -26,6 +26,7 @@ public class PersonalInformation implements Serializable {
 
     private boolean Success;
     private String UserName;
+    private String Nick;
     private String UserId;
     private String Photo;
     private String AllOrders;
@@ -56,6 +57,14 @@ public class PersonalInformation implements Serializable {
 
     public void setUserName(String UserName) {
         this.UserName = UserName;
+    }
+
+    public String getNick() {
+        return Nick;
+    }
+
+    public void setNick(String nick) {
+        Nick = nick;
     }
 
     public String getUserId() {

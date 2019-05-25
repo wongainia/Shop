@@ -69,10 +69,11 @@
                                         android:id="@+id/tv_username"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="未设置昵称"
+                                        android:text=""
                                         android:textColor="@color/black"
                                         android:textSize="16sp" />
                                     <ImageView
+                                        android:visibility="gone"
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
                                         android:src="@drawable/right_arrow_black"/>
@@ -84,7 +85,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="159****1213"
                                     android:textColor="@color/white"
-                                    android:textSize="14sp" />
+                                    android:textSize="14sp"
+                                    android:visibility="gone"/>
 
                                 <LinearLayout
                                     android:id="@+id/ll_integral"
