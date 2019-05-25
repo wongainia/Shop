@@ -371,6 +371,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
+        if ("UpdateOrderCount".equals(name)) {
+            mPresenter.PersonalInformation(userKey);
+        }
         if (!"PersonalInformation".equals(name)) {
             return;
         }

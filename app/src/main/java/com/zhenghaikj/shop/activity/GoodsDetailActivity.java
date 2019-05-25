@@ -1306,6 +1306,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     /*收藏*/
     @Override
     public void PostAddFavoriteProduct(CollectResult Result) {
+        EventBus.getDefault().post("UpdateOrderCount");//更新个人中心收藏数量
     }
 
     /*获取商品第一条评论*/
@@ -1320,7 +1321,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mTvContent.setText(result.getErrorMsg());
         }
         mStateLayout.changeState(StateFrameLayout.SUCCESS);
-
+        EventBus.getDefault().post("UpdateOrderCount");//更新个人中心足迹数量
     }
 
     @Override

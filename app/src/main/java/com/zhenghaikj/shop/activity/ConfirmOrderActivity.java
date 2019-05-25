@@ -444,6 +444,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         if (result.getSuccess().equals("true")){
 //            ConfirmOrderActivity.this.finish();
 //            Toast.makeText(mActivity,"提交成功待支付",Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post("UpdateOrderCount");
             for (int i = 0; i < result.getOrderIds().size(); i++) {
                 OrderId+=result.getOrderIds().get(i)+",";
             }
@@ -460,6 +461,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         if (result.getSuccess().equals("true")){
 //            ConfirmOrderActivity.this.finish();
             EventBus.getDefault().post("cart");
+            EventBus.getDefault().post("UpdateOrderCount");//更新个人中心订单数量
 //            Toast.makeText(mActivity,"提交成功待支付",Toast.LENGTH_SHORT).show();
             for (int i = 0; i < result.getOrderIds().size(); i++) {
                 OrderId+=result.getOrderIds().get(i)+",";
@@ -536,7 +538,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     }
 
     /*获得优惠券添加方法*/
-    public String getcoupons(List<StoreBean> list){
+    /*public String getcoupons(List<StoreBean> list){
          String onecoupons="";
         for (int i = 0; i < list.size(); i++) {  //购物券添加
             if (list.get(i).getOneCoupons()==null){
@@ -552,8 +554,20 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             onecoupons="";
         }
          return onecoupons;
+    }*/
+    /*获得优惠券添加方法*/
+    public String getcoupons(List<StoreBean> list){
+        String onecoupons="";
+        for (int i = 0; i < list.size(); i++) {  //购物券添加
+            if (list.get(i).getOneCoupons()!=null){
+                onecoupons+=list.get(i).getOneCoupons().getBaseId()+"_"+list.get(i).getOneCoupons().getBaseType()+",";
+            }
+        }
+        if (onecoupons.contains(",")) {
+            onecoupons=onecoupons.substring(0,onecoupons.lastIndexOf(","));
+        }
+        return onecoupons;
     }
-
 
     /**
      * 弹出付款Popupwindow
@@ -578,7 +592,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
-                mPopupWindow.dismiss();
+//                mPopupWindow.dismiss();
             }
         });
 
@@ -590,7 +604,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
-                mPopupWindow.dismiss();
+//                mPopupWindow.dismiss();
             }
         });
 
@@ -599,7 +613,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             public void onClick(View v) {
                 if (userInfo.getTotalMoney()-GetConfirmModel.getTotalAmount()>=0){
 //                    mPresenter.GetOrderStr(userName,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
-                    mPopupWindow.dismiss();
+//                    mPopupWindow.dismiss();
                 }else {
                     ToastUtils.showShort("余额不足，请充值或选择别的支付方式");
                 }
@@ -621,6 +635,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             @Override
             public void onDismiss() {
                 MyUtils.setWindowAlpa(mActivity, false);
+                cancelto();
             }
         });
         if (mPopupWindow != null && !mPopupWindow.isShowing()) {
@@ -629,6 +644,20 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         MyUtils.setWindowAlpa(mActivity, true);
     }
 
+    /**
+     * 取消支付跳转页面，一个订单号跳详情，多个订单号跳列表
+     */
+    public void cancelto(){
+        if (OrderId.contains(",")){
+            intent = new Intent(mActivity, OrderActivity.class);
+            intent.putExtra("intent", "待付款");
+        }else{
+            intent =new Intent(mActivity,OrderDetailActivity.class);
+            intent.putExtra("orderId",OrderId);
+        }
+        startActivity(intent);
+        finish();
+    }
     /**
      * 支付宝支付业务
      *
@@ -706,10 +735,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付失败");
-                        intent =new Intent(mActivity,OrderDetailActivity.class);
-                        intent.putExtra("orderId",OrderId);
-                        startActivity(intent);
-                        finish();
+
                     }
                     break;
                 }
@@ -737,17 +763,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 break;
             case -1:
                 ToastUtils.showShort("支付出错");
-                intent =new Intent(mActivity,OrderDetailActivity.class);
-                intent.putExtra("orderId",OrderId);
-                startActivity(intent);
-                finish();
+                cancelto();
                 break;
             case -2:
                 ToastUtils.showShort("支付取消");
-                intent =new Intent(mActivity,OrderDetailActivity.class);
-                intent.putExtra("orderId",OrderId);
-                startActivity(intent);
-                finish();
+                cancelto();
                 break;
         }
 
@@ -764,18 +784,12 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     }
                 }else{
                     ToastUtils.showShort("获取支付信息失败！");
-                    intent =new Intent(mActivity,OrderDetailActivity.class);
-                    intent.putExtra("orderId",OrderId);
-                    startActivity(intent);
-                    finish();
+                    cancelto();
                 }
                 break;
             default:
                 ToastUtils.showShort("获取支付信息失败！");
-                intent =new Intent(mActivity,OrderDetailActivity.class);
-                intent.putExtra("orderId",OrderId);
-                startActivity(intent);
-                finish();
+                cancelto();
                 break;
         }
     }
@@ -791,18 +805,12 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     }
                 }else{
                     ToastUtils.showShort("获取支付信息失败！");
-                    intent =new Intent(mActivity,OrderDetailActivity.class);
-                    intent.putExtra("orderId",OrderId);
-                    startActivity(intent);
-                    finish();
+                    cancelto();
                 }
                 break;
             default:
                 ToastUtils.showShort("获取支付信息失败！");
-                intent =new Intent(mActivity,OrderDetailActivity.class);
-                intent.putExtra("orderId",OrderId);
-                startActivity(intent);
-                finish();
+                cancelto();
                 break;
         }
     }
