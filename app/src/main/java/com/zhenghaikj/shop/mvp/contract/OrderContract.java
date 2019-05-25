@@ -27,6 +27,7 @@ public interface OrderContract {
         Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid,String Bisid,String OrderId, String TotalAmount, JSONArray jsonStr);
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<EasyResult> PostChangeOrderState(String orderId);
+        Observable<EasyResult> CancelOrder(String orderId,String userid);
 
     }
 
@@ -40,6 +41,7 @@ public interface OrderContract {
         void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult);
         void WXNotifyManual(BaseResult<Data<String>> baseResult);
         void PostChangeOrderState(EasyResult baseResult);
+        void CancelOrder(EasyResult baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -52,5 +54,6 @@ public interface OrderContract {
         public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void PostChangeOrderState(String orderId);
+        public abstract void CancelOrder(String orderId,String userid);
     }
 }

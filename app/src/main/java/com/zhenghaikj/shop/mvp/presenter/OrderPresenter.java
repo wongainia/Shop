@@ -45,6 +45,16 @@ public class OrderPresenter extends OrderContract.Presenter {
                     }
                 });
     }
+    @Override
+    public void CancelOrder(String orderId, String userkey) {
+        mModel.CancelOrder(orderId, userkey)
+                .subscribe(new BaseObserver<EasyResult>() {
+                    @Override
+                    protected void onHandleSuccess(EasyResult value) {
+                        mView.CancelOrder(value);
+                    }
+                });
+    }
 
     @Override
     public void PostConfirmOrder(String orderId, String userkey) {

@@ -144,7 +144,7 @@ public class CouponFragment extends BaseLazyFragment<CouponPresenter, CouponMode
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
         switch (name){
-            case "evaluate":
+            case "待评价":
 //                mPresenter.GetOrders("5", Integer.toString(pagaNo), "10", userKey);
                 break;
 

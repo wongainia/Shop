@@ -64,7 +64,6 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.PersonalInformation;
-import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
@@ -316,10 +315,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 });
 
 
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        isLogin = spUtils.getBoolean("isLogin");
+
 //        mPresenter.GetOrderByhmall(userName);
 //        mPresenter.GetOrderInfoList(userName,"5","1","1");
 //        mPresenter.GetOrderByhmalluserid(userName);
@@ -369,11 +365,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     @Override
     protected void initView() {
         EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
+        isLogin = spUtils.getBoolean("isLogin");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if ("UpdateOrderCount".equals(name)) {
+        if ("UpdateOrderCount".equals(name)) {//更新各种数量
             mPresenter.PersonalInformation(userKey);
         }
         if (!"PersonalInformation".equals(name)) {

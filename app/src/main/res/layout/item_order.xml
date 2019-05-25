@@ -89,6 +89,39 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/ll_close"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/tv_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/gray_circle_shape"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="删除订单"
+                    android:textColor="#333" />
+                <TextView
+                    android:id="@+id/tv_buy_again"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/gray_circle_shape"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="再次购买"
+                    android:textColor="#333" />
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/ll_all_orders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,9 +131,10 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/tv_delete_order"
+                    android:id="@+id/tv_delete2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:background="@drawable/gray_circle_shape"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
@@ -191,11 +225,22 @@
                 android:gravity="right"
                 android:orientation="horizontal"
                 android:visibility="gone">
-
+                <TextView
+                    android:id="@+id/tv_delete_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gray_circle_shape"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="取消订单"
+                    android:textColor="#333" />
                 <TextView
                     android:id="@+id/tv_friend_pay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:background="@drawable/gray_circle_shape"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
@@ -217,18 +262,7 @@
                     android:text="付款"
                     android:textColor="@color/red" />
 
-                <TextView
-                    android:id="@+id/tv_buy_again"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/gray_circle_shape"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="5dp"
-                    android:text="再次购买"
-                    android:textColor="#333" />
+
 
             </LinearLayout>
 

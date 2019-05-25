@@ -54,6 +54,7 @@ import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
 import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
@@ -103,6 +104,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private JSONArray jsonArray;
 
     private BottomSheetDialog bottomSheetDialog;
+    private int closeid;
 
 
     public static OrderFragment newInstance(String param1, String param2) {
@@ -129,14 +131,14 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         // 将该app注册到微信
         api.registerApp("wx92928bf751e1628e");
 
-        getData();
+        getData(mParam1);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mRefreshLayout.setNoMoreData(false);
                 cartList.clear();
                 pagaNo = 1;
-                getData();
+                getData(mParam1);
             }
         });
 
@@ -146,7 +148,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 pagaNo++;
-                getData();
+                getData(mParam1);
             }
         });
 
@@ -169,8 +171,14 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 //                        startActivity(new Intent(mActivity, OrderDetailActivity.class));
 //                        mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                         break;
-                    case R.id.tv_delete_order://删除订单
+                    case R.id.tv_delete2://删除订单
+                    case R.id.tv_delete://删除订单
+                        closeid =position;
+                        mPresenter.CancelOrder(cartList.get(position).getId(),"0");
+                        break;
+                    case R.id.tv_delete_order://取消订单
                         Log.d(TAG,"编号："+cartList.get(position).getId());
+                        closeid =position;
                         mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                         break;
                     case R.id.tv_confirm_receipt://确认收货
@@ -230,7 +238,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 mRefreshLayout.setNoMoreData(false);
                 cartList.clear();
                 pagaNo = 1;
-                getData();
+                getData(mParam1);
             }
         });
 
@@ -240,13 +248,13 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 pagaNo++;
-                getData();
+                getData(mParam1);
             }
         });
 
     }
 
-    public void getData() {
+    public void getData(String mParam1) {
         switch (mParam1) {
             case "全部":
                 mPresenter.GetOrders("0", Integer.toString(pagaNo), "10", userKey);
@@ -269,14 +277,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        switch (name){
-            case "evaluate":
-                mPresenter.GetOrders("5", Integer.toString(pagaNo), "10", userKey);
-                break;
-
-        }
-
-
+        getData(name);
     }
 
     @Override
@@ -308,7 +309,26 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     @Override
     public void PostCloseOrder(CloseOrder Result) {
         if (Result.isSuccess()){
-            getData();
+            switch (mParam1) {
+                case "全部":
+                    cartList.get(closeid).setStatus("已关闭");
+                    cartList.get(closeid).setOrderStatus(4);
+                    break;
+                case "待付款":
+                    cartList.remove(closeid);
+                    break;
+            }
+            orderListAdapter.notifyDataSetChanged();
+            EventBus.getDefault().post("UpdateOrderCount");
+        }
+    }
+
+    @Override
+    public void CancelOrder(EasyResult baseResult) {
+        if (baseResult.getSuccess()){
+            cartList.remove(closeid);
+            orderListAdapter.notifyDataSetChanged();
+            EventBus.getDefault().post("UpdateOrderCount");
         }
     }
 

@@ -203,4 +203,9 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
     public void PostChangeOrderState(EasyResult baseResult) {
 
     }
+
+    @Override
+    public void CancelOrder(EasyResult baseResult) {
+
+    }
 }

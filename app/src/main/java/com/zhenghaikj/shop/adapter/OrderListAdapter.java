@@ -34,8 +34,9 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
          .setText(R.id.tv_goods_number,"共"+item.getProductCount()+"件商品")
          .setText(R.id.tv_goods_price,"合计："+item.getOrderTotalAmount());
         helper.setText(R.id.tv_trading_status,item.getStatus());
-        helper.addOnClickListener(R.id.tv_trading_status);
-        helper.addOnClickListener(R.id.tv_delete_order);//删除订单
+        helper.addOnClickListener(R.id.tv_delete2);//删除订单
+        helper.addOnClickListener(R.id.tv_delete);//删除订单
+        helper.addOnClickListener(R.id.tv_delete_order);//取消订单
         helper.addOnClickListener(R.id.tv_confirm_receipt);//确认收货
         helper.addOnClickListener(R.id.tv_payment);//付款
         helper.addOnClickListener(R.id.tv_friend_pay);//朋友代付
@@ -51,33 +52,44 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.setAdapter(orderListAdapter2);
 
-        if (item.getOrderStatus()==5){
+        if (item.getOrderStatus()==5||item.getOrderStatus()==7){//已完成||未评价
 
             helper.setVisible(R.id.ll_pending_payment,false);
             helper.setVisible(R.id.ll_pending_receipt,false);
             helper.setVisible(R.id.ll_all_orders,true);
             helper.setVisible(R.id.ll_to_be_delivered,false);
+            helper.setVisible(R.id.ll_close,false);
         }
 
-        if (item.getOrderStatus()==1){
+        if (item.getOrderStatus()==1){//待付款
             helper.setVisible(R.id.ll_pending_payment,true);
             helper.setVisible(R.id.ll_pending_receipt,false);
             helper.setVisible(R.id.ll_all_orders,false);
             helper.setVisible(R.id.ll_to_be_delivered,false);
+            helper.setVisible(R.id.ll_close,false);
         }
 
-        if (item.getOrderStatus()==2){
+        if (item.getOrderStatus()==2){//待发货
             helper.setVisible(R.id.ll_pending_payment,false);
             helper.setVisible(R.id.ll_pending_receipt,false);
             helper.setVisible(R.id.ll_all_orders,false);
             helper.setVisible(R.id.ll_to_be_delivered,true);
+            helper.setVisible(R.id.ll_close,false);
         }
 
-        if (item.getOrderStatus()==3){
+        if (item.getOrderStatus()==3||item.getOrderStatus()==6){//待收货带自提
             helper.setVisible(R.id.ll_pending_payment,false);
             helper.setVisible(R.id.ll_pending_receipt,true);
             helper.setVisible(R.id.ll_all_orders,false);
             helper.setVisible(R.id.ll_to_be_delivered,false);
+            helper.setVisible(R.id.ll_close,false);
+        }
+        if (item.getOrderStatus()==4){//已关闭，被取消的订单
+            helper.setVisible(R.id.ll_pending_payment,false);
+            helper.setVisible(R.id.ll_pending_receipt,false);
+            helper.setVisible(R.id.ll_all_orders,false);
+            helper.setVisible(R.id.ll_to_be_delivered,false);
+            helper.setVisible(R.id.ll_close,true);
         }
 
 

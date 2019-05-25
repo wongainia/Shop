@@ -122,4 +122,17 @@ public class OrderModel implements OrderContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+    @Override
+    public Observable<EasyResult> CancelOrder(String orderId,String userid) {
+        map = new HashMap<>();
+        map.put("cartitemids", userid);
+        map.put("recieveaddressid",orderId);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign= ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().CancelOrder(orderId,userid,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

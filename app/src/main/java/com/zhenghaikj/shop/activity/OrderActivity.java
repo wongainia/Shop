@@ -2,14 +2,11 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
@@ -20,6 +17,9 @@ import com.zhenghaikj.shop.widget.CustomViewPager;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -79,7 +79,7 @@ public class  OrderActivity extends BaseActivity implements View.OnClickListener
 //        fragmentList.add(evaluationFragment);
 
         MyPagerAdapter myPagerAdapter=new MyPagerAdapter(getSupportFragmentManager(),fragmentList, Arrays.asList(mTitleDataList));
-        mTabOrderLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mTabOrderLayout.setTabMode(TabLayout.MODE_FIXED);
         mVpOrder.setAdapter(myPagerAdapter);
         mTabOrderLayout.setupWithViewPager(mVpOrder);
         mVpOrder.setCurrentItem(0);
