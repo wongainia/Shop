@@ -52,6 +52,7 @@ import com.zhenghaikj.shop.activity.StoreActivity;
 import com.zhenghaikj.shop.activity.WalletActivity;
 import com.zhenghaikj.shop.activity.WorkOrderActivity;
 import com.zhenghaikj.shop.activity.WorkOrderDetailActivity;
+import com.zhenghaikj.shop.adapter.LogisticsAdapter;
 import com.zhenghaikj.shop.adapter.ServiceAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
@@ -61,6 +62,7 @@ import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.Track;
@@ -455,7 +457,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_logistics:
                 //物流信息
-//                showLogistucs();
+                showLogistucs();
                 break;
             case R.id.ll_service:
                 //服务信息
@@ -596,9 +598,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     }
 
 
-    private ArrayList<Product> logisticsList = new ArrayList<>();
+    private ArrayList<Logistics> logisticsList = new ArrayList<>();
 
-    /*private void showLogistucs() {
+    private void showLogistucs() {
         customDialog = new CustomDialog(getContext());
         customDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         customDialog.show();
@@ -611,12 +613,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
         rv_logistics = customDialog.findViewById(R.id.rv_logistics);
         for (int i = 0; i < 10; i++) {
-            logisticsList.add(new Product());
+            logisticsList.add(new Logistics());
         }
         LogisticsAdapter logisticsAdapter = new LogisticsAdapter(R.layout.item_logistics, logisticsList);
         rv_logistics.setLayoutManager(new LinearLayoutManager(mActivity));
         rv_logistics.setAdapter(logisticsAdapter);
-    }*/
+    }
 
 
     private List<Track> ServiceList = new ArrayList<>();

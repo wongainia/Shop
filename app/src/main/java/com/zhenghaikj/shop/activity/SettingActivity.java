@@ -66,6 +66,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     LinearLayout mLlBrand;
     @BindView(R.id.ll_modify_payment_password)
     LinearLayout mLlModifyPaymentPassword;
+    @BindView(R.id.ll_person)
+    LinearLayout mLlPerson;
     private SPUtils spUtils;
     private String userKey;
 
@@ -108,6 +110,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
         mLlModifyMobileNumber.setOnClickListener(this);
         mBtnExit.setOnClickListener(this);
         mLlBrand.setOnClickListener(this);
+        mLlPerson.setOnClickListener(this);
     }
 
     @Override
@@ -156,6 +159,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
 
                 startActivity(new Intent(mActivity, MainActivity.class));
 
+                break;
+            case R.id.ll_person:
+                startActivity(new Intent(mActivity,PersonalInformationActivity.class));
                 break;
         }
     }

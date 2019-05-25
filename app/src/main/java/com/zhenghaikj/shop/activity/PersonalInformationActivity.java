@@ -138,6 +138,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mLlAvatar.setOnClickListener(this);
+        mLlNickname.setOnClickListener(this);
     }
 
     @Override
@@ -160,6 +161,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 }else{
                     requestPermissions(permissions.toArray(new String[permissions.size()]), 10001);
                 }
+                break;
+            case R.id.ll_nickname:
+                startActivity(new Intent(mActivity,ChageUserNameActivity.class));
                 break;
         }
     }

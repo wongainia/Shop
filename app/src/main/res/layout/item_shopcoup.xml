@@ -10,7 +10,7 @@
     android:layout_marginRight="@dimen/dp_10"
     android:layout_marginTop="@dimen/dp_6"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="#F4BD00"
+    app:cardBackgroundColor="#F97624"
     app:cardCornerRadius="@dimen/dp_10"
     app:cardElevation="0dp"
     app:contentPadding="0dp">
@@ -41,7 +41,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="优惠券"
-                android:textColor="@color/red"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="normal"/>
 
@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="领取人数"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/sp_12" />
 
                     <TextView
@@ -70,7 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0/0"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/sp_12" />
 
                 </LinearLayout>
@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="已使用"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/sp_12"/>
 
 
@@ -128,7 +128,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="立即领取"
-                android:textColor="@color/black"/>
+                android:textColor="@color/white"/>
 
 
         </LinearLayout>

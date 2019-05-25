@@ -38,12 +38,13 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.CallChageActivity;
+import com.zhenghaikj.shop.activity.CheckinActivity;
 import com.zhenghaikj.shop.activity.FoundGoodGoodsActivity;
 import com.zhenghaikj.shop.activity.GoodDailyShopActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
-import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
+import com.zhenghaikj.shop.activity.RegisterActivity;
 import com.zhenghaikj.shop.activity.SearchDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
@@ -67,7 +68,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -134,6 +134,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     RecyclerView mRvPanic;
     @BindView(R.id.tv_shop)
     TextView mTvShop;
+    @BindView(R.id.iv_register)
+    ImageView mIvRegister;
 
     private List<Product> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
@@ -176,7 +178,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     private Integer[] icons = new Integer[]{
             R.mipmap.juxing, R.mipmap.juxing_five,
-            R.mipmap.juxing_six,  R.mipmap.juxing_eight, R.mipmap.juxing_four
+            R.mipmap.juxing_six, R.mipmap.juxing_eight, R.mipmap.juxing_four
     };
 
 //    private String[] names = new String[]{
@@ -187,9 +189,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             "免费兑", "签到", "充值", "抽免单", "领券"
     };
 
+//    private Integer[] picture = new Integer[]{
+//            R.mipmap.duihuan, R.mipmap.bingxiang, R.mipmap.close, R.mipmap.shuma, R.mipmap.quan, R.mipmap.qiandao, R.mipmap.chongzhi, R.mipmap.pinpai,
+//            R.mipmap.find, R.mipmap.leibie,
+//    };
+
     private Integer[] picture = new Integer[]{
             R.mipmap.duihuan, R.mipmap.qiandao, R.mipmap.chongzhi,
-            R.mipmap.find, R.mipmap.quan
+            R.drawable.choumiandan, R.mipmap.quan
     };
     private MenuAdapter mMainAdapter;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
@@ -283,7 +290,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });
 
         mMainMenus = new ArrayList<>();
-        for (int i = 0; i <5; i++) {
+        for (int i = 0; i < 5; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i], picture[i]));
         }
         mMainAdapter = new MenuAdapter(R.layout.item_main_menu, mMainMenus);
@@ -292,12 +299,16 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mMainAdapter.setOnItemClickListener((adapter, view, position) -> {
             switch (position) {
                 case 0:
-                    startActivity(new Intent(mActivity, LoginActivity.class));
+//                    startActivity(new Intent(mActivity, LoginActivity.class));
 //                        mPresenter.GetUser("菊花之战神","abcd1234","","","");
+                    MainActivity activity = (MainActivity) getActivity();
+                    activity.setCurrentItem(3);
                     break;
                 case 1:
+                    startActivity(new Intent(mActivity, CheckinActivity.class));
                     break;
                 case 2:
+                    startActivity(new Intent(mActivity, CallChageActivity.class));
                     break;
                 case 3:
                     break;
@@ -306,7 +317,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 case 5:
                     break;
                 case 6:
-                    startActivity(new Intent(mActivity, CallChageActivity.class));
+
                     break;
                 case 7:
                     break;
@@ -387,6 +398,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mLlWatermelonCoinMall.setOnClickListener(this);
         mTvShop.setOnClickListener(this);
         mLlMemberCode.setOnClickListener(this);
+        mIvRegister.setOnClickListener(this);
     }
 
     @Override
@@ -441,6 +453,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 window.setAttributes(lp);
 //                window.setDimAmount(0.1f);
                 window.setBackgroundDrawable(new ColorDrawable());
+                break;
+            case R.id.iv_register:
+                startActivity(new Intent(mActivity, RegisterActivity.class));
                 break;
 
         }

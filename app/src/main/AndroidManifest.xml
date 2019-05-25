@@ -205,6 +205,14 @@
         <activity android:name=".activity.BrandActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
+         <activity android:name=".activity.ChageUserNameActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.CheckinActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
+
+
         <activity android:name=".activity.WorkOrderDetailActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>

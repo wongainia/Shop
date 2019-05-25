@@ -29,8 +29,8 @@ public class CallChageActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.view)
     View mView;
     private List<CallChage> callChageList = new ArrayList<>();
-    private String[] callChage = new String[]{"10元", "30元", "50元", "100元", "200元", "300元"};
-    private String[] callChagePrice = new String[]{"售价：9.98", "售价：29.94", "售价：49.90", "售价：99.80", "售价：199.60", "售价：299.40"};
+    private String[] callChage = new String[]{"10元","20元", "30元", "50元", "100元", "200元", "300元", "500元"};
+    private String[] callChagePrice = new String[]{"售价：10", "售价：20", "售价：30", "售价：50", "售价：100", "售价：200", "售价：300", "售价：500"};
     private CallChageAdapter callChageAdapter;
 
     @Override
@@ -49,7 +49,7 @@ public class CallChageActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initData() {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < callChage.length; i++) {
             callChageList.add(new CallChage(callChage[i], callChagePrice[i]));
         }
         callChageAdapter = new CallChageAdapter(R.layout.item_phone_money, callChageList);
