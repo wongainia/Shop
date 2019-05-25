@@ -1,20 +1,24 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.widget.fliplayout.FlipLayout;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CheckinActivity extends BaseActivity implements View.OnClickListener {
+/*签到页面*/
+public class CheckinActivity extends BaseActivity implements View.OnClickListener,FlipLayout.FlipOverListener {
 
     @BindView(R.id.view)
     View mView;
@@ -28,11 +32,6 @@ public class CheckinActivity extends BaseActivity implements View.OnClickListene
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.tv_one)
-    TextView mTvOne;
-    @BindView(R.id.tv_two)
-    TextView mTvTwo;
-    @BindView(R.id.tv_three)
     TextView mTvThree;
     @BindView(R.id.tv_day)
     TextView mTvDay;
@@ -41,6 +40,20 @@ public class CheckinActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.btn_check_in)
     Button mBtnCheckIn;
 
+
+    @BindView(R.id.flip_one)
+    FlipLayout mflipone;
+
+    @BindView(R.id.flip_two)
+    FlipLayout mfliptwo;
+
+    @BindView(R.id.flip_three)
+    FlipLayout mflipthree;
+
+    @BindView(R.id.pb_day)
+    ProgressBar mPbday;
+
+    private int getcurrentnum=132; //获取当前的坚持的天数
     @Override
     protected int setLayoutId() {
         return R.layout.activity_check_in;
@@ -57,7 +70,9 @@ public class CheckinActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
-
+         /*时间初始化*/
+        FlipToday();
+        mTvDay.setText(String.valueOf(mPbday.getProgress()));
     }
 
     @Override
@@ -68,6 +83,7 @@ public class CheckinActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mBtnCheckIn.setOnClickListener(this);
     }
 
 
@@ -77,6 +93,29 @@ public class CheckinActivity extends BaseActivity implements View.OnClickListene
             case R.id.icon_back:
                 finish();
                 break;
+            case R.id.btn_check_in:
+                Log.d("=====>getcurrentnum", String.valueOf(getcurrentnum));
+                mflipthree.smoothFlip(1, false);
+                getcurrentnum++;
+
+                mTvDay.setText(String.valueOf(mPbday.getProgress()+1));
+                if (getcurrentnum % 10 == 0){  //个位为0 十位翻页
+                    mfliptwo.smoothFlip(1, false);
+                }
+                if ( getcurrentnum /10%10==0&&getcurrentnum %10==0){  //个位十位都为0 百位翻页
+                    mflipone.smoothFlip(1, false);
+                }
+                if (getcurrentnum / 100 %10==0&&getcurrentnum /10%10==0&&getcurrentnum % 10 ==0){ //超过999自动回001
+                    mflipone.flip(0);
+                    mfliptwo.flip(0);
+                    mflipthree.flip(1);
+                    getcurrentnum=1;
+                }
+                mPbday.incrementProgressBy(1);
+                mBtnCheckIn.setClickable(false);
+                mBtnCheckIn.setText("今日已签到");
+                break;
+
         }
     }
 
@@ -86,4 +125,22 @@ public class CheckinActivity extends BaseActivity implements View.OnClickListene
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
+    @Override
+    public void onFLipOver(FlipLayout flipLayout) {
+
+    }
+
+    /*初始化已经连续签到的时间*/
+    public void FlipToday(){
+        int hundreds = getcurrentnum / 100;
+        int decade = getcurrentnum /10% 10 ;
+        /*个位*/
+        int unit = getcurrentnum % 10;
+        mflipone.flip(hundreds);
+        mfliptwo.flip(decade);
+        mflipthree.flip(unit);
+
+    }
+
 }
