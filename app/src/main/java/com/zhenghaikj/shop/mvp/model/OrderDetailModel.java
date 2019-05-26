@@ -9,6 +9,7 @@ import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
@@ -75,7 +76,7 @@ public class OrderDetailModel implements OrderDetailContract.Model {
     }
 
     @Override
-    public Observable<String> GetExpressInfo(String orderId, String userkey) {
+    public Observable<Express> GetExpressInfo(String orderId, String userkey) {
         map = new HashMap<>();
         map.put("orderid",orderId);
         map.put("userkey",userkey);

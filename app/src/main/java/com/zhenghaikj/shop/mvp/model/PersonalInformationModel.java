@@ -2,8 +2,12 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.UploadImgResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.PersonalInformationContract;
 
 import java.text.SimpleDateFormat;
@@ -43,4 +47,19 @@ public class PersonalInformationModel implements PersonalInformationContract.Mod
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<UserInfo>> GetUserInfoList(String UserID, String limit) {
+        return ApiRetrofit2.getDefault().GetUserInfoList(UserID,limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data>> UpdateSex(String UserID, String Sex) {
+        return ApiRetrofit2.getDefault().UpdateSex(UserID,Sex)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
 }

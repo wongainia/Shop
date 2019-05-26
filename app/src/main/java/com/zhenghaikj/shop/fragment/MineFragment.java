@@ -61,6 +61,7 @@ import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.Order;
@@ -268,6 +269,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private CustomShareListener mShareListener;
     private ShareAction mShareAction;
     private Order order;
+    private List<Logistics> expresslist;
 
 
     public static MineFragment newInstance(String param1, String param2) {
@@ -330,6 +332,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //        mPresenter.GetOrderInfoList(userName,"5","1","1");
             mPresenter.GetOrderByhmalluserid(userName);
             mPresenter.GetOrders("3", "1", "10", userKey);
+//            for (int i=0;i<order.getOrders().size();i++){
+
+//            }
         } else {
             mTvUsername.setText("未登录");
             mTvPhone.setVisibility(View.GONE);
@@ -346,7 +351,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     i = 0;
                     mPresenter.GetOrderByhmalluserid(userName);
                     mPresenter.GetOrders("3", "1", "10", userKey);
-//                    mPresenter.GetExpressInfo(order.getOrders().get(0));
 //                    mPresenter.GetOrderByhmall(userName);
                 }
 
@@ -463,7 +467,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_logistics:
                 //物流信息
-                showLogistucs();
+//                showLogistucs();
+//                mPresenter.GetExpressInfo("3969830383918");
                 break;
             case R.id.ll_service:
                 //服务信息
@@ -724,7 +729,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //            } else {
 //                mTvUsername.setText(result.getNick());
 //            }
-            mTvUsername.setText(result.getNick());
+//            mTvUsername.setText(result.getNick());
             mTvPhone.setText(result.getCellPhone());
             /*设置头像*/
             if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像
@@ -790,6 +795,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 } else {
                     userInfo = Result.getData().getData().get(0);
                     if (userInfo != null) {
+                        if (userInfo.getNickName().equals(userInfo.getPhone())) {
+                            mTvUsername.setText("未设置昵称");
+                        } else {
+                            mTvUsername.setText(userInfo.getNickName());
+                        }
 //                        mTvMoney.setText();本月消费
 //                        mTvWalletBalance.setText(userInfo.getTotalMoney() + "");//钱包余额
                         mTvAccountBalance.setText(String.format("%.2f", userInfo.getCon()));//西瓜币
@@ -975,7 +985,25 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult) {
-
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().getItem2()!=null){
+                    expresslist = baseResult.getData().getItem2();
+                    mScrollExpress.removeAllViews();
+                    mScrollExpress.initView(R.layout.item_express, new SwitchView.ViewBuilder() {
+                        @Override
+                        public void initView(View view) {
+                            TextView tv_express_information=(TextView) view.findViewById(R.id.tv_express_information);
+                            tv_express_information.setText(expresslist.get(0).getContent());
+                            i++;
+                            if (i==order.getOrders().size()){
+                                i=0;
+                            }
+                        }
+                    });
+                }
+                break;
+        }
     }
 
     @Override
@@ -983,7 +1011,18 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         if (result.isSuccess()){
             if (result.getOrders() != null) {
                 order = result;
+                for (int i=0;i<order.getOrders().size();i++){
+                    mPresenter.GetExpress(order.getOrders().get(i).getId(),userKey);
+                }
+
             }
+        }
+    }
+
+    @Override
+    public void GetExpress(Express Result) {
+        if (Result.isSuccess()){
+            mPresenter.GetExpressInfo(Result.getExpressNum());
         }
     }
 

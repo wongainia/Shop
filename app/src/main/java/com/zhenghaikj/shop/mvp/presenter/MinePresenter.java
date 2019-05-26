@@ -4,6 +4,7 @@ import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.Order;
@@ -134,6 +135,17 @@ public class MinePresenter extends MineContract.Presenter {
                     @Override
                     protected void onHandleSuccess(Order value) {
                         mView.GetOrders(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetExpress(String orderId, String userkey) {
+        mModel.GetExpress(orderId, userkey)
+                .subscribe(new BaseObserver<Express>() {
+                    @Override
+                    protected void onHandleSuccess(Express value) {
+                        mView.GetExpress(value);
                     }
                 });
     }

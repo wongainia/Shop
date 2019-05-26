@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
@@ -72,9 +73,9 @@ public class OrderDetailPresenter extends OrderDetailContract.Presenter {
     @Override
     public void GetExpressInfo(String orderId, String userkey) {
         mModel.GetExpressInfo(orderId, userkey)
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<Express>() {
                     @Override
-                    protected void onHandleSuccess(String value) {
+                    protected void onHandleSuccess(Express value) {
                         mView.GetExpressInfo(value);
                     }
                 });

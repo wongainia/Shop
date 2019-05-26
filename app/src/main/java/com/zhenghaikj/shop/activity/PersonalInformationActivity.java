@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,8 +40,11 @@ import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.UploadImgResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.PersonalInformationContract;
 import com.zhenghaikj.shop.mvp.model.PersonalInformationModel;
 import com.zhenghaikj.shop.mvp.presenter.PersonalInformationPresenter;
@@ -60,6 +67,7 @@ import java.util.List;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -104,6 +112,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     private int size;
     private List<Uri> mSelected;
     private Uri uri;
+    private String userName;
+    private UserInfo.UserInfoDean userInfo;
+    private AlertDialog dialog;
 
     @Override
     protected int setLayoutId() {
@@ -122,7 +133,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
         mPresenter.PersonalInformation(userKey);
+        mPresenter.GetUserInfoList(userName,"1");
     }
 
     @Override
@@ -139,6 +152,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         mIconBack.setOnClickListener(this);
         mLlAvatar.setOnClickListener(this);
         mLlNickname.setOnClickListener(this);
+        mLlGender.setOnClickListener(this);
     }
 
     @Override
@@ -165,14 +179,47 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             case R.id.ll_nickname:
                 startActivity(new Intent(mActivity,ChageUserNameActivity.class));
                 break;
+            case R.id.ll_gender:
+                gender();
+                break;
         }
+    }
+
+    public void gender(){
+        View view= LayoutInflater.from(mActivity).inflate(R.layout.dialog_gender,null);
+        TextView male=view.findViewById(R.id.tv_male);
+        TextView female=view.findViewById(R.id.tv_female);
+        male.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.UpdateSex(userName,"男");
+                dialog.dismiss();
+                mTvGender.setText("男");
+            }
+        });
+
+        female.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.UpdateSex(userName,"女");
+                dialog.dismiss();
+                mTvGender.setText("女");
+            }
+        });
+        dialog = new AlertDialog.Builder(mActivity).setView(view).create();
+        dialog.show();
+        Window window= dialog.getWindow();
+        WindowManager.LayoutParams lp=window.getAttributes();
+        window.setAttributes(lp);
+        window.setBackgroundDrawable(new ColorDrawable());
+
     }
 
     @Override
     public void PersonalInformation(PersonalInformation result) {
         if (result.isSuccess()) {
             mTvUsername.setText(result.getUserName());
-            mTvNickname.setText(result.getUserName());
+
             /*设置头像*/
             if (result.getPhoto()==null||"".equals(result.getPhoto())){//显示默认头像
                 return;
@@ -192,6 +239,31 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 //            ToastUtils.showShort("上传成功，图片路径为"+result.getSrc());
         }else{
             ToastUtils.showShort(result.getMsg());
+        }
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                userInfo = baseResult.getData().getData().get(0);
+                mTvNickname.setText(userInfo.getNickName());
+                if (userInfo.getSex()==null){
+                    mTvGender.setVisibility(View.GONE);
+                }else {
+                    mTvGender.setVisibility(View.VISIBLE);
+                    mTvGender.setText(userInfo.getSex());
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void UpdateSex(BaseResult<Data> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                ToastUtils.showShort("修改成功");
+            break;
         }
     }
 
@@ -481,5 +553,19 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         }
         File file = new File(img_path);
         return file;
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event() {
+//        if ("GetUserInfoList".equals(message)) {
+            mPresenter.GetUserInfoList(userName, "1");
+//        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

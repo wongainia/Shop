@@ -496,4 +496,16 @@ public interface ApiService2 {
     @POST("Order/PressWokerAccount")
     Observable<BaseResult<Data<String>>> PressWokerAccount(@Field("OrderID") String OrderID,
                                                              @Field("Content") String Content);
+
+    /*修改昵称*/
+    @FormUrlEncoded
+    @POST("Account/UpdateAccountNickName")
+    Observable<BaseResult<Data>> UpdateAccountNickName(@Field("UserID") String UserID,
+                                                       @Field("NickName") String NickName);
+
+    /*修改性别*/
+    @FormUrlEncoded
+    @POST("Account/UpdateSex")
+    Observable<BaseResult<Data>> UpdateSex(@Field("UserID") String UserID,
+                                           @Field("Sex") String Sex);
 }

@@ -5,6 +5,7 @@ import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.Order;
@@ -41,6 +42,8 @@ public interface MineContract {
         Observable<BaseResult<Data<String>>> PressWokerAccount(String OrderID,String Content);
         Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(String ExpressNo);
         Observable<Order> GetOrders(String orderStatus, String pageNo, String pageSize, String userkey );
+        //查询物流Or
+        Observable<Express> GetExpress(String orderId, String userkey);
     }
 
     interface View extends BaseView {
@@ -55,6 +58,7 @@ public interface MineContract {
         void PressWokerAccount(BaseResult<Data<String>> baseResult);
         void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult);
         void GetOrders(Order result);
+        void GetExpress(Express Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -77,6 +81,7 @@ public interface MineContract {
         public abstract void PressWokerAccount(String OrderID,String Content);
         public abstract void GetExpressInfo(String ExpressNo);
         public abstract void GetOrders(String orderStatus,String pageNo,String pageSize,String userkey );
+        public abstract void GetExpress(String orderId,String userkey);
     }
 
 }

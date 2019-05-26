@@ -19,6 +19,7 @@ import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
 import com.zhenghaikj.shop.entity.EvaluateResult;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
@@ -877,11 +878,11 @@ public interface ApiService {
     /*获取物流信息*/
 
     @GET("api/MemberOrder/GetExpressInfo")
-    Observable<String> GetExpressInfo(@Query("orderId") String orderId,
-                                      @Query("userkey") String userkey,
-                                      @Query("app_key") String app_key,
-                                      @Query("timestamp") String timestamp,
-                                      @Query("sign") String sign);
+    Observable<Express> GetExpressInfo(@Query("orderId") String orderId,
+                                       @Query("userkey") String userkey,
+                                       @Query("app_key") String app_key,
+                                       @Query("timestamp") String timestamp,
+                                       @Query("sign") String sign);
 
 
 

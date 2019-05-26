@@ -20,6 +20,7 @@ import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
@@ -181,7 +182,7 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
     }
 
     @Override
-    public void GetExpressInfo(String Result) {
+    public void GetExpressInfo(Express Result) {
 
     }
 

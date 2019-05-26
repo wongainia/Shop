@@ -8,6 +8,7 @@ import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 
@@ -21,7 +22,7 @@ public interface OrderDetailContract {
         Observable<CloseOrder> PostCloseOrder(String orderId, String userkey);
         Observable<ConfirmOrder> PostConfirmOrder(String orderId, String userkey);
         //查询物流Or
-        Observable<String> GetExpressInfo(String orderId,String userkey);
+        Observable<Express> GetExpressInfo(String orderId, String userkey);
 
 
         Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr);
@@ -39,7 +40,7 @@ public interface OrderDetailContract {
         void GetOrderDetail(OrderDetail result);
         void PostCloseOrder(CloseOrder Result);
         void PostConfirmOrder(ConfirmOrder Result);
-        void GetExpressInfo(String Result);
+        void GetExpressInfo(Express Result);
 
         void GetOrderStr(BaseResult<Data<String>> baseResult);
         void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult);

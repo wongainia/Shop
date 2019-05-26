@@ -6,15 +6,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.mvp.contract.ChageUserNameContract;
+import com.zhenghaikj.shop.mvp.model.ChageUserNameModel;
+import com.zhenghaikj.shop.mvp.presenter.ChageUserNamePresenter;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChageUserNameActivity extends BaseActivity implements View.OnClickListener {
+public class ChageUserNameActivity extends BaseActivity<ChageUserNamePresenter, ChageUserNameModel> implements View.OnClickListener, ChageUserNameContract.View {
 
     @BindView(R.id.view)
     View mView;
@@ -32,6 +39,8 @@ public class ChageUserNameActivity extends BaseActivity implements View.OnClickL
     EditText mEtUsername;
     @BindView(R.id.tv_change_username)
     TextView mTvChangeUsername;
+    private String userkey;
+    private String userName;
 
     @Override
     protected int setLayoutId() {
@@ -50,7 +59,9 @@ public class ChageUserNameActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
-
+        SPUtils spUtils = SPUtils.getInstance("token");
+        userkey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
     }
 
     @Override
@@ -62,6 +73,7 @@ public class ChageUserNameActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mTvChangeUsername.setOnClickListener(this);
     }
 
     @Override
@@ -69,6 +81,14 @@ public class ChageUserNameActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()){
             case R.id.icon_back:
                 finish();
+                break;
+            case R.id.tv_change_username:
+                String name=mEtUsername.getText().toString();
+                if (name.isEmpty()){
+                    ToastUtils.showShort("请输入修改的昵称");
+                }else {
+                    mPresenter.UpdateAccountNickName(userName,name);
+                }
                 break;
         }
     }
@@ -78,5 +98,15 @@ public class ChageUserNameActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void UpdateAccountNickName(BaseResult<Data> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                ToastUtils.showShort("修改成功");
+                finish();
+                break;
+        }
     }
 }

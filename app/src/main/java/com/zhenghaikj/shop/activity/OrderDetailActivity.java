@@ -45,6 +45,7 @@ import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.JsonStrOrderPay;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PayResult;
@@ -538,7 +539,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     }
 
     @Override
-    public void GetExpressInfo(String Result) {
+    public void GetExpressInfo(Express Result) {
 
     }
 

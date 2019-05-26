@@ -5,6 +5,7 @@ import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.Order;
@@ -120,6 +121,20 @@ public class MineModel implements MineContract.Model {
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetOrders(orderStatus,pageNo,pageSize,userkey ,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<Express> GetExpress(String orderId, String userkey) {
+        map = new HashMap<>();
+        map.put("orderid",orderId);
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetExpressInfo(orderId,userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
