@@ -100,39 +100,6 @@
                             android:textColor="@color/white"
                             android:textSize="17sp" />
 
-                      <!--  <TextView
-                            android:id="@+id/tv_one"
-                            android:layout_width="39dp"
-                            android:layout_height="58dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/white_round_shape"
-                            android:gravity="center"
-                            android:text="0"
-                            android:textColor="#FFAB00"
-                            android:textSize="38sp" />
-
-                        <TextView
-                            android:id="@+id/tv_two"
-                            android:layout_width="39dp"
-                            android:layout_height="58dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/white_round_shape"
-                            android:gravity="center"
-                            android:text="0"
-                            android:textColor="#FFAB00"
-                            android:textSize="38sp" />
-
-                        <TextView
-                            android:id="@+id/tv_three"
-                            android:layout_width="39dp"
-                            android:layout_height="58dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/white_round_shape"
-                            android:gravity="center"
-                            android:text="0"
-                            android:textColor="#FFAB00"
-                            android:textSize="38sp" />-->
-
                         <com.zhenghaikj.shop.widget.fliplayout.FlipLayout
                             android:id="@+id/flip_one"
                             android:layout_width="39dp"
@@ -223,6 +190,7 @@
                             android:textColor="@color/white"
                             android:textSize="13dp" />
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -259,7 +227,6 @@
                             android:textColor="#FF8900"
                             android:textSize="24sp"
                             android:textStyle="bold" />
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

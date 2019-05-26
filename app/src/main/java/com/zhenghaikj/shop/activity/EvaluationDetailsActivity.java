@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -99,13 +100,11 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
         mTvTitle.setText("商品评论");
         mTvTitle.setVisibility(View.VISIBLE);
         productId = getIntent().getStringExtra("productId");
+
+        Log.d("=====>productId",productId);
         CommentList.clear();
 
-//        for (int i = 0; i < faceValues.length; i++) {
-//            CommentCategoryList.add(new CommentCategory(faceValues[i], false));
-//        }
-//        CommentCategoryList.get(0).setSelect(true);
-//        CommentCategoryList.clear();
+        /*评论标题*/
         commentCategoryAdapter = new CommentCategoryAdapter(R.layout.item_list, CommentCategoryList);
         mRvList.setLayoutManager(new GridLayoutManager(mActivity, 5));
         mRvList.setAdapter(commentCategoryAdapter);
@@ -127,6 +126,8 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
             }
         });
 
+
+        /*评论内容*/
         commentAdapter = new CommentAdapter(R.layout.item_evaluation, CommentList);
         mRvEvaluation.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvEvaluation.setAdapter(commentAdapter);

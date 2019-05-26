@@ -72,7 +72,6 @@ public class CheckinActivity extends BaseActivity implements View.OnClickListene
     protected void initData() {
          /*时间初始化*/
         FlipToday();
-        mTvDay.setText(String.valueOf(mPbday.getProgress()));
     }
 
     @Override
@@ -97,12 +96,10 @@ public class CheckinActivity extends BaseActivity implements View.OnClickListene
                 Log.d("=====>getcurrentnum", String.valueOf(getcurrentnum));
                 mflipthree.smoothFlip(1, false);
                 getcurrentnum++;
-
-                mTvDay.setText(String.valueOf(mPbday.getProgress()+1));
                 if (getcurrentnum % 10 == 0){  //个位为0 十位翻页
                     mfliptwo.smoothFlip(1, false);
                 }
-                if ( getcurrentnum /10%10==0&&getcurrentnum %10==0){  //个位十位都为0 百位翻页
+                if (getcurrentnum /10%10==0&&getcurrentnum %10==0){  //个位十位都为0 百位翻页
                     mflipone.smoothFlip(1, false);
                 }
                 if (getcurrentnum / 100 %10==0&&getcurrentnum /10%10==0&&getcurrentnum % 10 ==0){ //超过999自动回001
@@ -135,12 +132,10 @@ public class CheckinActivity extends BaseActivity implements View.OnClickListene
     public void FlipToday(){
         int hundreds = getcurrentnum / 100;
         int decade = getcurrentnum /10% 10 ;
-        /*个位*/
         int unit = getcurrentnum % 10;
         mflipone.flip(hundreds);
         mfliptwo.flip(decade);
         mflipthree.flip(unit);
-
     }
 
 }

@@ -320,6 +320,8 @@
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             />
+
+
         <receiver
             android:name=".wxapi.AppRegister">
             <intent-filter>

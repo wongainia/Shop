@@ -23,13 +23,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_launcher"/>
             <TextView
                 android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_gravity="center"
                 android:text="娃哈哈"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
@@ -39,6 +44,7 @@
             android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:layout_marginLeft="30dp"
             android:text="东西不错不错北京市北京市副本健康减肥不打上来看说那倒是可能女王好难看面对失败说看VB迪士尼"
             android:textColor="#333"
             android:textSize="14sp" />
@@ -54,6 +60,7 @@
                 android:id="@+id/rv_picture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
@@ -66,9 +73,11 @@
 
             <TextView
                 android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="right"
                 android:layout_height="wrap_content"
                 android:text="2019.5.14"
+                android:layout_marginRight="10dp"
                 android:textSize="12sp" />
 
             <TextView

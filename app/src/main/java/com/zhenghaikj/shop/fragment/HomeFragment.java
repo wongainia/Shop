@@ -293,6 +293,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         for (int i = 0; i < 5; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i], picture[i]));
         }
+
         mMainAdapter = new MenuAdapter(R.layout.item_main_menu, mMainMenus);
         mRvMainMenu.setLayoutManager(new GridLayoutManager(mActivity, 5));
         mRvMainMenu.setAdapter(mMainAdapter);
