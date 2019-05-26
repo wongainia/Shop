@@ -9,6 +9,7 @@ import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Order;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 
 import org.json.JSONArray;
@@ -25,9 +26,11 @@ public interface OrderContract {
 
         Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr);
         Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid,String Bisid,String OrderId, String TotalAmount, JSONArray jsonStr);
+        Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId);
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<EasyResult> PostChangeOrderState(String orderId);
         Observable<EasyResult> CancelOrder(String orderId,String userid);
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
 
     }
 
@@ -39,9 +42,11 @@ public interface OrderContract {
 
         void GetOrderStr(BaseResult<Data<String>> baseResult);
         void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult);
+        void MallBalancePay(BaseResult<Data<String>> baseResult);
         void WXNotifyManual(BaseResult<Data<String>> baseResult);
         void PostChangeOrderState(EasyResult baseResult);
         void CancelOrder(EasyResult baseResult);
+        void GetUserInfoList(BaseResult<UserInfo> Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -52,8 +57,10 @@ public interface OrderContract {
 
         public abstract void GetOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
         public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
+        public abstract void MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId);
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void PostChangeOrderState(String orderId);
         public abstract void CancelOrder(String orderId,String userid);
+        public abstract void GetUserInfoList(String userName, String limit);
     }
 }

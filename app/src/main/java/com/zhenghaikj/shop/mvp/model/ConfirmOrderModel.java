@@ -146,6 +146,14 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId) {
+        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId, PayMoney, UserID, BisId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
     @Override
     public Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo) {
         return ApiRetrofit2.getDefault().WXNotifyManual(OutTradeNo)

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_goods"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:src="@drawable/goods" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/yunshu" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="7dp"
+                android:text="运输中"
+                android:textColor="#FF0000"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_express_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="【运输中】快件已从南昌转运中心发出，准备....."
+            android:textColor="#818181"
+            android:textSize="12sp" />
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

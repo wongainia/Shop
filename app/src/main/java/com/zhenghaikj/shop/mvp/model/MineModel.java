@@ -6,6 +6,8 @@ import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
+import com.zhenghaikj.shop.entity.Logistics;
+import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
@@ -91,4 +93,35 @@ public class MineModel implements MineContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> PressWokerAccount(String OrderID, String Content) {
+        return ApiRetrofit2.getDefault().PressWokerAccount(OrderID, Content)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(String ExpressNo) {
+        return ApiRetrofit2.getDefault().GetExpressInfo(ExpressNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<Order> GetOrders(String orderStatus, String pageNo, String pageSize, String userkey ) {
+        map = new HashMap<>();
+        map.put("orderstatus",orderStatus);
+        map.put("pageno",pageNo);
+        map.put("pagesize",pageSize);
+        map.put("userkey",userkey );
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetOrders(orderStatus,pageNo,pageSize,userkey ,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
 }

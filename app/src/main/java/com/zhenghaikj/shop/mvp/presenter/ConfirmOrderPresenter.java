@@ -104,6 +104,18 @@ public class ConfirmOrderPresenter extends ConfirmOrderContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId) {
+        mModel.MallBalancePay(OrderId, CustomerId, PayMoney, UserID, BisId)
+                .subscribe(new BaseObserver2<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.MallBalancePay(value);
+                    }
+                });
+    }
+
     @Override
     public void WXNotifyManual(String OutTradeNo) {
         mModel.WXNotifyManual(OutTradeNo)

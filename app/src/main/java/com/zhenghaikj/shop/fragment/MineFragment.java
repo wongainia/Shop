@@ -63,6 +63,7 @@ import com.zhenghaikj.shop.dialog.WordOrderDialog;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.Logistics;
+import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
@@ -212,6 +213,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     LinearLayout mLlCoins;
     @BindView(R.id.scrolltv)
     SwitchView mScrolltv;
+    @BindView(R.id.scroll_express)
+    SwitchView mScrollExpress;
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
@@ -230,7 +233,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private View under_review;
     private AlertDialog underReviewDialog;
 
-//    private String[] name=new String[]{"1","2","3"};
+    //    private String[] name=new String[]{"1","2","3"};
     /*弹出的评价view*/
     private Window window;
     private View view;
@@ -257,13 +260,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private TextView tv_submit1;
     private EditText et_content1;
     private WorkOrder workOrder;
-    private int i=0;
+    private int i = 0;
     private ClipData myClip;
     private ClipboardManager myClipboard;
     private ServiceAdapter serviceAdapter;
     private List<WorkOrder.DataBean> datalist;
     private CustomShareListener mShareListener;
     private ShareAction mShareAction;
+    private Order order;
 
 
     public static MineFragment newInstance(String param1, String param2) {
@@ -315,7 +319,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 });
 
 
-
 //        mPresenter.GetOrderByhmall(userName);
 //        mPresenter.GetOrderInfoList(userName,"5","1","1");
 //        mPresenter.GetOrderByhmalluserid(userName);
@@ -326,6 +329,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             mPresenter.GetOrderByhmall(userName);
 //        mPresenter.GetOrderInfoList(userName,"5","1","1");
             mPresenter.GetOrderByhmalluserid(userName);
+            mPresenter.GetOrders("3", "1", "10", userKey);
         } else {
             mTvUsername.setText("未登录");
             mTvPhone.setVisibility(View.GONE);
@@ -339,8 +343,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     mPresenter.GetUserInfoList(userName, "1");
                     mPresenter.PersonalInformation(userKey);
                     mPresenter.GetHistoryVisite(userKey);
-                    i=0;
+                    i = 0;
                     mPresenter.GetOrderByhmalluserid(userName);
+                    mPresenter.GetOrders("3", "1", "10", userKey);
+//                    mPresenter.GetExpressInfo(order.getOrders().get(0));
 //                    mPresenter.GetOrderByhmall(userName);
                 }
 
@@ -612,9 +618,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         });
 
         rv_logistics = customDialog.findViewById(R.id.rv_logistics);
-        for (int i = 0; i < 10; i++) {
-            logisticsList.add(new Logistics());
-        }
+//        for (int i = 0; i < 10; i++) {
+//            logisticsList.add(new Logistics());
+//        }
         LogisticsAdapter logisticsAdapter = new LogisticsAdapter(R.layout.item_logistics, logisticsList);
         rv_logistics.setLayoutManager(new LinearLayoutManager(mActivity));
         rv_logistics.setAdapter(logisticsAdapter);
@@ -623,7 +629,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     private List<Track> ServiceList = new ArrayList<>();
 
-    private void showService(String id,String state,String name) {
+    private void showService(String id, String state, String name) {
         mPresenter.GetOrderRecordByOrderID(id);
         serviceDialog = new ServiceDialog(getContext());
         serviceDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
@@ -634,14 +640,22 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 serviceDialog.dismiss();
             }
         });
-        Log.d(TAG,"ServiceList"+state);
+        Log.d(TAG, "ServiceList" + state);
 //        serviceDialog.setOrderId("订单号："+id);
 //        serviceDialog.setState(state);
 //        serviceDialog.setTitle(name);
-        TextView tv_logistics_status =serviceDialog.findViewById(R.id.tv_logistics_status);
+        TextView tv_logistics_status = serviceDialog.findViewById(R.id.tv_logistics_status);
         TextView titleTv = serviceDialog.findViewById(R.id.tv_goods_name);
         TextView tv_order_number = serviceDialog.findViewById(R.id.tv_order_number);
-        ImageView iv_copy=serviceDialog.findViewById(R.id.iv_copy);
+        ImageView iv_copy = serviceDialog.findViewById(R.id.iv_copy);
+        TextView tv_reminders = serviceDialog.findViewById(R.id.tv_reminders);
+        tv_reminders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reminders(id);
+            }
+        });
+
         iv_copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -652,7 +666,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         });
         tv_logistics_status.setText(state);
         titleTv.setText(name);
-        tv_order_number.setText("订单号："+id);
+        tv_order_number.setText("订单号：" + id);
         rv_service = serviceDialog.findViewById(R.id.rv_service);
 //        for (int i = 0; i < 10; i++) {
 //            ServiceList.add(new Product());
@@ -662,6 +676,38 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         serviceAdapter = new ServiceAdapter(R.layout.item_service, ServiceList);
         rv_service.setLayoutManager(new LinearLayoutManager(mActivity));
         rv_service.setAdapter(serviceAdapter);
+    }
+
+    private void reminders(String id) {
+        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_reminders, null);
+        EditText et_memo = under_review.findViewById(R.id.et_memo);
+        Button negtive = under_review.findViewById(R.id.negtive);
+        Button positive = under_review.findViewById(R.id.positive);
+        negtive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                underReviewDialog.dismiss();
+            }
+        });
+
+        positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = et_memo.getText().toString();
+                mPresenter.PressWokerAccount(id, content);
+                underReviewDialog.dismiss();
+            }
+        });
+
+        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review)
+                .create();
+        underReviewDialog.show();
+        window = underReviewDialog.getWindow();
+//                window.setContentView(under_review);
+        WindowManager.LayoutParams lp = window.getAttributes();
+        window.setAttributes(lp);
+//                window.setDimAmount(0.1f);
+        window.setBackgroundDrawable(new ColorDrawable());
     }
 
     private void getWorkOrder() {
@@ -746,10 +792,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     if (userInfo != null) {
 //                        mTvMoney.setText();本月消费
 //                        mTvWalletBalance.setText(userInfo.getTotalMoney() + "");//钱包余额
-                        mTvAccountBalance.setText(String.format("%.2f",userInfo.getCon()));//西瓜币
-                        mTvWalletBalance.setText(String.format("%.2f",userInfo.getCon()));//西瓜币
+                        mTvAccountBalance.setText(String.format("%.2f", userInfo.getCon()));//西瓜币
+                        mTvWalletBalance.setText(String.format("%.2f", userInfo.getCon()));//西瓜币
 //                        mTvBalance.setText(userInfo.getCon() + "");//西瓜币
-                        mTvBalance.setText("¥"+String.format("%.2f",userInfo.getCon()));
+                        mTvBalance.setText("¥" + String.format("%.2f", userInfo.getCon()));
 //                        mTvHowMoney.setText();兑换了多少西瓜币
                     }
                 }
@@ -769,12 +815,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case 200:
 
 //                Log.d(TAG,"服务完成"+Result.getData().getState());
-                if (Result.getData().isItem1()){
+                if (Result.getData().isItem1()) {
 
-                    if (Result.getData().getItem2()==null){
+                    if (Result.getData().getItem2() == null) {
                         return;
                     }
-                    if (Result.getData().getItem2().size()>0){
+                    if (Result.getData().getItem2().size() > 0) {
                         for (int i = 0; i < Result.getData().getItem2().size(); i++) {
                             data = Result.getData().getItem2().get(i);
                             if (data != null) {
@@ -786,7 +832,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     }
 
                 }
-
 
 
                 break;
@@ -839,26 +884,26 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         switch (baseResult.getStatusCode()) {
             case 200:
                 if (baseResult.getData() != null) {
-                    datalist =baseResult.getData().getItem2();
+                    datalist = baseResult.getData().getItem2();
                     mScrolltv.removeAllViews();
-                    mScrolltv.initView(R.layout.item_switchview,  new SwitchView.ViewBuilder() {
+                    mScrolltv.initView(R.layout.item_switchview, new SwitchView.ViewBuilder() {
                         @Override
                         public void initView(View view) {
-                            TextView tv_name=(TextView) view.findViewById(R.id.tv_name);
-                            TextView tv_orderid=(TextView) view.findViewById(R.id.tv_orderid);
-                            TextView tv_state=(TextView) view.findViewById(R.id.tv_state);
-                            ImageView iv_copy=(ImageView) view.findViewById(R.id.iv_copy);
-                            LinearLayout ll_swith=(LinearLayout) view.findViewById(R.id.ll_swith);
+                            TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+                            TextView tv_orderid = (TextView) view.findViewById(R.id.tv_orderid);
+                            TextView tv_state = (TextView) view.findViewById(R.id.tv_state);
+                            ImageView iv_copy = (ImageView) view.findViewById(R.id.iv_copy);
+                            LinearLayout ll_swith = (LinearLayout) view.findViewById(R.id.ll_swith);
 
-                            tv_name.setText(datalist.get(i%datalist.size()).getBrandName()+"/"+datalist.get(i%datalist.size()).getCategoryName()+"/"+datalist.get(i%datalist.size()).getSubCategoryName()+"/"+datalist.get(i%datalist.size()).getMemo());
-                            tv_orderid.setText(datalist.get(i%datalist.size()).getOrderID());
-                            tv_state.setText(datalist.get(i%datalist.size()).getState());
+                            tv_name.setText(datalist.get(i % datalist.size()).getBrandName() + "/" + datalist.get(i % datalist.size()).getCategoryName() + "/" + datalist.get(i % datalist.size()).getSubCategoryName() + "/" + datalist.get(i % datalist.size()).getMemo());
+                            tv_orderid.setText(datalist.get(i % datalist.size()).getOrderID());
+                            tv_state.setText(datalist.get(i % datalist.size()).getState());
 //
                             tv_name.setTag(i);
 
                             i++;
-                            if (i==datalist.size()){
-                                i=0;
+                            if (i == datalist.size()) {
+                                i = 0;
                             }
 
                             iv_copy.setOnClickListener(new View.OnClickListener() {
@@ -875,9 +920,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                                 @Override
                                 public void onClick(View v) {
                                     String id = tv_orderid.getText().toString();
-                                    String state=tv_state.getText().toString();
-                                    String name=tv_name.getText().toString();
-                                    showService(id,state,name);
+                                    String state = tv_state.getText().toString();
+                                    String name = tv_name.getText().toString();
+                                    showService(id, state, name);
                                 }
                             });
                         }
@@ -906,12 +951,39 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         switch (baseResult.getStatusCode()) {
             case 200:
 
-                ServiceList=baseResult.getData();
-                Log.d(TAG,"ServiceList2"+ServiceList);
+                ServiceList = baseResult.getData();
+                Log.d(TAG, "ServiceList2" + ServiceList);
                 serviceAdapter.setNewData(ServiceList);
                 break;
             case 401:
                 break;
+        }
+    }
+
+    @Override
+    public void PressWokerAccount(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().isItem1()) {
+                    ToastUtils.showShort(baseResult.getData().getItem2());
+                } else {
+                    ToastUtils.showShort(baseResult.getData().getItem2());
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult) {
+
+    }
+
+    @Override
+    public void GetOrders(Order result) {
+        if (result.isSuccess()){
+            if (result.getOrders() != null) {
+                order = result;
+            }
         }
     }
 

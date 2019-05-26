@@ -33,12 +33,14 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.ChagePayActivity;
 import com.zhenghaikj.shop.activity.DeliverySuccessActivity;
 import com.zhenghaikj.shop.activity.EvaluateActivity;
 import com.zhenghaikj.shop.activity.PaymentSuccessActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -46,6 +48,7 @@ import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.JsonStrOrderPay;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PayResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 import com.zhenghaikj.shop.mvp.model.OrderModel;
@@ -105,6 +108,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     private BottomSheetDialog bottomSheetDialog;
     private int closeid;
+    private UserInfo.UserInfoDean userInfo;
+    private Order order;
 
 
     public static OrderFragment newInstance(String param1, String param2) {
@@ -126,6 +131,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
+        mPresenter.GetUserInfoList(userName,"1");
 
         api = WXAPIFactory.createWXAPI(mActivity, "wx92928bf751e1628e");
         // 将该app注册到微信
@@ -294,6 +300,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         if (result.isSuccess()) {
             Log.d(TAG, "00000" + result.getOrders());
             if (result.getOrders() != null) {
+                order = result;
                 cartList.addAll(result.getOrders());
                 orderListAdapter.setNewData(cartList);
             }
@@ -333,6 +340,29 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     }
 
     @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                if (Result.getData().getData()==null){
+
+                }else {
+                    userInfo = Result.getData().getData().get(0);
+//                    if (userInfo !=null){
+//                        mTvBalance.setText(""+userInfo.getTotalMoney()+"");//钱包余额
+//                        mTvWatermelonBalance.setText("￥"+userInfo.getCon()+"");//西瓜币
+//                    }
+                }
+
+
+                break;
+
+            default:
+                break;
+
+        }
+    }
+
+    @Override
     public void PostConfirmOrder(ConfirmOrder Result) {
         if ("true".equals(Result.getSuccess())){
             orderListAdapter.remove(receipt_position);
@@ -362,6 +392,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.payway_layout, null);
         LinearLayout ll_alipay = popupWindow_view.findViewById(R.id.ll_alipay);
         LinearLayout ll_wxpay = popupWindow_view.findViewById(R.id.ll_wxpay);
+        LinearLayout ll_balance=popupWindow_view.findViewById(R.id.ll_balance);
         Button cancel_btn = popupWindow_view.findViewById(R.id.cancel_btn);
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -383,6 +414,43 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
                 mPopupWindow.dismiss();
+            }
+        });
+
+        ll_balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userInfo.getTotalMoney()-ordersBean.getOrderTotalAmount()>=0){
+                    if ("".equals(userInfo.getPayPassWord())){
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage("未设置支付密码，是否前去设置")
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setPositive("去设置")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//拨打电话
+                                dialog.dismiss();
+                                startActivity(new Intent(mActivity, ChagePayActivity.class));
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+                    }else {
+                        mPresenter.MallBalancePay("","",ordersBean.getOrderTotalAmount()+"",userName,"");
+                        mPopupWindow.dismiss();
+                    }
+
+
+//                    mPopupWindow.dismiss();
+                }else {
+                    ToastUtils.showShort("余额不足，请充值或选择别的支付方式");
+                }
+
             }
         });
         cancel_btn.setOnClickListener(new View.OnClickListener() {
@@ -560,6 +628,15 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     }
 
     @Override
+    public void MallBalancePay(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                openPayPasswordDialog1();
+                break;
+        }
+    }
+
+    @Override
     public void WXNotifyManual(BaseResult<Data<String>> baseResult) {
 
     }
@@ -589,10 +666,27 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     }
 
+    private void openPayPasswordDialog1() {
+        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
+        bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(payPasswordView);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.show();
+        /*注册监听*/
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        /*关闭*/
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+    }
 
     @Override
     public void passwordFull(String password) {
-     if ("888888".equals(password)){
+     if (userInfo.getPayPassWord().equals(password)){
          mPresenter.PostConfirmOrder(OrderId,userKey);
      }else {
          Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
@@ -601,5 +695,11 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     }
 
-
+    @Override
+    public void onDestroy() {
+        if(bottomSheetDialog != null) {
+            bottomSheetDialog.dismiss();
+        }
+        super.onDestroy();
+    }
 }

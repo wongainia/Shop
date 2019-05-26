@@ -5,6 +5,8 @@ import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
+import com.zhenghaikj.shop.entity.Logistics;
+import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
@@ -101,4 +103,39 @@ public class MinePresenter extends MineContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void PressWokerAccount(String OrderID, String Content) {
+        mModel.PressWokerAccount(OrderID, Content)
+                .subscribe(new BaseObserver2<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.PressWokerAccount(value);
+                    }
+                });
+
+    }
+
+    @Override
+    public void GetExpressInfo(String ExpressNo) {
+        mModel.GetExpressInfo(ExpressNo)
+                .subscribe(new BaseObserver2<Data<List<Logistics>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<List<Logistics>>> value) {
+                        mView.GetExpressInfo(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetOrders(String orderStatus,String pageNo,String pageSize,String userkey ) {
+        mModel.GetOrders(orderStatus, pageNo, pageSize, userkey )
+                .subscribe(new BaseObserver<Order>() {
+                    @Override
+                    protected void onHandleSuccess(Order value) {
+                        mView.GetOrders(value);
+                    }
+                });
+    }
+
 }

@@ -9,8 +9,8 @@ android {
         applicationId "com.zhenghaikj.shop"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 11
-        versionName "1.1.0"
+        versionCode 12
+        versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -37,10 +37,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     aspectjx { exclude 'com.alipay' }
+
+    //Add the following configuration
     lintOptions {
         checkReleaseBuilds false
-// Or, if you prefer, you can continue to check for errors in release builds,
-// but continue the build even when errors are found:
         abortOnError false
     }
 }

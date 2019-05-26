@@ -15,6 +15,7 @@ import com.zhenghaikj.shop.entity.WXpayInfo;
 import org.json.JSONArray;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
 
 public interface ConfirmOrderContract {
     interface Model extends BaseModel{
@@ -50,6 +51,7 @@ public interface ConfirmOrderContract {
         );
         Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr);
         Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount,JSONArray JsonStr);
+        Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId);
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<EasyResult> PostChangeOrderState(String orderId);
 
@@ -65,6 +67,7 @@ public interface ConfirmOrderContract {
 
         void GetOrderStr(BaseResult<Data<String>> baseResult);
         void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult);
+        void MallBalancePay(BaseResult<Data<String>> baseResult);
         void WXNotifyManual(BaseResult<Data<String>> baseResult);
         void PostChangeOrderState(EasyResult baseResult);
         void GetUserInfoList(BaseResult<UserInfo> Result);
@@ -101,6 +104,7 @@ public interface ConfirmOrderContract {
 
         public abstract void GetOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr);
         public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr);
+        public abstract void MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId);
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void PostChangeOrderState(String orderId);
 

@@ -8,6 +8,7 @@ import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Order;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 
@@ -97,6 +98,17 @@ public class OrderPresenter extends OrderContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId) {
+        mModel.MallBalancePay(OrderId, CustomerId, PayMoney, UserID, BisId)
+                .subscribe(new BaseObserver2<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.MallBalancePay(value);
+                    }
+                });
+    }
     @Override
     public void WXNotifyManual(String OutTradeNo) {
         mModel.WXNotifyManual(OutTradeNo)
@@ -104,6 +116,17 @@ public class OrderPresenter extends OrderContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.WXNotifyManual(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetUserInfoList(String userName, String limit) {
+        mModel.GetUserInfoList(userName, limit)
+                .subscribe(new BaseObserver2<UserInfo>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<UserInfo> value) {
+                        mView.GetUserInfoList(value);
                     }
                 });
     }

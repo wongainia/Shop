@@ -368,6 +368,19 @@ public interface ApiService2 {
                                                           @Field("Type") String Type,
                                                           @Field("Style") String Style,
                                                           @Field("JsonStr")JSONArray JsonStr);
+
+    /**
+     * 余额支付
+     */
+    @FormUrlEncoded
+    @POST("Mall/MallBalancePay")
+    Observable<BaseResult<Data<String>>> MallBalancePay(@Field("OrderId") String OrderId,
+                                                     @Field("CustomerId") String CustomerId,
+                                                     @Field("PayMoney") String PayMoney,
+                                                     @Field("UserID") String UserID,
+                                                     @Field("BisId") String BisId
+    );
+
     /**
      * 微信人工回调OutTradeNo
      * @param OutTradeNo
@@ -470,4 +483,17 @@ public interface ApiService2 {
 
 
 
+
+    /*修改支付密码*/
+    @FormUrlEncoded
+    @POST("Account/ChangePayPassword")
+    Observable<BaseResult<Data>> ChangePayPassword(@Field("UserID") String UserID,
+                                                   @Field("OldPayPassword") String OldPayPassword,
+                                                   @Field("PayPassword") String PayPassword);
+
+    /*催单*/
+    @FormUrlEncoded
+    @POST("Order/PressWokerAccount")
+    Observable<BaseResult<Data<String>>> PressWokerAccount(@Field("OrderID") String OrderID,
+                                                             @Field("Content") String Content);
 }

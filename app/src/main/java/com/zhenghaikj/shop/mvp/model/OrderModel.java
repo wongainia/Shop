@@ -10,6 +10,7 @@ import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Order;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 
@@ -101,6 +102,14 @@ public class OrderModel implements OrderContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId) {
+        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId, PayMoney, UserID, BisId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
     @Override
     public Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo) {
         return ApiRetrofit2.getDefault().WXNotifyManual(OutTradeNo)
@@ -132,6 +141,13 @@ public class OrderModel implements OrderContract.Model {
         map.put("timestamp", timestamp);
         sign= ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().CancelOrder(orderId,userid,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit) {
+        return ApiRetrofit2.getDefault().GetUserInfoList(userName, limit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

@@ -14,6 +14,8 @@ import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.HistoryVisite;
+import com.zhenghaikj.shop.entity.Logistics;
+import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
@@ -199,6 +201,21 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
 
     @Override
     public void GetOrderRecordByOrderID(BaseResult<List<Track>> baseResult) {
+
+    }
+
+    @Override
+    public void PressWokerAccount(BaseResult<Data<String>> baseResult) {
+
+    }
+
+    @Override
+    public void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult) {
+
+    }
+
+    @Override
+    public void GetOrders(Order result) {
 
     }
 }

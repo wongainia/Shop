@@ -111,6 +111,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
         mBtnExit.setOnClickListener(this);
         mLlBrand.setOnClickListener(this);
         mLlPerson.setOnClickListener(this);
+        mLlModifyPaymentPassword.setOnClickListener(this);
     }
 
     @Override
@@ -161,7 +162,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
 
                 break;
             case R.id.ll_person:
-                startActivity(new Intent(mActivity,PersonalInformationActivity.class));
+                startActivity(new Intent(mActivity, PersonalInformationActivity.class));
+                break;
+            case R.id.ll_modify_payment_password:
+                startActivity(new Intent(mActivity, ChagePayActivity.class));
                 break;
         }
     }

@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
 import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
@@ -35,6 +37,7 @@ import com.zhenghaikj.shop.adapter.ConfirmOrderAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.Data;
@@ -51,6 +54,8 @@ import com.zhenghaikj.shop.mvp.model.ConfirmOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.ConfirmOrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.utils.SingleClick;
+import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
+import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -71,7 +76,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, ConfirmOrderModel> implements View.OnClickListener, ConfirmOrderContract.View, ConfirmOrderAdapter.SaveEditTextStrListener {
+public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, ConfirmOrderModel> implements View.OnClickListener, ConfirmOrderContract.View, ConfirmOrderAdapter.SaveEditTextStrListener, PasswordEditText.PasswordFullListener {
 
     @BindView(R.id.view)
     View mView;
@@ -129,6 +134,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     private JSONArray jsonArray;
     private Intent intent;
     private UserInfo.UserInfoDean userInfo;
+    private BottomSheetDialog bottomSheetDialog;
 
     @Override
     protected int setLayoutId() {
@@ -593,7 +599,30 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             @Override
             public void onClick(View v) {
                 if (userInfo.getTotalMoney()-GetConfirmModel.getTotalAmount()>=0){
-//                    mPresenter.GetOrderStr(userName,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
+                    if ("".equals(userInfo.getPayPassWord())){
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage("未设置支付密码，是否前去设置")
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setPositive("去设置")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//拨打电话
+                                dialog.dismiss();
+                                startActivity(new Intent(mActivity,ChagePayActivity.class));
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+                    }else {
+                        openPayPasswordDialog();
+                    }
+
+
 //                    mPopupWindow.dismiss();
                 }else {
                     ToastUtils.showShort("余额不足，请充值或选择别的支付方式");
@@ -775,6 +804,8 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         }
     }
 
+
+
     @Override
     public void GetWXOrderStr(BaseResult<Data<WXpayInfo>> baseResult) {
         switch(baseResult.getStatusCode()){
@@ -794,6 +825,57 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 cancelto();
                 break;
         }
+    }
+
+    @Override
+    public void MallBalancePay(BaseResult<Data<String>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    if (baseResult.getData().getItem2()!=null){
+                        bottomSheetDialog.dismiss();
+                        mPresenter.PostChangeOrderState(OrderId);
+                        intent = new Intent(mActivity, PaymentSuccessActivity.class);
+                        intent.putExtra("OrderID", OrderId);
+                        startActivity(intent);
+//                finish();
+                        ToastUtils.showShort("支付成功");
+
+                    }
+                }else{
+                    ToastUtils.showShort("获取支付信息失败！");
+                    cancelto();
+                }
+                break;
+            default:
+                ToastUtils.showShort("获取支付信息失败！");
+                cancelto();
+                break;
+        }
+    }
+
+    /*支付密码*/
+    private void openPayPasswordDialog() {
+        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
+        bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(payPasswordView);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.show();
+        /*注册监听*/
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        /*关闭*/
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                cancelto();
+            }
+        });
     }
 
     @Override
@@ -827,5 +909,23 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 break;
 
         }
+    }
+
+    @Override
+    public void passwordFull(String password) {
+        if (userInfo.getPayPassWord().equals(password)){
+            mPresenter.MallBalancePay("","",GetConfirmModel.getTotalAmount()+"",userName,"");
+
+        }else {
+            Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(bottomSheetDialog != null) {
+            bottomSheetDialog.dismiss();
+        }
+        super.onDestroy();
     }
 }
