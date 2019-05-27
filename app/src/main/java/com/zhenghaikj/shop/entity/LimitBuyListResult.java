@@ -48,7 +48,15 @@ public class LimitBuyListResult implements Serializable {
         private String EndDate;
         private String MarketPrice;
         private int SaleCount;
-        private int Quantity;
+        private int Stock;
+
+        public int getStock() {
+            return Stock;
+        }
+
+        public void setStock(int stock) {
+            Stock = stock;
+        }
 
         public String getMarketPrice() {
             return MarketPrice;
@@ -66,13 +74,6 @@ public class LimitBuyListResult implements Serializable {
             SaleCount = saleCount;
         }
 
-        public int getQuantity() {
-            return Quantity;
-        }
-
-        public void setQuantity(int quantity) {
-            Quantity = quantity;
-        }
 
         public int getId() {
             return Id;

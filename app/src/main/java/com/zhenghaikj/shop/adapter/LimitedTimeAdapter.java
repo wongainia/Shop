@@ -36,6 +36,6 @@ public class LimitedTimeAdapter extends BaseQuickAdapter<LimitBuyListResult.List
         pb.setProgress(30);
         pb.setMax(100);
         SaleProgressView spv=helper.getView(R.id.spv);
-        spv.setTotalAndCurrentCount(100,item.getSaleCount());
+        spv.setTotalAndCurrentCount(item.getStock(),item.getSaleCount());
     }
 }

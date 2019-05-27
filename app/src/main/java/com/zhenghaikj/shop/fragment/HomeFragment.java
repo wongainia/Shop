@@ -177,8 +177,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //    };
 
     private Integer[] icons = new Integer[]{
-            R.mipmap.juxing, R.mipmap.juxing_five,
-            R.mipmap.juxing_six, R.mipmap.juxing_eight, R.mipmap.juxing_four
+            R.drawable.gift, R.drawable.qiandao,
+            R.drawable.charge, R.drawable.cmd, R.drawable.card
     };
 
 //    private String[] names = new String[]{
@@ -196,7 +196,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     private Integer[] picture = new Integer[]{
             R.mipmap.duihuan, R.mipmap.qiandao, R.mipmap.chongzhi,
-            R.drawable.choumiandan, R.mipmap.quan
+            R.drawable.cmd, R.mipmap.quan
     };
     private MenuAdapter mMainAdapter;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;

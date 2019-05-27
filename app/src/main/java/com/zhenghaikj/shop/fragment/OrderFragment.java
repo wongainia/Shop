@@ -77,7 +77,7 @@ import butterknife.BindView;
 
 
 //全部订单
-public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> implements OrderContract.View,PasswordEditText.PasswordFullListener {
+public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> implements OrderContract.View{
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
     private static final String TAG = "OrderFragment";
@@ -111,6 +111,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private int closeid;
     private UserInfo.UserInfoDean userInfo;
     private Order order;
+    private Order.OrdersBean ordersBean;
 
 
     public static OrderFragment newInstance(String param1, String param2) {
@@ -204,7 +205,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     case R.id.tv_payment://付款
 
                         OrderId = cartList.get(position).getId();
-                        showPopupWindow(cartList.get(position));
+                        ordersBean =cartList.get(position);
+                        showPopupWindow();
                         break;
                     case R.id.tv_extended_receipt://延长收货
 //                        showPopupWindow();
@@ -381,7 +383,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
      * 弹出付款Popupwindow
      * @param ordersBean
      */
-    public void showPopupWindow(Order.OrdersBean ordersBean) {
+    public void showPopupWindow() {
         payList =new ArrayList<>();
         payList.add(new JsonStrOrderPay(Long.parseLong(OrderId),ordersBean.getBisId(),ordersBean.getOrderTotalAmount()));
         Gson gson=new Gson();
@@ -442,7 +444,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                             }
                         }).show();
                     }else {
-                        mPresenter.MallBalancePay("","",ordersBean.getOrderTotalAmount()+"",userName,"");
+                        openPayPasswordDialog1();
                         mPopupWindow.dismiss();
                     }
 
@@ -648,7 +650,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     }
 
 
-    /*支付密码*/
+    /*支付密码*///确认收货
     private void openPayPasswordDialog() {
         PayPasswordView payPasswordView = new PayPasswordView(mActivity);
         bottomSheetDialog = new BottomSheetDialog(mActivity);
@@ -656,7 +658,16 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         bottomSheetDialog.setCanceledOnTouchOutside(false);
         bottomSheetDialog.show();
         /*注册监听*/
-        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(new PasswordEditText.PasswordFullListener() {
+            @Override
+            public void passwordFull(String password) {
+                if (userInfo.getPayPassWord().equals(password)){
+                    mPresenter.PostConfirmOrder(OrderId,userKey);
+                }else {
+                    Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         /*关闭*/
         payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -666,7 +677,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         });
 
     }
-
+    //余额支付
     private void openPayPasswordDialog1() {
         PayPasswordView payPasswordView = new PayPasswordView(mActivity);
         bottomSheetDialog = new BottomSheetDialog(mActivity);
@@ -674,7 +685,16 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         bottomSheetDialog.setCanceledOnTouchOutside(false);
         bottomSheetDialog.show();
         /*注册监听*/
-        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(new PasswordEditText.PasswordFullListener() {
+            @Override
+            public void passwordFull(String password) {
+                if (userInfo.getPayPassWord().equals(password)){
+                    mPresenter.MallBalancePay("","", ordersBean.getOrderTotalAmount()+"",userName,ordersBean.getBisId());
+                }else {
+                    Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         /*关闭*/
         payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -682,17 +702,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 bottomSheetDialog.dismiss();
             }
         });
-
-    }
-
-    @Override
-    public void passwordFull(String password) {
-     if (userInfo.getPayPassWord().equals(password)){
-         mPresenter.PostConfirmOrder(OrderId,userKey);
-     }else {
-         Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
-     }
-
 
     }
 
