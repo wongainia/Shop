@@ -10,6 +10,7 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 
 import org.json.JSONArray;
@@ -33,6 +34,7 @@ public interface OrderDetailContract {
 
         /*判断商品工单号是否发起过保内安装*/
         Observable<BaseResult<Data<String>>> IsMallid(String MallID);
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
 
     }
 
@@ -48,6 +50,8 @@ public interface OrderDetailContract {
         void PostChangeOrderState(EasyResult baseResult);
 
         void IsMallid(BaseResult<Data<String>> baseResult);
+        void GetUserInfoList(BaseResult<UserInfo> Result);
+
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -62,6 +66,8 @@ public interface OrderDetailContract {
         public abstract void PostChangeOrderState(String orderId);
 
         public abstract void IsMallid(String MallID);
+        public abstract void GetUserInfoList(String userName, String limit);
+
 
     }
 }

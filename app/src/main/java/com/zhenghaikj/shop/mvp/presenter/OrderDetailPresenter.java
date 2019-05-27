@@ -9,6 +9,7 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
 
@@ -110,5 +111,14 @@ public class OrderDetailPresenter extends OrderDetailContract.Presenter {
                     }
                 });
     }
-
+    @Override
+    public void GetUserInfoList(String userName, String limit) {
+        mModel.GetUserInfoList(userName, limit)
+                .subscribe(new BaseObserver2<UserInfo>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<UserInfo> value) {
+                        mView.GetUserInfoList(value);
+                    }
+                });
+    }
 }

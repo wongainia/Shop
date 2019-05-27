@@ -41,6 +41,7 @@ import com.zhenghaikj.shop.adapter.OrderDetailAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -49,6 +50,7 @@ import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.JsonStrOrderPay;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PayResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
 import com.zhenghaikj.shop.mvp.model.OrderDetailModel;
@@ -75,7 +77,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View, PasswordEditText.PasswordFullListener {
+public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View {
 
     private static final String TAG = "OrderDetailActivity";
     @BindView(R.id.view)
@@ -197,6 +199,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private String orderinfo;
     private PopupWindow mPopupWindow;
     private BottomSheetDialog bottomSheetDialog;
+    private UserInfo.UserInfoDean userInfo;
 
     @Override
     protected int setLayoutId() {
@@ -223,6 +226,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
+        mPresenter.GetUserInfoList(userName,"1");
         id = getIntent().getStringExtra("orderId");
         mPresenter.GetOrderDetail(id, userKey);
         mPresenter.IsMallid(id);
@@ -340,7 +344,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 openPayPasswordDialog();
                 break;
             case R.id.tv_payment://付款
-                showPopupWindow(orderBean);
+                showPopupWindow();
                 break;
             case R.id.tv_extended_receipt://延长收货
 //                        showPopupWindow();
@@ -465,7 +469,28 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             EventBus.getDefault().post("全部");
         }
     }
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                if (Result.getData().getData()==null){
 
+                }else {
+                    userInfo = Result.getData().getData().get(0);
+//                    if (userInfo !=null){
+//                        mTvBalance.setText(""+userInfo.getTotalMoney()+"");//钱包余额
+//                        mTvWatermelonBalance.setText("￥"+userInfo.getCon()+"");//西瓜币
+//                    }
+                }
+
+
+                break;
+
+            default:
+                break;
+
+        }
+    }
     @Override
     public void PostConfirmOrder(ConfirmOrder Result) {
         if ("true".equals(Result.getSuccess())){
@@ -478,11 +503,10 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     }
     /**
      * 弹出付款Popupwindow
-     * @param ordersBean
      */
-    public void showPopupWindow(OrderDetail.OrderBean ordersBean) {
+    public void showPopupWindow() {
         payList = new ArrayList<>();
-        payList.add(new JsonStrOrderPay(Long.parseLong(id), ordersBean.getBisId(), ordersBean.getRealTotalAmount()));
+        payList.add(new JsonStrOrderPay(Long.parseLong(id), orderBean.getBisId(), orderBean.getRealTotalAmount()));
         Gson gson = new Gson();
         try {
             jsonArray = new JSONArray(gson.toJson(payList));
@@ -492,11 +516,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.payway_layout, null);
         LinearLayout ll_alipay = popupWindow_view.findViewById(R.id.ll_alipay);
         LinearLayout ll_wxpay = popupWindow_view.findViewById(R.id.ll_wxpay);
+        LinearLayout ll_balance = popupWindow_view.findViewById(R.id.ll_balance);
         Button cancel_btn = popupWindow_view.findViewById(R.id.cancel_btn);
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(userName, "", "", ordersBean.getRealTotalAmount() + "", jsonArray);
+                mPresenter.GetOrderStr(userName, "", "", orderBean.getRealTotalAmount() + "", jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -508,11 +533,47 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetWXOrderStr(userName, "", "", ordersBean.getRealTotalAmount() + "", jsonArray);
+                mPresenter.GetWXOrderStr(userName, "", "", orderBean.getRealTotalAmount() + "", jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
                 mPopupWindow.dismiss();
+            }
+        });
+        ll_balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userInfo.getTotalMoney()-orderBean.getRealTotalAmount()>=0){
+                    if ("".equals(userInfo.getPayPassWord())){
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage("未设置支付密码，是否前去设置")
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setPositive("去设置")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//拨打电话
+                                dialog.dismiss();
+                                startActivity(new Intent(mActivity, ChagePayActivity.class));
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+                    }else {
+                        openPayPasswordDialog1();
+                        mPopupWindow.dismiss();
+                    }
+
+
+//                    mPopupWindow.dismiss();
+                }else {
+                    ToastUtils.showShort("余额不足，请充值或选择别的支付方式");
+                }
+
             }
         });
         cancel_btn.setOnClickListener(new View.OnClickListener() {
@@ -727,6 +788,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     }
 
     /*支付密码*/
+    //确认收货
     private void openPayPasswordDialog() {
         PayPasswordView payPasswordView = new PayPasswordView(mActivity);
         bottomSheetDialog = new BottomSheetDialog(mActivity);
@@ -734,7 +796,43 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         bottomSheetDialog.setCanceledOnTouchOutside(false);
         bottomSheetDialog.show();
         /*注册监听*/
-        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(new PasswordEditText.PasswordFullListener() {
+            @Override
+            public void passwordFull(String password) {
+                if (password.equals(userInfo.getPayPassWord())){
+                    mPresenter.PostConfirmOrder(id,userKey);
+                }else {
+                    Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        /*关闭*/
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+    }
+    //余额支付
+    private void openPayPasswordDialog1() {
+        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
+        bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(payPasswordView);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.show();
+        /*注册监听*/
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(new PasswordEditText.PasswordFullListener() {
+            @Override
+            public void passwordFull(String password) {
+                if (password.equals(userInfo.getPayPassWord())){
+//                    mPresenter.MallBalancePay("","", orderBean.getRealTotalAmount()+"",userName,orderBean.getBisId());
+                }else {
+                    Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         /*关闭*/
         payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -745,14 +843,4 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
     }
 
-    @Override
-    public void passwordFull(String password) {
-        if ("888888".equals(password)){
-            mPresenter.PostConfirmOrder(id,userKey);
-
-        }else {
-            Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
-        }
-
-    }
 }

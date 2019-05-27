@@ -11,6 +11,7 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
 
@@ -130,6 +131,11 @@ public class OrderDetailModel implements OrderDetailContract.Model {
                 .subscribeOn(Schedulers.io());
 
     }
-
+    @Override
+    public Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit) {
+        return ApiRetrofit2.getDefault().GetUserInfoList(userName, limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 
 }
