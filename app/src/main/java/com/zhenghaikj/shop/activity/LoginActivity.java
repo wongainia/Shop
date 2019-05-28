@@ -105,7 +105,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 userName = mEtUsername.getText().toString();
                 password = mEtPassword.getText().toString();
                 if (userName.isEmpty()){
-                    ToastUtils.showShort("请输入账号！");
+                    ToastUtils.showShort("请输入手机号！");
                 }else if (password.isEmpty()){
                     ToastUtils.showShort("请输入密码！");
                 }else {

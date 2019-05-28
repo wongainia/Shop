@@ -26,12 +26,11 @@ public class BindPhoneModel implements BindPhoneContract.Model {
     public Observable<SendMessage> GetCode(String contact, String userkey) {
         map = new HashMap<>();
         map.put("contact",contact);
-        map.put("userkey",userkey);
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().GetCode(contact,userkey,"himalltest",timestamp, sign)
+        return ApiRetrofit.getDefault().GetCode(contact,null,null,"himalltest",timestamp, sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -41,12 +40,11 @@ public class BindPhoneModel implements BindPhoneContract.Model {
         map=new HashMap<>();
         map.put("contract",contact);
         map.put("checkcode",checkCode);
-        map.put("userkey",userkey);
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp",timestamp);
         sign=ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().GetCheckPhoneOrEmailCheckCode(contact,checkCode,userkey,"himalltest",timestamp,sign)
+        return ApiRetrofit.getDefault().GetCheckPhoneOrEmailCheckCode(contact,checkCode,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

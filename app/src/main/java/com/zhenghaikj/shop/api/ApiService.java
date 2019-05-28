@@ -121,10 +121,10 @@ public interface ApiService {
     /**
      * 获取短信
      */
-    @FormUrlEncoded
-    @POST("api/UserCenter/GetPhoneOrEmailCheckCode")
+    @GET("api/BaseApi/GetPhoneOrEmailCheckCode")
     Observable<SendMessage> GetCode(@Query("contact") String contact,
-                                    @Query("userkey") String userkey,
+                                    @Query("id") String id,
+                                    @Query("ImageCheckCode") String img,
                                     @Query("app_key") String app_key,
                                     @Query("timestamp") String timestamp,
                                     @Query("sign") String sign);
@@ -133,14 +133,12 @@ public interface ApiService {
     /**
      * 验证验证码
      */
-    @FormUrlEncoded
-    @POST("api/UserCenter/GetCheckPhoneOrEmailCheckCode")
-    Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(@Field("contact") String contact,
-                                                           @Field("checkCode") String checkCode,
-                                                           @Field("userkey ") String userkey,
-                                                           @Field("app_key") String app_key,
-                                                           @Field("timestamp") String timestamp,
-                                                           @Field("sign") String sign);
+    @GET("api/BaseApi/GetCheckPhoneOrEmailCheckCode")
+    Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(@Query("contact") String contact,
+                                                           @Query("checkCode") String checkCode,
+                                                           @Query("app_key") String app_key,
+                                                           @Query("timestamp") String timestamp,
+                                                           @Query("sign") String sign);
 
     /**
      * 验证手机号或邮箱是否绑定账号

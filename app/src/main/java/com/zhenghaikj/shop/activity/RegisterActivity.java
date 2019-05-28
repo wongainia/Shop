@@ -1,7 +1,9 @@
 package com.zhenghaikj.shop.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
@@ -18,10 +21,12 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
+import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.mvp.contract.RegisterContract;
 import com.zhenghaikj.shop.mvp.model.RegisterModel;
 import com.zhenghaikj.shop.mvp.presenter.RegisterPresenter;
@@ -55,8 +60,10 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     TextView mTvAgreement;
     @BindView(R.id.iv_send_yzm)
     ImageView mIvSendYzm;
+    @BindView(R.id.tv_send_yzm)
+    TextView mTvSendYzm;
     private String phone;
-    private GetImageCheckCode data=new GetImageCheckCode();
+    private GetImageCheckCode data = new GetImageCheckCode();
     private String userName;
     private String password;
     private String passwordAgain;
@@ -80,7 +87,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     protected void initData() {
-        Log.d(TAG,"乱码外"+data.getFileContents());
+        Log.d(TAG, "乱码外" + data.getFileContents());
     }
 
     @Override
@@ -95,7 +102,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         mImgAgreement.setOnClickListener(this);
         mImgRegisterBack.setOnClickListener(this);
         mTvRegister.setOnClickListener(this);
-        mIvSendYzm.setOnClickListener(this);
+        mTvSendYzm.setOnClickListener(this);
     }
 
     @Override
@@ -111,36 +118,39 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                     mImgAgreement.setSelected(true);
                 }
                 break;
-            case R.id.iv_send_yzm:
-//                phone = mEtRegisterPhone.getText().toString();
-//                if (phone.isEmpty()) {
-//                    ToastUtils.showShort("请输入手机号！");
-//                } else if (!RegexUtils.isMobileExact(phone)) {
-//                    ToastUtils.showShort("手机格式不正确！");
-//                } else {
-//                    mPresenter.GetCode(phone);
-//                }
-                mPresenter.GetImageCheckCode();
+            case R.id.tv_send_yzm:
+                phone = mEtRegisterPhone.getText().toString();
+                if (phone.isEmpty()) {
+                    ToastUtils.showShort("请输入手机号！");
+                } else if (!RegexUtils.isMobileExact(phone)) {
+                    ToastUtils.showShort("手机格式不正确！");
+                } else {
+                    TimeCount timeCount = new TimeCount(60000, 1000);
+                    timeCount.start();
+                    mPresenter.GetCode(phone,"");
+                }
+//                mPresenter.GetImageCheckCode();
                 break;
             case R.id.tv_register:
                 userName = mEtRegisterPhone.getText().toString();
                 password = mEtRegisterPassword.getText().toString();
                 passwordAgain = mEtRegisterPasswordAgain.getText().toString();
                 code = mEtRegisterYzm.getText().toString();
-                if(userName.isEmpty()){
-                    ToastUtils.showShort("请输入账号！");
-                }else if (password.isEmpty()){
+                if (userName.isEmpty()) {
+                    ToastUtils.showShort("请输入手机号！");
+                } else if (code.isEmpty()) {
+                    ToastUtils.showShort("请输入验证码！");
+                } else if (password.isEmpty()) {
                     ToastUtils.showShort("请输入密码！");
-                }else if (passwordAgain.isEmpty()){
+                } else if (passwordAgain.isEmpty()) {
                     ToastUtils.showShort("请再次输入密码！");
-                }else if (password.length()<6){
+                } else if (password.length() < 6) {
                     ToastUtils.showShort("密码不小于六位！");
-                }else if (!mImgAgreement.isSelected()){
+                } else if (!mImgAgreement.isSelected()) {
                     ToastUtils.showShort("请阅读并同意用户协议");
-                }
-                else if (password.equals(passwordAgain)){
-                    mPresenter.Reg(userName, password,null,null, code,null,null);
-                }else{
+                } else if (password.equals(passwordAgain)) {
+                    mPresenter.GetCheckPhoneOrEmailCheckCode(userName,code,"");//验证验证码
+                } else {
                     ToastUtils.showShort("两次密码不一致！");
                 }
                 break;
@@ -156,11 +166,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void Reg(RegisterResult baseResult) {
-        if (baseResult.isSuccess()){
+        if (baseResult.isSuccess()) {
             ToastUtils.showShort("注册成功");
             mPresenter.LoginOn(userName, password);
             mPresenter.AddFactoryBrand(userName, "其他");
-        }else {
+        } else {
             ToastUtils.showShort(baseResult.getErrorMsg());
         }
 
@@ -169,25 +179,25 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void GetImageCheckCode(GetImageCheckCode baseResult) {
-            byte[] decode;
-            Log.d(TAG,"乱码"+baseResult.getFileContents());
-            decode = Base64.decode(baseResult.getFileContents(), Base64.DEFAULT);
-            Glide.with(mActivity).asBitmap().load(decode).into(mIvSendYzm);
+        byte[] decode;
+        Log.d(TAG, "乱码" + baseResult.getFileContents());
+        decode = Base64.decode(baseResult.getFileContents(), Base64.DEFAULT);
+        Glide.with(mActivity).asBitmap().load(decode).into(mIvSendYzm);
     }
 
     @Override
     public void GetUser(LoginResult Result) {
 
-        if (Result.getSuccess()){
-            spUtils.put("UserKey",Result.getUserKey());
-            spUtils.put("userName",userName);
-            spUtils.put("password",password);
-            spUtils.put("isLogin",true);
+        if (Result.getSuccess()) {
+            spUtils.put("UserKey", Result.getUserKey());
+            spUtils.put("userName", userName);
+            spUtils.put("password", password);
+            spUtils.put("isLogin", true);
 //            EventBus.getDefault().post("PersonalInformation");
             ActivityUtils.finishAllActivities();
-            startActivity(new Intent(mActivity,MainActivity.class));
+            startActivity(new Intent(mActivity, MainActivity.class));
 
-        }else {
+        } else {
             ToastUtils.showShort(Result.getErrorMsg());
         }
     }
@@ -196,30 +206,31 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     public void LoginOn(BaseResult<Data<String>> Result) {
         switch (Result.getStatusCode()) {
             case 200:
-                Data<String> data=Result.getData();
-                if (data.isItem1()){
+                Data<String> data = Result.getData();
+                if (data.isItem1()) {
                     spUtils.put("adminToken", data.getItem2());
                     spUtils.put("userName2", userName);
-                    mPresenter.GetUser(userName, password,"","","");
+                    mPresenter.GetUser(userName, password, "", "", "");
 //                    spUtils.put("passWord", password);
 //                    spUtils.put("isLogin", true);
-                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"8",userName);
+                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this), "8", userName);
 //                    startActivity(new Intent(mActivity, MainActivity.class));
 //                    finish();
-                }else{
+                } else {
                     ToastUtils.showShort(data.getItem2());
                 }
                 break;
         }
     }
+
     @Override
     public void AddAndUpdatePushAccount(BaseResult<Data<String>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                Data<String> data=baseResult.getData();
-                if (data.isItem1()){
+                Data<String> data = baseResult.getData();
+                if (data.isItem1()) {
 
-                }else{
+                } else {
                     ToastUtils.showShort(data.getItem2());
                 }
                 break;
@@ -231,6 +242,25 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     }
 
+    @Override
+    public void GetCode(SendMessage result) {
+
+    }
+
+    @Override
+    public void GetCheckPhoneOrEmailCheckCode(CheckMessage result) {
+        if (result.isSuccess()){
+            mPresenter.Reg(userName, password, null, null, code, null, null);
+        }else{
+            ToastUtils.showShort(result.getMsg());
+        }
+    }
+
+    @Override
+    public void CheckUserName(CheckMessage result) {
+
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
@@ -239,5 +269,29 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         }
         mPresenter.GetImageCheckCode();
     }
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
 
+        @SuppressLint("ResourceAsColor")
+        @Override
+        public void onTick(long millisUntilFinished) {
+            if (mTvSendYzm == null) {
+                return;
+            }
+            mTvSendYzm.setClickable(false);
+            mTvSendYzm.setTextColor(R.color.gray_three);
+            mTvSendYzm.setText(millisUntilFinished / 1000 + "秒后重新获取");
+        }
+
+        @Override
+        public void onFinish() {
+            if (mTvSendYzm == null) {
+                return;
+            }
+            mTvSendYzm.setText("重新获取验证码");
+            mTvSendYzm.setClickable(true);
+        }
+    }
 }

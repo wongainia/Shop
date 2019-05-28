@@ -4,10 +4,12 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
+import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.mvp.contract.RegisterContract;
 
 import java.text.SimpleDateFormat;
@@ -88,6 +90,47 @@ public class RegisterModel implements RegisterContract.Model {
     @Override
     public Observable<BaseResult<Data>> AddFactoryBrand(String UserID, String FBrandName) {
         return ApiRetrofit2.getDefault().AddFactoryBrand(UserID, FBrandName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<SendMessage> GetCode(String contact, String userkey) {
+        map = new HashMap<>();
+        map.put("contact",contact);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetCode(contact,null,null,"himalltest",timestamp, sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(String contact, String checkCode, String userkey) {
+        map=new HashMap<>();
+        map.put("contact",contact);
+        map.put("checkcode",checkCode);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign=ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetCheckPhoneOrEmailCheckCode(contact,checkCode,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+
+    @Override
+    public Observable<CheckMessage> CheckUserName(String contact, String checkCode) {
+        map=new HashMap<>();
+        map.put("contact",contact);
+        map.put("checkcode",checkCode);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().CheckUserName(contact,checkCode,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
