@@ -121,4 +121,15 @@ public class OrderDetailPresenter extends OrderDetailContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void MallBalancePay(String OrderId, String CustomerId, JSONArray JsonStr, String UserID) {
+        mModel.MallBalancePay(OrderId, CustomerId, JsonStr, UserID)
+                .subscribe(new BaseObserver2<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.MallBalancePay(value);
+                    }
+                });
+    }
 }

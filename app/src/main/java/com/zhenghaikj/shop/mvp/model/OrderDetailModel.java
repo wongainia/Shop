@@ -138,4 +138,11 @@ public class OrderDetailModel implements OrderDetailContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
+    @Override
+    public Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId, String CustomerId, JSONArray JsonStr, String UserID) {
+        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId,JsonStr,UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
 }

@@ -35,6 +35,10 @@ public interface OrderDetailContract {
         /*判断商品工单号是否发起过保内安装*/
         Observable<BaseResult<Data<String>>> IsMallid(String MallID);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
+        Observable<BaseResult<Data<String>>> MallBalancePay( String OrderId,
+                                                             String CustomerId,
+                                                             JSONArray JsonStr,
+                                                             String UserID);
 
     }
 
@@ -51,7 +55,7 @@ public interface OrderDetailContract {
 
         void IsMallid(BaseResult<Data<String>> baseResult);
         void GetUserInfoList(BaseResult<UserInfo> Result);
-
+        void MallBalancePay(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -67,7 +71,10 @@ public interface OrderDetailContract {
 
         public abstract void IsMallid(String MallID);
         public abstract void GetUserInfoList(String userName, String limit);
-
+        public abstract void MallBalancePay(String OrderId,
+                                            String CustomerId,
+                                            JSONArray JsonStr,
+                                            String UserID);
 
     }
 }

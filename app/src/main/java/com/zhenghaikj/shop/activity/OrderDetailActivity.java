@@ -77,7 +77,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View {
+public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View,PasswordEditText.PasswordFullListener {
 
     private static final String TAG = "OrderDetailActivity";
     @BindView(R.id.view)
@@ -201,6 +201,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private BottomSheetDialog bottomSheetDialog;
     private UserInfo.UserInfoDean userInfo;
 
+    private int paytype;  //支付方式：支付密码：1  确认收货：2
     @Override
     protected int setLayoutId() {
         return R.layout.activity_order_detail;
@@ -341,9 +342,11 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mPresenter.PostCloseOrder(id,userKey);
                 break;
             case R.id.tv_confirm_receipt://确认收货
+                paytype=2;
                 openPayPasswordDialog();
                 break;
             case R.id.tv_payment://付款
+                paytype=1;
                 showPopupWindow();
                 break;
             case R.id.tv_extended_receipt://延长收货
@@ -491,6 +494,29 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
         }
     }
+
+    @Override
+    public void MallBalancePay(BaseResult<Data<String>> baseResult) {
+
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    mPresenter.PostChangeOrderState(id);
+                    Toast.makeText(mActivity,"支付成功",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
+                    intent.putExtra("OrderID",id);
+                    startActivity(intent);
+                    bottomSheetDialog.dismiss();
+                    OrderDetailActivity.this.finish();
+                }else {
+                Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+
+
+    }
+
     @Override
     public void PostConfirmOrder(ConfirmOrder Result) {
         if ("true".equals(Result.getSuccess())){
@@ -505,6 +531,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
      * 弹出付款Popupwindow
      */
     public void showPopupWindow() {
+        mPresenter.GetUserInfoList(userName,"1");
         payList = new ArrayList<>();
         payList.add(new JsonStrOrderPay(Long.parseLong(id), orderBean.getBisId(), orderBean.getRealTotalAmount()));
         Gson gson = new Gson();
@@ -543,35 +570,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         ll_balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userInfo.getTotalMoney()-orderBean.getRealTotalAmount()>=0){
-                    if ("".equals(userInfo.getPayPassWord())){
-                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                        dialog.setMessage("未设置支付密码，是否前去设置")
-                                //.setImageResId(R.mipmap.ic_launcher)
-                                .setTitle("提示")
-                                .setPositive("去设置")
-                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                            @Override
-                            public void onPositiveClick() {//拨打电话
-                                dialog.dismiss();
-                                startActivity(new Intent(mActivity, ChagePayActivity.class));
-                            }
-
-                            @Override
-                            public void onNegtiveClick() {//取消
-                                dialog.dismiss();
-                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
-                            }
-                        }).show();
-                    }else {
-                        openPayPasswordDialog1();
-                        mPopupWindow.dismiss();
-                    }
-
-
-//                    mPopupWindow.dismiss();
+                if ("".equals(userInfo.getPayPassWord())){
+                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+                    mPopupWindow.dismiss();
                 }else {
-                    ToastUtils.showShort("余额不足，请充值或选择别的支付方式");
+                  openPayPasswordDialog();
+
                 }
 
             }
@@ -676,6 +680,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                         Intent intent = new Intent(mActivity, PaymentSuccessActivity.class);
                         intent.putExtra("OrderID", id);
                         startActivity(intent);
+                        OrderDetailActivity.this.finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付失败");
@@ -703,6 +708,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 Intent intent = new Intent(mActivity, PaymentSuccessActivity.class);
                 intent.putExtra("OrderID", id);
                 startActivity(intent);
+                OrderDetailActivity.this.finish();
                 break;
             case -1:
                 ToastUtils.showShort("支付出错");
@@ -796,43 +802,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         bottomSheetDialog.setCanceledOnTouchOutside(false);
         bottomSheetDialog.show();
         /*注册监听*/
-        payPasswordView.getmPasswordEditText().setPasswordFullListener(new PasswordEditText.PasswordFullListener() {
-            @Override
-            public void passwordFull(String password) {
-                if (password.equals(userInfo.getPayPassWord())){
-                    mPresenter.PostConfirmOrder(id,userKey);
-                }else {
-                    Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        /*关闭*/
-        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetDialog.dismiss();
-            }
-        });
-
-    }
-    //余额支付
-    private void openPayPasswordDialog1() {
-        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
-        bottomSheetDialog = new BottomSheetDialog(mActivity);
-        bottomSheetDialog.setContentView(payPasswordView);
-        bottomSheetDialog.setCanceledOnTouchOutside(false);
-        bottomSheetDialog.show();
-        /*注册监听*/
-        payPasswordView.getmPasswordEditText().setPasswordFullListener(new PasswordEditText.PasswordFullListener() {
-            @Override
-            public void passwordFull(String password) {
-                if (password.equals(userInfo.getPayPassWord())){
-//                    mPresenter.MallBalancePay("","", orderBean.getRealTotalAmount()+"",userName,orderBean.getBisId());
-                }else {
-                    Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
         /*关闭*/
         payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -843,4 +813,25 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
     }
 
+    @Override
+    public void passwordFull(String password) {
+        if (paytype==1){
+            if (userInfo.getPayPassWord().equals(password)){
+                mPresenter.MallBalancePay("","",jsonArray,userName);
+
+                mPopupWindow.dismiss();
+            } else {
+                Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if(paytype==2){
+            if (userInfo.getPayPassWord().equals(password)){
+                mPresenter.PostConfirmOrder(id,userKey);
+            } else {
+                Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+    }
 }

@@ -79,7 +79,6 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
     protected void initData() {
         userKey=spUtils.getString("UserKey");
         orderID = getIntent().getStringExtra("OrderID");
-        Log.d("======>orderID",orderID);
         mPresenter.GetOrderDetail(orderID,userKey);
 
     }

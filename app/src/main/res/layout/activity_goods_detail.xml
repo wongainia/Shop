@@ -533,14 +533,12 @@
                                     android:layout_marginTop="5dp"
                                     android:ellipsize="end"
                                     android:maxLines="2"
-                                    android:text="东西不错不错北京市北京市副本健康减肥不打上来看说那倒是可能女王好难看面对失败说看VB迪士尼"
                                     android:textColor="#333"
                                     android:textSize="12sp" />
 
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="12121313"
                                     />
 
                                 <View

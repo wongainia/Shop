@@ -616,6 +616,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     mPresenter.PostChangeOrderState(OrderId);
                     Toast.makeText(mActivity,"支付成功",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
+                    intent.putExtra("OrderID",OrderId);
+                    startActivity(intent);
                     orderListAdapter.remove(payposition);
                     bottomSheetDialog.dismiss();
                 }else {
@@ -654,9 +656,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         });
 
     }
-
-
-
 
     @Override
     public void onDestroy() {
