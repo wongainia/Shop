@@ -2,17 +2,18 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,6 +36,14 @@ public class GiftAccountActivity extends BaseActivity implements View.OnClickLis
     EditText mEtAccount;
     @BindView(R.id.btn_next_step)
     Button mBtnNextStep;
+    @BindView(R.id.ll_toolbar)
+    LinearLayout mLlToolbar;
+    @BindView(R.id.et_money)
+    EditText mEtMoney;
+    @BindView(R.id.et_remarks)
+    EditText mEtRemarks;
+    @BindView(R.id.btn_confirm_transfer)
+    Button mBtnConfirmTransfer;
 
     @Override
     protected int setLayoutId() {
