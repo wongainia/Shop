@@ -570,8 +570,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         ll_balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userInfo.getTotalMoney()-orderBean.getRealTotalAmount()>=0){
-                    if ("".equals(userInfo.getPayPassWord())){
+                if (userInfo.getTotalMoney()-orderBean.getRealTotalAmount()>=0) {
+                    if ("".equals(userInfo.getPayPassWord())) {
                         final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
                         dialog.setMessage("未设置支付密码，是否前去设置")
                                 //.setImageResId(R.mipmap.ic_launcher)
@@ -590,19 +590,20 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                                 // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
                             }
                         }).show();
-                    }else {
-                        openPayPasswordDialog1();
+                    } else {
+                        openPayPasswordDialog();
                         mPopupWindow.dismiss();
                     }
 
 
 //                    mPopupWindow.dismiss();
-                if ("".equals(userInfo.getPayPassWord())){
-                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
-                    mPopupWindow.dismiss();
-                }else {
-                  openPayPasswordDialog();
-
+//                if ("".equals(userInfo.getPayPassWord())){
+//                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+//                    mPopupWindow.dismiss();
+//                }else {
+//                  openPayPasswordDialog();
+//
+//                }
                 }
 
             }
