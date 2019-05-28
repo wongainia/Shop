@@ -316,6 +316,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     startActivity(new Intent(mActivity, CallChageActivity.class));
                     break;
                 case 3:
+                    startActivity(new Intent(mActivity,LotteryActivity.class));
                     break;
                 case 4:
                     break;

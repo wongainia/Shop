@@ -3,5 +3,13 @@
     <string name="nearOverText">即将售罄</string>
     <string name="overText">已售罄</string>
 
-
+    <string-array name="names">
+        <item>王 者 皮 肤</item>
+        <item>1 8 0 积 分</item>
+        <item>L O L 皮 肤</item>
+        <item>谢 谢 参 与</item>
+        <item>2 8 积 分</item>
+        <item>微 信 红 包</item>
+        <item>5 Q 币</item>
+    </string-array>
 </resources>

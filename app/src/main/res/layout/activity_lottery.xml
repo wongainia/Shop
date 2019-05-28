@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <include layout="@layout/activity_toolbar" />
-</LinearLayout>
+android:background="@mipmap/bg_lottery"
+    >
+   <include layout="@layout/activity_toolbar" />
+
+    <com.cretin.www.wheelsruflibrary.view.WheelSurfView
+        android:id="@+id/ws"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        app:typenum="-1"
+        android:layout_margin="10dp"
+        >
+    </com.cretin.www.wheelsruflibrary.view.WheelSurfView>
+
+
+
+</RelativeLayout>
