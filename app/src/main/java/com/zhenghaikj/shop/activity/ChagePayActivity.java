@@ -73,8 +73,6 @@ public class ChagePayActivity extends BaseActivity<ChangePayPasswordPresenter, C
         userkey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
         mPresenter.GetUserInfoList(userName, "1");
-
-
     }
 
     @Override

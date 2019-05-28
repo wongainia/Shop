@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.base;
 import android.util.Log;
 
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.JsonSyntaxException;
 
@@ -34,6 +35,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
     @Override
     public void onNext(T value) {
             onHandleSuccess(value);
+
     }
 
     @Override

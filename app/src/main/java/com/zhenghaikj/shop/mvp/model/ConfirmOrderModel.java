@@ -148,8 +148,11 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId) {
-        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId, PayMoney, UserID, BisId)
+    public Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId,
+                                                               String CustomerId,
+                                                               JSONArray JsonStr,
+                                                               String UserID) {
+        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId, JsonStr, UserID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

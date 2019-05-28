@@ -375,11 +375,9 @@ public interface ApiService2 {
     @FormUrlEncoded
     @POST("Mall/MallBalancePay")
     Observable<BaseResult<Data<String>>> MallBalancePay(@Field("OrderId") String OrderId,
-                                                     @Field("CustomerId") String CustomerId,
-                                                     @Field("PayMoney") String PayMoney,
-                                                     @Field("UserID") String UserID,
-                                                     @Field("BisId") String BisId
-    );
+                                                        @Field("CustomerId") String CustomerId,
+                                                        @Field("JsonStr") JSONArray JsonStr,
+                                                        @Field("UserID") String UserID);
 
     /**
      * 微信人工回调OutTradeNo

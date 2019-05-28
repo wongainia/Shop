@@ -94,10 +94,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     private int size;
     private List<Uri> mSelected;
     private Uri uri;
-
     private CommentEntity mCommentEntity = new CommentEntity();//提交评价的实体类
-
-
     private Map<Integer, CommentsInfo> map = new HashMap<>();//用于存放评分 留言 图片
 
 
@@ -145,7 +142,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     @Override
     public void GetComment(EvaluateResult Result) {
         if (Result.isSuccess()) {
-
             for (int i = 0; i < Result.getOrderItemIds().size(); i++) {
                 CommentsInfo mCommentsInfo = new CommentsInfo();
                 mCommentsInfo.setOrderItemId(Result.getOrderItemIds().get(i).toString());
@@ -153,8 +149,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
                 mCommentsInfo.setCommentContent("用户未填写评论！");//
                 map.put(i, mCommentsInfo);  //存入orderItemId
             }
-
-
             for (int i = 0; i < Result.getProduct().size(); i++) {
                 CommentsInfo commentsInfo = new CommentsInfo();
                 List<String> commentImgs = new ArrayList<>();
@@ -592,7 +586,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
                 Gson gson = new Gson();
                 String json = gson.toJson(mCommentEntity);
-                Log.d("=====>json", json);
                 mPresenter.PostAddComment(Userkey, json);
                 break;
         }

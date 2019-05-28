@@ -101,8 +101,11 @@ public class OrderPresenter extends OrderContract.Presenter {
     }
 
     @Override
-    public void MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId) {
-        mModel.MallBalancePay(OrderId, CustomerId, PayMoney, UserID, BisId)
+    public void MallBalancePay(String OrderId,
+                               String CustomerId,
+                               JSONArray JsonStr,
+                               String UserID) {
+        mModel.MallBalancePay(OrderId, CustomerId, JsonStr, UserID)
                 .subscribe(new BaseObserver2<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {

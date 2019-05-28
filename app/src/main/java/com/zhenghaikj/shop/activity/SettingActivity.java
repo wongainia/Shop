@@ -165,7 +165,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
                 startActivity(new Intent(mActivity, PersonalInformationActivity.class));
                 break;
             case R.id.ll_modify_payment_password:
-                startActivity(new Intent(mActivity, ChagePayActivity.class));
+               // startActivity(new Intent(mActivity, ChagePayActivity.class));
+                startActivity(new Intent(mActivity,SettingPayPasswordActivity.class));
+
+
                 break;
         }
     }

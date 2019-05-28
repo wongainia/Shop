@@ -27,7 +27,12 @@ public interface OrderContract {
 
         Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr);
         Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid,String Bisid,String OrderId, String TotalAmount, JSONArray jsonStr);
-        Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId);
+
+        Observable<BaseResult<Data<String>>> MallBalancePay( String OrderId,
+                                                             String CustomerId,
+                                                             JSONArray JsonStr,
+                                                             String UserID);
+
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<EasyResult> PostChangeOrderState(String orderId);
         Observable<EasyResult> CancelOrder(String orderId,String userid);
@@ -58,7 +63,10 @@ public interface OrderContract {
 
         public abstract void GetOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
         public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr);
-        public abstract void MallBalancePay(String OrderId, String CustomerId, String PayMoney, String UserID, String BisId);
+        public abstract void MallBalancePay(String OrderId,
+                                            String CustomerId,
+                                            JSONArray JsonStr,
+                                            String UserID);
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void PostChangeOrderState(String orderId);
         public abstract void CancelOrder(String orderId,String userid);

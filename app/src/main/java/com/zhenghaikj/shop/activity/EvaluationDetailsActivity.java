@@ -136,7 +136,6 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             pageIndex = 1;
-
             refreshLayout.setNoMoreData(false);
             refreshLayout.finishRefresh(1000);
         });

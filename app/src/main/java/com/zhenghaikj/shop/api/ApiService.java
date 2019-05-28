@@ -48,6 +48,7 @@ import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
+import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.entity.SubmitOrder;
 import com.zhenghaikj.shop.entity.UploadImgResult;
 import com.zhenghaikj.shop.entity.UserCouponListResult;
@@ -927,4 +928,15 @@ public interface ApiService {
                                                   @Query("app_key") String app_key,
                                                   @Query("timestamp") String timestamp,
                                                   @Query("sign") String sign);
+
+    /*获取店铺首页*/
+    @GET("api/VShop/GetVShop")
+    Observable<StoreDetailResult> GetVShop(@Query("id") String id,
+                                           @Query("Userkey") String Userkey,
+                                           @Query("app_key") String app_key,
+                                           @Query("timestamp") String timestamp,
+                                           @Query("sign") String sign);
+
+
+
 }

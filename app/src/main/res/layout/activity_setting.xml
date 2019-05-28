@@ -237,7 +237,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="修改支付密码"
+                        android:text="设置支付密码"
                         android:textColor="#333"
                         android:textSize="14sp" />
 

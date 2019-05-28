@@ -321,7 +321,20 @@
             android:launchMode="singleTask"
             />
 
+        <activity android:name=".activity.LotteryActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
 
+        <activity android:name=".activity.StoreDetailActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
+
+        <activity android:name=".activity.SettingPayPasswordActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
         <receiver
             android:name=".wxapi.AppRegister">
             <intent-filter>

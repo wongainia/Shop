@@ -537,6 +537,12 @@
                                     android:textColor="#333"
                                     android:textSize="12sp" />
 
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="12121313"
+                                    />
+
                                 <View
                                     android:layout_width="match_parent"
                                     android:layout_height="0.5dp"
@@ -1094,7 +1100,7 @@
                     android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
-    </com.lwkandroid.widget.stateframelayout.StateFrameLayout>
+   </com.lwkandroid.widget.stateframelayout.StateFrameLayout>
 
     <LinearLayout
         android:id="@+id/headerParent"
