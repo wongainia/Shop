@@ -20,14 +20,12 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.donkingliang.labels.LabelsView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AreaAdapter;
 import com.zhenghaikj.shop.adapter.BrandChooseAdapter;
 import com.zhenghaikj.shop.adapter.CategoryAdapter;
-import com.zhenghaikj.shop.adapter.CategoryAdapterMall;
 import com.zhenghaikj.shop.adapter.ChooseCategoryAdapter;
 import com.zhenghaikj.shop.adapter.CityAdapter;
 import com.zhenghaikj.shop.adapter.DistrictAdapter;
@@ -40,7 +38,6 @@ import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.CategoryData;
-import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
@@ -307,7 +304,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         mLlAddAddress.setOnClickListener(this);
 
 
-        mTvAddress.setOnClickListener(this);
+//        mTvAddress.setOnClickListener(this);
 
         mLlUnderWarranty.setOnClickListener(this);
         mLlOutsideTheWarranty.setOnClickListener(this);

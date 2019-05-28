@@ -58,6 +58,10 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     private SPUtils spUtils;
     private String userkey;
     private AddressAdapter addressAdapter;
+    private boolean choose_address_request;
+    private ShippingAddressList.ShippingAddressBean shippingAddressBean;
+    private int Code;
+    private int editpos=-1;
 
     @Override
     protected void initImmersionBar() {
@@ -100,19 +104,22 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
                         }).create().show();
                         break;
                     case R.id.tv_edit:
+                        editpos =position;
                         Intent intent = new Intent(mActivity, AddAddressActivity.class);
                         intent.putExtra("address", list.get(position));
-                        ShippingAddressActivity.this.startActivityForResult(intent, 100);
+                        if (choose_address_request){
+                            ShippingAddressActivity.this.startActivityForResult(intent, 200);
+                        }else{
+                            ShippingAddressActivity.this.startActivityForResult(intent, 100);
+                        }
                         break;
                     case R.id.ll_address:
-                        boolean choose_address_request = ShippingAddressActivity.this.getIntent().getBooleanExtra("CHOOSE_ADDRESS_REQUEST", false);
                         if (choose_address_request) {
-                            ShippingAddressList.ShippingAddressBean shippingAddressBean = new ShippingAddressList.ShippingAddressBean();
                             shippingAddressBean = ((ShippingAddressList.ShippingAddressBean) adapter.getData().get(position));
                             Intent intent1 = new Intent();
                             intent1.putExtra("Address", shippingAddressBean);
-                            ShippingAddressActivity.this.setResult(Config.CHOOSE_ADDRESS_RESULT, intent1);
-                            ShippingAddressActivity.this.finish();
+                            setResult(Config.CHOOSE_ADDRESS_RESULT, intent1);
+                            finish();
                         } else {
                             return;
                         }
@@ -133,6 +140,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
         mTvSave.setText("添加新地址");
         mTvSave.setVisibility(View.VISIBLE);
         mTvTitle.setVisibility(View.VISIBLE);
+        choose_address_request = ShippingAddressActivity.this.getIntent().getBooleanExtra("CHOOSE_ADDRESS_REQUEST", false);
 
         spUtils = SPUtils.getInstance("token");
         userkey = spUtils.getString("UserKey");
@@ -152,7 +160,11 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
                 finish();
                 break;
             case R.id.tv_save:
-                startActivityForResult(new Intent(mActivity, AddAddressActivity.class),100);
+                if (choose_address_request){
+                    startActivityForResult(new Intent(mActivity, AddAddressActivity.class),200);
+                }else{
+                    startActivityForResult(new Intent(mActivity, AddAddressActivity.class),100);
+                }
                 break;
         }
     }
@@ -171,6 +183,17 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
             list.clear();
             list.addAll(addressList);
             addressAdapter.setNewData(list);
+            if (Code==200){
+                if (editpos!=-1){
+                    shippingAddressBean = list.get(editpos);
+                }else{
+                    shippingAddressBean = list.get(0);
+                }
+                Intent intent = new Intent();
+                intent.putExtra("Address", shippingAddressBean);
+                setResult(Config.CHOOSE_ADDRESS_RESULT, intent);
+                finish();
+            }
         }
     }
 
@@ -187,9 +210,22 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==100){
-            mPresenter.GetShippingAddressList(userkey);
-        }
+        Code =requestCode;
+        mPresenter.GetShippingAddressList(userkey);
+        /*switch(requestCode){
+            case 100:
+                mPresenter.GetShippingAddressList(userkey);
+                break;
+            case 200:
+                shippingAddressBean = (ShippingAddressList.ShippingAddressBean) data.getSerializableExtra("address");
+                Intent intent = new Intent();
+                intent.putExtra("Address", shippingAddressBean);
+                setResult(Config.CHOOSE_ADDRESS_RESULT, intent);
+                finish();
+                break;
+            default:
+                break;
+        }*/
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
