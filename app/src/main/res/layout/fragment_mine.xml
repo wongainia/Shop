@@ -756,7 +756,8 @@
                         android:layout_margin="13dp"
                         android:layout_marginBottom="13dp"
                         android:background="@drawable/mine_wuliu_shape"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
                         <com.zhenghaikj.shop.widget.SwitchView
                             android:id="@+id/scroll_express"
                             android:layout_width="match_parent"
@@ -888,7 +889,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
                             android:textColor="@color/black"
-                            android:text="获取工单"
+                            android:text="查看所有工单"
                             android:textSize="16sp"/>
                         <TextView
                             android:layout_width="wrap_content"

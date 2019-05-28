@@ -17,6 +17,8 @@ import com.zhenghaikj.shop.mvp.contract.ChageUserNameContract;
 import com.zhenghaikj.shop.mvp.model.ChageUserNameModel;
 import com.zhenghaikj.shop.mvp.presenter.ChageUserNamePresenter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,6 +106,7 @@ public class ChageUserNameActivity extends BaseActivity<ChageUserNamePresenter, 
     public void UpdateAccountNickName(BaseResult<Data> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
+                EventBus.getDefault().post("UserName");
                 ToastUtils.showShort("修改成功");
                 finish();
                 break;

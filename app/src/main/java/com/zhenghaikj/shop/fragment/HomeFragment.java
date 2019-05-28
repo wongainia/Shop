@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -459,7 +460,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 window.setBackgroundDrawable(new ColorDrawable());
                 break;
             case R.id.iv_register:
-                startActivity(new Intent(mActivity, RegisterActivity.class));
+                if ("".equals(userName)){
+                    startActivity(new Intent(mActivity, RegisterActivity.class));
+                }else {
+                    ToastUtils.showShort("您已登录");
+                }
+
                 break;
 
         }

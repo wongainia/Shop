@@ -16,9 +16,11 @@ import com.bumptech.glide.Glide;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.Logout;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.SettingContract;
 import com.zhenghaikj.shop.mvp.model.SettingModel;
 import com.zhenghaikj.shop.mvp.presenter.SettingPresenter;
@@ -70,6 +72,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     LinearLayout mLlPerson;
     private SPUtils spUtils;
     private String userKey;
+    private String userName;
 
     @Override
     protected int setLayoutId() {
@@ -97,7 +100,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
 
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
         mPresenter.PersonalInformation(userKey);
+        mPresenter.GetUserInfoList(userName,"1");
     }
 
     @Override
@@ -112,6 +117,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
         mLlBrand.setOnClickListener(this);
         mLlPerson.setOnClickListener(this);
         mLlModifyPaymentPassword.setOnClickListener(this);
+        mLlFeedback.setOnClickListener(this);
     }
 
     @Override
@@ -170,6 +176,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
 
 
                 break;
+            case R.id.ll_feedback:
+                startActivity(new Intent(mActivity,OpinionActivity.class));
+                break;
         }
     }
 
@@ -206,7 +215,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     @Override
     public void PersonalInformation(PersonalInformation result) {
         if (result.isSuccess()) {
-            mTvNickname.setText(result.getUserName());
+
             mTvMemberName.setText("会员名：" + result.getUserName());
             /*设置头像*/
             if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像
@@ -216,6 +225,15 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
 //                decode = Base64.decode(result.getPhoto(), Base64.DEFAULT);
                 Glide.with(mActivity).asBitmap().load(result.getPhoto()).into(mIvAvatar);
             }
+        }
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()){
+            case 200:
+                mTvNickname.setText(Result.getData().getData().get(0).getNickName());
+                break;
         }
     }
 }

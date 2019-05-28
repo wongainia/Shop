@@ -72,6 +72,7 @@ import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
 import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
+import com.zhenghaikj.shop.utils.GlideUtil;
 import com.zhenghaikj.shop.utils.ZXingUtils;
 import com.zhenghaikj.shop.widget.CircleImageView;
 import com.zhenghaikj.shop.widget.StarBarView;
@@ -262,6 +263,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private EditText et_content1;
     private WorkOrder workOrder;
     private int i = 0;
+    private int j = 0;
     private ClipData myClip;
     private ClipboardManager myClipboard;
     private ServiceAdapter serviceAdapter;
@@ -270,6 +272,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private ShareAction mShareAction;
     private Order order;
     private List<Logistics> expresslist;
+    private ImageView iv_goods;
+    private String expressNum;
 
 
     public static MineFragment newInstance(String param1, String param2) {
@@ -333,7 +337,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             mPresenter.GetOrderByhmalluserid(userName);
             mPresenter.GetOrders("3", "1", "10", userKey);
 //            for (int i=0;i<order.getOrders().size();i++){
-
+//                mPresenter.GetExpress(order.getOrders().get(i).getId(),userKey);
 //            }
         } else {
             mTvUsername.setText("未登录");
@@ -383,6 +387,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
+        if ("UserName".equals(name)){
+            mPresenter.GetUserInfoList(userName,"1");
+        }
         if ("UpdateOrderCount".equals(name)) {//更新各种数量
             mPresenter.PersonalInformation(userKey);
         }
@@ -394,6 +401,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             mPresenter.PersonalInformation(userKey);
             mPresenter.GetHistoryVisite(userKey);
         }
+
     }
 
     @Override
@@ -610,8 +618,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
 
     private ArrayList<Logistics> logisticsList = new ArrayList<>();
-
-    private void showLogistucs() {
+    private LogisticsAdapter logisticsAdapter = new LogisticsAdapter(R.layout.item_logistics, logisticsList);
+    private void showLogistucs(int number) {
         customDialog = new CustomDialog(getContext());
         customDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         customDialog.show();
@@ -622,11 +630,23 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             }
         });
 
-        rv_logistics = customDialog.findViewById(R.id.rv_logistics);
+        ImageView iv_goods_picture=customDialog.findViewById(R.id.iv_goods_picture);
+        GlideUtil.loadImageViewLoding(mActivity,order.getOrders().get(number).getItemInfo().get(number).getImage(), iv_goods_picture,R.drawable.image_loading,R.drawable.image_loading);
+
+        TextView tv_goods_name=customDialog.findViewById(R.id.tv_goods_name);
+        tv_goods_name.setText(order.getOrders().get(number).getItemInfo().get(number).getProductName());
+
+        TextView tv_express_delivery=customDialog.findViewById(R.id.tv_express_delivery);
+        tv_express_delivery.setText("快递单号："+expressNum);
+
+
+
+
+                rv_logistics = customDialog.findViewById(R.id.rv_logistics);
 //        for (int i = 0; i < 10; i++) {
 //            logisticsList.add(new Logistics());
 //        }
-        LogisticsAdapter logisticsAdapter = new LogisticsAdapter(R.layout.item_logistics, logisticsList);
+
         rv_logistics.setLayoutManager(new LinearLayoutManager(mActivity));
         rv_logistics.setAdapter(logisticsAdapter);
     }
@@ -984,6 +1004,20 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     }
 
     @Override
+    public void GetOrders(Order result) {
+        if (result.isSuccess()){
+            if (result.getOrders() != null) {
+                order = result;
+                for (int i=0;i<order.getOrders().size();i++){
+                    mPresenter.GetExpress(order.getOrders().get(i).getId(),userKey);
+
+                }
+
+            }
+        }
+    }
+
+    @Override
     public void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult) {
         switch (baseResult.getStatusCode()){
             case 200:
@@ -993,12 +1027,34 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     mScrollExpress.initView(R.layout.item_express, new SwitchView.ViewBuilder() {
                         @Override
                         public void initView(View view) {
+                            LinearLayout ll_express=(LinearLayout) view.findViewById(R.id.ll_express);
                             TextView tv_express_information=(TextView) view.findViewById(R.id.tv_express_information);
-                            tv_express_information.setText(expresslist.get(0).getContent());
-                            i++;
-                            if (i==order.getOrders().size()){
-                                i=0;
+                            iv_goods = (ImageView) view.findViewById(R.id.iv_goods);
+//                            Log.d(TAG,"order.getOrders()"+order.getOrders());
+//                            for (int k=0;k<order.getOrders().size();k++){
+                            Log.d(TAG,"order.getOrders()"+order.getOrders().size());
+//                                GlideUtil.loadImageViewLoding(mActivity,order.getOrders().get(k).getItemInfo().get(k).getImage(), iv_goods,R.drawable.image_loading,R.drawable.image_loading);
+                            tv_express_information.setText(expresslist.get(j).getContent());
+                            logisticsList.clear();
+                            logisticsList.addAll(expresslist);
+//                            Log.d(TAG,"order.getOrders()"+logisticsList);
+                            logisticsAdapter.setNewData(logisticsList);
+                            int number=j;
+                            ll_express.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                     ToastUtils.showShort(""+number);
+//                                    showLogistucs(number);
+                                }
+                            });
+//                            }
+
+                            j++;
+                            if (j==order.getOrders().size()){
+                                j=0;
                             }
+
+
                         }
                     });
                 }
@@ -1006,23 +1062,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         }
     }
 
-    @Override
-    public void GetOrders(Order result) {
-        if (result.isSuccess()){
-            if (result.getOrders() != null) {
-                order = result;
-                for (int i=0;i<order.getOrders().size();i++){
-                    mPresenter.GetExpress(order.getOrders().get(i).getId(),userKey);
-                }
 
-            }
-        }
-    }
 
     @Override
     public void GetExpress(Express Result) {
         if (Result.isSuccess()){
-            mPresenter.GetExpressInfo(Result.getExpressNum());
+            expressNum = Result.getExpressNum();
+//            mPresenter.GetExpressInfo(Result.getExpressNum());
+
+
         }
     }
 

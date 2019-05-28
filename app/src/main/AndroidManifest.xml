@@ -214,6 +214,9 @@
         <activity android:name=".activity.ChagePayActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.OpinionActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
 
 
         <activity android:name=".activity.WorkOrderDetailActivity" android:theme="@style/AppSplash"

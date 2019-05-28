@@ -26,7 +26,8 @@
             android:gravity="center"
             android:text="14:29"
             android:textColor="#CCCCCC"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <!--中间 时间轴-->

@@ -160,6 +160,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+//        EventBus.getDefault().register(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -269,10 +270,13 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if (!"RegiaterActivity".equals(name)) {
-            return;
+        switch (name){
+            case "UserName":
+                mPresenter.PersonalInformation(userKey);
+                mPresenter.GetUserInfoList(userName,"1");
+                break;
         }
-        mPresenter.PersonalInformation(userKey);
+
     }
 
     /**
