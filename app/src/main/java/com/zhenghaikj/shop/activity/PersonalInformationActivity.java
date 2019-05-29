@@ -190,6 +190,10 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         View view= LayoutInflater.from(mActivity).inflate(R.layout.dialog_gender,null);
         TextView male=view.findViewById(R.id.tv_male);
         TextView female=view.findViewById(R.id.tv_female);
+        ImageView img_male=view.findViewById(R.id.img_male);
+        ImageView img_female=view.findViewById(R.id.img_female);
+
+
         male.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,6 +202,18 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 mTvGender.setText("男");
             }
         });
+        img_male.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.UpdateSex(userName,"男");
+                dialog.dismiss();
+                mTvGender.setText("男");
+            }
+        });
+
+
+
+
 
         female.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,6 +223,16 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 mTvGender.setText("女");
             }
         });
+
+        img_female.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.UpdateSex(userName,"女");
+                dialog.dismiss();
+                mTvGender.setText("女");
+            }
+        });
+
         dialog = new AlertDialog.Builder(mActivity).setView(view).create();
         dialog.show();
         Window window= dialog.getWindow();

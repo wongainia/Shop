@@ -9,8 +9,8 @@ android {
         applicationId "com.zhenghaikj.shop"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 12
-        versionName "1.1.1"
+        versionCode 9
+        versionName "1.0.8.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -31,50 +31,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-
-        debug {
-            crunchPngs false //关闭crunchPng优化, 以加快构建
-            //其他代码省略 ...
-        }
     }
     compileOptions {
-        incremental = true  //开启增量编译
-
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     aspectjx { exclude 'com.alipay' }
-
-    //Add the following configuration
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-    //如果是构建debug包, 则禁用 "png cruncher" (默认cruncherEnabled=true, 禁用以加速构建)
-    def enableCruncher = { ->
-        return !isDebug()
-    }
-
-    aaptOptions { //禁用cruncher, 以加速编译
-        cruncherEnabled = enableCruncher()
-        cruncherProcesses = 0
-    }
-
-    dexOptions { //优化dex配置
-        dexInProcess true
-        preDexLibraries true
-        javaMaxHeapSize "2g"
-    }
-//跳过Lint和Test相关的task, 以加速编译
-    if (isDebug()) {
-        gradle.taskGraph.whenReady {
-            tasks.each { task ->
-                if (task.name.contains("Test") || task.name.contains("Lint")) {
-                    task.enabled = false
-                }
-            }
-        }
-    }
 }
 
 dependencies {
@@ -180,7 +142,7 @@ dependencies {
     implementation 'com.github.vondear.RxTool:RxUI:v2.2.7'
 
     //标签
-    implementation 'com.github.donkingliang:LabelsView:1.4.1'
+    implementation 'com.github.donkingliang:LabelsView:1.5.0'
 
     //Zloading加载动画
     implementation 'com.zyao89:zloading:1.2.0'
@@ -199,4 +161,7 @@ dependencies {
     implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
     implementation files('libs/umeng-shareboard-widget-6.9.4.jar')
     implementation files('libs/umeng-sharetool-6.9.4.jar')
+
+    /*幸运转盘*/
+    implementation project(':wheelsruflibrary')
 }
