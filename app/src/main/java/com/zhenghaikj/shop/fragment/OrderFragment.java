@@ -36,6 +36,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.ChagePayActivity;
 import com.zhenghaikj.shop.activity.DeliverySuccessActivity;
 import com.zhenghaikj.shop.activity.EvaluateActivity;
+import com.zhenghaikj.shop.activity.LogisticsInformationActivity;
 import com.zhenghaikj.shop.activity.PaymentSuccessActivity;
 import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
@@ -228,6 +229,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     case R.id.tv_see_logistics://查看物流
                     case R.id.tv_logistics:
                     case R.id.tv_view_logistics:
+                        Intent intent1=new Intent(mActivity, LogisticsInformationActivity.class);
+                        intent1.putExtra("orederId",cartList.get(position).getId());
+                        startActivity(intent1);
                         mPresenter.GetExpressInfo(cartList.get(position).getId(),userKey);
                         break;
                 }

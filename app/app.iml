@@ -240,7 +240,9 @@
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.0.0@jar" level="project" />
     <orderEntry type="module" module-name="magicindicator" />
     <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="wheelsruflibrary" />
     <orderEntry type="module" module-name="magicindicator" />
     <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="wheelsruflibrary" />
   </component>
 </module>

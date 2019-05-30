@@ -48,9 +48,8 @@ import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.RegisterActivity;
 import com.zhenghaikj.shop.activity.SearchDetailActivity;
-import com.zhenghaikj.shop.activity.SettingActivity;
-import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
+import com.zhenghaikj.shop.adapter.HomeCategoryAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
@@ -140,10 +139,13 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     TextView mTvShop;
     @BindView(R.id.iv_register)
     ImageView mIvRegister;
+    @BindView(R.id.rv_category)
+    RecyclerView mRvCategory;
 
     private List<Product> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
     private List<LimitBuyListResult.ListBean> limitedTimeList = new ArrayList<>();
+    private List<Product> categoryList = new ArrayList<>();
 
     private ArrayList<MenuItem> mMainMenus;
     private int fadingHeight = 600; // 当ScrollView滑动到什么位置时渐变消失（根据需要进行调整）
@@ -254,6 +256,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mPresenter.Get(Integer.toString(pageNo), "999");
         mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999", "");
 
+        for (int i=0;i<10;i++){
+            categoryList.add(new Product());
+        }
+        HomeCategoryAdapter homeCategoryAdapter=new HomeCategoryAdapter(R.layout.item_category,categoryList);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mRvCategory.setLayoutManager(mLayoutManager);
+        mRvCategory.setAdapter(homeCategoryAdapter);
+
         for (int i = 0; i < 10; i++) {
             panicBuyList.add(new Product());
             exchageList.add(new Product());
@@ -316,7 +326,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     startActivity(new Intent(mActivity, CallChageActivity.class));
                     break;
                 case 3:
-                    startActivity(new Intent(mActivity,LotteryActivity.class));
+                    startActivity(new Intent(mActivity, LotteryActivity.class));
                     break;
                 case 4:
                     break;
@@ -461,10 +471,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 window.setBackgroundDrawable(new ColorDrawable());
                 break;
             case R.id.iv_register:
-                if ("".equals(userName)){
+                if ("".equals(userName)) {
                     startActivity(new Intent(mActivity, RegisterActivity.class));
-                }else {
-                    ToastUtils.showShort("您已登录");
+                } else {
+                    ToastUtils.showShort("您已经注册了前往购物");
                 }
 
                 break;

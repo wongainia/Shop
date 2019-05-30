@@ -103,6 +103,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         mImgRegisterBack.setOnClickListener(this);
         mTvRegister.setOnClickListener(this);
         mTvSendYzm.setOnClickListener(this);
+        mTvAgreement.setOnClickListener(this);
     }
 
     @Override
@@ -153,6 +154,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 } else {
                     ToastUtils.showShort("两次密码不一致！");
                 }
+                break;
+            case R.id.tv_agreement:
+                Intent intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
+                intent.putExtra("Title","用户协议");
+                startActivity(intent);
                 break;
         }
     }

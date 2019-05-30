@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -174,13 +175,19 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     TextView mTvExpedited;
     @BindView(R.id.tv_submit)
     TextView mTvSubmit;
+    @BindView(R.id.ll_toolbar)
+    LinearLayout mLlToolbar;
+    @BindView(R.id.tv_total_price)
+    TextView mTvTotalPrice;
+    @BindView(R.id.Rl_expressno)
+    RelativeLayout mRlExpressno;
     private OrderDetail.OrderItemBean bean;
     private String storeName;
-    private String num="1";
+    private String num = "1";
     private String title;
     private String memo;
     private ShippingAddressList.ShippingAddressBean address;
-    private String addressid="";
+    private String addressid = "";
     private OrderDetail.OrderBean order;
     private String addressStr;
     private String phone;
@@ -201,7 +208,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String ParentName;//父级名称  例如  冰箱
     private String FCategoryID;//子级ID
     private String FCategoryName;//子级名称  例如  单门 容积X≤100
-    private String ProvinceCode="";//省code
+    private String ProvinceCode = "";//省code
     private String CityCode;//市code
     private String AreaCode;//区code
     private String DistrictCode;//街道code
@@ -248,6 +255,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private List<Category> secondList = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private ChooseCategoryAdapter firstAdapter;
+    private String price="0";
+    private String installPrice="0";
 
     @Override
     protected int setLayoutId() {
@@ -323,7 +332,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         mAdderview.setOnValueChangeListene(new AdderView.OnValueChangeListener() {
             @Override
             public void onValueChange(int value) {
-                num=Integer.toString(value);
+                num = Integer.toString(value);
             }
         });
 
@@ -354,6 +363,14 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                         break;
                 }
                 mTvExpedited.setText("加急费用￥" + ExtraFee);
+                if (mCbService.isChecked()){
+                    Double money = Double.parseDouble(ExtraFee) + Double.parseDouble(price);
+                    mTvTotalPrice.setText("服务金额:¥"+money );
+                }else {
+                    Double money = Double.parseDouble(ExtraFee) + Double.parseDouble(installPrice);
+                    mTvTotalPrice.setText("服务金额:¥"+money );
+                }
+
             }
 
             @Override
@@ -362,7 +379,9 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 ExtraTime = "0";
                 ExtraFee = "0";
             }
+
         });
+
 
     }
 
@@ -454,6 +473,12 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 mLlDescription.setVisibility(View.VISIBLE);
                 mLlAccessories.setVisibility(View.VISIBLE);
                 mLlSigning.setVisibility(View.GONE);
+                if (price == null) {
+                    mTvTotalPrice.setText("服务金额:¥"+"0.00");
+                } else {
+                    mTvTotalPrice.setText("服务金额:¥"+price);
+                }
+
                 break;
             case R.id.ll_installation:
                 mCbService.setChecked(false);
@@ -462,6 +487,11 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 mLlDescription.setVisibility(View.GONE);
                 mLlAccessories.setVisibility(View.GONE);
                 mLlSigning.setVisibility(View.VISIBLE);
+                if (installPrice == null) {
+                    mTvTotalPrice.setText("服务金额:¥"+"0.00");
+                } else {
+                    mTvTotalPrice.setText("服务金额:¥"+installPrice);
+                }
                 break;
             case R.id.ll_scan:
                 IntentIntegrator integrator = new IntentIntegrator(AddWorkOrderActivity.this);
@@ -475,7 +505,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 integrator.initiateScan();
                 break;
             case R.id.tv_submit:
-                if ("".equals(ProvinceCode)){
+                if ("".equals(ProvinceCode)) {
                     ToastUtils.showShort("请添加地址！");
                     return;
                 }
@@ -560,7 +590,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                                 return;
                             }
                         }
-                        mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", null, Extra, ExtraTime, ExtraFee, num, SigningState, number,"123456789");
+                        mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", null, Extra, ExtraTime, ExtraFee, num, SigningState, number, "123456789");
                         break;
                     case "维修":
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
@@ -568,7 +598,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             return;
                         }
                         OrderMoney = "100";
-                        mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null,"123456789");
+                        mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null, "123456789");
                         break;
                     default:
                         break;
@@ -1008,6 +1038,9 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 if (list.get(position) instanceof Category) {
                     TypeID = ((Category) list.get(position)).getFCategoryID();
                     TypeName = ((Category) list.get(position)).getFCategoryName();
+                    price = ((Category) list.get(position)).getGeInitPrice();
+                    installPrice = ((Category) list.get(position)).getGeInstallPrice();
+                    mTvTotalPrice.setText("服务金额:¥"+((Category) list.get(position)).getGeInitPrice());
                     tv.setText(TypeName);
                 }
             }
@@ -1080,11 +1113,11 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
             if (addressList.size() != 0) {
                 for (int i = 0; i < addressList.size(); i++) {
 //                    if (addressList.get(0).isDefault()) {
-                        addressid = String.valueOf(addressList.get(0).getRegionId());
-                        mPresenter.GetRegion(addressid);
-                        mTvName.setText(addressList.get(0).getShipTo());
-                        mTvPhone.setText(addressList.get(0).getPhone());
-                        mTvAddress.setText(addressList.get(0).getRegionFullName() + " " + addressList.get(0).getAddress());
+                    addressid = String.valueOf(addressList.get(0).getRegionId());
+                    mPresenter.GetRegion(addressid);
+                    mTvName.setText(addressList.get(0).getShipTo());
+                    mTvPhone.setText(addressList.get(0).getPhone());
+                    mTvAddress.setText(addressList.get(0).getRegionFullName() + " " + addressList.get(0).getAddress());
                     addressStr = addressList.get(0).getRegionFullName() + " " + addressList.get(0).getAddress();
                     name = addressList.get(0).getShipTo();
                     phone = addressList.get(0).getPhone();

@@ -9,8 +9,8 @@ android {
         applicationId "com.zhenghaikj.shop"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 9
-        versionName "1.0.8.9"
+        versionCode 13
+        versionName "1.1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -22,14 +22,34 @@ android {
 
                 XG_ACCESS_ID:"2100334624",
                 XG_ACCESS_KEY : "A7MVQ818AX4Z",
-                HW_APPID: "100604229",
+                HW_APPID: "100826875",
                 PACKAGE_NAME:"com.zhenghaikj.shop"
         ]
     }
+
+    // 签名配置
+    signingConfigs{
+        release{
+            storeFile file("../mykeystore.jks")
+            storePassword "xiao123456"
+            keyAlias "key0"
+            keyPassword"xiao123456"
+        }
+
+//        debug {
+//            storeFile file("./keystore/debug.keystore")
+//        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            crunchPngs false //关闭crunchPng优化, 以加快构建
+            //其他代码省略 ...
         }
     }
     compileOptions {
@@ -37,6 +57,39 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     aspectjx { exclude 'com.alipay' }
+
+    //Add the following configuration
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    //如果是构建debug包, 则禁用 "png cruncher" (默认cruncherEnabled=true, 禁用以加速构建)
+    def enableCruncher = { ->
+        return !isDebug()
+    }
+
+    aaptOptions { //禁用cruncher, 以加速编译
+        cruncherEnabled = enableCruncher()
+        cruncherProcesses = 0
+    }
+
+    dexOptions { //优化dex配置
+        dexInProcess true
+        preDexLibraries true
+        javaMaxHeapSize "2g"
+    }
+//跳过Lint和Test相关的task, 以加速编译
+    if (isDebug()) {
+        gradle.taskGraph.whenReady {
+            tasks.each { task ->
+                if (task.name.contains("Test") || task.name.contains("Lint")) {
+                    task.enabled = false
+                }
+            }
+        }
+    }
+
+
 }
 
 dependencies {

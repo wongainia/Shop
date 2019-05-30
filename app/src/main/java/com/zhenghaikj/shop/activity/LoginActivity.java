@@ -93,6 +93,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     protected void setListener() {
         mTvRegister.setOnClickListener(this);
         mLogin.setOnClickListener(this);
+        mTvAgreement.setOnClickListener(this);
     }
 
     @Override
@@ -111,6 +112,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 }else {
                     mPresenter.LoginOn(userName, password);
                 }
+                break;
+            case R.id.tv_agreement:
+                Intent intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
+                intent.putExtra("Title","用户协议");
+                startActivity(intent);
                 break;
         }
     }

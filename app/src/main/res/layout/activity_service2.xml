@@ -836,16 +836,61 @@
                 android:textColor="#8F8F8F"
                 android:textSize="10sp"
                 android:text="提交服务工单后，售后专员可能与您电话沟通，请保持手机畅通"/>
+            <RelativeLayout
+                android:id="@+id/Rl_expressno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_round_shape"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                >
+                <TextView
+                    android:id="@+id/tv_total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="服务金额:¥0.00"
+                    android:textColor="#6A6A6A"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="13dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="确认提交"
+                    android:textColor="@color/black"
+                    android:background="@drawable/btn_shape"
+                    android:textSize="15sp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+
+                    />
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:background="@color/white"
                 android:gravity="right"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/tv_submit"
+
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center"

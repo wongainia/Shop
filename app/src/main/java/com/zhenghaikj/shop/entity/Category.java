@@ -37,6 +37,24 @@ public class Category implements Serializable, MultiItemEntity {
     private String limit;
     private String Version;
     private boolean selected;
+    private String GeInitPrice;
+    private String GeInstallPrice;
+
+    public String getGeInitPrice() {
+        return GeInitPrice;
+    }
+
+    public void setGeInitPrice(String geInitPrice) {
+        GeInitPrice = geInitPrice;
+    }
+
+    public String getGeInstallPrice() {
+        return GeInstallPrice;
+    }
+
+    public void setGeInstallPrice(String geInstallPrice) {
+        GeInstallPrice = geInstallPrice;
+    }
 
     public boolean isSelected() {
         return selected;
