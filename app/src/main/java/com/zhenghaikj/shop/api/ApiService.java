@@ -26,6 +26,7 @@ import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.GetPayPwd;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
+import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
@@ -37,6 +38,7 @@ import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.PostPostAddComment;
+import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
@@ -934,6 +936,24 @@ public interface ApiService {
                                            @Query("app_key") String app_key,
                                            @Query("timestamp") String timestamp,
                                            @Query("sign") String sign);
+
+    /*关注店铺*/
+    @FormUrlEncoded
+    @POST("api/VShopHome/PostAddFavoriteShop")
+    Observable<PostattentionResult> PostAddFavoriteShop(@Field("shopId") String shopId,
+                                                        @Field("Userkey") String Userkey,
+                                                        @Query("app_key") String app_key,
+                                                        @Query("timestamp") String timestamp,
+                                                        @Query("sign") String sign);
+
+
+
+    /*获取店铺分类*/
+    @GET("api/VShop/GetVShopCategory")
+    Observable<GetStoreSortResult> GetVShopCategory(@Query("id") String id,
+                                                    @Query("app_key") String app_key,
+                                                    @Query("timestamp") String timestamp,
+                                                    @Query("sign") String sign);
 
 
 

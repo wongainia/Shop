@@ -7,6 +7,8 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetStoreSortResult;
+import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.mvp.contract.AddBrandContract;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
@@ -38,6 +40,33 @@ public class StoreDetailModel implements StoreDetailContract.Model {
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetVShop(id,Userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<PostattentionResult> PostAddFavoriteShop(String shopId, String Userkey) {
+        map = new HashMap<>();
+        map.put("shopid",shopId);
+        map.put("userkey",Userkey);
+        map.put("app_key","himalltest");
+        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().PostAddFavoriteShop(shopId,Userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<GetStoreSortResult> GetVShopCategory(String id) {
+        map = new HashMap<>();
+        map.put("id",id);
+        map.put("app_key","himalltest");
+        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetVShopCategory(id,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

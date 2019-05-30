@@ -4,6 +4,8 @@ import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
+import com.zhenghaikj.shop.entity.GetStoreSortResult;
+import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.mvp.contract.CartContract;
@@ -18,6 +20,28 @@ public class StoreDetailPresenter extends StoreDetailContract.Presenter {
                     @Override
                     protected void onHandleSuccess(StoreDetailResult value) {
                         mView.GetVShop(value);
+                    }
+                });
+    }
+
+    @Override
+    public void PostAddFavoriteShop(String shopId, String Userkey) {
+        mModel.PostAddFavoriteShop(shopId,Userkey)
+                .subscribe(new BaseObserver<PostattentionResult>() {
+                    @Override
+                    protected void onHandleSuccess(PostattentionResult value) {
+                        mView.PostAddFavoriteShop(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetVShopCategory(String id) {
+        mModel.GetVShopCategory(id)
+                .subscribe(new BaseObserver<GetStoreSortResult>() {
+                    @Override
+                    protected void onHandleSuccess(GetStoreSortResult value) {
+                        mView.GetVShopCategory(value);
                     }
                 });
     }

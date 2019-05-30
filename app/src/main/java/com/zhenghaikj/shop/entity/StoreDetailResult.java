@@ -8,19 +8,21 @@ public class StoreDetailResult implements Serializable {
 
     /**
      * Success : True
-     * VShop : {"Id":4,"Logo":"http://192.168.10.47/Storage/Shop/210/VShop/Logo.jpg","Name":"扣扣电脑城","ShopId":210,"Favorite":true,"State":2,"FollowUrl":"http://becks1989.oicp.net/m-WeiXin/vshop/detail/4"}
-     * SlideImgs : [{"ImageUrl":"http://192.168.10.47/Storage/Shop/210/VShop/201507201025240381540.jpg","Url":"www.baidu.com"}]
-     * Products : [{"Id":252,"Name":"Apple MacBook 12英寸笔记本 金色 512GB闪存 MK4N2CH/A","MarketPrice":9666,"SalePrice":5999,"ImageUrl":"/Storage/Shop/210/Products/252/1_350.png","CommentsCount":0},{"Id":245,"Name":"未来人类（Terrans Force）P57 17.3英寸游戏本(六核i7-4960X 32G 1.","MarketPrice":8256,"SalePrice":5555,"ImageUrl":"/Storage/Shop/210/Products/245/1_350.png","CommentsCount":0},{"Id":243,"Name":"      酷爱（COOAV）一体机电脑1037双核台式机电脑 19.5英寸4G/500G     ","MarketPrice":5522,"SalePrice":5555,"ImageUrl":"/Storage/Shop/210/Products/243/1_350.png","CommentsCount":0},{"Id":241,"Name":"2015新款Apple/苹果 MacBook Air MJVE2CH/A 13.3/128GB电脑","MarketPrice":10999,"SalePrice":6888,"ImageUrl":"/Storage/Shop/210/Products/241/1_350.png","CommentsCount":0},{"Id":238,"Name":"    整机厚度15.8mm，重量仅1.1kg，360°自由翻转， 四种使用模式，满足更多使用环境！","MarketPrice":2269,"SalePrice":5592,"ImageUrl":"/Storage/Shop/210/Products/238/1_350.png","CommentsCount":0},{"Id":236,"Name":"      联想（Lenovo）YOGA3 11 11.6英寸触控超薄本 （5Y10 4G 256G","MarketPrice":59222,"SalePrice":55500,"ImageUrl":"/Storage/Shop/210/Products/236/1_350.png","CommentsCount":0},{"Id":235,"Name":"      清华同方U850台式电脑23英寸屏 i5-4460 4G 1T 2G独显 带wifi  ","MarketPrice":54,"SalePrice":5000,"ImageUrl":"/Storage/Shop/210/Products/235/1_350.png","CommentsCount":0},{"Id":234,"Name":"      清华同方（TongFang）精锐X200H-BI02 18.5英寸台式电脑(G1840 ","MarketPrice":19,"SalePrice":0.01,"ImageUrl":"/Storage/Shop/210/Products/234/1_350.png","CommentsCount":0}]
-     * Banner : [{"Id":46,"ShopId":210,"Name":"全部商品","Position":0,"DisplaySequence":1,"Url":"/m-WeiXin/vshop/Search?vshopid=4","Platform":1,"UrlType":1},{"Id":47,"ShopId":210,"Name":"店铺简介","Position":0,"DisplaySequence":2,"Url":"/m-WeiXin/vshop/introduce/4","Platform":1,"UrlType":3},{"Id":48,"ShopId":210,"Name":"商品分类","Position":0,"DisplaySequence":3,"Url":"/m-WeiXin/vshop/Category?vshopid=4","Platform":1,"UrlType":2},{"Id":49,"ShopId":210,"Name":"限时购","Position":0,"DisplaySequence":4,"Url":"","Platform":1,"UrlType":0},{"Id":54,"ShopId":210,"Name":"白富美","Position":0,"DisplaySequence":7,"Url":"/m-WeiXin/vshop/introduce/4","Platform":1,"UrlType":3}]
-     * Coupon : null
+     * VShop : {"Id":10,"Logo":"http://mall.xigyu.com//Storage/Shop/1/VShop/201904271426408530240.jpg","Name":"官方自营店","ShopId":1,"Favorite":false,"State":2,"FollowUrl":""}
+     * SlideImgs : [{"ImageUrl":"http://mall.xigyu.com//Storage/Shop/1/VShop/201905301356453237790.jpg","Url":"暂无"},{"ImageUrl":"http://mall.xigyu.com//Storage/Shop/1/VShop/201905301357173862700.jpg","Url":"暂无"},{"ImageUrl":"http://mall.xigyu.com//Storage/Shop/1/VShop/201905301357331675110.jpg","Url":"无"},{"ImageUrl":"http://mall.xigyu.com//Storage/Shop/1/VShop/201905301357431987570.jpg","Url":"无"},{"ImageUrl":"http://mall.xigyu.com//Storage/Shop/1/VShop/201905301357509175110.jpg","Url":"无"}]
+     * Products : [{"Id":802,"Name":"电热水龙头即热式厨房快速加热速热电热水器淋浴洗澡","MarketPrice":129,"SalePrice":500,"ImageUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/802/1_350.png","CommentsCount":0},{"Id":803,"Name":"除湿机家用卧室小型空气吸湿器地下室工业抽湿大功率干燥","MarketPrice":666.66,"SalePrice":0.01,"ImageUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/803/1_350.png","CommentsCount":0},{"Id":804,"Name":"LQ55H31 55英寸4K超高清全面屏曲面智能LED电视50 60","MarketPrice":2799,"SalePrice":2799,"ImageUrl":"http://mall.xigyu.com//Storage/Shop/1/Products/804/1_350.png","CommentsCount":0}]
+     * Banner : []
+     * Coupon : [{"Id":71,"Price":"5.00","OrderAmount":"10.00"},{"Id":72,"Price":"10.00","OrderAmount":"100.00"},{"Id":73,"Price":"300.00","OrderAmount":"1000.00"}]
+     * CustomerServices : []
      */
 
     private String Success;
     private VShopBean VShop;
-    private Object Coupon;
     private List<SlideImgsBean> SlideImgs;
     private List<ProductsBean> Products;
-    private List<BannerBean> Banner;
+    private List<?> Banner;
+    private List<CouponBean> Coupon;
+    private List<?> CustomerServices;
 
     public String getSuccess() {
         return Success;
@@ -36,14 +38,6 @@ public class StoreDetailResult implements Serializable {
 
     public void setVShop(VShopBean VShop) {
         this.VShop = VShop;
-    }
-
-    public Object getCoupon() {
-        return Coupon;
-    }
-
-    public void setCoupon(Object Coupon) {
-        this.Coupon = Coupon;
     }
 
     public List<SlideImgsBean> getSlideImgs() {
@@ -62,23 +56,39 @@ public class StoreDetailResult implements Serializable {
         this.Products = Products;
     }
 
-    public List<BannerBean> getBanner() {
+    public List<?> getBanner() {
         return Banner;
     }
 
-    public void setBanner(List<BannerBean> Banner) {
+    public void setBanner(List<?> Banner) {
         this.Banner = Banner;
+    }
+
+    public List<CouponBean> getCoupon() {
+        return Coupon;
+    }
+
+    public void setCoupon(List<CouponBean> Coupon) {
+        this.Coupon = Coupon;
+    }
+
+    public List<?> getCustomerServices() {
+        return CustomerServices;
+    }
+
+    public void setCustomerServices(List<?> CustomerServices) {
+        this.CustomerServices = CustomerServices;
     }
 
     public static class VShopBean {
         /**
-         * Id : 4
-         * Logo : http://192.168.10.47/Storage/Shop/210/VShop/Logo.jpg
-         * Name : 扣扣电脑城
-         * ShopId : 210
-         * Favorite : true
+         * Id : 10
+         * Logo : http://mall.xigyu.com//Storage/Shop/1/VShop/201904271426408530240.jpg
+         * Name : 官方自营店
+         * ShopId : 1
+         * Favorite : false
          * State : 2
-         * FollowUrl : http://becks1989.oicp.net/m-WeiXin/vshop/detail/4
+         * FollowUrl :
          */
 
         private int Id;
@@ -148,8 +158,8 @@ public class StoreDetailResult implements Serializable {
 
     public static class SlideImgsBean {
         /**
-         * ImageUrl : http://192.168.10.47/Storage/Shop/210/VShop/201507201025240381540.jpg
-         * Url : www.baidu.com
+         * ImageUrl : http://mall.xigyu.com//Storage/Shop/1/VShop/201905301356453237790.jpg
+         * Url : 暂无
          */
 
         private String ImageUrl;
@@ -174,26 +184,26 @@ public class StoreDetailResult implements Serializable {
 
     public static class ProductsBean {
         /**
-         * Id : 252
-         * Name : Apple MacBook 12英寸笔记本 金色 512GB闪存 MK4N2CH/A
-         * MarketPrice : 9666
-         * SalePrice : 5999
-         * ImageUrl : /Storage/Shop/210/Products/252/1_350.png
+         * Id : 802
+         * Name : 电热水龙头即热式厨房快速加热速热电热水器淋浴洗澡
+         * MarketPrice : 129.0
+         * SalePrice : 500.0
+         * ImageUrl : http://mall.xigyu.com//Storage/Shop/1/Products/802/1_350.png
          * CommentsCount : 0
          */
 
-        private int Id;
+        private String Id;
         private String Name;
-        private int MarketPrice;
-        private int SalePrice;
+        private double MarketPrice;
+        private double SalePrice;
         private String ImageUrl;
         private int CommentsCount;
 
-        public int getId() {
+        public String getId() {
             return Id;
         }
 
-        public void setId(int Id) {
+        public void setId(String Id) {
             this.Id = Id;
         }
 
@@ -205,19 +215,19 @@ public class StoreDetailResult implements Serializable {
             this.Name = Name;
         }
 
-        public int getMarketPrice() {
+        public double getMarketPrice() {
             return MarketPrice;
         }
 
-        public void setMarketPrice(int MarketPrice) {
+        public void setMarketPrice(double MarketPrice) {
             this.MarketPrice = MarketPrice;
         }
 
-        public int getSalePrice() {
+        public double getSalePrice() {
             return SalePrice;
         }
 
-        public void setSalePrice(int SalePrice) {
+        public void setSalePrice(double SalePrice) {
             this.SalePrice = SalePrice;
         }
 
@@ -238,26 +248,16 @@ public class StoreDetailResult implements Serializable {
         }
     }
 
-    public static class BannerBean {
+    public static class CouponBean {
         /**
-         * Id : 46
-         * ShopId : 210
-         * Name : 全部商品
-         * Position : 0
-         * DisplaySequence : 1
-         * Url : /m-WeiXin/vshop/Search?vshopid=4
-         * Platform : 1
-         * UrlType : 1
+         * Id : 71
+         * Price : 5.00
+         * OrderAmount : 10.00
          */
 
         private int Id;
-        private int ShopId;
-        private String Name;
-        private int Position;
-        private int DisplaySequence;
-        private String Url;
-        private int Platform;
-        private int UrlType;
+        private String Price;
+        private String OrderAmount;
 
         public int getId() {
             return Id;
@@ -267,60 +267,20 @@ public class StoreDetailResult implements Serializable {
             this.Id = Id;
         }
 
-        public int getShopId() {
-            return ShopId;
+        public String getPrice() {
+            return Price;
         }
 
-        public void setShopId(int ShopId) {
-            this.ShopId = ShopId;
+        public void setPrice(String Price) {
+            this.Price = Price;
         }
 
-        public String getName() {
-            return Name;
+        public String getOrderAmount() {
+            return OrderAmount;
         }
 
-        public void setName(String Name) {
-            this.Name = Name;
-        }
-
-        public int getPosition() {
-            return Position;
-        }
-
-        public void setPosition(int Position) {
-            this.Position = Position;
-        }
-
-        public int getDisplaySequence() {
-            return DisplaySequence;
-        }
-
-        public void setDisplaySequence(int DisplaySequence) {
-            this.DisplaySequence = DisplaySequence;
-        }
-
-        public String getUrl() {
-            return Url;
-        }
-
-        public void setUrl(String Url) {
-            this.Url = Url;
-        }
-
-        public int getPlatform() {
-            return Platform;
-        }
-
-        public void setPlatform(int Platform) {
-            this.Platform = Platform;
-        }
-
-        public int getUrlType() {
-            return UrlType;
-        }
-
-        public void setUrlType(int UrlType) {
-            this.UrlType = UrlType;
+        public void setOrderAmount(String OrderAmount) {
+            this.OrderAmount = OrderAmount;
         }
     }
 }

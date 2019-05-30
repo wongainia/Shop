@@ -5,7 +5,26 @@
     android:layout_height="match_parent"
 android:background="@mipmap/bg_lottery"
     >
-   <include layout="@layout/activity_toolbar" />
+   <TextView
+       android:id="@+id/tv_back"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="18sp"
+       android:text="退出"
+       android:textColor="@color/white"
+       android:layout_margin="20dp"
+       />
+
+    <TextView
+        android:id="@+id/tv_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="中奖纪录"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/white"
+        android:layout_margin="20dp"
+        />
 
     <com.cretin.www.wheelsruflibrary.view.WheelSurfView
         android:id="@+id/ws"

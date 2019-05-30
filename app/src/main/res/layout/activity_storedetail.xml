@@ -1,10 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/activity_toolbar"/>
+
+    <include layout="@layout/activity_storetoolbar" />
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <!--    <ImageView
+            android:layout_width="match_parent"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitXY"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:layout_height="200dp" />-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:scaleType="fitXY"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:background="#F3C62D"
+            >
+            <ImageView
+                android:id="@+id/img_shop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_toRightOf="@+id/img_shop"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                />
 
 
+            <TextView
+                android:id="@+id/tv_attention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关注"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                />
+        </RelativeLayout>
 
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/tab_receiving_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#F3C62D"
+            app:tl_divider_color="#1A000000"
+            app:tl_divider_padding="10dp"
+            app:tl_textsize="17sp"
+            app:tl_indicator_color="@color/white"
+            app:tl_indicator_height="3dp"
+            app:tl_indicator_width_equal_title="true"
+            app:tl_tab_padding="20dp"
+            app:tl_textSelectColor="@color/white"
+            app:tl_textUnselectColor="@color/white"
+            app:tl_underline_color="#1A000000"
+            app:tl_underline_height="1dp"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_below="@+id/appbar"
+        android:id="@+id/viewpager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </androidx.viewpager.widget.ViewPager>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

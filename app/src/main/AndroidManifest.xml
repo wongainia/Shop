@@ -89,7 +89,6 @@
             android:configChanges="orientation|screenSize" />
 
         <activity android:name=".activity.GoodsDetailActivity"  android:theme="@style/AppSplash"
-            android:launchMode="singleTask"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".activity.PersonalInformationActivity"  android:theme="@style/AppSplash"
             android:launchMode="singleTask"
@@ -331,7 +330,7 @@
             />
 
         <activity android:name=".activity.LotteryActivity"
-            android:theme="@style/AppSplash"
+            android:theme="@style/AppTheme.Lotter"
             android:launchMode="singleTask"
             />
 
