@@ -27,9 +27,16 @@
             android:textSize="20sp" />
     </LinearLayout>
 
-    <ScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+    <com.zhenghaikj.shop.widget.ObservableScrollView
+        android:id="@+id/sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,6 +104,7 @@
                         android:layout_marginLeft="10dp" />
                 </LinearLayout>
             </LinearLayout>
+
             <com.zhenghaikj.shop.widget.RatioLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -217,7 +225,8 @@
                                 android:paddingRight="3dp"
                                 android:text="00"
                                 android:textColor="@color/white"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -225,7 +234,8 @@
                                 android:layout_marginLeft="3dp"
                                 android:text=":"
                                 android:textColor="#333333"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:id="@+id/tv_minute"
@@ -237,7 +247,8 @@
                                 android:paddingRight="3dp"
                                 android:text="00"
                                 android:textColor="@color/white"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -245,7 +256,8 @@
                                 android:layout_marginLeft="3dp"
                                 android:text=":"
                                 android:textColor="#333333"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:id="@+id/tv_second"
@@ -257,7 +269,8 @@
                                 android:paddingRight="3dp"
                                 android:text="00"
                                 android:textColor="@color/white"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:visibility="gone"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -269,7 +282,8 @@
                                 android:textColor="@color/red"
                                 android:textSize="14sp"
                                 android:text="更多兑换"
-                                android:layout_marginRight="10dp"/>
+                                android:layout_marginRight="10dp"
+                                android:visibility="gone"/>
                         </LinearLayout>
 
                         <TextView
@@ -329,14 +343,16 @@
                 <ImageView
                     android:layout_width="200dp"
                     android:layout_height="75dp"
-                    android:src="@drawable/title" />
+                    android:src="@drawable/title"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:descendantFocusability="blocksDescendants">
+                android:descendantFocusability="blocksDescendants"
+                android:visibility="gone">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_shop"
@@ -345,6 +361,7 @@
                     android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
             </RelativeLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.zhenghaikj.shop.widget.ObservableScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

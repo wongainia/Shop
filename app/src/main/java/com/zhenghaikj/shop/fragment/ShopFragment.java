@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
@@ -20,7 +21,12 @@ import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.ShopResult;
+import com.zhenghaikj.shop.mvp.contract.ShopContract;
+import com.zhenghaikj.shop.mvp.model.ShopModel;
+import com.zhenghaikj.shop.mvp.presenter.ShopPresenter;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
+import com.zhenghaikj.shop.widget.ObservableScrollView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -36,7 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
 
-public class ShopFragment extends BaseLazyFragment {
+public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> implements ShopContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -74,6 +80,12 @@ public class ShopFragment extends BaseLazyFragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @BindView(R.id.sv)
+    ObservableScrollView mSv;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
+    private ExchageAdapter exchageAdapter;
+
     public static ShopFragment newInstance(String param1, String param2) {
         ShopFragment fragment = new ShopFragment();
         Bundle args = new Bundle();
@@ -82,6 +94,7 @@ public class ShopFragment extends BaseLazyFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     private ArrayList<String> hotsearchList = new ArrayList<>();
     private String[] hot = new String[]{"冰箱", "电视机", "衣服", "玩具"};
     private HotSearchAdapter hotSearchAdapter;
@@ -89,7 +102,7 @@ public class ShopFragment extends BaseLazyFragment {
     private ArrayList<MenuItem> mMainMenus;
     private MenuAdapter mMainAdapter;
     private List<HomeResult.ProductBean> mDatas = new ArrayList<>();
-    private List<Product> exchageList=new ArrayList<>();
+    private List<ShopResult.GiftBean> exchageList = new ArrayList<>();
 
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private static final int START_ALPHA = 0;//scrollview滑动开始位置
@@ -121,18 +134,23 @@ public class ShopFragment extends BaseLazyFragment {
 
     @Override
     protected void initData() {
+        mPresenter.index();
+        mPresenter.IndexJson();
+
         for (int i = 0; i < 4; i++) {
             hotsearchList.add(hot[i]);
         }
 
-        for (int i = 0; i <10 ; i++) {
-            exchageList.add(new Product());
-        }
+//        for (int i = 0; i < 10; i++) {
+//            exchageList.add(new Product());
+//        }
 
-        ExchageAdapter exchageAdapter= new ExchageAdapter(R.layout.item_exchage,exchageList);
-        LinearLayoutManager linearLayout=new LinearLayoutManager(mActivity);
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        mRvExchage.setLayoutManager(linearLayout);
+//        exchageAdapter = new ExchageAdapter(R.layout.item_exchage, exchageList);
+        exchageAdapter = new ExchageAdapter(R.layout.item_home_two, exchageList);
+//        LinearLayoutManager linearLayout = new LinearLayoutManager(mActivity);
+//        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+//        mRvExchage.setLayoutManager(linearLayout);
+        mRvExchage.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvExchage.setAdapter(exchageAdapter);
 
         hotSearchAdapter = new HotSearchAdapter(R.layout.item_hot_search, hotsearchList);
@@ -192,6 +210,13 @@ public class ShopFragment extends BaseLazyFragment {
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(), mDatas);
         mRvShop.setItemAnimator(new DefaultItemAnimator());
         mRvShop.setAdapter(myRecyclerViewAdapter);
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            mPresenter.index();
+            mPresenter.IndexJson();
+            refreshLayout.setNoMoreData(false);
+            refreshLayout.finishRefresh(1000);
+        });
+        mRefreshLayout.setEnableLoadMore(false);
 
 //        mSv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
 //            @Override
@@ -231,6 +256,19 @@ public class ShopFragment extends BaseLazyFragment {
 //        for (int i = 48; i < 57; i++) {
 //            mDatas.add("¥" + (char) i);
 //        }
+    }
+
+    @Override
+    public void index(ShopResult result) {
+
+    }
+
+    @Override
+    public void IndexJson(ShopResult result) {
+        if (result.getGiftTotal()!=null||"0".equals(result.getGiftTotal())){
+            exchageList.addAll(result.getGiftListNew());
+            exchageAdapter.setNewData(exchageList);
+        }
     }
 
     public class MenuItem {

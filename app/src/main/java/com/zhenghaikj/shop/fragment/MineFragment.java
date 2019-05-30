@@ -915,48 +915,53 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case 200:
                 if (baseResult.getData() != null) {
                     datalist = baseResult.getData().getItem2();
-                    mScrolltv.removeAllViews();
-                    mScrolltv.initView(R.layout.item_switchview, new SwitchView.ViewBuilder() {
-                        @Override
-                        public void initView(View view) {
-                            TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
-                            TextView tv_orderid = (TextView) view.findViewById(R.id.tv_orderid);
-                            TextView tv_state = (TextView) view.findViewById(R.id.tv_state);
-                            ImageView iv_copy = (ImageView) view.findViewById(R.id.iv_copy);
-                            LinearLayout ll_swith = (LinearLayout) view.findViewById(R.id.ll_swith);
+                    if (datalist==null){
+                        mLlService.setVisibility(View.GONE);
+                    }else{
+                        mScrolltv.removeAllViews();
+                        mScrolltv.initView(R.layout.item_switchview, new SwitchView.ViewBuilder() {
+                            @Override
+                            public void initView(View view) {
+                                TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+                                TextView tv_orderid = (TextView) view.findViewById(R.id.tv_orderid);
+                                TextView tv_state = (TextView) view.findViewById(R.id.tv_state);
+                                ImageView iv_copy = (ImageView) view.findViewById(R.id.iv_copy);
+                                LinearLayout ll_swith = (LinearLayout) view.findViewById(R.id.ll_swith);
 
-                            tv_name.setText(datalist.get(i % datalist.size()).getBrandName() + "/" + datalist.get(i % datalist.size()).getCategoryName() + "/" + datalist.get(i % datalist.size()).getSubCategoryName() + "/" + datalist.get(i % datalist.size()).getMemo());
-                            tv_orderid.setText(datalist.get(i % datalist.size()).getOrderID());
-                            tv_state.setText(datalist.get(i % datalist.size()).getState());
+                                tv_name.setText(datalist.get(i % datalist.size()).getBrandName() + "/" + datalist.get(i % datalist.size()).getCategoryName() + "/" + datalist.get(i % datalist.size()).getSubCategoryName() + "/" + datalist.get(i % datalist.size()).getMemo());
+                                tv_orderid.setText(datalist.get(i % datalist.size()).getOrderID());
+                                tv_state.setText(datalist.get(i % datalist.size()).getState());
 //
-                            tv_name.setTag(i);
+                                tv_name.setTag(i);
 
-                            i++;
-                            if (i == datalist.size()) {
-                                i = 0;
+                                i++;
+                                if (i == datalist.size()) {
+                                    i = 0;
+                                }
+
+                                iv_copy.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String id = tv_orderid.getText().toString();
+                                        myClip = ClipData.newPlainText("", id);
+                                        myClipboard.setPrimaryClip(myClip);
+                                        ToastUtils.showShort("复制成功");
+                                    }
+                                });
+
+                                ll_swith.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String id = tv_orderid.getText().toString();
+                                        String state = tv_state.getText().toString();
+                                        String name = tv_name.getText().toString();
+                                        showService(id, state, name);
+                                    }
+                                });
                             }
+                        });
+                    }
 
-                            iv_copy.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String id = tv_orderid.getText().toString();
-                                    myClip = ClipData.newPlainText("", id);
-                                    myClipboard.setPrimaryClip(myClip);
-                                    ToastUtils.showShort("复制成功");
-                                }
-                            });
-
-                            ll_swith.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String id = tv_orderid.getText().toString();
-                                    String state = tv_state.getText().toString();
-                                    String name = tv_name.getText().toString();
-                                    showService(id, state, name);
-                                }
-                            });
-                        }
-                    });
 //                    workOrderList.addAll(workOrder.getData());
 //                    mWorkOrderAdapter.setNewData(workOrderList);
 //                    for (int i = 0; i < baseResult.getData().getItem2().size(); i++) {

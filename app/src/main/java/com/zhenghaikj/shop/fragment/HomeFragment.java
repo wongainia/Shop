@@ -57,6 +57,7 @@ import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.ShopResult;
 import com.zhenghaikj.shop.mvp.contract.HomeContract;
 import com.zhenghaikj.shop.mvp.model.HomeModel;
 import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
@@ -142,7 +143,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @BindView(R.id.rv_category)
     RecyclerView mRvCategory;
 
-    private List<Product> panicBuyList = new ArrayList<>();
+    private List<ShopResult.GiftBean> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
     private List<LimitBuyListResult.ListBean> limitedTimeList = new ArrayList<>();
     private List<Product> categoryList = new ArrayList<>();
@@ -265,7 +266,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mRvCategory.setAdapter(homeCategoryAdapter);
 
         for (int i = 0; i < 10; i++) {
-            panicBuyList.add(new Product());
+            panicBuyList.add(new ShopResult.GiftBean());
             exchageList.add(new Product());
         }
         exchageAdapter = new ExchageAdapter(R.layout.item_exchage, panicBuyList);
