@@ -90,9 +90,9 @@ public interface ApiService {
     Observable<LoginResult> GetUser(
             @Query("userName") String userName,
             @Query("password") String password,
-            @Query("oauthType") String oauthType,
+           /* @Query("oauthType") String oauthType,
             @Query("oauthOpenId ") String oauthOpenId,
-            @Query("oauthNickName") String oauthNickName,
+            @Query("oauthNickName") String oauthNickName,*/
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
@@ -941,7 +941,7 @@ public interface ApiService {
 
     /*关注店铺*/
     @FormUrlEncoded
-    @POST("api/VShopHome/PostAddFavoriteShop")
+    @POST("api/VShop/PostAddFavoriteShop")
     Observable<PostattentionResult> PostAddFavoriteShop(@Field("shopId") String shopId,
                                                         @Field("Userkey") String Userkey,
                                                         @Query("app_key") String app_key,

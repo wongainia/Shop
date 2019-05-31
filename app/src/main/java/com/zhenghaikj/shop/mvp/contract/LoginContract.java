@@ -11,10 +11,10 @@ import io.reactivex.Observable;
 
 public interface LoginContract {
     interface Model extends BaseModel {
-        Observable<LoginResult> GetUser(String userName, String password,String oauthType,String oauthOpenId,String oauthNickName);
+        Observable<LoginResult> GetUser(String userName, String password/*,String oauthType,String oauthOpenId,String oauthNickName*/);
         Observable<BaseResult<Data<String>>> LoginOn(String userName,String passWord);
 //        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
-Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String type,String UserID);
+        Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String type,String UserID);
 
     }
 
@@ -26,7 +26,7 @@ Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
-        public abstract void GetUser(String userName, String password,String oauthType,String oauthOpenId,String oauthNickName);
+        public abstract void GetUser(String userName, String password/*,String oauthType,String oauthOpenId,String oauthNickName*/);
         public abstract void LoginOn(String userName, String password);
         public abstract void AddAndUpdatePushAccount(String token,String type,String UserID);
 

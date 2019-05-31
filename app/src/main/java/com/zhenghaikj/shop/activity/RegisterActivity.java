@@ -217,7 +217,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 if (data.isItem1()) {
                     spUtils.put("adminToken", data.getItem2());
                     spUtils.put("userName2", userName);
-                    mPresenter.GetUser(userName, password, "", "", "");
+                    mPresenter.GetUser(userName, password/*, "", "", ""*/);
 //                    spUtils.put("passWord", password);
 //                    spUtils.put("isLogin", true);
                     mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this), "8", userName);

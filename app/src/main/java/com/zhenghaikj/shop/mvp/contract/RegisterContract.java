@@ -17,7 +17,7 @@ public interface RegisterContract {
     interface Model extends BaseModel{
         Observable<RegisterResult> Reg(String userName, String password,String oauthType,String email,String code,String oauthOpenId ,String oauthNickName);
         Observable<GetImageCheckCode> GetImageCheckCode();
-        Observable<LoginResult> GetUser(String userName, String password, String oauthType, String oauthOpenId, String oauthNickName);
+        Observable<LoginResult> GetUser(String userName, String password/*, String oauthType, String oauthOpenId, String oauthNickName*/);
         Observable<BaseResult<Data<String>>> LoginOn(String userName,String passWord);
         Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String type,String UserID);
         Observable<BaseResult<Data>> AddFactoryBrand(String UserID, String FBrandName);
@@ -41,7 +41,7 @@ public interface RegisterContract {
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void Reg(String userName, String password,String oauthType,String email,String code,String oauthOpenId ,String oauthNickName);
         public abstract void GetImageCheckCode();
-        public abstract void GetUser(String userName, String password,String oauthType,String oauthOpenId,String oauthNickName);
+        public abstract void GetUser(String userName, String password/*,String oauthType,String oauthOpenId,String oauthNickName*/);
         public abstract void LoginOn(String userName, String password);
         public abstract void AddAndUpdatePushAccount(String token,String type,String UserID);
         public abstract void AddFactoryBrand(String UserID, String FBrandName);

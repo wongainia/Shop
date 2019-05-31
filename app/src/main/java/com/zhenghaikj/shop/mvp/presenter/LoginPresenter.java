@@ -9,8 +9,8 @@ import com.zhenghaikj.shop.mvp.contract.LoginContract;
 
 public class LoginPresenter extends LoginContract.Presenter {
     @Override
-    public void GetUser(String userName, String password, String oauthType, String oauthOpenId, String oauthNickName) {
-        mModel.GetUser(userName, password, oauthType, oauthOpenId, oauthNickName)
+    public void GetUser(String userName, String password/*, String oauthType, String oauthOpenId, String oauthNickName*/) {
+        mModel.GetUser(userName, password/*, oauthType, oauthOpenId, oauthNickName*/)
                 .subscribe(new BaseObserver<LoginResult>() {
                     @Override
                     protected void onHandleSuccess(LoginResult value) {

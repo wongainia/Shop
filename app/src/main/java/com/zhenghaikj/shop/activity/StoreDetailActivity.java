@@ -67,6 +67,8 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     private SPUtils spUtils = SPUtils.getInstance("token");
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
+    StoreDetailResult storeDetailResult=new StoreDetailResult();
+
     private final String[] mTitles = {
             "首页", "商品"
     };
@@ -127,11 +129,20 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     public void GetVShop(StoreDetailResult result) {
 
         if (result.getSuccess().equals("True")){
+            storeDetailResult=result;
 
             Glide.with(mActivity).load(result.getVShop().getLogo())
                     .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
                     .into(mImgShop);
             mTvName.setText(result.getVShop().getName());
+            if (result.getVShop().isFavorite()){
+                mTvAttention.setText("已关注");
+            }else{
+                mTvAttention.setText("关注");
+            }
+
+
+
 
         }
 
@@ -139,6 +150,13 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     @Override
     public void PostAddFavoriteShop(PostattentionResult result) {
+
+        if (result.getMsg().equals("关注成功")){
+            mTvAttention.setText("已关注");
+        }else {
+            mTvAttention.setText("关注");
+        }
+
 
     }
 
@@ -151,10 +169,10 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_attention:
-                mPresenter.PostAddFavoriteShop(VShopId,Userkey);
+                mPresenter.PostAddFavoriteShop(String.valueOf(storeDetailResult.getVShop().getShopId()),Userkey);
                 break;
             case R.id.img_sort:
-            mPresenter.GetVShopCategory(VShopId);
+              mPresenter.GetVShopCategory(VShopId);
                 break;
 
         }

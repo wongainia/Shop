@@ -23,18 +23,18 @@ public class LoginModel implements LoginContract.Model {
     private String timestamp;
 
     @Override
-    public Observable<LoginResult> GetUser(String userName, String password,String oauthType,String oauthOpenId,String oauthNickName) {
+    public Observable<LoginResult> GetUser(String userName, String password/*,String oauthType,String oauthOpenId,String oauthNickName*/) {
         map = new HashMap<>();
         map.put("username",userName);
         map.put("password",password);
-        map.put("oauthtype",oauthType);
+      /*  map.put("oauthtype",oauthType);
         map.put("oauthopenid",oauthOpenId);
-        map.put("oauthnickname",oauthNickName);
+        map.put("oauthnickname",oauthNickName);*/
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().GetUser(userName, password, oauthType, oauthOpenId, oauthNickName,"himalltest", timestamp,sign)
+        return ApiRetrofit.getDefault().GetUser(userName, password, /*oauthType, oauthOpenId, oauthNickName,*/"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
