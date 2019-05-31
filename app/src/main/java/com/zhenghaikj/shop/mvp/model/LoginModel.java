@@ -41,7 +41,7 @@ public class LoginModel implements LoginContract.Model {
 
     @Override
     public Observable<BaseResult<Data<String>>> LoginOn(String userName, String passWord) {
-        return ApiRetrofit2.getDefault().LoginOn(userName, passWord,"8")
+        return ApiRetrofit2.getDefault().LoginOn(userName, passWord,"10")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

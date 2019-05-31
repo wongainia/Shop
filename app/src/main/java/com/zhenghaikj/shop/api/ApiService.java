@@ -24,6 +24,7 @@ import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
+import com.zhenghaikj.shop.entity.GetIntroForStoreResult;
 import com.zhenghaikj.shop.entity.GetPayPwd;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
@@ -946,6 +947,14 @@ public interface ApiService {
                                                         @Query("app_key") String app_key,
                                                         @Query("timestamp") String timestamp,
                                                         @Query("sign") String sign);
+
+
+    /*获取店铺详情*/
+    @GET("api/VShop/GetVShopIntroduce")
+    Observable<GetIntroForStoreResult> GetVShopIntroduce(@Query("id") String id,
+                                                         @Query("Userkey") String Userkey);
+
+
 
 
 

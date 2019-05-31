@@ -21,13 +21,13 @@ public class LoginPresenter extends LoginContract.Presenter {
 
     @Override
     public void LoginOn(String userName, String password) {
-        mModel.LoginOn(userName, password)
-                .subscribe(new BaseObserver2<Data<String>>() {
-                    @Override
-                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
-                        mView.LoginOn(value);
-                    }
-                });
+            mModel.LoginOn(userName, password)
+                    .subscribe(new BaseObserver2<Data<String>>() {
+                        @Override
+                        protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                            mView.LoginOn(value);
+                        }
+                    });
     }
 
     @Override

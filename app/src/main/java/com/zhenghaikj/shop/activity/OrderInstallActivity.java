@@ -258,7 +258,6 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                   "2",
                   "安装",
                   order.getBisId(),//UserId传商家的bisid
-//                  userID,
                   bean.getBrandId(),
                   bean.getBrandName(),
                   bean.getParentCategoryId(),
@@ -269,12 +268,9 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                   CityCode,
                   AreaCode,
                   DistrictCode,
-                          order.getAddress(),
-                          order.getShipTo(),
-                          order.getPhone(),
-//                  address+housenumber,
-//                  name,
-//                  phone,
+                  order.getAddress(),
+                  order.getShipTo(),
+                  order.getPhone(),
                   Memo,
                   "100",
                   "48", //回收时间先为48小时
@@ -289,6 +285,8 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                   orderID
                           );
                 showLoading();
+
+
               Log.d("=====>order","安装"+bean.getBrandName()
                       +" "+bean.getCategoryName()+" "+
                       bean.getParentCategoryName()+" "+
