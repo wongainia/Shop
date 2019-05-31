@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_store_sort"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/rl_sort"
+    android:padding="10dp">
+    <TextView
+        android:id="@+id/sort_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:textColor="@color/black"
+        android:text="手机专区"
+        android:textSize="14sp"
+        />
+    
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@mipmap/right_arrow"
+        android:layout_alignParentRight="true"/>
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_below="@+id/sort_name"
+    android:layout_marginTop="5dp"
+    android:id="@+id/recyclerview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+</androidx.recyclerview.widget.RecyclerView>
+
+
+</RelativeLayout>

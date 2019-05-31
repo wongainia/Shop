@@ -16,6 +16,7 @@ public interface LoginContract {
 //        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
         Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String type,String UserID);
 
+        Observable<BaseResult<Data<String>>> GettokenbyUserid(String UserID);
     }
 
     interface View extends BaseView {
@@ -23,6 +24,8 @@ public interface LoginContract {
         void LoginOn(BaseResult<Data<String>> Result);
         void AddAndUpdatePushAccount(BaseResult<Data<String>> Result);
 //        void GetUserInfoList(BaseResult<UserInfo> Result);
+
+        void GettokenbyUserid(BaseResult<Data<String>> Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -30,6 +33,7 @@ public interface LoginContract {
         public abstract void LoginOn(String userName, String password);
         public abstract void AddAndUpdatePushAccount(String token,String type,String UserID);
 
+        public abstract void GettokenbyUserid(String UserID);
 //        public abstract void GetUserInfoList(String userName, String limit);
     }
 }

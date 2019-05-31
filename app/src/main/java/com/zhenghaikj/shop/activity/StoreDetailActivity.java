@@ -19,6 +19,7 @@ import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.fragment.StoreDetailGoodsFragment;
 import com.zhenghaikj.shop.fragment.StoreDetailHomeFragment;
+import com.zhenghaikj.shop.fragment.StoreDetailSortFragment;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 import com.zhenghaikj.shop.mvp.model.StoreDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.StoreDetailPresenter;
@@ -70,7 +71,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     StoreDetailResult storeDetailResult=new StoreDetailResult();
 
     private final String[] mTitles = {
-            "首页", "商品"
+            "首页", "商品","分类"
     };
     private MyPagerAdapter mAdapter;
 
@@ -103,8 +104,9 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     @Override
     protected void initView() {
 
-       mFragments.add(StoreDetailHomeFragment.newInstance("首页"));
-       mFragments.add(StoreDetailGoodsFragment.newInstance("商品"));
+        mFragments.add(StoreDetailHomeFragment.newInstance("首页"));
+        mFragments.add(StoreDetailGoodsFragment.newInstance("商品"));
+        mFragments.add(StoreDetailSortFragment.newInstance("分类"));
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mViewpager.setAdapter(mAdapter);
         mViewpager.setOffscreenPageLimit(mFragments.size());

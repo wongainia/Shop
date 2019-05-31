@@ -1005,7 +1005,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             if ("免运费".equals(Result.getFree())) {
                 mTvExpressDelivery.setText("快递：0.00");
             } else {
-                mTvExpressDelivery.setText("快递：" + Result.getShop().getFreeFreight());
+                mTvExpressDelivery.setText("快递：" + Result.getFreightFee());
             }
             /*月销量暂未总销量*/
             mTvSalesVolume.setText("月销" + Result.getMaxSaleCount());

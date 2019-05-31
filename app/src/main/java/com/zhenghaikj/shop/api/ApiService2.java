@@ -519,4 +519,16 @@ public interface ApiService2 {
     Observable<BaseResult<Data<String>>> AddOpinion(@Field("UserID") String UserID,
                                                     @Field("BackType") String BackType,
                                                     @Field("Content") String Content);
+
+
+
+    /*根据useid获取token*/
+    @FormUrlEncoded
+    @POST("account/GettokenbyUserid")
+
+    Observable<BaseResult<Data<String>>> GettokenbyUserid(@Field("UserID") String UserID);
+
+
+
+
 }

@@ -179,4 +179,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 break;
         }
     }
+
+    @Override
+    public void GettokenbyUserid(BaseResult<Data<String>> Result) {
+
+    }
 }

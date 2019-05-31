@@ -40,4 +40,17 @@ public class LoginPresenter extends LoginContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void GettokenbyUserid(String UserID) {
+        mModel.GettokenbyUserid(UserID)
+                .subscribe(new BaseObserver2<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.GettokenbyUserid(value);
+                    }
+                });
+
+
+    }
 }

@@ -51,4 +51,11 @@ public class LoginModel implements LoginContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> GettokenbyUserid(String UserID) {
+        return ApiRetrofit2.getDefault().GettokenbyUserid(UserID)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

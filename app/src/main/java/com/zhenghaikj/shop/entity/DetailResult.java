@@ -54,6 +54,7 @@ public class DetailResult implements Serializable {
     private CashDepositsServerBean CashDepositsServer;
     private String ProductAddress;
     private String Free;
+    private String FreightFee;
     private String VShopLog;
     private ShopBean Shop;
     private boolean IsFavoriteShop;
@@ -74,6 +75,14 @@ public class DetailResult implements Serializable {
     private List<ShopSize> Size;
     private List<ShopVersion> Version;
     private List<String> CustomerServices;
+
+    public String getFreightFee() {
+        return FreightFee;
+    }
+
+    public void setFreightFee(String freightFee) {
+        FreightFee = freightFee;
+    }
 
     public String getSuccess() {
         return Success;

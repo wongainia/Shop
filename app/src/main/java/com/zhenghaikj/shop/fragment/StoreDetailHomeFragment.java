@@ -64,7 +64,6 @@ public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresent
     protected void initData() {
         bannerview= LayoutInflater.from(mActivity).inflate(R.layout.item_banner,null);
 
-
         Userkey = spUtils.getString("UserKey");
         mPresenter.GetVShop(getActivity().getIntent().getStringExtra("VShopId"),Userkey);
     }

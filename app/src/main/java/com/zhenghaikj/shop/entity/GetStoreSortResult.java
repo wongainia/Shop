@@ -1,5 +1,7 @@
 package com.zhenghaikj.shop.entity;
 
+import com.blankj.utilcode.util.SPUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,6 +13,8 @@ public class GetStoreSortResult implements Serializable {
      * VShopId : 4
      * ShopCategories : [{"Id":290,"Name":"电脑","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[{"Id":291,"Name":"笔记本","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":292,"Name":"超极本","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":293,"Name":"台式机","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":294,"Name":"内存条","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]}]},{"Id":304,"Name":"IT","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[{"Id":309,"Name":"电饭","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]}]}]
      */
+
+
 
     private String Success;
     private int VShopId;
