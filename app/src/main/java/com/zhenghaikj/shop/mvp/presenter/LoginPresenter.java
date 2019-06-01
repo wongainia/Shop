@@ -4,6 +4,7 @@ import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetTokenByUserid;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
 
@@ -50,7 +51,6 @@ public class LoginPresenter extends LoginContract.Presenter {
                         mView.GettokenbyUserid(value);
                     }
                 });
-
 
     }
 }

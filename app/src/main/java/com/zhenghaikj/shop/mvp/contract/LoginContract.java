@@ -5,6 +5,7 @@ import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetTokenByUserid;
 import com.zhenghaikj.shop.entity.LoginResult;
 
 import io.reactivex.Observable;
@@ -32,7 +33,6 @@ public interface LoginContract {
         public abstract void GetUser(String userName, String password/*,String oauthType,String oauthOpenId,String oauthNickName*/);
         public abstract void LoginOn(String userName, String password);
         public abstract void AddAndUpdatePushAccount(String token,String type,String UserID);
-
         public abstract void GettokenbyUserid(String UserID);
 //        public abstract void GetUserInfoList(String userName, String limit);
     }

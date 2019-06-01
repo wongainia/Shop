@@ -9,6 +9,7 @@ import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
+import com.zhenghaikj.shop.entity.GetTokenByUserid;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.Province;
 import com.zhenghaikj.shop.entity.Track;
@@ -525,10 +526,6 @@ public interface ApiService2 {
     /*根据useid获取token*/
     @FormUrlEncoded
     @POST("account/GettokenbyUserid")
-
     Observable<BaseResult<Data<String>>> GettokenbyUserid(@Field("UserID") String UserID);
-
-
-
 
 }

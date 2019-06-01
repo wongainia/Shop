@@ -41,7 +41,6 @@ public class StoreSortAdapter extends BaseQuickAdapter<GetStoreSortResult.ShopCa
         storeSubSortAdapter=new StoreSubSortAdapter(R.layout.item_store_subsort,item.getSubCategories());
         recyclerView.setLayoutManager(new GridLayoutManager(mContext,2));
         recyclerView.setAdapter(storeSubSortAdapter);
-
         storeSubSortAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -49,13 +48,10 @@ public class StoreSortAdapter extends BaseQuickAdapter<GetStoreSortResult.ShopCa
                     case R.id.ll_subsort:
                         onItemSortClickListner.OnItemSortClick(((GetStoreSortResult.ShopCategoriesBean.SubCategoriesBean)adapter.getItem(position)).getId());
                         break;
-
                 }
             }
         });
-
         helper.addOnClickListener(R.id.recyclerview);
-
     }
     public interface OnItemSortClickListner{
         void OnItemSortClick(int id);

@@ -17,6 +17,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetTokenByUserid;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
 import com.zhenghaikj.shop.mvp.model.LoginModel;
@@ -74,7 +75,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     protected void initData() {
-
     }
 
     @Override
@@ -86,9 +86,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             mEtUsername.setText(userName);
             mEtPassword.setText(password);
         }
-
     }
-
     @Override
     protected void setListener() {
         mTvRegister.setOnClickListener(this);
@@ -105,12 +103,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             case R.id.login:
                 userName = mEtUsername.getText().toString();
                 password = mEtPassword.getText().toString();
+
                 if (userName.isEmpty()){
                     ToastUtils.showShort("请输入手机号！");
                 }else if (password.isEmpty()){
                     ToastUtils.showShort("请输入密码！");
                 }else {
-                    mPresenter.LoginOn(userName, password);
+                   // mPresenter.LoginOn(userName, password);
+                     mPresenter.GettokenbyUserid(userName);
                 }
                 break;
             case R.id.tv_agreement:
@@ -140,14 +140,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 //            EventBus.getDefault().post("PersonalInformation");
             ActivityUtils.finishAllActivities();
             startActivity(new Intent(mActivity,MainActivity.class));
-
         }else {
             ToastUtils.showShort(Result.getErrorMsg());
         }
     }
 
     @Override
-    public void LoginOn(BaseResult<Data<String>> Result) {
+    public void LoginOn(BaseResult<Data<String>> Result){
         switch (Result.getStatusCode()) {
             case 200:
                 Data<String> data=Result.getData();
@@ -182,6 +181,22 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void GettokenbyUserid(BaseResult<Data<String>> Result) {
+
+        switch (Result.getStatusCode()){
+            case 200:
+                /*已经登录过了 后台存有token*/
+                if (Result.getData().isItem1()){
+                    spUtils.put("adminToken", Result.getData().getItem2());
+                    spUtils.put("userName2", userName);
+                    mPresenter.GetUser(userName, password/*,"","",""*/);
+                    mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"8",userName);
+
+                }else {
+                    mPresenter.LoginOn(userName, password);
+                }
+
+                break;
+        }
 
     }
 }

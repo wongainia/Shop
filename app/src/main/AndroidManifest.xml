@@ -61,16 +61,19 @@
 
         </provider>
 
-        <activity android:name=".activity.SplashActivity"
+        <activity
+            android:name=".activity.SplashActivity"
             android:theme="@style/ThemeSplash"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
+
         <activity android:name=".activity.CallChageActivity"
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
