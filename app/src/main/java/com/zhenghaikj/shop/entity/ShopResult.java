@@ -5,104 +5,55 @@ import java.util.List;
 
 public class ShopResult implements Serializable {
 
-    /*
-    * "CouponList":[],
-    * "CouponPageSize":6,
-    * "CouponTotal":0,
-    * "CouponMaxPage":1,
-    * "GiftList":null,
-    * "GiftListNew":[{"ShowSalesStatus":"可兑换","Id":77,"GiftName":"【松桂坊_五花腊肉500*2袋】 湖南湘西农家传统工艺 土猪特产腊肠腊肉烟熏腊肉","NeedIntegral":3000,"LimtQuantity":1,"StockQuantity":96,"EndDate":"\/Date(1559232000000)\/","NeedGrade":7,"VirtualSales":0,"RealSales":4,"SalesStatus":1,"ImagePath":"/Storage/Gift/77","Sequence":100,"GiftValue":88.00,"Description":null,"AddDate":"\/Date(1487216713000)\/","NeedGradeName":"黄金会员","GradeIntegral":5000,"DefaultShowImage":null,"SumSales":4,"ShowImagePath":"/Storage/Gift/77","GetSalesStatus":1,"ShowLimtQuantity":"1","Id":77}],
-    * "GiftPageSize":12,
-    * "GiftTotal":1,
-    * "GiftMaxPage":1,
-    * "MemberAvailableIntegrals":0,
-    * "MemberGradeName":null
-    *
-    *
-    * */
 
-//    private List<CouponBean> CouponList;
-    private String CouponPageSize;
-    private String CouponTotal;
-    private String CouponMaxPage;
-    private String GiftPageSize;
-    private String GiftTotal;
-    private String GiftMaxPage;
-    private String MemberAvailableIntegrals;
-    private String MemberGradeName;
+    /**
+     * CouponList : []
+     * CouponPageSize : 6
+     * CouponTotal : 0
+     * CouponMaxPage : 1
+     * GiftList : null
+     * GiftPageSize : 12
+     * GiftTotal : 1
+     * GiftMaxPage : 1
+     * MemberAvailableIntegrals : 0
+     * MemberGradeName : null
+     * GiftListNew : [{"ShowSalesStatus":"可兑换","Id":76,"GiftName":"澳洲Healthy Care金装蜂胶软胶囊 200粒/瓶 提高免疫美白养颜 海外原装进口","NeedIntegral":2200,"LimtQuantity":1,"StockQuantity":100,"EndDateStr":"2019-12-7 1:5:0","NeedGrade":6,"VirtualSales":100,"RealSales":0,"SalesStatus":1,"ImagePath":"/Storage/Gift/76","Sequence":100,"GiftValue":399,"Description":null,"AddDateStr":"2017-2-16 11:42:58","NeedGradeName":"普通会员","GradeIntegral":0,"DefaultShowImage":0,"SumSales":100,"ShowImagePath":"/Storage/Gift/76","ShowLimtQuantity":"1","GetSalesStatus":1}]
+     */
+
+    private int CouponPageSize;
+    private int CouponTotal;
+    private int CouponMaxPage;
     private String GiftList;
-    private List<GiftBean> GiftListNew;
+    private int GiftPageSize;
+    private int GiftTotal;
+    private int GiftMaxPage;
+    private int MemberAvailableIntegrals;
+    private String MemberGradeName;
+    private List<?> CouponList;
+    private List<GiftListNewBean> GiftListNew;
 
-//    public List<CouponBean> getCouponList() {
-//        return CouponList;
-//    }
-//
-//    public void setCouponList(List<CouponBean> couponList) {
-//        CouponList = couponList;
-//    }
-
-    public String getCouponPageSize() {
+    public int getCouponPageSize() {
         return CouponPageSize;
     }
 
-    public void setCouponPageSize(String couponPageSize) {
-        CouponPageSize = couponPageSize;
+    public void setCouponPageSize(int CouponPageSize) {
+        this.CouponPageSize = CouponPageSize;
     }
 
-    public String getCouponTotal() {
+    public int getCouponTotal() {
         return CouponTotal;
     }
 
-    public void setCouponTotal(String couponTotal) {
-        CouponTotal = couponTotal;
+    public void setCouponTotal(int CouponTotal) {
+        this.CouponTotal = CouponTotal;
     }
 
-    public String getCouponMaxPage() {
+    public int getCouponMaxPage() {
         return CouponMaxPage;
     }
 
-    public void setCouponMaxPage(String couponMaxPage) {
-        CouponMaxPage = couponMaxPage;
-    }
-
-    public String getGiftPageSize() {
-        return GiftPageSize;
-    }
-
-    public void setGiftPageSize(String giftPageSize) {
-        GiftPageSize = giftPageSize;
-    }
-
-    public String getGiftTotal() {
-        return GiftTotal;
-    }
-
-    public void setGiftTotal(String giftTotal) {
-        GiftTotal = giftTotal;
-    }
-
-    public String getGiftMaxPage() {
-        return GiftMaxPage;
-    }
-
-    public void setGiftMaxPage(String giftMaxPage) {
-        GiftMaxPage = giftMaxPage;
-    }
-
-    public String getMemberAvailableIntegrals() {
-        return MemberAvailableIntegrals;
-    }
-
-    public void setMemberAvailableIntegrals(String memberAvailableIntegrals) {
-        MemberAvailableIntegrals = memberAvailableIntegrals;
-    }
-
-    public String getMemberGradeName() {
-        return MemberGradeName;
-    }
-
-    public void setMemberGradeName(String memberGradeName) {
-        MemberGradeName = memberGradeName;
+    public void setCouponMaxPage(int CouponMaxPage) {
+        this.CouponMaxPage = CouponMaxPage;
     }
 
     public String getGiftList() {
@@ -113,252 +64,292 @@ public class ShopResult implements Serializable {
         GiftList = giftList;
     }
 
-    public List<GiftBean> getGiftListNew() {
+    public void setMemberGradeName(String memberGradeName) {
+        MemberGradeName = memberGradeName;
+    }
+
+    public int getGiftPageSize() {
+        return GiftPageSize;
+    }
+
+    public void setGiftPageSize(int GiftPageSize) {
+        this.GiftPageSize = GiftPageSize;
+    }
+
+    public int getGiftTotal() {
+        return GiftTotal;
+    }
+
+    public void setGiftTotal(int GiftTotal) {
+        this.GiftTotal = GiftTotal;
+    }
+
+    public int getGiftMaxPage() {
+        return GiftMaxPage;
+    }
+
+    public void setGiftMaxPage(int GiftMaxPage) {
+        this.GiftMaxPage = GiftMaxPage;
+    }
+
+    public int getMemberAvailableIntegrals() {
+        return MemberAvailableIntegrals;
+    }
+
+    public void setMemberAvailableIntegrals(int MemberAvailableIntegrals) {
+        this.MemberAvailableIntegrals = MemberAvailableIntegrals;
+    }
+
+
+    public List<?> getCouponList() {
+        return CouponList;
+    }
+
+    public void setCouponList(List<?> CouponList) {
+        this.CouponList = CouponList;
+    }
+
+    public List<GiftListNewBean> getGiftListNew() {
         return GiftListNew;
     }
 
-    public void setGiftListNew(List<GiftBean> giftListNew) {
-        GiftListNew = giftListNew;
+    public void setGiftListNew(List<GiftListNewBean> GiftListNew) {
+        this.GiftListNew = GiftListNew;
     }
 
-    public static class CouponBean{
-
-    }
-
-    public static class GiftBean{
-        /*
-        * "ShowSalesStatus":"可兑换",
-        * "Id":77,
-        * "GiftName":"【松桂坊_五花腊肉500*2袋】 湖南湘西农家传统工艺 土猪特产腊肠腊肉烟熏腊肉",
-        * "NeedIntegral":3000,
-        * "LimtQuantity":1,
-        * "StockQuantity":96,
-        * "EndDate":"\/Date(1559232000000)\/",
-        * "NeedGrade":7,
-        * "VirtualSales":0,
-        * "RealSales":4,
-        * "SalesStatus":1,
-        * "ImagePath":"/Storage/Gift/77",
-        * "Sequence":100,
-        * "GiftValue":88.00,
-        * "Description":null,
-        * "AddDate":"\/Date(1487216713000)\/",
-        * "NeedGradeName":"黄金会员",
-        * "GradeIntegral":5000,
-        * "DefaultShowImage":null,
-        * "SumSales":4,
-        * "ShowImagePath":"/Storage/Gift/77",
-        * "GetSalesStatus":1,
-        * "ShowLimtQuantity":"1",
-        *
-         * */
+    public static class GiftListNewBean {
+        /**
+         * ShowSalesStatus : 可兑换
+         * Id : 76
+         * GiftName : 澳洲Healthy Care金装蜂胶软胶囊 200粒/瓶 提高免疫美白养颜 海外原装进口
+         * NeedIntegral : 2200
+         * LimtQuantity : 1
+         * StockQuantity : 100
+         * EndDateStr : 2019-12-7 1:5:0
+         * NeedGrade : 6
+         * VirtualSales : 100
+         * RealSales : 0
+         * SalesStatus : 1
+         * ImagePath : /Storage/Gift/76
+         * Sequence : 100
+         * GiftValue : 399
+         * Description : null
+         * AddDateStr : 2017-2-16 11:42:58
+         * NeedGradeName : 普通会员
+         * GradeIntegral : 0
+         * DefaultShowImage : 0
+         * SumSales : 100
+         * ShowImagePath : /Storage/Gift/76
+         * ShowLimtQuantity : 1
+         * GetSalesStatus : 1
+         */
 
         private String ShowSalesStatus;
-        private String Id;
+        private int Id;
         private String GiftName;
-        private String NeedIntegral;
-        private String LimtQuantity;
-        private String StockQuantity;
-        private String EndDate;
-        private String NeedGrade;
-        private String VirtualSales;
-        private String RealSales;
-        private String SalesStatus;
+        private int NeedIntegral;
+        private int LimtQuantity;
+        private int StockQuantity;
+        private String EndDateStr;
+        private int NeedGrade;
+        private int VirtualSales;
+        private int RealSales;
+        private int SalesStatus;
         private String ImagePath;
-        private String Sequence;
-        private String GiftValue;
-        private String Description;
-        private String AddDate;
+        private int Sequence;
+        private int GiftValue;
+        private Object Description;
+        private String AddDateStr;
         private String NeedGradeName;
-        private String GradeIntegral;
-        private String DefaultShowImage;
-        private String SumSales;
+        private int GradeIntegral;
+        private int DefaultShowImage;
+        private int SumSales;
         private String ShowImagePath;
-        private String GetSalesStatus;
         private String ShowLimtQuantity;
+        private int GetSalesStatus;
 
         public String getShowSalesStatus() {
             return ShowSalesStatus;
         }
 
-        public void setShowSalesStatus(String showSalesStatus) {
-            ShowSalesStatus = showSalesStatus;
+        public void setShowSalesStatus(String ShowSalesStatus) {
+            this.ShowSalesStatus = ShowSalesStatus;
         }
 
-        public String getId() {
+        public int getId() {
             return Id;
         }
 
-        public void setId(String id) {
-            Id = id;
+        public void setId(int Id) {
+            this.Id = Id;
         }
 
         public String getGiftName() {
             return GiftName;
         }
 
-        public void setGiftName(String giftName) {
-            GiftName = giftName;
+        public void setGiftName(String GiftName) {
+            this.GiftName = GiftName;
         }
 
-        public String getNeedIntegral() {
+        public int getNeedIntegral() {
             return NeedIntegral;
         }
 
-        public void setNeedIntegral(String needIntegral) {
-            NeedIntegral = needIntegral;
+        public void setNeedIntegral(int NeedIntegral) {
+            this.NeedIntegral = NeedIntegral;
         }
 
-        public String getLimtQuantity() {
+        public int getLimtQuantity() {
             return LimtQuantity;
         }
 
-        public void setLimtQuantity(String limtQuantity) {
-            LimtQuantity = limtQuantity;
+        public void setLimtQuantity(int LimtQuantity) {
+            this.LimtQuantity = LimtQuantity;
         }
 
-        public String getStockQuantity() {
+        public int getStockQuantity() {
             return StockQuantity;
         }
 
-        public void setStockQuantity(String stockQuantity) {
-            StockQuantity = stockQuantity;
+        public void setStockQuantity(int StockQuantity) {
+            this.StockQuantity = StockQuantity;
         }
 
-        public String getEndDate() {
-            return EndDate;
+        public String getEndDateStr() {
+            return EndDateStr;
         }
 
-        public void setEndDate(String endDate) {
-            EndDate = endDate;
+        public void setEndDateStr(String EndDateStr) {
+            this.EndDateStr = EndDateStr;
         }
 
-        public String getNeedGrade() {
+        public int getNeedGrade() {
             return NeedGrade;
         }
 
-        public void setNeedGrade(String needGrade) {
-            NeedGrade = needGrade;
+        public void setNeedGrade(int NeedGrade) {
+            this.NeedGrade = NeedGrade;
         }
 
-        public String getVirtualSales() {
+        public int getVirtualSales() {
             return VirtualSales;
         }
 
-        public void setVirtualSales(String virtualSales) {
-            VirtualSales = virtualSales;
+        public void setVirtualSales(int VirtualSales) {
+            this.VirtualSales = VirtualSales;
         }
 
-        public String getRealSales() {
+        public int getRealSales() {
             return RealSales;
         }
 
-        public void setRealSales(String realSales) {
-            RealSales = realSales;
+        public void setRealSales(int RealSales) {
+            this.RealSales = RealSales;
         }
 
-        public String getSalesStatus() {
+        public int getSalesStatus() {
             return SalesStatus;
         }
 
-        public void setSalesStatus(String salesStatus) {
-            SalesStatus = salesStatus;
+        public void setSalesStatus(int SalesStatus) {
+            this.SalesStatus = SalesStatus;
         }
 
         public String getImagePath() {
             return ImagePath;
         }
 
-        public void setImagePath(String imagePath) {
-            ImagePath = imagePath;
+        public void setImagePath(String ImagePath) {
+            this.ImagePath = ImagePath;
         }
 
-        public String getSequence() {
+        public int getSequence() {
             return Sequence;
         }
 
-        public void setSequence(String sequence) {
-            Sequence = sequence;
+        public void setSequence(int Sequence) {
+            this.Sequence = Sequence;
         }
 
-        public String getGiftValue() {
+        public int getGiftValue() {
             return GiftValue;
         }
 
-        public void setGiftValue(String giftValue) {
-            GiftValue = giftValue;
+        public void setGiftValue(int GiftValue) {
+            this.GiftValue = GiftValue;
         }
 
-        public String getDescription() {
+        public Object getDescription() {
             return Description;
         }
 
-        public void setDescription(String description) {
-            Description = description;
+        public void setDescription(Object Description) {
+            this.Description = Description;
         }
 
-        public String getAddDate() {
-            return AddDate;
+        public String getAddDateStr() {
+            return AddDateStr;
         }
 
-        public void setAddDate(String addDate) {
-            AddDate = addDate;
+        public void setAddDateStr(String AddDateStr) {
+            this.AddDateStr = AddDateStr;
         }
 
         public String getNeedGradeName() {
             return NeedGradeName;
         }
 
-        public void setNeedGradeName(String needGradeName) {
-            NeedGradeName = needGradeName;
+        public void setNeedGradeName(String NeedGradeName) {
+            this.NeedGradeName = NeedGradeName;
         }
 
-        public String getGradeIntegral() {
+        public int getGradeIntegral() {
             return GradeIntegral;
         }
 
-        public void setGradeIntegral(String gradeIntegral) {
-            GradeIntegral = gradeIntegral;
+        public void setGradeIntegral(int GradeIntegral) {
+            this.GradeIntegral = GradeIntegral;
         }
 
-        public String getDefaultShowImage() {
+        public int getDefaultShowImage() {
             return DefaultShowImage;
         }
 
-        public void setDefaultShowImage(String defaultShowImage) {
-            DefaultShowImage = defaultShowImage;
+        public void setDefaultShowImage(int DefaultShowImage) {
+            this.DefaultShowImage = DefaultShowImage;
         }
 
-        public String getSumSales() {
+        public int getSumSales() {
             return SumSales;
         }
 
-        public void setSumSales(String sumSales) {
-            SumSales = sumSales;
+        public void setSumSales(int SumSales) {
+            this.SumSales = SumSales;
         }
 
         public String getShowImagePath() {
             return ShowImagePath;
         }
 
-        public void setShowImagePath(String showImagePath) {
-            ShowImagePath = showImagePath;
-        }
-
-        public String getGetSalesStatus() {
-            return GetSalesStatus;
-        }
-
-        public void setGetSalesStatus(String getSalesStatus) {
-            GetSalesStatus = getSalesStatus;
+        public void setShowImagePath(String ShowImagePath) {
+            this.ShowImagePath = ShowImagePath;
         }
 
         public String getShowLimtQuantity() {
             return ShowLimtQuantity;
         }
 
-        public void setShowLimtQuantity(String showLimtQuantity) {
-            ShowLimtQuantity = showLimtQuantity;
+        public void setShowLimtQuantity(String ShowLimtQuantity) {
+            this.ShowLimtQuantity = ShowLimtQuantity;
+        }
+
+        public int getGetSalesStatus() {
+            return GetSalesStatus;
+        }
+
+        public void setGetSalesStatus(int GetSalesStatus) {
+            this.GetSalesStatus = GetSalesStatus;
         }
     }
 }

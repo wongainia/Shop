@@ -247,7 +247,8 @@
                     android:paddingRight="10dp"
                     android:paddingBottom="5dp"
                     android:text="朋友代付"
-                    android:textColor="#333" />
+                    android:textColor="#333"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/tv_payment"

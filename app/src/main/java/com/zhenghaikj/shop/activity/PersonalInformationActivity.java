@@ -274,7 +274,11 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         switch (baseResult.getStatusCode()){
             case 200:
                 userInfo = baseResult.getData().getData().get(0);
-                mTvNickname.setText(userInfo.getNickName());
+                if (userInfo.getNickName().equals(userInfo.getUserID())){
+                    mTvNickname.setVisibility(View.GONE);
+                }else {
+                    mTvNickname.setText(userInfo.getNickName());
+                }
                 if (userInfo.getSex()==null){
                     mTvGender.setVisibility(View.GONE);
                 }else {

@@ -50,6 +50,7 @@ import com.zhenghaikj.shop.mvp.contract.AddOrderContract;
 import com.zhenghaikj.shop.mvp.model.AddOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.AddOrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
+import com.zhenghaikj.shop.utils.SingleClick;
 import com.zhenghaikj.shop.widget.AdderView;
 import com.zhenghaikj.shop.widget.RecyclerViewDivider;
 
@@ -385,6 +386,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 
     }
 
+    @SingleClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

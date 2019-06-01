@@ -369,7 +369,10 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             case R.id.tv_see_logistics://查看物流
             case R.id.tv_logistics:
             case R.id.tv_view_logistics:
-                mPresenter.GetExpressInfo(id,userKey);
+//                mPresenter.GetExpressInfo(id,userKey);
+                Intent intent2=new Intent(mActivity, LogisticsInformationActivity.class);
+                intent2.putExtra("orederId",id);
+                startActivity(intent2);
                 break;
             case R.id.tv_yuyue:
                 Intent intent1 = new Intent(mActivity, OrderInstallActivity.class);
