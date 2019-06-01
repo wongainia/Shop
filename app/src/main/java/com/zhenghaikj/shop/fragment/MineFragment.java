@@ -44,6 +44,7 @@ import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
+import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.activity.OrderActivity;
 import com.zhenghaikj.shop.activity.PersonalInformationActivity;
 import com.zhenghaikj.shop.activity.ReturnActivity;
@@ -437,6 +438,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlCoins.setOnClickListener(this);
 
         mTvUsername.setOnClickListener(this);
+        mIvMessage.setOnClickListener(this);
     }
 
     @Override
@@ -453,6 +455,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.iv_setting:
                 //设置
                 startActivity(new Intent(mActivity, SettingActivity.class));
+                break;
+            case R.id.iv_message:
+                startActivity(new Intent(mActivity, MessageActivity.class));
                 break;
             case R.id.ll_coupon:
                 //优惠券
@@ -754,7 +759,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                mTvUsername.setText(result.getNick());
 //            }
 //            mTvUsername.setText(result.getNick());
-            mTvPhone.setText(result.getCellPhone());
+            String mobile = result.getCellPhone();
+            String maskNumber = mobile.substring(0,3)+"****"+mobile.substring(7,mobile.length());
+            mTvPhone.setText(maskNumber);
             /*设置头像*/
             if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像
 //                return;

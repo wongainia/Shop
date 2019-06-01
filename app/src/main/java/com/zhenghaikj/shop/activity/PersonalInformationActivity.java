@@ -245,7 +245,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     @Override
     public void PersonalInformation(PersonalInformation result) {
         if (result.isSuccess()) {
-            mTvUsername.setText(result.getUserName());
+            String mobile = result.getUserName();
+            String maskNumber = mobile.substring(0,3)+"****"+mobile.substring(7,mobile.length());
+            mTvUsername.setText(maskNumber);
 
             /*设置头像*/
             if (result.getPhoto()==null||"".equals(result.getPhoto())){//显示默认头像
@@ -277,6 +279,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 if (userInfo.getNickName().equals(userInfo.getUserID())){
                     mTvNickname.setVisibility(View.GONE);
                 }else {
+                    mTvNickname.setVisibility(View.VISIBLE);
                     mTvNickname.setText(userInfo.getNickName());
                 }
                 if (userInfo.getSex()==null){
@@ -305,6 +308,10 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 mPresenter.PersonalInformation(userKey);
                 mPresenter.GetUserInfoList(userName,"1");
                 break;
+            case "GetUserInfoList":
+                mPresenter.GetUserInfoList(userName, "1");
+                break;
+
         }
 
     }
@@ -590,12 +597,12 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event() {
-//        if ("GetUserInfoList".equals(message)) {
-            mPresenter.GetUserInfoList(userName, "1");
-//        }
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void Event() {
+////        if ("GetUserInfoList".equals(message)) {
+//            mPresenter.GetUserInfoList(userName, "1");
+////        }
+//    }
 
     @Override
     protected void onDestroy() {

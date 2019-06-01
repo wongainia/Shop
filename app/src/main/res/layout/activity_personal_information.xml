@@ -42,7 +42,8 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="13dp"
-                android:src="@drawable/youjiantou" />
+                android:src="@drawable/youjiantou"
+                android:visibility="gone"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -77,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#858585"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_marginRight="25dp"/>
 
             <ImageView
                 android:visibility="gone"

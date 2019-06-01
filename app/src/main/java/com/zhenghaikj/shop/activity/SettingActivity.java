@@ -27,6 +27,9 @@ import com.zhenghaikj.shop.mvp.presenter.SettingPresenter;
 import com.zhenghaikj.shop.utils.DataCleanManager;
 import com.zhenghaikj.shop.widget.CircleImageView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -215,8 +218,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     @Override
     public void PersonalInformation(PersonalInformation result) {
         if (result.isSuccess()) {
-
-            mTvMemberName.setText("会员名：" + result.getUserName());
+            String mobile = result.getUserName();
+            String maskNumber = mobile.substring(0,3)+"****"+mobile.substring(7,mobile.length());
+            mTvMemberName.setText("会员名：" + maskNumber);
             /*设置头像*/
             if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像
                 return;
@@ -232,8 +236,24 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
         switch (Result.getStatusCode()){
             case 200:
-                mTvNickname.setText(Result.getData().getData().get(0).getNickName());
+                if (Result.getData().getData().get(0).getNickName().equals(Result.getData().getData().get(0).getId())){
+                    mTvNickname.setText("未设置昵称");
+                }else{
+                    mTvNickname.setText(Result.getData().getData().get(0).getNickName());
+                }
+
                 break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
+        switch (name){
+            case "UserName":
+                mPresenter.PersonalInformation(userKey);
+                mPresenter.GetUserInfoList(userName,"1");
+                break;
+        }
+
     }
 }
