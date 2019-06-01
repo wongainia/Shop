@@ -13,13 +13,13 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class ExchageAdapter extends BaseQuickAdapter<ShopResult.GiftBean, BaseViewHolder> {
-    public ExchageAdapter(int layoutResId, @Nullable List<ShopResult.GiftBean> data) {
+public class ExchageAdapter extends BaseQuickAdapter<ShopResult.GiftListNewBean, BaseViewHolder> {
+    public ExchageAdapter(int layoutResId, @Nullable List<ShopResult.GiftListNewBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ShopResult.GiftBean item) {
+    protected void convert(BaseViewHolder helper, ShopResult.GiftListNewBean item) {
         ImageView goods=helper.getView(R.id.iv_goods);
 //        GlideUtil.loadImageViewLoding(mContext,item.getImagePath(),goods,R.drawable.image_loading,R.drawable.image_loading);
         helper.setText(R.id.tv_goods_money,"¥"+item.getGiftValue());

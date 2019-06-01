@@ -102,7 +102,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     private ArrayList<MenuItem> mMainMenus;
     private MenuAdapter mMainAdapter;
     private List<HomeResult.ProductBean> mDatas = new ArrayList<>();
-    private List<ShopResult.GiftBean> exchageList = new ArrayList<>();
+    private List<ShopResult.GiftListNewBean> exchageList = new ArrayList<>();
 
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private static final int START_ALPHA = 0;//scrollview滑动开始位置
@@ -265,7 +265,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     public void IndexJson(ShopResult result) {
-        if (result.getGiftTotal()!=null||"0".equals(result.getGiftTotal())){
+        if (result.getGiftTotal()!=0){
             exchageList.addAll(result.getGiftListNew());
             exchageAdapter.setNewData(exchageList);
         }

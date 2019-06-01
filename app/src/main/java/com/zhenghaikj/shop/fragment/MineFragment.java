@@ -217,6 +217,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     SwitchView mScrolltv;
     @BindView(R.id.scroll_express)
     SwitchView mScrollExpress;
+    @BindView(R.id.tv_login)
+    TextView mTvLogin;
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
@@ -340,8 +342,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                mPresenter.GetExpress(order.getOrders().get(i).getId(),userKey);
 //            }
         } else {
-            mTvUsername.setText("未登录");
+//            mTvUsername.setText("未登录");
             mTvPhone.setVisibility(View.GONE);
+            mTvUsername.setVisibility(View.GONE);
+            mTvLogin.setVisibility(View.VISIBLE);
+            mLlService.setVisibility(View.GONE);
         }
 
         /*下拉刷新*/
@@ -387,8 +392,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if ("UserName".equals(name)){
-            mPresenter.GetUserInfoList(userName,"1");
+        if ("UserName".equals(name)) {
+            mPresenter.GetUserInfoList(userName, "1");
         }
         if ("UpdateOrderCount".equals(name)) {//更新各种数量
             mPresenter.PersonalInformation(userKey);
@@ -619,6 +624,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     private ArrayList<Logistics> logisticsList = new ArrayList<>();
     private LogisticsAdapter logisticsAdapter = new LogisticsAdapter(R.layout.item_logistics, logisticsList);
+
     private void showLogistucs(int number) {
         customDialog = new CustomDialog(getContext());
         customDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
@@ -630,19 +636,17 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             }
         });
 
-        ImageView iv_goods_picture=customDialog.findViewById(R.id.iv_goods_picture);
-        GlideUtil.loadImageViewLoding(mActivity,order.getOrders().get(number).getItemInfo().get(number).getImage(), iv_goods_picture,R.drawable.image_loading,R.drawable.image_loading);
+        ImageView iv_goods_picture = customDialog.findViewById(R.id.iv_goods_picture);
+        GlideUtil.loadImageViewLoding(mActivity, order.getOrders().get(number).getItemInfo().get(number).getImage(), iv_goods_picture, R.drawable.image_loading, R.drawable.image_loading);
 
-        TextView tv_goods_name=customDialog.findViewById(R.id.tv_goods_name);
+        TextView tv_goods_name = customDialog.findViewById(R.id.tv_goods_name);
         tv_goods_name.setText(order.getOrders().get(number).getItemInfo().get(number).getProductName());
 
-        TextView tv_express_delivery=customDialog.findViewById(R.id.tv_express_delivery);
-        tv_express_delivery.setText("快递单号："+expressNum);
+        TextView tv_express_delivery = customDialog.findViewById(R.id.tv_express_delivery);
+        tv_express_delivery.setText("快递单号：" + expressNum);
 
 
-
-
-                rv_logistics = customDialog.findViewById(R.id.rv_logistics);
+        rv_logistics = customDialog.findViewById(R.id.rv_logistics);
 //        for (int i = 0; i < 10; i++) {
 //            logisticsList.add(new Logistics());
 //        }
@@ -815,7 +819,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 } else {
                     userInfo = Result.getData().getData().get(0);
                     if (userInfo != null) {
-                        if (userInfo.getNickName().equals(userInfo.getPhone())) {
+                        if (userInfo.getNickName().equals(userInfo.getUserID())) {
                             mTvUsername.setText("未设置昵称");
                         } else {
                             mTvUsername.setText(userInfo.getNickName());
@@ -915,9 +919,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case 200:
                 if (baseResult.getData() != null) {
                     datalist = baseResult.getData().getItem2();
-                    if (datalist==null){
+                    if (datalist == null) {
                         mLlService.setVisibility(View.GONE);
-                    }else{
+                    } else {
                         mScrolltv.removeAllViews();
                         mScrolltv.initView(R.layout.item_switchview, new SwitchView.ViewBuilder() {
                             @Override
@@ -1010,11 +1014,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void GetOrders(Order result) {
-        if (result.isSuccess()){
+        if (result.isSuccess()) {
             if (result.getOrders() != null) {
                 order = result;
-                for (int i=0;i<order.getOrders().size();i++){
-                    mPresenter.GetExpress(order.getOrders().get(i).getId(),userKey);
+                for (int i = 0; i < order.getOrders().size(); i++) {
+                    mPresenter.GetExpress(order.getOrders().get(i).getId(), userKey);
 
                 }
 
@@ -1024,39 +1028,39 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().getItem2()!=null){
+                if (baseResult.getData().getItem2() != null) {
                     expresslist = baseResult.getData().getItem2();
                     mScrollExpress.removeAllViews();
                     mScrollExpress.initView(R.layout.item_express, new SwitchView.ViewBuilder() {
                         @Override
                         public void initView(View view) {
-                            LinearLayout ll_express=(LinearLayout) view.findViewById(R.id.ll_express);
-                            TextView tv_express_information=(TextView) view.findViewById(R.id.tv_express_information);
+                            LinearLayout ll_express = (LinearLayout) view.findViewById(R.id.ll_express);
+                            TextView tv_express_information = (TextView) view.findViewById(R.id.tv_express_information);
                             iv_goods = (ImageView) view.findViewById(R.id.iv_goods);
 //                            Log.d(TAG,"order.getOrders()"+order.getOrders());
 //                            for (int k=0;k<order.getOrders().size();k++){
-                            Log.d(TAG,"order.getOrders()"+order.getOrders().size());
+                            Log.d(TAG, "order.getOrders()" + order.getOrders().size());
 //                                GlideUtil.loadImageViewLoding(mActivity,order.getOrders().get(k).getItemInfo().get(k).getImage(), iv_goods,R.drawable.image_loading,R.drawable.image_loading);
                             tv_express_information.setText(expresslist.get(j).getContent());
                             logisticsList.clear();
                             logisticsList.addAll(expresslist);
 //                            Log.d(TAG,"order.getOrders()"+logisticsList);
                             logisticsAdapter.setNewData(logisticsList);
-                            int number=j;
+                            int number = j;
                             ll_express.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                     ToastUtils.showShort(""+number);
+                                    ToastUtils.showShort("" + number);
 //                                    showLogistucs(number);
                                 }
                             });
 //                            }
 
                             j++;
-                            if (j==order.getOrders().size()){
-                                j=0;
+                            if (j == order.getOrders().size()) {
+                                j = 0;
                             }
 
 
@@ -1068,10 +1072,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     }
 
 
-
     @Override
     public void GetExpress(Express Result) {
-        if (Result.isSuccess()){
+        if (Result.isSuccess()) {
             expressNum = Result.getExpressNum();
 //            mPresenter.GetExpressInfo(Result.getExpressNum());
 

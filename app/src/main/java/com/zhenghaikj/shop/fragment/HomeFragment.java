@@ -143,7 +143,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @BindView(R.id.rv_category)
     RecyclerView mRvCategory;
 
-    private List<ShopResult.GiftBean> panicBuyList = new ArrayList<>();
+    private List<ShopResult.GiftListNewBean> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
     private List<LimitBuyListResult.ListBean> limitedTimeList = new ArrayList<>();
     private List<Product> categoryList = new ArrayList<>();
@@ -266,7 +266,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mRvCategory.setAdapter(homeCategoryAdapter);
 
         for (int i = 0; i < 10; i++) {
-            panicBuyList.add(new ShopResult.GiftBean());
+            panicBuyList.add(new ShopResult.GiftListNewBean());
             exchageList.add(new Product());
         }
         exchageAdapter = new ExchageAdapter(R.layout.item_exchage, panicBuyList);

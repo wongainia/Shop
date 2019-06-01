@@ -45,9 +45,8 @@
                     android:visibility="gone"/>
                 <TextView
                     android:id="@+id/tv_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:textSize="16sp"
                     android:textColor="#333"/>
                 <TextView
@@ -56,13 +55,13 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="#333"
-                    android:layout_marginRight="30dp"/>
+                    android:layout_marginLeft="30dp"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:textSize="12sp"
                 android:textColor="#333"
                 android:layout_marginRight="30dp"/>
