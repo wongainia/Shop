@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopResult;
 import com.zhenghaikj.shop.mvp.contract.ShopContract;
 
@@ -18,7 +19,7 @@ public class ShopModel implements ShopContract.Model {
     private String sign;
     private String timestamp;
     @Override
-    public Observable<ShopResult> index() {
+    public Observable<Shop> index() {
         map = new HashMap<>();
         map.put("app_key","himalltest");
         timestamp= TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));

@@ -21,6 +21,7 @@ import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopResult;
 import com.zhenghaikj.shop.mvp.contract.ShopContract;
 import com.zhenghaikj.shop.mvp.model.ShopModel;
@@ -134,7 +135,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     protected void initData() {
-        mPresenter.index();
+//        mPresenter.index();
         mPresenter.IndexJson();
 
         for (int i = 0; i < 4; i++) {
@@ -211,7 +212,8 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
         mRvShop.setItemAnimator(new DefaultItemAnimator());
         mRvShop.setAdapter(myRecyclerViewAdapter);
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            mPresenter.index();
+            exchageList.clear();
+//            mPresenter.index();
             mPresenter.IndexJson();
             refreshLayout.setNoMoreData(false);
             refreshLayout.finishRefresh(1000);
@@ -259,7 +261,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     }
 
     @Override
-    public void index(ShopResult result) {
+    public void index(Shop result) {
 
     }
 

@@ -225,6 +225,9 @@
         <activity android:name=".activity.LogisticsInformationActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.MessageActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
 
 
         <activity android:name=".activity.WorkOrderDetailActivity" android:theme="@style/AppSplash"

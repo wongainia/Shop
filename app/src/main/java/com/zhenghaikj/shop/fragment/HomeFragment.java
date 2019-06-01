@@ -45,6 +45,7 @@ import com.zhenghaikj.shop.activity.GoodDailyShopActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.LotteryActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
+import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.RegisterActivity;
 import com.zhenghaikj.shop.activity.SearchDetailActivity;
@@ -416,6 +417,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mTvShop.setOnClickListener(this);
         mLlMemberCode.setOnClickListener(this);
         mIvRegister.setOnClickListener(this);
+        mLlMess.setOnClickListener(this);
     }
 
     @Override
@@ -478,6 +480,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     ToastUtils.showShort("您已经注册了前往购物");
                 }
 
+                break;
+            case R.id.ll_mess:
+                startActivity(new Intent(mActivity, MessageActivity.class));
                 break;
 
         }

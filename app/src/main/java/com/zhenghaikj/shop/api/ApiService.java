@@ -50,6 +50,7 @@ import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
+import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
@@ -970,9 +971,9 @@ public interface ApiService {
     * 积分商城
     * */
     @GET("IntegralMall/Index")
-    Observable<ShopResult> Index(@Query("app_key") String app_key,
-                                 @Query("timestamp") String timestamp,
-                                 @Query("sign") String sign);
+    Observable<Shop> Index(@Query("app_key") String app_key,
+                           @Query("timestamp") String timestamp,
+                           @Query("sign") String sign);
 
     /*
      * 积分商城
