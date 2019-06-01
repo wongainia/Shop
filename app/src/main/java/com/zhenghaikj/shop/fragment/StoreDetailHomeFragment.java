@@ -33,7 +33,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 
-//全部订单
 public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresenter, StoreDetailModel> implements StoreDetailContract.View {
     private static final String ARG_PARAM1 = "param1";//
     private static final String TAG = "StoreDetailHomeFragment";

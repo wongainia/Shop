@@ -15,6 +15,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -41,11 +42,17 @@ public class MyApplication extends MultiDexApplication {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @Override
             public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                MaterialHeader header=new MaterialHeader(context);
+               /* MaterialHeader header=new MaterialHeader(context);
                 header.setPrimaryColors(Color.parseColor("#00000000"));
                 header.setShowBezierWave(true);
                 layout.setEnableHeaderTranslationContent(false);
-                return header;//指定为经典Header，默认是 贝塞尔雷达Header
+                return header;*/
+                layout.setPrimaryColorsId(R.color.white, android.R.color.black);//全局设置主题颜色
+
+
+                return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+
+                //指定为经典Header，默认是 贝塞尔雷达Header
 //                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
             }
         });

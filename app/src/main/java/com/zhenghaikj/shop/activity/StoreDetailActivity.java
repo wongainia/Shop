@@ -174,7 +174,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
                 mPresenter.PostAddFavoriteShop(String.valueOf(storeDetailResult.getVShop().getShopId()),Userkey);
                 break;
             case R.id.img_sort:
-              mPresenter.GetVShopCategory(VShopId);
+                mViewpager.setCurrentItem(2);
                 break;
 
         }
