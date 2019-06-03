@@ -277,7 +277,7 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
         switch (baseResult.getStatusCode()) {
             case 200:
                 workOrderList.clear();
-                if (baseResult.getData()!=null){
+                if (baseResult.getData().getItem2()!=null){
                     workOrderList.addAll(baseResult.getData().getItem2());
                     mWorkOrderAdapter.setNewData(workOrderList);
                 }

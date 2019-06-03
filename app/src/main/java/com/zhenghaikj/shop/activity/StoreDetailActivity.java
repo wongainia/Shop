@@ -1,15 +1,19 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.google.android.material.appbar.AppBarLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.StoreDetailGoodsAdapter;
@@ -60,9 +64,14 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     TextView mTvName;
     @BindView(R.id.tv_attention)
     TextView mTvAttention;
-
     @BindView(R.id.img_sort)
     ImageView mImgsort;
+    @BindView(R.id.appbarlayout)
+    AppBarLayout appbarlayout;
+
+    @BindView(R.id.rl_shop)
+    RelativeLayout rl_shop;
+
     private String Userkey;
     private String VShopId;
     private SPUtils spUtils = SPUtils.getInstance("token");
@@ -70,6 +79,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     StoreDetailResult storeDetailResult=new StoreDetailResult();
 
+    private int height;
     private final String[] mTitles = {
             "首页", "商品","分类"
     };
@@ -111,12 +121,28 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
         mViewpager.setAdapter(mAdapter);
         mViewpager.setOffscreenPageLimit(mFragments.size());
         mTabReceivingLayout.setViewPager(mViewpager);
+
+
+
     }
 
     @Override
     protected void setListener() {
         mTvAttention.setOnClickListener(this);
         mImgsort.setOnClickListener(this);
+
+
+        appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+                Log.d("======>appbar", String.valueOf(i));
+
+            }
+        });
+
+
+
+
     }
 
     @Override
@@ -176,7 +202,6 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
             case R.id.img_sort:
                 mViewpager.setCurrentItem(2);
                 break;
-
         }
 
     }
@@ -201,5 +226,14 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
         public Fragment getItem(int position) {
             return mFragments.get(position);
         }
+    }
+
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        height=rl_shop.getMeasuredHeight();
+        Log.d("======>height", String.valueOf(rl_shop.getMeasuredHeight()));
     }
 }

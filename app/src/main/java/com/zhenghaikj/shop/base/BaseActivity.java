@@ -36,7 +36,6 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     protected ImmersionBar mImmersionBar;
     private Unbinder unbinder;
     public Context mActivity;
-
     public P mPresenter;
     public M mModel;
     private RxManager mRxManage;

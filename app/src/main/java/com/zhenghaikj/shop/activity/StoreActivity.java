@@ -124,7 +124,9 @@ public class StoreActivity extends BaseActivity<CollectionShopPresenter, Collect
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.ll_store:
-                        startActivity(new Intent(mActivity, ShopHomeActivity.class));
+                        Intent intent=new Intent(mActivity,StoreDetailActivity.class);
+                        intent.putExtra("VShopId",((CollectionShop.DataBean)adapter.getItem(position)).getId());
+                        startActivity(intent);
                         break;
                 }
             }

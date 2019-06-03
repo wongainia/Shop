@@ -160,8 +160,6 @@ public class MyApplication extends MultiDexApplication {
         super.attachBaseContext(base);
         // you must install multiDex whatever tinker is installed!
         MultiDex.install(base);
-
-
         // 安装tinker
         Beta.installTinker();
     }
