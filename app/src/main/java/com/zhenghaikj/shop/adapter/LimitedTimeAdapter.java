@@ -23,7 +23,7 @@ public class LimitedTimeAdapter extends BaseQuickAdapter<LimitBuyListResult.List
 
     @Override
     protected void convert(BaseViewHolder helper, LimitBuyListResult.ListBean item) {
-        String string = "￥"+item.getMarketPrice();
+        String string = "¥"+item.getMarketPrice();
         SpannableString sp = new SpannableString(string);
 //
         sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -792,28 +792,28 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
                 }
                 mTvName.setText(data.getUserName());
 
-                mTvBeyondMoney.setText("￥" + data.getBeyondMoney() + "");
-                mTvAccessoryMoney.setText("￥" + data.getAccessoryMoney());
-                mTvServiceMoney.setText("￥" + data.getServiceMoney());
+                mTvBeyondMoney.setText("¥" + data.getBeyondMoney() + "");
+                mTvAccessoryMoney.setText("¥" + data.getAccessoryMoney());
+                mTvServiceMoney.setText("¥" + data.getServiceMoney());
 //                mTvBeyondMoney.setVisibility(View.GONE);
 //                mTvAccessoryMoney.setVisibility(View.GONE);
 //                mTvServiceMoney.setVisibility(View.GONE);
 
                 if ("3".equals(data.getTypeID())){
-                    mTvOrderMoney.setText("￥" + data.getQuaMoney() + "");
+                    mTvOrderMoney.setText("¥" + data.getQuaMoney() + "");
                 }else{
 //                    if (data.getAccessoryMoney() != null && !"0.00".equals(data.getAccessoryMoney())) {
                     if ("1".equals(data.getAccessoryApplyState())) {
-                        mTvOrderMoney.setText("￥" + data.getQuaMoney());
-//                        mTvOrderMoney.setText("￥" + (Double.parseDouble(data.getAccessoryMoney()) + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getPostMoney())) + "");
+                        mTvOrderMoney.setText("¥" + data.getQuaMoney());
+//                        mTvOrderMoney.setText("¥" + (Double.parseDouble(data.getAccessoryMoney()) + Double.parseDouble(data.getBeyondMoney()) + Double.parseDouble(data.getPostMoney())) + "");
                     } else {
-                        mTvOrderMoney.setText("￥" + data.getOrderMoney() + "");
+                        mTvOrderMoney.setText("¥" + data.getOrderMoney() + "");
                     }
                 }
 
                 if (!"0.00".equals(data.getPostMoney()) && data.getPostMoney() != null) {
                     mLlPostMoney.setVisibility(View.VISIBLE);
-                    mTvPostMoney.setText("￥" + data.getPostMoney());
+                    mTvPostMoney.setText("¥" + data.getPostMoney());
                 } else {
                     mLlPostMoney.setVisibility(View.GONE);
                 }

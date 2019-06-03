@@ -3,7 +3,7 @@ package com.zhenghaikj.shop.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.activity.ShopVersion;
+import com.zhenghaikj.shop.entity.ShopVersion;
 
 import java.util.List;
 

@@ -1,7 +1,5 @@
 package com.zhenghaikj.shop.entity;
 
-import com.zhenghaikj.shop.activity.ShopVersion;
-
 import java.io.Serializable;
 import java.util.List;
 

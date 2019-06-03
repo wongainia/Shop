@@ -246,7 +246,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
         num = getIntent().getStringExtra("num");
         mTvGoodsName.setText(bean.getProductName());
         GlideUtil.loadImageViewLodingRadius(mActivity, bean.getProductImage(), mIvGoodsPicture, R.drawable.image_loading, R.drawable.image_loading, 10);
-        mTvPrice.setText("价格：￥" + bean.getPrice());
+        mTvPrice.setText("价格：¥" + bean.getPrice());
         mTvNumber.setText("数量：" + bean.getCount());
         mTvNumberOfApplications.setText("申请数量：" + num);
         mTvStoreName.setText(storeName);
@@ -355,7 +355,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                         ExtraFee = "20";
                         break;
                 }
-                mTvExpedited.setText("加急费用￥" + ExtraFee);
+                mTvExpedited.setText("加急费用¥" + ExtraFee);
             }
 
             @Override

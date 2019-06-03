@@ -868,7 +868,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     userInfo = Result.getData().getData().get(0);
 //                    if (userInfo !=null){
 //                        mTvBalance.setText(""+userInfo.getTotalMoney()+"");//钱包余额
-//                        mTvWatermelonBalance.setText("￥"+userInfo.getCon()+"");//西瓜币
+//                        mTvWatermelonBalance.setText("¥"+userInfo.getCon()+"");//西瓜币
 //                    }
                 }
 

@@ -1,4 +1,4 @@
-package com.zhenghaikj.shop.activity;
+package com.zhenghaikj.shop.entity;
 
 import java.io.Serializable;
 

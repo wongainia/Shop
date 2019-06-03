@@ -363,7 +363,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                         ExtraFee = "20";
                         break;
                 }
-                mTvExpedited.setText("加急费用￥" + ExtraFee);
+                mTvExpedited.setText("加急费用¥" + ExtraFee);
                 if (mCbService.isChecked()){
                     Double money = Double.parseDouble(ExtraFee) + Double.parseDouble(price);
                     mTvTotalPrice.setText("服务金额:¥"+money );

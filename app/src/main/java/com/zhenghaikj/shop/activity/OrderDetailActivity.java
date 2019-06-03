@@ -401,9 +401,9 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             mTvAddress.setText(orderBean.getAddress());
             mTvPhone.setText(orderBean.getPhone());
             mTvStoreName.setText(orderBean.getShopName());
-            mTvTotalPriceOfGoods.setText("￥" + orderBean.getRealTotalAmount());
-            mTvTotalOrderPrice.setText("￥" + orderBean.getRealTotalAmount());
-            mTvRealPayment.setText("￥" + orderBean.getRealTotalAmount());
+            mTvTotalPriceOfGoods.setText("¥" + orderBean.getRealTotalAmount());
+            mTvTotalOrderPrice.setText("¥" + orderBean.getRealTotalAmount());
+            mTvRealPayment.setText("¥" + orderBean.getRealTotalAmount());
             mTvOrderNumber.setText(orderBean.getId());
             mTvCreationTime.setText(orderBean.getOrderDate());
             orderItemBeans.clear();
@@ -485,7 +485,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     userInfo = Result.getData().getData().get(0);
 //                    if (userInfo !=null){
 //                        mTvBalance.setText(""+userInfo.getTotalMoney()+"");//钱包余额
-//                        mTvWatermelonBalance.setText("￥"+userInfo.getCon()+"");//西瓜币
+//                        mTvWatermelonBalance.setText("¥"+userInfo.getCon()+"");//西瓜币
 //                    }
                 }
 

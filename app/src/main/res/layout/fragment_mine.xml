@@ -86,7 +86,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="159****1213"
-                                        android:textColor="@color/white"
+                                        android:textColor="#787878"
                                         android:textSize="14sp" />
 
                                     <LinearLayout
@@ -437,7 +437,7 @@
                                     android:paddingTop="2dp"
                                     android:paddingRight="5dp"
                                     android:paddingBottom="2dp"
-                                    android:text="￥0.00"
+                                    android:text="¥0.00"
                                     android:textColor="#E3393C"
                                     android:textSize="8dp" />
                             </RelativeLayout>
@@ -447,7 +447,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="17dp"
-                                android:text="可在西瓜商城换购也可送与朋友"
+                                android:text="可在西瓜鱼商城换购也可送与朋友"
                                 android:textColor="#7B7B7B"
                                 android:textSize="8dp" />
                         </LinearLayout>
@@ -905,7 +905,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
                             android:textColor="@color/black"
-                            android:text="查看所有工单"
+                            android:text="查看服务工单"
                             android:textSize="16sp"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -1138,6 +1138,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="成为商家"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_become_master"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="23dp">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/shifu"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="成为师傅"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:layout_marginTop="10dp"/>
@@ -1492,7 +1513,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:gravity="center"
-                                    android:text="一键直达进入西瓜商城"
+                                    android:text="一键直达进入西瓜鱼商城"
                                     android:textColor="#818181"
                                     android:textSize="8sp" />
                             </LinearLayout>

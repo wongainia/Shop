@@ -38,11 +38,13 @@ import com.umeng.socialize.utils.ShareBoardlistener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
 import com.zhenghaikj.shop.activity.CallChageActivity;
 import com.zhenghaikj.shop.activity.CheckinActivity;
 import com.zhenghaikj.shop.activity.FoundGoodGoodsActivity;
 import com.zhenghaikj.shop.activity.GoodDailyShopActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
+import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.LotteryActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.MessageActivity;
@@ -475,9 +477,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 break;
             case R.id.iv_register:
                 if ("".equals(userName)) {
-                    startActivity(new Intent(mActivity, RegisterActivity.class));
+                    startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
-                    ToastUtils.showShort("您已经注册了前往购物");
+                    startActivity(new Intent(mActivity, AddWorkOrderActivity.class));
                 }
 
                 break;

@@ -58,6 +58,7 @@ import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.ShopColor;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopSize;
+import com.zhenghaikj.shop.entity.ShopVersion;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
 import com.zhenghaikj.shop.mvp.model.DetailModel;
 import com.zhenghaikj.shop.mvp.presenter.DetailPresenter;

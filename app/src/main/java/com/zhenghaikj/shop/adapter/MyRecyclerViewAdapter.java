@@ -72,8 +72,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         //填充数据
         HomeResult.ProductBean bean=list.get(position);
         holder.tv_goods_name.setText(bean.getName());
-        holder.tv_goods_money.setText("￥"+bean.getSalePrice()+"");
-        String string = "￥"+bean.getMarketPrice();
+        holder.tv_goods_money.setText("¥"+bean.getSalePrice()+"");
+        String string = "¥"+bean.getMarketPrice();
         SpannableString sp = new SpannableString(string);
 //
         sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

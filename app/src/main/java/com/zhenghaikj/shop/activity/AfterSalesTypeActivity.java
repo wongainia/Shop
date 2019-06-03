@@ -80,7 +80,7 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
         storeName = getIntent().getStringExtra("storeName");
         mTvGoodsName.setText(bean.getProductName());
         GlideUtil.loadImageViewLodingRadius(mActivity, bean.getProductImage(), mIvGoodsPicture, R.drawable.image_loading, R.drawable.image_loading, 10);
-        mTvPrice.setText("价格：￥" + bean.getPrice());
+        mTvPrice.setText("价格：¥" + bean.getPrice());
         mTvNumber.setText("数量：" + bean.getCount());
         mTvStoreName.setText(storeName);
     }

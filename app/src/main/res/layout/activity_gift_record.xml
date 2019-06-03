@@ -75,7 +75,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="转出  ￥"
+                                android:text="转出  ¥"
                                 android:textColor="#808080"
                                 android:textSize="14sp" />
 
@@ -96,7 +96,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="收到  ￥"
+                                android:text="收到  ¥"
                                 android:textColor="#808080"
                                 android:textSize="14sp" />
 

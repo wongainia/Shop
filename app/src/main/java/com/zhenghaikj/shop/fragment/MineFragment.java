@@ -39,6 +39,7 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
+import com.zhenghaikj.shop.activity.BecomeBusinessFirstActivity;
 import com.zhenghaikj.shop.activity.CouponActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
@@ -220,6 +221,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     SwitchView mScrollExpress;
     @BindView(R.id.tv_login)
     TextView mTvLogin;
+    @BindView(R.id.ll_become_master)
+    LinearLayout mLlBecomeMaster;
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
@@ -273,10 +276,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private List<WorkOrder.DataBean> datalist;
     private CustomShareListener mShareListener;
     private ShareAction mShareAction;
+    private ShareAction mShareAction1;
     private Order order;
     private List<Logistics> expresslist;
     private ImageView iv_goods;
     private String expressNum;
+    private Button btn_share_one;
+    private ImageView iv_code_one;
+    private Button btn_go_to_the_mall;
+    private Bitmap bitmap;
 
 
     public static MineFragment newInstance(String param1, String param2) {
@@ -327,6 +335,31 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     }
                 });
 
+        mShareAction1 = new ShareAction(mActivity).setDisplayList(
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.MORE)
+                .addButton("复制文本", "复制文本", "umeng_socialize_copy", "umeng_socialize_copy")
+                .addButton("复制链接", "复制链接", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+                .setShareboardclickCallback(new ShareBoardlistener() {
+                    @Override
+                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                        if (snsPlatform.mShowWord.equals("复制文本")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+                        } else if (snsPlatform.mShowWord.equals("复制链接")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            UMWeb web = new UMWeb("https://sj.qq.com/myapp/detail.htm?apkName=com.ying.administrator.masterappdemo");
+                            web.setTitle("西瓜鱼");
+                            web.setDescription("注册送西瓜币了！！！！！");
+                            web.setThumb(new UMImage(mActivity, R.drawable.iconn));
+                            new ShareAction(mActivity).withMedia(web)
+                                    .setPlatform(share_media)
+                                    .setCallback(mShareListener)
+                                    .share();
+                        }
+                    }
+                });
 
 //        mPresenter.GetOrderByhmall(userName);
 //        mPresenter.GetOrderInfoList(userName,"5","1","1");
@@ -439,6 +472,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
         mTvUsername.setOnClickListener(this);
         mIvMessage.setOnClickListener(this);
+
+        mLlBecomeMaster.setOnClickListener(this);
+        mLlMerchant.setOnClickListener(this);
     }
 
     @Override
@@ -583,12 +619,47 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 }).show();
 
                 break;
+            case R.id.ll_become_master:
+                under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
+                btn_share_one = under_review.findViewById(R.id.btn_share_one);
+                iv_code_one = under_review.findViewById(R.id.iv_code_one);
+                btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
+                TextView tv_name=under_review.findViewById(R.id.tv_name);
+                tv_name.setText("扫描下载师傅端APP，成为师傅");
+                bitmap = ZXingUtils.createQRImage("https://sj.qq.com/myapp/detail.htm?apkName=com.ying.administrator.masterappdemo", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.iconn));
+                iv_code_one.setImageBitmap(bitmap);
+                btn_share_one.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        underReviewDialog.dismiss();
+                        mShareAction1.open();
+                    }
+                });
+
+                btn_go_to_the_mall.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        openShopApp("com.zhenghaikj.shop");
+                        underReviewDialog.dismiss();
+                    }
+                });
+
+                underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review)
+                        .create();
+                underReviewDialog.show();
+                window = underReviewDialog.getWindow();
+//                window.setContentView(under_review);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                window.setAttributes(lp);
+//                window.setDimAmount(0.1f);
+                window.setBackgroundDrawable(new ColorDrawable());
+                break;
             case R.id.ll_coins:
                 under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
-                Button btn_share_one = under_review.findViewById(R.id.btn_share_one);
-                ImageView iv_code_one = under_review.findViewById(R.id.iv_code_one);
-                Button btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
-                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + userName + "&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.iconn));
+                btn_share_one = under_review.findViewById(R.id.btn_share_one);
+                iv_code_one = under_review.findViewById(R.id.iv_code_one);
+                btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
+                bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + userName + "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.iconn));
                 iv_code_one.setImageBitmap(bitmap);
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -611,8 +682,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 underReviewDialog.show();
                 window = underReviewDialog.getWindow();
 //                window.setContentView(under_review);
-                WindowManager.LayoutParams lp = window.getAttributes();
-                window.setAttributes(lp);
+                WindowManager.LayoutParams lp1 = window.getAttributes();
+                window.setAttributes(lp1);
 //                window.setDimAmount(0.1f);
                 window.setBackgroundDrawable(new ColorDrawable());
                 break;
@@ -620,7 +691,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.tv_username:
 //                showOrderEvaluate();
                 break;
-
+            case R.id.ll_merchant:
+                startActivity(new Intent(mActivity, BecomeBusinessFirstActivity.class));
+                break;
             default:
                 break;
         }
@@ -760,7 +833,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //            }
 //            mTvUsername.setText(result.getNick());
             String mobile = result.getCellPhone();
-            String maskNumber = mobile.substring(0,3)+"****"+mobile.substring(7,mobile.length());
+            String maskNumber = mobile.substring(0, 3) + "****" + mobile.substring(7, mobile.length());
             mTvPhone.setText(maskNumber);
             /*设置头像*/
             if (result.getPhoto() == null || "".equals(result.getPhoto())) {//显示默认头像

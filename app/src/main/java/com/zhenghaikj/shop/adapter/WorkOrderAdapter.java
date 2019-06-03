@@ -27,9 +27,9 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
                 .addOnClickListener(R.id.iv_copy)
                 .addOnClickListener(R.id.tv_obsolete);
         if (item.getAccessoryMoney()!=null&&!"0.00".equals(item.getAccessoryMoney())){
-            helper.setText(R.id.tv_cost,"￥" + (Double.parseDouble(item.getAccessoryMoney())+Double.parseDouble(item.getBeyondMoney())+Double.parseDouble(item.getPostMoney())) + "");
+            helper.setText(R.id.tv_cost,"¥" + (Double.parseDouble(item.getAccessoryMoney())+Double.parseDouble(item.getBeyondMoney())+Double.parseDouble(item.getPostMoney())) + "");
         }else{
-            helper.setText(R.id.tv_cost,"￥" + item.getOrderMoney() + "");
+            helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney() + "");
         }
         if ("待接单".equals(name)){
             helper.setVisible(R.id.tv_obsolete,true);

@@ -225,7 +225,7 @@
                                     android:id="@+id/tv_total_price_of_goods"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="￥86.00"
+                                    android:text="¥86.00"
                                     android:textColor="#808080"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -248,7 +248,7 @@
                                     android:id="@+id/tv_freight"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="￥0.00"
+                                    android:text="¥0.00"
                                     android:textColor="#808080"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -271,7 +271,7 @@
                                     android:id="@+id/tv_freight_insurance"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="￥0.00"
+                                    android:text="¥0.00"
                                     android:textColor="#808080"
                                     android:textSize="12sp" />
                             </LinearLayout>
@@ -294,7 +294,7 @@
                                     android:id="@+id/tv_total_order_price"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="￥86.00"
+                                    android:text="¥86.00"
                                     android:textColor="#333"
                                     android:textSize="14sp" />
                             </LinearLayout>
@@ -323,7 +323,7 @@
                                     android:id="@+id/tv_real_payment"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="￥86.00"
+                                    android:text="¥86.00"
                                     android:textColor="@color/red"
                                     android:textSize="14sp" />
                             </LinearLayout>
