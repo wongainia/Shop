@@ -815,6 +815,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                         intent.putExtra("OrderID", OrderId);
                         startActivity(intent);
                         ToastUtils.showShort("支付成功");
+                        ConfirmOrderActivity.this.finish();
                     }
                 }else{
                     Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
@@ -836,7 +837,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         /*注册监听*/
         payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
         /*关闭*/
-
         bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {

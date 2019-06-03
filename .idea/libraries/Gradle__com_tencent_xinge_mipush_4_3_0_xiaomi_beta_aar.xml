@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.tencent.xinge:mipush:4.3.0-xiaomi-beta@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mipush-4.3.0-xiaomi-beta.aar/e6a4df775020064c3492b36e0b75772f/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mipush-4.3.0-xiaomi-beta.aar/e6a4df775020064c3492b36e0b75772f/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mipush-4.3.0-xiaomi-beta.aar/e6a4df775020064c3492b36e0b75772f/jars/libs/XG4XMPush.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tencent.xinge/mipush/4.3.0-xiaomi-beta/7d3461b86f1554b92f6d475965b1a7086910ac49/mipush-4.3.0-xiaomi-beta-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

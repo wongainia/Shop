@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.vondear.RxTool:RxKit:v2.2.7@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxKit-v2.2.7.aar/b1e894e8fe753d9bdea921f56e049b09/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxKit-v2.2.7.aar/b1e894e8fe753d9bdea921f56e049b09/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

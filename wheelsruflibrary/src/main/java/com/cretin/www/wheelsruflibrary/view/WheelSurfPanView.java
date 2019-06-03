@@ -410,7 +410,6 @@ public class WheelSurfPanView extends View {
                     //重置开始角度
                     startAngle = startAngle + mAngle;
                 }
-
                 //最后绘制圆环
                 Rect mDestRect = new Rect(0, 0, mWidth, mWidth);
                 canvas.drawBitmap(mYuanHuan, null, mDestRect, mPaint);

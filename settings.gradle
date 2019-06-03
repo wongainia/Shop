@@ -1,1 +1,1 @@
-include ':app', ':magicindicator','SwipeBackLayout'
+include ':app', ':magicindicator', 'SwipeBackLayout', ':wheelsruflibrary'

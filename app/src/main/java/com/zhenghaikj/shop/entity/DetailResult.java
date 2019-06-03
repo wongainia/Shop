@@ -74,7 +74,7 @@ public class DetailResult implements Serializable {
     private List<ShopColor> Color;
     private List<ShopSize> Size;
     private List<ShopVersion> Version;
-    private List<String> CustomerServices;
+    private List<CustomerBean> CustomerServices;
 
     public String getFreightFee() {
         return FreightFee;
@@ -332,12 +332,12 @@ public class DetailResult implements Serializable {
         this.Version = Version;
     }
 
-    public List<String> getCustomerServices() {
+    public List<CustomerBean> getCustomerServices() {
         return CustomerServices;
     }
 
-    public void setCustomerServices(List<String> CustomerServices) {
-        this.CustomerServices = CustomerServices;
+    public void setCustomerServices(List<CustomerBean> customerServices) {
+        CustomerServices = customerServices;
     }
 
     public static class ProductBean {

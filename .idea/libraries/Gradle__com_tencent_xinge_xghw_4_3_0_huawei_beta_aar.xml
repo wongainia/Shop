@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.tencent.xinge:xghw:4.3.0-huawei-beta@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xghw-4.3.0-huawei-beta.aar/fc4421ec36c778109c53366e3b75796d/jars/libs/XG4HWPush.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xghw-4.3.0-huawei-beta.aar/fc4421ec36c778109c53366e3b75796d/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xghw-4.3.0-huawei-beta.aar/fc4421ec36c778109c53366e3b75796d/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tencent.xinge/xghw/4.3.0-huawei-beta/46e9fc3ba6c91a1b91064699f01e05fa35846527/xghw-4.3.0-huawei-beta-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.tencent.xinge:xgmz:4.3.0-meizu-beta@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xgmz-4.3.0-meizu-beta.aar/6e3fbf9e05d5de85ae2244eed968371b/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xgmz-4.3.0-meizu-beta.aar/6e3fbf9e05d5de85ae2244eed968371b/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xgmz-4.3.0-meizu-beta.aar/6e3fbf9e05d5de85ae2244eed968371b/jars/libs/XG4MZPush.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tencent.xinge/xgmz/4.3.0-meizu-beta/325cc288560c7dcc583c125b0bd4e430c9bd2a63/xgmz-4.3.0-meizu-beta-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
