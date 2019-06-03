@@ -72,6 +72,9 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
     RecyclerView mRvSearchDetail;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+
+    @BindView(R.id.tv_serach)
+    TextView mTvserach;
     private List<SearchResult.ProductBean> searchDatailList = new ArrayList<>();
     private SearchDetailAdapetr searchDetailAdapetr;
     private SearchDetailWaterFallAdapetr searchDetailWaterFallAdapetr;
@@ -95,9 +98,16 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
         mImmersionBar.init();
     }
 
-
     @Override
     protected void initData() {
+
+
+        if (!"".equals(getIntent().getStringExtra("search"))){
+            clear();
+            mPresenter.GetSearchProducts(getIntent().getStringExtra("search"), "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
+            mEtSearch.setText(getIntent().getStringExtra("search"));
+        }
+
         categoryBean =(CategoryMall.CategoryBean)getIntent().getSerializableExtra("tag");
         if (categoryBean!=null){
             mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", "1", Integer.toString(pagaNo), "5");
@@ -171,6 +181,8 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
         mLlPrice.setOnClickListener(this);
         mLlCommentCount.setOnClickListener(this);
         mLlList.setOnClickListener(this);
+        mTvserach.setOnClickListener(this);
+
 
         mEtSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH){//搜索按键action
@@ -212,6 +224,7 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                 finish();
                 break;
             case R.id.iv_search:
+            case R.id.tv_serach:
                 keywords = mEtSearch.getText().toString().trim();
                 if ("".equals(keywords)) {
                     MyUtils.showToast(mActivity, "请输入搜索内容");

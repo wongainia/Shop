@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE">
+    android:background="@color/white"
+    >
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
@@ -11,49 +12,56 @@
         android:background="#EEEEEE" />
 
     <LinearLayout
+        android:id="@+id/ll_serach"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_4"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:padding="@dimen/dp_4"
+        android:background="#EEEEEE">
+
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_margin="@dimen/dp_10"
-            android:src="@drawable/black_left"/>
+            android:src="@drawable/black_left" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:background="@drawable/white_shape">
+            android:background="@drawable/white_shape"
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/et_search"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="搜索"
-                android:inputType="text"
-                android:singleLine="true"
-                android:imeOptions="actionSearch"
-                android:maxLines="1"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:textColorHint="#bbbbbb"
-                android:textSize="14sp"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:textColor="#333" />
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="搜索"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#333"
+                android:textColorHint="#bbbbbb"
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/iv_search"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_margin="@dimen/dp_4"
-                android:src="@drawable/search"
                 android:layout_gravity="center"
-                android:layout_marginRight="10dp"/>
+                android:layout_margin="@dimen/dp_4"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/search"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -62,19 +70,33 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_10"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="筛选"
                 android:textColor="#333"
                 android:textSize="14sp"
-                android:text="筛选"/>
+                android:visibility="gone" />
+
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
+                android:layout_gravity="center"
                 android:src="@drawable/shaixuan"
-                android:layout_gravity="center"/>
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_serach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="搜索"
+                android:textSize="13sp" />
+
+
         </LinearLayout>
     </LinearLayout>
 

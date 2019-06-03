@@ -51,6 +51,7 @@ import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.RegisterActivity;
 import com.zhenghaikj.shop.activity.SearchDetailActivity;
+import com.zhenghaikj.shop.activity.SearchPreDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.HomeCategoryAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
@@ -426,7 +427,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_search:
-                startActivity(new Intent(mActivity, SearchDetailActivity.class));
+               // startActivity(new Intent(mActivity, SearchDetailActivity.class));
+                startActivity(new Intent(mActivity, SearchPreDetailActivity.class));
                 break;
             case R.id.ll_panic_buying:
                 startActivity(new Intent(mActivity, PanicBuyingActivity.class));
