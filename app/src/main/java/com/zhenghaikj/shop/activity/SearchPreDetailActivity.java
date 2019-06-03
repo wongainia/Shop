@@ -121,7 +121,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
     protected void setListener() {
         mTvSerach.setOnClickListener(this);
         mTvclean.setOnClickListener(this);
-
+        mIvBack.setOnClickListener(this);
         serachHistroyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -212,7 +212,9 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                     mRlserach_history.setVisibility(View.GONE);
                 }
                 break;
-
+            case  R.id.iv_back:
+                SearchPreDetailActivity.this.finish();
+                break;
 
         }
 
