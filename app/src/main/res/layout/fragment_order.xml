@@ -7,6 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/refreshLayout">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

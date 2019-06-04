@@ -30,9 +30,18 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:srlPrimaryColor="#007fff"
+        app:srlAccentColor="@color/white"
+        >
 
-    <com.zhenghaikj.shop.widget.ObservableScrollView
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+
+        <com.zhenghaikj.shop.widget.ObservableScrollView
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

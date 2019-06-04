@@ -63,7 +63,10 @@
         app:srlEnableLoadMore="false"
         app:srlEnablePreviewInEditMode="true"
         app:srlPrimaryColor="#00000000">
-
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">

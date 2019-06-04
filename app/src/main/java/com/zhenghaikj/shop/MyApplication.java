@@ -39,15 +39,15 @@ import androidx.multidex.MultiDexApplication;
 public class MyApplication extends MultiDexApplication {
     static {//static 代码段可以防止内存泄露
         //设置全局的Header构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+      /*  SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @Override
             public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-               /* MaterialHeader header=new MaterialHeader(context);
+               *//* MaterialHeader header=new MaterialHeader(context);
                 header.setPrimaryColors(Color.parseColor("#00000000"));
                 header.setShowBezierWave(true);
                 layout.setEnableHeaderTranslationContent(false);
-                return header;*/
-                layout.setPrimaryColorsId(R.color.white, android.R.color.black);//全局设置主题颜色
+                return header;*//*
+                //layout.setPrimaryColorsId(R.color.white, android.R.color.black);//全局设置主题颜色
 
 
                 return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
@@ -55,7 +55,7 @@ public class MyApplication extends MultiDexApplication {
                 //指定为经典Header，默认是 贝塞尔雷达Header
 //                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
             }
-        });
+        });*/
         //设置全局的Footer构建器
         SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
             @Override

@@ -22,7 +22,6 @@ import com.zhenghaikj.shop.widget.SqlHelp.SearchListDbOperation;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
