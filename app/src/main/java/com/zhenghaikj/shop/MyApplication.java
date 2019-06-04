@@ -1,12 +1,10 @@
 package com.zhenghaikj.shop;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.blankj.utilcode.util.Utils;
-import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -15,6 +13,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -22,7 +21,6 @@ import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
-import com.zhenghaikj.shop.activity.SplashActivity;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -42,18 +40,18 @@ public class MyApplication extends MultiDexApplication {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @Override
             public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                MaterialHeader header=new MaterialHeader(context);
+                /*MaterialHeader header=new MaterialHeader(context);
                 header.setPrimaryColors(Color.parseColor("#00000000"));
                 header.setShowBezierWave(true);
                 layout.setEnableHeaderTranslationContent(false);
-                return header;
+                return header;*/
                 //layout.setPrimaryColorsId(R.color.white, android.R.color.black);//全局设置主题颜色
 
 
 //                return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
 
                 //指定为经典Header，默认是 贝塞尔雷达Header
-//                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
+                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
             }
         });
         //设置全局的Footer构建器
@@ -119,7 +117,9 @@ public class MyApplication extends MultiDexApplication {
         //QQ
         PlatformConfig.setQQZone("1109159306", "h1ECHyxVEiZ18ews");
 
-        Beta.canNotShowUpgradeActs.add(SplashActivity.class);//闪屏页面不弹出更新页面
+        Beta.autoCheckUpgrade=false;
+        Beta.init(getApplicationContext(),true);
+
     }
 
     /**

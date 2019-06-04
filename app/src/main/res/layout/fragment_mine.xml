@@ -15,15 +15,10 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:srlPrimaryColor="#F3C62D"
         app:srlAccentColor="@color/white"
         app:srlEnableLoadMore="false">
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#F3C62D"
-           />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -1645,9 +1640,6 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

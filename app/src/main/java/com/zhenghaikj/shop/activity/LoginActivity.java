@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
@@ -17,7 +18,6 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
-import com.zhenghaikj.shop.entity.GetTokenByUserid;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
 import com.zhenghaikj.shop.mvp.model.LoginModel;
@@ -57,6 +57,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     private SPUtils spUtils;
     private String userName;
     private String password;
+    private int login_state;
+    private String code;
 
     @Override
     protected void initImmersionBar() {
@@ -91,7 +93,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     protected void setListener() {
         mTvRegister.setOnClickListener(this);
         mLogin.setOnClickListener(this);
+        mTvChange.setOnClickListener(this);
         mTvAgreement.setOnClickListener(this);
+        mTvGetVerificationCode.setOnClickListener(this);
     }
 
     @Override
@@ -103,14 +107,45 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             case R.id.login:
                 userName = mEtUsername.getText().toString();
                 password = mEtPassword.getText().toString();
+                code =mEtVerificationCode.getText().toString();
+                if (login_state==0){
 
-                if (userName.isEmpty()){
-                    ToastUtils.showShort("请输入手机号！");
-                }else if (password.isEmpty()){
-                    ToastUtils.showShort("请输入密码！");
+                    if ("".equals(userName)) {
+                        ToastUtils.showShort("请输入手机号！");
+                        return;
+                    }
+                    if ("".equals(password)) {
+                        ToastUtils.showShort("请输入密码！");
+                        return;
+                    }
+                    mPresenter.GettokenbyUserid(userName);
                 }else {
-                   // mPresenter.LoginOn(userName, password);
-                     mPresenter.GettokenbyUserid(userName);
+                    if ("".equals(userName)) {
+                        ToastUtils.showShort("请输入手机号！");
+                        return;
+                    }
+
+                    if ("".equals(code)) {
+                        ToastUtils.showShort("请输入验证码！");
+                        return;
+                    }
+//                    mPresenter.LoginOnMessage(userName, code);
+
+                }
+                break;
+            case R.id.tv_change:
+                if (mLlCode.getVisibility()==View.GONE){
+                    mLlCode.setVisibility(View.VISIBLE);
+                    mLlPassword.setVisibility(View.GONE);
+                    mTvChange.setText("密码登录>");
+                    //状态为验证码登陆
+                    login_state =1;
+
+                }else{
+                    mLlCode.setVisibility(View.GONE);
+                    mLlPassword.setVisibility(View.VISIBLE);
+                    mTvChange.setText("短信验证码登录>");
+                    login_state =0;
                 }
                 break;
             case R.id.tv_agreement:
@@ -118,6 +153,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 intent.putExtra("Url","http://admin.xigyu.com/Agreement");
                 intent.putExtra("Title","用户协议");
                 startActivity(intent);
+                break;
+            case R.id.tv_get_verification_code:
+
+                userName=mEtUsername.getText().toString();
+                if (userName.isEmpty()){
+                    ToastUtils.showShort("请输入手机号");
+                    return;
+                }
+                if (!RegexUtils.isMobileExact(userName)){
+                    ToastUtils.showShort("手机格式不正确！");
+                    return;
+                }
+//                mPresenter.ValidateUserName(userName);
                 break;
         }
     }

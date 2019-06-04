@@ -30,173 +30,168 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:srlPrimaryColor="#007fff"
         app:srlAccentColor="@color/white"
         >
 
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
 
         <com.zhenghaikj.shop.widget.ObservableScrollView
-        android:id="@+id/sv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
-
-        <LinearLayout
+            android:id="@+id/sv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:scrollbars="none">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#007fff"
-                android:orientation="vertical"
-                android:paddingBottom="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/white_bg_solid_shape"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:src="@mipmap/sou" />
-
-                    <EditText
-                        android:id="@+id/et_search"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="@dimen/dp_10"
-                        android:background="@null"
-                        android:hint="搜索商品"
-                        android:textColor="#333"
-                        android:textSize="16sp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="热搜:"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_hot_search"
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="10dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <com.zhenghaikj.shop.widget.RatioLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:ratios="2.6">
-
-            <com.youth.banner.Banner
-                android:id="@+id/banner_shop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:image_scale_type="fit_xy"
-                app:indicator_margin="5dp" />
-            </com.zhenghaikj.shop.widget.RatioLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants">
+                android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_main_menu"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"
-                    android:padding="10dp"
-                    android:visibility="gone"/>
-            </RelativeLayout>
+                    android:background="#007fff"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginRight="@dimen/dp_10"
-                android:background="@drawable/white_shape"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/white_bg_solid_shape"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:src="@mipmap/sou" />
+
+                        <EditText
+                            android:id="@+id/et_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:background="@null"
+                            android:hint="搜索商品"
+                            android:textColor="#333"
+                            android:textSize="16sp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="热搜:"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_hot_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="10dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.zhenghaikj.shop.widget.RatioLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ratios="2.6">
+
+                    <com.youth.banner.Banner
+                        android:id="@+id/banner_shop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:image_scale_type="fit_xy"
+                        app:indicator_margin="5dp" />
+                </com.zhenghaikj.shop.widget.RatioLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_main_menu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never"
+                        android:padding="10dp"
+                        android:visibility="gone"/>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="西瓜鱼头条"
-                        android:textColor="#535353"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="@drawable/white_shape"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp">
 
                     <LinearLayout
-                        android:id="@+id/ll_message"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="15dp"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="21dp"
-                            android:layout_height="11dp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="7dp"
-                            android:src="@mipmap/hot" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="西瓜鱼头条"
+                            android:textColor="#535353"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                        <TextSwitcher
-                            android:id="@+id/tv_message"
+                        <LinearLayout
+                            android:id="@+id/ll_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="2dp"
-                            android:inAnimation="@anim/push_up_in"
-                            android:outAnimation="@anim/push_up_out" />
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="21dp"
+                                android:layout_height="11dp"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="7dp"
+                                android:src="@mipmap/hot" />
+
+                            <TextSwitcher
+                                android:id="@+id/tv_message"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="2dp"
+                                android:inAnimation="@anim/push_up_in"
+                                android:outAnimation="@anim/push_up_out" />
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#eeeeee" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:background="#eeeeee" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -306,14 +301,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:descendantFocusability="blocksDescendants">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="10dp"
-                            android:nestedScrollingEnabled="false"
-                            android:overScrollMode="never"
-                            android:id="@+id/rv_exchage"></androidx.recyclerview.widget.RecyclerView>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:nestedScrollingEnabled="false"
+                                android:overScrollMode="never"
+                                android:id="@+id/rv_exchage"></androidx.recyclerview.widget.RecyclerView>
                         </RelativeLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -350,34 +345,34 @@
                         </LinearLayout>
 
                     </LinearLayout>
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="75dp"
-                    android:src="@drawable/title"
-                    android:visibility="gone"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="75dp"
+                        android:src="@drawable/title"
+                        android:visibility="gone"/>
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:descendantFocusability="blocksDescendants"
-                android:visibility="gone">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_shop"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
-            </RelativeLayout>
-        </LinearLayout>
-    </com.zhenghaikj.shop.widget.ObservableScrollView>
+                    android:descendantFocusability="blocksDescendants"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_shop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
+                </RelativeLayout>
+            </LinearLayout>
+        </com.zhenghaikj.shop.widget.ObservableScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

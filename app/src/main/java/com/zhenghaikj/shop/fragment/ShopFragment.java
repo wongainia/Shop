@@ -20,7 +20,6 @@ import com.zhenghaikj.shop.adapter.HotSearchAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.HomeResult;
-import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopResult;
 import com.zhenghaikj.shop.mvp.contract.ShopContract;
@@ -153,6 +152,12 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 //        mRvExchage.setLayoutManager(linearLayout);
         mRvExchage.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvExchage.setAdapter(exchageAdapter);
+        exchageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+            }
+        });
 
         hotSearchAdapter = new HotSearchAdapter(R.layout.item_hot_search, hotsearchList);
         mRvHotSearch.setLayoutManager(new GridLayoutManager(mActivity, 4));
