@@ -28,6 +28,7 @@ import com.zhenghaikj.shop.entity.GetIntroForStoreResult;
 import com.zhenghaikj.shop.entity.GetPayPwd;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
+import com.zhenghaikj.shop.entity.GiftDetailResult;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
@@ -980,6 +981,16 @@ public interface ApiService {
      * */
     @POST("IntegralMall/IndexJson")
     Observable<ShopResult> IndexJson(@Query("app_key") String app_key,
+                                 @Query("timestamp") String timestamp,
+                                 @Query("sign") String sign);
+    /*
+     * 积分详情
+     * */
+    @GET("api/Gifts/GetGifts")
+    Observable<GiftDetailResult> GetGifts(
+                                @Query("id") String giftId,
+                                @Query("userkey") String userkey,
+                                @Query("app_key") String app_key,
                                  @Query("timestamp") String timestamp,
                                  @Query("sign") String sign);
 }

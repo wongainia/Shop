@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.GiftsDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.HotSearchAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
@@ -155,7 +157,9 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
         exchageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                Intent intent = new Intent(mActivity, GiftsDetailActivity.class);
+                intent.putExtra("giftId",exchageList.get(position).getId());
+                startActivity(intent);
             }
         });
 

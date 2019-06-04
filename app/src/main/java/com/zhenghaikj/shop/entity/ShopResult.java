@@ -145,7 +145,7 @@ public class ShopResult implements Serializable {
          */
 
         private String ShowSalesStatus;
-        private int Id;
+        private String Id;
         private String GiftName;
         private int NeedIntegral;
         private int LimtQuantity;
@@ -176,11 +176,11 @@ public class ShopResult implements Serializable {
             this.ShowSalesStatus = ShowSalesStatus;
         }
 
-        public int getId() {
+        public String getId() {
             return Id;
         }
 
-        public void setId(int Id) {
+        public void setId(String Id) {
             this.Id = Id;
         }
 
