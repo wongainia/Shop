@@ -9,7 +9,6 @@ import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
-import com.zhenghaikj.shop.entity.GetTokenByUserid;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.Province;
 import com.zhenghaikj.shop.entity.Track;
@@ -379,6 +378,15 @@ public interface ApiService2 {
                                                         @Field("CustomerId") String CustomerId,
                                                         @Field("JsonStr") JSONArray JsonStr,
                                                         @Field("UserID") String UserID);
+    /**
+     * 赠送西瓜币
+     */
+    @FormUrlEncoded
+    @POST("Account/FAddCon")
+    Observable<BaseResult<Data<String>>> FAddCon(@Field("UserID") String UserID,
+                                                        @Field("ToUserID") String ToUserID,
+                                                        @Field("ToUserID") String Msg,
+                                                        @Field("Connum") String Connum);
 
     /**
      * 微信人工回调OutTradeNo

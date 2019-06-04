@@ -1,6 +1,5 @@
 package com.zhenghaikj.shop.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,15 +8,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.mvp.contract.GiftContract;
+import com.zhenghaikj.shop.mvp.model.GiftModel;
+import com.zhenghaikj.shop.mvp.presenter.GiftPresenter;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GiftAccountActivity extends BaseActivity implements View.OnClickListener {
+public class GiftAccountActivity extends BaseActivity<GiftPresenter, GiftModel> implements View.OnClickListener, GiftContract.View {
 
 
     @BindView(R.id.view)
@@ -44,6 +50,11 @@ public class GiftAccountActivity extends BaseActivity implements View.OnClickLis
     EditText mEtRemarks;
     @BindView(R.id.btn_confirm_transfer)
     Button mBtnConfirmTransfer;
+    private String ToUserID;
+    private String Connum;
+    private String Msg;
+    private SPUtils spUtil;
+    private String UserID;
 
     @Override
     protected int setLayoutId() {
@@ -61,8 +72,8 @@ public class GiftAccountActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-
-
+        spUtil = SPUtils.getInstance("token");
+        UserID = spUtil.getString("userName2");
     }
 
 
@@ -76,6 +87,7 @@ public class GiftAccountActivity extends BaseActivity implements View.OnClickLis
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
+        mBtnConfirmTransfer.setOnClickListener(this);
     }
 
     @Override
@@ -84,9 +96,23 @@ public class GiftAccountActivity extends BaseActivity implements View.OnClickLis
             case R.id.icon_back:
                 finish();
                 break;
-            case R.id.tv_save:
-                startActivity(new Intent(mActivity, AddBrankCardActivity.class));
+            case R.id.btn_confirm_transfer:
+                ToUserID =mEtAccount.getText().toString();
+                Connum =mEtMoney.getText().toString();
+                Msg =mEtRemarks.getText().toString();
+                if ("".equals(ToUserID)){
+                    ToastUtils.showShort("请输入对方账号！");
+                    return;
+                }
+                if ("".equals(Connum)){
+                    ToastUtils.showShort("请输入赠送数量！");
+                    return;
+                }
+                mPresenter.FAddCon(UserID,ToUserID,Msg,Connum);
                 break;
+//            case R.id.tv_save:
+//                startActivity(new Intent(mActivity, AddBrankCardActivity.class));
+//                break;
 
         }
     }
@@ -96,5 +122,10 @@ public class GiftAccountActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void FAddCon(BaseResult<Data<String>> baseResult) {
+
     }
 }
