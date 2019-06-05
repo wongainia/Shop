@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
@@ -19,7 +21,6 @@ import com.zhenghaikj.shop.mvp.contract.GiftContract;
 import com.zhenghaikj.shop.mvp.model.GiftModel;
 import com.zhenghaikj.shop.mvp.presenter.GiftPresenter;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -126,6 +127,14 @@ public class GiftAccountActivity extends BaseActivity<GiftPresenter, GiftModel> 
 
     @Override
     public void FAddCon(BaseResult<Data<String>> baseResult) {
-
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    finish();
+                }else{
+                }
+                ToastUtils.showShort(baseResult.getData().getItem2());
+                break;
+        }
     }
 }
