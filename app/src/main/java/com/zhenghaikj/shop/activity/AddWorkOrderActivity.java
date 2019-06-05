@@ -396,7 +396,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                     ToastUtils.showShort("请先选择分类");
                     return;
                 }
-                mPresenter.GetBrand(userID);
+                mPresenter.GetBrand(SubCategoryID);
                 break;
             case R.id.ll_choose_category:
                 mPresenter.GetFactoryCategory("999");
@@ -661,6 +661,9 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                                 TypeID = null;
                                 TypeName = null;
                                 mTvType.setText("");
+                                FBrandID = null;
+                                BrandName = null;
+                                mTvBrand.setText("");
                                 SubCategoryID = chooseList.get(position).getFCategoryID();
                                 popupWindow.dismiss();
 //                                mPresenter.GetBrand(userID);
@@ -702,15 +705,16 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     }
 
     @Override
-    public void GetBrand(BaseResult<List<Brand>> baseResult) {
+    public void GetBrand(BaseResult<Data<List<Brand>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
                 if (baseResult.getData() != null) {
-                    brandList = baseResult.getData();
+                    brandList = baseResult.getData().getItem2();
                 }
                 if (brandList.size() == 0) {
-                    ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
-                    startActivity(new Intent(mActivity, BrandActivity.class));
+                    ToastUtils.showShort("暂无品牌，请联系管理员添加！");
+//                    ToastUtils.showShort("你还没添加品牌，请先添加品牌！");
+//                    startActivity(new Intent(mActivity, BrandActivity.class));
                 } else {
                     brandsAdapter = new BrandChooseAdapter(R.layout.category_item, brandList);
                     showPopWindow(mTvBrand, brandsAdapter, brandList);
@@ -1033,7 +1037,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 popupWindow.dismiss();
                 if (list.get(position) instanceof Brand) {
-                    FBrandID = ((Brand) list.get(position)).getFBrandID();
+                    FBrandID = ((Brand) list.get(position)).getNBrandID();
                     BrandName = ((Brand) list.get(position)).getFBrandName();
                     tv.setText(BrandName);
 //                    mPresenter.GetChildFactoryCategory2(SubCategoryID);

@@ -19,7 +19,7 @@ public interface AddBrandContract {
         Observable<BaseResult<Data>> AddFactoryBrand(String UserID, String FBrandName);
         Observable<BaseResult<CategoryData>> GetFactoryCategory(String ParentID);
         Observable<BaseResult<CategoryData>> GetChildFactoryCategory(String ParentId);
-        Observable<BaseResult<List<Brand>>> GetBrand(String UserId);
+        Observable<BaseResult<Data<List<Brand>>>> GetBrand(String UserId);
         Observable<BaseResult<Data>> DeleteFactoryBrand(String FBrandID);
 
     }
@@ -28,7 +28,7 @@ public interface AddBrandContract {
         void AddFactoryBrand(BaseResult<Data> baseResult);
         void GetFactoryCategory(BaseResult<CategoryData> baseResult);
         void GetChildFactoryCategory(BaseResult<CategoryData> baseResult);
-        void GetBrand(BaseResult<List<Brand>> baseResult);
+        void GetBrand(BaseResult<Data<List<Brand>>> baseResult);
         void DeleteFactoryBrand(BaseResult<Data> baseResult);
     }
 

@@ -20,6 +20,12 @@ import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -54,11 +60,6 @@ import com.zhenghaikj.shop.utils.MyUtils;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -561,7 +562,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
     }
 
     @Override
-    public void GetBrand(BaseResult<List<Brand>> baseResult) {
+    public void GetBrand(BaseResult<Data<List<Brand>>> baseResult) {
 
     }
 

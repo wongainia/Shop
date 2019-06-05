@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -33,9 +37,6 @@ import com.zhenghaikj.shop.utils.MyUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -108,7 +109,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.iv_delete:
-                        fBrandID = brandsAdapter.getData().get(position).getFBrandID();
+                        fBrandID = brandsAdapter.getData().get(position).getNBrandID();
                         mPresenter.DeleteFactoryBrand(fBrandID);
                         break;
                     case R.id.rl_brand:
@@ -236,10 +237,10 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     }
 
     @Override
-    public void GetBrand(BaseResult<List<Brand>> baseResult) {
+    public void GetBrand(BaseResult<Data<List<Brand>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                brandList = baseResult.getData();
+                brandList = baseResult.getData().getItem2();
                 brandsAdapter.setNewData(brandList);
                 break;
             case 401:

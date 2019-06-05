@@ -52,7 +52,7 @@ public class AddOrderModel implements AddOrderContract.Model {
 
 
     @Override
-    public Observable<BaseResult<List<Brand>>> GetBrand(String UserId) {
+    public Observable<BaseResult<Data<List<Brand>>>> GetBrand(String UserId) {
         return ApiRetrofit2.getDefault().GetFactoryBrand(UserId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

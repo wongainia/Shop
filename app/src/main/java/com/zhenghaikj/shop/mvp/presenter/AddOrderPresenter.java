@@ -53,9 +53,9 @@ public class AddOrderPresenter extends AddOrderContract.Presenter {
     @Override
     public void GetBrand(String UserId) {
         mModel.GetBrand(UserId)
-                .subscribe(new BaseObserver2<List<Brand>>() {
+                .subscribe(new BaseObserver2<Data<List<Brand>>>() {
                     @Override
-                    protected void onHandleSuccess(BaseResult<List<Brand>> value) {
+                    protected void onHandleSuccess(BaseResult<Data<List<Brand>>> value) {
                         mView.GetBrand(value);
                     }
                 });

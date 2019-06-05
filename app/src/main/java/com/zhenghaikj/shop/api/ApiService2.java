@@ -406,9 +406,15 @@ public interface ApiService2 {
     /**
      * 获取品牌
      */
+//    @FormUrlEncoded
+//    @POST("FactoryConfig/GetFactoryBrand")
+//    Observable<BaseResult<List<Brand>>> GetFactoryBrand(@Field("UserID") String UserID);
+    /**
+     * 获取品牌
+     */
     @FormUrlEncoded
-    @POST("FactoryConfig/GetFactoryBrand")
-    Observable<BaseResult<List<Brand>>> GetFactoryBrand(@Field("UserID") String UserID);
+    @POST("FactoryConfig/GetBrandByCategory")
+    Observable<BaseResult<Data<List<Brand>>>> GetFactoryBrand(@Field("ScategoryID") String ScategoryID);
     /**
      *删除工厂品牌
      */

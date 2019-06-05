@@ -24,7 +24,7 @@ public interface AddOrderContract {
         Observable<BaseResult<CategoryData>> GetFactoryCategory(String ParentID);
         Observable<BaseResult<CategoryData>> GetChildFactoryCategory(String ParentId);
         Observable<BaseResult<CategoryData>> GetChildFactoryCategory2(String ParentId);
-        Observable<BaseResult<List<Brand>>> GetBrand(String UserId);
+        Observable<BaseResult<Data<List<Brand>>>> GetBrand(String UserId);
         Observable<BaseResult<List<Province>>> GetProvince();
         Observable<BaseResult<Data<List<City>>>> GetCity(String parentcode);
         Observable<BaseResult<Data<List<Area>>>> GetArea(String parentcode);
@@ -67,7 +67,7 @@ public interface AddOrderContract {
         void GetFactoryCategory(BaseResult<CategoryData> baseResult);
         void GetChildFactoryCategory(BaseResult<CategoryData> baseResult);
         void GetChildFactoryCategory2(BaseResult<CategoryData> baseResult);
-        void GetBrand(BaseResult<List<Brand>> baseResult);
+        void GetBrand(BaseResult<Data<List<Brand>>> baseResult);
         void GetProvince(BaseResult<List<Province>> baseResult);
         void GetCity(BaseResult<Data<List<City>>> baseResult);
         void GetArea(BaseResult<Data<List<Area>>> baseResult);
