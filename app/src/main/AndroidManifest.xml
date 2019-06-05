@@ -261,6 +261,7 @@
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
             />
 
 
@@ -364,6 +365,14 @@
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             />
+
+        <activity android:name=".activity.NewSearchDetailActivty"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
+
+
+
         <receiver
             android:name=".wxapi.AppRegister">
             <intent-filter>

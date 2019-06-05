@@ -43,7 +43,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="搜索"
+                android:hint="佰益莱"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:maxLines="1"

@@ -127,6 +127,10 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
 
+/*    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-11'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-11'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'*/
+
     //没有使用特殊Header，可以不加这行
 
     //    项目中经常遇到这样一种情况，新打开的界面需要加载数据，存在多种状态的结果，需要根据不同结果展示界面，这个过程归纳起来可以分为五种状态：初始状态、请求状态、空数据状态、网络错误状态、成功请求状态。

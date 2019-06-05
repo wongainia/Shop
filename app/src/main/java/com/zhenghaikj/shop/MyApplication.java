@@ -1,10 +1,12 @@
 package com.zhenghaikj.shop;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.blankj.utilcode.util.Utils;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -40,7 +42,7 @@ public class MyApplication extends MultiDexApplication {
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @Override
             public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                /*MaterialHeader header=new MaterialHeader(context);
+               /* MaterialHeader header=new MaterialHeader(context);
                 header.setPrimaryColors(Color.parseColor("#00000000"));
                 header.setShowBezierWave(true);
                 layout.setEnableHeaderTranslationContent(false);
@@ -48,10 +50,10 @@ public class MyApplication extends MultiDexApplication {
                 //layout.setPrimaryColorsId(R.color.white, android.R.color.black);//全局设置主题颜色
 
 
-//                return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+                return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
 
                 //指定为经典Header，默认是 贝塞尔雷达Header
-                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
+//                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
             }
         });
         //设置全局的Footer构建器
@@ -116,10 +118,6 @@ public class MyApplication extends MultiDexApplication {
         PlatformConfig.setSinaWeibo("2520420227", "e76b6df1fd9b46b41b7ea70008cde46a","http://sns.whalecloud.com");
         //QQ
         PlatformConfig.setQQZone("1109159306", "h1ECHyxVEiZ18ews");
-
-        Beta.autoCheckUpgrade=false;
-        Beta.init(getApplicationContext(),true);
-
     }
 
     /**

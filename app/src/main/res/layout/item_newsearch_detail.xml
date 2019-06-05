@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_shop"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    >
+    <ImageView
+        android:id="@+id/img_shop"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_margin="10dp"
+        android:scaleType="fitXY"
+        />
+
+    <RelativeLayout
+        android:layout_toRightOf="@+id/img_shop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+    android:id="@+id/tv_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="20dp"
+    android:text="美的 BCD-629WKPZM(E)双开门家用无霜风冷变频智能对开门电冰箱"
+    android:layout_marginTop="10dp"
+    android:textColor="@color/black"
+    android:textSize="14sp"
+     android:maxLines="3"
+     android:ellipsize="end"
+    />
+
+    <LinearLayout
+        android:id="@+id/ll_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@+id/ll_shop_name"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥"
+            android:textSize="10sp"
+            android:textColor="@color/red"
+            />
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="124"
+            android:textSize="16sp"
+            android:textColor="@color/red"
+            />
+
+        <TextView
+            android:id="@+id/tv_salesnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:layout_marginLeft="15dp"
+            android:text="13人付款"
+            />
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_shop_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            >
+            <TextView
+                android:id="@+id/tv_shop_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="官方自营店"
+                android:textSize="12sp"
+                android:gravity="bottom"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

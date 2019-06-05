@@ -20,6 +20,8 @@ public class Config {
     public static final int RECEIPT_REQUEST=20001;//发单请求码
     public static final int RECEIPT_RESULT=20002;//发单结果码
 
+    public static final int SEARCH_REQUEST=30001;//搜索请求码
+    public static final int SEARCH_RESULT=30002;//搜索结果码
 
 
 

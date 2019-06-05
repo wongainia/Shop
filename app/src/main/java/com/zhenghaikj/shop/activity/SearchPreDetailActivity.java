@@ -1,9 +1,13 @@
 package com.zhenghaikj.shop.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.SerachHistroyAdapter;
+import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.widget.AutoLineFeedLayoutManager;
 import com.zhenghaikj.shop.widget.SqlHelp.SearchListDbOperation;
@@ -22,6 +27,7 @@ import com.zhenghaikj.shop.widget.SqlHelp.SearchListDbOperation;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,7 +119,8 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-
+        mEtSearch.setFocusable(true);
+        mEtSearch.setFocusableInTouchMode(true);
     }
 
     @Override
@@ -126,9 +133,9 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
                     case R.id.ll_item_history:
-                        Intent intent=new Intent(mActivity,SearchDetailActivity.class);
+                        Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
                         intent.putExtra("search",(String) adapter.getItem(position));
-                        startActivity(intent);
+                        startActivityForResult(intent, Config.SEARCH_REQUEST);
                         break;
                 }
 
@@ -157,9 +164,9 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                         reversedList();
                         serachHistroyAdapter.notifyDataSetChanged();
 
-                        Intent intent=new Intent(mActivity,SearchDetailActivity.class);
+                        Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
                         intent.putExtra("search",(String) adapter.getItem(position));
-                        startActivity(intent);
+                        startActivityForResult(intent, Config.SEARCH_REQUEST);
                         break;
                 }
             }
@@ -189,16 +196,32 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                     searchListDbOperation.addRecords(record);
                     reversedList();
                     serachHistroyAdapter.notifyDataSetChanged();
-                    Intent intent=new Intent(mActivity,SearchDetailActivity.class);
+                   // Intent intent=new Intent(mActivity,SearchDetailActivity.class);
+                    Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
                     intent.putExtra("search",record);
-                    startActivity(intent);
+                    startActivityForResult(intent, Config.SEARCH_REQUEST);
+                    if (!tempList.isEmpty()){
+                        mRlserach_history.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    mEtSearch.setText(String.valueOf(mEtSearch.getHint()));
+                    mEtSearch.setSelection(String.valueOf(mEtSearch.getHint()).length());
+                    Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
+                    intent.putExtra("search",String.valueOf(mEtSearch.getHint()));
+                    startActivityForResult(intent, Config.SEARCH_REQUEST);
+
+                    //判断数据库中是否存在该记录
+                    if (!searchListDbOperation.isHasRecord(String.valueOf(mEtSearch.getHint()))) {
+                        tempList.add(String.valueOf(mEtSearch.getHint()));
+                    }
+                    //将搜索记录保存至数据库中
+                    searchListDbOperation.addRecords(String.valueOf(mEtSearch.getHint()));
+                    reversedList();
+                    serachHistroyAdapter.notifyDataSetChanged();
                     if (!tempList.isEmpty()){
                         mRlserach_history.setVisibility(View.VISIBLE);
                     }
 
-
-                } else {
-                    Toast.makeText(mActivity,"搜索内容不能为空",Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -229,7 +252,16 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==Config.SEARCH_REQUEST){
+            if (resultCode==Config.SEARCH_RESULT){
+                String content=data.getStringExtra("searchresult");
+                mEtSearch.setText(content);
+                mEtSearch.setSelection(content.length());
+            }
 
-
-
+        }
+    }
 }
