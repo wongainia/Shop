@@ -456,7 +456,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent1108047427" />
+                <data android:scheme="tencent1109159306" />
             </intent-filter>
         </activity>
         <activity

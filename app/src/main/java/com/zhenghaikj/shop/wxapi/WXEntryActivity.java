@@ -1,9 +1,9 @@
 package com.zhenghaikj.shop.wxapi;
 
-import android.app.Activity;
+import com.umeng.socialize.weixin.view.WXCallbackActivity;
 
 
-public class WXEntryActivity extends Activity {
+public class WXEntryActivity extends WXCallbackActivity {
 	
 	/*private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
 	

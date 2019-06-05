@@ -52,10 +52,10 @@ android {
             //其他代码省略 ...
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+    /*compileOptions {
+        sourceCompatibility 'JavaVersion.VERSION_1_8'
+        targetCompatibility 'JavaVersion.VERSION_1_8'
+    }*/
     aspectjx { exclude 'com.alipay' }
 
     //Add the following configuration
@@ -77,6 +77,10 @@ android {
         dexInProcess true
         preDexLibraries true
         javaMaxHeapSize "2g"
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 //跳过Lint和Test相关的task, 以加速编译
     if (isDebug()) {
@@ -222,4 +226,7 @@ dependencies {
     implementation project(':wheelsruflibrary')
 
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    /*6.0后权限管理RxPermissions */
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
 }

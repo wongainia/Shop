@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,11 +21,20 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.beta.Beta;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -73,13 +83,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements View.OnClickListener, HomeContract.View {
 
@@ -243,14 +248,29 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                             Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
 
                         } else {
-                            UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + userName + "&type=8");
-                            web.setTitle("西瓜鱼");
-                            web.setDescription("注册送西瓜币了！！！！！");
-                            web.setThumb(new UMImage(mActivity, R.drawable.iconn));
-                            new ShareAction(mActivity).withMedia(web)
-                                    .setPlatform(share_media)
-                                    .setCallback(mShareListener)
-                                    .share();
+                            RxPermissions rxPermissions = new RxPermissions(mActivity);
+                            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                    .subscribe(new Consumer<Boolean>() {
+                                        @Override
+                                        public void accept(Boolean aBoolean) throws Exception {
+                                            if (aBoolean) {
+                                                // 获取全部权限成功
+
+                                                UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + userName + "&type=8");
+                                                web.setTitle("西瓜鱼");
+                                                web.setDescription("注册送西瓜币了！！！！！");
+                                                web.setThumb(new UMImage(mActivity, R.drawable.iconn));
+                                                new ShareAction(mActivity).withMedia(web)
+                                                        .setPlatform(share_media)
+                                                        .setCallback(mShareListener)
+                                                        .share();
+                                            } else {
+                                                // 获取全部权限失败
+                                                ToastUtils.showShort("权限获取失败");
+                                            }
+                                        }
+                                    });
+
                         }
                     }
                 });

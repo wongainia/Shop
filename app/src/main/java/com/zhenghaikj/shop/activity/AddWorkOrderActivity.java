@@ -17,6 +17,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -57,11 +63,6 @@ import com.zhenghaikj.shop.widget.RecyclerViewDivider;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -662,7 +663,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                                 mTvType.setText("");
                                 SubCategoryID = chooseList.get(position).getFCategoryID();
                                 popupWindow.dismiss();
-                                mPresenter.GetBrand(userID);
+//                                mPresenter.GetBrand(userID);
                             }
                         });
                     }
@@ -1035,7 +1036,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                     FBrandID = ((Brand) list.get(position)).getFBrandID();
                     BrandName = ((Brand) list.get(position)).getFBrandName();
                     tv.setText(BrandName);
-                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
+//                    mPresenter.GetChildFactoryCategory2(SubCategoryID);
                 }
                 if (list.get(position) instanceof Category) {
                     TypeID = ((Category) list.get(position)).getFCategoryID();

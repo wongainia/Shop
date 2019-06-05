@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -22,6 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -29,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -87,10 +93,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View {
 
@@ -326,14 +330,29 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                             Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
 
                         } else {
-                            UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + userName + "&type=8");
-                            web.setTitle("西瓜鱼");
-                            web.setDescription("注册送西瓜币了！！！！！");
-                            web.setThumb(new UMImage(mActivity, R.drawable.iconn));
-                            new ShareAction(mActivity).withMedia(web)
-                                    .setPlatform(share_media)
-                                    .setCallback(mShareListener)
-                                    .share();
+                            RxPermissions rxPermissions = new RxPermissions(mActivity);
+                            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                    .subscribe(new Consumer<Boolean>() {
+                                        @Override
+                                        public void accept(Boolean aBoolean) throws Exception {
+                                            if (aBoolean) {
+                                                // 获取全部权限成功
+
+                                                UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + userName + "&type=8");
+                                                web.setTitle("西瓜鱼");
+                                                web.setDescription("注册送西瓜币了！！！！！");
+                                                web.setThumb(new UMImage(mActivity, R.drawable.iconn));
+                                                new ShareAction(mActivity).withMedia(web)
+                                                        .setPlatform(share_media)
+                                                        .setCallback(mShareListener)
+                                                        .share();
+                                            } else {
+                                                // 获取全部权限失败
+                                                ToastUtils.showShort("权限获取失败");
+                                            }
+                                        }
+                                    });
+
                         }
                     }
                 });
@@ -352,14 +371,29 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                             Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
 
                         } else {
-                            UMWeb web = new UMWeb("https://sj.qq.com/myapp/detail.htm?apkName=com.ying.administrator.masterappdemo");
-                            web.setTitle("西瓜鱼");
-                            web.setDescription("注册送西瓜币了！！！！！");
-                            web.setThumb(new UMImage(mActivity, R.drawable.iconn));
-                            new ShareAction(mActivity).withMedia(web)
-                                    .setPlatform(share_media)
-                                    .setCallback(mShareListener)
-                                    .share();
+                            RxPermissions rxPermissions = new RxPermissions(mActivity);
+                            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                    .subscribe(new Consumer<Boolean>() {
+                                        @Override
+                                        public void accept(Boolean aBoolean) throws Exception {
+                                            if (aBoolean) {
+                                                // 获取全部权限成功
+
+                                                UMWeb web = new UMWeb("https://sj.qq.com/myapp/detail.htm?apkName=com.ying.administrator.masterappdemo");
+                                                web.setTitle("西瓜鱼");
+                                                web.setDescription("注册送西瓜币了！！！！！");
+                                                web.setThumb(new UMImage(mActivity, R.drawable.iconn));
+                                                new ShareAction(mActivity).withMedia(web)
+                                                        .setPlatform(share_media)
+                                                        .setCallback(mShareListener)
+                                                        .share();
+                                            } else {
+                                                // 获取全部权限失败
+                                                ToastUtils.showShort("权限获取失败");
+                                            }
+                                        }
+                                    });
+
                         }
                     }
                 });
