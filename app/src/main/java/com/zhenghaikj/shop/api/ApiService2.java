@@ -385,7 +385,7 @@ public interface ApiService2 {
     @POST("Account/FAddCon")
     Observable<BaseResult<Data<String>>> FAddCon(@Field("UserID") String UserID,
                                                         @Field("ToUserID") String ToUserID,
-                                                        @Field("ToUserID") String Msg,
+                                                        @Field("Memo") String Msg,
                                                         @Field("Connum") String Connum);
 
     /**
