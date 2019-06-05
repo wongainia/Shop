@@ -42,8 +42,8 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     View mView;
     @BindView(R.id.iv_back)
     ImageView mIvBack;
-    @BindView(R.id.et_search)
-    EditText mEtSearch;
+  /*  @BindView(R.id.et_search)
+    EditText mEtSearch;*/
     @BindView(R.id.tv_serach)
     TextView mTvSerach;
     @BindView(R.id.ll_filter)
@@ -68,6 +68,20 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
     @BindView(R.id.img_price_up_down)
     ImageView mImg_price_up_down;
+
+    @BindView(R.id.ll_serach_txt)
+    LinearLayout mLlserach_txt;
+
+    @BindView(R.id.tv_search_txt)
+    TextView Tvsearch_txt;
+
+    @BindView(R.id.img_cancle)
+    ImageView mImgcancle;
+
+    @BindView(R.id.ll_bg_serach)
+    LinearLayout mLlbg_serach;
+
+
 
     private SerachType serachtype;
     private String orderType="1";//排序方式 1.升序 2.降序
@@ -106,7 +120,9 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
          serach_content=getIntent().getStringExtra("search");
          if (!"".equals(serach_content)&&serach_content!=null){
             mPresenter.GetSearchProducts(serach_content, "", null, null, "1", orderType, Integer.toString(pagaNo), "10");
-            mEtSearch.setText(getIntent().getStringExtra("search"));
+          //  mEtSearch.setText(getIntent().getStringExtra("search"));
+             Tvsearch_txt.setText(getIntent().getStringExtra("search"));
+
         }
 
         newSearchDetailAdapetr = new NewSearchDetailAdapetr(R.layout.item_newsearch_detail, productBeanList);
@@ -128,6 +144,10 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         mLlSalesnum.setOnClickListener(this);
         mLlSifting.setOnClickListener(this);
         mTvSerach.setOnClickListener(this);
+
+        mLlbg_serach.setOnClickListener(this);
+        mLlserach_txt.setOnClickListener(this);
+
 
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -157,7 +177,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             }
         });
 
-        mEtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    /*    mEtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus){//获得焦点时退出该界面
@@ -168,7 +188,12 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                     NewSearchDetailActivty.this.finish();
                 }
             }
-        });
+        });*/
+
+
+
+
+
 
 
         newSearchDetailAdapetr.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -217,7 +242,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                break;
 
            case R.id.tv_serach: //重新搜索
-               String serach_content = mEtSearch.getText().toString();
+               //String serach_content = mEtSearch.getText().toString();
                if ("".equals(serach_content)){
                 Toast.makeText(mActivity,"请输入内容",Toast.LENGTH_SHORT).show();
                }else {
@@ -227,6 +252,24 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                    mPresenter.GetSearchProducts(serach_content,"", null, null, "1", orderType, Integer.toString(pagaNo), "10");
                }
                break;
+
+           case R.id.ll_serach_txt://点击商品删除全部内容返回
+               Intent intent=new Intent();
+               intent.putExtra("searchresult","");
+               setResult(Config.SEARCH_RESULT,intent);
+               NewSearchDetailActivty.this.finish();
+               break;
+
+           case R.id.ll_bg_serach:  //点击背景返回但不删除
+               Intent intent2=new Intent();
+               intent2.putExtra("searchresult",serach_content);
+               setResult(Config.SEARCH_RESULT,intent2);
+               NewSearchDetailActivty.this.finish();
+               break;
+
+
+
+
 
 
 

@@ -234,7 +234,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                     mRlserach_history.setVisibility(View.GONE);
                 }
                 break;
-            case  R.id.iv_back:
+            case R.id.iv_back:
                 SearchPreDetailActivity.this.finish();
                 break;
 
