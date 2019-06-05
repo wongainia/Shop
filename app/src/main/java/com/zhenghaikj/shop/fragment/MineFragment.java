@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -223,6 +224,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     TextView mTvLogin;
     @BindView(R.id.ll_become_master)
     LinearLayout mLlBecomeMaster;
+    @BindView(R.id.fl_info)
+    FrameLayout mFlInfo;
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
@@ -475,6 +478,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
         mLlBecomeMaster.setOnClickListener(this);
         mLlMerchant.setOnClickListener(this);
+        mFlInfo.setOnClickListener(this);
     }
 
     @Override
@@ -484,6 +488,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             return;
         }
         switch (v.getId()) {
+            case R.id.fl_info:
             case R.id.iv_avatar:
                 //个人信息
                 startActivity(new Intent(mActivity, PersonalInformationActivity.class));
@@ -624,7 +629,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 btn_share_one = under_review.findViewById(R.id.btn_share_one);
                 iv_code_one = under_review.findViewById(R.id.iv_code_one);
                 btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
-                TextView tv_name=under_review.findViewById(R.id.tv_name);
+                TextView tv_name = under_review.findViewById(R.id.tv_name);
                 tv_name.setText("扫描下载师傅端APP，成为师傅");
                 bitmap = ZXingUtils.createQRImage("https://sj.qq.com/myapp/detail.htm?apkName=com.ying.administrator.masterappdemo", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.iconn));
                 iv_code_one.setImageBitmap(bitmap);
@@ -960,6 +965,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 if (data.isItem1()) {
                     ToastUtils.showShort(data.getItem2());
 //                    mPresenter.GetOrderInfo(OrderID);
+                    if (EvalateDialog != null) {
+                        EvalateDialog.dismiss();
+                    }
                 } else {
                     ToastUtils.showShort(data.getItem2());
                 }
@@ -1235,7 +1243,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             public void onClick(View v) {
 //                Log.d(TAG,"starRating"+starRating+"starRating1"+starRating1+"starRating2"+starRating2+"starRating3"+starRating3+"....");
                 mPresenter.EnSureOrder(data.getOrderID(), "888888", String.valueOf(starRating), String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
-                EvalateDialog.dismiss();
+//                EvalateDialog.dismiss();
             }
         });
 

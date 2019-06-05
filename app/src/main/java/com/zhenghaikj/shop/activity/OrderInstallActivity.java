@@ -51,6 +51,7 @@ import butterknife.BindView;
 
 /*保内上门安装*/
 public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter, AddInstallOrderModel> implements AddInstallOrderContract.View, View.OnClickListener {
+    private static final String TAG ="OrderInstallActivity" ;
     private SPUtils spUtils=SPUtils.getInstance("token");
     private String userKey;
     private String orderID;
@@ -135,6 +136,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     protected void initData() {
         userKey=spUtils.getString("UserKey");
         orderID = getIntent().getStringExtra("OrderId");
+//        Log.d(TAG,"OrderId"+orderID);
         userID = spUtils.getString("userName2");
         mPresenter.GetOrderDetail(orderID,userKey);
     }
@@ -270,7 +272,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                   DistrictCode,
                   order.getAddress(),
                   order.getShipTo(),
-                  order.getPhone(),
+                  userID,
                   Memo,
                   "100",
                   "48", //回收时间先为48小时

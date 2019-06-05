@@ -837,9 +837,10 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         /*注册监听*/
         payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
         /*关闭*/
-        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDismiss(DialogInterface dialog) {
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
             }
         });
     }

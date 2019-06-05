@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_success"
         android:layout_marginTop="0dp"
-        android:text="成功付款:¥100"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="15sp" />
 
@@ -96,7 +96,7 @@
             android:id="@+id/tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="数量:2台"
+            android:text=""
             android:textSize="10sp"
             android:textColor="@color/black"
             android:layout_alignParentRight="true"
