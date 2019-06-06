@@ -71,7 +71,7 @@ public class MyApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         Utils.init(this);
-        // appKey 可以在七鱼管理系统->设置->APP接入 页面找到
+        // appKey 可以在七鱼管理系统->setting->APP接入 页面找到
 //        Unicorn.init(this, "1b5d0202117baa53c3c796075d043590", options(), new GlideImageLoader2(getApplicationContext()));
         XGPushConfig.enableDebug(this,true);
         XGPushConfig.enableOtherPush(getApplicationContext(), true);

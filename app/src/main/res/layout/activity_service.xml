@@ -1127,7 +1127,7 @@
                     android:text="提  交"
                     android:textSize="20sp"
                     android:textColor="@color/black"
-                    android:background="#F3C62D"/>
+                    android:background="#ED3D48"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

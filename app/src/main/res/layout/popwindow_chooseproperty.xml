@@ -215,8 +215,8 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:textSize="15sp"
-        android:textColor="@color/black"
-        android:background="#F3C62D"
+        android:textColor="@color/white"
+        android:background="#ED3D48"
         android:text="确定"/>
 
 </LinearLayout>

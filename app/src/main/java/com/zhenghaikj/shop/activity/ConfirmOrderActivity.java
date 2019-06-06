@@ -144,7 +144,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        //mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
         mImmersionBar.statusBarView(mView);
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
@@ -625,6 +625,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
+                cancelto();
                 MyUtils.setWindowAlpa(mActivity, false);
             }
         });
@@ -634,9 +635,9 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         MyUtils.setWindowAlpa(mActivity, true);
     }
 
-  /*  *//**
+    /**
      * 取消支付跳转页面，一个订单号跳详情，多个订单号跳列表
-     *//*
+     */
     public void cancelto(){
         if (OrderId.contains(",")){
             intent = new Intent(mActivity, OrderActivity.class);
@@ -647,7 +648,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         }
         startActivity(intent);
         finish();
-    }*/
+    }
     /**
      * 支付宝支付业务
      *
@@ -725,7 +726,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付失败");
-
+                        cancelto();
                     }
                     break;
                 }
@@ -753,9 +754,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 break;
             case -1:
                 ToastUtils.showShort("支付出错");
+                cancelto();
                 break;
             case -2:
                 ToastUtils.showShort("支付取消");
+                cancelto();
                 break;
         }
 

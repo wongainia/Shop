@@ -16,9 +16,9 @@
         android:fillViewport="false"
         android:gravity="bottom"
         app:tabGravity="fill"
-        app:tabIndicatorColor="#F3C62D"
+        app:tabIndicatorColor="#ED3D48"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="#F3C62D"
+        app:tabSelectedTextColor="#ED3D48"
         app:tabTextAppearance="@style/ReturnTabLayout"
         app:tabTextColor="@color/black" />
 

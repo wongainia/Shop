@@ -1,13 +1,18 @@
 package com.zhenghaikj.shop.activity;
+
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -24,14 +29,30 @@ import com.zhenghaikj.shop.mvp.model.PaymentSuccessModel;
 import com.zhenghaikj.shop.mvp.presenter.PaymentSuccessPresenter;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter, PaymentSuccessModel> implements View.OnClickListener, PaymentSuccessContract.View {
 
-    private SPUtils spUtils=SPUtils.getInstance("token");
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.tv_title)
+    TextView mTvTitle;
+    @BindView(R.id.tv_save)
+    TextView mTvSave;
+    @BindView(R.id.icon_search)
+    ImageView mIconSearch;
+    @BindView(R.id.img_shifu1)
+    ImageView mImgShifu1;
+    @BindView(R.id.img_shifu2)
+    ImageView mImgShifu2;
+    @BindView(R.id.ll_service)
+    LinearLayout mLlService;
+    @BindView(R.id.tv_check_order)
+    TextView mTvCheckOrder;
+    @BindView(R.id.tv_return_order)
+    TextView mTvReturnOrder;
+    private SPUtils spUtils = SPUtils.getInstance("token");
     private String userKey;
     private String orderID;
 
@@ -65,11 +86,12 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        //mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
         mImmersionBar.statusBarView(mView);
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_paymentsuccess;
@@ -77,15 +99,16 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
 
     @Override
     protected void initData() {
-        userKey=spUtils.getString("UserKey");
+        userKey = spUtils.getString("UserKey");
         orderID = getIntent().getStringExtra("OrderID");
-        mPresenter.GetOrderDetail(orderID,userKey);
+        mPresenter.GetOrderDetail(orderID, userKey);
 
     }
 
     @Override
     protected void initView() {
-
+        mTvTitle.setVisibility(View.VISIBLE);
+        mTvTitle.setText("支付完成");
 
     }
 
@@ -93,6 +116,8 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mTvyuyue.setOnClickListener(this);
+        mTvCheckOrder.setOnClickListener(this);
+        mTvReturnOrder.setOnClickListener(this);
     }
 
 
@@ -106,14 +131,29 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
-            PaymentSuccessActivity.this.finish();
-            break;
+                PaymentSuccessActivity.this.finish();
+                break;
             case R.id.tv_yuyue:
-                Intent intent=new Intent(mActivity,OrderInstallActivity.class);
-                intent.putExtra("OrderId",orderID);
+                Intent intent = new Intent(mActivity, OrderInstallActivity.class);
+                intent.putExtra("OrderId", orderID);
                 startActivityForResult(intent, Config.RECEIPT_REQUEST);
+                break;
+            case R.id.tv_check_order:
+                Intent intent1 = new Intent(mActivity, OrderDetailActivity.class);
+                intent1.putExtra("orderId", orderID);
+                startActivity(intent1);
+                finish();
+                break;
+            case R.id.tv_return_order:
+                Bundle bundle = new Bundle();
+                bundle.putString("intent", "待发货");
+                bundle.putInt("position", 2);
+                intent = new Intent(mActivity, OrderActivity.class);
+                intent.putExtras(bundle);
+                ActivityUtils.startActivity(intent);
+                finish();
                 break;
 
 
@@ -122,18 +162,18 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
 
     @Override
     public void GetOrderDetail(OrderDetail result) {
-     if (result.isSuccess()){
+        if (result.isSuccess()) {
 
-         mTvMoney.setText("成功付款:¥"+result.getOrder().getRealTotalAmount());
+            mTvMoney.setText("¥" + result.getOrder().getRealTotalAmount());
 
-         Glide.with(mActivity).load(result.getOrderItem().get(0).getProductImage())
-                 .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
-                 .into(mImgShop);
+            Glide.with(mActivity).load(result.getOrderItem().get(0).getProductImage())
+                    .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
+                    .into(mImgShop);
 
-         mTvShop.setText(result.getOrderItem().get(0).getProductName());
+            mTvShop.setText(result.getOrderItem().get(0).getProductName());
 
-         mTvcount.setText("数量: "+result.getOrderItem().get(0).getCount());
-     }
+            mTvcount.setText("数量: " + result.getOrderItem().get(0).getCount());
+        }
     }
 
     @Override
@@ -144,8 +184,8 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==Config.RECEIPT_REQUEST){
-            if (resultCode==Config.RECEIPT_RESULT){
+        if (requestCode == Config.RECEIPT_REQUEST) {
+            if (resultCode == Config.RECEIPT_RESULT) {
                 mTvyuyue.setText("已预约");
                 mTvyuyue.setClickable(false);
 

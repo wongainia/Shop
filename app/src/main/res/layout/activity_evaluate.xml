@@ -26,8 +26,8 @@
             android:layout_height="match_parent"
             android:textSize="15sp"
             android:padding="10dp"
-            android:textColor="@color/black"
-            android:background="#F3C62D"
+            android:textColor="@color/white"
+            android:background="#ED3D48"
             android:text="提交评价"/>
     </LinearLayout>
 

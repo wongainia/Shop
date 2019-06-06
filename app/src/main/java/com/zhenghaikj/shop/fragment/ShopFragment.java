@@ -9,9 +9,17 @@ import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -36,12 +44,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import butterknife.BindView;
 
 public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> implements ShopContract.View {
@@ -86,6 +88,8 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     ObservableScrollView mSv;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.view)
+    View mView;
     private ExchageAdapter exchageAdapter;
 
     public static ShopFragment newInstance(String param1, String param2) {
@@ -125,6 +129,15 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     };
 
     @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
+
+    @Override
     protected int setLayoutId() {
         return R.layout.fragment_shop;
     }
@@ -158,7 +171,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mActivity, GiftsDetailActivity.class);
-                intent.putExtra("giftId",exchageList.get(position).getId());
+                intent.putExtra("giftId", exchageList.get(position).getId());
                 startActivity(intent);
             }
         });
@@ -276,7 +289,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     public void IndexJson(ShopResult result) {
-        if (result.getGiftTotal()!=0){
+        if (result.getGiftTotal() != 0) {
             exchageList.addAll(result.getGiftListNew());
             exchageAdapter.setNewData(exchageList);
         }

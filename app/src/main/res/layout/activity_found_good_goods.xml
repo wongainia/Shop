@@ -12,12 +12,12 @@
         android:layout_height="30dp"
         app:tabBackground="@color/white"
         app:tabGravity="center"
-        app:tabIndicatorColor="#F3C62D"
+        app:tabIndicatorColor="#ED3D48"
         app:tabIndicatorHeight="2dp"
         app:tabIndicatorFullWidth="false"
         app:tabMode="scrollable"
         app:tabPaddingBottom="3dp"
-        app:tabSelectedTextColor="#F3C62D"
+        app:tabSelectedTextColor="#ED3D48"
         app:tabTextAppearance="@style/TabLayoutTextStyle"
         app:tabTextColor="@color/black"/>
     <androidx.viewpager.widget.ViewPager

@@ -31,7 +31,7 @@
             android:layout_height="60dp"
             android:scaleType="fitXY"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:background="#F3C62D"
+            android:background="@drawable/mine_bg_shape"
             >
             <ImageView
                 android:id="@+id/img_shop"
@@ -69,7 +69,7 @@
             android:id="@+id/tab_receiving_layout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="#F3C62D"
+            android:background="@drawable/mine_bg_shape"
             app:tl_divider_color="#1A000000"
             app:tl_divider_padding="10dp"
             app:tl_textsize="17sp"

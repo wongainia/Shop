@@ -8,6 +8,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.SearchDetailActivity;
 import com.zhenghaikj.shop.adapter.CategoryAdapterMall;
@@ -24,9 +29,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, CategoryModel> implements CategoryContract.View, View.OnClickListener {
@@ -51,6 +53,8 @@ public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, 
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.ll_search)
     LinearLayout mLlSearch;
+    @BindView(R.id.view)
+    View mView;
     private int childCount;
     private int middlechild;
     private LinearLayoutManager linearLayoutManager;
@@ -72,6 +76,18 @@ public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, 
     @Override
     protected void initView() {
 
+    }
+
+    /**
+     * 初始化沉浸式
+     */
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
     }
 
 
@@ -175,7 +191,7 @@ public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, 
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.ll_search:
                 startActivity(new Intent(mActivity, SearchDetailActivity.class));
                 break;

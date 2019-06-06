@@ -33,6 +33,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.beta.Beta;
@@ -149,6 +150,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     ImageView mIvRegister;
     @BindView(R.id.rv_category)
     RecyclerView mRvCategory;
+    @BindView(R.id.view)
+    View mView;
 
     private List<ShopResult.GiftListNewBean> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
@@ -216,6 +219,19 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private int pageNo = 1;
 
+    /**
+     * 初始化沉浸式
+     */
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
+
+
     @Override
     protected int setLayoutId() {
         return R.layout.fragment_home;
@@ -279,10 +295,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mPresenter.Get(Integer.toString(pageNo), "999");
         mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999", "");
 
-        for (int i=0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             categoryList.add(new Product());
         }
-        HomeCategoryAdapter homeCategoryAdapter=new HomeCategoryAdapter(R.layout.item_category,categoryList);
+        HomeCategoryAdapter homeCategoryAdapter = new HomeCategoryAdapter(R.layout.item_category, categoryList);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRvCategory.setLayoutManager(mLayoutManager);
         mRvCategory.setAdapter(homeCategoryAdapter);
@@ -415,7 +431,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     protected void initView() {
-        Beta.checkUpgrade(false,false);
+        Beta.checkUpgrade(false, false);
     }
 
 
@@ -445,7 +461,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_search:
-               // startActivity(new Intent(mActivity, SearchDetailActivity.class));
+                // startActivity(new Intent(mActivity, SearchDetailActivity.class));
                 startActivity(new Intent(mActivity, SearchPreDetailActivity.class));
                 break;
             case R.id.ll_panic_buying:

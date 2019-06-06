@@ -78,7 +78,7 @@
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/yellow_chat_shape"
                 android:text="立即分享"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:layout_marginLeft="15dp"/>
         </LinearLayout>

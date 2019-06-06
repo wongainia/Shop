@@ -109,9 +109,9 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="15dp"
-                android:background="#F3C62D"
+                android:background="#ED3D48"
                 android:text="提  交"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
 
 

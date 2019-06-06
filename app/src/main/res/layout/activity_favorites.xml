@@ -8,21 +8,21 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#F3C62D" />
+        android:background="#ED3D48" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#F3C62D">
+        android:background="#ED3D48">
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_favorites_layout"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:background="#F3C62D"
+            android:background="#ED3D48"
             android:layout_gravity="center"
             android:gravity="bottom"
-            app:tabIndicatorColor="@color/black"
-            app:tabSelectedTextColor="@color/black"
-            app:tabTextColor="@color/black"
+            app:tabIndicatorColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/white"
             app:tabTextAppearance="@style/MyCustomNewsTextAppearance"
             app:tabGravity="fill"
             app:tabMode="fixed"

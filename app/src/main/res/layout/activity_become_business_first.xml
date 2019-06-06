@@ -7,6 +7,7 @@
     <include layout="@layout/toolbar"/>
 
     <FrameLayout
+        android:id="@+id/fl_first"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <WebView
@@ -40,12 +41,66 @@
                 android:id="@+id/tv_agree"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:background="#F3C62D"
+                android:background="#ED3D48"
                 android:text="同意"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:gravity="center"/>
         </LinearLayout>
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_two"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <LinearLayout
+            android:id="@+id/ll_enterprise"
+            android:layout_width="match_parent"
+            android:layout_height="83dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/red_round_shape">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/qiye"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我是企业"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:layout_marginLeft="38dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_personal"
+            android:layout_width="match_parent"
+            android:layout_height="83dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/blue_round_shape">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/geren"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我是个人"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:layout_marginLeft="38dp"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

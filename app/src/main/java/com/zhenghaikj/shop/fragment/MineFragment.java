@@ -31,6 +31,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -230,6 +231,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     LinearLayout mLlBecomeMaster;
     @BindView(R.id.fl_info)
     FrameLayout mFlInfo;
+    @BindView(R.id.view)
+    View mView;
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
@@ -292,7 +295,16 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private ImageView iv_code_one;
     private Button btn_go_to_the_mall;
     private Bitmap bitmap;
+    private TextView tv_undone;
 
+    @Override
+    protected void initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this);
+//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarView(mView);
+        mImmersionBar.keyboardEnable(true);
+        mImmersionBar.init();
+    }
 
     public static MineFragment newInstance(String param1, String param2) {
         MineFragment fragment = new MineFragment();
@@ -528,7 +540,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, PersonalInformationActivity.class));
                 break;
             case R.id.iv_setting:
-                //设置
+                //setting
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.iv_message:
@@ -1214,6 +1226,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         iv_close = view.findViewById(R.id.iv_close);
         tv_orderid = view.findViewById(R.id.tv_orderid);
         tv_serach = view.findViewById(R.id.tv_serach);
+        tv_undone = view.findViewById(R.id.tv_undone);
         TextView tv_orderid = view.findViewById(R.id.tv_orderid);
         tv_orderid.setText("工单号：" + data.getOrderID());
         tv_totle_grade = view.findViewById(R.id.tv_totle_grade);
@@ -1282,6 +1295,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                Log.d(TAG,"starRating"+starRating+"starRating1"+starRating1+"starRating2"+starRating2+"starRating3"+starRating3+"....");
                 mPresenter.EnSureOrder(data.getOrderID(), "888888", String.valueOf(starRating), String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
 //                EvalateDialog.dismiss();
+            }
+        });
+
+        tv_undone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.EnSureOrder(data.getOrderID(), "888888", "1", String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
             }
         });
 

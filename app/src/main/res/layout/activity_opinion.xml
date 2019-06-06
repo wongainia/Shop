@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#F3C62D"
+        android:background="@drawable/mine_bg_shape"
         android:paddingTop="36dp"
         android:paddingBottom="20dp"
         android:gravity="center">
@@ -103,7 +103,7 @@
             android:layout_marginLeft="18dp"
             android:layout_marginRight="18dp"
             android:text="提交反馈"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="16sp"/>
 
     </LinearLayout>

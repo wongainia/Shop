@@ -140,10 +140,10 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="20dp"
-            android:background="#F3C62D"
+            android:background="#ED3D48"
             android:gravity="center"
             android:text="确定"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="15sp" />
     </LinearLayout>
 

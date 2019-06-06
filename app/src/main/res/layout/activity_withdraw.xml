@@ -142,7 +142,7 @@
         android:background="@drawable/wallet_btn_shape"
         android:text="预计两个小时内到账，确认提现"
         android:textSize="16sp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/white"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -449,9 +449,9 @@
                                 android:id="@+id/btn_price_shoukuan"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="#F3C62D"
+                                android:background="#ED3D48"
                                 android:textSize="18dp"
-                                android:textColor="@color/black"
+                                android:textColor="@color/white"
                                 android:gravity="center"
                                 android:text="确定" />
                         </LinearLayout>

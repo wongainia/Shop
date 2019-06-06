@@ -5,18 +5,23 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:orientation="vertical">
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/mine_bg_shape" />
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="#F3C62D">
+        android:background="@drawable/mine_bg_shape">
     </androidx.appcompat.widget.Toolbar>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlPrimaryColor="#F3C62D"
+        app:srlPrimaryColor="#ED3D48"
         app:srlAccentColor="@color/white"
         app:srlEnableLoadMore="false">
 
@@ -36,7 +41,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#F3C62D"
+                        android:background="@drawable/mine_bg_shape"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -71,7 +76,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text=""
-                                            android:textColor="@color/black"
+                                            android:textColor="@color/white"
                                             android:textSize="16sp" />
                                         <ImageView
                                             android:visibility="gone"
@@ -85,7 +90,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="159****1213"
-                                        android:textColor="#787878"
+                                        android:textColor="@color/white"
                                         android:textSize="14sp" />
 
                                     <LinearLayout
@@ -136,7 +141,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="未登录"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="20sp"
                                     android:layout_marginTop="12dp"
                                     android:visibility="gone"/>
@@ -207,7 +212,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -215,7 +220,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:text="收藏夹"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -232,7 +237,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -240,7 +245,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:text="关注店铺"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -257,7 +262,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -265,7 +270,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:text="足迹"
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -455,7 +460,7 @@
                             android:layout_width="1dp"
                             android:layout_height="22dp"
                             android:layout_gravity="center"
-                            android:background="#F3C62D" />
+                            android:background="#ED3D48" />
 
                         <LinearLayout
                             android:id="@+id/ll_free_repair"
@@ -569,7 +574,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="9dp"
                                     android:text="待付款"
-                                    android:textColor="#7F7F7F"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -612,7 +617,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="9dp"
                                     android:text="待发货"
-                                    android:textColor="#7F7F7F"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -655,7 +660,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="9dp"
                                     android:text="待收货"
-                                    android:textColor="#7F7F7F"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -698,7 +703,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="9dp"
                                     android:text="待评价"
-                                    android:textColor="#7F7F7F"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
@@ -734,14 +739,14 @@
                                 <ImageView
                                     android:layout_width="24dp"
                                     android:layout_height="21dp"
-                                    android:src="@mipmap/shouhou" />
+                                    android:src="@drawable/shouh" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="9dp"
                                     android:text="退换/售后"
-                                    android:textColor="#7F7F7F"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
 
