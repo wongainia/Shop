@@ -46,7 +46,6 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
-import com.zhenghaikj.shop.activity.BecomeBusinessFirstActivity;
 import com.zhenghaikj.shop.activity.CouponActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
@@ -59,6 +58,7 @@ import com.zhenghaikj.shop.activity.ReturnActivity;
 import com.zhenghaikj.shop.activity.SettingActivity;
 import com.zhenghaikj.shop.activity.StoreActivity;
 import com.zhenghaikj.shop.activity.WalletActivity;
+import com.zhenghaikj.shop.activity.WebActivity;
 import com.zhenghaikj.shop.activity.WorkOrderActivity;
 import com.zhenghaikj.shop.activity.WorkOrderDetailActivity;
 import com.zhenghaikj.shop.adapter.LogisticsAdapter;
@@ -731,7 +731,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                showOrderEvaluate();
                 break;
             case R.id.ll_merchant:
-                startActivity(new Intent(mActivity, BecomeBusinessFirstActivity.class));
+                Intent intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("Url","http://mall.xigyu.com/m-weixin/shopregister/step1");
+                intent.putExtra("Title","商家入驻");
+                startActivity(intent);
+//                startActivity(new Intent(mActivity, BecomeBusinessFirstActivity.class));
                 break;
             default:
                 break;
