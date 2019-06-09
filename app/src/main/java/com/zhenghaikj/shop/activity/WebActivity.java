@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -75,6 +77,8 @@ public class WebActivity extends BaseActivity {
             return true;
         }
     };
+    private SPUtils spUtil;
+    private String Userkey;
 
     private void openImageChooserActivity() {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -100,11 +104,16 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void initData() {
 //        url = "https://h5.emjiayuan.com/Public/app/about/company.html";
+
+        spUtil = SPUtils.getInstance("token");
+        Userkey = spUtil.getString("UserKey");
         url = getIntent().getStringExtra("Url");
         Title = getIntent().getStringExtra("Title");
         mTvTitle.setText(Title);
         mTvTitle.setVisibility(View.VISIBLE);
         mWebview.loadUrl(url);
+        String value = "Himall-User=" + Userkey;// 键值对拼接成 value
+        CookieManager.getInstance().setCookie(getDomain(url), value);// 设置 Cookie
         WebSettings webSettings = mWebview.getSettings();
         webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptEnabled(true);
@@ -152,6 +161,17 @@ public class WebActivity extends BaseActivity {
 
     }
 
+
+    /**
+     * 获取URL的域名
+     */
+    private String getDomain(String url) {
+        url = url.replace("http://", "").replace("https://", "");
+        if (url.contains("/")) {
+            url = url.substring(0, url.indexOf('/'));
+        }
+        return url;
+    }
     @Override
     protected void initView() {
 

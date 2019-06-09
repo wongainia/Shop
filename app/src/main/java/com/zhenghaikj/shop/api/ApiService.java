@@ -15,6 +15,7 @@ import com.zhenghaikj.shop.entity.CollectionShop;
 import com.zhenghaikj.shop.entity.Comment;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
+import com.zhenghaikj.shop.entity.ConfirmOrderOverResult;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
@@ -28,7 +29,10 @@ import com.zhenghaikj.shop.entity.GetIntroForStoreResult;
 import com.zhenghaikj.shop.entity.GetPayPwd;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
+import com.zhenghaikj.shop.entity.GiftConfirmOrder;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
+import com.zhenghaikj.shop.entity.GiftOrder;
+import com.zhenghaikj.shop.entity.GiftOrderDetail;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
@@ -968,27 +972,104 @@ public interface ApiService {
                                                     @Query("sign") String sign);
 
 
-    /*
+    /**
     * 积分商城
-    * */
+    */
     @GET("IntegralMall/Index")
     Observable<Shop> Index(@Query("app_key") String app_key,
                            @Query("timestamp") String timestamp,
                            @Query("sign") String sign);
 
-    /*
+    /**
      * 积分商城
-     * */
+     */
     @POST("IntegralMall/IndexJson")
     Observable<ShopResult> IndexJson(@Query("app_key") String app_key,
                                  @Query("timestamp") String timestamp,
                                  @Query("sign") String sign);
-    /*
+    /**
      * 积分详情
-     * */
+     */
     @GET("api/Gifts/GetGifts")
     Observable<GiftDetailResult> GetGifts(
                                 @Query("id") String giftId,
+                                @Query("userkey") String userkey,
+                                @Query("app_key") String app_key,
+                                 @Query("timestamp") String timestamp,
+                                 @Query("sign") String sign);
+    /**
+     * 积分记录
+     */
+    @GET("api/UserCenter/GetIntegralRecord")
+    Observable<GiftDetailResult> GetIntegralRecord(
+                                @Query("page") String page,
+                                @Query("type") String type,
+                                @Query("userkey") String userkey,
+                                @Query("app_key") String app_key,
+                                 @Query("timestamp") String timestamp,
+                                 @Query("sign") String sign);
+    /**
+     * 积分确认订单
+     */
+    @FormUrlEncoded
+    @POST("api/Gifts/ConfirmOrder")
+    Observable<GiftConfirmOrder> ConfirmOrder(
+                                @Field("id") String giftId,
+                                @Field("count") String count,
+                                @Field("userkey") String userkey,
+                                @Query("app_key") String app_key,
+                                 @Query("timestamp") String timestamp,
+                                 @Query("sign") String sign);
+    /**
+     * 积分提交订单
+     */
+    @FormUrlEncoded
+    @POST("api/Gifts/SubmitOrder")
+    Observable<ConfirmOrderOverResult> SubmitOrder(
+                                @Field("id") String giftId,
+                                @Field("count") String count,
+                                @Field("regionId") String regionId,
+                                @Field("userkey") String userkey,
+                                @Query("app_key") String app_key,
+                                 @Query("timestamp") String timestamp,
+                                 @Query("sign") String sign);
+    /**
+     * 积分订单列表
+     */
+    @GET("api/gifts/GetMyOrderList")
+    Observable<GiftOrder> GetMyOrderList(
+                                @Query("status") String status,
+                                @Query("page") String page,
+                                @Query("userkey") String userkey,
+                                @Query("app_key") String app_key,
+                                 @Query("timestamp") String timestamp,
+                                 @Query("sign") String sign);
+    /**
+     * 积分订单各状态数量
+     */
+    @GET("api/gifts/GetOrderCount")
+    Observable<GiftDetailResult> GetOrderCount(
+                                @Query("userkey") String userkey,
+                                @Query("app_key") String app_key,
+                                 @Query("timestamp") String timestamp,
+                                 @Query("sign") String sign);
+    /**
+     * 积分订单确认收货
+     */
+    @FormUrlEncoded
+    @POST("api/gifts/ConfirmOrderOver")
+    Observable<ConfirmOrderOverResult> ConfirmOrderOver(
+                                @Field("orderId") String orderId,
+                                @Field("userkey") String userkey,
+                                @Query("app_key") String app_key,
+                                 @Query("timestamp") String timestamp,
+                                 @Query("sign") String sign);
+    /**
+     * 积分订单详情
+     */
+    @GET("api/gifts/GetOrder")
+    Observable<GiftOrderDetail> GetOrder(
+                                @Query("id") String orderId,
                                 @Query("userkey") String userkey,
                                 @Query("app_key") String app_key,
                                  @Query("timestamp") String timestamp,

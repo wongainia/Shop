@@ -51,6 +51,7 @@ import com.zhenghaikj.shop.activity.CouponActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
+import com.zhenghaikj.shop.activity.IntegralUseActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.activity.OrderActivity;
@@ -632,7 +633,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_purse:
                 //我的钱包
-                startActivity(new Intent(mActivity, WalletActivity.class));
+//                startActivity(new Intent(mActivity, WalletActivity.class));
+                intent = new Intent(mActivity, IntegralUseActivity.class);
+                intent.putExtra("intent","全部");
+                startActivity(intent);
                 break;
 
             case R.id.ll_free_installation:
@@ -743,7 +747,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                showOrderEvaluate();
                 break;
             case R.id.ll_merchant:
-                Intent intent = new Intent(mActivity, WebActivity.class);
+                intent = new Intent(mActivity, WebActivity.class);
                 intent.putExtra("Url","http://mall.xigyu.com/m-weixin/shopregister/step1");
                 intent.putExtra("Title","商家入驻");
                 startActivity(intent);

@@ -18,6 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -33,7 +39,6 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.activity.ChagePayActivity;
 import com.zhenghaikj.shop.activity.DeliverySuccessActivity;
 import com.zhenghaikj.shop.activity.EvaluateActivity;
 import com.zhenghaikj.shop.activity.LogisticsInformationActivity;
@@ -42,7 +47,6 @@ import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
-import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -70,11 +74,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 
@@ -143,6 +142,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         // 将该app注册到微信
         api.registerApp("wx92928bf751e1628e");
 
+        cartList.clear();
+        pagaNo = 1;
         getData(mParam1);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
