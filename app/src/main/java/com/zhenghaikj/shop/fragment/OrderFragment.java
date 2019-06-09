@@ -172,7 +172,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         orderListAdapter = new OrderListAdapter(R.layout.item_order, cartList, mParam1);
         mRvOrder.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvOrder.setAdapter(orderListAdapter);
-        orderListAdapter.setEmptyView(getEmptyViewCommodity());
+        orderListAdapter.setEmptyView(getEmptyViewOrder());
         orderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
