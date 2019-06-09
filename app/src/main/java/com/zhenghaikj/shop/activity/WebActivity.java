@@ -18,6 +18,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -101,6 +102,7 @@ public class WebActivity extends BaseActivity {
         return R.layout.activity_web;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initData() {
 //        url = "https://h5.emjiayuan.com/Public/app/about/company.html";
@@ -111,9 +113,10 @@ public class WebActivity extends BaseActivity {
         Title = getIntent().getStringExtra("Title");
         mTvTitle.setText(Title);
         mTvTitle.setVisibility(View.VISIBLE);
-        mWebview.loadUrl(url);
         String value = "Himall-User=" + Userkey;// 键值对拼接成 value
         CookieManager.getInstance().setCookie(getDomain(url), value);// 设置 Cookie
+        mWebview.loadUrl(url);
+
         WebSettings webSettings = mWebview.getSettings();
         webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptEnabled(true);

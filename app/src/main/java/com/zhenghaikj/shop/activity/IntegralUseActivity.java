@@ -16,7 +16,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.IntegralUseFragment;
-import com.zhenghaikj.shop.widget.NoCacheViewPager;
+import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class IntegralUseActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.tab_order_layout)
     TabLayout mTabOrderLayout;
     @BindView(R.id.vp_order)
-    NoCacheViewPager mVpOrder;
+    CustomViewPager mVpOrder;
 
     private String[] mTitleDataList = new String[]{
             "全部","收入","支出"

@@ -16,7 +16,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.IntegralOrderFragment;
-import com.zhenghaikj.shop.widget.NoCacheViewPager;
+import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class IntegralOrderActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.tab_order_layout)
     TabLayout mTabOrderLayout;
     @BindView(R.id.vp_order)
-    NoCacheViewPager mVpOrder;
+    CustomViewPager mVpOrder;
 
     private String[] mTitleDataList = new String[]{
             "全部","待发货", "待收货", "已完成"
@@ -65,16 +65,15 @@ public class IntegralOrderActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
-        for (int i = 0; i <mTitleDataList.length; i++) {
+        for (int i = 0; i < mTitleDataList.length; i++) {
             fragmentList.add(IntegralOrderFragment.newInstance(mTitleDataList[i], ""));
         }
-        MyPagerAdapter myPagerAdapter=new MyPagerAdapter(getSupportFragmentManager(),fragmentList, Arrays.asList(mTitleDataList));
+        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragmentList, Arrays.asList(mTitleDataList));
         mTabOrderLayout.setTabMode(TabLayout.MODE_FIXED);
         mVpOrder.setAdapter(myPagerAdapter);
         mTabOrderLayout.setupWithViewPager(mVpOrder);
         mVpOrder.setCurrentItem(0);
         mVpOrder.setOffscreenPageLimit(0);
-
     }
 
     @Override
