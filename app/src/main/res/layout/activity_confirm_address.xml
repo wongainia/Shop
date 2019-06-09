@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/white_round_shape"
     android:id="@+id/ll_address_choose"
     android:orientation="vertical"
     android:layout_marginLeft="10dp"

@@ -36,9 +36,9 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/iconn"
+        android:icon="@drawable/shop"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/iconn"
+        android:roundIcon="@drawable/shop"
         android:supportsRtl="true"
         tools:replace="android:theme"
         android:usesCleartextTraffic="true"
@@ -185,6 +185,9 @@
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
          <activity android:name=".activity.GiftsDetailActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
+         <activity android:name=".activity.GiftOrderDetailActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.LoginActivity" android:theme="@style/AppSplash"
@@ -367,6 +370,19 @@
             />
 
         <activity android:name=".activity.NewSearchDetailActivty"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".activity.IntegralUseActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".activity.IntegralOrderActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
+
+        <activity android:name=".activity.ConfirmGiftOrderActivity"
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             />
