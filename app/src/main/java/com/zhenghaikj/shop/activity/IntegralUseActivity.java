@@ -82,7 +82,7 @@ public class IntegralUseActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView() {
         mTvTitle.setText("我的西瓜币");
-        mTvSave.setText("礼品兑换记录");
+        mTvSave.setText("兑换记录");
         mTvTitle.setVisibility(View.VISIBLE);
         mTvSave.setVisibility(View.VISIBLE);
 

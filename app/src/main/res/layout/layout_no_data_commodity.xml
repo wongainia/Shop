@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="#FFFEFF"
     android:orientation="vertical"
     android:id="@+id/ll_empty"
@@ -10,16 +9,16 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/wu"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:src="@mipmap/quan"
         />
     <TextView
         android:gravity="center"
-        android:id="@+id/tv_home_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:textColor="#333333"
-        android:text="暂无工单"
-        android:layout_marginTop="12dp"
-        android:visibility="gone"/>
+        android:text="暂无优惠券记录！"
+        android:layout_marginTop="20dp" />
 </LinearLayout>
