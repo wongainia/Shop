@@ -22,10 +22,8 @@
         app:tabTextAppearance="@style/ReturnTabLayout"
         app:tabTextColor="@color/black" />
 
-    <com.zhenghaikj.shop.widget.NoCacheViewPager
+    <com.zhenghaikj.shop.widget.CustomViewPager
         android:id="@+id/vp_order"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.zhenghaikj.shop.widget.NoCacheViewPager>
+        android:layout_height="match_parent"/>
 </LinearLayout>

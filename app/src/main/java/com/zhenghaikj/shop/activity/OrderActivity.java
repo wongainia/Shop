@@ -16,7 +16,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.OrderFragment;
-import com.zhenghaikj.shop.widget.NoCacheViewPager;
+import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class  OrderActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.tab_order_layout)
     TabLayout mTabOrderLayout;
     @BindView(R.id.vp_order)
-    NoCacheViewPager mVpOrder;
+    CustomViewPager mVpOrder;
 
     private String[] mTitleDataList = new String[]{
             "全部","待付款","待发货", "待收货", "待评价"

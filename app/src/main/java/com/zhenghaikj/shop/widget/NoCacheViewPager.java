@@ -31,7 +31,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewConfigurationCompat;
 import androidx.core.widget.EdgeEffectCompat;
 import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +40,7 @@ import java.util.Comparator;
  * 不缓存的ViewPager
  * Created by Administrator on 2016/1/26.
  */
-public class NoCacheViewPager extends ViewPager {private static final String TAG = "LazyViewPager";
+public class NoCacheViewPager extends ViewGroup {private static final String TAG = "LazyViewPager";
     private static final boolean DEBUG = false;
 
     private static final boolean USE_CACHE = false;
@@ -171,7 +170,7 @@ public class NoCacheViewPager extends ViewPager {private static final String TAG
          * @param positionOffsetPixels
          *            Value in pixels indicating the offset from position.
          */
-        public void onPageScrolled(int position, float positionOffset,
+         void onPageScrolled(int position, float positionOffset,
                                    int positionOffsetPixels);
 
         /**
@@ -181,7 +180,7 @@ public class NoCacheViewPager extends ViewPager {private static final String TAG
          * @param position
          *            Position index of the new selected page.
          */
-        public void onPageSelected(int position);
+         void onPageSelected(int position);
 
         /**
          * Called when the scroll state changes. Useful for discovering when the
@@ -191,7 +190,7 @@ public class NoCacheViewPager extends ViewPager {private static final String TAG
          * @param state
          *            The new scroll state.
          */
-        public void onPageScrollStateChanged(int state);
+         void onPageScrollStateChanged(int state);
     }
 
     /**
@@ -824,8 +823,8 @@ public class NoCacheViewPager extends ViewPager {private static final String TAG
         }
     }
 
-    /*@Override
-    public void addView(View child, int index, LayoutParams params) {
+    @Override
+    public void addView(View child, int index, ViewGroup.LayoutParams params) {
         if (mInLayout) {
             addViewInLayout(child, index, params);
             child.measure(mChildWidthMeasureSpec, mChildHeightMeasureSpec);
@@ -840,7 +839,7 @@ public class NoCacheViewPager extends ViewPager {private static final String TAG
                 child.setDrawingCacheEnabled(false);
             }
         }
-    }*/
+    }
 
     ItemInfo infoForChild(View child) {
         for (int i = 0; i < mItems.size(); i++) {

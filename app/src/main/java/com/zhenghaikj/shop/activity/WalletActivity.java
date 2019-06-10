@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -28,7 +30,6 @@ import com.zhenghaikj.shop.widget.CircleImageView;
 
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -76,9 +77,13 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
     LinearLayout mLlLivingPayment;
     @BindView(R.id.ll_credit_card_payments)
     LinearLayout mLlCreditCardPayments;
+    @BindView(R.id.ll_coin_record)
+    LinearLayout mLlCoinRecord;
     private SPUtils spUtils;
     private String userName;
     private UserInfo.UserInfoDean userInfo;
+    private Intent intent;
+    private boolean flag;
 
     @Override
     protected int setLayoutId() {
@@ -98,7 +103,9 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
     protected void initData() {
         spUtils = SPUtils.getInstance("token");
         userName = spUtils.getString("userName2");
-        mPresenter.GetUserInfoList(userName,"1");
+        flag = spUtils.getBoolean("flag",false);
+        mIvSee.setSelected(flag);
+        mPresenter.GetUserInfoList(userName, "1");
     }
 
     @Override
@@ -114,28 +121,48 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
         mTvRecharge.setOnClickListener(this);
         mTvWithdraw.setOnClickListener(this);
         mTvGift.setOnClickListener(this);
+        mLlCoinRecord.setOnClickListener(this);
+        mIvSee.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
                 break;
             case R.id.ll_bank_card:
-                startActivity(new Intent(mActivity,BrandCardActivity.class));
+                startActivity(new Intent(mActivity, BrandCardActivity.class));
                 break;
             case R.id.ll_record:
-                startActivity(new Intent(mActivity,RecordingActivity.class));
+                startActivity(new Intent(mActivity, RecordingActivity.class));
                 break;
             case R.id.tv_recharge:
-                startActivity(new Intent(mActivity,RechargeActivity.class));
+                startActivity(new Intent(mActivity, RechargeActivity.class));
                 break;
             case R.id.tv_withdraw:
-                startActivity(new Intent(mActivity,WithdrawActivity.class));
+                startActivity(new Intent(mActivity, WithdrawActivity.class));
                 break;
             case R.id.tv_gift:
-                startActivity(new Intent(mActivity,GiftActivity.class));
+                startActivity(new Intent(mActivity, GiftActivity.class));
+                break;
+            case R.id.ll_coin_record:
+                intent = new Intent(mActivity, IntegralUseActivity.class);
+                intent.putExtra("intent","全部");
+                startActivity(intent);
+                break;
+            case R.id.iv_see:
+                if (!flag){
+                    flag=true;
+                    mTvBalance.setText("****");//钱包余额
+                    mTvWatermelonBalance.setText("****");//西瓜币
+                }else{
+                    flag=false;
+                    mTvBalance.setText("¥" + userInfo.getTotalMoney() + "");//钱包余额
+                    mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
+                }
+                mIvSee.setSelected(flag);
+                spUtils.put("flag",flag);
                 break;
         }
     }
@@ -161,13 +188,18 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
         switch (Result.getStatusCode()) {
             case 200:
-                if (Result.getData().getData()==null){
+                if (Result.getData().getData() == null) {
 
-                }else {
+                } else {
                     userInfo = Result.getData().getData().get(0);
-                    if (userInfo !=null){
-                        mTvBalance.setText(""+userInfo.getTotalMoney()+"");//钱包余额
-                        mTvWatermelonBalance.setText("¥"+userInfo.getCon()+"");//西瓜币
+                    if (userInfo != null) {
+                        if (flag){
+                            mTvBalance.setText("****");//钱包余额
+                            mTvWatermelonBalance.setText("****");//西瓜币
+                        }else{
+                            mTvBalance.setText("¥" + userInfo.getTotalMoney() + "");//钱包余额
+                            mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
+                        }
                     }
                 }
 
