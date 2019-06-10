@@ -165,18 +165,19 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="22dp"
                         android:layout_marginBottom="17dp"
-                        android:orientation="horizontal"
-                        android:gravity="center">
+                        android:paddingRight="30dp"
+                        android:gravity="right"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tv_recharge"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:background="@drawable/wallet_btn_shape"
-                            android:paddingLeft="18dp"
-                            android:paddingTop="11dp"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="10dp"
                             android:paddingRight="20dp"
-                            android:paddingBottom="14dp"
+                            android:paddingBottom="10dp"
                             android:text="充     值"
                             android:textColor="@color/white"
                             android:textSize="16sp" />
@@ -194,18 +195,18 @@
                             android:text="提    现"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tv_gift"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="30dp"
                             android:background="@drawable/wallet_btn_shape"
                             android:paddingLeft="20dp"
-                            android:paddingTop="11dp"
+                            android:paddingTop="10dp"
                             android:paddingRight="20dp"
-                            android:paddingBottom="14dp"
+                            android:paddingBottom="10dp"
                             android:text="赠    送"
                             android:textColor="@color/white"
                             android:textSize="16sp" />
@@ -291,7 +292,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
-                        android:text="代金券"
+                        android:text="优惠券"
                         android:textColor="#323232"
                         android:textSize="16sp" />
 
