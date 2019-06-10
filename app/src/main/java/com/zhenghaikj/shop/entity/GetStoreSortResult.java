@@ -1,7 +1,5 @@
 package com.zhenghaikj.shop.entity;
 
-import com.blankj.utilcode.util.SPUtils;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -10,14 +8,14 @@ public class GetStoreSortResult implements Serializable {
 
     /**
      * Success : True
-     * VShopId : 4
-     * ShopCategories : [{"Id":290,"Name":"电脑","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[{"Id":291,"Name":"笔记本","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":292,"Name":"超极本","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":293,"Name":"台式机","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":294,"Name":"内存条","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]}]},{"Id":304,"Name":"IT","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[{"Id":309,"Name":"电饭","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]}]}]
+     * VShopId : 10
+     * ShopCategories : [{"Id":365,"Name":"冰洗类","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[{"Id":366,"Name":"冰箱","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":367,"Name":"冷柜","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":368,"Name":"家用制冰机","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]}]},{"Id":369,"Name":"热水器","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[{"Id":370,"Name":"即热式热水器","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]}]}]
+     * ShopId : 1
      */
 
-
-
     private String Success;
-    private int VShopId;
+    private String VShopId;
+    private String ShopId;
     private List<ShopCategoriesBean> ShopCategories;
 
     public String getSuccess() {
@@ -28,12 +26,20 @@ public class GetStoreSortResult implements Serializable {
         this.Success = Success;
     }
 
-    public int getVShopId() {
+    public String getVShopId() {
         return VShopId;
     }
 
-    public void setVShopId(int VShopId) {
+    public void setVShopId(String VShopId) {
         this.VShopId = VShopId;
+    }
+
+    public String getShopId() {
+        return ShopId;
+    }
+
+    public void setShopId(String ShopId) {
+        this.ShopId = ShopId;
     }
 
     public List<ShopCategoriesBean> getShopCategories() {
@@ -46,12 +52,12 @@ public class GetStoreSortResult implements Serializable {
 
     public static class ShopCategoriesBean {
         /**
-         * Id : 290
-         * Name : 电脑
+         * Id : 365
+         * Name : 冰洗类
          * Image : null
          * Depth : 1
          * DisplaySequence : 0
-         * SubCategories : [{"Id":291,"Name":"笔记本","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":292,"Name":"超极本","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":293,"Name":"台式机","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":294,"Name":"内存条","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]}]
+         * SubCategories : [{"Id":366,"Name":"冰箱","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":367,"Name":"冷柜","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]},{"Id":368,"Name":"家用制冰机","Image":null,"Depth":1,"DisplaySequence":0,"SubCategories":[]}]
          */
 
         private int Id;
@@ -111,8 +117,8 @@ public class GetStoreSortResult implements Serializable {
 
         public static class SubCategoriesBean {
             /**
-             * Id : 291
-             * Name : 笔记本
+             * Id : 366
+             * Name : 冰箱
              * Image : null
              * Depth : 1
              * DisplaySequence : 0

@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
+import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.mvp.contract.CartContract;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
@@ -45,4 +46,17 @@ public class StoreDetailPresenter extends StoreDetailContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void GetProductList(String PageSize, String pageNo, String shopCategoryId, String shopId, String shopBranchId) {
+        mModel.GetProductList(PageSize,  pageNo, shopCategoryId, shopId, shopBranchId)
+                .subscribe(new BaseObserver<StoreCommodityResult>() {
+                    @Override
+                    protected void onHandleSuccess(StoreCommodityResult value) {
+                        mView.GetProductList(value);
+                    }
+                });
+    }
+
+
 }

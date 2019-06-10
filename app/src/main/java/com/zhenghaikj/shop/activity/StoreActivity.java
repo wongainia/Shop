@@ -126,6 +126,7 @@ public class StoreActivity extends BaseActivity<CollectionShopPresenter, Collect
                     case R.id.ll_store:
                         Intent intent=new Intent(mActivity,StoreDetailActivity.class);
                         intent.putExtra("VShopId",((CollectionShop.DataBean)adapter.getItem(position)).getId());
+
                         startActivity(intent);
                         break;
                 }

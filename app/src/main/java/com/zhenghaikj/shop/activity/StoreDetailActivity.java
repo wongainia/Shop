@@ -20,6 +20,7 @@ import com.zhenghaikj.shop.adapter.StoreDetailGoodsAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
+import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.fragment.StoreDetailGoodsFragment;
 import com.zhenghaikj.shop.fragment.StoreDetailHomeFragment;
@@ -40,11 +41,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, StoreDetailModel> implements StoreDetailContract.View, View.OnClickListener {
-
-
-
-
-
 
     @BindView(R.id.tab_receiving_layout)
     SlidingTabLayout mTabReceivingLayout;
@@ -178,7 +174,6 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     @Override
     public void PostAddFavoriteShop(PostattentionResult result) {
-
         if (result.getMsg().equals("关注成功")){
             mTvAttention.setText("已关注");
         }else {
@@ -192,6 +187,12 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     public void GetVShopCategory(GetStoreSortResult result) {
 
     }
+
+    @Override
+    public void GetProductList(StoreCommodityResult result) {
+
+    }
+
 
     @Override
     public void onClick(View v) {

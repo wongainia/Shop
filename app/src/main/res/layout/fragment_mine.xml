@@ -17,14 +17,19 @@
         android:background="@drawable/mine_bg_shape">
     </androidx.appcompat.widget.Toolbar>
 
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlPrimaryColor="#ED3D48"
+        app:srlPrimaryColor="#DC2F6E"
         app:srlAccentColor="@color/white"
         app:srlEnableLoadMore="false">
-
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mine_bg_shape"
+            />
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">

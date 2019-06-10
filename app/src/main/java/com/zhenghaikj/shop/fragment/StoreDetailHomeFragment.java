@@ -17,6 +17,7 @@ import com.zhenghaikj.shop.adapter.StoreDetailGoodsAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
+import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailGoodsEntity;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
@@ -136,4 +137,10 @@ public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresent
     public void GetVShopCategory(GetStoreSortResult result) {
 
     }
+
+    @Override
+    public void GetProductList(StoreCommodityResult result) {
+
+    }
+
 }

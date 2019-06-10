@@ -273,6 +273,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private String count = "1"; //数量
 
     private String VShopId=""; //微店id用于进入店铺详情
+    private String ShopId="";
+
     private RadioGroup.OnCheckedChangeListener radioGroupListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -948,6 +950,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         result = Result;
         if ("true".equals(Result.getSuccess())) {
             VShopId= String.valueOf(result.getShop().getVShopId());
+            ShopId= String.valueOf(result.getShop().getId());
             if (Result.getIsOnLimitBuy()) {
 //                mLlLimit.setVisibility(View.VISIBLE);
 //                mLlNormal.setVisibility(View.GONE);

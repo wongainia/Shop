@@ -58,6 +58,7 @@ import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopResult;
+import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.entity.SubmitOrder;
 import com.zhenghaikj.shop.entity.UploadImgResult;
@@ -215,13 +216,14 @@ public interface ApiService {
     @GET("api/search/GetSearchProducts")
     Observable<SearchResult> GetSearchProducts(
             @Query("keywords") String keywords,
-            @Query("exp_keywords") String exp_keywords,
             @Query("cid") String cid,
             @Query("b_id") String b_id,
+            @Query("a_id") String a_id,
             @Query("orderKey") String orderKey,
             @Query("orderType") String orderType,
             @Query("pageNo") String pageNo,
             @Query("pageSize") String pageSize,
+            @Query("sid") String sid,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
@@ -973,6 +975,20 @@ public interface ApiService {
 
 
     /**
+    /*店铺商品库*/
+    @GET("api/ShopBranchList/GetProductList")
+    Observable<StoreCommodityResult> GetProductList(@Query("PageSize") String PageSize,
+                                                    @Query("pageNo") String pageNo,
+                                                    @Query("shopCategoryId") String shopCategoryId,
+                                                    @Query("shopId") String shopId,
+                                                    @Query("shopBranchId") String shopBranchId,
+                                                    @Query("app_key") String app_key,
+                                                    @Query("timestamp") String timestamp,
+                                                    @Query("sign") String sign);
+
+
+
+    /*
     * 积分商城
     */
     @GET("IntegralMall/Index")
@@ -1074,4 +1090,8 @@ public interface ApiService {
                                 @Query("app_key") String app_key,
                                  @Query("timestamp") String timestamp,
                                  @Query("sign") String sign);
+
+
+
+
 }

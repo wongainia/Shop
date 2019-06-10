@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,10 +9,12 @@ import android.widget.Toast;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.SearchDetailShopDetailActivity;
 import com.zhenghaikj.shop.adapter.StoreSortAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
+import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 import com.zhenghaikj.shop.mvp.model.StoreDetailModel;
@@ -31,8 +34,9 @@ public class StoreDetailSortFragment extends BaseLazyFragment<StoreDetailPresent
 
     private String Userkey;
     private String VShopId;
-    private SPUtils spUtils = SPUtils.getInstance("token");
+    private String ShopId;
 
+    private SPUtils spUtils = SPUtils.getInstance("token");
     private StoreSortAdapter storeSortAdapter;
 
     public static StoreDetailSortFragment newInstance(String param1) {
@@ -53,6 +57,7 @@ public class StoreDetailSortFragment extends BaseLazyFragment<StoreDetailPresent
         Userkey = spUtils.getString("UserKey");
         VShopId=getActivity().getIntent().getStringExtra("VShopId");
         mPresenter.GetVShopCategory(VShopId);
+
 
 
 
@@ -82,28 +87,36 @@ public class StoreDetailSortFragment extends BaseLazyFragment<StoreDetailPresent
     @Override
     public void GetVShopCategory(GetStoreSortResult result) {
      if ("True".equals(result.getSuccess())){
+
+         ShopId=result.getShopId();
          mRv.setLayoutManager(new LinearLayoutManager(mActivity));
          storeSortAdapter=new StoreSortAdapter(R.layout.item_store_sort,result.getShopCategories());
          storeSortAdapter.setOnItemSortClickListner(this);
-
          storeSortAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
              @Override
              public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
              }
          });
-
-
          mRv.setAdapter(storeSortAdapter);
      }
 
+    }
 
+    @Override
+    public void GetProductList(StoreCommodityResult result) {
     }
 
 
     /*获取点击的item*/
     @Override
-    public void OnItemSortClick(int id) {
-        Toast.makeText(mActivity,"选择了: "+String.valueOf(id),Toast.LENGTH_SHORT).show();
+    public void OnItemSortClick(int id,String name) {
+        //Toast.makeText(mActivity,"选择了: "+String.valueOf(id),Toast.LENGTH_SHORT).show();
+        //mPresenter.GetProductList("10","1",String.valueOf(id),ShopId,"");
+        Intent intent=new Intent(mActivity, SearchDetailShopDetailActivity.class);
+        intent.putExtra("shopCategoryId",String.valueOf(id));
+        intent.putExtra("shopid",ShopId);
+        intent.putExtra("sname",name);
+        startActivity(intent);
     }
 }

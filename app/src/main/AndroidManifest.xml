@@ -387,7 +387,15 @@
             android:launchMode="singleTask"
             />
 
+        <activity android:name=".activity.SearchDetailShopDetailActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
 
+        <activity android:name=".activity.SearchShopPreDetailActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
 
         <receiver
             android:name=".wxapi.AppRegister">

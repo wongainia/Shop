@@ -22,29 +22,32 @@ public class SearchModel implements SearchContract.Model {
     @Override
     public Observable<SearchResult> GetSearchProducts(
             String keywords,
-            String exp_keywords,
             String cid,
             String b_id,
+            String a_id,
             String orderKey,
             String orderType,
             String pageNo,
-            String pageSize
+            String pageSize,
+            String sid
+
     ) {
         map = new HashMap<>();
         map.put("keywords",keywords);
-        map.put("exp_keywords",exp_keywords);
         map.put("cid",cid);
         map.put("b_id",b_id);
+        map.put("a_id",a_id);
         map.put("orderkey",orderKey);
         map.put("ordertype",orderType);
         map.put("pageno",pageNo);
         map.put("pagesize",pageSize);
+        map.put("sid",sid);
         
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().GetSearchProducts(keywords,exp_keywords,cid,b_id,orderKey,orderType,pageNo,pageSize,"himalltest", timestamp,sign)
+        return ApiRetrofit.getDefault().GetSearchProducts(keywords,cid,b_id,a_id,orderKey,orderType,pageNo,pageSize,sid,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

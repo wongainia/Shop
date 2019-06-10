@@ -104,13 +104,13 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
 
         if (!"".equals(getIntent().getStringExtra("search"))){
             clear();
-            mPresenter.GetSearchProducts(getIntent().getStringExtra("search"), "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
+            mPresenter.GetSearchProducts(getIntent().getStringExtra("search"),  null, null,null, "1", orderType, Integer.toString(pagaNo), "5","");
             mEtSearch.setText(getIntent().getStringExtra("search"));
         }
 
         categoryBean =(CategoryMall.CategoryBean)getIntent().getSerializableExtra("tag");
         if (categoryBean!=null){
-            mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", "1", Integer.toString(pagaNo), "5");
+            mPresenter.GetSearchProducts("", categoryBean.getId(), null,null, "1", "1", Integer.toString(pagaNo), "5","");
         }
         searchDetailAdapetr = new SearchDetailAdapetr(R.layout.item_search_detail, searchDatailList);
         searchDetailAdapetr.setEmptyView(getEmptyView());
@@ -146,9 +146,9 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
             public void onRefresh(RefreshLayout refreshLayout) {
                 clear();
                 if (categoryBean!=null){
-                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", "1", Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts("",  categoryBean.getId(), null,null, "1", "1", Integer.toString(pagaNo), "5","");
                 }else{
-                    mPresenter.GetSearchProducts(keywords, "", null, null, "1", "1", Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts(keywords,  null, null,null, "1", "1", Integer.toString(pagaNo), "5","");
                 }
                 mRefreshLayout.finishRefresh(1000);
             }
@@ -156,9 +156,9 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
             pagaNo++;
             if (categoryBean!=null){
-                mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", "1", Integer.toString(pagaNo), "5");
+                mPresenter.GetSearchProducts("", categoryBean.getId(), null,null, "1", "1", Integer.toString(pagaNo), "5","");
             }else{
-                mPresenter.GetSearchProducts(keywords, "", null, null, "1", "1", Integer.toString(pagaNo), "5");
+                mPresenter.GetSearchProducts(keywords,  null, null, null,"1", "1", Integer.toString(pagaNo), "5","");
             }
 //            refreshLayout.finishLoadMore(1000);
         });
@@ -193,7 +193,7 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                 }
                 clear();
                 categoryBean=null;
-                mPresenter.GetSearchProducts(keywords, "", null, null, "1", "1", Integer.toString(pagaNo), "5");
+                mPresenter.GetSearchProducts(keywords,  null, null,null, "1", "1", Integer.toString(pagaNo), "5","");
                 return true;
             }
             return false;
@@ -232,7 +232,7 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                 }
                 clear();
                 categoryBean=null;
-                mPresenter.GetSearchProducts(keywords, "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
+                mPresenter.GetSearchProducts(keywords,  null, null,null, "1", orderType, Integer.toString(pagaNo), "5","");
                 break;
             case R.id.ll_default:
                 setSelected(mLlDefault);
@@ -243,9 +243,9 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                 }
                 clear();
                 if (categoryBean!=null){
-                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "1", orderType, Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts("",  categoryBean.getId(), null, null,"1", orderType, Integer.toString(pagaNo), "5","");
                 }else{
-                    mPresenter.GetSearchProducts(keywords, "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts(keywords,  null, null,null, "1", orderType, Integer.toString(pagaNo), "5","");
                 }
 //                mPresenter.GetSearchProducts(keywords, "", null, null, "1", orderType, Integer.toString(pagaNo), "5");
                 break;
@@ -258,9 +258,9 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                 }
                 clear();
                 if (categoryBean!=null){
-                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "3", orderType, Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts("",  categoryBean.getId(), null, null,"3", orderType, Integer.toString(pagaNo), "5","");
                 }else{
-                    mPresenter.GetSearchProducts(keywords, "", null, null, "3", orderType, Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts(keywords,  null, null,null, "3", orderType, Integer.toString(pagaNo), "5","");
                 }
 //                mPresenter.GetSearchProducts(keywords, "", null, null, "3", orderType, Integer.toString(pagaNo), "5");
                 break;
@@ -273,9 +273,9 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                 }
                 clear();
                 if (categoryBean!=null){
-                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "2", orderType, Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts("",  categoryBean.getId(), null, null,"2", orderType, Integer.toString(pagaNo), "5","");
                 }else{
-                    mPresenter.GetSearchProducts(keywords, "", null, null, "2", orderType, Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts(keywords,  null, null, null,"2", orderType, Integer.toString(pagaNo), "5","");
                 }
 //                mPresenter.GetSearchProducts(keywords, "", null, null, "2", orderType, Integer.toString(pagaNo), "5");
                 break;
@@ -288,9 +288,9 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
                 }
                 clear();
                 if (categoryBean!=null){
-                    mPresenter.GetSearchProducts("", "", categoryBean.getId(), null, "4", orderType, Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts("",  categoryBean.getId(), null,null, "4", orderType, Integer.toString(pagaNo), "5","");
                 }else{
-                    mPresenter.GetSearchProducts(keywords, "", null, null, "4", orderType, Integer.toString(pagaNo), "5");
+                    mPresenter.GetSearchProducts(keywords, null, null,null, "4", orderType, Integer.toString(pagaNo), "5","");
                 }
 //                mPresenter.GetSearchProducts(keywords, "", null, null, "4", orderType, Integer.toString(pagaNo), "5");
                 break;
