@@ -114,6 +114,7 @@ public class WebActivity extends BaseActivity {
         mTvTitle.setText(Title);
         mTvTitle.setVisibility(View.VISIBLE);
         String value = "Himall-User=" + Userkey;// 键值对拼接成 value
+        CookieManager.getInstance().removeAllCookie();
         CookieManager.getInstance().setCookie(getDomain(url), value);// 设置 Cookie
         mWebview.loadUrl(url);
 
