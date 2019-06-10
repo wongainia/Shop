@@ -115,6 +115,12 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
         serachHistroyAdapterhot=new SerachHistroyAdapter(R.layout.item_hot,hotsearch);
         mRvhot.setLayoutManager(new AutoLineFeedLayoutManager());
         mRvhot.setAdapter(serachHistroyAdapterhot);
+
+        if (getIntent().getStringExtra("searchresult")!=null){
+            mEtSearch.setText(getIntent().getStringExtra("searchresult"));
+            mEtSearch.setSelection(getIntent().getStringExtra("searchresult").length());
+        }
+
     }
 
     @Override

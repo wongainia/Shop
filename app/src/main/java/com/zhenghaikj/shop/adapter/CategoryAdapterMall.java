@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.NewSearchDetailActivty;
 import com.zhenghaikj.shop.activity.SearchDetailActivity;
 import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.utils.GlideUtil;
@@ -59,9 +60,13 @@ public class CategoryAdapterMall extends BaseMultiItemQuickAdapter<CategoryMall.
                 CategoryAdapterMall adapter=new CategoryAdapterMall(item.getSubCategories());
                 rv.setAdapter(adapter);
                 adapter.setOnItemClickListener((adapter1, view, position) -> {
-                    Intent intent=new Intent(mContext, SearchDetailActivity.class);
+                  /*  Intent intent=new Intent(mContext, SearchDetailActivity.class);
+                    intent.putExtra("tag",item.getSubCategories().get(position));
+                    mContext.startActivity(intent);*/
+                    Intent intent=new Intent(mContext, NewSearchDetailActivty.class);
                     intent.putExtra("tag",item.getSubCategories().get(position));
                     mContext.startActivity(intent);
+
                 });
                 break;
             case 2:

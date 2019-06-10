@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.SearchDetailActivity;
+import com.zhenghaikj.shop.activity.SearchPreDetailActivity;
 import com.zhenghaikj.shop.adapter.CategoryAdapterMall;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.CategoryMall;
@@ -193,7 +194,8 @@ public class ClassificationFragment extends BaseLazyFragment<CategoryPresenter, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_search:
-                startActivity(new Intent(mActivity, SearchDetailActivity.class));
+                //startActivity(new Intent(mActivity, SearchDetailActivity.class));
+                startActivity(new Intent(mActivity, SearchPreDetailActivity.class));
                 break;
             default:
                 break;

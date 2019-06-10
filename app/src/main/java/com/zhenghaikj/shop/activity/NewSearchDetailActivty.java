@@ -24,6 +24,7 @@ import com.zhenghaikj.shop.adapter.NewSearchDetailAdapetr;
 import com.zhenghaikj.shop.adapter.SearchDetailAdapetr;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.SearchContract;
 import com.zhenghaikj.shop.mvp.model.SearchModel;
@@ -87,14 +88,11 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     private String serach_content; //输入框中的内容
    // private SearchDetailAdapetr searchDetailAdapetr;
     private NewSearchDetailAdapetr newSearchDetailAdapetr;
-
     private boolean bool_price_up_down=true; //true为上  false为下
-
-
-
-
     private List<SearchResult.ProductBean> productBeanList=new ArrayList<>();
 
+    private String cid;
+    private int searchbytype =1; //1为搜索  2为点击
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -118,9 +116,18 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         serachtype=SerachType.SYNTHESIS;
          serach_content=getIntent().getStringExtra("search");
          if (!"".equals(serach_content)&&serach_content!=null){
-            mPresenter.GetSearchProducts(serach_content, null, null, null,"1", orderType, Integer.toString(pagaNo), "10","0");
+             searchbytype=1;
+            mPresenter.GetSearchProducts(serach_content, null, null, null,"1", "1", Integer.toString(pagaNo), "10","0");
              Tvsearch_txt.setText(getIntent().getStringExtra("search"));
         }
+
+        if (getIntent().getSerializableExtra("tag")!=null){
+            searchbytype=2;
+            Tvsearch_txt.setText(((CategoryMall.CategoryBean) getIntent().getSerializableExtra("tag")).getName());
+            cid=((CategoryMall.CategoryBean) getIntent().getSerializableExtra("tag")).getId();
+            mPresenter.GetSearchProducts("",cid,null,null,"1","1",Integer.toString(pagaNo), "10","0");
+        }
+
 
         newSearchDetailAdapetr = new NewSearchDetailAdapetr(R.layout.item_newsearch_detail, productBeanList);
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -141,8 +148,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         mLlSifting.setOnClickListener(this);
         mTvSerach.setOnClickListener(this);
         mIvBack.setOnClickListener(this);
-
-
         mLlbg_serach.setOnClickListener(this);
         mLlserach_txt.setOnClickListener(this);
 
@@ -154,19 +159,42 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             switch (serachtype){
                 case SYNTHESIS://综合
                  pagaNo++;
-                mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
+
+             if (searchbytype==1){
+                 mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
+             }else {
+                 mPresenter.GetSearchProducts("",  cid, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
+
+             }
+
+              //  mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
                 break;
                 case PRICE_UP://价格升序
                  pagaNo++;
-                mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", orderType, Integer.toString(pagaNo), "10","0");
+                    if (searchbytype==1){
+                        mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                    }else {
+                        mPresenter.GetSearchProducts("",  cid, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                    }
+            //    mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", orderType, Integer.toString(pagaNo), "10","0");
                 break;
                 case PRICE_DOWN://价格降序
                  pagaNo++;
-                    mPresenter.GetSearchProducts(serach_content,  null, null, null,"3", "2", Integer.toString(pagaNo), "10","0");
+                    if (searchbytype==1){
+                        mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                    }else {
+                        mPresenter.GetSearchProducts("",  cid, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                    }
+                   // mPresenter.GetSearchProducts(serach_content,  null, null, null,"3", "2", Integer.toString(pagaNo), "10","0");
                 break;
                 case SALESNUM: //销量
                 pagaNo++;
-                mPresenter.GetSearchProducts(serach_content,  null, null, null,"2", "2", Integer.toString(pagaNo), "10","0");
+                    if (searchbytype==1){
+                        mPresenter.GetSearchProducts(serach_content,  null, null,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                    }else {
+                        mPresenter.GetSearchProducts("",  cid, null,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                    }
+               // mPresenter.GetSearchProducts(serach_content,  null, null, null,"2", "2", Integer.toString(pagaNo), "10","0");
                 break;
                 case SIFTING://筛选
                 break;
@@ -217,7 +245,14 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                StateChangeForType(mLlSynthesis);
                serachtype=SerachType.SYNTHESIS;
                pagaNo=1;
-               mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
+
+               if (searchbytype==1){
+                   mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", "1", Integer.toString(pagaNo), "10","0");
+               }else {
+                   mPresenter.GetSearchProducts("",  cid, null,null, "1", "1", Integer.toString(pagaNo), "10","0");
+               }
+
+              // mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
                break;
            case R.id.ll_price://分为升序降序  默认升序
                pagaNo=1;
@@ -228,7 +263,13 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                StateChangeForType(mLlSalesnum);
                serachtype=SerachType.SALESNUM;
                pagaNo=1;
-               mPresenter.GetSearchProducts(serach_content,  null, null,null ,"2", "2", Integer.toString(pagaNo), "10","0");
+
+               if (searchbytype==1){
+                   mPresenter.GetSearchProducts(serach_content,  null, null,null, "2", "2", Integer.toString(pagaNo), "10","0");
+               }else {
+                   mPresenter.GetSearchProducts("",  cid, null,null, "2", "2", Integer.toString(pagaNo), "10","0");
+               }
+              // mPresenter.GetSearchProducts(serach_content,  null, null,null ,"2", "2", Integer.toString(pagaNo), "10","0");
                break;
            case R.id.ll_sifting:
                StateChangeForType(mLlSifting);
@@ -245,24 +286,45 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                    StateChangeForType(mLlSynthesis);
                    serachtype=SerachType.SYNTHESIS;
                    pagaNo=1;
-                   mPresenter.GetSearchProducts(serach_content, null, null, null,"1", orderType, Integer.toString(pagaNo), "10","0");
+                   if (searchbytype==1){
+                       mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", "1", Integer.toString(pagaNo), "10","0");
+                   }else {
+                       mPresenter.GetSearchProducts("",  cid, null,null, "1", "1", Integer.toString(pagaNo), "10","0");
+                   }
+
+               //    mPresenter.GetSearchProducts(serach_content, null, null, null,"1", orderType, Integer.toString(pagaNo), "10","0");
                }
                break;
 
            case R.id.ll_serach_txt://点击商品删除全部内容返回
-               Intent intent=new Intent();
-               intent.putExtra("searchresult","");
-               setResult(Config.SEARCH_RESULT,intent);
-               NewSearchDetailActivty.this.finish();
+
+
+               if (searchbytype==1){
+                   Intent intent=new Intent();
+                   intent.putExtra("searchresult","");
+                   setResult(Config.SEARCH_RESULT,intent);
+                   NewSearchDetailActivty.this.finish();
+               }else {
+                   Intent intent=new Intent(mActivity,SearchPreDetailActivity.class);
+                   intent.putExtra("searchresult","");
+                   startActivity(intent);
+               }
+
                break;
 
            case R.id.ll_bg_serach:  //点击背景返回但不删除
+               if (searchbytype==1){
                Intent intent2=new Intent();
                intent2.putExtra("searchresult",serach_content);
                setResult(Config.SEARCH_RESULT,intent2);
                NewSearchDetailActivty.this.finish();
-               break;
+               }else {
+               Intent intent2=new Intent(mActivity,SearchPreDetailActivity.class);
+               intent2.putExtra("searchresult","");
+               startActivity(intent2);
+               }
 
+               break;
            case R.id.iv_back:
                NewSearchDetailActivty.this.finish();
                break;
@@ -278,7 +340,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
            if (Result.getTotal()==0){
                //找不到产品
                    newSearchDetailAdapetr.setEmptyView(getEmptyView());
-
            }else {
                if(pagaNo==1){
                    productBeanList.clear();
@@ -333,13 +394,25 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                     serachtype=SerachType.PRICE_UP;
                     mImg_price_up_down.setImageDrawable(ContextCompat.getDrawable(mActivity,R.mipmap.icon_up));
                     bool_price_up_down=false;
-                    mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
+
+                    if (searchbytype==1){
+                        mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                    }else {
+                        mPresenter.GetSearchProducts("",  cid, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                    }
+                 //   mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
 
                 }else {
                     serachtype=SerachType.PRICE_DOWN;
                     mImg_price_up_down.setImageDrawable(ContextCompat.getDrawable(mActivity,R.mipmap.icon_down));
                     bool_price_up_down=true;
-                    mPresenter.GetSearchProducts(serach_content, null, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
+
+                    if (searchbytype==1){
+                        mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                    }else {
+                        mPresenter.GetSearchProducts("",  cid, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                    }
+                  //  mPresenter.GetSearchProducts(serach_content, null, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
                 }
 
                 break;
