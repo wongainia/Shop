@@ -60,7 +60,7 @@ public class UserCouponListResult implements Serializable {
         this.Bonus = Bonus;
     }
 
-    public static class CouponBean {
+    public static class CouponBean implements Serializable{
         /**
          * UserId : 654
          * ShopId : 1
@@ -215,20 +215,20 @@ public class UserCouponListResult implements Serializable {
             this.ShopName = ShopName;
         }
 
-        public static class VShopBean {
+        public static class VShopBean implements Serializable{
             /**
              * VShopId : 10
              * VShopLogo : http://mall.xigyu.com//Storage/Shop/1/VShop/201904271426408530240.jpg
              */
 
-            private int VShopId;
+            private String VShopId;
             private String VShopLogo;
 
-            public int getVShopId() {
+            public String getVShopId() {
                 return VShopId;
             }
 
-            public void setVShopId(int VShopId) {
+            public void setVShopId(String VShopId) {
                 this.VShopId = VShopId;
             }
 

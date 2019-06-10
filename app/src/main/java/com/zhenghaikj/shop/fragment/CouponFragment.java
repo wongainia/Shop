@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,6 +12,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.adapter.CouponAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.UserCouponListResult;
@@ -80,7 +82,11 @@ public class CouponFragment extends BaseLazyFragment<CouponPresenter, CouponMode
         couponListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                if (couponBeans.get(position).getUseStatus()!=1){
+                    Intent intent=new Intent(mActivity, StoreDetailActivity.class);
+                    intent.putExtra("VShopId",couponBeans.get(position).getVShop().getVShopId());
+                    startActivity(intent);
+                }
             }
         });
 

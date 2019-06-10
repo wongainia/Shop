@@ -133,6 +133,7 @@
                     android:textStyle="normal"/>
             </LinearLayout>
             <ImageView
+                android:id="@+id/iv_go"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="right|center"

@@ -16,12 +16,10 @@ public class CouponAdapter extends BaseQuickAdapter<UserCouponListResult.CouponB
 
     @Override
     protected void convert(BaseViewHolder helper, UserCouponListResult.CouponBean item) {
-        helper.setText(R.id.tv_content,item.getCouponName());
+
         helper.setText(R.id.tv_price,"¥"+item.getPrice());
         helper.setText(R.id.tv_date,"使用期限至:"+item.getEndTime());
         helper.setText(R.id.tv_shop,item.getShopName());
-        helper.setBackgroundRes(R.id.cv,R.drawable.coupon_bg_shape_yellow);
-
 //        if (item.getPrice()<50){
 //            helper.setBackgroundRes(R.id.cv,R.drawable.coupon_bg_shape_blue);
 //        }else if (item.getPrice()>=100){
@@ -32,6 +30,11 @@ public class CouponAdapter extends BaseQuickAdapter<UserCouponListResult.CouponB
         if (item.getUseStatus()==1){
             helper.setBackgroundRes(R.id.cv,R.drawable.coupon_bg_shape_gray);
             helper.setText(R.id.tv_content,"已使用");
+            helper.setGone(R.id.iv_go,false);
+        }else{
+            helper.setBackgroundRes(R.id.cv,R.drawable.coupon_bg_shape_yellow);
+            helper.setText(R.id.tv_content,item.getCouponName());
+            helper.setGone(R.id.iv_go,true);
         }
     }
 }
