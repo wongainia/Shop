@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.lwkandroid:StateFrameLayout:1.1.2@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/StateFrameLayout-1.1.2.aar/ebe3141b55d8a13e090b9454295238f4/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/StateFrameLayout-1.1.2.aar/90ab31b71859c34759e030d5f034c4d8/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/StateFrameLayout-1.1.2.aar/ebe3141b55d8a13e090b9454295238f4/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/StateFrameLayout-1.1.2.aar/ebe3141b55d8a13e090b9454295238f4/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/StateFrameLayout-1.1.2.aar/90ab31b71859c34759e030d5f034c4d8/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/StateFrameLayout-1.1.2.aar/90ab31b71859c34759e030d5f034c4d8/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

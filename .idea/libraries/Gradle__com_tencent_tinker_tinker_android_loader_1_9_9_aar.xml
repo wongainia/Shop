@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.tencent.tinker:tinker-android-loader:1.9.9@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-tinker-android-loader-1.9.9.aar/0f80422fdf5f9b4cdfcfee7b1f9f555f/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-tinker-android-loader-1.9.9.aar/2af4d688fdc6dcb661fcc9b34f82b6fe/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-tinker-android-loader-1.9.9.aar/0f80422fdf5f9b4cdfcfee7b1f9f555f/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-tinker-android-loader-1.9.9.aar/0f80422fdf5f9b4cdfcfee7b1f9f555f/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-tinker-android-loader-1.9.9.aar/2af4d688fdc6dcb661fcc9b34f82b6fe/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-tinker-android-loader-1.9.9.aar/2af4d688fdc6dcb661fcc9b34f82b6fe/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

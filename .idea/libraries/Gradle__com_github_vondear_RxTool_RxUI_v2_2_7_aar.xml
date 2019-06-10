@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.vondear.RxTool:RxUI:v2.2.7@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxUI-v2.2.7.aar/56730950f30fd3728fb07952ef83138d/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxUI-v2.2.7.aar/740457edcdd4d6e828ed3c06ae128f4e/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxUI-v2.2.7.aar/56730950f30fd3728fb07952ef83138d/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxUI-v2.2.7.aar/56730950f30fd3728fb07952ef83138d/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxUI-v2.2.7.aar/740457edcdd4d6e828ed3c06ae128f4e/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxUI-v2.2.7.aar/740457edcdd4d6e828ed3c06ae128f4e/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
