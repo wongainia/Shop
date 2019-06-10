@@ -8,37 +8,39 @@ public class UserCouponListResult implements Serializable {
 
     /**
      * Success : true
-     * NoUseCount : 0
-     * UserCount : 12
-     * Coupon : [{"UserId":396,"ShopId":215,"CouponId":56,"Price":200,"PerMax":0,"OrderAmount":800,"Num":50,"StartTime":"2015-07-20T00:00:00","EndTime":"2015-08-17T00:00:00","CreateTime":"2015-07-20T10:57:27","CouponName":"满800减200","UseStatus":0,"UseTime":null,"VShop":{"VShopId":8,"VShopLogo":"/Storage/Shop/215/VShop/Logo.jpg"}}]
+     * NoUseCount : 26
+     * UserCount : 6
+     * Coupon : [{"UserId":654,"ShopId":1,"CouponId":67,"Price":50,"PerMax":1,"OrderAmount":200,"Num":999,"StartTime":"2019/5/3 0:00:00","EndTime":"2019/5/20 0:00:00","CreateTime":"2019/5/3 13:58:04","CouponName":"满减100","UseStatus":0,"UseTime":null,"VShop":{"VShopId":10,"VShopLogo":"http://mall.xigyu.com//Storage/Shop/1/VShop/201904271426408530240.jpg"},"ShopName":"官方自营店"}]
+     * Bonus : []
      */
 
-    private String Success;
-    private String NoUseCount;
-    private String UserCount;
+    private boolean Success;
+    private int NoUseCount;
+    private int UserCount;
     private List<CouponBean> Coupon;
+    private List<?> Bonus;
 
-    public String getSuccess() {
+    public boolean isSuccess() {
         return Success;
     }
 
-    public void setSuccess(String Success) {
+    public void setSuccess(boolean Success) {
         this.Success = Success;
     }
 
-    public String getNoUseCount() {
+    public int getNoUseCount() {
         return NoUseCount;
     }
 
-    public void setNoUseCount(String NoUseCount) {
+    public void setNoUseCount(int NoUseCount) {
         this.NoUseCount = NoUseCount;
     }
 
-    public String getUserCount() {
+    public int getUserCount() {
         return UserCount;
     }
 
-    public void setUserCount(String UserCount) {
+    public void setUserCount(int UserCount) {
         this.UserCount = UserCount;
     }
 
@@ -50,92 +52,102 @@ public class UserCouponListResult implements Serializable {
         this.Coupon = Coupon;
     }
 
+    public List<?> getBonus() {
+        return Bonus;
+    }
+
+    public void setBonus(List<?> Bonus) {
+        this.Bonus = Bonus;
+    }
+
     public static class CouponBean {
         /**
-         * UserId : 396
-         * ShopId : 215
-         * CouponId : 56
-         * Price : 200
-         * PerMax : 0
-         * OrderAmount : 800
-         * Num : 50
-         * StartTime : 2015-07-20T00:00:00
-         * EndTime : 2015-08-17T00:00:00
-         * CreateTime : 2015-07-20T10:57:27
-         * CouponName : 满800减200
+         * UserId : 654
+         * ShopId : 1
+         * CouponId : 67
+         * Price : 50.0
+         * PerMax : 1
+         * OrderAmount : 200.0
+         * Num : 999
+         * StartTime : 2019/5/3 0:00:00
+         * EndTime : 2019/5/20 0:00:00
+         * CreateTime : 2019/5/3 13:58:04
+         * CouponName : 满减100
          * UseStatus : 0
          * UseTime : null
-         * VShop : {"VShopId":8,"VShopLogo":"/Storage/Shop/215/VShop/Logo.jpg"}
+         * VShop : {"VShopId":10,"VShopLogo":"http://mall.xigyu.com//Storage/Shop/1/VShop/201904271426408530240.jpg"}
+         * ShopName : 官方自营店
          */
 
-        private String UserId;
-        private String ShopId;
-        private String CouponId;
-        private String Price;
-        private String PerMax;
-        private String OrderAmount;
-        private String Num;
+        private int UserId;
+        private int ShopId;
+        private int CouponId;
+        private double Price;
+        private int PerMax;
+        private double OrderAmount;
+        private int Num;
         private String StartTime;
         private String EndTime;
         private String CreateTime;
         private String CouponName;
-        private String UseStatus;
-        private String UseTime;
+        private int UseStatus;
+        private Object UseTime;
         private VShopBean VShop;
+        private String ShopName;
 
-        public String getUserId() {
+        public int getUserId() {
             return UserId;
         }
 
-        public void setUserId(String UserId) {
+        public void setUserId(int UserId) {
             this.UserId = UserId;
         }
 
-        public String getShopId() {
+        public int getShopId() {
             return ShopId;
         }
 
-        public void setShopId(String ShopId) {
+        public void setShopId(int ShopId) {
             this.ShopId = ShopId;
         }
 
-        public String getCouponId() {
+        public int getCouponId() {
             return CouponId;
         }
 
-        public void setCouponId(String CouponId) {
+        public void setCouponId(int CouponId) {
             this.CouponId = CouponId;
         }
 
-        public String getPrice() {
+        public double getPrice() {
             return Price;
         }
 
-        public void setPrice(String Price) {
+        public void setPrice(double Price) {
             this.Price = Price;
         }
 
-        public String getPerMax() {
+        public int getPerMax() {
             return PerMax;
         }
 
-        public void setPerMax(String PerMax) {
+        public void setPerMax(int PerMax) {
             this.PerMax = PerMax;
         }
 
-        public String getOrderAmount() {
+        public double getOrderAmount() {
             return OrderAmount;
         }
 
-        public void setOrderAmount(String OrderAmount) {
+        public void setOrderAmount(double OrderAmount) {
             this.OrderAmount = OrderAmount;
         }
 
-        public String getNum() {
+        public int getNum() {
             return Num;
         }
 
-        public void setNum(String Num) {
+        public void setNum(int Num) {
             this.Num = Num;
         }
 
@@ -171,19 +183,19 @@ public class UserCouponListResult implements Serializable {
             this.CouponName = CouponName;
         }
 
-        public String getUseStatus() {
+        public int getUseStatus() {
             return UseStatus;
         }
 
-        public void setUseStatus(String UseStatus) {
+        public void setUseStatus(int UseStatus) {
             this.UseStatus = UseStatus;
         }
 
-        public String getUseTime() {
+        public Object getUseTime() {
             return UseTime;
         }
 
-        public void setUseTime(String UseTime) {
+        public void setUseTime(Object UseTime) {
             this.UseTime = UseTime;
         }
 
@@ -195,20 +207,28 @@ public class UserCouponListResult implements Serializable {
             this.VShop = VShop;
         }
 
+        public String getShopName() {
+            return ShopName;
+        }
+
+        public void setShopName(String ShopName) {
+            this.ShopName = ShopName;
+        }
+
         public static class VShopBean {
             /**
-             * VShopId : 8
-             * VShopLogo : /Storage/Shop/215/VShop/Logo.jpg
+             * VShopId : 10
+             * VShopLogo : http://mall.xigyu.com//Storage/Shop/1/VShop/201904271426408530240.jpg
              */
 
-            private String VShopId;
+            private int VShopId;
             private String VShopLogo;
 
-            public String getVShopId() {
+            public int getVShopId() {
                 return VShopId;
             }
 
-            public void setVShopId(String VShopId) {
+            public void setVShopId(int VShopId) {
                 this.VShopId = VShopId;
             }
 

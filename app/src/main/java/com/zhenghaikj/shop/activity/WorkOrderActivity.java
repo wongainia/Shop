@@ -13,6 +13,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -35,9 +39,6 @@ import com.zhenghaikj.shop.utils.MyUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -280,9 +281,10 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
                 if (baseResult.getData().getItem2()!=null){
                     workOrderList.addAll(baseResult.getData().getItem2());
                     mWorkOrderAdapter.setNewData(workOrderList);
+
                 }
                 mRefreshLayout.finishRefresh();
-                if (pageIndex!=1&&"0".equals(baseResult.getData().getItem2().size())){
+                if (pageIndex!=1&&baseResult.getData().getItem2()==null){
                     mRefreshLayout.finishLoadMoreWithNoMoreData();
                 }else{
                     mRefreshLayout.finishLoadMore();

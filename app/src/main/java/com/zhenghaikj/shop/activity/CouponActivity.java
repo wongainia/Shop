@@ -4,22 +4,29 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import com.blankj.utilcode.util.SPUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.UserCouponListResult;
 import com.zhenghaikj.shop.fragment.CouponFragment;
+import com.zhenghaikj.shop.mvp.contract.CouponContract;
+import com.zhenghaikj.shop.mvp.model.CouponModel;
+import com.zhenghaikj.shop.mvp.presenter.CouponPresenter;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 
-public class CouponActivity extends BaseActivity implements View.OnClickListener {
+public class CouponActivity extends BaseActivity<CouponPresenter, CouponModel> implements View.OnClickListener, CouponContract.View {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -41,6 +48,10 @@ public class CouponActivity extends BaseActivity implements View.OnClickListener
             "可用优惠券（0）", "不可用优惠券（0）"
     };
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
+    private SPUtils spUtils;
+    private String userKey;
+    private List<UserCouponListResult.CouponBean> noUseList=new ArrayList<>();
+    private List<UserCouponListResult.CouponBean> UseList=new ArrayList<>();
 
     @Override
     protected int setLayoutId() {
@@ -61,18 +72,9 @@ public class CouponActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initData() {
-//        for (int i = 0; i < 2; i++) {
-            fragmentList.add(CouponFragment.newInstance("0", ""));
-            fragmentList.add(CouponFragment.newInstance("1", ""));
-//        }
-
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragmentList, Arrays.asList(mTitleDataList));
-        mTabCouponLayout.setTabMode(TabLayout.MODE_FIXED);
-        mTabCouponLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        mVpCoupon.setAdapter(myPagerAdapter);
-        mTabCouponLayout.setupWithViewPager(mVpCoupon);
-        mVpCoupon.setCurrentItem(0);
-        mVpCoupon.setOffscreenPageLimit(fragmentList.size());
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        mPresenter.GetUserCounponList(userKey);
 
     }
 
@@ -93,6 +95,31 @@ public class CouponActivity extends BaseActivity implements View.OnClickListener
             case R.id.icon_back:
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    public void GetUserCounponList(UserCouponListResult baseResult) {
+        if (baseResult.isSuccess()){
+            for (int i = 0; i < baseResult.getCoupon().size(); i++) {
+                if (baseResult.getCoupon().get(i).getUseStatus()==1){
+                    noUseList.add(baseResult.getCoupon().get(i));
+                }else{
+                    UseList.add(baseResult.getCoupon().get(i));
+                }
+            }
+            fragmentList.add(CouponFragment.newInstance(UseList));
+            fragmentList.add(CouponFragment.newInstance(noUseList));
+            mTitleDataList = new String[]{
+                    "可用优惠券（"+baseResult.getNoUseCount()+"）", "不可用优惠券（"+baseResult.getUserCount()+"）"
+            };
+            MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager(), fragmentList, Arrays.asList(mTitleDataList));
+            mTabCouponLayout.setTabMode(TabLayout.MODE_FIXED);
+            mTabCouponLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            mVpCoupon.setAdapter(myPagerAdapter);
+            mTabCouponLayout.setupWithViewPager(mVpCoupon);
+            mVpCoupon.setCurrentItem(0);
+            mVpCoupon.setOffscreenPageLimit(fragmentList.size());
         }
     }
 }
