@@ -103,7 +103,7 @@ public class IntegralOrderFragment extends BaseLazyFragment<IntegralOrderPresent
         orderListAdapter = new GiftOrderListAdapter(R.layout.item_gift_order, giftOrderList);
         mRvOrder.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvOrder.setAdapter(orderListAdapter);
-        orderListAdapter.setEmptyView(getEmptyViewCommodity());
+        orderListAdapter.setEmptyView(getEmptyViewOrder());
         orderListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

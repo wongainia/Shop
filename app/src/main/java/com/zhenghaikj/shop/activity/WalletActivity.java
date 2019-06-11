@@ -144,7 +144,9 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
                 startActivity(new Intent(mActivity, WithdrawActivity.class));
                 break;
             case R.id.tv_gift:
-                startActivity(new Intent(mActivity, GiftActivity.class));
+//                startActivity(new Intent(mActivity, GiftActivity.class));
+//                startActivity(new Intent(mActivity, GiftDetailActivity.class));
+                startActivity(new Intent(mActivity, GiftAccountActivity.class));
                 break;
             case R.id.ll_coin_record:
                 intent = new Intent(mActivity, IntegralUseActivity.class);

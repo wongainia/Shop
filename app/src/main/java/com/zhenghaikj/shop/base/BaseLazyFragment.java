@@ -13,6 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.interfaces.HandleBackInterface;
@@ -21,11 +27,6 @@ import com.zhenghaikj.shop.utils.TUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -199,6 +200,9 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
 
     public View getEmptyViewOrder() {
         return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_order,null);
+    }
+    public View getEmptyViewCoupon() {
+        return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_coupon,null);
     }
     /**
      * 初始化沉浸式

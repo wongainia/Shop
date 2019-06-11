@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.entity.BankCard;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
+import com.zhenghaikj.shop.entity.CoinRecord;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
 import com.zhenghaikj.shop.entity.Logistics;
@@ -541,5 +542,14 @@ public interface ApiService2 {
     @FormUrlEncoded
     @POST("account/GettokenbyUserid")
     Observable<BaseResult<Data<String>>> GettokenbyUserid(@Field("UserID") String UserID);
+
+    /**
+     *西瓜币明细
+     * @param UserID
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("mall/CoinList")
+    Observable<BaseResult<Data<List<CoinRecord>>>> CoinList(@Field("UserID") String UserID, @Field("state") String state);
 
 }

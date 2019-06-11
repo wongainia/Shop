@@ -2,11 +2,16 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.CoinRecord;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
 import com.zhenghaikj.shop.mvp.contract.IntegralUseContract;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -30,6 +35,12 @@ public class IntegralUseModel implements IntegralUseContract.Model {
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetIntegralRecord(page,type,userkey,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<BaseResult<Data<List<CoinRecord>>>> CoinList(String UserID, String state) {
+        return ApiRetrofit2.getDefault().CoinList(UserID,state)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

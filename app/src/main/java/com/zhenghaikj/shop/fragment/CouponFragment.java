@@ -78,7 +78,7 @@ public class CouponFragment extends BaseLazyFragment<CouponPresenter, CouponMode
         couponListAdapter = new CouponAdapter(R.layout.item_coupon2, couponBeans);
         mRvOrder.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvOrder.setAdapter(couponListAdapter);
-        couponListAdapter.setEmptyView(getEmptyViewCommodity());
+        couponListAdapter.setEmptyView(getEmptyViewCoupon());
         couponListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

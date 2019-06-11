@@ -10,6 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/wu"
+        android:layout_marginTop="200dp"
+        android:src="@mipmap/quan"
         />
+    <TextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        android:text="暂无优惠券记录！"
+        android:layout_marginTop="20dp" />
 </LinearLayout>
