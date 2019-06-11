@@ -9,7 +9,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#EEEEEE" />
+        android:background="#ffffff" />
     <LinearLayout
         android:id="@+id/ll_serach"
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/dp_4"
-        android:background="#EEEEEE">
+        android:background="#ffffff">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/white_shape"
+            android:background="@drawable/search_edit_shape"
             android:orientation="horizontal">
 
             <EditText

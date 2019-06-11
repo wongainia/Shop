@@ -36,24 +36,25 @@
             android:orientation="horizontal"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/search_edit_gray_shape"
-            android:padding="@dimen/dp_10">
+            android:background="@drawable/search_edit_shape"
+            android:padding="7dp">
             <ImageView
                 android:id="@+id/iv_search"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/sou"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/sousuo"
                 android:layout_marginRight="@dimen/dp_10"/>
 
             <TextView
                 android:id="@+id/tv_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="搜索"
-                android:background="@null"
                 android:layout_gravity="center"
-                android:textColor="#BCBDC2"
-                android:textSize="15sp"/>
+                android:layout_weight="1"
+                android:text="搜索"
+                android:textColor="#808080"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <ImageView
