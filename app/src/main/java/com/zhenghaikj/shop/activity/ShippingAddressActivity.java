@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,6 +63,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     private ShippingAddressList.ShippingAddressBean shippingAddressBean;
     private int Code;
     private int editpos=-1;
+    private View view;
 
     @Override
     protected void initImmersionBar() {
@@ -81,7 +83,8 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     @Override
     protected void initData() {
         addressAdapter = new AddressAdapter(R.layout.item_address, addressList);
-        addressAdapter.setEmptyView(getEmptyViewNoAddress());
+        view =getEmptyViewNoAddress();
+        addressAdapter.setEmptyView(view);
         mRvAddress.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvAddress.setAdapter(addressAdapter);
         addressAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -146,11 +149,20 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
         userkey = spUtils.getString("UserKey");
         mPresenter.GetShippingAddressList(userkey);
     }
-
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (choose_address_request){
+                    startActivityForResult(new Intent(mActivity, AddAddressActivity.class),200);
+                }else{
+                    startActivityForResult(new Intent(mActivity, AddAddressActivity.class),100);
+                }
+            }
+        });
     }
     @SingleClick
     @Override

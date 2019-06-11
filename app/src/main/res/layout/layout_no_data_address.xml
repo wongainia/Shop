@@ -11,12 +11,19 @@
         android:layout_height="wrap_content"
         android:src="@drawable/wu"
         android:visibility="gone"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/tjj"/>
+
     <TextView
-        android:gravity="center"
         android:id="@+id/tv_home_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/red"
-        android:text="还没地址，请点击添加地址按钮添加"/>
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:text="请点击添加地址按钮添加"
+        android:textColor="#595959"
+        android:textSize="16sp" />
 </LinearLayout>
