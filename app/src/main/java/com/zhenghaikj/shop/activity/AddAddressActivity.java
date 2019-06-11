@@ -18,6 +18,11 @@ import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -34,15 +39,9 @@ import com.zhenghaikj.shop.mvp.presenter.AddressPresenter;
 import com.zhenghaikj.shop.utils.InputMethodUtils;
 import com.zhenghaikj.shop.utils.MyUtils;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -172,6 +171,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
                 break;
 
             case R.id.icon_back:
+                setResult(200);
                 finish();
                 break;
             case R.id.tv_areas:
@@ -373,5 +373,11 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
 //            MyUtils.backgroundAlpha(mActivity,0.5f);
         }
         MyUtils.setWindowAlpa(mActivity, true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(200);
+        finish();
     }
 }

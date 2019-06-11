@@ -4,10 +4,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -30,10 +34,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -64,6 +64,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     private int Code;
     private int editpos=-1;
     private View view;
+    private int resCode;
 
     @Override
     protected void initImmersionBar() {
@@ -195,7 +196,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
             list.clear();
             list.addAll(addressList);
             addressAdapter.setNewData(list);
-            if (Code==200){
+            if (Code==200&&resCode==100){
                 if (editpos!=-1){
                     shippingAddressBean = list.get(editpos);
                 }else{
@@ -223,6 +224,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Code =requestCode;
+        resCode =resultCode;
         mPresenter.GetShippingAddressList(userkey);
         /*switch(requestCode){
             case 100:
