@@ -1119,6 +1119,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
                 android:gravity="center"
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10">
@@ -1153,6 +1154,7 @@
                         android:button="@null"
                         android:gravity="center"
                         android:text="宝贝"
+                        android:textSize="16sp"
                         android:textColor="@color/white" />
 
                     <RadioButton
@@ -1162,6 +1164,7 @@
                         android:button="@null"
                         android:gravity="center"
                         android:text="评价"
+                        android:textSize="16sp"
                         android:textColor="@color/white" />
 
                     <RadioButton
@@ -1171,6 +1174,7 @@
                         android:button="@null"
                         android:gravity="center"
                         android:text="详情"
+                        android:textSize="16sp"
                         android:textColor="@color/white" />
 
                     <RadioButton
@@ -1195,7 +1199,7 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:padding="6dp"
+                        android:padding="4dp"
                         android:src="@mipmap/cart" />
                 </LinearLayout>
                 <LinearLayout
