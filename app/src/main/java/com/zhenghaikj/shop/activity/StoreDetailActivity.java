@@ -3,11 +3,16 @@ package com.zhenghaikj.shop.activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
@@ -16,7 +21,6 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.adapter.StoreDetailGoodsAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
@@ -32,11 +36,6 @@ import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
 import java.util.ArrayList;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -152,7 +151,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     @Override
     public void GetVShop(StoreDetailResult result) {
 
-        if (result.getSuccess().equals("True")){
+        if ("True".equals(result.getSuccess())){
             storeDetailResult=result;
 
             Glide.with(mActivity).load(result.getVShop().getLogo())

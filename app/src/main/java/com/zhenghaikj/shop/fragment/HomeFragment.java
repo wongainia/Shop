@@ -50,8 +50,8 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
-import com.zhenghaikj.shop.activity.CallChageActivity;
 import com.zhenghaikj.shop.activity.CheckinActivity;
+import com.zhenghaikj.shop.activity.CouponActivity;
 import com.zhenghaikj.shop.activity.FoundGoodGoodsActivity;
 import com.zhenghaikj.shop.activity.GoodDailyShopActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
@@ -195,7 +195,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     private Integer[] icons = new Integer[]{
             R.drawable.gift, R.drawable.qiandao,
-            R.drawable.charge, R.drawable.cmd, R.drawable.card
+            R.drawable.cmd, R.drawable.card
     };
 
 //    private String[] names = new String[]{
@@ -203,7 +203,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //    };
 
     private String[] names = new String[]{
-            "免费兑", "签到", "充值", "抽免单", "领券"
+            "免费兑", "签到",  "抽免单", "优惠券"
     };
 
 //    private Integer[] picture = new Integer[]{
@@ -212,7 +212,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //    };
 
     private Integer[] picture = new Integer[]{
-            R.mipmap.duihuan, R.mipmap.qiandao, R.mipmap.chongzhi,
+            R.mipmap.duihuan, R.mipmap.qiandao,
             R.drawable.cmd, R.mipmap.quan
     };
     private MenuAdapter mMainAdapter;
@@ -343,12 +343,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });
 
         mMainMenus = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i], picture[i]));
         }
 
         mMainAdapter = new MenuAdapter(R.layout.item_main_menu, mMainMenus);
-        mRvMainMenu.setLayoutManager(new GridLayoutManager(mActivity, 5));
+        mRvMainMenu.setLayoutManager(new GridLayoutManager(mActivity, 4));
         mRvMainMenu.setAdapter(mMainAdapter);
         mMainAdapter.setOnItemClickListener((adapter, view, position) -> {
             switch (position) {
@@ -359,26 +359,17 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     activity.setCurrentItem(3);
                     break;
                 case 1:
+//                    Intent intent = new Intent(mActivity, WebActivity.class);
+//                    intent.putExtra("Url","http://mall.xigyu.com/m-wap/SignIn/Detail");
+//                    intent.putExtra("Title","签到得积分");
+//                    startActivity(intent);
                     startActivity(new Intent(mActivity, CheckinActivity.class));
                     break;
                 case 2:
-                    startActivity(new Intent(mActivity, CallChageActivity.class));
-                    break;
-                case 3:
                     startActivity(new Intent(mActivity, LotteryActivity.class));
                     break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
+                case 3:
+                    startActivity(new Intent(mActivity, CouponActivity.class));
                     break;
             }
         });

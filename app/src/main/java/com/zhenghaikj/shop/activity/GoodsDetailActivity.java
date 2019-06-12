@@ -28,7 +28,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.IdRes;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -80,11 +87,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.IdRes;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.iwgang.countdownview.CountdownView;
@@ -434,6 +436,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     protected void setListener() {
         mIvBack.setOnClickListener(this);
         // mTvcollection.setOnClickListener(this);
+        mLlShop.setOnClickListener(this);
         mLlcollect.setOnClickListener(this);
         mTvaddcart.setOnClickListener(this);
         mTvBuy.setOnClickListener(this);
@@ -558,10 +561,14 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
             case R.id.tv_all_goods:
             case R.id.tv_go_shopping:
-
-              Intent intent=new Intent(mActivity,StoreDetailActivity.class);
-              intent.putExtra("VShopId",VShopId);
-              startActivity(intent);
+            case R.id.ll_shop:
+                if ("-1".equals(VShopId)){
+                    ToastUtils.showShort("未开设微店");
+                    return;
+                }
+                Intent intent=new Intent(mActivity,StoreDetailActivity.class);
+                intent.putExtra("VShopId",VShopId);
+                startActivity(intent);
                 break;
 
         }
