@@ -5,6 +5,7 @@ import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.entity.SearchShopResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.mvp.contract.SearchDetailShopDetailContract;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -64,6 +66,47 @@ public class SearchDetailShopDetailModel implements SearchDetailShopDetailContra
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetSearchProducts(keywords,cid,b_id,a_id,orderKey,orderType,pageNo,pageSize,sid,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<SearchResult> GetProducts(String keywords, String cid, String pageNo, String pageSize) {
+        map = new HashMap<>();
+        map.put("keywords",keywords);
+        map.put("cid",cid);
+        map.put("pageno",pageNo);
+        map.put("pagesize",pageSize);
+
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetProducts(keywords,cid,pageNo,pageSize,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<SearchShopResult> GetVShopSearchProducts(String vshopId, String keywords, String exp_keywords, String cid, String b_id, String a_id, String orderKey, String orderType, String pageNo, String pageSize) {
+        map = new HashMap<>();
+        map.put("vshopid",vshopId);
+        map.put("keywords",keywords);
+        map.put("exp_keywords",exp_keywords);
+        map.put("cid",cid);
+        map.put("b_id",b_id);
+        map.put("a_id",a_id);
+        map.put("orderkey",orderKey);
+        map.put("ordertype",orderType);
+        map.put("pageno",pageNo);
+        map.put("pagesize",pageSize);
+
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+
+        return ApiRetrofit.getDefault().GetVShopSearchProducts(vshopId,keywords,exp_keywords,cid,b_id,a_id,orderKey,orderType,pageNo,pageSize,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

@@ -79,6 +79,7 @@
                     android:background="@drawable/edit_shape2"
                     android:gravity="center">
                     <ImageView
+                        android:id="@+id/img_sort"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:src="@mipmap/icon_fenlei" />

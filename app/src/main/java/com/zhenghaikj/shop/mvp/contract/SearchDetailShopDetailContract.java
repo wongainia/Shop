@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.entity.SearchShopResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 
@@ -35,10 +36,30 @@ public interface SearchDetailShopDetailContract {
                 String sid
         );
 
+        Observable<SearchResult> GetProducts(
+                String keywords,
+                String cid,
+                String pageNo,
+                String pageSize
+        );
+
+        Observable<SearchShopResult> GetVShopSearchProducts(String vshopId,
+                                                            String keywords,
+                                                            String exp_keywords,
+                                                            String cid,
+                                                            String b_id,
+                                                            String a_id,
+                                                            String orderKey,
+                                                            String orderType,
+                                                            String pageNo,
+                                                            String pageSize);
+
     }
     interface View extends BaseView {
         void GetProductList(StoreCommodityResult result);
         void GetSearchProducts(SearchResult Result);
+        void GetProducts(SearchResult Result);
+        void GetVShopSearchProducts(SearchShopResult Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -58,5 +79,26 @@ public interface SearchDetailShopDetailContract {
                 String pageSize,
                 String sid
         );
+
+        public abstract void GetProducts(
+                String keywords,
+                String cid,
+                String pageNo,
+                String pageSize
+        );
+        public abstract void GetVShopSearchProducts(
+                String vshopId,
+                String keywords,
+                String exp_keywords,
+                String cid,
+                String b_id,
+                String a_id,
+                String orderKey,
+                String orderType,
+                String pageNo,
+                String pageSize
+        );
+
+
     }
 }

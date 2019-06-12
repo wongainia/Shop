@@ -53,6 +53,7 @@ import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
 import com.zhenghaikj.shop.entity.RegionResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
+import com.zhenghaikj.shop.entity.SearchShopResult;
 import com.zhenghaikj.shop.entity.SendMessage;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.Shop;
@@ -1093,5 +1094,41 @@ public interface ApiService {
 
 
 
+    /*
+    *搜索
+    * */
+
+    @GET("api/search/GetProducts")
+    Observable<SearchResult> GetProducts(
+            @Query("keywords") String keywords,
+            @Query("cid") String cid,
+            @Query("pageNo") String pageNo,
+            @Query("pageSize") String pageSize,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
+
+    /*
+     *搜索
+     * */
+
+    @GET("api/VShop/GetVShopSearchProducts")
+    Observable<SearchShopResult> GetVShopSearchProducts(
+            @Query("vshopId") String vshopId,
+            @Query("keywords") String keywords,
+            @Query("exp_keywords") String exp_keywords,
+            @Query("cid") String cid,
+            @Query("b_id") String b_id,
+            @Query("a_id") String a_id,
+            @Query("orderKey") String orderKey,
+            @Query("orderType") String orderType,
+            @Query("pageNo") String pageNo,
+            @Query("pageSize") String pageSize,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
 
 }
