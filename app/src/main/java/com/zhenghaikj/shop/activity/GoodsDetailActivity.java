@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.IdRes;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -95,10 +96,18 @@ import cn.iwgang.countdownview.CountdownView;
 public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailModel> implements View.OnClickListener, DetailContract.View {
 
 
-    @BindView(R.id.one)
-    LinearLayout mOne;
+    @BindView(R.id.banner_goods)
+    Banner mBannerGoods;
+    @BindView(R.id.countdownview)
+    CountdownView mCountdownview;
+    @BindView(R.id.tv_only_left)
+    TextView mTvOnlyLeft;
+    @BindView(R.id.ll_limit)
+    LinearLayout mLlLimit;
     @BindView(R.id.tv_good_money)
     TextView mTvGoodMoney;
+    @BindView(R.id.tv_good_money_max)
+    TextView mTvGoodMoneyMax;
     @BindView(R.id.tv_good_name)
     TextView mTvGoodName;
     @BindView(R.id.ll_share)
@@ -109,6 +118,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     TextView mTvSalesVolume;
     @BindView(R.id.tv_address)
     TextView mTvAddress;
+    @BindView(R.id.ll_install_service)
+    LinearLayout mLlInstallService;
+    @BindView(R.id.tv_select)
+    TextView mTvSelect;
+    @BindView(R.id.ll_select)
+    LinearLayout mLlSelect;
     @BindView(R.id.tv_service)
     TextView mTvService;
     @BindView(R.id.ll_service)
@@ -121,16 +136,24 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     TextView mTvParameter;
     @BindView(R.id.ll_parameter)
     LinearLayout mLlParameter;
+    @BindView(R.id.one)
+    LinearLayout mOne;
     @BindView(R.id.tv_baby_evaluation)
     TextView mTvBabyEvaluation;
-    @BindView(R.id.ll_evaluation)
-    LinearLayout mLlEvaluation;
     @BindView(R.id.iv_picture)
     CircleImageView mIvPicture;
     @BindView(R.id.tv_username)
     TextView mTvUsername;
     @BindView(R.id.tv_content)
     TextView mTvContent;
+    @BindView(R.id.ll_evaluation)
+    LinearLayout mLlEvaluation;
+    @BindView(R.id.ll_ask_everyone)
+    LinearLayout mLlAskEveryone;
+    @BindView(R.id.tv_question)
+    TextView mTvQuestion;
+    @BindView(R.id.tv_answer)
+    TextView mTvAnswer;
     @BindView(R.id.iv_store_picture)
     RoundImageView mIvStorePicture;
     @BindView(R.id.tv_store_name)
@@ -151,75 +174,24 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     TextView mTvLogisticsServicesScore;
     @BindView(R.id.tv_logistics_services)
     TextView mTvLogisticsServices;
-    @BindView(R.id.ideaScrollView)
-    IdeaScrollView mIdeaScrollView;
-    @BindView(R.id.header)
-    LinearLayout mHeader;
-    @BindView(R.id.radioGroup)
-    RadioGroup mRadioGroup;
-    //    @BindView(R.id.layer)
-//    View mLayer;
-    @BindView(R.id.headerParent)
-    LinearLayout mHeaderParent;
+    @BindView(R.id.ll_shop_recommendation)
+    LinearLayout mLlShopRecommendation;
+    @BindView(R.id.rv_shop_recommendation)
+    RecyclerView mRvShopRecommendation;
     @BindView(R.id.two)
     LinearLayout mTwo;
+    @BindView(R.id.webview)
+    WebView mWebview;
     @BindView(R.id.three)
     LinearLayout mThree;
     @BindView(R.id.rv_recommend)
     RecyclerView mRvRecommend;
     @BindView(R.id.four)
     LinearLayout mFour;
-    @BindView(R.id.ll_ask_everyone)
-    LinearLayout mLlAskEveryone;
-    @BindView(R.id.tv_question)
-    TextView mTvQuestion;
-    @BindView(R.id.tv_answer)
-    TextView mTvAnswer;
-    @BindView(R.id.iv_back)
-    ImageView mIvBack;
-    @BindView(R.id.ll_shop_recommendation)
-    LinearLayout mLlShopRecommendation;
-    @BindView(R.id.rv_shop_recommendation)
-    RecyclerView mRvShopRecommendation;
-    @BindView(R.id.iv_cart)
-    ImageView mIvCart;
-    @BindView(R.id.banner_goods)
-    Banner mBannerGoods;
-    @BindView(R.id.tv_collection)
-    TextView mTvcollection;
-
-    @BindView(R.id.ll_collect)
-    LinearLayout mLlcollect;
-    @BindView(R.id.img_collect)
-    ImageView mImgcollect;
-    @BindView(R.id.tv_addcart)
-    TextView mTvaddcart;
-    @BindView(R.id.webview)
-    WebView mWebview;
-    @BindView(R.id.tv_buy)
-    TextView mTvBuy;
+    @BindView(R.id.ideaScrollView)
+    IdeaScrollView mIdeaScrollView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
-    @BindView(R.id.ll_normal)
-    LinearLayout mLlNormal;
-    @BindView(R.id.countdownview)
-    CountdownView mCountdownview;
-    @BindView(R.id.tv_limit_buy)
-    TextView mTvLimitBuy;
-    @BindView(R.id.ll_limit)
-    LinearLayout mLlLimit;
-    @BindView(R.id.tv_good_money_max)
-    TextView mTvGoodMoneyMax;
-    @BindView(R.id.stateLayout)
-    StateFrameLayout mStateLayout;
-    @BindView(R.id.tv_only_left)
-    TextView mTvOnlyLeft;
-    @BindView(R.id.ll_install_service)
-    LinearLayout mLlInstallService;
-    @BindView(R.id.tv_select)
-    TextView mTvSelect;
-    @BindView(R.id.ll_select)
-    LinearLayout mLlSelect;
     @BindView(R.id.img_shop)
     ImageView mImgShop;
     @BindView(R.id.tv_shop)
@@ -232,15 +204,36 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     TextView mTvCustomerService;
     @BindView(R.id.ll_customer_service)
     LinearLayout mLlCustomerService;
-    @BindView(R.id.iv_back_one)
-    ImageView mIvBackOne;
-    @BindView(R.id.iv_share)
-    ImageView mIvShare;
+    @BindView(R.id.img_collect)
+    ImageView mImgCollect;
+    @BindView(R.id.tv_collection)
+    TextView mTvCollection;
+    @BindView(R.id.ll_collect)
+    LinearLayout mLlCollect;
+    @BindView(R.id.tv_addcart)
+    TextView mTvAddcart;
+    @BindView(R.id.tv_buy)
+    TextView mTvBuy;
+    @BindView(R.id.ll_normal)
+    LinearLayout mLlNormal;
+    @BindView(R.id.tv_limit_buy)
+    TextView mTvLimitBuy;
+    @BindView(R.id.stateLayout)
+    StateFrameLayout mStateLayout;
     @BindView(R.id.ll_back)
     LinearLayout mLlBack;
+    @BindView(R.id.radioGroup)
+    RadioGroup mRadioGroup;
+    @BindView(R.id.ll_cart)
+    LinearLayout mLlCart;
+    @BindView(R.id.ll_head_share)
+    LinearLayout mLlHeadShare;
+    @BindView(R.id.headerParent)
+    LinearLayout mHeaderParent;
     @BindView(R.id.view)
     View mView;
-
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     private AdderView adderView;
     private int getinventory; //库存
     private View popupWindow_view;
@@ -274,8 +267,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private String version_name = "";
     private String count = "1"; //数量
 
-    private String VShopId=""; //微店id用于进入店铺详情
-    private String ShopId="";
+    private String VShopId = ""; //微店id用于进入店铺详情
+    private String ShopId = "";
 
     private RadioGroup.OnCheckedChangeListener radioGroupListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
@@ -285,6 +278,15 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 radioButton.setTextColor(radioButton.isChecked() ? getRadioCheckedAlphaColor(currentPercentage) : getRadioAlphaColor(currentPercentage));
                 if (radioButton.isChecked() && isNeedScrollTo) {
                     mIdeaScrollView.setPosition(i);
+                    if (i!=0){
+                        mRadioGroup.setAlpha(1);
+                        mView.getBackground().setAlpha(255);
+                        mToolbar.getBackground().setAlpha(255);
+                        setRadioButtonTextColor(1);
+                        mLlBack.getBackground().setAlpha(0);
+                        mLlCart.getBackground().setAlpha(0);
+                        mLlHeadShare.getBackground().setAlpha(0);
+                    }
                 }
             }
         }
@@ -299,7 +301,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private LinearLayout ll_customersecurity;
     private LinearLayout ll_sevendaynoreasonreturn;
     private LinearLayout ll_timelyship;
-    private List<ShopCoupResult.CouponBean> couplist=new ArrayList<>();
+    private List<ShopCoupResult.CouponBean> couplist = new ArrayList<>();
 
 
     @Override
@@ -313,7 +315,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
         mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
-        mImmersionBar.statusBarColor(R.color.transparent);
+//        mImmersionBar.statusBarColor(R.color.transparent);
+        mImmersionBar.statusBarView(mView);
         mImmersionBar.fitsSystemWindows(false);
         mImmersionBar.keyboardEnable(true).navigationBarWithKitkatEnable(false).init();
     }
@@ -372,41 +375,35 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         });
 
 
-
-
-
         Rect rectangle = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(rectangle);
         mIdeaScrollView.setViewPager(mBannerGoods, getMeasureHeight(mHeaderParent) - rectangle.top);
         mRadioGroup.setAlpha(0);
+        mToolbar.getBackground().setAlpha(0);
+        mView.getBackground().setAlpha(0);
         mRadioGroup.check(mRadioGroup.getChildAt(0).getId());
 
         ArrayList<Integer> araryDistance = new ArrayList<>();
 
         araryDistance.add(0);
-        araryDistance.add(getMeasureHeight(mOne) - getMeasureHeight(mHeaderParent));
-        araryDistance.add(getMeasureHeight(mOne) + getMeasureHeight(mTwo) - getMeasureHeight(mHeaderParent));
-        araryDistance.add(getMeasureHeight(mOne) + getMeasureHeight(mTwo) + getMeasureHeight(mThree) - getMeasureHeight(mHeaderParent));
+        araryDistance.add(getMeasureHeight(mOne)- getMeasureHeight(mHeaderParent)+50);
+        araryDistance.add(getMeasureHeight(mOne) + getMeasureHeight(mTwo)- getMeasureHeight(mHeaderParent)+50);
+//        araryDistance.add(getMeasureHeight(mOne) + getMeasureHeight(mTwo) + getMeasureHeight(mThree) - getMeasureHeight(mHeaderParent));
 
         mIdeaScrollView.setArrayDistance(araryDistance);
 
         mIdeaScrollView.setOnScrollChangedColorListener(new IdeaScrollView.OnScrollChangedColorListener() {
             @Override
             public void onChanged(float percentage) {
-
-                int color = getAlphaColor(percentage > 0.9f ? 1.0f : percentage);
-                mHeader.setBackgroundDrawable(new ColorDrawable(color));
-//                mRadioGroup.setBackgroundDrawable(new ColorDrawable(color));
-//                icon.setImageAlpha((int) ((percentage>0.9f?1.0f:percentage)*255));
-                mRadioGroup.setAlpha((percentage > 0.9f ? 1.0f : percentage) * 255);
-                mView.setAlpha((percentage > 0.9f ? 1.0f : percentage) * 255);
+//                int color = getAlphaColor(percentage > 0.5f ? 1.0f : percentage);
+//                mHeaderParent.setBackgroundDrawable(new ColorDrawable(color));
+                mRadioGroup.setAlpha((percentage > 0.5f ? 1.0f : percentage) * 255);
+                mView.getBackground().setAlpha((int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
+                mToolbar.getBackground().setAlpha((int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
                 setRadioButtonTextColor(percentage);
-
-//                mIvBack.setBackground(new ColorDrawable(color));
-                mLlBack.setAlpha((percentage > 0.9f ? 1.0f : percentage) * 255);
-//                mIvBack.setImageAlpha((int) ((percentage > 0.9f ? 1.0f : percentage) * 255));
-//                mIvBackOne.setImageAlpha((int) ((percentage > 0.9f ? 1.0f : percentage) * 255));
-
+                mLlBack.getBackground().setAlpha(255-(int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
+                mLlCart.getBackground().setAlpha(255-(int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
+                mLlHeadShare.getBackground().setAlpha(255-(int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
             }
 
             @Override
@@ -434,17 +431,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Override
     protected void setListener() {
-        mIvBack.setOnClickListener(this);
+        mLlBack.setOnClickListener(this);
         // mTvcollection.setOnClickListener(this);
         mLlShop.setOnClickListener(this);
-        mLlcollect.setOnClickListener(this);
-        mTvaddcart.setOnClickListener(this);
+        mLlCollect.setOnClickListener(this);
+        mTvAddcart.setOnClickListener(this);
         mTvBuy.setOnClickListener(this);
         mTvLimitBuy.setOnClickListener(this);
 //        mLlEvaluation.setOnClickListener(this);
         mLlService.setOnClickListener(this);
         mLlSelect.setOnClickListener(this);
-        mIvCart.setOnClickListener(this);
+        mLlCart.setOnClickListener(this);
         mLlSpecification.setOnClickListener(this);
         mTvAllGoods.setOnClickListener(this);
         mTvGoShopping.setOnClickListener(this);
@@ -486,21 +483,15 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         view.measure(width, height);
         return view.getMeasuredHeight();
     }
-
-    public int getAlphaColor(float f) {
-        return Color.argb((int) (f * 255), 0xff, 0xff, 0xff);
-    }
-
-    public int getLayerAlphaColor(float f) {
-        return Color.argb((int) (f * 255), 0x09, 0xc1, 0xf4);
-    }
-
+//    #FFD700  orange
     public int getRadioCheckedAlphaColor(float f) {
-        return Color.argb((int) (f * 255), 0x00, 0x00, 0x00);
+//        return Color.argb((int) (f * 255), 0x00, 0x00, 0x00);
+        return Color.argb((int) (f * 255), 0xFF, 0xD7, 0x00);
     }
 
     public int getRadioAlphaColor(float f) {
-        return Color.argb((int) (f * 255), 0x80, 0x80, 0x80);
+//        return Color.argb((int) (f * 255), 0x80, 0x80, 0x80);
+        return Color.argb((int) (f * 255), 0xff, 0xff, 0xff);
     }
 
     @Override
@@ -509,7 +500,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             case R.id.ll_specification:
                 mPresenter.GetShopCouponList(Integer.toString(result.getShop().getId()));
                 break;
-            case R.id.iv_back:
+            case R.id.ll_back:
                 finish();
                 break;
             case R.id.ll_collect:
@@ -519,14 +510,14 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 }
                 Log.d("=====>", String.valueOf(id));
 
-                if (mImgcollect.isSelected()) {
-                    mImgcollect.setSelected(false);
+                if (mImgCollect.isSelected()) {
+                    mImgCollect.setSelected(false);
                     mPresenter.PostAddFavoriteProduct(id, Userkey);
-                    mTvcollection.setText("收藏");
+                    mTvCollection.setText("收藏");
                 } else {
-                    mImgcollect.setSelected(true);
+                    mImgCollect.setSelected(true);
                     mPresenter.PostAddFavoriteProduct(id, Userkey);
-                    mTvcollection.setText("已收藏");
+                    mTvCollection.setText("已收藏");
                 }
 
                 break;
@@ -554,20 +545,20 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //                startActivity(new Intent(mActivity,EvaluationDetailsActivity.class));
 //                break;
 
-            case R.id.iv_cart:
-                startActivity(new Intent(mActivity,CartActivity.class));
+            case R.id.ll_cart:
+                startActivity(new Intent(mActivity, CartActivity.class));
                 break;
 
 
             case R.id.tv_all_goods:
             case R.id.tv_go_shopping:
             case R.id.ll_shop:
-                if ("-1".equals(VShopId)){
+                if ("-1".equals(VShopId)) {
                     ToastUtils.showShort("未开设微店");
                     return;
                 }
-                Intent intent=new Intent(mActivity,StoreDetailActivity.class);
-                intent.putExtra("VShopId",VShopId);
+                Intent intent = new Intent(mActivity, StoreDetailActivity.class);
+                intent.putExtra("VShopId", VShopId);
                 startActivity(intent);
                 break;
 
@@ -939,6 +930,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         }
 
     }
+
     /*获取优惠券*/
     @Override
     public void PostAcceptCoupon(GetShopCoupResult Result) {
@@ -956,13 +948,13 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         result = Result;
         if ("true".equals(Result.getSuccess())) {
-            VShopId= String.valueOf(result.getShop().getVShopId());
-            ShopId= String.valueOf(result.getShop().getId());
+            VShopId = String.valueOf(result.getShop().getVShopId());
+            ShopId = String.valueOf(result.getShop().getId());
             if (Result.getIsOnLimitBuy()) {
 //                mLlLimit.setVisibility(View.VISIBLE);
 //                mLlNormal.setVisibility(View.GONE);
                 mCountdownview.start(Result.getSecond() * 1000);
-                mTvOnlyLeft.setText("仅剩"+skuArray.get(0).getStock()+"件");
+                mTvOnlyLeft.setText("仅剩" + skuArray.get(0).getStock() + "件");
             } else {
                 mLlLimit.setVisibility(View.GONE);
                 mLlNormal.setVisibility(View.VISIBLE);
@@ -997,11 +989,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
             /*判断是否收藏*/
             if (Result.getProduct().isIsFavorite()) {
-                mImgcollect.setSelected(true);
-                mTvcollection.setText("已收藏");
+                mImgCollect.setSelected(true);
+                mTvCollection.setText("已收藏");
             } else {
-                mImgcollect.setSelected(false);
-                mTvcollection.setText("收藏");
+                mImgCollect.setSelected(false);
+                mTvCollection.setText("收藏");
             }
 
             /*显示价格暂时取范围*/
@@ -1367,6 +1359,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
 
     }
+
     public void showPopupWindow(String shopname) {
         popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.popwindow_shopcoups, null);
         mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.lwkandroid.widget.stateframelayout.StateFrameLayout
         android:id="@+id/stateLayout"
@@ -1099,72 +1100,49 @@
                     android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
-   </com.lwkandroid.widget.stateframelayout.StateFrameLayout>
-
+    </com.lwkandroid.widget.stateframelayout.StateFrameLayout>
     <LinearLayout
         android:id="@+id/headerParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/header"
+        <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#00FFFFFF">
-
-
-            <LinearLayout
+            android:layout_height="0dp"
+            android:background="@drawable/mine_bg_shape"/>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/mine_bg_shape">
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:orientation="horizontal"
-                android:paddingTop="24dp">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
 
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dp_10">
+                <LinearLayout
+                    android:id="@+id/ll_back"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/goods_detail_circle_shape">
 
                     <ImageView
-                        android:id="@+id/iv_back_one"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:padding="5dp"
-                        android:src="@drawable/left" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_back"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/goods_detail_circle_shape">
-
-                        <ImageView
-                            android:id="@+id/iv_back"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:padding="5dp"
-                            android:src="@mipmap/fanhui" />
-                    </LinearLayout>
-
-
-                </FrameLayout>
-
-
-                <!--<ImageView-->
-                <!--android:id="@+id/icon"-->
-                <!--android:layout_width="30dp"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:src="@drawable/aa"-->
-                <!--android:layout_gravity="center"/>-->
+                        android:padding="6dp"
+                        android:src="@drawable/back" />
+                </LinearLayout>
 
                 <RadioGroup
                     android:id="@+id/radioGroup"
-                    android:layout_width="match_parent"
+                    android:layout_width="150dp"
                     android:layout_height="48dp"
-                    android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:background="#00FFFFFF"
                     android:orientation="horizontal">
 
@@ -1175,7 +1153,7 @@
                         android:button="@null"
                         android:gravity="center"
                         android:text="宝贝"
-                        android:textColor="#00000000" />
+                        android:textColor="@color/white" />
 
                     <RadioButton
                         android:layout_width="0dp"
@@ -1184,7 +1162,7 @@
                         android:button="@null"
                         android:gravity="center"
                         android:text="评价"
-                        android:textColor="#00000000" />
+                        android:textColor="@color/white" />
 
                     <RadioButton
                         android:layout_width="0dp"
@@ -1193,7 +1171,7 @@
                         android:button="@null"
                         android:gravity="center"
                         android:text="详情"
-                        android:textColor="#00000000" />
+                        android:textColor="@color/white" />
 
                     <RadioButton
                         android:layout_width="0dp"
@@ -1202,40 +1180,38 @@
                         android:button="@null"
                         android:gravity="center"
                         android:text="推荐"
-                        android:textColor="#00000000"
+                        android:textColor="@color/white"
                         android:visibility="gone" />
 
                 </RadioGroup>
 
-
-                <ImageView
-                    android:id="@+id/iv_cart"
+                <LinearLayout
+                    android:id="@+id/ll_cart"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:background="@drawable/goods_detail_circle_shape"
-                    android:padding="6dp"
-                    android:src="@mipmap/cart" />
-
-                <ImageView
-                    android:id="@+id/iv_share"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/goods_detail_circle_shape">
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:padding="6dp"
+                        android:src="@mipmap/cart" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_head_share"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/goods_detail_circle_shape"
-                    android:padding="6dp"
-                    android:src="@mipmap/share" />
+                    android:layout_gravity="right|center_vertical"
+                    android:background="@drawable/goods_detail_circle_shape">
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:padding="6dp"
+                        android:src="@mipmap/share" />
+                </LinearLayout>
 
-            </LinearLayout>
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#00eeeeee" />
-        </LinearLayout>
+            </FrameLayout>
+        </androidx.appcompat.widget.Toolbar>
     </LinearLayout>
 </FrameLayout>

@@ -7,6 +7,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -25,9 +29,6 @@ import com.zhenghaikj.shop.mvp.presenter.SearchDetailShopDetailPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -230,7 +231,7 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
                 switch (view.getId()){
                     case R.id.rl_shop:
                         Intent intent=new Intent(mActivity,GoodsDetailActivity.class);
-                        intent.putExtra("id",((SearchResult.ProductBean)adapter.getItem(position)).getProductId());
+                        intent.putExtra("id",((SearchShopResult.ProductsBean)adapter.getItem(position)).getId());
                         startActivity(intent);
                         break;
 

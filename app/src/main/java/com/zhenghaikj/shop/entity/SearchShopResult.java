@@ -211,18 +211,18 @@ public class SearchShopResult implements Serializable {
          * CommentsCount : 0
          */
 
-        private int Id;
+        private String Id;
         private String Name;
         private int MarketPrice;
         private double SalePrice;
         private String ImageUrl;
         private int CommentsCount;
 
-        public int getId() {
+        public String getId() {
             return Id;
         }
 
-        public void setId(int Id) {
+        public void setId(String Id) {
             this.Id = Id;
         }
 
