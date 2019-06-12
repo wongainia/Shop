@@ -26,12 +26,12 @@ public class StoreDetailGoodsAdapter extends BaseQuickAdapter<StoreDetailResult.
 
         Glide.with(mContext).load(item.getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mContext, 5)))
-                .into((ImageView) helper.getView(R.id.iv_goods_picture));
+                .into((ImageView) helper.getView(R.id.iv_goods));
 
         helper.setText(R.id.tv_goods_name,item.getName());
-        helper.setText(R.id.tv_money,"¥:"+item.getSalePrice());
+        helper.setText(R.id.tv_goods_money,"¥"+item.getSalePrice());
 
-        helper.addOnClickListener(R.id.ll_store_goods);
+        helper.addOnClickListener(R.id.ll_item);
 
 
 

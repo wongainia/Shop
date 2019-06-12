@@ -1060,7 +1060,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case 200:
                 if (baseResult.getData() != null) {
                     datalist = baseResult.getData().getItem2();
-                    if (datalist == null) {
+                    if (datalist == null||datalist.size()==0) {
                         mLlService.setVisibility(View.GONE);
                     } else {
                         mScrolltv.removeAllViews();

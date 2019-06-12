@@ -53,7 +53,8 @@
                 android:text="3人付款"
                 android:textColor="#808080"
                 android:textSize="12sp"
-                android:layout_marginLeft="@dimen/dp_10"/>
+                android:layout_marginLeft="@dimen/dp_10"
+                android:visibility="gone"/>
 
             <TextView
                 android:visibility="gone"

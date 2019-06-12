@@ -58,5 +58,25 @@ public class StoreDetailPresenter extends StoreDetailContract.Presenter {
                 });
     }
 
+    @Override
+    public void GetShopCouponList(String shopId) {
+        mModel.GetShopCouponList(shopId)
+                .subscribe(new BaseObserver<ShopCoupResult>() {
+                    @Override
+                    protected void onHandleSuccess(ShopCoupResult value) {
+                        mView.GetShopCouponList(value);
+                    }
+                });
+    }
 
+    @Override
+    public void PostAcceptCoupon(String vshopId, String couponId, String Userkey) {
+        mModel.PostAcceptCoupon(vshopId,couponId,Userkey)
+                .subscribe(new BaseObserver<GetShopCoupResult>() {
+                    @Override
+                    protected void onHandleSuccess(GetShopCoupResult value) {
+                        mView.PostAcceptCoupon(value);
+                    }
+                });
+    }
 }

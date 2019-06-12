@@ -8,8 +8,10 @@ import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
+import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 
@@ -33,12 +35,16 @@ public interface StoreDetailContract {
                String shopBranchId
 
         );
+        Observable<ShopCoupResult> GetShopCouponList(String shopId);
+        Observable<GetShopCoupResult> PostAcceptCoupon(String vshopId, String couponId, String Userkey);
     }
     interface View extends BaseView {
         void GetVShop(StoreDetailResult result);
         void PostAddFavoriteShop(PostattentionResult result);
         void GetVShopCategory(GetStoreSortResult result);
         void GetProductList(StoreCommodityResult result);
+        void GetShopCouponList(ShopCoupResult Result);
+        void PostAcceptCoupon(GetShopCoupResult Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -50,5 +56,8 @@ public interface StoreDetailContract {
                                              String shopCategoryId,
                                              String shopId,
                                              String shopBranchId);
+        public abstract void GetShopCouponList(String shopId);
+        public abstract void PostAcceptCoupon(String vshopId,String couponId,String Userkey);
     }
+
 }

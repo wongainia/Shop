@@ -8,6 +8,30 @@
     android:orientation="vertical">
 
     <include layout="@layout/activity_storetoolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:visibility="gone">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_coupon"></androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+    <com.zhenghaikj.shop.widget.RatioLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:ratios="2.6">
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:image_scale_type="fit_xy"
+            app:indicator_margin="5dp" />
+    </com.zhenghaikj.shop.widget.RatioLayout>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +40,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
     <!--    <ImageView
             android:layout_width="match_parent"
             android:src="@mipmap/ic_launcher"
@@ -31,7 +56,7 @@
             android:scaleType="fitXY"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:background="@drawable/mine_bg_shape"
-            >
+            android:visibility="gone">
             <ImageView
                 android:id="@+id/img_shop"
                 android:layout_width="40dp"
@@ -61,23 +86,23 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                />
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/tab_receiving_layout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@drawable/mine_bg_shape"
+            android:background="@color/white"
             app:tl_divider_color="#1A000000"
             app:tl_divider_padding="10dp"
-            app:tl_textsize="17sp"
-            app:tl_indicator_color="@color/white"
+            app:tl_textsize="14sp"
+            app:tl_indicator_color="@color/red"
             app:tl_indicator_height="3dp"
             app:tl_indicator_width_equal_title="true"
             app:tl_tab_padding="20dp"
-            app:tl_textSelectColor="@color/white"
-            app:tl_textUnselectColor="@color/white"
+            app:tl_textSelectColor="@color/black"
+            app:tl_textUnselectColor="@color/black"
             app:tl_underline_color="#1A000000"
             app:tl_underline_height="1dp"/>
 

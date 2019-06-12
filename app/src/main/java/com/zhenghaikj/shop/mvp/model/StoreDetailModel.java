@@ -7,8 +7,10 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
+import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.mvp.contract.AddBrandContract;
@@ -87,6 +89,37 @@ public class StoreDetailModel implements StoreDetailContract.Model {
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetProductList(PageSize,pageNo,shopCategoryId,shopId,shopBranchId,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<ShopCoupResult> GetShopCouponList(String shopId) {
+        map = new HashMap<>();
+        map.put("shopid",shopId);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+
+        return ApiRetrofit.getDefault().GetShopCouponList(shopId,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<GetShopCoupResult> PostAcceptCoupon(String vshopId, String couponId, String Userkey) {
+
+        map = new HashMap<>();
+        map.put("vshopid",vshopId);
+        map.put("couponid",couponId);
+        map.put("userkey",Userkey);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+
+        return ApiRetrofit.getDefault().PostAcceptCoupon(vshopId,couponId,Userkey,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

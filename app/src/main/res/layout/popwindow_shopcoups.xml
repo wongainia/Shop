@@ -8,7 +8,8 @@
     >
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="35dp">
+    android:layout_height="35dp"
+    android:layout_marginTop="10dp">
 
     <TextView
         android:id="@+id/tv_coup"
@@ -47,6 +48,6 @@
         android:background="#ED3D48"
         android:gravity="center"
         android:textColor="@color/white"
-        />
+        android:visibility="gone"/>
 
 </LinearLayout>
