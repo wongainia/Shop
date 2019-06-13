@@ -436,4 +436,11 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
     }
 
+
+    @Override
+    public void finish() {
+        super.finish();
+
+
+    }
 }

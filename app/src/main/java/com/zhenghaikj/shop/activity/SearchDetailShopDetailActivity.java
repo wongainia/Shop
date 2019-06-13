@@ -114,7 +114,7 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
             mTvSearchTxt.setText(content);
 //            mPresenter.GetSearchProducts(content,null,null,null,"1","1",String.valueOf(pagaNo),"10",shopid);
 //            mPresenter.GetProducts(content,shopid,"1","10");
-            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"1","1","1","10");
+            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"1","1",String.valueOf(pagaNo),"10");
             searchShopDetailAdapter=new SearchShopDetailAdapter(R.layout.item_search_shop_detail,list);
             mRv.setLayoutManager(new LinearLayoutManager(mActivity));
             mRv.setAdapter(searchShopDetailAdapter);
@@ -127,7 +127,7 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
             mTvSearchTxt.setText(sname);
 //            mPresenter.GetProductList("10",String.valueOf(pagaNo),shopCategoryId,shopid,"");
 //            mPresenter.GetSearchProducts("",shopCategoryId,null,null,"1","1",String.valueOf(pagaNo),"10",shopid);
-            mPresenter.GetVShopSearchProducts(shopid,"","",shopCategoryId,null,null,"1","1","1","10");
+            mPresenter.GetVShopSearchProducts(shopid,"","",shopCategoryId,null,null,"1","1",String.valueOf(pagaNo),"10");
 //            mPresenter.GetProducts(content,shopid,"1","10");
             searchShopDetailAdapter=new SearchShopDetailAdapter(R.layout.item_search_shop_detail,list);
             mRv.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -164,12 +164,12 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
                         if (search_by_type==1){//分类进入
 //                            mPresenter.GetSearchProducts("", null, null,null, "1", "1", Integer.toString(pagaNo), "10",shopid);
 //                            mPresenter.GetProducts(content,shopid,"1","10");
-                            mPresenter.GetVShopSearchProducts(shopid,"",null,null,null,null,"1","1","1","10");
+                            mPresenter.GetVShopSearchProducts(shopid,"",null,shopCategoryId,null,null,"1","1",String.valueOf(pagaNo),"10");
 
                         }else {//搜索进入
 //                            mPresenter.GetSearchProducts(content, null, null,null, "1", "1", Integer.toString(pagaNo), "10",shopid);
 //                            mPresenter.GetProducts(content,shopid,"1","10");
-                            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"1","1","1","10");
+                            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"1","1",String.valueOf(pagaNo),"10");
 
                         }
 
@@ -179,12 +179,12 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
                         if (search_by_type==1){//分类进入
 //                            mPresenter.GetSearchProducts("", null, null,null, "3", "1", Integer.toString(pagaNo), "10",shopid);
 //                            mPresenter.GetProducts(content,shopid,"1","10");
-                            mPresenter.GetVShopSearchProducts(shopid,null,null,shopCategoryId,null,null,"5","1","1","10");
+                            mPresenter.GetVShopSearchProducts(shopid,null,null,shopCategoryId,null,null,"5","1",String.valueOf(pagaNo),"10");
 
                         }else {//搜索进入
 //                            mPresenter.GetSearchProducts(content, null, null,null, "3", "1", Integer.toString(pagaNo), "10",shopid);
 //                            mPresenter.GetProducts(content,shopid,"1","10");
-                            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"5","1","1","10");
+                            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"5","1",String.valueOf(pagaNo),"10");
 
                         }
 
@@ -195,12 +195,12 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
                         if (search_by_type==1){//分类进入
 //                            mPresenter.GetSearchProducts("", null, null,null, "3", "2", Integer.toString(pagaNo), "10",shopid);
 //                            mPresenter.GetProducts(content,shopid,"1","10");
-                            mPresenter.GetVShopSearchProducts(shopid,"",null,null,null,null,"5","2","1","10");
+                            mPresenter.GetVShopSearchProducts(shopid,"",null,shopCategoryId,null,null,"5","2",String.valueOf(pagaNo),"10");
 
                         }else {//搜索进入
 //                            mPresenter.GetSearchProducts(content, null, null,null, "3", "2", Integer.toString(pagaNo), "10",shopid);
 //                            mPresenter.GetProducts(content,shopid,"1","10");
-                            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"5","2","1","10");
+                            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"5","2",String.valueOf(pagaNo),"10");
 
                         }
 
@@ -211,12 +211,12 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
                         if (search_by_type==1){//分类进入
 //                            mPresenter.GetSearchProducts("", null, null,null, "2", "2", Integer.toString(pagaNo), "10",shopid);
 //                            mPresenter.GetProducts(content,shopid,"1","10");
-                            mPresenter.GetVShopSearchProducts(shopid,"",null,null,null,null,"2","2","1","10");
+                            mPresenter.GetVShopSearchProducts(shopid,"",null,shopCategoryId,null,null,"2","2",String.valueOf(pagaNo),"10");
 
                         }else {//搜索进入
 //                            mPresenter.GetSearchProducts(content, null, null,null, "2", "2", Integer.toString(pagaNo), "10",shopid);
 //                            mPresenter.GetProducts(content,shopid,"1","10");
-                            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"2","2","1","10");
+                            mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"2","2",String.valueOf(pagaNo),"10");
 
                         }
                         break;
@@ -264,12 +264,12 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
                 if (search_by_type==1){//分类进入
 //                    mPresenter.GetSearchProducts("", null, null,null, "1", "1", Integer.toString(pagaNo), "10",shopid);
 //                    mPresenter.GetProducts(content,shopid,"1","10");
-                    mPresenter.GetVShopSearchProducts(shopid,"",null,null,null,null,"1","1","1","10");
+                    mPresenter.GetVShopSearchProducts(shopid,"",null,shopCategoryId,null,null,"1","1",String.valueOf(pagaNo),"10");
 
                 }else {//搜索进入
 //                    mPresenter.GetSearchProducts(content, null, null,null, "1", "1", Integer.toString(pagaNo), "10",shopid);
 //                    mPresenter.GetProducts(content,shopid,"1","10");
-                    mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"1","1","1","10");
+                    mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"1","1",String.valueOf(pagaNo),"10");
 
                 }
                 break;
@@ -284,12 +284,12 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
                 if (search_by_type==1){//分类进入
 //                    mPresenter.GetSearchProducts("", null, null,null, "2", "2", Integer.toString(pagaNo), "10",shopid);
 //                    mPresenter.GetProducts(content,shopid,"1","10");
-                    mPresenter.GetVShopSearchProducts(shopid,"",null,null,null,null,"2","2","1","10");
+                    mPresenter.GetVShopSearchProducts(shopid,"",null,shopCategoryId,null,null,"2","2",String.valueOf(pagaNo),"10");
 
                 }else {//搜索进入
 //                    mPresenter.GetSearchProducts(content, null, null,null, "2", "2", Integer.toString(pagaNo), "10",shopid);
 //                    mPresenter.GetProducts(content,shopid,"1","10");
-                    mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"2","2","1","10");
+                    mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"2","2",String.valueOf(pagaNo),"10");
 
                 }
                 break;
@@ -305,50 +305,10 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
 
     @Override
     public void GetSearchProducts(SearchResult Result) {
-//        if (Result.getSuccess()==null){
-//            return;
-//        }
-//        if (Result.getSuccess()){
-//            if (Result.getTotal()==0){
-//                //找不到产品
-//                searchShopDetailAdapter.setEmptyView(getEmptyView());
-//            }else {
-//                if(pagaNo==1){
-//                    list.clear();
-//                    list.addAll(Result.getProduct());
-//                    searchShopDetailAdapter.notifyDataSetChanged();
-//                }else {
-//                    list.addAll(Result.getProduct());
-//                    searchShopDetailAdapter.setNewData(list);
-//                    searchShopDetailAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//        }
     }
 
     @Override
     public void GetProducts(SearchResult Result) {
-//        if (Result.getSuccess()==null){
-//            return;
-//        }
-//        if (Result.getSuccess()){
-//            if (Result.getTotal()==0){
-//                //找不到产品
-//                searchShopDetailAdapter.setEmptyView(getEmptyView());
-//            }else {
-//                if(pagaNo==1){
-//                    list.clear();
-//                    list.addAll(Result.getProduct());
-//                    searchShopDetailAdapter.notifyDataSetChanged();
-//                }else {
-//                    list.addAll(Result.getProduct());
-//                    searchShopDetailAdapter.setNewData(list);
-//                    searchShopDetailAdapter.notifyDataSetChanged();
-//                }
-//            }
-//
-//        }
     }
 
     @Override
@@ -395,11 +355,11 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
                     bool_price_up_down=false;
                   if (search_by_type==1){//分类进入
 //                      mPresenter.GetSearchProducts("", null, null,null, "3", "1", Integer.toString(pagaNo), "10",shopid);
-                      mPresenter.GetVShopSearchProducts(shopid,"",null,null,null,null,"3","1","1","10");
+                      mPresenter.GetVShopSearchProducts(shopid,"",null,shopCategoryId,null,null,"3","1",String.valueOf(pagaNo),"10");
 
                   }else {//搜索进入
 //                      mPresenter.GetSearchProducts(content, null, null,null, "3", "1", Integer.toString(pagaNo), "10",shopid);
-                      mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"3","1","1","10");
+                      mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"3","1",String.valueOf(pagaNo),"10");
 
                   }
 
@@ -411,11 +371,11 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
 
                     if (search_by_type==1){//分类进入
 //                        mPresenter.GetSearchProducts("", null, null,null, "3", "2", Integer.toString(pagaNo), "10",shopid);
-                        mPresenter.GetVShopSearchProducts(shopid,"",null,null,null,null,"3","2","1","10");
+                        mPresenter.GetVShopSearchProducts(shopid,"",null,shopCategoryId,null,null,"3","2",String.valueOf(pagaNo),"10");
 
                     }else {//搜索进入
 //                        mPresenter.GetSearchProducts(content, null, null,null, "3", "2", Integer.toString(pagaNo), "10",shopid);
-                        mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"3","2","1","10");
+                        mPresenter.GetVShopSearchProducts(shopid,content,null,null,null,null,"3","2",String.valueOf(pagaNo),"10");
 
                     }
                 }

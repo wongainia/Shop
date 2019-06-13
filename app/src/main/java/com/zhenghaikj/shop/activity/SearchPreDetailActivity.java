@@ -169,7 +169,6 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                         searchListDbOperation.addRecords(record);
                         reversedList();
                         serachHistroyAdapter.notifyDataSetChanged();
-
                         Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
                         intent.putExtra("search",(String) adapter.getItem(position));
                         startActivityForResult(intent, Config.SEARCH_REQUEST);
