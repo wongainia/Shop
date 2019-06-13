@@ -234,4 +234,6 @@ dependencies {
     /*6.0后权限管理RxPermissions */
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     implementation 'com.github.dongjunkun:CouponView:1.0.4'
+    implementation 'com.lxj:xpopup:1.8.0-x'
+
 }

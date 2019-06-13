@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.enums.PopupPosition;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.adapter.FliterAdapter;
 import com.zhenghaikj.shop.adapter.NewSearchDetailAdapetr;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -27,6 +30,7 @@ import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.SearchContract;
 import com.zhenghaikj.shop.mvp.model.SearchModel;
 import com.zhenghaikj.shop.mvp.presenter.SearchPresenter;
+import com.zhenghaikj.shop.widget.CustomFilterDrawerPopupView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,21 +81,27 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
     @BindView(R.id.ll_bg_serach)
     LinearLayout mLlbg_serach;
+
+    private CustomFilterDrawerPopupView customFilterDrawerPopupView;
+    private RecyclerView recyclerView;
+    private FliterAdapter fliterAdapter;
+
     private SerachType serachtype;
     private String orderType="1";//排序方式 1.升序 2.降序
     private int pagaNo = 1;
     private String serach_content; //输入框中的内容
-
     private String UserKey;
     private SPUtils spUtils;
-
    // private SearchDetailAdapetr searchDetailAdapetr;
     private NewSearchDetailAdapetr newSearchDetailAdapetr;
     private boolean bool_price_up_down=true; //true为上  false为下
     private List<SearchResult.ProductBean> productBeanList=new ArrayList<>();
-
     private String cid;
     private int searchbytype =1; //1为搜索  2为点击
+
+
+
+    private List<String> list=new ArrayList<>();
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -113,8 +123,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     protected void initData() {
         spUtils=SPUtils.getInstance("token");
         UserKey=spUtils.getString("UserKey");
-
-
 
         mLlSynthesis.setSelected(true);//默认选择综合
         serachtype=SerachType.SYNTHESIS;
@@ -141,6 +149,13 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
     @Override
     protected void initView() {
+        customFilterDrawerPopupView=new CustomFilterDrawerPopupView(mActivity);
+        recyclerView=customFilterDrawerPopupView.findViewById(R.id.filter_rv);
+        list.add("品牌");
+        list.add("分类");
+        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        fliterAdapter=new FliterAdapter(R.layout.item_filter_popueview,list);
+        recyclerView.setAdapter(fliterAdapter);
 
     }
 
@@ -279,7 +294,13 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                StateChangeForType(mLlSifting);
                serachtype=SerachType.SIFTING;
                pagaNo=1;
-               Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+              // Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+
+               new XPopup.Builder(mActivity)
+                       .popupPosition(PopupPosition.Right)//右边
+                       .hasStatusBarShadow(true) //启用状态栏阴影
+                       .asCustom(customFilterDrawerPopupView)
+                       .show();
                break;
 
            case R.id.tv_serach: //重新搜索
@@ -440,9 +461,12 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                 mLlSifting.setSelected(true);
                 mImg_price_up_down.setImageDrawable(ContextCompat.getDrawable(mActivity,R.mipmap.icon_up_down));
                 bool_price_up_down=true;//价格回到上升排序
+                // mPresenter.GetSearchFilter("冰箱","0","0","0",UserKey);
 
 
-                mPresenter.GetSearchFilter("冰箱",null,null,null,UserKey);
+
+
+
                 break;
         }
 
