@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="banner" type="id"/>
+    <item name="viewpager" type="id"/>
+    <item name="tab_receiving_layout" type="id"/>
+    <item name="id_stickynavlayout_innerscrollview" type="id"/>
+</resources>

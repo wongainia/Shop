@@ -35,6 +35,7 @@ import com.zyao89.view.zloading.Z_TYPE;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -79,8 +80,8 @@ public class StoreDetailGoodsFragment extends BaseLazyFragment<StoreDetailPresen
         VShopId=getActivity().getIntent().getStringExtra("VShopId");
         mPresenter.GetVShop(VShopId,Userkey);
         showLoading();
-        rv.setLayoutManager(new LinearLayoutManager(mActivity));
-        shopDetailGoodsAdapter=new ShopDetailGoodsAdapter(R.layout.item_store_goods,list);
+        rv.setLayoutManager(new GridLayoutManager(mActivity,2));
+        shopDetailGoodsAdapter=new ShopDetailGoodsAdapter(R.layout.item_home,list);
         rv.setAdapter(shopDetailGoodsAdapter);
 
     }
@@ -147,7 +148,7 @@ public class StoreDetailGoodsFragment extends BaseLazyFragment<StoreDetailPresen
                      @Override
                      public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                          switch (view.getId()){
-                             case R.id.ll_store_goods:
+                             case R.id.ll_item:
                                  Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
                                  intent.putExtra("id",((StoreCommodityResult.ProductListBean)adapter.getItem(position)).getId());
                                  startActivity(intent);

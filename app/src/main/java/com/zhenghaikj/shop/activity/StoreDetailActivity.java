@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -40,6 +41,8 @@ import com.zhenghaikj.shop.mvp.model.StoreDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.StoreDetailPresenter;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
+import com.zhenghaikj.shop.widget.StickyNavLayout;
+import com.zhenghaikj.shop.widget.StickyNavLayout.OnLayoutScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,10 +89,10 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     LinearLayout mLlCustomerService;
     @BindView(R.id.iv_share)
     ImageView mIvShare;
-    @BindView(R.id.rv_coupon)
-    RecyclerView mRvCoupon;
     @BindView(R.id.banner)
     Banner mBanner;
+    @BindView(R.id.iv_close)
+    ImageView mIvClose;
 
     private String Userkey;
     private String VShopId;
@@ -99,7 +102,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     private int height;
     private final String[] mTitles = {
-            "首页", "商品", "分类"
+            "首页", "所有商品", "查看分类"
     };
     private MyPagerAdapter mAdapter;
     private String userName;
@@ -142,14 +145,15 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
         mViewpager.setOffscreenPageLimit(mFragments.size());
         mTabReceivingLayout.setViewPager(mViewpager);
 
-
     }
+
 
     @Override
     protected void setListener() {
         mTvAttention.setOnClickListener(this);
         mImgsort.setOnClickListener(this);
         mLlAttention.setOnClickListener(this);
+        mIvClose.setOnClickListener(this);
 
 
         appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -258,12 +262,18 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
             case R.id.img_sort:
                 mViewpager.setCurrentItem(2);
                 break;
+            case R.id.iv_close:
+                finish();
+                break;
         }
 
     }
 
 
-    private class MyPagerAdapter extends FragmentPagerAdapter {
+    private class MyPagerAdapter extends FragmentPagerAdapter implements StickyNavLayout.OnLayoutScrollListener{
+
+        private boolean isShowTop;
+
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -282,6 +292,13 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
         public Fragment getItem(int position) {
             return mFragments.get(position);
         }
+
+        @Override
+        public void isTopShow(boolean isTopShow) {
+            isShowTop = isTopShow;
+            //获取当前显示的Fragment
+            mViewpager.getCurrentItem();
+        }
     }
 
 
@@ -292,4 +309,6 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
         height = rl_shop.getMeasuredHeight();
         Log.d("======>height", String.valueOf(rl_shop.getMeasuredHeight()));
     }
+
+
 }
