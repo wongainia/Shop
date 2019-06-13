@@ -354,6 +354,12 @@ public class DetailResult implements Serializable {
          * CommentCount : 0
          * NicePercent : 100
          * IsOnLimitBuy : false
+         * "BrandId":100,
+         * "BrandName":"佰益莱",
+         * "CategoryId":51,
+         * "CategoryName":"超薄电视",
+         * "ParentCategoryId":46,
+         * "ParentCategoryName":"电视"
          */
 
         private int ProductId;
@@ -365,11 +371,74 @@ public class DetailResult implements Serializable {
         private String ProductDescription;
         private double MinSalePrice;
         private boolean IsFavorite;
+        private boolean IsInstall;
         private int Consultations;
         private int CommentCount;
         private int NicePercent;
         private boolean IsOnLimitBuy;
         private List<String> ImagePath;
+        private String BrandId;
+        private String BrandName;
+        private String CategoryId;
+        private String CategoryName;
+        private String ParentCategoryId;
+        private String ParentCategoryName;
+
+        public boolean isInstall() {
+            return IsInstall;
+        }
+
+        public void setInstall(boolean install) {
+            IsInstall = install;
+        }
+
+        public String getBrandId() {
+            return BrandId;
+        }
+
+        public void setBrandId(String brandId) {
+            BrandId = brandId;
+        }
+
+        public String getBrandName() {
+            return BrandName;
+        }
+
+        public void setBrandName(String brandName) {
+            BrandName = brandName;
+        }
+
+        public String getCategoryId() {
+            return CategoryId;
+        }
+
+        public void setCategoryId(String categoryId) {
+            CategoryId = categoryId;
+        }
+
+        public String getCategoryName() {
+            return CategoryName;
+        }
+
+        public void setCategoryName(String categoryName) {
+            CategoryName = categoryName;
+        }
+
+        public String getParentCategoryId() {
+            return ParentCategoryId;
+        }
+
+        public void setParentCategoryId(String parentCategoryId) {
+            ParentCategoryId = parentCategoryId;
+        }
+
+        public String getParentCategoryName() {
+            return ParentCategoryName;
+        }
+
+        public void setParentCategoryName(String parentCategoryName) {
+            ParentCategoryName = parentCategoryName;
+        }
 
         public int getProductId() {
             return ProductId;

@@ -54,7 +54,7 @@ public class SearchModel implements SearchContract.Model {
     @Override
     public Observable<String> GetSearchFilter(String keywords, String cid, String a_id, String b_id, String userkey) {
         map = new HashMap<>();
-        map.put("keywords",keywords);
+        map.put("keyword",keywords);
         map.put("cid",cid);
         map.put("a_id",a_id);
         map.put("b_id",b_id);

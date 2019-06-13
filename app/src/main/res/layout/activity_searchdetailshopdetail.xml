@@ -20,164 +20,165 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/ll_serach"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/dp_4"
-        android:scaleType="fitXY"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        android:background="@drawable/mine_bg_shape">
-
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_margin="@dimen/dp_10"
-            android:src="@drawable/black_left" />
-
-        <LinearLayout
-            android:id="@+id/ll_bg_serach"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/white_shape"
-            >
-
             <LinearLayout
-                android:id="@+id/ll_serach_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
+                android:id="@+id/ll_serach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:background="@drawable/shape_bg_search"
-                android:padding="3dp"
-                android:layout_marginLeft="3dp"
-                >
-                <TextView
-                    android:id="@+id/tv_search_txt"
+                android:padding="@dimen/dp_4"
+                android:scaleType="fitXY"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:background="@drawable/mine_bg_shape">
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_margin="@dimen/dp_10"
+                    android:src="@drawable/back" />
+
+                <LinearLayout
+                    android:id="@+id/ll_bg_serach"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_shape"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/ll_serach_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:background="@drawable/shape_bg_search"
+                        android:padding="3dp"
+                        android:layout_marginLeft="3dp"
+                        >
+                        <TextView
+                            android:id="@+id/tv_search_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:textSize="14sp"
+                            android:text="官方自营店"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:textSize="14sp"
-                    android:text="官方自营店"
-                    />
-
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_sort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="分类"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                </LinearLayout>
             </LinearLayout>
 
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/tv_sort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="分类"
-                android:textSize="13sp" />
-        </LinearLayout>
-    </LinearLayout>
 
 
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/ll_synthesis"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="综合"
-                android:textColor="@drawable/search_detail_text"
-                android:gravity="center"
-                android:textSize="13sp"
-
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_price"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
+                android:layout_height="40dp"
+                android:background="@color/white"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textColor="@drawable/search_detail_text"
-                    android:text="价格"
-                    android:textSize="13sp"
-                    />
-                <ImageView
-                    android:id="@+id/img_price_up_down"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@mipmap/icon_up_down"
-                    android:layout_marginLeft="2dp"/>
-            </LinearLayout>
 
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_salesnum"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="销量"
-                android:textColor="@drawable/search_detail_text"
-                android:gravity="center"
-                android:textSize="13sp"
-                />
-        </LinearLayout>
-    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_synthesis"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="综合"
+                        android:textColor="@drawable/search_detail_text"
+                        android:gravity="center"
+                        android:textSize="13sp"
+
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_price"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textColor="@drawable/search_detail_text"
+                            android:text="价格"
+                            android:textSize="13sp"
+                            />
+                        <ImageView
+                            android:id="@+id/img_price_up_down"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@mipmap/icon_up_down"
+                            android:layout_marginLeft="2dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_salesnum"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="销量"
+                        android:textColor="@drawable/search_detail_text"
+                        android:gravity="center"
+                        android:textSize="13sp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
 
         <LinearLayout
- android:layout_width="match_parent"
- android:layout_height="match_parent"
- app:layout_behavior="@string/appbar_scrolling_view_behavior"
- android:orientation="vertical">
-<com.scwang.smartrefresh.layout.SmartRefreshLayout
-    android:id="@+id/smartrefresh"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:srlHeaderHeight="0dp"
-    >
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rv"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:orientation="vertical">
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/smartrefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srlHeaderHeight="0dp"
+                >
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
 
-    >
-</androidx.recyclerview.widget.RecyclerView>
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
-</LinearLayout>
+                    >
+                </androidx.recyclerview.widget.RecyclerView>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

@@ -61,6 +61,7 @@ public class SearchShopPreDetailActivity extends BaseActivity<SearchPresenter, S
 
     @Override
     protected void setListener() {
+        mIvBack.setOnClickListener(this);
         mLlSerach.setOnClickListener(this);
     }
 
@@ -74,6 +75,9 @@ public class SearchShopPreDetailActivity extends BaseActivity<SearchPresenter, S
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.iv_back:
+                finish();
+                break;
             case R.id.ll_serach:
                 String content=mEtSearch.getText().toString();
                 if ("".equals(content)||content==null){

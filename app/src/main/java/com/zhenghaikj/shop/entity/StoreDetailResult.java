@@ -91,7 +91,7 @@ public class StoreDetailResult implements Serializable {
          * FollowUrl :
          */
 
-        private int Id;
+        private String Id;
         private String Logo;
         private String Name;
         private int ShopId;
@@ -99,11 +99,11 @@ public class StoreDetailResult implements Serializable {
         private int State;
         private String FollowUrl;
 
-        public int getId() {
+        public String getId() {
             return Id;
         }
 
-        public void setId(int Id) {
+        public void setId(String Id) {
             this.Id = Id;
         }
 

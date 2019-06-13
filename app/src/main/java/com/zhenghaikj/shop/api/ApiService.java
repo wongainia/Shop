@@ -1134,7 +1134,7 @@ public interface ApiService {
 
     @GET("api/search/GetSearchFilter")
     Observable<String> GetSearchFilter(
-            @Query("keywords") String keywords,
+            @Query("keyword") String keywords,
             @Query("cid") String cid,
             @Query("a_id") String a_id,
             @Query("b_id") String b_id,

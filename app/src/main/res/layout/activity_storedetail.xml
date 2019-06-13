@@ -12,13 +12,13 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar1"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
         android:background="@color/white" >
         <ImageView
             android:id="@+id/icon_back"
             android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:paddingTop="10dp"
+            android:layout_height="25dp"
             android:paddingRight="30dp"
             android:src="@drawable/fanhui"/>
         <TextView
@@ -26,13 +26,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="标题"
-            android:visibility="invisible"
             android:gravity="center"
             android:layout_gravity="center"
             android:singleLine="true"
             android:ellipsize="end"
             android:textSize="18sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/black"/>
         <TextView
             android:id="@+id/tv_save"
             android:layout_width="wrap_content"
@@ -50,36 +49,33 @@
         <ImageView
             android:id="@+id/icon_search"
             android:layout_width="50dp"
-            android:layout_height="32dp"
-            android:paddingTop="10dp"
+            android:layout_height="25dp"
             android:paddingRight="15dp"
             android:layout_gravity="right"
             android:src="@mipmap/sousuo"/>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cdl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbarlayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:elevation="0dp">
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/ll_toolbar"
                 android:orientation="vertical"
-                app:layout_scrollFlags="scroll">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="72dp"
-                    android:background="@color/white"
-                    android:layout_marginBottom="10dp">
+                    android:background="@color/white">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -244,72 +240,19 @@
                     </LinearLayout>
 
                 </androidx.appcompat.widget.Toolbar>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:visibility="gone"
-                    android:background="#DCDCDC"/>
-            </LinearLayout>
-            <com.zhenghaikj.shop.widget.RatioLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:ratios="2.6">
-
-                <com.youth.banner.Banner
-                    android:id="@+id/banner"
+                <com.zhenghaikj.shop.widget.RatioLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:image_scale_type="fit_xy"
-                    app:indicator_margin="5dp"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed" />
-            </com.zhenghaikj.shop.widget.RatioLayout>
-            <!--    <ImageView
-                    android:layout_width="match_parent"
-                    android:src="@mipmap/ic_launcher"
-                    android:scaleType="fitXY"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    android:layout_height="200dp" />-->
-
-            <RelativeLayout
-                android:id="@+id/rl_shop"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/mine_bg_shape"
-                android:scaleType="fitXY"
-                android:visibility="gone"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/img_shop"-->
-                    <!--android:layout_width="40dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginLeft="10dp" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_name"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:layout_toRightOf="@+id/img_shop"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:textSize="16sp" />-->
-
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_attention"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:text="关注"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:textSize="16sp"-->
-                    <!--android:visibility="gone" />-->
-            </RelativeLayout>
+                    android:background="@color/white"
+                    app:ratios="2.6">
+                    <com.youth.banner.Banner
+                        android:id="@+id/banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:image_scale_type="fit_xy"
+                        app:indicator_margin="5dp"/>
+                </com.zhenghaikj.shop.widget.RatioLayout>
+            </LinearLayout>
 
             <com.flyco.tablayout.SlidingTabLayout
                 android:id="@+id/tab_receiving_layout"
@@ -334,8 +277,6 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/appbar"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"></androidx.viewpager.widget.ViewPager>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    <!--</com.zhenghaikj.shop.widget.StickyNavLayout>-->
 </LinearLayout>

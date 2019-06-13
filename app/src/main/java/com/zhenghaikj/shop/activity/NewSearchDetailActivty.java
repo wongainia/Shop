@@ -2,16 +2,15 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,10 +18,8 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.NewSearchDetailAdapetr;
-import com.zhenghaikj.shop.adapter.SearchDetailAdapetr;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.CategoryMall;
@@ -34,9 +31,6 @@ import com.zhenghaikj.shop.mvp.presenter.SearchPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -448,7 +442,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                 bool_price_up_down=true;//价格回到上升排序
 
 
-                mPresenter.GetSearchFilter("冰箱","0","0","0",UserKey);
+                mPresenter.GetSearchFilter("冰箱",null,null,null,UserKey);
                 break;
         }
 

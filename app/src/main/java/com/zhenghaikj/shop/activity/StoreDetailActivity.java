@@ -6,15 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.SPUtils;
@@ -42,7 +40,6 @@ import com.zhenghaikj.shop.mvp.presenter.StoreDetailPresenter;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zhenghaikj.shop.widget.StickyNavLayout;
-import com.zhenghaikj.shop.widget.StickyNavLayout.OnLayoutScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,9 +71,6 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     ImageView mImgsort;
     @BindView(R.id.appbarlayout)
     AppBarLayout appbarlayout;
-
-    @BindView(R.id.rl_shop)
-    RelativeLayout rl_shop;
     @BindView(R.id.iv_attention)
     ImageView mIvAttention;
     @BindView(R.id.tv_share)
@@ -93,6 +87,18 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     Banner mBanner;
     @BindView(R.id.iv_close)
     ImageView mIvClose;
+    @BindView(R.id.tv_title)
+    TextView mTvTitle;
+    @BindView(R.id.tv_save)
+    TextView mTvSave;
+    @BindView(R.id.icon_search)
+    ImageView mIconSearch;
+    @BindView(R.id.toolbar1)
+    Toolbar mToolbar1;
+    @BindView(R.id.ll_share)
+    LinearLayout mLlShare;
+    @BindView(R.id.cdl)
+    CoordinatorLayout mCdl;
 
     private String Userkey;
     private String VShopId;
@@ -106,6 +112,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     };
     private MyPagerAdapter mAdapter;
     private String userName;
+    private String shopid;
 
     //用来记录内层固定布局到屏幕顶部的距离
 
@@ -154,13 +161,21 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
         mImgsort.setOnClickListener(this);
         mLlAttention.setOnClickListener(this);
         mIvClose.setOnClickListener(this);
+        mIconBack.setOnClickListener(this);
+        mIconSearch.setOnClickListener(this);
 
 
         appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-                Log.d("======>appbar", String.valueOf(i));
-
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                Log.d("======>appbar", String.valueOf(verticalOffset));
+                if (verticalOffset == 0) {
+                    mTvTitle.setVisibility(View.GONE);
+//                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+//                    mTvTitle.setVisibility(View.VISIBLE);
+                } else {
+                    mTvTitle.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -180,11 +195,12 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
         if ("True".equals(result.getSuccess())) {
             storeDetailResult = result;
-
+            shopid =result.getVShop().getId();
             Glide.with(mActivity).load(result.getVShop().getLogo())
                     .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
                     .into(mImgShop);
             mTvName.setText(result.getVShop().getName());
+            mTvTitle.setText(result.getVShop().getName());
             if (result.getVShop().isFavorite()) {
                 mTvAttention.setText("已关注");
                 mIvAttention.setVisibility(View.GONE);
@@ -262,6 +278,13 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
             case R.id.img_sort:
                 mViewpager.setCurrentItem(2);
                 break;
+            case R.id.icon_search:
+                Intent intent=new Intent(mActivity,SearchShopPreDetailActivity.class);
+                intent.putExtra("shopid", shopid);
+                startActivity(intent);
+                startActivity(intent);
+                break;
+            case R.id.icon_back:
             case R.id.iv_close:
                 finish();
                 break;
@@ -270,7 +293,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     }
 
 
-    private class MyPagerAdapter extends FragmentPagerAdapter implements StickyNavLayout.OnLayoutScrollListener{
+    private class MyPagerAdapter extends FragmentPagerAdapter implements StickyNavLayout.OnLayoutScrollListener {
 
         private boolean isShowTop;
 
@@ -299,15 +322,6 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
             //获取当前显示的Fragment
             mViewpager.getCurrentItem();
         }
-    }
-
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-        height = rl_shop.getMeasuredHeight();
-        Log.d("======>height", String.valueOf(rl_shop.getMeasuredHeight()));
     }
 
 

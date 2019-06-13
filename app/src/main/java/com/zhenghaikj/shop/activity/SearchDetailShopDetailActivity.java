@@ -148,6 +148,7 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
 
     @Override
     protected void setListener() {
+        mIvBack.setOnClickListener(this);
         mLlBgSerach.setOnClickListener(this);
         mLlSynthesis.setOnClickListener(this);
         mLlPrice.setOnClickListener(this);
@@ -251,6 +252,9 @@ public class SearchDetailShopDetailActivity extends BaseActivity<SearchDetailSho
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.iv_back:
+                finish();
+                break;
             case R.id.ll_bg_serach:
                 Intent intent=new Intent(mActivity,SearchShopPreDetailActivity.class);
                 intent.putExtra("shopid",shopid);
