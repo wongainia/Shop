@@ -13,31 +13,47 @@ public interface SearchContract {
         Observable<SearchResult> GetSearchProducts(
                 String keywords,
                 String cid,
-                String b_id,
                 String a_id,
+                String b_id,
                 String orderKey,
                 String orderType,
                 String pageNo,
                 String pageSize,
                 String sid
         );
+
+        Observable<String> GetSearchFilter(String keywords,
+                                           String cid,
+                                           String a_id,
+                                           String b_id,
+                                           String userkey);
+
+
     }
 
     interface View extends BaseView {
         void GetSearchProducts(SearchResult Result);
+        void GetSearchFilter(String Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetSearchProducts(
                 String keywords,
                 String cid,
-                String b_id,
                 String a_id,
+                String b_id,
                 String orderKey,
                 String orderType,
                 String pageNo,
                 String pageSize,
                 String sid
         );
+
+        public abstract void GetSearchFilter(String keywords,
+                                             String cid,
+                                             String a_id,
+                                             String b_id,
+                                             String userkey);
+
     }
 }

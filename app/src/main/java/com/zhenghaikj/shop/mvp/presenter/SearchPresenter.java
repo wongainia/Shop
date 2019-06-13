@@ -24,4 +24,15 @@ public class SearchPresenter extends SearchContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void GetSearchFilter(String keywords, String cid, String a_id, String b_id, String userkey) {
+        mModel.GetSearchFilter(keywords,cid,a_id,b_id,userkey)
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onHandleSuccess(String value) {
+                        mView.GetSearchFilter(value);
+                    }
+                });
+    }
 }

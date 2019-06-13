@@ -324,6 +324,12 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
             }
         }
     }
+
+    @Override
+    public void GetSearchFilter(String Result) {
+
+    }
+
     public void clear() {
         pagaNo = 1;
         searchDatailList.clear();

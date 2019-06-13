@@ -94,4 +94,9 @@ public class SearchShopPreDetailActivity extends BaseActivity<SearchPresenter, S
     public void GetSearchProducts(SearchResult Result) {
 
     }
+
+    @Override
+    public void GetSearchFilter(String Result) {
+
+    }
 }

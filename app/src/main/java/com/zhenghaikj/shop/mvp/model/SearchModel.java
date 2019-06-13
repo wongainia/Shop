@@ -42,7 +42,6 @@ public class SearchModel implements SearchContract.Model {
         map.put("pageno",pageNo);
         map.put("pagesize",pageSize);
         map.put("sid",sid);
-        
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp",timestamp);
@@ -51,4 +50,22 @@ public class SearchModel implements SearchContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<String> GetSearchFilter(String keywords, String cid, String a_id, String b_id, String userkey) {
+        map = new HashMap<>();
+        map.put("keywords",keywords);
+        map.put("cid",cid);
+        map.put("a_id",a_id);
+        map.put("b_id",b_id);
+        map.put("userkey",userkey);
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetSearchFilter(keywords,cid,a_id,b_id,userkey,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+
 }

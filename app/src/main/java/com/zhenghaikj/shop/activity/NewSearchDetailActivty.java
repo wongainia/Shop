@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -86,6 +87,10 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     private String orderType="1";//排序方式 1.升序 2.降序
     private int pagaNo = 1;
     private String serach_content; //输入框中的内容
+
+    private String UserKey;
+    private SPUtils spUtils;
+
    // private SearchDetailAdapetr searchDetailAdapetr;
     private NewSearchDetailAdapetr newSearchDetailAdapetr;
     private boolean bool_price_up_down=true; //true为上  false为下
@@ -112,6 +117,11 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
     @Override
     protected void initData() {
+        spUtils=SPUtils.getInstance("token");
+        UserKey=spUtils.getString("UserKey");
+
+
+
         mLlSynthesis.setSelected(true);//默认选择综合
         serachtype=SerachType.SYNTHESIS;
          serach_content=getIntent().getStringExtra("search");
@@ -369,6 +379,11 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     }
 
     @Override
+    public void GetSearchFilter(String Result) {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
@@ -431,6 +446,9 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                 mLlSifting.setSelected(true);
                 mImg_price_up_down.setImageDrawable(ContextCompat.getDrawable(mActivity,R.mipmap.icon_up_down));
                 bool_price_up_down=true;//价格回到上升排序
+
+
+                mPresenter.GetSearchFilter("冰箱","0","0","0",UserKey);
                 break;
         }
 
