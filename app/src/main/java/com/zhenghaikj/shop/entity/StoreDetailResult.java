@@ -98,6 +98,15 @@ public class StoreDetailResult implements Serializable {
         private boolean Favorite;
         private int State;
         private String FollowUrl;
+        private String ShareUrl;
+
+        public String getShareUrl() {
+            return ShareUrl;
+        }
+
+        public void setShareUrl(String shareUrl) {
+            ShareUrl = shareUrl;
+        }
 
         public String getId() {
             return Id;

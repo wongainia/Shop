@@ -1,5 +1,7 @@
 package com.zhenghaikj.shop.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -45,6 +47,15 @@ import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -67,6 +78,7 @@ import com.zhenghaikj.shop.entity.ShopColor;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopSize;
 import com.zhenghaikj.shop.entity.ShopVersion;
+import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
 import com.zhenghaikj.shop.mvp.model.DetailModel;
 import com.zhenghaikj.shop.mvp.presenter.DetailPresenter;
@@ -91,6 +103,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.iwgang.countdownview.CountdownView;
+import io.reactivex.functions.Consumer;
 
 
 public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailModel> implements View.OnClickListener, DetailContract.View {
@@ -302,6 +315,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private LinearLayout ll_sevendaynoreasonreturn;
     private LinearLayout ll_timelyship;
     private List<ShopCoupResult.CouponBean> couplist = new ArrayList<>();
+    private MineFragment.CustomShareListener mShareListener;
+    private ShareAction mShareAction;
 
 
     @Override
@@ -347,6 +362,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 mRefreshLayout.finishRefresh(1000);
             }
         });
+        UMShareConfig config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+        UMShareAPI.get(mActivity).setShareConfig(config);
+        mShareListener = new MineFragment.CustomShareListener(mActivity);
+
     }
 
 
@@ -436,6 +456,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mLlShop.setOnClickListener(this);
         mLlCollect.setOnClickListener(this);
         mTvAddcart.setOnClickListener(this);
+        mLlHeadShare.setOnClickListener(this);
         mTvBuy.setOnClickListener(this);
         mTvLimitBuy.setOnClickListener(this);
 //        mLlEvaluation.setOnClickListener(this);
@@ -497,6 +518,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_head_share:
+                mShareAction.open();
+                break;
             case R.id.ll_specification:
                 mPresenter.GetShopCouponList(Integer.toString(result.getShop().getId()));
                 break;
@@ -1077,6 +1101,49 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mTvSellerServiceScore.setText(result.getShop().getServiceMark() + "");
             mTvBabyDescriptionScore.setText(result.getShop().getProductMark() + "");
             mTvLogisticsServicesScore.setText(result.getShop().getPackMark() + "");
+
+            /*增加自定义按钮的分享面板*/
+            mShareAction = new ShareAction((Activity) mActivity).setDisplayList(
+                    SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                    SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.MORE)
+                    .addButton("复制文本", "复制文本", "umeng_socialize_copy", "umeng_socialize_copy")
+                    .addButton("复制链接", "复制链接", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+                    .setShareboardclickCallback(new ShareBoardlistener() {
+                        @Override
+                        public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                            if (snsPlatform.mShowWord.equals("复制文本")) {
+                                Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+                            } else if (snsPlatform.mShowWord.equals("复制链接")) {
+                                Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+
+                            } else {
+                                RxPermissions rxPermissions = new RxPermissions((Activity) mActivity);
+                                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                        .subscribe(new Consumer<Boolean>() {
+                                            @Override
+                                            public void accept(Boolean aBoolean) throws Exception {
+                                                if (aBoolean) {
+                                                    // 获取全部权限成功
+
+                                                    UMWeb web = new UMWeb("http://mall.xigyu.com/product/detail/"+result.getProduct().getProductId());
+                                                    web.setTitle(result.getProduct().getProductName());
+                                                    web.setDescription(result.getProduct().getProductName());
+                                                    web.setThumb(new UMImage(mActivity, result.getProduct().getImagePath().get(0)));
+                                                    new ShareAction((Activity) mActivity).withMedia(web)
+                                                            .setPlatform(share_media)
+                                                            .setCallback(mShareListener)
+                                                            .share();
+                                                } else {
+                                                    // 获取全部权限失败
+                                                    ToastUtils.showShort("权限获取失败");
+                                                }
+                                            }
+                                        });
+
+                            }
+                        }
+                    });
+
             mPresenter.ProductComment(id, String.valueOf(1), "10", "0");
         } else {
             mStateLayout.changeState(StateFrameLayout.EMPTY);

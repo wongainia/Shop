@@ -1,5 +1,7 @@
 package com.zhenghaikj.shop.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -16,11 +19,21 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.gyf.barlibrary.ImmersionBar;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
@@ -31,6 +44,7 @@ import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
+import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.fragment.StoreDetailGoodsFragment;
 import com.zhenghaikj.shop.fragment.StoreDetailHomeFragment;
 import com.zhenghaikj.shop.fragment.StoreDetailSortFragment;
@@ -46,6 +60,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.functions.Consumer;
 
 public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, StoreDetailModel> implements StoreDetailContract.View, View.OnClickListener {
 
@@ -113,6 +128,8 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     private MyPagerAdapter mAdapter;
     private String userName;
     private String shopid;
+    private MineFragment.CustomShareListener mShareListener;
+    private ShareAction mShareAction;
 
     //用来记录内层固定布局到屏幕顶部的距离
 
@@ -138,6 +155,10 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
         VShopId = getIntent().getStringExtra("VShopId");
         mPresenter.GetVShop(VShopId, Userkey);
 
+        UMShareConfig config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+        UMShareAPI.get(mActivity).setShareConfig(config);
+        mShareListener = new MineFragment.CustomShareListener(mActivity);
 
     }
 
@@ -163,6 +184,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
         mIvClose.setOnClickListener(this);
         mIconBack.setOnClickListener(this);
         mIconSearch.setOnClickListener(this);
+        mLlShare.setOnClickListener(this);
 
 
         appbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -224,6 +246,48 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
                 mBanner.setDelayTime(5000);
                 mBanner.start();
             }
+
+            /*增加自定义按钮的分享面板*/
+            mShareAction = new ShareAction((Activity) mActivity).setDisplayList(
+                    SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                    SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.MORE)
+                    .addButton("复制文本", "复制文本", "umeng_socialize_copy", "umeng_socialize_copy")
+                    .addButton("复制链接", "复制链接", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+                    .setShareboardclickCallback(new ShareBoardlistener() {
+                        @Override
+                        public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                            if (snsPlatform.mShowWord.equals("复制文本")) {
+                                Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+                            } else if (snsPlatform.mShowWord.equals("复制链接")) {
+                                Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+
+                            } else {
+                                RxPermissions rxPermissions = new RxPermissions((Activity) mActivity);
+                                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                        .subscribe(new Consumer<Boolean>() {
+                                            @Override
+                                            public void accept(Boolean aBoolean) throws Exception {
+                                                if (aBoolean) {
+                                                    // 获取全部权限成功
+
+                                                    UMWeb web = new UMWeb(storeDetailResult.getVShop().getShareUrl());
+                                                    web.setTitle("西瓜鱼");
+                                                    web.setDescription(storeDetailResult.getVShop().getName());
+                                                    web.setThumb(new UMImage(mActivity, R.drawable.shop));
+                                                    new ShareAction((Activity) mActivity).withMedia(web)
+                                                            .setPlatform(share_media)
+                                                            .setCallback(mShareListener)
+                                                            .share();
+                                                } else {
+                                                    // 获取全部权限失败
+                                                    ToastUtils.showShort("权限获取失败");
+                                                }
+                                            }
+                                        });
+
+                            }
+                        }
+                    });
         }
 
     }
@@ -271,6 +335,9 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_share:
+                mShareAction.open();
+                break;
             case R.id.ll_attention:
             case R.id.tv_attention:
                 mPresenter.PostAddFavoriteShop(String.valueOf(storeDetailResult.getVShop().getShopId()), Userkey);
