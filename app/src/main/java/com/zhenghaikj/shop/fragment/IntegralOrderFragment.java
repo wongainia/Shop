@@ -137,6 +137,8 @@ public class IntegralOrderFragment extends BaseLazyFragment<IntegralOrderPresent
                 giftOrderList.clear();
                 pagaNo = 1;
                 getData(mParam1);
+                mRefreshLayout.finishRefresh(1000);
+
             }
         });
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -192,7 +194,6 @@ public class IntegralOrderFragment extends BaseLazyFragment<IntegralOrderPresent
             giftOrderList.addAll(Result.getModels());
             orderListAdapter.setNewData(giftOrderList);
         }
-        mRefreshLayout.finishRefresh();
         if (pagaNo != 1 && Result.getModels().size()==0) {
             mRefreshLayout.finishLoadMoreWithNoMoreData();
         } else {

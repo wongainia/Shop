@@ -1,10 +1,13 @@
 package com.zhenghaikj.shop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.tencent.bugly.beta.Beta;
@@ -12,7 +15,9 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.utils.MyUtils;
 
-import androidx.appcompat.widget.Toolbar;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -43,6 +48,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     TextView mTvCompanyEnglish;
     @BindView(R.id.tv_version)
     TextView mTvVersion;
+    private Intent intent;
 
     @Override
     protected int setLayoutId() {
@@ -74,6 +80,8 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mLlCheckForUpdates.setOnClickListener(this);
+        mLlUsingHelp.setOnClickListener(this);
+        mLlPrivacyPolicy.setOnClickListener(this);
     }
 
     @Override
@@ -83,16 +91,34 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.ll_check_for_updates:
-                Beta.checkUpgrade();
+                Beta.checkUpgrade(false,false);
+                break;
+            case R.id.ll_using_help:
+                intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
+                intent.putExtra("Title","使用帮助");
+                startActivity(intent);
+                break;
+            case R.id.ll_privacy_policy:
+                intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
+                intent.putExtra("Title","隐私政策");
+                startActivity(intent);
                 break;
 
         }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
+        if ("update".equals(name)){
+            MyUtils.showToast(mActivity, "已是最新版本！");
+        }
     }
 }

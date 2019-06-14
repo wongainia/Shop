@@ -17,6 +17,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
@@ -50,9 +54,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -173,7 +174,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 mPresenter.GetCartProduct(Userkey);
-                smartRefreshLayout.finishRefresh();
+                smartRefreshLayout.finishRefresh(1000);
 
 
             }

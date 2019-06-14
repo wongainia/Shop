@@ -8,6 +8,9 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -30,8 +33,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class CommodityFragment extends BaseLazyFragment<CollectionProductPresenter, CollectionProductModel> implements CollectionProductContract.View {
@@ -129,7 +130,7 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
                 commodityList.clear();
                 mPresenter.GetUserCollectionProduct(Integer.toString(pagaNo),"10",userKey);
                 commodityAdapter.notifyDataSetChanged();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(1000);
                 mRefreshLayout.setNoMoreData(false);
             }
         });

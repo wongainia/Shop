@@ -9,26 +9,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
-import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.UserInfo;
-import com.zhenghaikj.shop.mvp.contract.ChagePasswordContract;
 import com.zhenghaikj.shop.mvp.contract.ChangePayPasswordContract;
 import com.zhenghaikj.shop.mvp.model.ChangePayPasswordModel;
 import com.zhenghaikj.shop.mvp.presenter.ChangePayPasswordPresenter;
 import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -40,7 +37,7 @@ public class SettingPayPasswordActivity extends BaseActivity<ChangePayPasswordPr
     private String userkey;
     private String userName;
     private SPUtils spUtils = SPUtils.getInstance("token");
-    private int Type;  //1设置 2重置
+    private int Type;  //1设置 2修改
 
     private String paypassword; //支付密码
 
@@ -202,7 +199,7 @@ public class SettingPayPasswordActivity extends BaseActivity<ChangePayPasswordPr
                       mTvprompt.setText("请输入六位密码");
                     }else {
                       paypassword=baseResult.getData().getData().get(0).getPayPassWord();
-                      mTvTitle.setText("重置支付密码");
+                      mTvTitle.setText("修改支付密码");
                       mTvTitle.setVisibility(View.VISIBLE);
                       Type=2;
                       mTvprompt.setText("请输入旧支付密码");

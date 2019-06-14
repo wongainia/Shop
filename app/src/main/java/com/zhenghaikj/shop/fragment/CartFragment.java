@@ -177,7 +177,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 mPresenter.GetCartProduct(Userkey);
-                smartRefreshLayout.finishRefresh();
+                smartRefreshLayout.finishRefresh(1000);
 
 
             }

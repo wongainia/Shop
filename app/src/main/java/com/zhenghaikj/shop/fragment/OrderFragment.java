@@ -253,6 +253,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 cartList.clear();
                 pagaNo = 1;
                 getData(mParam1);
+                mRefreshLayout.finishRefresh(1000);
             }
         });
 
@@ -312,7 +313,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 cartList.addAll(result.getOrders());
                 orderListAdapter.setNewData(cartList);
             }
-            mRefreshLayout.finishRefresh();
             if (pagaNo != 1 && result.getOrders().size()==0) {
                 mRefreshLayout.finishLoadMoreWithNoMoreData();
             } else {

@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
@@ -24,9 +28,6 @@ import com.zhenghaikj.shop.mvp.presenter.CollectionShopPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -87,7 +88,7 @@ public class StoreActivity extends BaseActivity<CollectionShopPresenter, Collect
                 storeList.clear();
                 mPresenter.GetUserCollectionShop(Integer.toString(pageNo), "10", userKey);
                 storeAdapter.notifyDataSetChanged();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(1000);
                 mRefreshLayout.setNoMoreData(false);
             }
         });

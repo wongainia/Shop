@@ -1,12 +1,13 @@
 package com.zhenghaikj.shop;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
+
 import com.blankj.utilcode.util.Utils;
-import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -21,15 +22,18 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.beta.UpgradeInfo;
+import com.tencent.bugly.beta.download.DownloadListener;
+import com.tencent.bugly.beta.download.DownloadTask;
+import com.tencent.bugly.beta.upgrade.UpgradeListener;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-import androidx.multidex.MultiDex;
-import androidx.multidex.MultiDexApplication;
 
 /**
  * 描述：
@@ -108,6 +112,34 @@ public class MyApplication extends MultiDexApplication {
 
         // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true
+        Beta.enableNotification = true;
+        Beta.upgradeListener=new UpgradeListener() {
+            @Override
+            public void onUpgrade(int ret, UpgradeInfo upgradeInfo, boolean b, boolean b1) {
+                if (upgradeInfo != null) {
+                    Beta.showUpgradeDialog(
+                            upgradeInfo.title,
+                            upgradeInfo.upgradeType,
+                            upgradeInfo.newFeature,
+                            upgradeInfo.publishTime,
+                            upgradeInfo.versionCode,
+                            upgradeInfo.versionCode,
+                            upgradeInfo.versionName,
+                            upgradeInfo.apkUrl,
+                            upgradeInfo.fileSize,
+                            upgradeInfo.apkMd5,
+                            upgradeInfo.imageUrl,
+                            0,
+                            listener,
+                            null,
+                            null,
+                            b
+                    );
+                } else {
+                    EventBus.getDefault().post("update");
+                }
+            }
+        };
         Bugly.init(this, "52f54c7015", true);
 
         UMConfigure.init(this,"5ce64a753fc195674900125f"
@@ -163,4 +195,20 @@ public class MyApplication extends MultiDexApplication {
         // 安装tinker
         Beta.installTinker();
     }
+    DownloadListener listener=new DownloadListener() {
+        @Override
+        public void onReceive(DownloadTask downloadTask) {
+
+        }
+
+        @Override
+        public void onCompleted(DownloadTask downloadTask) {
+
+        }
+
+        @Override
+        public void onFailed(DownloadTask downloadTask, int i, String s) {
+
+        }
+    };
 }

@@ -5,6 +5,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
@@ -31,10 +36,6 @@ import com.zhenghaikj.shop.mvp.presenter.OrderPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -119,6 +120,8 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
                 cartList.clear();
                 pageIndex = 1;
                 mPresenter.GetOrders("0", Integer.toString(pageIndex), "10", userKey);
+                mRefreshLayout.finishRefresh(1000);
+
             }
         });
 
@@ -162,7 +165,6 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
                 cartList.addAll(result.getOrders());
                 orderListAdapter.setNewData(cartList);
             }
-            mRefreshLayout.finishRefresh();
             if (pageIndex != 1 && result.getOrders().size()==0) {
                 mRefreshLayout.finishLoadMoreWithNoMoreData();
             } else {

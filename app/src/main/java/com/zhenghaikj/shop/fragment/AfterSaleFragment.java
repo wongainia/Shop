@@ -3,22 +3,20 @@ package com.zhenghaikj.shop.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AfterSaleDetailActivity;
-import com.zhenghaikj.shop.activity.AfterSalesTypeActivity;
 import com.zhenghaikj.shop.adapter.ReturnGoodsAdapter;
-import com.zhenghaikj.shop.adapter.SaleAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
-import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.mvp.contract.AfterSaleContract;
 import com.zhenghaikj.shop.mvp.model.AfterSaleModel;
@@ -30,9 +28,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /*退货退款的fragment*/
@@ -127,7 +122,7 @@ public class AfterSaleFragment extends BaseLazyFragment<AfterSalePresenter, Afte
             public void onRefresh(RefreshLayout refreshLayout) {
                 pagaNo=1;
                 mPresenter.GetRefundList(String.valueOf(pagaNo),"999",userKey);
-                smartrefresh.finishRefresh();
+                smartrefresh.finishRefresh(1000);
             }
         });
       smartrefresh.setEnableLoadMoreWhenContentNotFull(false);

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -12,7 +15,7 @@ import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.activity.ShopHomeActivity;
+import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.adapter.StoreAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.CollectionShop;
@@ -26,8 +29,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class StoreFragment extends BaseLazyFragment<CollectionShopPresenter, CollectionShopModel> implements CollectionShopContract.View {
@@ -83,7 +84,10 @@ public class StoreFragment extends BaseLazyFragment<CollectionShopPresenter, Col
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.ll_store:
-                        startActivity(new Intent(mActivity, ShopHomeActivity.class));
+                        Intent intent=new Intent(mActivity, StoreDetailActivity.class);
+                        intent.putExtra("VShopId",((CollectionShop.DataBean)adapter.getItem(position)).getId());
+
+                        startActivity(intent);
                         break;
                 }
             }
@@ -100,7 +104,7 @@ public class StoreFragment extends BaseLazyFragment<CollectionShopPresenter, Col
                 storeList.clear();
                 mPresenter.GetUserCollectionShop(Integer.toString(pageNo), "10", userKey);
                 storeAdapter.notifyDataSetChanged();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(1000);
                 mRefreshLayout.setNoMoreData(false);
             }
         });

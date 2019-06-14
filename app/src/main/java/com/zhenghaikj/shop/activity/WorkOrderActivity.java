@@ -154,7 +154,7 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
                         String orderId = workOrderList.get(position).getOrderID();
                         mPresenter.UpdateOrderState(orderId, "-2");
                         workOrderList.clear();
-                        mRefreshLayout.finishRefresh();
+//                        mRefreshLayout.finishRefresh();
                         break;
                 }
             }
@@ -183,7 +183,7 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
                 workOrderList.clear();
 //                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
                 mPresenter.GetOrderByhmalluserid(UserID);
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(1000);
                 mRefreshLayout.setNoMoreData(false);
             }
         });
@@ -283,7 +283,6 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
                     mWorkOrderAdapter.setNewData(workOrderList);
 
                 }
-                mRefreshLayout.finishRefresh();
                 if (pageIndex!=1&&baseResult.getData().getItem2()==null){
                     mRefreshLayout.finishLoadMoreWithNoMoreData();
                 }else{

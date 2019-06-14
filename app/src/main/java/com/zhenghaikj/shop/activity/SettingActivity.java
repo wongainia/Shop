@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -30,7 +32,6 @@ import com.zhenghaikj.shop.widget.CircleImageView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -65,6 +66,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     LinearLayout mLlAboutUs;
     @BindView(R.id.btn_exit)
     Button mBtnExit;
+    @BindView(R.id.tv_set)
+    TextView mTvSet;
     @BindView(R.id.tv_member_name)
     TextView mTvMemberName;
     @BindView(R.id.ll_brand)
@@ -241,7 +244,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
                 }else{
                     mTvNickname.setText(Result.getData().getData().get(0).getNickName());
                 }
-
+                if ("".equals(Result.getData().getData().get(0).getPayPassWord())){
+                    mTvSet.setText("设置支付密码");
+                }else {
+                    mTvSet.setText("修改支付密码");
+                }
                 break;
         }
     }
