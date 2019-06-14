@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.tencent.xinge:xgmz:4.3.0-meizu-beta@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xgmz-4.3.0-meizu-beta.aar/ba95548dee8b0ba3cb893f8eb7ccbd67/jars/libs/XG4MZPush.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xgmz-4.3.0-meizu-beta.aar/ba95548dee8b0ba3cb893f8eb7ccbd67/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xgmz-4.3.0-meizu-beta.aar/ba95548dee8b0ba3cb893f8eb7ccbd67/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xgmz-4.3.0-meizu-beta.aar/a129c5df411aecf4c5cb22be78db7bf3/jars/libs/XG4MZPush.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xgmz-4.3.0-meizu-beta.aar/a129c5df411aecf4c5cb22be78db7bf3/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xgmz-4.3.0-meizu-beta.aar/a129c5df411aecf4c5cb22be78db7bf3/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

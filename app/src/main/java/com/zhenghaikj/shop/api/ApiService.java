@@ -3,6 +3,8 @@ package com.zhenghaikj.shop.api;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
+import com.zhenghaikj.shop.entity.Announcement;
+import com.zhenghaikj.shop.entity.AnnouncementDetail;
 import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.CategoryMall;
@@ -1139,6 +1141,30 @@ public interface ApiService {
             @Query("a_id") String a_id,
             @Query("b_id") String b_id,
             @Query("userkey") String userkey,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
+    /*
+    * 消息公告
+    * */
+    @GET("api/Article/GetList")
+    Observable<Announcement> GetList(
+            @Query("rows") String rows,
+            @Query("page") String page,
+            @Query("userkey") String userkey,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
+
+    /*
+    * 公告内容
+    * */
+    @GET("api/Article/GetDetails")
+    Observable<AnnouncementDetail> GetDetail(
+            @Query("id") String id,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign

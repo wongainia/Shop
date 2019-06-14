@@ -511,7 +511,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
                 break;
             case R.id.ll_mess:
-                startActivity(new Intent(mActivity, MessageActivity.class));
+                if ("".equals(userName)) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                } else {
+                    startActivity(new Intent(mActivity, MessageActivity.class));
+                }
+
                 break;
 
         }

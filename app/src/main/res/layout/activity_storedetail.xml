@@ -52,7 +52,7 @@
             android:layout_height="25dp"
             android:paddingRight="15dp"
             android:layout_gravity="right"
-            android:src="@mipmap/sousuo"/>
+            android:src="@drawable/suosou"/>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

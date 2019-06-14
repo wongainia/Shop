@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.vondear.RxTool:RxKit:v2.2.7@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxKit-v2.2.7.aar/83c6dd6180089eea2d96857cbde1cbed/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxKit-v2.2.7.aar/83c6dd6180089eea2d96857cbde1cbed/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxKit-v2.2.7.aar/6a4cf294e49a545a3d6e227cb1464785/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-RxKit-v2.2.7.aar/6a4cf294e49a545a3d6e227cb1464785/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

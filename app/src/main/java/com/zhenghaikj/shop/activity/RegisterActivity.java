@@ -251,7 +251,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void GetCode(SendMessage result) {
-
+        if (result.isSuccess()){
+            ToastUtils.showShort("验证码已发送");
+        }else {
+            ToastUtils.showShort(result.getMsg());
+        }
     }
 
     @Override

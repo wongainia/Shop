@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.tencent.xinge:mipush:4.3.0-xiaomi-beta@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mipush-4.3.0-xiaomi-beta.aar/5bc77465e2c90d9a149b5cb839fa70dc/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mipush-4.3.0-xiaomi-beta.aar/5bc77465e2c90d9a149b5cb839fa70dc/jars/libs/XG4XMPush.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mipush-4.3.0-xiaomi-beta.aar/5bc77465e2c90d9a149b5cb839fa70dc/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mipush-4.3.0-xiaomi-beta.aar/ee46be5b98c019d024e6b7438d70f419/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mipush-4.3.0-xiaomi-beta.aar/ee46be5b98c019d024e6b7438d70f419/jars/libs/XG4XMPush.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mipush-4.3.0-xiaomi-beta.aar/ee46be5b98c019d024e6b7438d70f419/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

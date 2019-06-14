@@ -9,17 +9,18 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#007fff" />
+        android:background="@color/white" />
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#007fff" />
+        android:background="@color/white"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#007fff"
+        android:background="@color/white"
         android:gravity="center"
         android:padding="10dp">
 
@@ -27,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="西瓜鱼商城"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -35,8 +36,8 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlPrimaryColor="#007fff"
-        app:srlAccentColor="@color/white"
+        app:srlPrimaryColor="@color/white"
+        app:srlAccentColor="@color/black"
         >
 
 
@@ -54,7 +55,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#007fff"
+                    android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingBottom="10dp">
 
@@ -64,7 +65,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:background="@drawable/white_bg_solid_shape"
+                        android:background="@drawable/search_edit_shape"
                         android:orientation="horizontal">
 
                         <ImageView

@@ -135,6 +135,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     private Intent intent;
     private UserInfo.UserInfoDean userInfo;
     private BottomSheetDialog bottomSheetDialog;
+    private ConfirmModel cmResult;
 
     @Override
     protected int setLayoutId() {
@@ -154,7 +155,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     protected void initData() {
         Userkey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
-        mPresenter.GetUserInfoList(userName,"1");
+//        mPresenter.GetUserInfoList(userName,"1");
         api = WXAPIFactory.createWXAPI(mActivity, "wx92928bf751e1628e");
         // 将该app注册到微信
         api.registerApp("wx92928bf751e1628e");
@@ -255,17 +256,8 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 break;
             case R.id.tv_submit:
                 //结算
-                if ("1".equals(extras.getString("TYPE"))) {//直接购买
-                    String skuId = list.get(0).getList().get(0).getSkuId();
-                    String count = list.get(0).getList().get(0).getCount();
-                    mPresenter.PostSubmitOrder(skuId,count,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),Userkey);
-                }else {
-                    String cartItemIds = extras.getString("cartItemIds");
+                mPresenter.GetUserInfoList(userName,"1");
 
-                     Log.d("====>优惠券",getcoupons(list)) ;
-                   mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),Userkey);
-
-                }
 
                 break;
         }
@@ -447,6 +439,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     /*立即购买提交*/
     @Override
     public void PostSubmitOrder(ConfirmModel result) {
+        cmResult =result;
         if (result.getSuccess().equals("true")){
 //            ConfirmOrderActivity.this.finish();
 //            Toast.makeText(mActivity,"提交成功待支付",Toast.LENGTH_SHORT).show();
@@ -455,7 +448,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 OrderId+=result.getOrderIds().get(i)+",";
             }
             OrderId=OrderId.substring(0,OrderId.lastIndexOf(","));
-            showPopupWindow(result);
+            showPopupWindow(cmResult);
         }else{
             Toast.makeText(mActivity,result.getMsg(),Toast.LENGTH_SHORT).show();
         }
@@ -463,7 +456,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
     @Override
     public void PostSubmitOrderByCart(ConfirmModel result) {
-
+        cmResult =result;
         if (result.getSuccess().equals("true")){
 //            ConfirmOrderActivity.this.finish();
             EventBus.getDefault().post("cart");
@@ -473,7 +466,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 OrderId+=result.getOrderIds().get(i)+",";
             }
             OrderId=OrderId.substring(0,OrderId.lastIndexOf(","));
-            showPopupWindow(result);
+            showPopupWindow(cmResult);
         }else {
             Toast.makeText(mActivity,result.getMsg(),Toast.LENGTH_SHORT).show();
         }
@@ -561,7 +554,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
      * @param confirmModel
      */
     public void showPopupWindow(ConfirmModel confirmModel) {
-        mPresenter.GetUserInfoList(userName,"1");
         Gson gson=new Gson();
         try {
             jsonArray = new JSONArray(gson.toJson(confirmModel.getPayInfo()));
@@ -599,13 +591,13 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         ll_balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("".equals(userInfo.getPayPassWord())){
-                    Toast.makeText(mActivity,"请设置支付密码",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
-                    mPopupWindow.dismiss();
-                }else {
+//                if ("".equals(userInfo.getPayPassWord())){
+//                    Toast.makeText(mActivity,"请设置支付密码",Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+//                    mPopupWindow.dismiss();
+//                }else {
                     openPayPasswordDialog();
-                }
+//                }
 
 
             }
@@ -870,10 +862,22 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
                 }else {
                     userInfo = Result.getData().getData().get(0);
-//                    if (userInfo !=null){
-//                        mTvBalance.setText(""+userInfo.getTotalMoney()+"");//钱包余额
-//                        mTvWatermelonBalance.setText("¥"+userInfo.getCon()+"");//西瓜币
-//                    }
+                    if ("".equals(userInfo.getPayPassWord())){
+                        Toast.makeText(mActivity,"请设置支付密码",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+                    }else {
+                        if ("1".equals(extras.getString("TYPE"))) {//直接购买
+                            String skuId = list.get(0).getList().get(0).getSkuId();
+                            String count = list.get(0).getList().get(0).getCount();
+                            mPresenter.PostSubmitOrder(skuId,count,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),Userkey);
+                        }else {
+                            String cartItemIds = extras.getString("cartItemIds");
+
+                            Log.d("====>优惠券",getcoupons(list)) ;
+                            mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),Userkey);
+
+                        }
+                    }
                 }
 
 

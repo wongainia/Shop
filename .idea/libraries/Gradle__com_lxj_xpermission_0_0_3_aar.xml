@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.lxj:xpermission:0.0.3@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-xpermission-0.0.3.aar/26136e458d3e5f5286788d0a3e3026cd/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-xpermission-0.0.3.aar/26136e458d3e5f5286788d0a3e3026cd/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-xpermission-0.0.3.aar/26136e458d3e5f5286788d0a3e3026cd/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.lxj/xpermission/0.0.3/5f9f960ec7bac82c8ad92e822982e46055a9b036/xpermission-0.0.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.tencent.mid:mid:4.0.7-Release@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mid-4.0.7-Release.aar/ccdacf8bca3bd474713053c103d86b68/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mid-4.0.7-Release.aar/ccdacf8bca3bd474713053c103d86b68/jars/libs/mid-core-sdk-4.0.7.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mid-4.0.7-Release.aar/ccdacf8bca3bd474713053c103d86b68/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mid-4.0.7-Release.aar/1f61525deecc5640976b0a653193f95d/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mid-4.0.7-Release.aar/1f61525deecc5640976b0a653193f95d/jars/libs/mid-core-sdk-4.0.7.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/mid-4.0.7-Release.aar/1f61525deecc5640976b0a653193f95d/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

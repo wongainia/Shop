@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.tencent.xinge:xinge:4.3.0-beta@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-xinge-4.3.0-beta.aar/7ff2ee237c1ea87a2267afb513a60091/jars/libs/Xg_sdk_4.3.0_20190114_1723.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-xinge-4.3.0-beta.aar/7ff2ee237c1ea87a2267afb513a60091/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-xinge-4.3.0-beta.aar/7ff2ee237c1ea87a2267afb513a60091/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-xinge-4.3.0-beta.aar/0e63ff7a0d04a9e3c51efb7d96fb18a1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-xinge-4.3.0-beta.aar/0e63ff7a0d04a9e3c51efb7d96fb18a1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-xinge-4.3.0-beta.aar/0e63ff7a0d04a9e3c51efb7d96fb18a1/jars/libs/Xg_sdk_4.3.0_20190114_1723.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

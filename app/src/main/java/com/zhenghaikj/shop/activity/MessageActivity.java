@@ -1,15 +1,24 @@
 package com.zhenghaikj.shop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.MessageAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.Announcement;
+import com.zhenghaikj.shop.entity.AnnouncementDetail;
 import com.zhenghaikj.shop.entity.Product;
+import com.zhenghaikj.shop.mvp.contract.MessageContract;
+import com.zhenghaikj.shop.mvp.model.MessageModel;
+import com.zhenghaikj.shop.mvp.presenter.MessagePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MessageActivity extends BaseActivity implements View.OnClickListener {
+public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel> implements View.OnClickListener, MessageContract.View {
 
     @BindView(R.id.view)
     View mView;
@@ -36,7 +45,11 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
     Toolbar mToolbar;
     @BindView(R.id.rv_message)
     RecyclerView mRvMessage;
-    private List<Product> list=new ArrayList<>();
+    private List<Announcement.RowsBean> list=new ArrayList<>();
+    private SPUtils spUtils;
+    private String userKey;
+    private String userName;
+    private MessageAdapter adapter;
 
     @Override
     protected int setLayoutId() {
@@ -63,12 +76,14 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
-        for (int i = 0; i <10 ; i++) {
-            list.add(new Product());
-        }
-        MessageAdapter adapter=new MessageAdapter(R.layout.item_message,list);
-        mRvMessage.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvMessage.setAdapter(adapter);
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        userName = spUtils.getString("userName2");
+        mPresenter.GetList("10","1",userKey);
+//        for (int i = 0; i <10 ; i++) {
+//            list.add(new Product());
+//        }
+
     }
 
     @Override
@@ -90,5 +105,30 @@ public class MessageActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetList(Announcement result) {
+        list.addAll(result.getRows());
+        adapter = new MessageAdapter(R.layout.item_message,list);
+        mRvMessage.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvMessage.setAdapter(adapter);
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.ll_message:
+                        Intent intent=new Intent(mActivity,MessageDetailActivity.class);
+                        intent.putExtra("messageid",String.valueOf(result.getRows().get(position).getId()));
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void GetDetail(AnnouncementDetail id) {
+
     }
 }

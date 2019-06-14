@@ -570,7 +570,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //                break;
 
             case R.id.ll_cart:
-                startActivity(new Intent(mActivity, CartActivity.class));
+                if ("".equals(userName)){
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                }else {
+                    startActivity(new Intent(mActivity, CartActivity.class));
+                }
+
                 break;
 
 
