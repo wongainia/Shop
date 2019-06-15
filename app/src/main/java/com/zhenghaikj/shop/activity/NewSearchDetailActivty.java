@@ -61,8 +61,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     LinearLayout mLlFilter;
     @BindView(R.id.ll_serach)
     LinearLayout mLlSerach;
-
-
     @BindView(R.id.ll_synthesis) //综合
     LinearLayout mLlSynthesis;
     @BindView(R.id.ll_price) //价格
@@ -95,16 +93,21 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     private LinearLayout mLlfliter_brand;
     private LinearLayout mLlfliter_classify;
 
+
+
+
     private CustomFilterDrawerPopupView customFilterDrawerPopupView;
     private RecyclerView recyclerView_brand;
     private RecyclerView recyclerView_classify;
     private TextView mTvsubmit; //提交筛选结果
+    private TextView mTvreset; //重置筛选
     private TextView mTvbrand_txt;
     private String choosebrandid=null; //筛选的品牌id
     private Map<Integer,String> mapchooseclassifyid=new HashMap<>();  //筛选的分类id
     private boolean isFliter=false;
     private BasePopupView xPopup;
 
+    private List<FilterResult.CategoryBean.SubCategoryBeanX.SubCategoryBean> mClist=new ArrayList<>();
 
 
     private FliterBrandAdapter fliterBrandAdapter;
@@ -180,13 +183,13 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         mLlfliter_classify=customFilterDrawerPopupView.findViewById(R.id.ll_fliter_classify);
         mTvsubmit=customFilterDrawerPopupView.findViewById(R.id.tv_submit);
         recyclerView_brand=customFilterDrawerPopupView.findViewById(R.id.rv_brand);
+        recyclerView_classify=customFilterDrawerPopupView.findViewById(R.id.rv_classify);
         mTvbrand_txt=customFilterDrawerPopupView.findViewById(R.id.tv_brand_txt);
-
+        mTvreset=customFilterDrawerPopupView.findViewById(R.id.tv_reset);
         xPopup= new XPopup.Builder(mActivity)
                 .popupPosition(PopupPosition.Right)//右边
                 .hasStatusBarShadow(true) //启用状态栏阴影
                 .asCustom(customFilterDrawerPopupView);
-
     }
 
     @Override
@@ -201,7 +204,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         mLlserach_txt.setOnClickListener(this);
         mTvsubmit.setOnClickListener(this);
         mTvbrand_txt.setOnClickListener(this);
-
+        mTvreset.setOnClickListener(this);
 
 
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
@@ -333,9 +336,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
                }
 
-
-
-
               // mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
                break;
            case R.id.ll_price://分为升序降序  默认升序
@@ -376,8 +376,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                //获取品牌和分类进行判断
                xPopup.dismiss();
                isFliter=true;
-             //  Toast.makeText(mActivity,"确定",Toast.LENGTH_SHORT).show();
-               //mPresenter.GetSearchProducts(serach_content,  "", "100",null, "1", orderType, Integer.toString(pagaNo), "10","0");
                 switch (serachtype){
                     case SYNTHESIS:
                         pagaNo=1;
@@ -413,10 +411,17 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                         break;
                 }
 
-
                break;
-
-
+            case R.id.tv_reset:
+                     isFliter=false;
+                     mapchooseclassifyid.clear();
+                     choosebrandid=null;
+                     recyclerView_brand.setVisibility(View.VISIBLE);
+                     mTvbrand_txt.setVisibility(View.GONE);
+                   for (int i = 0; i < mClist.size(); i++) {
+                    fliterClassifyAdapter.getViewByPosition(recyclerView_classify,i,R.id.item_cb).setSelected(false);
+                   }
+                break;
            case R.id.tv_serach: //重新搜索
                //String serach_content = mEtSearch.getText().toString();
                if ("".equals(serach_content)){
@@ -484,7 +489,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
        if (Result.getSuccess()){
            if (Result.getTotal()==0||Result.getProduct().isEmpty()){
                //找不到产品
-               Log.d("======>zbd","找不到");
                  productBeanList.clear();
                 newSearchDetailAdapetr.setEmptyView(getEmptyView());
                 newSearchDetailAdapetr.notifyDataSetChanged();
@@ -520,8 +524,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         if ("true".equals(Result.getSuccess())){
             if (!Result.getBrand().isEmpty()){
                 mLlfliter_brand.setVisibility(View.VISIBLE);
-                customFilterDrawerPopupView.findViewById(R.id.ll_fliter_brand);
-
                 recyclerView_brand.setLayoutManager(new GridLayoutManager(mActivity,3));
                 fliterBrandAdapter=new FliterBrandAdapter(R.layout.item_fliter_choose,Result.getBrand());
                 recyclerView_brand.setAdapter(fliterBrandAdapter);
@@ -547,12 +549,11 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
             if (!Result.getCategory().isEmpty()){
                 mLlfliter_classify.setVisibility(View.VISIBLE);
-                recyclerView_classify=customFilterDrawerPopupView.findViewById(R.id.rv_classify);
                 recyclerView_classify.setLayoutManager(new GridLayoutManager(mActivity,3));
+                mClist.clear();
+                mClist.addAll(Result.getCategory().get(0).getSubCategory().get(0).getSubCategory());
                 fliterClassifyAdapter=new FliterClassifyAdapter(R.layout.item_fliter_choose,Result.getCategory().get(0).getSubCategory().get(0).getSubCategory());
                 recyclerView_classify.setAdapter(fliterClassifyAdapter);
-
-
                 fliterClassifyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                     @Override
                     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -575,13 +576,10 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                 });
 
 
-
-
-
             }
 
             if (Result.getBrand().isEmpty()&&Result.getCategory().isEmpty()){
-                Toast.makeText(mActivity,"无分类",Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(mActivity,"无分类",Toast.LENGTH_SHORT).show();
             }
         }
 
