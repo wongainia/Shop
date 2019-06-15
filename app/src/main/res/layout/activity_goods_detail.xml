@@ -667,8 +667,8 @@
 
                                     <com.zhenghaikj.shop.widget.RoundImageView
                                         android:id="@+id/iv_store_picture"
-                                        android:layout_width="40dp"
-                                        android:layout_height="40dp"
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
                                         android:src="@drawable/goods" />
 
                                     <LinearLayout
@@ -683,39 +683,18 @@
                                         android:layout_marginLeft="10dp"
                                         android:text="西瓜鱼商店"
                                         android:textColor="#333"
-                                        android:textSize="14sp"/>
+                                        android:textSize="16sp"/>
                                         <TextView
                                             android:id="@+id/tv_store_num"
+                                            android:layout_marginTop="5dp"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
-                                            android:text="宝贝数量关注人数"
+                                            android:text="宝贝数量                  关注人数"
                                             android:textColor="#333"
-                                            android:textSize="12sp"/>
+                                            android:textSize="14sp"/>
                                 </LinearLayout>
-                                    <TextView
-                                        android:id="@+id/tv_all_goods"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:background="@drawable/red_shape"
-                                        android:padding="5dp"
-                                        android:text="全部宝贝"
-                                        android:textColor="@color/red"
-                                        android:textSize="12sp" />
 
-                                    <TextView
-                                        android:id="@+id/tv_go_shopping"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="10dp"
-                                        android:layout_marginRight="10dp"
-                                        android:background="@drawable/red_circle_shape"
-                                        android:padding="5dp"
-                                        android:text="进店逛逛"
-                                        android:textColor="@color/white"
-                                        android:textSize="12sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -736,7 +715,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="宝贝描述"
                                             android:textColor="#808080"
-                                            android:textSize="10sp" />
+                                            android:textSize="12sp" />
 
                                         <TextView
                                             android:id="@+id/tv_baby_description_score"
@@ -745,7 +724,7 @@
                                             android:layout_marginLeft="5dp"
                                             android:text="4.8"
                                             android:textColor="#808080"
-                                            android:textSize="10sp" />
+                                            android:textSize="12sp" />
 
                                         <TextView
                                             android:id="@+id/tv_baby_description"
@@ -773,7 +752,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="卖家服务"
                                             android:textColor="#808080"
-                                            android:textSize="10sp" />
+                                            android:textSize="12sp" />
 
                                         <TextView
                                             android:id="@+id/tv_seller_service_score"
@@ -782,7 +761,7 @@
                                             android:layout_marginLeft="5dp"
                                             android:text="4.8"
                                             android:textColor="#808080"
-                                            android:textSize="10sp" />
+                                            android:textSize="12sp" />
 
                                         <TextView
                                             android:id="@+id/tv_seller_service"
@@ -810,7 +789,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="物流服务"
                                             android:textColor="#808080"
-                                            android:textSize="10sp" />
+                                            android:textSize="12sp" />
 
                                         <TextView
                                             android:id="@+id/tv_logistics_services_score"
@@ -819,7 +798,7 @@
                                             android:layout_marginLeft="5dp"
                                             android:text="4.8"
                                             android:textColor="#808080"
-                                            android:textSize="10sp" />
+                                            android:textSize="12sp" />
 
                                         <TextView
                                             android:id="@+id/tv_logistics_services"
@@ -836,6 +815,36 @@
                                     </LinearLayout>
                                 </LinearLayout>
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="13dp"
+                                    android:gravity="center">
+                                    <TextView
+                                        android:id="@+id/tv_all_goods"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:background="@drawable/red_shape_1"
+                                        android:padding="5dp"
+                                        android:text="全部宝贝"
+                                        android:textColor="@color/red"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:id="@+id/tv_go_shopping"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="50dp"
+                                        android:layout_marginRight="10dp"
+                                        android:background="@drawable/red_circle_shape_1"
+                                        android:padding="5dp"
+                                        android:text="进店逛逛"
+                                        android:textColor="@color/white"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
                                 <View
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
@@ -1042,7 +1051,7 @@
                     android:background="@color/orange"
                     android:gravity="center"
                     android:text="加入购物车"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView
