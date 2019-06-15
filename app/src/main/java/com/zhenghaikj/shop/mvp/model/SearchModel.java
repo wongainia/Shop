@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.entity.FilterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.SearchContract;
 
@@ -52,13 +53,14 @@ public class SearchModel implements SearchContract.Model {
     }
 
     @Override
-    public Observable<String> GetSearchFilter(String keywords, String cid, String a_id, String b_id, String userkey) {
+    public Observable<FilterResult> GetSearchFilter(String keywords, String cid, String a_id, String b_id, String userkey) {
         map = new HashMap<>();
         map.put("keyword",keywords);
         map.put("cid",cid);
         map.put("a_id",a_id);
         map.put("b_id",b_id);
         map.put("userkey",userkey);
+        map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);

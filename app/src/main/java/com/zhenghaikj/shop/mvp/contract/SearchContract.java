@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.mvp.contract;
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.FilterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 
 import io.reactivex.Observable;
@@ -22,18 +23,18 @@ public interface SearchContract {
                 String sid
         );
 
-        Observable<String> GetSearchFilter(String keywords,
-                                           String cid,
-                                           String a_id,
-                                           String b_id,
-                                           String userkey);
+        Observable<FilterResult> GetSearchFilter(String keywords,
+                                                 String cid,
+                                                 String a_id,
+                                                 String b_id,
+                                                 String userkey);
 
 
     }
 
     interface View extends BaseView {
         void GetSearchProducts(SearchResult Result);
-        void GetSearchFilter(String Result);
+        void GetSearchFilter(FilterResult Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -53,7 +54,7 @@ public interface SearchContract {
                                              String cid,
                                              String a_id,
                                              String b_id,
-                                             String userkey);
+                                           String userkey);
 
     }
 }

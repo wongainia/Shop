@@ -671,17 +671,28 @@
                                         android:layout_height="40dp"
                                         android:src="@drawable/goods" />
 
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
                                     <TextView
                                         android:id="@+id/tv_store_name"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
                                         android:layout_marginLeft="10dp"
-                                        android:layout_weight="1"
                                         android:text="西瓜鱼商店"
                                         android:textColor="#333"
-                                        android:textSize="14sp" />
-
+                                        android:textSize="14sp"/>
+                                        <TextView
+                                            android:id="@+id/tv_store_num"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:text="宝贝数量关注人数"
+                                            android:textColor="#333"
+                                            android:textSize="12sp"/>
+                                </LinearLayout>
                                     <TextView
                                         android:id="@+id/tv_all_goods"
                                         android:layout_width="wrap_content"

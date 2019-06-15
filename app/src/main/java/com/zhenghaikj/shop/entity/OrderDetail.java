@@ -497,6 +497,15 @@ public class OrderDetail implements Serializable {
         private String SizeAlias;
         private String VersionAlias;
         private double EnabledRefundAmount;
+        private boolean IsInstall;
+
+        public boolean isInstall() {
+            return IsInstall;
+        }
+
+        public void setInstall(boolean install) {
+            IsInstall = install;
+        }
 
         public String getItemId() {
             return ItemId;

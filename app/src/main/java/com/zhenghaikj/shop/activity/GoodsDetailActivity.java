@@ -107,8 +107,6 @@ import io.reactivex.functions.Consumer;
 
 
 public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailModel> implements View.OnClickListener, DetailContract.View {
-
-
     @BindView(R.id.banner_goods)
     Banner mBannerGoods;
     @BindView(R.id.countdownview)
@@ -247,6 +245,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     View mView;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.tv_store_num)
+    TextView mTvstore_num;
+
     private AdderView adderView;
     private int getinventory; //库存
     private View popupWindow_view;
@@ -1103,6 +1104,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             GlideUtil.loadImageViewLoding(mActivity, result.getVShopLog(), mIvStorePicture, R.drawable.image_loading, R.drawable.image_loading);
             mTvStoreName.setText(result.getShop().getName());
 
+            mTvstore_num.setText("关注人数:"+result.getShop().getFavoriteShopCount()+"人"+"  宝贝数量:"+result.getShop().getProductNum()+"件");
+
+
             mTvSellerServiceScore.setText(result.getShop().getServiceMark() + "");
             mTvBabyDescriptionScore.setText(result.getShop().getProductMark() + "");
             mTvLogisticsServicesScore.setText(result.getShop().getPackMark() + "");
@@ -1274,14 +1278,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             //价格
                             String price = getPrice(SkuId);
                             ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(price);
-
                         }
-
                         break;
                 }
             }
         });
-
     }
 
     /*选择版本*/

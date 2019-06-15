@@ -18,8 +18,4 @@ public class CustomFilterDrawerPopupView extends DrawerPopupView {
     }
 
 
-
-
-
-
 }

@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
                 android:background="@null"
+                android:inputType="number"
                 android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>

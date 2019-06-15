@@ -15,46 +15,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_shop">
-        <ImageView
-            android:id="@+id/img_shop"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="10dp"
-            />
-        <TextView
-            android:layout_toRightOf="@+id/img_shop"
-            android:id="@+id/tv_shop"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:maxLines="2"
-            android:layout_marginTop="10dp"/>
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/tv_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="数量:2台"
-            android:textSize="10sp"
-            android:textColor="@color/black"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="5dp"
-            />
-
-
-
-    </RelativeLayout>
 
         <RelativeLayout
             android:background="@drawable/bg_shop"
@@ -91,7 +58,7 @@
 
 
 
-
+<!--
         <RelativeLayout
         android:background="@drawable/bg_shop"
         android:layout_width="match_parent"
@@ -119,7 +86,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             />
-         </RelativeLayout>
+         </RelativeLayout>-->
 
 
         <LinearLayout

@@ -26,6 +26,10 @@ import com.zhenghaikj.shop.mvp.presenter.HistoryVisitePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -71,9 +75,9 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
 
     @Override
     protected void initData() {
-        adapter = new FootprintAdapter(R.layout.item_footprint, list);
+        adapter = new FootprintAdapter(R.layout.item_footprint2, list);
         adapter.setEmptyView(getEmptyView());
-        mRvFootprint.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvFootprint.setLayoutManager(new GridLayoutManager(mActivity,2));
         mRvFootprint.setAdapter(adapter);
         adapter.setEmptyView(getEmptyView());
         adapter.setOnItemClickListener((adapter, view, position) -> {

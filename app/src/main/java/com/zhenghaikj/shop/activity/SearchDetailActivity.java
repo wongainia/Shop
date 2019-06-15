@@ -20,6 +20,7 @@ import com.zhenghaikj.shop.adapter.SearchDetailAdapetr;
 import com.zhenghaikj.shop.adapter.SearchDetailWaterFallAdapetr;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.CategoryMall;
+import com.zhenghaikj.shop.entity.FilterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.SearchContract;
 import com.zhenghaikj.shop.mvp.model.SearchModel;
@@ -326,9 +327,10 @@ public class SearchDetailActivity extends BaseActivity<SearchPresenter, SearchMo
     }
 
     @Override
-    public void GetSearchFilter(String Result) {
+    public void GetSearchFilter(FilterResult Result) {
 
     }
+
 
     public void clear() {
         pagaNo = 1;

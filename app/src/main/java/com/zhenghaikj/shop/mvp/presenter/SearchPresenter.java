@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
+import com.zhenghaikj.shop.entity.FilterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.SearchContract;
 
@@ -28,9 +29,9 @@ public class SearchPresenter extends SearchContract.Presenter {
     @Override
     public void GetSearchFilter(String keywords, String cid, String a_id, String b_id, String userkey) {
         mModel.GetSearchFilter(keywords,cid,a_id,b_id,userkey)
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<FilterResult>() {
                     @Override
-                    protected void onHandleSuccess(String value) {
+                    protected void onHandleSuccess(FilterResult value) {
                         mView.GetSearchFilter(value);
                     }
                 });

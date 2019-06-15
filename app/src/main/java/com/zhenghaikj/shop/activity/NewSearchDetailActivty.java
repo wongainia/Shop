@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +23,13 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.FliterAdapter;
+import com.zhenghaikj.shop.adapter.FliterBrandAdapter;
+import com.zhenghaikj.shop.adapter.FliterClassifyAdapter;
 import com.zhenghaikj.shop.adapter.NewSearchDetailAdapetr;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.CategoryMall;
+import com.zhenghaikj.shop.entity.FilterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.SearchContract;
 import com.zhenghaikj.shop.mvp.model.SearchModel;
@@ -82,9 +86,21 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     @BindView(R.id.ll_bg_serach)
     LinearLayout mLlbg_serach;
 
+    private LinearLayout mLlfliter_brand;
+    private LinearLayout mLlfliter_classify;
+
+
+
+
     private CustomFilterDrawerPopupView customFilterDrawerPopupView;
-    private RecyclerView recyclerView;
-    private FliterAdapter fliterAdapter;
+    private RecyclerView recyclerView_brand;
+    private RecyclerView recyclerView_classify;
+    private TextView mTvsubmit; //提交筛选结果
+
+
+    private FliterBrandAdapter fliterBrandAdapter;
+    private FliterClassifyAdapter fliterClassifyAdapter;
+
 
     private SerachType serachtype;
     private String orderType="1";//排序方式 1.升序 2.降序
@@ -101,7 +117,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
 
 
-    private List<String> list=new ArrayList<>();
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -141,6 +156,9 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         }
 
 
+        /*获取筛选*/
+        mPresenter.GetSearchFilter(Tvsearch_txt.getText().toString(),"0","","0",UserKey);
+
         newSearchDetailAdapetr = new NewSearchDetailAdapetr(R.layout.item_newsearch_detail, productBeanList);
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSearchDetail.setAdapter(newSearchDetailAdapetr);
@@ -150,12 +168,9 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     @Override
     protected void initView() {
         customFilterDrawerPopupView=new CustomFilterDrawerPopupView(mActivity);
-        recyclerView=customFilterDrawerPopupView.findViewById(R.id.filter_rv);
-        list.add("品牌");
-        list.add("分类");
-        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        fliterAdapter=new FliterAdapter(R.layout.item_filter_popueview,list);
-        recyclerView.setAdapter(fliterAdapter);
+        mLlfliter_brand=customFilterDrawerPopupView.findViewById(R.id.ll_fliter_brand);
+        mLlfliter_classify=customFilterDrawerPopupView.findViewById(R.id.ll_fliter_classify);
+        mTvsubmit=customFilterDrawerPopupView.findViewById(R.id.tv_submit);
 
     }
 
@@ -169,6 +184,15 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         mIvBack.setOnClickListener(this);
         mLlbg_serach.setOnClickListener(this);
         mLlserach_txt.setOnClickListener(this);
+        mTvsubmit.setOnClickListener(this);
+
+
+
+
+
+
+
+
 
 
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
@@ -303,6 +327,12 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                        .show();
                break;
 
+           case R.id.tv_submit: //筛选确定按钮
+               Toast.makeText(mActivity,"确定",Toast.LENGTH_SHORT).show();
+               mPresenter.GetSearchProducts(serach_content,  "", "100,326",null, "1", orderType, Integer.toString(pagaNo), "10","0");
+               break;
+
+
            case R.id.tv_serach: //重新搜索
                //String serach_content = mEtSearch.getText().toString();
                if ("".equals(serach_content)){
@@ -322,7 +352,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                break;
 
            case R.id.ll_serach_txt://点击商品删除全部内容返回
-
 
                if (searchbytype==1){
                    Intent intent=new Intent();
@@ -374,7 +403,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                    productBeanList.addAll(Result.getProduct());
                    newSearchDetailAdapetr.setNewData(productBeanList);
                    newSearchDetailAdapetr.notifyDataSetChanged();
-
                   /* if (Result.getProduct().isEmpty()){
                        View view= LayoutInflater.from(mActivity).inflate(R.layout.item_footer_nomore,null);
                        newSearchDetailAdapetr.setFooterView(view);
@@ -394,7 +422,32 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     }
 
     @Override
-    public void GetSearchFilter(String Result) {
+    public void GetSearchFilter(FilterResult Result) {
+        if ("true".equals(Result.getSuccess())){
+            if (!Result.getBrand().isEmpty()){
+                mLlfliter_brand.setVisibility(View.VISIBLE);
+                customFilterDrawerPopupView.findViewById(R.id.ll_fliter_brand);
+                recyclerView_brand=customFilterDrawerPopupView.findViewById(R.id.rv_brand);
+                recyclerView_brand.setLayoutManager(new GridLayoutManager(mActivity,3));
+                fliterBrandAdapter=new FliterBrandAdapter(R.layout.item_fliter_choose,Result.getBrand());
+                recyclerView_brand.setAdapter(fliterBrandAdapter);
+            }
+
+            if (!Result.getCategory().isEmpty()){
+                mLlfliter_classify.setVisibility(View.VISIBLE);
+                recyclerView_classify=customFilterDrawerPopupView.findViewById(R.id.rv_classify);
+                recyclerView_classify.setLayoutManager(new GridLayoutManager(mActivity,3));
+                fliterClassifyAdapter=new FliterClassifyAdapter(R.layout.item_fliter_choose,Result.getCategory().get(0).getSubCategory().get(0).getSubCategory());
+                recyclerView_classify.setAdapter(fliterClassifyAdapter);
+            }
+
+            if (Result.getBrand().isEmpty()&&Result.getCategory().isEmpty()){
+                Toast.makeText(mActivity,"无分类",Toast.LENGTH_SHORT).show();
+            }
+
+
+
+        }
 
     }
 
@@ -462,10 +515,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                 mImg_price_up_down.setImageDrawable(ContextCompat.getDrawable(mActivity,R.mipmap.icon_up_down));
                 bool_price_up_down=true;//价格回到上升排序
                 // mPresenter.GetSearchFilter("冰箱","0","0","0",UserKey);
-
-
-
-
 
                 break;
         }

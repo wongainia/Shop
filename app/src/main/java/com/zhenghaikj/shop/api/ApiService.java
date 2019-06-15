@@ -23,6 +23,7 @@ import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
 import com.zhenghaikj.shop.entity.EvaluateResult;
 import com.zhenghaikj.shop.entity.Express;
+import com.zhenghaikj.shop.entity.FilterResult;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
@@ -1135,7 +1136,7 @@ public interface ApiService {
 
 
     @GET("api/search/GetSearchFilter")
-    Observable<String> GetSearchFilter(
+    Observable<FilterResult> GetSearchFilter(
             @Query("keyword") String keywords,
             @Query("cid") String cid,
             @Query("a_id") String a_id,

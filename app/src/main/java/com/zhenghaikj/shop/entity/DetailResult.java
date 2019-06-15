@@ -630,13 +630,13 @@ public class DetailResult implements Serializable {
         private Object Address;
         private Object Phone;
         private double FreeFreight;
-        private int ProductNum;
+        private String ProductNum;
         private int CouponCount;
         private int VShopId;
         private double ProductAndDescription;
         private double SellerServiceAttitude;
         private double SellerDeliverySpeed;
-        private int FavoriteShopCount;
+        private String FavoriteShopCount;
 
         public String getName() {
             return Name;
@@ -718,11 +718,11 @@ public class DetailResult implements Serializable {
             this.FreeFreight = FreeFreight;
         }
 
-        public int getProductNum() {
+        public String getProductNum() {
             return ProductNum;
         }
 
-        public void setProductNum(int ProductNum) {
+        public void setProductNum(String ProductNum) {
             this.ProductNum = ProductNum;
         }
 
@@ -766,11 +766,11 @@ public class DetailResult implements Serializable {
             this.SellerDeliverySpeed = SellerDeliverySpeed;
         }
 
-        public int getFavoriteShopCount() {
+        public String getFavoriteShopCount() {
             return FavoriteShopCount;
         }
 
-        public void setFavoriteShopCount(int FavoriteShopCount) {
+        public void setFavoriteShopCount(String FavoriteShopCount) {
             this.FavoriteShopCount = FavoriteShopCount;
         }
     }

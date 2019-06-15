@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.FilterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.mvp.contract.SearchContract;
 import com.zhenghaikj.shop.mvp.model.SearchModel;
@@ -100,7 +101,8 @@ public class SearchShopPreDetailActivity extends BaseActivity<SearchPresenter, S
     }
 
     @Override
-    public void GetSearchFilter(String Result) {
+    public void GetSearchFilter(FilterResult Result) {
 
     }
+
 }
