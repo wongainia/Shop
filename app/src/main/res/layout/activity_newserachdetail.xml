@@ -60,7 +60,6 @@
                   android:src="@mipmap/icon_search_cha"
                   android:layout_margin="2dp"
                   />
-
             </LinearLayout>
 
             <EditText

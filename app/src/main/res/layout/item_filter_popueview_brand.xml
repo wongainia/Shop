@@ -3,18 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:visibility="gone"
+    android:visibility="visible"
     android:id="@+id/ll_fliter_brand"
    >
-    <TextView
-        android:id="@+id/tv_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="品牌"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        android:layout_margin="10dp"
-        />
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="品牌"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:layout_margin="10dp"
+            />
+            <TextView
+                android:id="@+id/tv_brand_txt"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="@drawable/bg_fliter_brand"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:layout_marginLeft="10dp"
+                android:text="海尔"/>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_brand"
         android:layout_width="match_parent"
