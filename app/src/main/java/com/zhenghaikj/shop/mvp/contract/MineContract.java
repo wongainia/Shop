@@ -17,13 +17,11 @@ import com.zhenghaikj.shop.entity.WorkOrder;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import retrofit2.http.Field;
 
 public interface MineContract {
     interface Model extends BaseModel {
         Observable<PersonalInformation> PersonalInformation(String UserKey);
-        Observable<HistoryVisite> GetHistoryVisite(String userkey);
+        Observable<HistoryVisite> GetHistoryVisite(String rows,String page,String userkey);
 
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
 
@@ -63,7 +61,7 @@ public interface MineContract {
 
     abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void PersonalInformation(String UserKey);
-        public abstract void GetHistoryVisite(String userkey);
+        public abstract void GetHistoryVisite(String rows,String page,String userkey);
 
         public abstract void GetUserInfoList(String userName, String limit);
 

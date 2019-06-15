@@ -20,14 +20,16 @@ public class HistoryVisiteModel implements HistoryVisiteContract.Model {
     private String timestamp;
 
     @Override
-    public Observable<HistoryVisite> GetHistoryVisite(String userkey) {
+    public Observable<HistoryVisite> GetHistoryVisite(String rows,String page,String userkey) {
         map = new HashMap<>();
+        map.put("rows",rows);
+        map.put("page",page);
         map.put("userkey",userkey);
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().GetHistoryVisite(userkey,"himalltest",timestamp,sign)
+        return ApiRetrofit.getDefault().GetHistoryVisite(rows,page,userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

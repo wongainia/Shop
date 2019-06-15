@@ -416,7 +416,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         if (!"".equals(userName) && !"".equals(userKey)) {
             mPresenter.GetUserInfoList(userName, "1");
             mPresenter.PersonalInformation(userKey);
-            mPresenter.GetHistoryVisite(userKey);
+//            mPresenter.GetHistoryVisite(userKey);
             mPresenter.GetOrderByhmall(userName);
 //        mPresenter.GetOrderInfoList(userName,"5","1","1");
             mPresenter.GetOrderByhmalluserid(userName);
@@ -439,7 +439,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 if (!"".equals(userName) && !"".equals(userKey)) {
                     mPresenter.GetUserInfoList(userName, "1");
                     mPresenter.PersonalInformation(userKey);
-                    mPresenter.GetHistoryVisite(userKey);
+//                    mPresenter.GetHistoryVisite(userKey);
                     i = 0;
                     mPresenter.GetOrderByhmalluserid(userName);
                     mPresenter.GetOrders("3", "1", "10", userKey);
@@ -487,7 +487,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         if (!"".equals(userName) && !"".equals(userKey)) {
             mPresenter.GetUserInfoList(userName, "1");
             mPresenter.PersonalInformation(userKey);
-            mPresenter.GetHistoryVisite(userKey);
+//            mPresenter.GetHistoryVisite(userKey);
         }
 
     }
@@ -544,7 +544,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.iv_message:
-                startActivity(new Intent(mActivity, MessageActivity.class));
+                intent = new Intent(mActivity, MessageActivity.class);
+                intent.putExtra("categoryId","4");
+                intent.putExtra("title","消息");
+                startActivity(intent);
                 break;
             case R.id.ll_coupon:
                 //优惠券
@@ -1367,7 +1370,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         public void onResult(SHARE_MEDIA platform) {
 
             if (platform.name().equals("WEIXIN_FAVORITE")) {
-                Toast.makeText(mContext, platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
             } else {
                 if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
                         && platform != SHARE_MEDIA.EMAIL
@@ -1381,7 +1384,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                         && platform != SHARE_MEDIA.GOOGLEPLUS
                         && platform != SHARE_MEDIA.YNOTE
                         && platform != SHARE_MEDIA.EVERNOTE) {
-                    Toast.makeText(mContext, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -1401,7 +1404,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     && platform != SHARE_MEDIA.GOOGLEPLUS
                     && platform != SHARE_MEDIA.YNOTE
                     && platform != SHARE_MEDIA.EVERNOTE) {
-                Toast.makeText(mContext, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -1410,7 +1413,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         @Override
         public void onCancel(SHARE_MEDIA platform) {
 
-            Toast.makeText(mContext, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
 

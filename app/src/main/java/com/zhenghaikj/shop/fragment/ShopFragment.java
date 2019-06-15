@@ -25,10 +25,12 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GiftsDetailActivity;
+import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.HotSearchAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.entity.GiftAds;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopResult;
@@ -46,7 +48,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> implements ShopContract.View {
+public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> implements ShopContract.View, View.OnClickListener {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -91,6 +93,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     @BindView(R.id.view)
     View mView;
     private ExchageAdapter exchageAdapter;
+    private Intent intent;
 
     public static ShopFragment newInstance(String param1, String param2) {
         ShopFragment fragment = new ShopFragment();
@@ -151,6 +154,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     protected void initData() {
 //        mPresenter.index();
         mPresenter.IndexJson();
+        mPresenter.GetSlideAds();
 
         for (int i = 0; i < 4; i++) {
             hotsearchList.add(hot[i]);
@@ -180,15 +184,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
         mRvHotSearch.setLayoutManager(new GridLayoutManager(mActivity, 4));
         mRvHotSearch.setAdapter(hotSearchAdapter);
 
-        List<Integer> images = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            images.add(R.drawable.home_one);
-        }
-        mBannerShop.setImageLoader(new GlideImageLoader());
-        mBannerShop.setImages(images);
-        mBannerShop.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        mBannerShop.setIndicatorGravity(BannerConfig.CENTER);
-        mBannerShop.start();
+
 
         mMainMenus = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -271,7 +267,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     protected void setListener() {
-
+        mLlMessage.setOnClickListener(this);
     }
 
     //初始化数据
@@ -292,6 +288,31 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
         if (result.getGiftTotal() != 0) {
             exchageList.addAll(result.getGiftListNew());
             exchageAdapter.setNewData(exchageList);
+        }
+    }
+
+    @Override
+    public void GetSlideAds(List<GiftAds> result) {
+        List<String> images = new ArrayList<>();
+        for (int i = 0; i < result.size(); i++) {
+            images.add(result.get(i).getImageUrl());
+        }
+        mBannerShop.setImageLoader(new GlideImageLoader());
+        mBannerShop.setImages(images);
+        mBannerShop.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        mBannerShop.setIndicatorGravity(BannerConfig.CENTER);
+        mBannerShop.start();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_message:
+                intent = new Intent(mActivity, MessageActivity.class);
+                intent.putExtra("categoryId","18");
+                intent.putExtra("title","西瓜鱼头条");
+                startActivity(intent);
+                break;
         }
     }
 

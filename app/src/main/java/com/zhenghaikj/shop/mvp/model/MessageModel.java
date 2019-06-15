@@ -19,8 +19,9 @@ public class MessageModel implements MessageContract.Model {
     private String sign;
     private String timestamp;
     @Override
-    public Observable<Announcement> GetList(String rows, String page, String userkey) {
+    public Observable<Announcement> GetList(String categoryId,String rows, String page, String userkey) {
         map = new HashMap<>();
+        map.put("categoryid",categoryId);
         map.put("rows",rows);
         map.put("page",page);
         map.put("userkey",userkey);
@@ -28,7 +29,7 @@ public class MessageModel implements MessageContract.Model {
         timestamp= TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().GetList(rows,page,userkey,"himalltest",timestamp,sign)
+        return ApiRetrofit.getDefault().GetList(categoryId,rows,page,userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

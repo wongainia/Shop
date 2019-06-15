@@ -7,8 +7,8 @@ import com.zhenghaikj.shop.mvp.contract.MessageContract;
 
 public class MessagePresenter extends MessageContract.Presenter {
     @Override
-    public void GetList(String rows, String page, String userkey) {
-        mModel.GetList(rows, page, userkey)
+    public void GetList(String categoryId,String rows, String page, String userkey) {
+        mModel.GetList(categoryId,rows, page, userkey)
                 .subscribe(new BaseObserver<Announcement>() {
                     @Override
                     protected void onHandleSuccess(Announcement value) {

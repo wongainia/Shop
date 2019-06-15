@@ -10,7 +10,7 @@ import io.reactivex.Observable;
 
 public interface MessageContract {
     interface Model extends BaseModel{
-        Observable<Announcement> GetList( String rows, String page, String userkey);
+        Observable<Announcement> GetList(String categoryId, String rows, String page, String userkey);
         Observable<AnnouncementDetail> GetDetail(String id);
     }
 
@@ -20,7 +20,7 @@ public interface MessageContract {
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void GetList(String rows, String page, String userkey);
+        public abstract void GetList(String categoryId,String rows, String page, String userkey);
         public abstract void GetDetail(String id);
     }
 }

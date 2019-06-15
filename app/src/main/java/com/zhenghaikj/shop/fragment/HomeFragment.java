@@ -177,6 +177,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private String userKey;
     private String userName;
     private Boolean isLogin;
+    private Intent intent;
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -514,7 +515,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 if ("".equals(userName)) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
-                    startActivity(new Intent(mActivity, MessageActivity.class));
+                    intent = new Intent(mActivity, MessageActivity.class);
+                    intent.putExtra("categoryId","4");
+                    intent.putExtra("title","消息");
+                    startActivity(intent);
                 }
 
                 break;
@@ -634,7 +638,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         public void onResult(SHARE_MEDIA platform) {
 
             if (platform.name().equals("WEIXIN_FAVORITE")) {
-                Toast.makeText(mContext, platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, platform + " 收藏成功啦", Toast.LENGTH_SHORT).show();
             } else {
                 if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
                         && platform != SHARE_MEDIA.EMAIL
@@ -648,7 +652,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                         && platform != SHARE_MEDIA.GOOGLEPLUS
                         && platform != SHARE_MEDIA.YNOTE
                         && platform != SHARE_MEDIA.EVERNOTE) {
-                    Toast.makeText(mContext, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -668,7 +672,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     && platform != SHARE_MEDIA.GOOGLEPLUS
                     && platform != SHARE_MEDIA.YNOTE
                     && platform != SHARE_MEDIA.EVERNOTE) {
-                Toast.makeText(mContext, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -677,7 +681,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         @Override
         public void onCancel(SHARE_MEDIA platform) {
 
-            Toast.makeText(mContext, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
 

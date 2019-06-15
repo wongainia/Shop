@@ -32,6 +32,7 @@ import com.zhenghaikj.shop.entity.GetIntroForStoreResult;
 import com.zhenghaikj.shop.entity.GetPayPwd;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
+import com.zhenghaikj.shop.entity.GiftAds;
 import com.zhenghaikj.shop.entity.GiftConfirmOrder;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
 import com.zhenghaikj.shop.entity.GiftOrder;
@@ -431,6 +432,8 @@ public interface ApiService {
      */
     @GET("api/product/GetHistoryVisite")
     Observable<HistoryVisite> GetHistoryVisite(
+            @Query("rows") String rows,
+            @Query("page") String page,
             @Query("userkey") String userkey,
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
@@ -1152,6 +1155,7 @@ public interface ApiService {
     * */
     @GET("api/Article/GetList")
     Observable<Announcement> GetList(
+            @Query("categoryId") String categoryId,
             @Query("rows") String rows,
             @Query("page") String page,
             @Query("userkey") String userkey,
@@ -1171,5 +1175,14 @@ public interface ApiService {
             @Query("sign") String sign
     );
 
+    /**
+    * 兑换商城轮播图
+    */
+    @GET("api/Gifts/GetSlideAds")
+    Observable<List<GiftAds>> GetSlideAds(
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
 
 }

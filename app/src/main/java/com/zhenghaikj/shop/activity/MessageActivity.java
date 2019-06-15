@@ -6,8 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.SPUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -15,7 +18,6 @@ import com.zhenghaikj.shop.adapter.MessageAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.AnnouncementDetail;
-import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.mvp.contract.MessageContract;
 import com.zhenghaikj.shop.mvp.model.MessageModel;
 import com.zhenghaikj.shop.mvp.presenter.MessagePresenter;
@@ -23,9 +25,6 @@ import com.zhenghaikj.shop.mvp.presenter.MessagePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -50,6 +49,8 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
     private String userKey;
     private String userName;
     private MessageAdapter adapter;
+    private String categoryId;
+    private String title;
 
     @Override
     protected int setLayoutId() {
@@ -71,7 +72,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
     @Override
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
-        mTvTitle.setText("消息");
+
     }
 
     @Override
@@ -79,7 +80,10 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
-        mPresenter.GetList("10","1",userKey);
+        title =getIntent().getStringExtra("title");
+        mTvTitle.setText(title);
+        categoryId =getIntent().getStringExtra("categoryId");
+        mPresenter.GetList(categoryId,"10","1",userKey);
 //        for (int i = 0; i <10 ; i++) {
 //            list.add(new Product());
 //        }

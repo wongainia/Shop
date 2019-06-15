@@ -95,13 +95,13 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.ll_using_help:
                 intent = new Intent(mActivity, WebActivity.class);
-                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
+                intent.putExtra("Url","http://mall.xigyu.com/m-Wap/Article");
                 intent.putExtra("Title","使用帮助");
                 startActivity(intent);
                 break;
             case R.id.ll_privacy_policy:
                 intent = new Intent(mActivity, WebActivity.class);
-                intent.putExtra("Url","http://admin.xigyu.com/Agreement");
+                intent.putExtra("Url","http://mall.xigyu.com/m-Wap/Article/YSZC");
                 intent.putExtra("Title","隐私政策");
                 startActivity(intent);
                 break;

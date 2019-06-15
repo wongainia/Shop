@@ -150,10 +150,10 @@
                     android:layout_marginTop="10dp">
 
                     <LinearLayout
+                        android:id="@+id/ll_message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_marginTop="15dp"
+                        android:padding="@dimen/dp_10"
                         android:orientation="horizontal">
 
                         <TextView
@@ -165,7 +165,7 @@
                             android:textStyle="bold" />
 
                         <LinearLayout
-                            android:id="@+id/ll_message"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -194,7 +194,6 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="12dp"
                         android:background="#eeeeee" />
 
                     <LinearLayout

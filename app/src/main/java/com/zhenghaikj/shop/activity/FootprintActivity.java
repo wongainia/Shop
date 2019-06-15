@@ -7,12 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
@@ -26,10 +27,6 @@ import com.zhenghaikj.shop.mvp.presenter.HistoryVisitePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -94,7 +91,7 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
 
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
-        mPresenter.GetHistoryVisite(userKey);
+        mPresenter.GetHistoryVisite("10",Integer.toString(pagaNo),userKey);
 
         /*下拉刷新*/
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -105,7 +102,7 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
                 }*/
                 pagaNo=1;
                 list.clear();
-                mPresenter.GetHistoryVisite(userKey);
+                mPresenter.GetHistoryVisite("10",Integer.toString(pagaNo),userKey);
                 adapter.notifyDataSetChanged();
                 refreshlayout.finishRefresh(1000);
                 mRefreshLayout.setNoMoreData(false);
@@ -116,16 +113,15 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
         //没满屏时禁止上拉
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
 
-    /*    //上拉加载更多
+    //上拉加载更多
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 pagaNo++; //页数加1
-                mPresenter.GetHistoryVisite(userKey);
-                adapter.notifyDataSetChanged();
+                mPresenter.GetHistoryVisite("10",Integer.toString(pagaNo),userKey);
                 refreshlayout.finishLoadmore();
             }
-        });*/
+        });
 
     }
 

@@ -9,7 +9,7 @@ import io.reactivex.Observable;
 
 public interface HistoryVisiteContract  {
     interface Model extends BaseModel{
-        Observable<HistoryVisite> GetHistoryVisite(String userkey);
+        Observable<HistoryVisite> GetHistoryVisite(String rows,String page,String userkey);
     }
 
     interface View extends BaseView{
@@ -17,6 +17,6 @@ public interface HistoryVisiteContract  {
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void GetHistoryVisite(String userkey);
+        public abstract void GetHistoryVisite(String rows,String page,String userkey);
     }
 }
