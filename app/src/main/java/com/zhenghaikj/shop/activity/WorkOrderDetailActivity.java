@@ -27,6 +27,7 @@ import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.fragment.WorkOrder.MessageFragment;
 import com.zhenghaikj.shop.fragment.WorkOrder.OrderDetailFragment;
@@ -482,6 +483,11 @@ public class WorkOrderDetailActivity extends BaseActivity<WorkOrdersDetailPresen
 
     @Override
     public void GetAccountAddress(BaseResult<List<Address>> baseResult) {
+
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
 
     }
 

@@ -5,6 +5,7 @@ import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.WorkOrdersDetailContract;
 
@@ -80,8 +81,8 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
 
 
     @Override
-    public void EnSureOrder(String OrderID, String PayPassword, String Grade, String OrgAppraise) {
-        mModel.EnSureOrder(OrderID, PayPassword,Grade,OrgAppraise)
+    public void EnSureOrder(String OrderID, String PayPassword, String Grade, String Grade1, String Grade2, String Grade3, String OrgAppraise) {
+        mModel.EnSureOrder(OrderID, PayPassword, Grade, Grade1, Grade2, Grade3, OrgAppraise)
                 .subscribe(new BaseObserver2<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
@@ -117,6 +118,17 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     @Override
                     protected void onHandleSuccess(BaseResult<List<Address>> value) {
                         mView.GetAccountAddress(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetUserInfoList(String userName, String limit) {
+        mModel.GetUserInfoList(userName, limit)
+                .subscribe(new BaseObserver2<UserInfo>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<UserInfo> value) {
+                        mView.GetUserInfoList(value);
                     }
                 });
     }

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -57,6 +59,7 @@ import com.zhenghaikj.shop.activity.OrderActivity;
 import com.zhenghaikj.shop.activity.PersonalInformationActivity;
 import com.zhenghaikj.shop.activity.ReturnActivity;
 import com.zhenghaikj.shop.activity.SettingActivity;
+import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
 import com.zhenghaikj.shop.activity.StoreActivity;
 import com.zhenghaikj.shop.activity.WalletActivity;
 import com.zhenghaikj.shop.activity.WebActivity;
@@ -87,6 +90,8 @@ import com.zhenghaikj.shop.utils.ZXingUtils;
 import com.zhenghaikj.shop.widget.CircleImageView;
 import com.zhenghaikj.shop.widget.StarBarView;
 import com.zhenghaikj.shop.widget.SwitchView;
+import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
+import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -97,7 +102,7 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
-public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View {
+public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View , PasswordEditText.PasswordFullListener{
 
     private static final String TAG = "MineFragment";//
 
@@ -296,6 +301,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private Button btn_go_to_the_mall;
     private Bitmap bitmap;
     private TextView tv_undone;
+    private BottomSheetDialog bottomSheetDialog;
+    private String content;
+    private int paytype;
 
     @Override
     protected void initImmersionBar() {
@@ -685,11 +693,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 tv_name.setText("扫描下载师傅端APP，成为师傅");
                 bitmap = ZXingUtils.createQRImage("https://sj.qq.com/myapp/detail.htm?apkName=com.ying.administrator.masterappdemo", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.shop));
                 iv_code_one.setImageBitmap(bitmap);
+                btn_share_one.setText("立即下载");
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         underReviewDialog.dismiss();
-                        mShareAction1.open();
+//                        mShareAction1.open();
+                        openBrowser(mActivity,"https://sj.qq.com/myapp/detail.htm?apkName=com.ying.administrator.masterappdemo");
                     }
                 });
 
@@ -758,6 +768,28 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             default:
                 break;
         }
+    }
+
+    /**
+     * 调用第三方浏览器打开
+     *
+     * @param context
+     * @param url     要浏览的资源地址
+     */
+    public static void openBrowser(Context context, String url) {
+        final Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        context.startActivity(intent);
+        // 注意此处的判断intent.resolveActivity()可以返回显示该Intent的Activity对应的组件名
+        // 官方解释 : Name of the component implementing an activity that can display the intent
+//        if (intent.resolveActivity(context.getPackageManager()) != null) {
+//            final ComponentName componentName = intent.resolveActivity(context.getPackageManager());
+//            // 打印Log   ComponentName到底是什么
+//            context.startActivity(Intent.createChooser(intent, "请选择浏览器"));
+//        } else {
+//            Toast.makeText(context.getApplicationContext(), "请下载浏览器", Toast.LENGTH_SHORT).show();
+//        }
     }
 
 
@@ -1246,7 +1278,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         tv_fuwu_content = view.findViewById(R.id.tv_fuwu_content);
         tv_submit1 = view.findViewById(R.id.tv_submit);
         et_content1 = view.findViewById(R.id.et_content);
-        String content = et_content1.getText().toString();
+        content = et_content1.getText().toString();
 
         tv_serach.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1298,8 +1330,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         tv_submit1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if ("".equals(userInfo.getPayPassWord())){
+                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+                }else {
+                    paytype=1;
+                    openPayPasswordDialog();
+                }
+
 //                Log.d(TAG,"starRating"+starRating+"starRating1"+starRating1+"starRating2"+starRating2+"starRating3"+starRating3+"....");
-                mPresenter.EnSureOrder(data.getOrderID(), "888888", String.valueOf(starRating), String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
+
 //                EvalateDialog.dismiss();
             }
         });
@@ -1307,7 +1346,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         tv_undone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.EnSureOrder(data.getOrderID(), "888888", "1", String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
+                if ("".equals(userInfo.getPayPassWord())){
+                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+                }else {
+                    paytype=2;
+                    openPayPasswordDialog();
+                }
             }
         });
 
@@ -1319,6 +1363,25 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         window.setAttributes(lp);
         window.setBackgroundDrawable(new ColorDrawable());
     }
+
+    /*支付密码*/
+    private void openPayPasswordDialog() {
+        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
+        bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(payPasswordView);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.show();
+        /*注册监听*/
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        /*关闭*/
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+    }
+
 
     /**
      * 设置星星文字
@@ -1351,6 +1414,20 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             textView.setText("很差");
         } else if (star_num == 1.0f) {
             textView.setText("非常差");
+        }
+    }
+
+    @Override
+    public void passwordFull(String password) {
+        if (userInfo.getPayPassWord().equals(password)){
+            if (paytype==1){
+                mPresenter.EnSureOrder(data.getOrderID(), password, String.valueOf(starRating), String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
+            }else if (paytype==2){
+                mPresenter.EnSureOrder(data.getOrderID(), password, "1", String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
+            }
+            bottomSheetDialog.dismiss();
+        }else {
+            Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
         }
     }
 

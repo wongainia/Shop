@@ -7,6 +7,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 
 import java.util.List;
@@ -24,10 +25,18 @@ public interface WorkOrdersDetailContract {
         Observable<BaseResult<Data<String>>> AddOrUpdateExpressNo(String OrderID, String ExpressNo);
 
         /*用户确认*/
-        Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
+        Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID,
+                                                         String PayPassword,
+                                                         String Grade,
+                                                         String Grade1,
+                                                         String Grade2,
+                                                         String Grade3,
+                                                         String OrgAppraise);
         Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<Data<String>>> UpdateIsReturnByOrderID(String OrderID, String IsReturn, String AddressBack, String PostPayType);
         Observable<BaseResult<List<Address>>> GetAccountAddress(String UserId);
+
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
     }
 
     interface View extends BaseView {
@@ -57,10 +66,12 @@ public interface WorkOrdersDetailContract {
         void ApproveOrderService(BaseResult<Data<String>> baseResult);
         void AddOrUpdateExpressNo(BaseResult<Data<String>> baseResult);
 
-        void EnSureOrder(BaseResult<Data<String>> baseResult);
+        void EnSureOrder(BaseResult<Data<String>> Result);
         void FactoryEnsureOrder(BaseResult<Data<String>> baseResult);
         void UpdateIsReturnByOrderID(BaseResult<Data<String>> baseResult);
         void GetAccountAddress(BaseResult<List<Address>> baseResult);
+
+        void GetUserInfoList(BaseResult<UserInfo> Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -71,9 +82,16 @@ public interface WorkOrdersDetailContract {
         public abstract void ApproveOrderService(String OrderID,String State);
         public abstract void AddOrUpdateExpressNo(String OrderID,String ExpressNo);
 
-        public abstract void EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
+        public abstract void EnSureOrder(String OrderID,
+                                         String PayPassword,
+                                         String Grade,
+                                         String Grade1,
+                                         String Grade2,
+                                         String Grade3,
+                                         String OrgAppraise);
         public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
         public abstract void UpdateIsReturnByOrderID(String OrderID, String IsReturn,String AddressBack,String PostPayType);
         public abstract void GetAccountAddress(String UserId);
+        public abstract void GetUserInfoList(String userName, String limit);
     }
 }

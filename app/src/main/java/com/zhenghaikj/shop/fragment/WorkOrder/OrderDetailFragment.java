@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.fragment.WorkOrder;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +27,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -32,25 +35,29 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.vondear.rxui.view.dialog.RxDialogScaleView;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.ScanActivity;
+import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
 import com.zhenghaikj.shop.adapter.AccessoryDetailAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.WorkOrdersDetailContract;
 import com.zhenghaikj.shop.mvp.model.WorkOrdersDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.WorkOrdersDetailPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.StarBarView;
+import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
+import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener, WorkOrdersDetailContract.View {
+public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresenter, WorkOrdersDetailModel> implements View.OnClickListener, WorkOrdersDetailContract.View, PasswordEditText.PasswordFullListener {
 
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
@@ -256,6 +263,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private Double beyond;
     private EditText et_new_money;
     private String newmoney;
+    private UserInfo.UserInfoDean userInfo;
+    private int paytype;
+
 
 
 
@@ -277,8 +287,14 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private EditText et_content;
     private TextView tv_submit;
     private ImageView iv_close;
-
-
+    private String userName;
+    private BottomSheetDialog bottomSheetDialog;
+    private String content;
+    private TextView tv_undone;
+    private float starRating = 5;
+    private float starRating1 = 5;
+    private float starRating2 = 5;
+    private float starRating3 = 5;
 
 
     public static OrderDetailFragment newInstance(String param1, String param2) {
@@ -323,8 +339,10 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         OrderID = mParam1;
         SPUtils spUtils = SPUtils.getInstance("token");
         userId = spUtils.getString("userName");
+        userName = spUtils.getString("userName2");
         mPresenter.GetOrderInfo(OrderID);
         mPresenter.GetAccountAddress(userId);
+       mPresenter.GetUserInfoList(userName,"1");
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -1269,6 +1287,18 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         }
     }
 
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()){
+            case 200:
+                if (Result.getData().getData() == null) {
+
+                } else {
+                    userInfo = Result.getData().getData().get(0);
+                }
+                break;
+        }
+    }
 
 
     /*弹出确认工单评价*/
@@ -1301,6 +1331,8 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
 
         fuwu_star = view.findViewById(R.id.fuwu_star);
         tv_fuwu_content = view.findViewById(R.id.tv_fuwu_content);
+        tv_undone = view.findViewById(R.id.tv_undone);
+        content = et_content.getText().toString();
 
          if (data!=null){
              tv_orderid.setText("工单号:"+data.getOrderID());
@@ -1310,51 +1342,31 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         good_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float starRating = good_star.getStarRating();
-                setStarName(tv_good_content, starRating);
-                if (starRating == 1.0f) {
-                    tv_totle_grade.setText("1");
-                }
-                else if (starRating == 2.0f)
-                 {
-                     tv_totle_grade.setText("2");
-                }
-                else if (starRating == 3.0f)
-                {
-                    tv_totle_grade.setText("3");
-                }
-                else if (starRating == 4.0f)
-                {
-                    tv_totle_grade.setText("4");
-                }
-                else
-                {
-                    tv_totle_grade.setText("5");
-                }
-
+                starRating = good_star.getStarRating();
+                setStarName(tv_totle_grade, starRating);
+                setStarName2(tv_good_content, starRating);
             }
         });
 
         shangmen_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float starRating = shangmen_star.getStarRating();
-                setStarName(tv_shangmen_content, starRating);
+                starRating1 = shangmen_star.getStarRating();
+                setStarName2(tv_shangmen_content, starRating1);
             }
         });
-
         weixiu_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float starRating = weixiu_star.getStarRating();
-                setStarName(tv_weixiu_content, starRating);
+                starRating2 = weixiu_star.getStarRating();
+                setStarName2(tv_weixiu_content, starRating2);
             }
         });
         fuwu_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float starRating = fuwu_star.getStarRating();
-                setStarName(tv_fuwu_content, starRating);
+                starRating3 = fuwu_star.getStarRating();
+                setStarName2(tv_fuwu_content, starRating3);
             }
         });
 
@@ -1368,23 +1380,49 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("".equals(et_content.getText().toString())){
-                    mPresenter.EnSureOrder(data.getOrderID(),"888888","5","用户暂无评价");
+                if ("".equals(userInfo.getPayPassWord())){
+                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
                 }else {
-                    mPresenter.EnSureOrder(data.getOrderID(),"888888","5",et_content.getText().toString());
+                    paytype=1;
+                    openPayPasswordDialog();
                 }
 
 
             }
         });
 
-
-
+        tv_undone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("".equals(userInfo.getPayPassWord())){
+                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+                }else {
+                    paytype=2;
+                    openPayPasswordDialog();
+                }
+            }
+        });
 
     }
 
 
-
+    /*支付密码*/
+    private void openPayPasswordDialog() {
+        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
+        bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(payPasswordView);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.show();
+        /*注册监听*/
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        /*关闭*/
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+    }
 
 
 
@@ -1421,14 +1459,32 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     }*/
 
 
+
     /**
      * 设置星星文字
      */
     private void setStarName(TextView textView, float star_num) {
         if (star_num == 5.0f) {
-            textView.setText("非常好");
+            textView.setText("5");
         } else if (star_num == 4.0f) {
-            textView.setText("很好");
+            textView.setText("4");
+        } else if (star_num == 3.0f) {
+            textView.setText("3");
+        } else if (star_num == 2.0f) {
+            textView.setText("2");
+        } else if (star_num == 1.0f) {
+            textView.setText("1");
+        }
+    }
+
+    /**
+     * 设置星星文字
+     */
+    private void setStarName2(TextView textView, float star_num) {
+        if (star_num == 5.0f) {
+            textView.setText("很棒");
+        } else if (star_num == 4.0f) {
+            textView.setText("满意");
         } else if (star_num == 3.0f) {
             textView.setText("一般");
         } else if (star_num == 2.0f) {
@@ -1439,4 +1495,17 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     }
 
 
+    @Override
+    public void passwordFull(String password) {
+        if (userInfo.getPayPassWord().equals(password)){
+            if (paytype==1){
+                mPresenter.EnSureOrder(data.getOrderID(), password, String.valueOf(starRating), String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
+            }else if (paytype==2){
+                mPresenter.EnSureOrder(data.getOrderID(), password, "1", String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
+            }
+            bottomSheetDialog.dismiss();
+        }else {
+            Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+        }
+    }
 }

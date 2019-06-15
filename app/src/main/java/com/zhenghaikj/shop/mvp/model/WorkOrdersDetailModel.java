@@ -4,6 +4,7 @@ import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
 import com.zhenghaikj.shop.mvp.contract.WorkOrdersDetailContract;
 
@@ -60,8 +61,8 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword, String Grade, String OrgAppraise) {
-        return ApiRetrofit2.getDefault().EnSureOrder(OrderID, PayPassword,Grade,OrgAppraise)
+    public Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword, String Grade, String Grade1, String Grade2, String Grade3, String OrgAppraise) {
+        return ApiRetrofit2.getDefault().EnSureOrder(OrderID, PayPassword, Grade, Grade1, Grade2, Grade3, OrgAppraise)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -83,6 +84,13 @@ public class WorkOrdersDetailModel implements WorkOrdersDetailContract.Model {
     @Override
     public Observable<BaseResult<List<Address>>> GetAccountAddress(String UserId) {
         return ApiRetrofit2.getDefault().GetAccountAddress(UserId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit) {
+        return ApiRetrofit2.getDefault().GetUserInfoList(userName, limit)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
