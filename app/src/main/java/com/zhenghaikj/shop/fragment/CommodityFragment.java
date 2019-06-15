@@ -19,6 +19,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
+import com.zhenghaikj.shop.activity.SimilarActivity;
 import com.zhenghaikj.shop.adapter.CommodityAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.CollectResult;
@@ -68,6 +69,7 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
     private int pagaNo = 1;
     private SPUtils spUtils;
     private String userKey;
+    private Intent intent;
 
     public static CommodityFragment newInstance(String param1, String param2) {
         CommodityFragment fragment = new CommodityFragment();
@@ -111,10 +113,18 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
                         Log.d(TAG, "onItemChildClick: "+((CollectionProduct.DataBean)adapter.getItem(position)).getId());
                         mPresenter.PostAddFavoriteProduct((((CollectionProduct.DataBean)adapter.getItem(position)).getId()),userKey);
                         mRefreshLayout.autoRefresh();
+                        break;
                     case R.id.ll_commodity:
                         Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
                         intent.putExtra("id", commodityList.get(position).getId());
                         startActivity(intent);
+                        break;
+                    case R.id.tv_find_similar:
+                        intent =new Intent(mActivity, SimilarActivity.class);
+                        intent.putExtra("productId", commodityList.get(position).getId());
+                        intent.putExtra("categoryId", commodityList.get(position).getCategoryId());
+                        startActivity(intent);
+                        break;
                 }
             }
         });

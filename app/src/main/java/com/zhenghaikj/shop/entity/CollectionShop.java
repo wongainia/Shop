@@ -39,6 +39,15 @@ public class CollectionShop implements Serializable {
         private String Id;
         private String Logo;
         private String Name;
+        private String ShopId;
+
+        public String getShopId() {
+            return ShopId;
+        }
+
+        public void setShopId(String shopId) {
+            ShopId = shopId;
+        }
 
         public String getId() {
             return Id;

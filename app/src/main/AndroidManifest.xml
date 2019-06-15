@@ -185,10 +185,10 @@
         <activity android:name=".activity.GiftDetailActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
-         <activity android:name=".activity.GiftsDetailActivity" android:theme="@style/AppSplash"
+        <activity android:name=".activity.GiftsDetailActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
-         <activity android:name=".activity.GiftOrderDetailActivity" android:theme="@style/AppSplash"
+        <activity android:name=".activity.GiftOrderDetailActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.LoginActivity" android:theme="@style/AppSplash"
@@ -203,6 +203,9 @@
         <activity android:name=".activity.FootprintActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
+        <activity android:name=".activity.SimilarActivity" android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.CouponActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
@@ -215,7 +218,7 @@
         <activity android:name=".activity.BrandActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
-         <activity android:name=".activity.ChageUserNameActivity" android:theme="@style/AppSplash"
+        <activity android:name=".activity.ChageUserNameActivity" android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".activity.CheckinActivity" android:theme="@style/AppSplash"
@@ -476,10 +479,10 @@
         <!--新浪end-->
         <!--微信start-->
         <!--<activity-->
-            <!--android:name=".wxapi.WXEntryActivity"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-            <!--android:exported="true"-->
-            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" android:launchMode="singleTask"/>-->
+        <!--android:name=".wxapi.WXEntryActivity"-->
+        <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+        <!--android:exported="true"-->
+        <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" android:launchMode="singleTask"/>-->
         <!--微信end-->
         <!--QQstart-->
         <activity

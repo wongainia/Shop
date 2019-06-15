@@ -21,6 +21,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.StoreAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.CollectionShop;
+import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.mvp.contract.CollectionShopContract;
 import com.zhenghaikj.shop.mvp.model.CollectionShopModel;
 import com.zhenghaikj.shop.mvp.presenter.CollectionShopPresenter;
@@ -124,6 +125,10 @@ public class StoreActivity extends BaseActivity<CollectionShopPresenter, Collect
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
+                    case R.id.tv_unsubscribe:
+                        mPresenter.PostAddFavoriteShop(((CollectionShop.DataBean)adapter.getItem(position)).getShopId(),userKey);
+                        mRefreshLayout.autoRefresh();
+                        break;
                     case R.id.ll_store:
                         Intent intent=new Intent(mActivity,StoreDetailActivity.class);
                         intent.putExtra("VShopId",((CollectionShop.DataBean)adapter.getItem(position)).getId());
@@ -162,5 +167,10 @@ public class StoreActivity extends BaseActivity<CollectionShopPresenter, Collect
             storeList.addAll(result.getData());
             storeAdapter.setNewData(storeList);
         }
+    }
+
+    @Override
+    public void PostAddFavoriteShop(PostattentionResult result) {
+//        mPresenter.GetUserCollectionShop(Integer.toString(pageNo), "10", userKey);
     }
 }

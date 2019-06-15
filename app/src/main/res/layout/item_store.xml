@@ -48,6 +48,7 @@
                 android:padding="@dimen/dp_10"
                 android:text="分享"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:textSize="12sp" />
 
             <TextView
@@ -60,6 +61,7 @@
                 android:padding="@dimen/dp_10"
                 android:text="店铺置顶"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:textSize="12sp" />
 
             <TextView

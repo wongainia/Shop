@@ -47,6 +47,7 @@ public class CollectionProduct implements Serializable {
 
     public static class DataBean{
         private String Id;
+        private String categoryId;
         private String Image;
         private String ProductName;
         private String SalePrice;
@@ -54,6 +55,14 @@ public class CollectionProduct implements Serializable {
 
         public String getId() {
             return Id;
+        }
+
+        public String getCategoryId() {
+            return categoryId;
+        }
+
+        public void setCategoryId(String categoryId) {
+            this.categoryId = categoryId;
         }
 
         public void setId(String id) {

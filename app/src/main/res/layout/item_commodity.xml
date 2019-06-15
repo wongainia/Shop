@@ -111,10 +111,12 @@
                 android:padding="@dimen/dp_10"
                 android:text="去店铺"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_share"
+                android:visibility="gone"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

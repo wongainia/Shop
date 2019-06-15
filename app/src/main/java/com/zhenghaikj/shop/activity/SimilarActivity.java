@@ -13,11 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.adapter.FootprintAdapter;
+import com.zhenghaikj.shop.adapter.SimilarAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.SimilarProduct;
@@ -31,7 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, HistoryVisiteModel> implements View.OnClickListener, HistoryVisiteContract.View {
+public class SimilarActivity extends BaseActivity<HistoryVisitePresenter, HistoryVisiteModel> implements View.OnClickListener, HistoryVisiteContract.View {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.icon_back)
@@ -51,8 +50,10 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
     private SPUtils spUtils;
     private String userKey;
     private int pagaNo = 1;
-    private List<HistoryVisite.ProductBean> list = new ArrayList<>();
-    private FootprintAdapter adapter;
+    private List<SimilarProduct> list = new ArrayList<>();
+    private SimilarAdapter adapter;
+    private String productId;
+    private String categoryId;
 
     @Override
     protected int setLayoutId() {
@@ -73,14 +74,14 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
 
     @Override
     protected void initData() {
-        adapter = new FootprintAdapter(R.layout.item_footprint2, list);
+        adapter = new SimilarAdapter(R.layout.item_similar_product, list);
         adapter.setEmptyView(getEmptyView());
         mRvFootprint.setLayoutManager(new GridLayoutManager(mActivity,2));
         mRvFootprint.setAdapter(adapter);
         adapter.setEmptyView(getEmptyView());
         adapter.setOnItemClickListener((adapter, view, position) -> {
             Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
-            intent.putExtra("id", list.get(position).getProductId());
+            intent.putExtra("id", list.get(position).getId());
             startActivity(intent);
         });
     }
@@ -88,11 +89,10 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
     @Override
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
-        mTvTitle.setText("我的足迹");
-
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        mPresenter.GetHistoryVisite("10",Integer.toString(pagaNo),userKey);
+        mTvTitle.setText("找相似");
+        productId=getIntent().getStringExtra("productId");
+        categoryId=getIntent().getStringExtra("categoryId");
+        mPresenter.GetHotProduct(productId, categoryId);
 
         /*下拉刷新*/
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -103,8 +103,7 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
                 }*/
                 pagaNo=1;
                 list.clear();
-                mPresenter.GetHistoryVisite("10",Integer.toString(pagaNo),userKey);
-                adapter.notifyDataSetChanged();
+                mPresenter.GetHotProduct(productId, categoryId);
                 refreshlayout.finishRefresh(1000);
                 mRefreshLayout.setNoMoreData(false);
             }
@@ -113,16 +112,17 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
 
         //没满屏时禁止上拉
         mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
+        mRefreshLayout.setEnableLoadMore(false);
 
     //上拉加载更多
-        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                pagaNo++; //页数加1
-                mPresenter.GetHistoryVisite("10",Integer.toString(pagaNo),userKey);
-                refreshlayout.finishLoadmore();
-            }
-        });
+//        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+//            @Override
+//            public void onLoadmore(RefreshLayout refreshlayout) {
+//                pagaNo++; //页数加1
+//                mPresenter.GetHistoryVisite("10",Integer.toString(pagaNo),userKey);
+//                refreshlayout.finishLoadmore();
+//            }
+//        });
 
     }
 
@@ -149,14 +149,11 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
 
     @Override
     public void GetHistoryVisite(HistoryVisite result) {
-        if (result.isSuccess()) {
-            list.addAll(result.getProduct());
-            adapter.setNewData(list);
-        }
     }
 
     @Override
     public void GetHotProduct(List<SimilarProduct> result) {
-
+        list=result;
+        adapter.setNewData(list);
     }
 }

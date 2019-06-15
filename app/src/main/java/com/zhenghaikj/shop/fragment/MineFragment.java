@@ -940,6 +940,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             mTvFocusOnTheStore.setText(result.getFavoriteShop());
             mTvFavorites.setText(result.getFavoriteProduct());
 
+            mTvBaby.setText(result.getHistoryVisitCount());
             mTvCountDfk.setText(result.getWaitingForPay());
             mTvCountDfh.setText(result.getWaitingForDelivery());
             mTvCountDsh.setText(result.getWaitingForRecieve());

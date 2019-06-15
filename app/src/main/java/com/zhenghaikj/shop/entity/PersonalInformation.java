@@ -31,6 +31,7 @@ public class PersonalInformation implements Serializable {
     private String Photo;
     private String AllOrders;
     private String WaitingForPay;
+    private String HistoryVisitCount;
     private String WaitingForRecieve;
     private String WaitingForDelivery;
     private String WaitingForComments;
@@ -57,6 +58,14 @@ public class PersonalInformation implements Serializable {
 
     public void setUserName(String UserName) {
         this.UserName = UserName;
+    }
+
+    public String getHistoryVisitCount() {
+        return HistoryVisitCount;
+    }
+
+    public void setHistoryVisitCount(String historyVisitCount) {
+        HistoryVisitCount = historyVisitCount;
     }
 
     public String getNick() {

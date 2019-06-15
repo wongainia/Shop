@@ -2,10 +2,8 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.entity.CollectResult;
-import com.zhenghaikj.shop.entity.CollectionProduct;
 import com.zhenghaikj.shop.entity.CollectionShop;
-import com.zhenghaikj.shop.mvp.contract.CollectionProductContract;
+import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.mvp.contract.CollectionShopContract;
 
 import java.text.SimpleDateFormat;
@@ -35,6 +33,19 @@ public class CollectionShopModel implements CollectionShopContract.Model {
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetUserCollectionShop(pageNo,pageSize,userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<PostattentionResult> PostAddFavoriteShop(String shopId, String userkey) {
+        map = new HashMap<>();
+        map.put("shopid",shopId);
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().PostAddFavoriteShop(shopId,userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

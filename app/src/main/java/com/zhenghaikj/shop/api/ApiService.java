@@ -63,6 +63,7 @@ import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopResult;
+import com.zhenghaikj.shop.entity.SimilarProduct;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.entity.SubmitOrder;
@@ -1183,6 +1184,14 @@ public interface ApiService {
             @Query("app_key") String app_key,
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
+    );
+    /**
+    * 猜你喜欢，找相似
+    */
+    @GET("product/GetHotProduct")
+    Observable<List<SimilarProduct>> GetHotProduct(
+            @Query("productId") String productId,
+            @Query("categoryId") String categoryId
     );
 
 }

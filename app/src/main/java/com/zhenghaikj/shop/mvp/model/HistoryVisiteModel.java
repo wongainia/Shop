@@ -3,10 +3,12 @@ package com.zhenghaikj.shop.mvp.model;
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.HistoryVisite;
+import com.zhenghaikj.shop.entity.SimilarProduct;
 import com.zhenghaikj.shop.mvp.contract.HistoryVisiteContract;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -30,6 +32,12 @@ public class HistoryVisiteModel implements HistoryVisiteContract.Model {
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetHistoryVisite(rows,page,userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+    @Override
+    public Observable<List<SimilarProduct>> GetHotProduct(String productId, String categoryId) {
+        return ApiRetrofit.getDefault().GetHotProduct(productId, categoryId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
