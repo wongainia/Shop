@@ -26,6 +26,8 @@ import com.zhenghaikj.shop.widget.SqlHelp.SearchListDbOperation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -127,6 +129,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
     protected void initView() {
         mEtSearch.setFocusable(true);
         mEtSearch.setFocusableInTouchMode(true);
+        mEtSearch.requestFocus();
     }
 
     @Override
@@ -142,6 +145,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                         Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
                         intent.putExtra("search",(String) adapter.getItem(position));
                         startActivityForResult(intent, Config.SEARCH_REQUEST);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         break;
                 }
 
@@ -172,6 +176,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                         Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
                         intent.putExtra("search",(String) adapter.getItem(position));
                         startActivityForResult(intent, Config.SEARCH_REQUEST);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         break;
                 }
             }
@@ -205,6 +210,8 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                     Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
                     intent.putExtra("search",record);
                     startActivityForResult(intent, Config.SEARCH_REQUEST);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
                     if (!tempList.isEmpty()){
                         mRlserach_history.setVisibility(View.VISIBLE);
                     }
@@ -214,6 +221,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                     Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
                     intent.putExtra("search",String.valueOf(mEtSearch.getHint()));
                     startActivityForResult(intent, Config.SEARCH_REQUEST);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
                     //判断数据库中是否存在该记录
                     if (!searchListDbOperation.isHasRecord(String.valueOf(mEtSearch.getHint()))) {

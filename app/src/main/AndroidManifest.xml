@@ -270,7 +270,7 @@
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="stateAlwaysVisible"
             />
 
 

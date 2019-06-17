@@ -166,14 +166,11 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             cid=((CategoryMall.CategoryBean) getIntent().getSerializableExtra("tag")).getId();
             mPresenter.GetSearchProducts("",cid,null,null,"1","1",Integer.toString(pagaNo), "10","0");
         }
-
-
         /*获取筛选*/
         mPresenter.GetSearchFilter(Tvsearch_txt.getText().toString(),"0","","0",UserKey);
         newSearchDetailAdapetr = new NewSearchDetailAdapetr(R.layout.item_newsearch_detail, productBeanList);
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSearchDetail.setAdapter(newSearchDetailAdapetr);
-
     }
 
     @Override
@@ -214,7 +211,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             switch (serachtype){
                 case SYNTHESIS://综合
                  pagaNo++;
-
                  if (isFliter==false){
                      if (searchbytype==1){
                          mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
@@ -671,6 +667,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     @Override
     public void finish() {
         super.finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
 
