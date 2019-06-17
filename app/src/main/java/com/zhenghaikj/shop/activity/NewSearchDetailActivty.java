@@ -489,9 +489,12 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
        if (Result.getSuccess()){
            if (Result.getTotal()==0||Result.getProduct().isEmpty()){
                //找不到产品
-                 productBeanList.clear();
-                newSearchDetailAdapetr.setEmptyView(getEmptyView());
-                newSearchDetailAdapetr.notifyDataSetChanged();
+               if (pagaNo==1){
+                   productBeanList.clear();
+                   newSearchDetailAdapetr.setEmptyView(getEmptyView());
+                   newSearchDetailAdapetr.notifyDataSetChanged();
+               }
+
            }else {
                if(pagaNo==1){
                    productBeanList.clear();
@@ -501,10 +504,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                    productBeanList.addAll(Result.getProduct());
                    newSearchDetailAdapetr.setNewData(productBeanList);
                    newSearchDetailAdapetr.notifyDataSetChanged();
-                  /* if (Result.getProduct().isEmpty()){
-                       View view= LayoutInflater.from(mActivity).inflate(R.layout.item_footer_nomore,null);
-                       newSearchDetailAdapetr.setFooterView(view);
-                   }*/
+
 
 
                }
