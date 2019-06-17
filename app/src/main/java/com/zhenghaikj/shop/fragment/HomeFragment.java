@@ -59,7 +59,7 @@ import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.LotteryActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
-import com.zhenghaikj.shop.activity.MessageActivity;
+import com.zhenghaikj.shop.activity.MessageActivity2;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.SearchPreDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
@@ -518,9 +518,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 if ("".equals(userName)) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
-                    intent = new Intent(mActivity, MessageActivity.class);
-                    intent.putExtra("categoryId","4");
-                    intent.putExtra("title","消息");
+                    intent = new Intent(mActivity, MessageActivity2.class);
+//                    intent.putExtra("categoryId","4");
+//                    intent.putExtra("title","消息");
                     startActivity(intent);
                 }
 

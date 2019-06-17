@@ -236,4 +236,6 @@ dependencies {
     implementation 'com.github.dongjunkun:CouponView:1.0.4'
     implementation 'com.lxj:xpopup:1.8.0-x'
 
+    // 最新版本可参考 Download 徽章后对应的数值
+    implementation 'com.qiyukf.unicorn:unicorn:+'
 }

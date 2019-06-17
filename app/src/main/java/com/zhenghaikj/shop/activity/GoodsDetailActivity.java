@@ -44,6 +44,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
+import com.qiyukf.unicorn.api.ConsultSource;
+import com.qiyukf.unicorn.api.ProductDetail;
+import com.qiyukf.unicorn.api.QuickEntry;
+import com.qiyukf.unicorn.api.Unicorn;
+import com.qiyukf.unicorn.api.pop.SessionListEntrance;
+import com.qiyukf.unicorn.api.pop.ShopEntrance;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -456,6 +462,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         // mTvcollection.setOnClickListener(this);
         mLlShop.setOnClickListener(this);
         mLlCollect.setOnClickListener(this);
+        mLlCustomerService.setOnClickListener(this);
         mTvAddcart.setOnClickListener(this);
         mLlHeadShare.setOnClickListener(this);
         mTvBuy.setOnClickListener(this);
@@ -505,7 +512,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         view.measure(width, height);
         return view.getMeasuredHeight();
     }
-//    #FFD700  orange
+    //    #FFD700  orange
     public int getRadioCheckedAlphaColor(float f) {
 //        return Color.argb((int) (f * 255), 0x00, 0x00, 0x00);
         return Color.argb((int) (f * 255), 0xFF, 0xD7, 0x00);
@@ -527,6 +534,39 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 break;
             case R.id.ll_back:
                 finish();
+                break;
+            case R.id.ll_customer_service:
+                String title = result.getShop().getName();
+/**
+ * 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入。
+ * 三个参数分别为：来源页面的url，来源页面标题，来源页面额外信息（保留字段，暂时无用）。
+ * 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
+ */
+                ConsultSource source = new ConsultSource("", "商品详情页面", "custom information string");
+/**
+ * 请注意： 调用该接口前，应先检查Unicorn.isServiceAvailable()，
+ * 如果返回为false，该接口不会有任何动作
+ *
+ * @param context 上下文
+ * @param title   聊天窗口的标题
+ * @param source  咨询的发起来源，包括发起咨询的url，title，描述信息等
+ */
+                source.shopEntrance=new ShopEntrance.Builder().setLogo(result.getVShopLog()).setName(result.getShop().getName()).build();
+                source.sessionListEntrance=new SessionListEntrance.Builder().build();
+                source.quickEntryList = new ArrayList<>();
+                source.quickEntryList.add(new QuickEntry(0, "查订单", ""));
+                source.quickEntryList.add(new QuickEntry(1, "查物流", ""));
+                source.productDetail=new ProductDetail.Builder()
+                        .setTitle(result.getProduct().getProductName())
+                        .setPicture(result.getProduct().getImagePath().get(0))
+                        .setNote("￥"+result.getProduct().getMinSalePrice())
+                        .setDesc(result.getProduct().getProductName())
+                        .setUrl(result.getProduct().getProductId()+"")
+                        .setShow(1)
+                        .setAlwaysSend(true)
+                        .build();
+//                source.shopId=result.getShop().getVShopId()+"";
+                Unicorn.openServiceActivity(mActivity, title, source);
                 break;
             case R.id.ll_collect:
                 if ("".equals(userName) && "".equals(Userkey)) {

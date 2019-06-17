@@ -54,7 +54,7 @@ import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
-import com.zhenghaikj.shop.activity.MessageActivity;
+import com.zhenghaikj.shop.activity.MessageActivity2;
 import com.zhenghaikj.shop.activity.OrderActivity;
 import com.zhenghaikj.shop.activity.PersonalInformationActivity;
 import com.zhenghaikj.shop.activity.ReturnActivity;
@@ -552,9 +552,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.iv_message:
-                intent = new Intent(mActivity, MessageActivity.class);
-                intent.putExtra("categoryId","4");
-                intent.putExtra("title","消息");
+                intent = new Intent(mActivity, MessageActivity2.class);
+//                intent.putExtra("categoryId","4");
+//                intent.putExtra("title","消息");
                 startActivity(intent);
                 break;
             case R.id.ll_coupon:

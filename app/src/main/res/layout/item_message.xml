@@ -51,6 +51,7 @@
                     android:textSize="12sp" />
             </LinearLayout>
             <TextView
+                android:id="@+id/tv_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
