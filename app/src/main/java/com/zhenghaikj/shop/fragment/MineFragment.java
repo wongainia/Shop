@@ -424,7 +424,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         if (!"".equals(userName) && !"".equals(userKey)) {
             mPresenter.GetUserInfoList(userName, "1");
             mPresenter.PersonalInformation(userKey);
-//            mPresenter.GetHistoryVisite(userKey);
+            mPresenter.GetHistoryVisite("10","1",userKey);
             mPresenter.GetOrderByhmall(userName);
 //        mPresenter.GetOrderInfoList(userName,"5","1","1");
             mPresenter.GetOrderByhmalluserid(userName);
@@ -447,7 +447,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 if (!"".equals(userName) && !"".equals(userKey)) {
                     mPresenter.GetUserInfoList(userName, "1");
                     mPresenter.PersonalInformation(userKey);
-//                    mPresenter.GetHistoryVisite(userKey);
+                    mPresenter.GetHistoryVisite("10","1",userKey);
                     i = 0;
                     mPresenter.GetOrderByhmalluserid(userName);
                     mPresenter.GetOrders("3", "1", "10", userKey);
@@ -495,7 +495,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         if (!"".equals(userName) && !"".equals(userKey)) {
             mPresenter.GetUserInfoList(userName, "1");
             mPresenter.PersonalInformation(userKey);
-//            mPresenter.GetHistoryVisite(userKey);
+            mPresenter.GetHistoryVisite("10","1",userKey);
         }
 
     }

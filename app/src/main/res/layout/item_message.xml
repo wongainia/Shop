@@ -10,12 +10,19 @@
         android:orientation="horizontal"
         android:background="@color/white"
         android:padding="10dp">
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/lingdang"/>
-
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/green_shape"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/xiaoxi" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="啧啧啧"
+                    android:text="您有工单已完成"
                     android:textColor="@color/black"
                     android:textSize="16sp"/>
 
@@ -47,11 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:text="哈哈哈哈哈哈"
-                android:layout_marginTop="5dp"
+                android:text="完成的工单......"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:visibility="gone"/>
+                android:ellipsize="end" />
         </LinearLayout>
     </LinearLayout>
     <View

@@ -279,7 +279,8 @@
                     android:paddingLeft="23dp"
                     android:paddingTop="25dp"
                     android:paddingRight="23dp"
-                    android:paddingBottom="21dp">
+                    android:paddingBottom="21dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -358,7 +359,8 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="#EFEFEF" />
+                    android:background="#EFEFEF"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:id="@+id/ll_record"
@@ -368,7 +370,8 @@
                     android:paddingLeft="23dp"
                     android:paddingTop="25dp"
                     android:paddingRight="23dp"
-                    android:paddingBottom="21dp">
+                    android:paddingBottom="21dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -435,7 +438,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/white"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

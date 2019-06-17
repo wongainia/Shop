@@ -9,8 +9,8 @@ android {
         applicationId "com.zhenghaikj.shop"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 18
-        versionName "1.1.7"
+        versionCode 19
+        versionName "1.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
