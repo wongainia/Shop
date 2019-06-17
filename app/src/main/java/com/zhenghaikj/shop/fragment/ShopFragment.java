@@ -23,6 +23,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GiftsDetailActivity;
 import com.zhenghaikj.shop.activity.MessageActivity;
@@ -94,6 +95,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     View mView;
     private ExchageAdapter exchageAdapter;
     private Intent intent;
+    private List<String> ids;
 
     public static ShopFragment newInstance(String param1, String param2) {
         ShopFragment fragment = new ShopFragment();
@@ -294,14 +296,24 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     @Override
     public void GetSlideAds(List<GiftAds> result) {
         List<String> images = new ArrayList<>();
+        ids = new ArrayList<>();
         for (int i = 0; i < result.size(); i++) {
             images.add(result.get(i).getImageUrl());
+            ids.add(result.get(i).getDescription());
         }
         mBannerShop.setImageLoader(new GlideImageLoader());
         mBannerShop.setImages(images);
         mBannerShop.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         mBannerShop.setIndicatorGravity(BannerConfig.CENTER);
         mBannerShop.start();
+        mBannerShop.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Intent intent = new Intent(mActivity, GiftsDetailActivity.class);
+                intent.putExtra("giftId", ids.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -48,6 +48,7 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
 import com.zhenghaikj.shop.activity.CheckinActivity;
@@ -178,6 +179,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private String userName;
     private Boolean isLogin;
     private Intent intent;
+    private List<String> ids;
+    private String link;
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -556,14 +559,29 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             }
         }
         List<String> images = new ArrayList<>();
+        ids = new ArrayList<>();
         for (int i = 0; i < dataset.size(); i++) {
             images.add(dataset.get(i).getPic());
+            if (dataset.get(i).getLinkType()==1){
+                link =dataset.get(i).getLink();
+                ids.add(link.substring(link.lastIndexOf("/")+1));
+            }
         }
         mBannerHome.setImageLoader(new GlideImageLoader());
         mBannerHome.setImages(images);
         mBannerHome.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         mBannerHome.setIndicatorGravity(BannerConfig.CENTER);
         mBannerHome.start();
+        mBannerHome.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                if (dataset.get(position).getLinkType()==1){
+                    Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+                    intent.putExtra("id", ids.get(position));
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override
