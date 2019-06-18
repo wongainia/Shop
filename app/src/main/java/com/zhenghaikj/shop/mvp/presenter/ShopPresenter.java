@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
+import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.GiftAds;
 import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopResult;
@@ -37,4 +38,16 @@ public class ShopPresenter extends ShopContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void GetList(String categoryId,String rows, String page, String userkey) {
+        mModel.GetList(categoryId,rows, page, userkey)
+                .subscribe(new BaseObserver<Announcement>() {
+                    @Override
+                    protected void onHandleSuccess(Announcement value) {
+                        mView.GetList(value);
+                    }
+                });
+    }
+
 }

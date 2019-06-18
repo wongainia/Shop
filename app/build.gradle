@@ -9,8 +9,8 @@ android {
         applicationId "com.zhenghaikj.shop"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 19
-        versionName "1.1.8"
+        versionCode 20
+        versionName "1.1.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -238,4 +238,5 @@ dependencies {
 
     // 最新版本可参考 Download 徽章后对应的数值
     implementation 'com.qiyukf.unicorn:unicorn:+'
+
 }

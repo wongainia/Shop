@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -27,10 +27,12 @@ import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GiftsDetailActivity;
 import com.zhenghaikj.shop.activity.MessageActivity;
+import com.zhenghaikj.shop.activity.MessageDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.HotSearchAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.GiftAds;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.Shop;
@@ -40,6 +42,7 @@ import com.zhenghaikj.shop.mvp.model.ShopModel;
 import com.zhenghaikj.shop.mvp.presenter.ShopPresenter;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.widget.ObservableScrollView;
+import com.zhenghaikj.shop.widget.SwitchView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -62,8 +65,6 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     Banner mBannerShop;
     @BindView(R.id.rv_main_menu)
     RecyclerView mRvMainMenu;
-    @BindView(R.id.tv_message)
-    TextSwitcher mTvMessage;
     @BindView(R.id.ll_message)
     LinearLayout mLlMessage;
     @BindView(R.id.tv_hour)
@@ -93,9 +94,13 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.view)
     View mView;
+    @BindView(R.id.tv_message)
+    SwitchView mTvMessage;
+    private int i = 0;
     private ExchageAdapter exchageAdapter;
     private Intent intent;
     private List<String> ids;
+    private ArrayList<String> text = new ArrayList<>();
 
     public static ShopFragment newInstance(String param1, String param2) {
         ShopFragment fragment = new ShopFragment();
@@ -187,7 +192,6 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
         mRvHotSearch.setAdapter(hotSearchAdapter);
 
 
-
         mMainMenus = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i], picture[i]));
@@ -264,6 +268,10 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     protected void initView() {
+        SPUtils spUtils = SPUtils.getInstance("token");
+        String userKey = spUtils.getString("UserKey");
+        mPresenter.GetList("18", "10", "1", userKey);
+
 
     }
 
@@ -317,13 +325,57 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     }
 
     @Override
+    public void GetList(Announcement result) {
+        for (int i = 0; i < result.getRows().size(); i++) {
+            text.add(result.getRows().get(i).getTitle());
+        }
+        mTvMessage.removeAllViews();
+        mTvMessage.initView(R.layout.item_title, new SwitchView.ViewBuilder() {
+            @Override
+            public void initView(View view) {
+                TextView tv_title=view.findViewById(R.id.tv_title);
+                tv_title.setText(result.getRows().get(i).getTitle());
+
+
+                tv_title.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(mActivity, MessageDetailActivity.class);
+                        intent.putExtra("messageid",String.valueOf(result.getRows().get(i).getId()));
+                        startActivity(intent);
+                    }
+                });
+
+                i++;
+                if (i == result.getRows().size()) {
+                    i = 0;
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        mTvMessage.startAutoScroll();
+    }
+
+    //停止滚动
+    @Override
+    public void onPause() {
+        super.onPause();
+//        mTvMessage.stopAutoScroll();
+    }
+
+    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_message:
-                intent = new Intent(mActivity, MessageActivity.class);
-                intent.putExtra("categoryId","18");
-                intent.putExtra("title","西瓜鱼头条");
-                startActivity(intent);
+//                intent = new Intent(mActivity, MessageActivity.class);
+//                intent.putExtra("categoryId", "18");
+//                intent.putExtra("title", "西瓜鱼头条");
+//                startActivity(intent);
                 break;
         }
     }
