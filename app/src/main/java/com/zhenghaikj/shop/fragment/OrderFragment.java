@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -63,6 +64,8 @@ import com.zhenghaikj.shop.mvp.presenter.OrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
 import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -114,7 +117,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private UserInfo.UserInfoDean userInfo;
     private Order order;
     private Order.OrdersBean ordersBean;
-
+    private ZLoadingDialog dialog;
     private int paytype;  //支付方式：支付密码：1  确认收货：2
 
     public static OrderFragment newInstance(String param1, String param2) {
@@ -133,6 +136,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     protected void initData() {
+        dialog = new ZLoadingDialog(mActivity);
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
@@ -145,6 +149,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         cartList.clear();
         pagaNo = 1;
         getData(mParam1);
+        showLoading();
+
+
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -173,7 +180,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         orderListAdapter = new OrderListAdapter(R.layout.item_order, cartList, mParam1);
         mRvOrder.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvOrder.setAdapter(orderListAdapter);
-        orderListAdapter.setEmptyView(getEmptyViewOrder());
+
         orderListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -199,8 +206,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         receipt_position=position;
                         paytype=2;
                         openPayPasswordDialog();
-
-
                         break;
                     case R.id.tv_payment://付款
 
@@ -307,6 +312,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     @Override
     public void GetOrders(Order result) {
         if (result.isSuccess()) {
+            if (result.getOrders().isEmpty()){
+                orderListAdapter.setEmptyView(getEmptyViewOrder());
+            }
             Log.d(TAG, "00000" + result.getOrders());
             if (result.getOrders() != null) {
                 order = result;
@@ -318,7 +326,12 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             } else {
                 mRefreshLayout.finishLoadMore();
             }
+            cancleLoading();
         }
+        else {
+            cancleLoading();
+        }
+
     }
 
     @Override
@@ -694,5 +707,21 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     }
 
+
+    public void showLoading() {
+        dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
+                .setLoadingColor(Color.BLACK)//颜色
+                .setHintText("加载中请稍后...")
+                .setHintTextSize(14) // 设置字体大小 dp
+                .setHintTextColor(Color.BLACK)  // 设置字体颜色
+                .setDurationTime(1) // 设置动画时间百分比 - 0.5倍
+                .setCanceledOnTouchOutside(false)//点击外部无法取消
+                .show();
+    }
+    public void cancleLoading() {
+        if (dialog!=null){
+            dialog.dismiss();
+        }
+    }
 
 }

@@ -270,7 +270,6 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
 
                             String cartitems = SelectAllCartitems(shopBeanslist);
                             String substring = cartitems.substring(1, cartitems.length());
-                            Log.d("=======>", substring);
                             //将cartitemids传给结算界面
                             Bundle bundle = new Bundle();
                             bundle.putString("TYPE", "2");
@@ -298,8 +297,9 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     @Override
     public void GetCartProduct(Cart Result) {
         if (("true").equals(Result.getSuccess())) {
-
-
+            if (Result.getShop().isEmpty()){
+                mRvCart.setEmptyView(mLlEmpty);
+            }
             sku_delete_map.clear();
             commoditycount = 0;
             shopBeanslist.clear();
@@ -344,7 +344,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             mRvCart.setHasFixedSize(true);
             cartAdapter = new CartAdapter(shopBeanslist, mActivity);
             mRvCart.setAdapter(cartAdapter);
-            mRvCart.setEmptyView(mLlEmpty);
+
             getTotalMoneyAndCloseCount(shopBeanslist);
 
 

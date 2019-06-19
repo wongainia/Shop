@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -56,7 +58,6 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
     TextView mTvHistory;
     @BindView(R.id.rv_history)
     RecyclerView mRvHistory;
-
     @BindView(R.id.rl_serach_history)
     RelativeLayout mRlserach_history;
 
@@ -90,6 +91,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initData() {
+
         searchListDbOperation = new SearchListDbOperation(this,"building");//传入表名，以对表进行操作
         searchRecordsList = new ArrayList<>();
         tempList = new ArrayList<>();
@@ -181,6 +183,68 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                 }
             }
         });
+
+
+        mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                    /*隐藏软键盘*/
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                     //添加自己的方法
+
+                    if (mEtSearch.getText().toString().length() > 0) {
+                        String record = mEtSearch.getText().toString();
+                        //判断数据库中是否存在该记录
+                        if (!searchListDbOperation.isHasRecord(record)) {
+                            tempList.add(record);
+                        }
+                        //将搜索记录保存至数据库中
+                        searchListDbOperation.addRecords(record);
+                        reversedList();
+                        serachHistroyAdapter.notifyDataSetChanged();
+                        // Intent intent=new Intent(mActivity,SearchDetailActivity.class);
+                        Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
+                        intent.putExtra("search",record);
+                        startActivityForResult(intent, Config.SEARCH_REQUEST);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+                        if (!tempList.isEmpty()){
+                            mRlserach_history.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        mEtSearch.setText(String.valueOf(mEtSearch.getHint()));
+                        mEtSearch.setSelection(String.valueOf(mEtSearch.getHint()).length());
+                        Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
+                        intent.putExtra("search",String.valueOf(mEtSearch.getHint()));
+                        startActivityForResult(intent, Config.SEARCH_REQUEST);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+                        //判断数据库中是否存在该记录
+                        if (!searchListDbOperation.isHasRecord(String.valueOf(mEtSearch.getHint()))) {
+                            tempList.add(String.valueOf(mEtSearch.getHint()));
+                        }
+                        //将搜索记录保存至数据库中
+                        searchListDbOperation.addRecords(String.valueOf(mEtSearch.getHint()));
+                        reversedList();
+                        serachHistroyAdapter.notifyDataSetChanged();
+                        if (!tempList.isEmpty()){
+                            mRlserach_history.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+
+
+
+
+                    return true;
+                }
+
+
+                return false;
+            }
+        });
+
 
 
     }
