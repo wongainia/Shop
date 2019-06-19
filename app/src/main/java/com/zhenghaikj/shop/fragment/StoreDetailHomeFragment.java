@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.adapter.ShopCouponAdapter;
@@ -25,11 +23,11 @@ import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
-import com.zhenghaikj.shop.entity.UserCouponListResult;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 import com.zhenghaikj.shop.mvp.model.StoreDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.StoreDetailPresenter;
-import com.zhenghaikj.shop.utils.GlideImageLoader;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +50,7 @@ public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresent
 
     private View bannerview;
     private ShopCouponAdapter adapter;
+    private StoreDetailResult sdrResult;
 
     public static StoreDetailHomeFragment newInstance(String param1) {
         StoreDetailHomeFragment fragment = new StoreDetailHomeFragment();
@@ -108,6 +107,7 @@ public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresent
     @Override
     public void GetVShop(StoreDetailResult result) {
         if (result.getSuccess().equals("True")) {
+            sdrResult =result;
             mPresenter.GetShopCouponList(String.valueOf(result.getVShop().getShopId()));
             if (!result.getProducts().isEmpty()) {
                 rv.setLayoutManager(new GridLayoutManager(mActivity,2));
@@ -184,8 +184,9 @@ public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresent
     @Override
     public void PostAcceptCoupon(GetShopCoupResult Result) {
         if ("true".equals(Result.getSuccess())) {
-
+            mPresenter.GetShopCouponList(String.valueOf(sdrResult.getVShop().getShopId()));
             Toast.makeText(mActivity, "领取成功", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post("UpdateOrderCount");//更新个人中心数量
         } else {
             Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
         }

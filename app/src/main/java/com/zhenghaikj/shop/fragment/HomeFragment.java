@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
@@ -59,7 +60,7 @@ import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.LotteryActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
-import com.zhenghaikj.shop.activity.MessageActivity2;
+import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.SearchPreDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
@@ -67,6 +68,7 @@ import com.zhenghaikj.shop.adapter.HomeCategoryAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
@@ -137,8 +139,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     LinearLayout mLlScanIt;
     @BindView(R.id.ll_member_code)
     LinearLayout mLlMemberCode;
-    @BindView(R.id.ll_mess)
-    LinearLayout mLlMess;
+    @BindView(R.id.fl_message)
+    FrameLayout mFlMessage;
     @BindView(R.id.rv_panic_buying)
     RecyclerView mRvPanicBuying;
     @BindView(R.id.rv_exchange)
@@ -153,6 +155,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     RecyclerView mRvCategory;
     @BindView(R.id.view)
     View mView;
+    @BindView(R.id.tv_count_msg)
+    TextView mTvCountMsg;
 
     private List<ShopResult.GiftListNewBean> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
@@ -294,7 +298,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                         }
                     }
                 });
-
+        mPresenter.GetList("4","10","1",userKey);
         mPresenter.Get();
         mPresenter.Get(Integer.toString(pageNo), "999");
         mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999", "");
@@ -410,6 +414,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             pageNo = 1;
             mDatas.clear();
+            mPresenter.GetList("4","10","1",userKey);
             mPresenter.Get();
             mPresenter.Get(Integer.toString(pageNo), "999");
             mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999", "");
@@ -436,7 +441,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-
+        if ("UpdateReadCount".equals(name)) {
+            mPresenter.GetList("4","10","1",userKey);
+        }
     }
 
     @Override
@@ -449,7 +456,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mTvShop.setOnClickListener(this);
         mLlMemberCode.setOnClickListener(this);
         mIvRegister.setOnClickListener(this);
-        mLlMess.setOnClickListener(this);
+        mFlMessage.setOnClickListener(this);
     }
 
     @Override
@@ -514,18 +521,28 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 }
 
                 break;
-            case R.id.ll_mess:
+            case R.id.fl_message:
                 if ("".equals(userName)) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
-                    intent = new Intent(mActivity, MessageActivity2.class);
-//                    intent.putExtra("categoryId","4");
-//                    intent.putExtra("title","消息");
+                    intent = new Intent(mActivity, MessageActivity.class);
+                    intent.putExtra("categoryId","4");
+                    intent.putExtra("title","消息");
                     startActivity(intent);
                 }
 
                 break;
 
+        }
+    }
+
+    @Override
+    public void GetList(Announcement result) {
+        if (result.getCount()>0){
+            mTvCountMsg.setVisibility(View.VISIBLE);
+            mTvCountMsg.setText(result.getCount()+"");
+        }else{
+            mTvCountMsg.setVisibility(View.GONE);
         }
     }
 

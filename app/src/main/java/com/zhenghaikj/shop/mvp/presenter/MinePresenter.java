@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.mvp.presenter;
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.HistoryVisite;
@@ -17,6 +18,16 @@ import com.zhenghaikj.shop.mvp.contract.MineContract;
 import java.util.List;
 
 public class MinePresenter extends MineContract.Presenter {
+    @Override
+    public void GetList(String categoryId,String rows, String page, String userkey) {
+        mModel.GetList(categoryId,rows, page, userkey)
+                .subscribe(new BaseObserver<Announcement>() {
+                    @Override
+                    protected void onHandleSuccess(Announcement value) {
+                        mView.GetList(value);
+                    }
+                });
+    }
     @Override
     public void PersonalInformation(String UserKey) {
         mModel.PersonalInformation(UserKey)

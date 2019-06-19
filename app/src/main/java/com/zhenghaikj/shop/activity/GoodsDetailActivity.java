@@ -324,6 +324,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private List<ShopCoupResult.CouponBean> couplist = new ArrayList<>();
     private MineFragment.CustomShareListener mShareListener;
     private ShareAction mShareAction;
+    private ShopCoupAdapter shopCoupAdapter;
 
 
     @Override
@@ -993,7 +994,15 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         if ("true".equals(Result.getSuccess())) {
             couplist.clear();
             couplist.addAll(Result.getCoupon());
-            showPopupWindow(Result.getCoupon().get(0).getShopName());
+            if (mPopupWindow == null) {
+                showPopupWindow(Result.getCoupon().get(0).getShopName());
+            }else{
+                if (mPopupWindow.isShowing()){
+                    shopCoupAdapter.setNewData(couplist);
+                }else{
+                    showPopupWindow(Result.getCoupon().get(0).getShopName());
+                }
+            }
         } else {
             Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
 
@@ -1006,8 +1015,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     public void PostAcceptCoupon(GetShopCoupResult Result) {
 
         if ("true".equals(Result.getSuccess())) {
-
+            mPresenter.GetShopCouponList(Integer.toString(result.getShop().getId()));
             Toast.makeText(mActivity, "领取成功", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post("UpdateOrderCount");//更新个人中心数量
         } else {
             Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
         }
@@ -1494,12 +1504,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         }
         MyUtils.setWindowAlpa(mActivity, true);
 
-        popupWindow_view.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPopupWindow.dismiss();
-            }
-        });
+//        popupWindow_view.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mPopupWindow.dismiss();
+//            }
+//        });
 
         popupWindow_view.findViewById(R.id.img_cha).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1512,7 +1522,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         ((TextView) popupWindow_view.findViewById(R.id.tv_coup)).setText(shopname);
         RecyclerView rv = popupWindow_view.findViewById(R.id.rv_coup);
         rv.setLayoutManager(new LinearLayoutManager(mActivity));
-        ShopCoupAdapter shopCoupAdapter = new ShopCoupAdapter(R.layout.item_shopcoup, couplist);
+        shopCoupAdapter = new ShopCoupAdapter(R.layout.item_shopcoup, couplist);
         rv.setAdapter(shopCoupAdapter);
 
         shopCoupAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

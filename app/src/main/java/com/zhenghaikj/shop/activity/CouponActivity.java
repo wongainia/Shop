@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -102,7 +103,7 @@ public class CouponActivity extends BaseActivity<CouponPresenter, CouponModel> i
     public void GetUserCounponList(UserCouponListResult baseResult) {
         if (baseResult.isSuccess()){
             for (int i = 0; i < baseResult.getCoupon().size(); i++) {
-                if (baseResult.getCoupon().get(i).getUseStatus()==1){
+                if (baseResult.getCoupon().get(i).getUseStatus()==1|| TimeUtils.getNowMills()>TimeUtils.string2Millis(baseResult.getCoupon().get(i).getEndTime())){
                     noUseList.add(baseResult.getCoupon().get(i));
                 }else{
                     UseList.add(baseResult.getCoupon().get(i));

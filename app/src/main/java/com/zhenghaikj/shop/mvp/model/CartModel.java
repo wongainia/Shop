@@ -1,9 +1,10 @@
 package com.zhenghaikj.shop.mvp.model;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.Cart;
+import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.mvp.contract.CartContract;
@@ -21,6 +22,8 @@ public class CartModel implements CartContract.Model {
     private Map<String, String> map;
     private String sign;
     private String timestamp;
+    private SPUtils spUtils;
+    private String userKey;
 
 
     @Override
@@ -68,14 +71,17 @@ public class CartModel implements CartContract.Model {
 
     @Override
     public Observable<ShopCoupResult> GetShopCouponList(String shopId) {
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
         map = new HashMap<>();
         map.put("shopid",shopId);
+        map.put("userkey", userKey);
         map.put("app_key","himalltest");
         timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp",timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
 
-        return ApiRetrofit.getDefault().GetShopCouponList(shopId,"himalltest", timestamp,sign)
+        return ApiRetrofit.getDefault().GetShopCouponList(shopId,userKey,"himalltest", timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

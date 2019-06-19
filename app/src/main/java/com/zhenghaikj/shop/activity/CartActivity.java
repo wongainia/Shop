@@ -46,6 +46,7 @@ import com.zhenghaikj.shop.mvp.presenter.CartPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.EmptyRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -122,6 +123,8 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
     //String sku_delete="";
     private HashMap<String, String> sku_delete_map = new HashMap<>();
     private HashMap<String, String> sku_close_delte_map = new HashMap<>();//失效商品
+    private ShopCoupAdapter shopCoupAdapter;
+    private String shopid;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
@@ -157,8 +160,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
 
     @Override
     protected void initView() {
-        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.popwindow_shopcoups, null);
-        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
     }
 
     @Override
@@ -504,7 +506,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                 /*领券*/
                 @Override
                 public void OnCheckCoupListner(int parentposition) {
-                    String shopid = Result.getShop().get(parentposition).get(0).getShopId();
+                    shopid = Result.getShop().get(parentposition).get(0).getShopId();
                     mPresenter.GetShopCouponList(shopid);
 
 
@@ -548,7 +550,15 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
         if ("true".equals(Result.getSuccess())) {
             couplist.clear();
             couplist.addAll(Result.getCoupon());
-            showPopupWindow(Result.getCoupon().get(0).getShopName());
+            if (mPopupWindow == null) {
+                showPopupWindow(Result.getCoupon().get(0).getShopName());
+            }else{
+                if (mPopupWindow.isShowing()){
+                    shopCoupAdapter.setNewData(couplist);
+                }else{
+                    showPopupWindow(Result.getCoupon().get(0).getShopName());
+                }
+            }
         } else {
             Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
 
@@ -561,8 +571,9 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
     public void PostAcceptCoupon(GetShopCoupResult Result) {
 
         if ("true".equals(Result.getSuccess())) {
-
+            mPresenter.GetShopCouponList(shopid);
             Toast.makeText(mActivity, "领取成功", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post("UpdateOrderCount");//更新个人中心数量
         } else {
             Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
         }
@@ -695,6 +706,8 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
 
 
     public void showPopupWindow(String shopname) {
+        popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.popwindow_shopcoups, null);
+        mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
         mPopupWindow.setFocusable(true);
@@ -713,12 +726,12 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
         }
         MyUtils.setWindowAlpa(mActivity, true);
 
-        popupWindow_view.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPopupWindow.dismiss();
-            }
-        });
+//        popupWindow_view.findViewById(R.id.tv_close).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mPopupWindow.dismiss();
+//            }
+//        });
 
         popupWindow_view.findViewById(R.id.img_cha).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -731,7 +744,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
         ((TextView) popupWindow_view.findViewById(R.id.tv_coup)).setText(shopname);
         RecyclerView rv = popupWindow_view.findViewById(R.id.rv_coup);
         rv.setLayoutManager(new LinearLayoutManager(mActivity));
-        ShopCoupAdapter shopCoupAdapter = new ShopCoupAdapter(R.layout.item_shopcoup, couplist);
+        shopCoupAdapter = new ShopCoupAdapter(R.layout.item_shopcoup, couplist);
         rv.setAdapter(shopCoupAdapter);
 
         shopCoupAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

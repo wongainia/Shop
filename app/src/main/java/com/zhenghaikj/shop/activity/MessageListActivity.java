@@ -23,15 +23,14 @@ import com.zhenghaikj.shop.mvp.contract.MessageContract;
 import com.zhenghaikj.shop.mvp.model.MessageModel;
 import com.zhenghaikj.shop.mvp.presenter.MessagePresenter;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel> implements View.OnClickListener, MessageContract.View {
+public class MessageListActivity extends BaseActivity<MessagePresenter, MessageModel> implements View.OnClickListener, MessageContract.View {
+
 
     @BindView(R.id.view)
     View mView;
@@ -45,20 +44,25 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.rv_type)
+    RecyclerView mRvType;
     @BindView(R.id.rv_message)
     RecyclerView mRvMessage;
-    private List<Announcement.RowsBean> list=new ArrayList<>();
+    private List<Announcement.RowsBean> list = new ArrayList<>();
+    private MessageAdapter adapter;
+
+//    private List<Session> list = new ArrayList<>();
+//    private SessionAdapter adapter;
+
     private SPUtils spUtils;
     private String userKey;
     private String userName;
-    private MessageAdapter adapter;
     private String categoryId;
     private String title;
-    private String himallArtcleId;
 
     @Override
     protected int setLayoutId() {
-        return R.layout.activity_message;
+        return R.layout.activity_message_list;
     }
 
     /**
@@ -84,10 +88,10 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
         spUtils = SPUtils.getInstance("token");
         userKey = spUtils.getString("UserKey");
         userName = spUtils.getString("userName2");
-        title =getIntent().getStringExtra("title");
+        title = getIntent().getStringExtra("title");
         mTvTitle.setText(title);
-        categoryId =getIntent().getStringExtra("categoryId");
-        mPresenter.GetList(categoryId,"10","1",userKey);
+        categoryId = getIntent().getStringExtra("categoryId");
+        mPresenter.GetList(categoryId, "10", "1", userKey);
 //        for (int i = 0; i <10 ; i++) {
 //            list.add(new Product());
 //        }
@@ -101,7 +105,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
                 break;
@@ -117,27 +121,23 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
 
     @Override
     public void AddArticlRead(EasyResult result) {
-        if (result.getSuccess()){
-            EventBus.getDefault().post("UpdateReadCount");
-        }
-        Intent intent=new Intent(mActivity,MessageDetailActivity.class);
-        intent.putExtra("messageid",himallArtcleId);
-        startActivity(intent);
+
     }
 
     @Override
     public void GetList(Announcement result) {
         list.addAll(result.getRows());
-        adapter = new MessageAdapter(R.layout.item_message,list);
+        adapter = new MessageAdapter(R.layout.item_message, list);
         mRvMessage.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvMessage.setAdapter(adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.ll_message:
-                        himallArtcleId =list.get(position).getId()+"";
-                        mPresenter.AddArticlRead(userKey,categoryId,himallArtcleId);
+                        Intent intent = new Intent(mActivity, MessageDetailActivity.class);
+                        intent.putExtra("messageid", String.valueOf(result.getRows().get(position).getId()));
+                        startActivity(intent);
                         break;
                 }
             }

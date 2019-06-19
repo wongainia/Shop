@@ -14,6 +14,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.HistoryVisite;
@@ -174,6 +175,11 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void GetList(Announcement result) {
+
     }
 
     @Override

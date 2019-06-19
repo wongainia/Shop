@@ -718,6 +718,7 @@ public interface ApiService {
     /*获取商铺优惠券列表*/
     @GET("api/coupon/GetShopCouponList")
     Observable<ShopCoupResult> GetShopCouponList(@Query("shopId") String shopId,
+                                                 @Query("userkey") String userkey,
                                                  @Query("app_key") String app_key,
                                                  @Query("timestamp") String timestamp,
                                                  @Query("sign") String sign);
@@ -1192,6 +1193,20 @@ public interface ApiService {
     Observable<List<SimilarProduct>> GetHotProduct(
             @Query("productId") String productId,
             @Query("categoryId") String categoryId
+    );
+
+    /**
+    * 已读
+    */
+    @FormUrlEncoded
+    @POST("api/Article/AddArticlRead")
+    Observable<EasyResult> AddArticlRead(
+            @Field("userkey") String userkey,
+            @Field("CategoryId") String CategoryId,
+            @Field("HiMallArticleId") String HiMallArticleId,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
     );
 
 }

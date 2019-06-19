@@ -54,7 +54,7 @@ import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
-import com.zhenghaikj.shop.activity.MessageActivity2;
+import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.activity.OrderActivity;
 import com.zhenghaikj.shop.activity.PersonalInformationActivity;
 import com.zhenghaikj.shop.activity.ReturnActivity;
@@ -73,6 +73,7 @@ import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
+import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.HistoryVisite;
@@ -118,8 +119,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     LinearLayout mLlIntegral;
     @BindView(R.id.iv_setting)
     ImageView mIvSetting;
-    @BindView(R.id.iv_message)
-    ImageView mIvMessage;
+    @BindView(R.id.fl_message)
+    FrameLayout mFlMessage;
     @BindView(R.id.tv_favorites)
     TextView mTvFavorites;
     @BindView(R.id.ll_favorites)
@@ -238,6 +239,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     FrameLayout mFlInfo;
     @BindView(R.id.view)
     View mView;
+    @BindView(R.id.tv_count_msg)
+    TextView mTvCountMsg;
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
@@ -432,12 +435,14 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //            for (int i=0;i<order.getOrders().size();i++){
 //                mPresenter.GetExpress(order.getOrders().get(i).getId(),userKey);
 //            }
+            mPresenter.GetList("4","10","1",userKey);
         } else {
 //            mTvUsername.setText("未登录");
             mTvPhone.setVisibility(View.GONE);
             mTvUsername.setVisibility(View.GONE);
             mTvLogin.setVisibility(View.VISIBLE);
             mLlService.setVisibility(View.GONE);
+            mTvCountMsg.setVisibility(View.GONE);
         }
 
         /*下拉刷新*/
@@ -452,6 +457,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     mPresenter.GetOrderByhmalluserid(userName);
                     mPresenter.GetOrders("3", "1", "10", userKey);
 //                    mPresenter.GetOrderByhmall(userName);
+                    mPresenter.GetList("4","10","1",userKey);
+
                 }
 
                 refreshlayout.finishRefresh(1000);
@@ -485,6 +492,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     public void Event(String name) {
         if ("UserName".equals(name)) {
             mPresenter.GetUserInfoList(userName, "1");
+        }
+        if ("UpdateReadCount".equals(name)) {
+            mPresenter.GetList("4","10","1",userKey);
         }
         if ("UpdateOrderCount".equals(name)) {//更新各种数量
             mPresenter.PersonalInformation(userKey);
@@ -528,7 +538,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlCoins.setOnClickListener(this);
 
         mTvUsername.setOnClickListener(this);
-        mIvMessage.setOnClickListener(this);
+        mFlMessage.setOnClickListener(this);
 
         mLlBecomeMaster.setOnClickListener(this);
         mLlMerchant.setOnClickListener(this);
@@ -551,10 +561,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 //setting
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
-            case R.id.iv_message:
-                intent = new Intent(mActivity, MessageActivity2.class);
-//                intent.putExtra("categoryId","4");
-//                intent.putExtra("title","消息");
+            case R.id.fl_message:
+                intent = new Intent(mActivity, MessageActivity.class);
+                intent.putExtra("categoryId","4");
+                intent.putExtra("title","消息");
                 startActivity(intent);
                 break;
             case R.id.ll_coupon:
@@ -914,6 +924,16 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         WordOrderDialog wordOrderDialog = new WordOrderDialog(getContext());
         wordOrderDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
         wordOrderDialog.show();
+    }
+
+    @Override
+    public void GetList(Announcement result) {
+        if (result.getCount()>0){
+            mTvCountMsg.setVisibility(View.VISIBLE);
+            mTvCountMsg.setText(result.getCount()+"");
+        }else{
+            mTvCountMsg.setVisibility(View.GONE);
+        }
     }
 
     @Override

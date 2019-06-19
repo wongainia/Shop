@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenghaikj.shop.R;
@@ -82,7 +83,7 @@ public class CouponFragment extends BaseLazyFragment<CouponPresenter, CouponMode
         couponListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (couponBeans.get(position).getUseStatus()!=1){
+                if (couponBeans.get(position).getUseStatus()!=1|| TimeUtils.getNowMills()<TimeUtils.string2Millis(couponBeans.get(position).getEndTime())){
                     Intent intent=new Intent(mActivity, StoreDetailActivity.class);
                     intent.putExtra("VShopId",couponBeans.get(position).getVShop().getVShopId());
                     startActivity(intent);

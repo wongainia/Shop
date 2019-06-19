@@ -4,6 +4,7 @@ import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.HistoryVisite;
@@ -20,6 +21,8 @@ import io.reactivex.Observable;
 
 public interface MineContract {
     interface Model extends BaseModel {
+        Observable<Announcement> GetList(String categoryId, String rows, String page, String userkey);
+
         Observable<PersonalInformation> PersonalInformation(String UserKey);
         Observable<HistoryVisite> GetHistoryVisite(String rows,String page,String userkey);
 
@@ -45,6 +48,8 @@ public interface MineContract {
     }
 
     interface View extends BaseView {
+        void GetList(Announcement result);
+
         void PersonalInformation(PersonalInformation result);
         void GetHistoryVisite(HistoryVisite result);
         void GetUserInfoList(BaseResult<UserInfo> Result);
@@ -60,6 +65,9 @@ public interface MineContract {
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
+        public abstract void GetList(String categoryId,String rows, String page, String userkey);
+
+
         public abstract void PersonalInformation(String UserKey);
         public abstract void GetHistoryVisite(String rows,String page,String userkey);
 

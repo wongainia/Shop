@@ -12,7 +12,16 @@ public class Announcement implements Serializable {
      */
 
     private int total;
+    private int count;
     private List<RowsBean> rows;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public int getTotal() {
         return total;
@@ -40,6 +49,15 @@ public class Announcement implements Serializable {
         private int id;
         private String addDate;
         private String title;
+        private boolean isRead;
+
+        public boolean isRead() {
+            return isRead;
+        }
+
+        public void setRead(boolean read) {
+            isRead = read;
+        }
 
         public int getId() {
             return id;

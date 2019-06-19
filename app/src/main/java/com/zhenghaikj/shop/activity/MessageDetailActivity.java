@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.AnnouncementDetail;
+import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.mvp.contract.MessageContract;
 import com.zhenghaikj.shop.mvp.model.MessageModel;
 import com.zhenghaikj.shop.mvp.presenter.MessagePresenter;
@@ -77,6 +77,11 @@ public class MessageDetailActivity extends BaseActivity<MessagePresenter, Messag
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void AddArticlRead(EasyResult result) {
+
     }
 
     @Override

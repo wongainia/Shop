@@ -83,6 +83,7 @@
                             android:layout_marginRight="@dimen/dp_10"
                             android:background="@null"
                             android:hint="搜索商品"
+                            android:singleLine="true"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
                             android:textColor="#333"

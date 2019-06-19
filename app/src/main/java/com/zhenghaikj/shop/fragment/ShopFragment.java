@@ -26,7 +26,6 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GiftsDetailActivity;
-import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.activity.MessageDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.HotSearchAdapter;
@@ -101,6 +100,8 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     private Intent intent;
     private List<String> ids;
     private ArrayList<String> text = new ArrayList<>();
+    private SPUtils spUtils;
+    private String userKey;
 
     public static ShopFragment newInstance(String param1, String param2) {
         ShopFragment fragment = new ShopFragment();
@@ -268,11 +269,11 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     protected void initView() {
-        SPUtils spUtils = SPUtils.getInstance("token");
-        String userKey = spUtils.getString("UserKey");
-        mPresenter.GetList("18", "10", "1", userKey);
-
-
+        spUtils = SPUtils.getInstance("token");
+        userKey = spUtils.getString("UserKey");
+        if (!"".equals(userKey)){
+            mPresenter.GetList("18", "10", "1", userKey);
+        }
     }
 
     @Override
