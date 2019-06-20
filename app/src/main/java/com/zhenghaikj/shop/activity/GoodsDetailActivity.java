@@ -1064,6 +1064,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
             mBannerGoods.start();
 
+            if (result.getProduct().isInstall()){
+                mLlInstallService.setVisibility(View.VISIBLE);
+            }else {
+                mLlInstallService.setVisibility(View.GONE);
+            }
 
 
 

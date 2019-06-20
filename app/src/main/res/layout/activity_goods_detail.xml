@@ -275,7 +275,8 @@
                                     android:padding="4dp"
                                     android:text="此处是标签展示"
                                     android:textColor="#B28850"
-                                    android:textSize="8dp" />
+                                    android:textSize="8dp"
+                                    android:visibility="gone"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -285,7 +286,8 @@
                                     android:padding="4dp"
                                     android:text="此处是标签展示"
                                     android:textColor="#B28850"
-                                    android:textSize="8sp" />
+                                    android:textSize="8sp"
+                                    android:visibility="gone"/>
 
                                 <LinearLayout
                                     android:id="@+id/ll_install_service"

@@ -40,6 +40,7 @@ import com.zhenghaikj.shop.adapter.ProvinceAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.AddressCodeResult;
 import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.Brand;
@@ -183,6 +184,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     TextView mTvTotalPrice;
     @BindView(R.id.Rl_expressno)
     RelativeLayout mRlExpressno;
+    @BindView(R.id.iv_location)
+    ImageView mIvLocation;
     private OrderDetail.OrderItemBean bean;
     private String storeName;
     private String num = "1";
@@ -257,8 +260,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private List<Category> secondList = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private ChooseCategoryAdapter firstAdapter;
-    private String price="0";
-    private String installPrice="0";
+    private String price = "0";
+    private String installPrice = "0";
 
     @Override
     protected int setLayoutId() {
@@ -365,12 +368,12 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                         break;
                 }
                 mTvExpedited.setText("加急费用¥" + ExtraFee);
-                if (mCbService.isChecked()){
+                if (mCbService.isChecked()) {
                     Double money = Double.parseDouble(ExtraFee) + Double.parseDouble(price);
-                    mTvTotalPrice.setText("服务金额:¥"+money );
-                }else {
+                    mTvTotalPrice.setText("服务金额:¥" + money);
+                } else {
                     Double money = Double.parseDouble(ExtraFee) + Double.parseDouble(installPrice);
-                    mTvTotalPrice.setText("服务金额:¥"+money );
+                    mTvTotalPrice.setText("服务金额:¥" + money);
                 }
 
             }
@@ -477,9 +480,9 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 mLlAccessories.setVisibility(View.VISIBLE);
                 mLlSigning.setVisibility(View.GONE);
                 if (price == null) {
-                    mTvTotalPrice.setText("服务金额:¥"+"0.00");
+                    mTvTotalPrice.setText("服务金额:¥" + "0.00");
                 } else {
-                    mTvTotalPrice.setText("服务金额:¥"+price);
+                    mTvTotalPrice.setText("服务金额:¥" + price);
                 }
 
                 break;
@@ -491,9 +494,9 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 mLlAccessories.setVisibility(View.GONE);
                 mLlSigning.setVisibility(View.VISIBLE);
                 if (installPrice == null) {
-                    mTvTotalPrice.setText("服务金额:¥"+"0.00");
+                    mTvTotalPrice.setText("服务金额:¥" + "0.00");
                 } else {
-                    mTvTotalPrice.setText("服务金额:¥"+installPrice);
+                    mTvTotalPrice.setText("服务金额:¥" + installPrice);
                 }
                 break;
             case R.id.ll_scan:
@@ -1047,7 +1050,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                     TypeName = ((Category) list.get(position)).getFCategoryName();
                     price = ((Category) list.get(position)).getGeInitPrice();
                     installPrice = ((Category) list.get(position)).getGeInstallPrice();
-                    mTvTotalPrice.setText("服务金额:¥"+((Category) list.get(position)).getGeInitPrice());
+                    mTvTotalPrice.setText("服务金额:¥" + ((Category) list.get(position)).getGeInitPrice());
                     tv.setText(TypeName);
                 }
             }
@@ -1091,7 +1094,26 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 //                    startActivity(intent);
                     finish();
                 } else {
-                    ToastUtils.showShort(data.getItem2());
+//                    ToastUtils.showShort(data.getItem2());
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage(data.getItem2())
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setPositive("去充值")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//拨打电话
+                                dialog.dismiss();
+                                startActivity(new Intent(mActivity, RechargeActivity.class));
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+
                 }
                 break;
             default:
@@ -1099,6 +1121,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 break;
         }
     }
+
 
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
@@ -1124,6 +1147,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                     mPresenter.GetRegion(addressid);
                     mTvName.setText(addressList.get(0).getShipTo());
                     mTvPhone.setText(addressList.get(0).getPhone());
+                    mIvLocation.setVisibility(View.VISIBLE);
                     mTvAddress.setText(addressList.get(0).getRegionFullName() + " " + addressList.get(0).getAddress());
                     addressStr = addressList.get(0).getRegionFullName() + " " + addressList.get(0).getAddress();
                     name = addressList.get(0).getShipTo();

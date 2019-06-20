@@ -173,7 +173,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 //        }
 
 //        exchageAdapter = new ExchageAdapter(R.layout.item_exchage, exchageList);
-        exchageAdapter = new ExchageAdapter(R.layout.item_home, exchageList);
+        exchageAdapter = new ExchageAdapter(R.layout.item_shop, exchageList);
 //        LinearLayoutManager linearLayout = new LinearLayoutManager(mActivity);
 //        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 //        mRvExchage.setLayoutManager(linearLayout);

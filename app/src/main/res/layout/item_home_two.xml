@@ -82,6 +82,20 @@
                     android:visibility="gone" />
 
             </LinearLayout>
+            <TextView
+                android:id="@+id/tv_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="去购买"
+                android:textSize="12sp"
+                android:textColor="#ED3D48"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@drawable/home_round"
+                android:layout_gravity="right"/>
+
         </LinearLayout>
     </LinearLayout>
     <View
