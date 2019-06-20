@@ -181,7 +181,7 @@
                                     android:text="99"
                                     android:textSize="10sp"
                                     android:textColor="@color/white"
-                                    android:visibility="visible"/>
+                                    android:visibility="gone"/>
                             </FrameLayout>
 
                         </LinearLayout>
