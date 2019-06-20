@@ -126,8 +126,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 } else if (!RegexUtils.isMobileExact(phone)) {
                     ToastUtils.showShort("手机格式不正确！");
                 } else {
-                    TimeCount timeCount = new TimeCount(60000, 1000);
-                    timeCount.start();
                     mPresenter.GetCode(phone,"");
                 }
 //                mPresenter.GetImageCheckCode();
@@ -252,6 +250,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     @Override
     public void GetCode(SendMessage result) {
         if (result.isSuccess()){
+            TimeCount timeCount = new TimeCount(60000, 1000);
+            timeCount.start();
             ToastUtils.showShort("验证码已发送");
         }else {
             ToastUtils.showShort(result.getMsg());

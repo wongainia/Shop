@@ -189,7 +189,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             ActivityUtils.finishAllActivities();
             startActivity(new Intent(mActivity,MainActivity.class));
         }else {
-            ToastUtils.showShort(Result.getErrorMsg());
+            ToastUtils.showShort("系统错误");
         }
     }
 

@@ -138,7 +138,7 @@ public interface ApiService {
     /**
      * 获取短信
      */
-    @GET("api/BaseApi/GetPhoneOrEmailCheckCode")
+    @GET("api/Register/GetPhoneOrEmailCheckCode")
     Observable<SendMessage> GetCode(@Query("contact") String contact,
                                     @Query("id") String id,
                                     @Query("ImageCheckCode") String img,
@@ -150,7 +150,7 @@ public interface ApiService {
     /**
      * 验证验证码
      */
-    @GET("api/BaseApi/GetCheckPhoneOrEmailCheckCode")
+    @GET("api/Register/GetCheckPhoneOrEmailCheckCode")
     Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(@Query("contact") String contact,
                                                            @Query("checkCode") String checkCode,
                                                            @Query("app_key") String app_key,
