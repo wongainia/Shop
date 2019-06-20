@@ -79,6 +79,7 @@ public class AfterSaleFragment extends BaseLazyFragment<AfterSalePresenter, Afte
 
         mRvSale.setLayoutManager(new LinearLayoutManager(mActivity));
         returnGoodsAdapter=new ReturnGoodsAdapter(R.layout.item_returngoods,list,mActivity);
+        returnGoodsAdapter.setEmptyView(getEmptyViewOrder());
         mRvSale.setAdapter(returnGoodsAdapter);
         returnGoodsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override

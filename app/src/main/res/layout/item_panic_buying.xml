@@ -136,12 +136,12 @@
                         android:layout_height="wrap_content"
                         android:text="去抢购"
                         android:textSize="12sp"
-                        android:textColor="#B28850"
+                        android:textColor="#ED3D48"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:background="@drawable/goods_detail_round"/>
+                        android:background="@drawable/home_round"/>
                 </LinearLayout>
 
             </LinearLayout>

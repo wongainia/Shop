@@ -173,11 +173,12 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 //        }
 
 //        exchageAdapter = new ExchageAdapter(R.layout.item_exchage, exchageList);
-        exchageAdapter = new ExchageAdapter(R.layout.item_home_two, exchageList);
+        exchageAdapter = new ExchageAdapter(R.layout.item_home, exchageList);
 //        LinearLayoutManager linearLayout = new LinearLayoutManager(mActivity);
 //        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 //        mRvExchage.setLayoutManager(linearLayout);
-        mRvExchage.setLayoutManager(new LinearLayoutManager(mActivity));
+//        mRvExchage.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvExchage.setLayoutManager(new GridLayoutManager(mActivity,2));
         mRvExchage.setAdapter(exchageAdapter);
         exchageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -274,6 +275,16 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
         if (!"".equals(userKey)){
             mPresenter.GetList("18", "10", "1", userKey);
         }
+        SPUtils spUtils = SPUtils.getInstance("token");
+        String userKey = spUtils.getString("UserKey");
+        if (userKey==null||"".equals(userKey)){
+            return;
+        }else {
+            mPresenter.GetList("18", "10", "1", userKey);
+        }
+
+
+
     }
 
     @Override
@@ -327,32 +338,35 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     public void GetList(Announcement result) {
-        for (int i = 0; i < result.getRows().size(); i++) {
-            text.add(result.getRows().get(i).getTitle());
-        }
-        mTvMessage.removeAllViews();
-        mTvMessage.initView(R.layout.item_title, new SwitchView.ViewBuilder() {
-            @Override
-            public void initView(View view) {
-                TextView tv_title=view.findViewById(R.id.tv_title);
-                tv_title.setText(result.getRows().get(i).getTitle());
-
-
-                tv_title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(mActivity, MessageDetailActivity.class);
-                        intent.putExtra("messageid",String.valueOf(result.getRows().get(i).getId()));
-                        startActivity(intent);
-                    }
-                });
-
-                i++;
-                if (i == result.getRows().size()) {
-                    i = 0;
-                }
+        if (result.getRows().size()>0){
+            for (int i = 0; i < result.getRows().size(); i++) {
+                text.add(result.getRows().get(i).getTitle());
             }
-        });
+            mTvMessage.removeAllViews();
+            mTvMessage.initView(R.layout.item_title, new SwitchView.ViewBuilder() {
+                @Override
+                public void initView(View view) {
+                    TextView tv_title=view.findViewById(R.id.tv_title);
+                    tv_title.setText(result.getRows().get(i).getTitle());
+
+
+                    tv_title.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(mActivity, MessageDetailActivity.class);
+                            intent.putExtra("messageid",String.valueOf(result.getRows().get(i).getId()));
+                            startActivity(intent);
+                        }
+                    });
+
+                    i++;
+                    if (i == result.getRows().size()) {
+                        i = 0;
+                    }
+                }
+            });
+
+        }
 
     }
 

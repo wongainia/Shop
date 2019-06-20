@@ -67,8 +67,8 @@ public class SaleProgressView extends View {
 
     private void initAttrs(Context context, AttributeSet attrs) {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SaleProgressView);
-        sideColor = ta.getColor(R.styleable.SaleProgressView_sideColor,Color.parseColor("#F3C62D"));
-        textColor = ta.getColor(R.styleable.SaleProgressView_textColor,Color.parseColor("#000000"));
+        sideColor = ta.getColor(R.styleable.SaleProgressView_sideColor,0xffff3c32);
+        textColor = ta.getColor(R.styleable.SaleProgressView_textColor,0xffff3c32);
         sideWidth = ta.getDimension(R.styleable.SaleProgressView_sideWidth,dp2px(2));
         overText = ta.getString(R.styleable.SaleProgressView_overText);
         nearOverText = ta.getString(R.styleable.SaleProgressView_nearOverText);
@@ -156,7 +156,7 @@ public class SaleProgressView extends View {
         }
         Canvas bgCanvas = new Canvas(bgBitmap);
         if (bgSrc == null) {
-            bgSrc = BitmapFactory.decodeResource(getResources(), R.mipmap.bg);
+            bgSrc = BitmapFactory.decodeResource(getResources(), R.mipmap.bg_red);
         }
         bgCanvas.drawRoundRect(bgRectF, radius, radius, srcPaint);
 
@@ -175,7 +175,7 @@ public class SaleProgressView extends View {
         Bitmap fgBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas fgCanvas = new Canvas(fgBitmap);
         if (fgSrc == null) {
-            fgSrc = BitmapFactory.decodeResource(getResources(),R.mipmap.fg);
+            fgSrc = BitmapFactory.decodeResource(getResources(),R.mipmap.fg_red);
         }
         fgCanvas.drawRoundRect(
                 new RectF(sideWidth, sideWidth, (width - sideWidth) * scale, height - sideWidth),

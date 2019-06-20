@@ -177,7 +177,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
                     android:text="推荐"
-                    android:textColor="#B28850"
+                    android:textColor="#ED3D48"
                     android:textSize="14sp" />
 
 
