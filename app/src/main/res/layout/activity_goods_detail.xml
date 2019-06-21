@@ -411,13 +411,6 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="20dp"
                                             android:layout_weight="1"
-                                            android:text="领券后至少可减¥10"
-                                            android:textColor="#999999"
-                                            android:textSize="14sp" />
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
                                             android:text="领券"
                                             android:textColor="#999999"
                                             android:textSize="14sp" />
