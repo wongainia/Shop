@@ -7,7 +7,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -22,8 +24,6 @@ import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -55,8 +55,6 @@ public class ReturnActivity extends BaseActivity<RefundPresent, RefundModel> imp
     @BindView(R.id.viewpager_return)
     CustomViewPager mViewpagerReturn;
 
-    private SPUtils spUtil;
-    private String userKey;
     private int pagaNo=1;
 
     private ArrayList<Fragment> fragmentsList=new ArrayList<>();
@@ -83,8 +81,6 @@ public class ReturnActivity extends BaseActivity<RefundPresent, RefundModel> imp
 
     @Override
     protected void initData() {
-        spUtil = SPUtils.getInstance("token");
-        userKey = spUtil.getString("UserKey");
        // mPresenter.GetRefundList(String.valueOf(pagaNo),"8",userKey);
 
         title.add("售后申请");

@@ -11,11 +11,9 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -100,8 +98,6 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     private Intent intent;
     private List<String> ids;
     private ArrayList<String> text = new ArrayList<>();
-    private SPUtils spUtils;
-    private String userKey;
 
     public static ShopFragment newInstance(String param1, String param2) {
         ShopFragment fragment = new ShopFragment();
@@ -155,7 +151,10 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-
+        if ("更新登录信息".equals(name)){
+            getLoginMsg();
+            mPresenter.GetList("18", "10", "1", userKey);
+        }
     }
 
     @Override
@@ -270,21 +269,9 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     protected void initView() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        if (!"".equals(userKey)){
+        if (isLogin){
             mPresenter.GetList("18", "10", "1", userKey);
         }
-        SPUtils spUtils = SPUtils.getInstance("token");
-        String userKey = spUtils.getString("UserKey");
-        if (userKey==null||"".equals(userKey)){
-            return;
-        }else {
-            mPresenter.GetList("18", "10", "1", userKey);
-        }
-
-
-
     }
 
     @Override

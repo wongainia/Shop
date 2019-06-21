@@ -195,7 +195,6 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
     private IntentIntegrator integrator;
     private String RecycleOrderHour;
     private String number;
-    private String userID;
     private String BrandID;//品牌id
     private String BrandName;//品牌名称  例如 海尔
     private String ParentID;//父级ID
@@ -266,7 +265,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
         mCbYes.setChecked(false);
         mCbNo.setChecked(true);
         AccessorySendState = "N";
-//        mPresenter.GetFactoryBrand(userID);
+//        mPresenter.GetFactoryBrand(UserID);
 
         switch (title) {
             case "安装":
@@ -454,8 +453,6 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                 Address = mTvPca.getText().toString() + DetailAddress;
                 name = mEtName.getText().toString();
                 phone = mEtPhone.getText().toString();
-                spUtil = SPUtils.getInstance("token");
-                userID = spUtil.getString("userName2");
                 RecycleOrderHour = mEtRecoveryTime.getText().toString();
                 memo = mEtProblemDescription.getText().toString();
                 if ("".equals(memo)) {
@@ -521,7 +518,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                             }
                         }
 
-                        mPresenter.AddOrder("2", "安装", userID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number,"123456789");
+                        mPresenter.AddOrder("2", "安装", UserID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number,"123456789");
                         break;
                     case "维修":
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
@@ -529,7 +526,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                             return;
                         }
                         OrderMoney = "100";
-                        mPresenter.AddOrder("1", "维修", userID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null,"123456789");
+                        mPresenter.AddOrder("1", "维修", UserID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null,"123456789");
                         break;
                     default:
                         break;

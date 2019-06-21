@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -178,10 +177,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private Window window;
     private CustomShareListener mShareListener;
     private ShareAction mShareAction;
-    private SPUtils spUtils;
-    private String userKey;
-    private String userName;
-    private Boolean isLogin;
     private Intent intent;
     private List<String> ids;
     private String link;
@@ -249,10 +244,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        isLogin = spUtils.getBoolean("isLogin");
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
         UMShareAPI.get(mActivity).setShareConfig(config);
@@ -280,7 +271,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                                             if (aBoolean) {
                                                 // 获取全部权限成功
 
-                                                UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + userName + "&type=8");
+                                                UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + UserID + "&type=8");
                                                 web.setTitle("西瓜鱼");
                                                 web.setDescription("注册送西瓜币了！！！！！");
                                                 web.setThumb(new UMImage(mActivity, R.drawable.shop));
@@ -441,6 +432,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
+        if ("更新登录信息".equals(name)){
+            getLoginMsg();
+            mPresenter.GetList("4","10","1",userKey);
+        }
         if ("UpdateReadCount".equals(name)) {
             mPresenter.GetList("4","10","1",userKey);
         }
@@ -485,7 +480,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 Button btn_share_one = under_review.findViewById(R.id.btn_share_one);
                 ImageView iv_code_one = under_review.findViewById(R.id.iv_code_one);
                 Button btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
-                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + userName + "&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.shop));
+                Bitmap bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + UserID + "&type=7", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.shop));
                 iv_code_one.setImageBitmap(bitmap);
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -514,7 +509,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 window.setBackgroundDrawable(new ColorDrawable());
                 break;
             case R.id.iv_register:
-                if ("".equals(userName)) {
+                if (!isLogin) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
                     startActivity(new Intent(mActivity, AddWorkOrderActivity.class));
@@ -522,7 +517,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
                 break;
             case R.id.fl_message:
-                if ("".equals(userName)) {
+                if (!isLogin) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
                     intent = new Intent(mActivity, MessageActivity.class);

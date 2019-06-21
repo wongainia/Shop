@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
@@ -48,12 +47,10 @@ public class ReturnGoodsActivity extends BaseActivity<ReturnGoodsPresenter, Retu
     TextView mTvName;
     @BindView(R.id.tv_phone)
     TextView mTvPhone;
-    private SPUtils spUtils = SPUtils.getInstance("token");
     OrderDetail.OrderItemBean bean = new OrderDetail.OrderItemBean();
     OrderDetail.OrderBean order = new OrderDetail.OrderBean();
 
     List<OrderDetail.OrderItemBean> list = new ArrayList<>();
-    private String userKey;
     private String orderID;
     private String RefundType;
     private String title;
@@ -115,8 +112,6 @@ public class ReturnGoodsActivity extends BaseActivity<ReturnGoodsPresenter, Retu
     @Override
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
-
-        userKey = spUtils.getString("UserKey");
 
         Bundle extras = getIntent().getExtras();
         title = extras.getString("title");

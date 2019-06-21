@@ -15,8 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.alipay.sdk.app.PayTask;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -38,7 +39,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Map;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -74,8 +74,6 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
     private String orderinfo;
     private WXpayInfo wXpayInfo;
     private IWXAPI api;
-    private SPUtils spUtils;
-    private String userName;
 
     @Override
     protected int setLayoutId() {
@@ -93,8 +91,6 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userName = spUtils.getString("userName2");
 
         api = WXAPIFactory.createWXAPI(this, "wx92928bf751e1628e");
         // 将该app注册到微信
@@ -168,11 +164,11 @@ public class RechargeActivity extends BaseActivity<RechargePresenter, RechargeMo
                 }
                 switch (payway){
                     case 1:
-                        mPresenter.GetOrderStr(userName, value);
+                        mPresenter.GetOrderStr(UserID, value);
 //                        alipay();
                         break;
                     case 2:
-                        mPresenter.GetWXOrderStr(userName, value);
+                        mPresenter.GetWXOrderStr(UserID, value);
 //                        WXpay();
                         break;
                 }

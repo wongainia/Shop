@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.gyf.barlibrary.ImmersionBar;
@@ -76,9 +75,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
     LinearLayout mLlModifyPaymentPassword;
     @BindView(R.id.ll_person)
     LinearLayout mLlPerson;
-    private SPUtils spUtils;
-    private String userKey;
-    private String userName;
 
     @Override
     protected int setLayoutId() {
@@ -104,11 +100,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
         mTvTitle.setText("设置");
         mTvTitle.setVisibility(View.VISIBLE);
 
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
         mPresenter.PersonalInformation(userKey);
-        mPresenter.GetUserInfoList(userName,"1");
+        mPresenter.GetUserInfoList(UserID,"1");
     }
 
     @Override
@@ -166,7 +159,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
                 startActivity(new Intent(mActivity, BindPhoneActivity.class));
                 break;
             case R.id.btn_exit:
-                spUtils.clear();
+                spUtils.put("isLogin",false);
+                spUtils.put("UserKey","");
+                spUtils.put("userName","");
+//                EventBus.getDefault().post("更新登录信息");
 //                mPresenter.PostLogout();
                 ActivityUtils.finishAllActivities();
 
@@ -258,7 +254,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
         switch (name){
             case "UserName":
                 mPresenter.PersonalInformation(userKey);
-                mPresenter.GetUserInfoList(userName,"1");
+                mPresenter.GetUserInfoList(UserID,"1");
                 break;
         }
 

@@ -7,7 +7,6 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
@@ -49,8 +48,6 @@ public class CouponActivity extends BaseActivity<CouponPresenter, CouponModel> i
             "可用优惠券（0）", "不可用优惠券（0）"
     };
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
-    private SPUtils spUtils;
-    private String userKey;
     private List<UserCouponListResult.CouponBean> noUseList=new ArrayList<>();
     private List<UserCouponListResult.CouponBean> UseList=new ArrayList<>();
 
@@ -73,8 +70,6 @@ public class CouponActivity extends BaseActivity<CouponPresenter, CouponModel> i
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
         mPresenter.GetUserCounponList(userKey);
 
     }

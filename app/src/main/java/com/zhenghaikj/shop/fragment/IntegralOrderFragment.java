@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -50,8 +49,7 @@ public class IntegralOrderFragment extends BaseLazyFragment<IntegralOrderPresent
     private List<GiftOrder.ModelsBean> giftOrderList = new ArrayList<>();
 
     private RecyclerView.LayoutManager manager;
-    private SPUtils spUtils;
-    private String userKey;
+
     private int pagaNo = 1;
     private String mParam1;
     private GiftOrderListAdapter orderListAdapter;
@@ -73,9 +71,7 @@ public class IntegralOrderFragment extends BaseLazyFragment<IntegralOrderPresent
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-//        userName = spUtils.getString("userName2");
+//        userName = spUtils.getString("userName");
 //        mPresenter.GetUserInfoList(userName,"1");
         giftOrderList.clear();
         pagaNo = 1;

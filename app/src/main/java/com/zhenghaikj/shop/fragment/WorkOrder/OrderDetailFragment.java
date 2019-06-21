@@ -22,7 +22,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -256,7 +255,6 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private String PostPayType;
     private String AddressBack = "";
     private List<Address> addressList;
-    private String userId;
     private Address address;
     private double Service_range = 15;//正常距离
     private Double distance;
@@ -287,7 +285,6 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
     private EditText et_content;
     private TextView tv_submit;
     private ImageView iv_close;
-    private String userName;
     private BottomSheetDialog bottomSheetDialog;
     private String content;
     private TextView tv_undone;
@@ -337,12 +334,9 @@ public class OrderDetailFragment extends BaseLazyFragment<WorkOrdersDetailPresen
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("订单详情");
         OrderID = mParam1;
-        SPUtils spUtils = SPUtils.getInstance("token");
-        userId = spUtils.getString("userName");
-        userName = spUtils.getString("userName2");
         mPresenter.GetOrderInfo(OrderID);
-        mPresenter.GetAccountAddress(userId);
-       mPresenter.GetUserInfoList(userName,"1");
+        mPresenter.GetAccountAddress(UserID);
+       mPresenter.GetUserInfoList(UserID,"1");
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {

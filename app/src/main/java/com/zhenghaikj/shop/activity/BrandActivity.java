@@ -16,7 +16,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
@@ -66,7 +65,6 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
     private String brandName;
     private EditText et_brandName;
     private Button btn_next;
-    private String userID;
     private String FBrandID;//品牌id
     private String FCategoryID;//分类id
     private TextView tv_choose_category;
@@ -119,12 +117,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
             }
         });
 
-
-
-
-        SPUtils spUtils = SPUtils.getInstance("token");
-        userID = spUtils.getString("userName");
-        mPresenter.GetBrand(userID);
+        mPresenter.GetBrand(UserID);
 
     }
 
@@ -161,7 +154,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
                             MyUtils.showToast(mActivity, "请输入品牌名称！");
                             return;
                         }
-                        mPresenter.AddFactoryBrand(userID, brandName);
+                        mPresenter.AddFactoryBrand(UserID, brandName);
                     }
                 });
                 alertDialog = new AlertDialog.Builder(mActivity).setView(dialog).create();
@@ -187,7 +180,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
                 Data data = baseResult.getData();
                 if (data.isItem1()) {
                     alertDialog.dismiss();
-                    mPresenter.GetBrand(userID);
+                    mPresenter.GetBrand(UserID);
                     ToastUtils.showShort( "添加品牌成功！");
                 } else {
                     ToastUtils.showShort( "添加品牌失败！");
@@ -228,7 +221,7 @@ public class BrandActivity extends BaseActivity<AddBrandPresenter, AddBrandModel
         switch (baseResult.getStatusCode()) {
             case 200:
                 ToastUtils.showShort("删除成功！");
-                mPresenter.GetBrand(userID);
+                mPresenter.GetBrand(UserID);
                 break;
             default:
                 ToastUtils.showShort("删除失败！");

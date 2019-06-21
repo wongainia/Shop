@@ -44,6 +44,7 @@ import com.zhenghaikj.shop.entity.LimitBuyListResult;
 import com.zhenghaikj.shop.entity.LimitBuyProductResult;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.Logout;
+import com.zhenghaikj.shop.entity.MessageReadResult;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PersonalInformation;
@@ -1200,7 +1201,7 @@ public interface ApiService {
     */
     @FormUrlEncoded
     @POST("api/Article/AddArticlRead")
-    Observable<EasyResult> AddArticlRead(
+    Observable<MessageReadResult> AddArticlRead(
             @Field("userkey") String userkey,
             @Field("CategoryId") String CategoryId,
             @Field("HiMallArticleId") String HiMallArticleId,

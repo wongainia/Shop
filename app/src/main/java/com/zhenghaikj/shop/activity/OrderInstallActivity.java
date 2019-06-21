@@ -13,10 +13,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.ScreenUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -39,8 +39,6 @@ import com.zhenghaikj.shop.mvp.contract.AddInstallOrderContract;
 import com.zhenghaikj.shop.mvp.model.AddInstallOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.AddInstallOrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
-import com.zhenghaikj.shop.widget.AdderView;
-import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
@@ -48,15 +46,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /*保内上门安装*/
 public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter, AddInstallOrderModel> implements AddInstallOrderContract.View, View.OnClickListener {
     private static final String TAG ="OrderInstallActivity" ;
-    private SPUtils spUtils=SPUtils.getInstance("token");
-    private String userKey;
     private String orderID;
     private OrderDetail.OrderItemBean bean=new OrderDetail.OrderItemBean();
     private OrderDetail.OrderBean order=new OrderDetail.OrderBean();
@@ -121,7 +115,6 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     private String AreaCode;//区code
     private String DistrictCode;//街道code
     private OrderInstallAdapter orderInstallAdapter;
-    private String userID;
 
 
     private int installnum=0; //存储发单成功的数量
@@ -146,10 +139,8 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
     @Override
     protected void initData() {
-        userKey=spUtils.getString("UserKey");
         orderID = getIntent().getStringExtra("OrderId");
 //        Log.d(TAG,"OrderId"+orderID);
-        userID = spUtils.getString("userName2");
         mPresenter.GetOrderDetail(orderID,userKey);
     }
 
@@ -251,7 +242,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                      mPresenter.AddOrder(
                              "2",
                              "安装",
-                             order.getBisId(),//UserId传商家的bisid
+                             order.getBisId(),//UserID传商家的bisid
                              entry.getValue().getBrandId(),
                              entry.getValue().getBrandName(),
                              entry.getValue().getParentCategoryId(),
@@ -264,7 +255,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                              DistrictCode,
                              order.getAddress(),
                              order.getShipTo(),
-                             userID,
+                             UserID,
                              Memo,
                              "100",
                              "48", //回收时间先为48小时

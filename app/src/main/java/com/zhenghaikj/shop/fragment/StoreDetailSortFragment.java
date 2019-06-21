@@ -2,11 +2,11 @@ package com.zhenghaikj.shop.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.SearchDetailShopDetailActivity;
@@ -22,8 +22,6 @@ import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 import com.zhenghaikj.shop.mvp.model.StoreDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.StoreDetailPresenter;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class StoreDetailSortFragment extends BaseLazyFragment<StoreDetailPresenter, StoreDetailModel>implements StoreDetailContract.View ,StoreSortAdapter.OnItemSortClickListner{
@@ -34,11 +32,10 @@ public class StoreDetailSortFragment extends BaseLazyFragment<StoreDetailPresent
     RecyclerView mRv;
 
 
-    private String Userkey;
+    private String userKey;
     private String VShopId;
     private String ShopId;
 
-    private SPUtils spUtils = SPUtils.getInstance("token");
     private StoreSortAdapter storeSortAdapter;
 
     public static StoreDetailSortFragment newInstance(String param1) {
@@ -56,7 +53,6 @@ public class StoreDetailSortFragment extends BaseLazyFragment<StoreDetailPresent
 
     @Override
     protected void initData() {
-        Userkey = spUtils.getString("UserKey");
         VShopId=getActivity().getIntent().getStringExtra("VShopId");
         mPresenter.GetVShopCategory(VShopId);
 

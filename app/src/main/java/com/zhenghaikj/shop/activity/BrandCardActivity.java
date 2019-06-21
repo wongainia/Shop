@@ -8,7 +8,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.BrankCardAdapter;
@@ -16,7 +20,6 @@ import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.BankCard;
 import com.zhenghaikj.shop.entity.Data;
-import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.CardContract;
 import com.zhenghaikj.shop.mvp.model.CardModel;
@@ -25,10 +28,6 @@ import com.zhenghaikj.shop.mvp.presenter.CardPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -58,8 +57,6 @@ public class BrandCardActivity extends BaseActivity<CardPresenter, CardModel> im
 
     private List<BankCard> list = new ArrayList<>();
     private BrankCardAdapter adapter;
-    private String userkey;
-    private String userName;
 
     @Override
     protected int setLayoutId() {
@@ -77,10 +74,7 @@ public class BrandCardActivity extends BaseActivity<CardPresenter, CardModel> im
 
     @Override
     protected void initData() {
-        SPUtils spUtils = SPUtils.getInstance("token");
-        userkey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        mPresenter.GetAccountPayInfoList(userName);
+        mPresenter.GetAccountPayInfoList(UserID);
 
 //        for (int i = 0; i < 10; i++) {
 //            list.add(new Product());
@@ -166,7 +160,7 @@ public class BrandCardActivity extends BaseActivity<CardPresenter, CardModel> im
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 2000) {
             if (requestCode == 2002) {//添加卡的请求
-                mPresenter.GetAccountPayInfoList(userName);
+                mPresenter.GetAccountPayInfoList(UserID);
             }
         }
     }

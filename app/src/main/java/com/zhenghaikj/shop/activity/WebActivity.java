@@ -21,7 +21,6 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -78,8 +77,6 @@ public class WebActivity extends BaseActivity {
             return true;
         }
     };
-    private SPUtils spUtil;
-    private String Userkey;
 
     private void openImageChooserActivity() {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -107,13 +104,12 @@ public class WebActivity extends BaseActivity {
     protected void initData() {
 //        url = "https://h5.emjiayuan.com/Public/app/about/company.html";
 
-        spUtil = SPUtils.getInstance("token");
-        Userkey = spUtil.getString("UserKey");
+
         url = getIntent().getStringExtra("Url");
         Title = getIntent().getStringExtra("Title");
         mTvTitle.setText(Title);
         mTvTitle.setVisibility(View.VISIBLE);
-        String value = "Himall-User=" + Userkey;// 键值对拼接成 value
+        String value = "Himall-User=" + userKey;// 键值对拼接成 value
         CookieManager.getInstance().removeAllCookie();
         CookieManager.getInstance().setCookie(getDomain(url), value);// 设置 Cookie
         mWebview.loadUrl(url);

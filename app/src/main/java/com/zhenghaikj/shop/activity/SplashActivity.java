@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.annotation.Nullable;
+
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -21,7 +22,6 @@ import com.zhenghaikj.shop.mvp.presenter.LoginPresenter;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 
 public class SplashActivity extends BaseActivity<LoginPresenter, LoginModel> implements LoginContract.View, View.OnClickListener {
@@ -33,8 +33,6 @@ public class SplashActivity extends BaseActivity<LoginPresenter, LoginModel> imp
     Timer timer = new Timer();
     private Handler handler;
     private Runnable runnable;
-    private SPUtils spUtils;
-    private String userName;
 
     @Override
     protected void initImmersionBar() {
@@ -52,12 +50,10 @@ public class SplashActivity extends BaseActivity<LoginPresenter, LoginModel> imp
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userName = spUtils.getString("userName");
-        if ("".equals(userName) || userName == null) {
+        if (!isLogin) {
             return;
         } else {
-            mPresenter.GettokenbyUserid(userName);
+            mPresenter.GettokenbyUserid(UserID);
         }
 
     }
@@ -138,7 +134,7 @@ public class SplashActivity extends BaseActivity<LoginPresenter, LoginModel> imp
             case 200:
                 if (Result.getData().isItem1()) {
                     spUtils.put("adminToken", Result.getData().getItem2());
-                    spUtils.put("userName2", userName);
+                    spUtils.put("userName", UserID);
                 }
                 break;
 
@@ -176,7 +172,7 @@ public class SplashActivity extends BaseActivity<LoginPresenter, LoginModel> imp
 
     private static final String SHAREDPREFERENCES_NAME = "first_pref";
     private SPUtils spUtils;
-    private String userName;
+    private String UserID;
     private String passWord;
     private boolean isLogin;
 
@@ -224,10 +220,10 @@ public class SplashActivity extends BaseActivity<LoginPresenter, LoginModel> imp
     private void goHome() {
         startActivity(new Intent(SplashActivity.this, MainActivity.class));
         *//*spUtils = SPUtils.getInstance("token");
-        userName = spUtils.getString("userName");
+        UserID = spUtils.getString("UserID");
         passWord = spUtils.getString("password");
         isLogin = spUtils.getBoolean("isLogin");
-        if (userName!=null&&isLogin){
+        if (UserID!=null&&isLogin){
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
         }else{
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));

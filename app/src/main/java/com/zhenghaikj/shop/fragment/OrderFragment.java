@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alipay.sdk.app.PayTask;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -94,8 +93,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     private RecyclerView.LayoutManager manager;
     //    private OrderAdapter orderAdapter;
-    private SPUtils spUtils;
-    private String userKey;
     private int pagaNo = 1;
     private String mParam1;
     private OrderListAdapter orderListAdapter;
@@ -105,7 +102,6 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private WXpayInfo wXpayInfo;
     private String orderinfo;
     private IWXAPI api;
-    private String userName;
 
     private String OrderId="";
     private List<JsonStrOrderPay> payList;
@@ -137,10 +133,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     @Override
     protected void initData() {
         dialog = new ZLoadingDialog(mActivity);
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        mPresenter.GetUserInfoList(userName,"1");
+        mPresenter.GetUserInfoList(UserID,"1");
 
         api = WXAPIFactory.createWXAPI(mActivity, "wx92928bf751e1628e");
         // 将该app注册到微信
@@ -397,7 +390,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
      * 弹出付款Popupwindow
      */
     public void showPopupWindow() {
-        mPresenter.GetUserInfoList(userName,"1");
+        mPresenter.GetUserInfoList(UserID,"1");
         payList =new ArrayList<>();
         payList.add(new JsonStrOrderPay(Long.parseLong(OrderId),ordersBean.getBisId(),ordersBean.getOrderTotalAmount()));
         Gson gson=new Gson();
@@ -414,7 +407,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(userName,"","",ordersBean.getOrderTotalAmount()+"",jsonArray);
+                mPresenter.GetOrderStr(UserID,"","",ordersBean.getOrderTotalAmount()+"",jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -426,7 +419,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetWXOrderStr(userName,"","",ordersBean.getOrderTotalAmount()+"",jsonArray);
+                mPresenter.GetWXOrderStr(UserID,"","",ordersBean.getOrderTotalAmount()+"",jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -688,7 +681,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
         if (paytype==1){
             if (userInfo.getPayPassWord().equals(password)){
-                mPresenter.MallBalancePay("","",jsonArray,userName);
+                mPresenter.MallBalancePay("","",jsonArray,UserID);
 
                 mPopupWindow.dismiss();
             } else {

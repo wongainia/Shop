@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
@@ -48,8 +47,6 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
     RecyclerView mRvFootprint;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
-    private SPUtils spUtils;
-    private String userKey;
     private int pagaNo = 1;
     private List<HistoryVisite.ProductBean> list = new ArrayList<>();
     private FootprintAdapter adapter;
@@ -90,8 +87,6 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("我的足迹");
 
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
         mPresenter.GetHistoryVisite("10",Integer.toString(pagaNo),userKey);
 
         /*下拉刷新*/

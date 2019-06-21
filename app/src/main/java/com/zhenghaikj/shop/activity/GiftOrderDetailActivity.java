@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -80,8 +79,6 @@ public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter
     TextView mTvOrderWl;
     @BindView(R.id.ll_wl)
     LinearLayout mLlWl;
-    private SPUtils spUtil;
-    private String Userkey;
     private String id;
     private GiftOrderDetail giftOrderDetail;
 
@@ -109,9 +106,7 @@ public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter
         mTvTitle.setText("礼品订单详情");
         mTvTitle.setVisibility(View.VISIBLE);
         id = getIntent().getStringExtra("id");
-        spUtil = SPUtils.getInstance("token");
-        Userkey = spUtil.getString("UserKey");
-        mPresenter.GetOrder(id, Userkey);
+        mPresenter.GetOrder(id, userKey);
     }
 
     @Override
@@ -129,7 +124,7 @@ public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter
                 break;
             case R.id.tv_confirm_receipt:
                 //确认收货
-                mPresenter.ConfirmOrderOver(id, Userkey);
+                mPresenter.ConfirmOrderOver(id, userKey);
                 break;
         }
     }
@@ -149,7 +144,7 @@ public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter
     @Override
     public void ConfirmOrderOver(ConfirmOrderOverResult Result) {
         if (Result.isSuccess()){
-            mPresenter.GetOrder(id,Userkey);
+            mPresenter.GetOrder(id,userKey);
         }
         ToastUtils.showShort(Result.getMsg());
     }

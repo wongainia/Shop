@@ -2,7 +2,6 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.lxj.xpopup.XPopup;
@@ -24,7 +22,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.adapter.FliterAdapter;
 import com.zhenghaikj.shop.adapter.FliterBrandAdapter;
 import com.zhenghaikj.shop.adapter.FliterClassifyAdapter;
 import com.zhenghaikj.shop.adapter.NewSearchDetailAdapetr;
@@ -118,8 +115,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     private String orderType="1";//排序方式 1.升序 2.降序
     private int pagaNo = 1;
     private String serach_content; //输入框中的内容
-    private String UserKey;
-    private SPUtils spUtils;
    // private SearchDetailAdapetr searchDetailAdapetr;
     private NewSearchDetailAdapetr newSearchDetailAdapetr;
     private boolean bool_price_up_down=true; //true为上  false为下
@@ -148,8 +143,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
     @Override
     protected void initData() {
-        spUtils=SPUtils.getInstance("token");
-        UserKey=spUtils.getString("UserKey");
 
         mLlSynthesis.setSelected(true);//默认选择综合
         serachtype=SerachType.SYNTHESIS;
@@ -167,7 +160,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             mPresenter.GetSearchProducts("",cid,null,null,"1","1",Integer.toString(pagaNo), "10","0");
         }
         /*获取筛选*/
-        mPresenter.GetSearchFilter(Tvsearch_txt.getText().toString(),"0","","0",UserKey);
+        mPresenter.GetSearchFilter(Tvsearch_txt.getText().toString(),"0","","0",userKey);
         newSearchDetailAdapetr = new NewSearchDetailAdapetr(R.layout.item_newsearch_detail, productBeanList);
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSearchDetail.setAdapter(newSearchDetailAdapetr);

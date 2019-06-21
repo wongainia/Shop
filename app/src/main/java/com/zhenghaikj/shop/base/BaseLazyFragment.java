@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.interfaces.HandleBackInterface;
@@ -60,13 +61,32 @@ public abstract class BaseLazyFragment<P extends BasePresenter, M extends BaseMo
 
     protected ImmersionBar mImmersionBar;
     private Unbinder unbinder;
+    public SPUtils spUtils;
+    public String userKey;
+    public String UserID;
+    public boolean isLogin;
+    private String password;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (Activity) context;
+        spUtils = SPUtils.getInstance("token");
+        getLoginMsg();
     }
 
+    public void getLoginMsg(){
+        userKey = spUtils.getString("UserKey");
+        UserID = spUtils.getString("userName");
+        password = spUtils.getString("password");
+        isLogin = spUtils.getBoolean("isLogin",false);
+    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void Event(String name) {
+//        if ("更新登录信息".equals(name)){
+//            getLoginMsg();
+//        }
+//    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

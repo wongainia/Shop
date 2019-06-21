@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -56,12 +55,9 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_work_order)
     RecyclerView mRvWorkOrder;
-    private SPUtils spUtils;
-    private String userKey;
     private int pageIndex = 1;
     private String mParam1;
     private String mParam2;
-    private String UserID;
     private String Title;
 
     private List<Order.OrdersBean> cartList = new ArrayList<>();
@@ -107,10 +103,6 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
         Title =getIntent().getStringExtra("title");
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText(Title);
-
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        UserID = spUtils.getString("userName2");
         mPresenter.GetOrders("0", Integer.toString(pageIndex), "10", userKey);
 
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {

@@ -4,7 +4,7 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.AnnouncementDetail;
-import com.zhenghaikj.shop.entity.EasyResult;
+import com.zhenghaikj.shop.entity.MessageReadResult;
 import com.zhenghaikj.shop.mvp.contract.MessageContract;
 
 import java.text.SimpleDateFormat;
@@ -20,7 +20,7 @@ public class MessageModel implements MessageContract.Model {
     private String sign;
     private String timestamp;
     @Override
-    public Observable<EasyResult> AddArticlRead(String UserId, String CategoryId, String HiMallArticleId) {
+    public Observable<MessageReadResult> AddArticlRead(String UserId, String CategoryId, String HiMallArticleId) {
         map = new HashMap<>();
         map.put("userkey",UserId);
         map.put("categoryid",CategoryId);

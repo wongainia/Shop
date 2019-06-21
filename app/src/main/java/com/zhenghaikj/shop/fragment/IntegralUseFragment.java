@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -42,11 +41,8 @@ public class IntegralUseFragment extends BaseLazyFragment<IntegralUsePresenter, 
 
     private List<CoinRecord> coinRecordList = new ArrayList<>();
 
-    private SPUtils spUtils;
-    private String userKey;
     private String mParam1;
     private CoinRecordListAdapter coinRecordListAdapter;
-    private String userName;
 
     public static IntegralUseFragment newInstance(String param1, String param2) {
         IntegralUseFragment fragment = new IntegralUseFragment();
@@ -64,10 +60,7 @@ public class IntegralUseFragment extends BaseLazyFragment<IntegralUsePresenter, 
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-//        mPresenter.GetUserInfoList(userName,"1");
+//        mPresenter.GetUserInfoList(UserID,"1");
 
         getData(mParam1);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -98,15 +91,15 @@ public class IntegralUseFragment extends BaseLazyFragment<IntegralUsePresenter, 
         switch (mParam1) {
             case "全部":
 //                mPresenter.GetIntegralRecord("0", Integer.toString(pagaNo), "10", userKey);
-                mPresenter.CoinList(userName, "0");
+                mPresenter.CoinList(UserID, "0");
                 break;
             case "收入":
 //                mPresenter.GetIntegralRecord("1", Integer.toString(pagaNo), "10", userKey);
-                mPresenter.CoinList(userName, "1");
+                mPresenter.CoinList(UserID, "1");
                 break;
             case "支出":
 //                mPresenter.GetIntegralRecord("2", Integer.toString(pagaNo), "10", userKey);
-                mPresenter.CoinList(userName, "2");
+                mPresenter.CoinList(UserID, "2");
                 break;
         }
     }

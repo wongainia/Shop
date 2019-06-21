@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
@@ -42,8 +41,6 @@ public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresent
     RecyclerView rv;
     @BindView(R.id.rv_coupon)
     RecyclerView mRvCoupon;
-    private String Userkey;
-    private SPUtils spUtils = SPUtils.getInstance("token");
 
     private StoreDetailGoodsAdapter storeDetailGoodsAdapter;
     private List<ShopCoupResult.CouponBean> couponBeanList=new ArrayList<>();
@@ -68,10 +65,7 @@ public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresent
     @Override
     protected void initData() {
         bannerview = LayoutInflater.from(mActivity).inflate(R.layout.item_banner, null);
-
-        Userkey = spUtils.getString("UserKey");
-        mPresenter.GetVShop(getActivity().getIntent().getStringExtra("VShopId"), Userkey);
-
+        mPresenter.GetVShop(getActivity().getIntent().getStringExtra("VShopId"), userKey);
     }
 
     @Override
@@ -90,7 +84,7 @@ public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresent
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
                     case R.id.tv_shop:
-                        mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean) adapter.getData().get(position)).getVShopId(), ((ShopCoupResult.CouponBean) adapter.getData().get(position)).getCouponId(), Userkey);
+                        mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean) adapter.getData().get(position)).getVShopId(), ((ShopCoupResult.CouponBean) adapter.getData().get(position)).getCouponId(), userKey);
                         break;
                 }
             }

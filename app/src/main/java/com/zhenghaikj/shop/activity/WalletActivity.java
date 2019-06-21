@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -80,8 +79,6 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
     LinearLayout mLlCreditCardPayments;
     @BindView(R.id.ll_coin_record)
     LinearLayout mLlCoinRecord;
-    private SPUtils spUtils;
-    private String userName;
     private UserInfo.UserInfoDean userInfo;
     private Intent intent;
     private boolean flag;
@@ -102,11 +99,9 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userName = spUtils.getString("userName2");
         flag = spUtils.getBoolean("flag",false);
         mIvSee.setSelected(flag);
-        mPresenter.GetUserInfoList(userName, "1");
+        mPresenter.GetUserInfoList(UserID, "1");
     }
 
     @Override

@@ -6,7 +6,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.appcompat.widget.Toolbar;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -19,7 +20,6 @@ import com.zhenghaikj.shop.mvp.presenter.ChageUserNamePresenter;
 
 import org.greenrobot.eventbus.EventBus;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -41,8 +41,6 @@ public class ChageUserNameActivity extends BaseActivity<ChageUserNamePresenter, 
     EditText mEtUsername;
     @BindView(R.id.tv_change_username)
     TextView mTvChangeUsername;
-    private String userkey;
-    private String userName;
 
     @Override
     protected int setLayoutId() {
@@ -61,9 +59,6 @@ public class ChageUserNameActivity extends BaseActivity<ChageUserNamePresenter, 
 
     @Override
     protected void initData() {
-        SPUtils spUtils = SPUtils.getInstance("token");
-        userkey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
     }
 
     @Override
@@ -89,7 +84,7 @@ public class ChageUserNameActivity extends BaseActivity<ChageUserNamePresenter, 
                 if (name.isEmpty()){
                     ToastUtils.showShort("请输入修改的昵称");
                 }else {
-                    mPresenter.UpdateAccountNickName(userName,name);
+                    mPresenter.UpdateAccountNickName(UserID,name);
                 }
                 break;
         }

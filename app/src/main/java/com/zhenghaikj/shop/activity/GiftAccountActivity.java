@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -54,8 +53,6 @@ public class GiftAccountActivity extends BaseActivity<GiftPresenter, GiftModel> 
     private String ToUserID;
     private String Connum;
     private String Msg;
-    private SPUtils spUtil;
-    private String UserID;
 
     @Override
     protected int setLayoutId() {
@@ -73,8 +70,6 @@ public class GiftAccountActivity extends BaseActivity<GiftPresenter, GiftModel> 
 
     @Override
     protected void initData() {
-        spUtil = SPUtils.getInstance("token");
-        UserID = spUtil.getString("userName2");
     }
 
 

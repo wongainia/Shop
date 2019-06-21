@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -35,8 +34,6 @@ public class AfterSaleFragment extends BaseLazyFragment<AfterSalePresenter, Afte
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
     private static final String TAG = "AfterSaleFragment";
-    private SPUtils spUtils=SPUtils.getInstance("token");
-    private String userKey;
     @BindView(R.id.rv_sale)
     RecyclerView mRvSale;
     @BindView(R.id.smartrefresh)
@@ -74,7 +71,6 @@ public class AfterSaleFragment extends BaseLazyFragment<AfterSalePresenter, Afte
 
     @Override
     protected void initData() {
-        userKey=spUtils.getString("UserKey");
         getData();
 
         mRvSale.setLayoutManager(new LinearLayoutManager(mActivity));

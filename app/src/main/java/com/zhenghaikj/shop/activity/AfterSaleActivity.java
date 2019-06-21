@@ -5,7 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhenghaikj.shop.R;
@@ -18,9 +20,6 @@ import com.zhenghaikj.shop.mvp.presenter.RefundPresent;
 
 import java.util.ArrayList;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -44,8 +43,6 @@ public class AfterSaleActivity extends BaseActivity<RefundPresent, RefundModel> 
     private int pageNo=1;
     private ArrayList<Refund.DataBean> afterSaleList=new ArrayList<>();
     private AfterSaleAdapter afterSaleAdapter;
-    private SPUtils spUtil;
-    private String userKey;
 
     @Override
     protected int setLayoutId() {
@@ -65,8 +62,6 @@ public class AfterSaleActivity extends BaseActivity<RefundPresent, RefundModel> 
 
     @Override
     protected void initData() {
-        spUtil = SPUtils.getInstance("token");
-        userKey = spUtil.getString("UserKey");
    //     mPresenter.GetRefundList(Integer.toString(pageNo),"10", userKey);
 /*
         afterSaleAdapter = new AfterSaleAdapter(R.layout.item_after_sale,afterSaleList);

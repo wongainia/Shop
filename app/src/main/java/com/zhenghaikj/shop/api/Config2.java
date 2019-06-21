@@ -72,7 +72,7 @@ public class Config2 {
 
                     Request.Builder builder=chain.request().newBuilder();
                     return   chain.proceed(builder
-                            .addHeader("userName", spUtils.getString("userName2"))
+                            .addHeader("userName", spUtils.getString("userName"))
                             .addHeader("adminToken", spUtils.getString("adminToken"))
                             .build());
                 }
@@ -86,7 +86,7 @@ public class Config2 {
     public static OkHttpClient getClient() {
 //        if (null == client) {
         spUtils = SPUtils.getInstance("token");
-        if (spUtils.getString("userName2")==null){
+        if (spUtils.getString("userName")==null){
             client = new OkHttpClient.Builder()
                     .addInterceptor(getLoggingInterceptor())
                     .build();

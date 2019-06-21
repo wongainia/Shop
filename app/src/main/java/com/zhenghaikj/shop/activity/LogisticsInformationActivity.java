@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -30,9 +33,6 @@ import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -59,9 +59,6 @@ public class LogisticsInformationActivity extends BaseActivity<ExpressPresenter,
     TextView mTvTrackingNumber;
     @BindView(R.id.rv_logistics)
     RecyclerView mRvLogistics;
-    private SPUtils spUtils;
-    private String userKey;
-    private String userName;
     private String orderId;
     private List<Logistics> logisticsList = new ArrayList<>();
     private String express;
@@ -84,9 +81,6 @@ public class LogisticsInformationActivity extends BaseActivity<ExpressPresenter,
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
         orderId = getIntent().getStringExtra("orederId");
 //        ToastUtils.showShort(orderId);
         mPresenter.GetExpress(orderId, userKey);

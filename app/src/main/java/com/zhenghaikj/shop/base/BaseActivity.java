@@ -10,6 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.utils.HandleBackUtil;
@@ -17,9 +22,6 @@ import com.zhenghaikj.shop.utils.TUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -36,11 +38,18 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     protected ImmersionBar mImmersionBar;
     private Unbinder unbinder;
     public Context mActivity;
+
     public P mPresenter;
     public M mModel;
     private RxManager mRxManage;
     // 右滑返回
     private SwipeBackLayout mSwipeBackLayout;
+
+    public SPUtils spUtils;
+    public String userKey;
+    public String UserID;
+    public boolean isLogin;
+    private String password;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +57,10 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         super.onCreate(savedInstanceState);
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //竖屏
         setContentView(setLayoutId());
+
+        spUtils = SPUtils.getInstance("token");
+        getLoginMsg();
+
         this.mActivity=this;
         try {
             EventBus.getDefault().register(this);
@@ -132,7 +145,22 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         super.finish();
         hideSoftKeyBoard();
     }
-
+    public void getLoginMsg(){
+        userKey = spUtils.getString("UserKey");
+        UserID = spUtils.getString("userName");
+        password = spUtils.getString("password");
+        isLogin = spUtils.getBoolean("isLogin",false);
+    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void Event(String name) {
+//        if ("更新登录信息".equals(name)){
+//            getLoginMsg();
+//            //初始化数据
+////            initData();
+//            //view与数据绑定
+////            initView();
+//        }
+//    }
 
     public View getEmptyView() {
         return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_data_commodity,null);

@@ -20,7 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
@@ -120,8 +119,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     CartItem.SkuIdsBean bean;
 
 
-    private SPUtils spUtils = SPUtils.getInstance("token");
-    private String Userkey;
+
     private String skuid_add; //添加删除的skuid
     private String count_add; //增加删除保存的count
 
@@ -151,8 +149,11 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
         switch (name) {
+            case "更新登录信息":
+                getLoginMsg();
+                break;
             case "cart":
-                mPresenter.GetCartProduct(Userkey);
+                mPresenter.GetCartProduct(userKey);
                 break;
             default:
                 break;
@@ -177,7 +178,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                mPresenter.GetCartProduct(Userkey);
+                mPresenter.GetCartProduct(userKey);
                 smartRefreshLayout.finishRefresh(1000);
 
 
@@ -188,8 +189,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
 
     @Override
     protected void initData() {
-        Userkey = spUtils.getString("UserKey");
-        mPresenter.GetCartProduct(Userkey);
+        mPresenter.GetCartProduct(userKey);
     }
 
     @Override
@@ -222,7 +222,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                         skuid += "," + value;
                     }
                     String final_skuid = skuid.substring(1, skuid.length());//去除第一个逗号
-                    mPresenter.PostDeleteCartProduct(final_skuid, Userkey);
+                    mPresenter.PostDeleteCartProduct(final_skuid, userKey);
 
                 }
                 break;
@@ -487,11 +487,11 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                     bean.setSkuId(skuid_add);
                     bean.setCount(count_add);
                     list.add(bean);
-                    cartItem.setUserkey(Userkey);
+                    cartItem.setUserkey(userKey);
                     cartItem.setSkus(list);
                     Gson gson = new Gson();
                     String jsonstr = gson.toJson(cartItem);
-                    mPresenter.PostUpdateCartItem(jsonstr, Userkey);
+                    mPresenter.PostUpdateCartItem(jsonstr, userKey);
 
 
                 }
@@ -530,7 +530,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             Toast.makeText(mActivity, "删除成功", Toast.LENGTH_SHORT).show();
 //              UpdateRecyclerView();
             // smartRefreshLayout.autoRefresh();
-            mPresenter.GetCartProduct(Userkey);
+            mPresenter.GetCartProduct(userKey);
         }
 
     }
@@ -687,7 +687,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                 skuid += "," + value;
             }
             String final_skuid = skuid.substring(1, skuid.length());//去除第一个逗号
-            mPresenter.PostDeleteCartProduct(final_skuid, Userkey);
+            mPresenter.PostDeleteCartProduct(final_skuid, userKey);
             sku_close_delte_map.clear();
         } else {
             return;
@@ -755,7 +755,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_getcoup:
-                        mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean) adapter.getData().get(position)).getVShopId(), ((ShopCoupResult.CouponBean) adapter.getData().get(position)).getCouponId(), Userkey);
+                        mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean) adapter.getData().get(position)).getVShopId(), ((ShopCoupResult.CouponBean) adapter.getData().get(position)).getCouponId(), userKey);
                         break;
                 }
 

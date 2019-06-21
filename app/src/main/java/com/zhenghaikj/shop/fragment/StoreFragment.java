@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
@@ -49,8 +48,6 @@ public class StoreFragment extends BaseLazyFragment<CollectionShopPresenter, Col
     private String mParam1;
     private String mParam2;
     private StoreAdapter storeAdapter;
-    private SPUtils spUtils;
-    private String userKey;
 
     public static StoreFragment newInstance(String param1, String param2) {
         StoreFragment fragment = new StoreFragment();
@@ -73,8 +70,6 @@ public class StoreFragment extends BaseLazyFragment<CollectionShopPresenter, Col
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
         mPresenter.GetUserCollectionShop(Integer.toString(pageNo), "10", userKey);
         storeAdapter = new StoreAdapter(R.layout.item_store, storeList);
         mRvStore.setLayoutManager(new LinearLayoutManager(mActivity));

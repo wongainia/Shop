@@ -4,14 +4,12 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.RegexUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.gyf.barlibrary.ImmersionBar;
@@ -46,8 +44,6 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter, BindPhon
     TextView mTvBindImmediately;
     private String phone;
     private String code;
-    private SPUtils spUtils;
-    private String userKey;
 
     @Override
     protected int setLayoutId() {
@@ -72,9 +68,6 @@ public class BindPhoneActivity extends BaseActivity<BindPhonePresenter, BindPhon
     @Override
     protected void initView() {
         mPresenter.GetImageCheckCode();
-
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
     }
 
     @Override

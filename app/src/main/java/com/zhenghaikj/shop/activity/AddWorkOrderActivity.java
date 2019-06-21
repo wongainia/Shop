@@ -23,7 +23,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -207,7 +206,6 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private IntentIntegrator integrator;
     private String RecycleOrderHour;
     private String number;
-    private String userID;
     private String BrandName;//品牌名称  例如 海尔
     private String ParentID;//父级ID
     private String ParentName;//父级名称  例如  冰箱
@@ -217,7 +215,6 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String CityCode;//市code
     private String AreaCode;//区code
     private String DistrictCode;//街道code
-    private SPUtils spUtil;
     private List<Province> provinceList;
     private List<City> cityList;
     private ProvinceAdapter provinceAdapter;
@@ -254,7 +251,6 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String SubCategoryID;
     private String TypeID;
     private String TypeName;
-    private String Userkey;
     private List<ShippingAddressList.ShippingAddressBean> addressList;
     private List<Category> firstList = new ArrayList<>();
     private List<Category> secondList = new ArrayList<>();
@@ -270,10 +266,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 
     @Override
     protected void initData() {
-        spUtil = SPUtils.getInstance("token");
-        Userkey = spUtil.getString("UserKey");
-        userID = spUtil.getString("userName2");
-        mPresenter.GetShippingAddressList(Userkey);
+        mPresenter.GetShippingAddressList(userKey);
 
 //        title = getIntent().getStringExtra("title");
         mTvTitle.setText("召唤师傅");
@@ -596,7 +589,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                                 return;
                             }
                         }
-                        mPresenter.AddOrder("2", "安装", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", null, Extra, ExtraTime, ExtraFee, num, SigningState, number, "123456789");
+                        mPresenter.AddOrder("2", "安装", UserID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", null, Extra, ExtraTime, ExtraFee, num, SigningState, number, "123456789");
                         break;
                     case "维修":
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
@@ -604,7 +597,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             return;
                         }
                         OrderMoney = "100";
-                        mPresenter.AddOrder("1", "维修", userID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null, "123456789");
+                        mPresenter.AddOrder("1", "维修", UserID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null, "123456789");
                         break;
                     default:
                         break;

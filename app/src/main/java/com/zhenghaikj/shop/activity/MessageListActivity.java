@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -18,7 +17,7 @@ import com.zhenghaikj.shop.adapter.MessageAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.AnnouncementDetail;
-import com.zhenghaikj.shop.entity.EasyResult;
+import com.zhenghaikj.shop.entity.MessageReadResult;
 import com.zhenghaikj.shop.mvp.contract.MessageContract;
 import com.zhenghaikj.shop.mvp.model.MessageModel;
 import com.zhenghaikj.shop.mvp.presenter.MessagePresenter;
@@ -54,9 +53,6 @@ public class MessageListActivity extends BaseActivity<MessagePresenter, MessageM
 //    private List<Session> list = new ArrayList<>();
 //    private SessionAdapter adapter;
 
-    private SPUtils spUtils;
-    private String userKey;
-    private String userName;
     private String categoryId;
     private String title;
 
@@ -85,9 +81,6 @@ public class MessageListActivity extends BaseActivity<MessagePresenter, MessageM
 
     @Override
     protected void initView() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
         title = getIntent().getStringExtra("title");
         mTvTitle.setText(title);
         categoryId = getIntent().getStringExtra("categoryId");
@@ -120,7 +113,7 @@ public class MessageListActivity extends BaseActivity<MessagePresenter, MessageM
     }
 
     @Override
-    public void AddArticlRead(EasyResult result) {
+    public void AddArticlRead(MessageReadResult result) {
 
     }
 

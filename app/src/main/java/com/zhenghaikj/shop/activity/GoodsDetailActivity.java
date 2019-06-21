@@ -37,7 +37,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -258,8 +257,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private int getinventory; //库存
     private View popupWindow_view;
     private PopupWindow mPopupWindow;
-    private String Userkey;
-    private SPUtils spUtils = SPUtils.getInstance("token");
     private ChooseColorAdapter chooseColorAdapter;
     private ChooseSizeAdapter chooseSizeAdapter;
     private ChooseVersionAdapter chooseVersionAdapter;
@@ -311,7 +308,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             }
         }
     };
-    private String userName;
     private View view;
     private TextView tv_customersecurity;
     private TextView tv_sevendaynoreasonreturn;
@@ -346,8 +342,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Override
     protected void initData() {
-        Userkey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
         for (int i = 0; i < 6; i++) {
             shopRecommendationList.add(new Product());
         }
@@ -361,7 +355,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         id = getIntent().getStringExtra("id");
 
-        // Userkey="YVdzb1BrelMyRXA0YU4xNExrUnJJWUxCdjZkN2ZxbEU4am1SM0dTd2ZiazlWWS80T1VQdnJ3SVdYNlc0WkZSKw==";
+        // userKey="YVdzb1BrelMyRXA0YU4xNExrUnJJWUxCdjZkN2ZxbEU4am1SM0dTd2ZiazlWWS80T1VQdnJ3SVdYNlc0WkZSKw==";
         mPresenter.GetSKUInfo(id);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -570,7 +564,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 Unicorn.openServiceActivity(mActivity, title, source);
                 break;
             case R.id.ll_collect:
-                if ("".equals(userName) && "".equals(Userkey)) {
+                if (!isLogin) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                     return;
                 }
@@ -578,18 +572,18 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
                 if (mImgCollect.isSelected()) {
                     mImgCollect.setSelected(false);
-                    mPresenter.PostAddFavoriteProduct(id, Userkey);
+                    mPresenter.PostAddFavoriteProduct(id, userKey);
                     mTvCollection.setText("收藏");
                 } else {
                     mImgCollect.setSelected(true);
-                    mPresenter.PostAddFavoriteProduct(id, Userkey);
+                    mPresenter.PostAddFavoriteProduct(id, userKey);
                     mTvCollection.setText("已收藏");
                 }
 
                 break;
 
             case R.id.tv_addcart:
-                if ("".equals(userName) && "".equals(Userkey)) {
+                if (!isLogin) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                     return;
                 }
@@ -598,7 +592,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             case R.id.ll_select:
             case R.id.tv_buy:
             case R.id.tv_limit_buy:
-                if ("".equals(userName) && "".equals(Userkey)) {
+                if (!isLogin) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                     return;
                 }
@@ -612,7 +606,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //                break;
 
             case R.id.ll_cart:
-                if ("".equals(userName)){
+                if (!isLogin){
                     startActivity(new Intent(mActivity, LoginActivity.class));
                 }else {
                     startActivity(new Intent(mActivity, CartActivity.class));
@@ -800,7 +794,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 return;
                             } else {
                                 if (type == 1) {
-                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_0_0", count, Userkey);
+                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_0_0", count, userKey);
                                 } else {
                                     //List<StoreBean> list = GetCheckShopList(result, id + "_" + skuId_color + "_0_0", count, getPrice(id + "_" + skuId_color + "_0_0"), skuId_color, "");
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
@@ -823,7 +817,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 return;
                             } else {
                                 if (type == 1) {
-                                    mPresenter.PostAddProductToCart(id + "_0" + "_" + skuId_size + "_0", count, Userkey);
+                                    mPresenter.PostAddProductToCart(id + "_0" + "_" + skuId_size + "_0", count, userKey);
                                 } else {
                                     //List<StoreBean> list = GetCheckShopList(result, id + "_0" + "_" + skuId_size + "_0", count, getPrice(id + "_0" + "_" + skuId_size + "_0"), "", skuId_size);
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
@@ -847,7 +841,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 return;
                             } else {
                                 if (type == 1) {
-                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_0", count, Userkey);
+                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_0", count, userKey);
                                 } else {
                                     //List<StoreBean> list = GetCheckShopList(result, id + "_" + skuId_color + "_" + skuId_size + "_0", count, getPrice(id + "_" + skuId_color + "_" + skuId_size + "_0"), skuId_color, skuId_size);
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
@@ -871,7 +865,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 return;
                             } else {
                                 if (type == 1) {
-                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_" + skuId_version, count, Userkey);
+                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + skuId_size + "_" + skuId_version, count, userKey);
                                 } else {
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     Bundle bundle = new Bundle();
@@ -893,7 +887,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 return;
                             } else {
                                 if (type == 1) {
-                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + "0" + "_" + skuId_version, count, Userkey);
+                                    mPresenter.PostAddProductToCart(id + "_" + skuId_color + "_" + "0" + "_" + skuId_version, count, userKey);
                                 } else {
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     Bundle bundle = new Bundle();
@@ -916,7 +910,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 return;
                             } else {
                                 if (type == 1) {
-                                    mPresenter.PostAddProductToCart(id + "_" + "0" + "_" + skuId_size + "_" + skuId_version, count, Userkey);
+                                    mPresenter.PostAddProductToCart(id + "_" + "0" + "_" + skuId_size + "_" + skuId_version, count, userKey);
                                 } else {
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     Bundle bundle = new Bundle();
@@ -938,7 +932,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                 return;
                             } else {
                                 if (type == 1) {
-                                    mPresenter.PostAddProductToCart(id + "_" + "0" + "_" + "0" + "_" + skuId_version, count, Userkey);
+                                    mPresenter.PostAddProductToCart(id + "_" + "0" + "_" + "0" + "_" + skuId_version, count, userKey);
                                 } else {
                                     Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
                                     Bundle bundle = new Bundle();
@@ -956,7 +950,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         if (result.getColor().isEmpty() && result.getSize().isEmpty() && result.getVersion().isEmpty()) {
 
                             if (type == 1) {
-                                mPresenter.PostAddProductToCart(id + "_0_0_0", count, Userkey);
+                                mPresenter.PostAddProductToCart(id + "_0_0_0", count, userKey);
                             } else {
                                 // List<StoreBean> list = GetCheckShopList(result, id + "_0_0_0", count, getPrice(id + "_0_0_0"), "", "");
                                 Intent intent = new Intent(mActivity, ConfirmOrderActivity.class);
@@ -987,6 +981,13 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(Throwable e) {
         mStateLayout.changeState(StateFrameLayout.NET_ERROR);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
+        if ("更新登录信息".equals(name)){
+            getLoginMsg();
+            mPresenter.GetSKUInfo(id);
+        }
     }
 
     @Override
@@ -1445,7 +1446,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         if (("true").equals(Result.getSuccess())) {
             // skuArray.addAll(Result.getSkuArray());
             skuArray.addAll(Result.getSkuArray());
-            mPresenter.GetProductDetail(id, Userkey);
+            mPresenter.GetProductDetail(id, userKey);
         }
     }
 
@@ -1473,7 +1474,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Override
     public void ProductComment(Comment Result) {
         mTvBabyEvaluation.setText("宝贝评价(" + Result.getAllCommentCount() + ")");
-        mPresenter.GetProductCommentShow(id, Userkey);
+        mPresenter.GetProductCommentShow(id, userKey);
     }
 
 
@@ -1535,7 +1536,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.tv_getcoup:
-                        mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean) adapter.getData().get(position)).getVShopId(), ((ShopCoupResult.CouponBean) adapter.getData().get(position)).getCouponId(), Userkey);
+                        mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean) adapter.getData().get(position)).getVShopId(), ((ShopCoupResult.CouponBean) adapter.getData().get(position)).getCouponId(), userKey);
                         break;
                 }
 

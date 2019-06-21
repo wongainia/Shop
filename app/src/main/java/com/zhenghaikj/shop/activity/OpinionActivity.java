@@ -9,7 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.appcompat.widget.Toolbar;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -21,7 +22,6 @@ import com.zhenghaikj.shop.mvp.model.OpinionModel;
 import com.zhenghaikj.shop.mvp.presenter.OpinionPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -54,7 +54,6 @@ public class OpinionActivity extends BaseActivity<OpinionPresenter, OpinionModel
     Button mBtnOpinion;
     private String type = "";
     private String content;
-    private String userId;
     private int MAX_COUNT = 200;
 
     @Override
@@ -76,8 +75,6 @@ public class OpinionActivity extends BaseActivity<OpinionPresenter, OpinionModel
 
     @Override
     protected void initData() {
-        SPUtils spUtils = SPUtils.getInstance("token");
-        userId = spUtils.getString("userName");
     }
 
     @Override
@@ -149,7 +146,7 @@ public class OpinionActivity extends BaseActivity<OpinionPresenter, OpinionModel
                     MyUtils.showToast(mActivity, "请输入反馈内容");
                     return;
                 }
-                mPresenter.AddOpinion(userId, type, content);
+                mPresenter.AddOpinion(UserID, type, content);
                 break;
 
         }

@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -34,9 +33,6 @@ public class SettingPayPasswordActivity extends BaseActivity<ChangePayPasswordPr
     private LinearLayout mKeyBoardView;
     private PasswordEditText mPasswordEditText;
 
-    private String userkey;
-    private String userName;
-    private SPUtils spUtils = SPUtils.getInstance("token");
     private int Type;  //1设置 2修改
 
     private String paypassword; //支付密码
@@ -91,9 +87,7 @@ public class SettingPayPasswordActivity extends BaseActivity<ChangePayPasswordPr
 
     @Override
     protected void initData() {
-        userkey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        mPresenter.GetUserInfoList(userName,"1");
+        mPresenter.GetUserInfoList(UserID,"1");
 
 
     }
@@ -109,6 +103,7 @@ public class SettingPayPasswordActivity extends BaseActivity<ChangePayPasswordPr
 
     @Override
     protected void setListener() {
+        mIconBack.setOnClickListener(this);
     }
 
     @Override
@@ -139,6 +134,11 @@ public class SettingPayPasswordActivity extends BaseActivity<ChangePayPasswordPr
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.icon_back:
+                finish();
+                break;
+        }
         if (v instanceof TextView) {
             String number = ((TextView) v).getText().toString().trim();
             mPasswordEditText.addPassword(number);
@@ -159,7 +159,7 @@ public class SettingPayPasswordActivity extends BaseActivity<ChangePayPasswordPr
     public void passwordFull(String password) {
         Log.d("=======>pass",password);
         if (Type==1){
-         mPresenter.ChangePayPassword(userName,"",password);
+         mPresenter.ChangePayPassword(UserID,"",password);
         }else if (Type==2){
             if (paylist.size()==0){ //输入旧支付密码
                 if (!paypassword.equals(password)){
@@ -171,7 +171,7 @@ public class SettingPayPasswordActivity extends BaseActivity<ChangePayPasswordPr
                 }
 
             }else {
-                mPresenter.ChangePayPassword(userName,paypassword,password);
+                mPresenter.ChangePayPassword(UserID,paypassword,password);
             }
 
 

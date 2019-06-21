@@ -23,7 +23,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -54,11 +59,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -87,8 +87,6 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
     private View popupWindow_view;
     private PopupWindow mPopupWindow;
     private View footerview;
-    private String Userkey;
-    private SPUtils spUtils = SPUtils.getInstance("token");
     private String FilePath;
     private ArrayList<String> permissions;
     private int size;
@@ -107,9 +105,8 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
     @Override
     protected void initData() {
-        Userkey = spUtils.getString("UserKey");
         String orderID = getIntent().getStringExtra("OrderID");
-        mPresenter.GetComment(orderID, Userkey);
+        mPresenter.GetComment(orderID, userKey);
         /*初始化提交的实体类*/
         mCommentEntity.setOrderId(orderID);
         mCommentEntity.setServiceMark("5");
@@ -586,7 +583,7 @@ public class EvaluateActivity extends BaseActivity<EvaluatePresenter, EvaluateMo
 
                 Gson gson = new Gson();
                 String json = gson.toJson(mCommentEntity);
-                mPresenter.PostAddComment(Userkey, json);
+                mPresenter.PostAddComment(userKey, json);
                 break;
         }
 

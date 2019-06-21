@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -53,8 +52,6 @@ public class StoreActivity extends BaseActivity<CollectionShopPresenter, Collect
     private int pageNo = 1;
     private List<CollectionShop.DataBean> storeList = new ArrayList<>();
     private StoreAdapter storeAdapter;
-    private SPUtils spUtils;
-    private String userKey;
 
     @Override
     protected int setLayoutId() {
@@ -75,8 +72,6 @@ public class StoreActivity extends BaseActivity<CollectionShopPresenter, Collect
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
         mPresenter.GetUserCollectionShop(Integer.toString(pageNo), "10", userKey);
         /*下拉刷新*/
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {

@@ -10,7 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ChooseBankAdapter;
@@ -19,14 +21,9 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.dialog.CustomDialog_ChooseBank;
 import com.zhenghaikj.shop.entity.BankCard;
-import com.zhenghaikj.shop.entity.Cart;
-import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.Data;
-import com.zhenghaikj.shop.entity.GetShopCoupResult;
-import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.CardContract;
-import com.zhenghaikj.shop.mvp.contract.CartContract;
 import com.zhenghaikj.shop.mvp.model.CardModel;
 import com.zhenghaikj.shop.mvp.presenter.CardPresenter;
 
@@ -34,8 +31,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -71,8 +66,6 @@ public class AddBrankCardActivity extends BaseActivity<CardPresenter, CardModel>
     private RecyclerView recyclerView_custom_bank;//显示银行的RecyclerView
     private ChooseBankAdapter chooseBankAdapter;
     private UserInfo.UserInfoDean userInfo=new UserInfo.UserInfoDean();
-    private String userkey;
-    private String userName;
 
     @Override
     protected int setLayoutId() {
@@ -90,10 +83,7 @@ public class AddBrankCardActivity extends BaseActivity<CardPresenter, CardModel>
 
     @Override
     protected void initData() {
-        SPUtils spUtils = SPUtils.getInstance("token");
-        userkey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        mPresenter.GetUserInfoList(userName,"1");
+        mPresenter.GetUserInfoList(UserID,"1");
     }
 
 
@@ -154,7 +144,7 @@ public class AddBrankCardActivity extends BaseActivity<CardPresenter, CardModel>
                 if (mTvAddCardBankname.getText().toString().length()==0||mEtBanknumber.getText().toString().length()==0||mEtAddCardPhone.getText()==null){
                     Toast.makeText(this,"请选择银行并输入卡号和手机号",Toast.LENGTH_SHORT).show();
                 }else {
-                    mPresenter.AddorUpdateAccountPayInfo(userName,"Bank",mTvAddCardBankname.getText().toString(),mEtBanknumber.getText().toString());
+                    mPresenter.AddorUpdateAccountPayInfo(UserID,"Bank",mTvAddCardBankname.getText().toString(),mEtBanknumber.getText().toString());
                 }
 
 

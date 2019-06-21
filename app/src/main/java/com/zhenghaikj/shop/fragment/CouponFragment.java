@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -41,8 +40,7 @@ public class CouponFragment extends BaseLazyFragment<CouponPresenter, CouponMode
 
     private List<UserCouponListResult.CouponBean> couponBeans = new ArrayList<>();
 
-    private SPUtils spUtils;
-    private String userKey;
+
     private CouponAdapter couponListAdapter;
 
     public static CouponFragment newInstance(List<UserCouponListResult.CouponBean> param1) {
@@ -66,8 +64,6 @@ public class CouponFragment extends BaseLazyFragment<CouponPresenter, CouponMode
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
 
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setEnableRefresh(false);

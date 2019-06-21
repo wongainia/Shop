@@ -7,7 +7,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.appcompat.widget.Toolbar;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -19,7 +20,6 @@ import com.zhenghaikj.shop.mvp.contract.ChagePasswordContract;
 import com.zhenghaikj.shop.mvp.model.ChagePasswordModel;
 import com.zhenghaikj.shop.mvp.presenter.ChagePasswordPresenter;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -47,11 +47,6 @@ public class ChagePasswordActivity extends BaseActivity<ChagePasswordPresenter, 
     @BindView(R.id.btn_save)
     Button mBtnSave;
 
-    private String userId;
-    private SPUtils spUtils;
-    private String userKey;
-    private String UserID;
-
     @Override
     protected int setLayoutId() {
         return R.layout.activity_change_password;
@@ -75,9 +70,6 @@ public class ChagePasswordActivity extends BaseActivity<ChagePasswordPresenter, 
 
     @Override
     protected void initView() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        UserID = spUtils.getString("userName2");
 
     }
 

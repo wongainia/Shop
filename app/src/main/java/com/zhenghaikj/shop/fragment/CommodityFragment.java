@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
@@ -67,8 +66,6 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
     private String mParam2;
     private CommodityAdapter commodityAdapter;
     private int pagaNo = 1;
-    private SPUtils spUtils;
-    private String userKey;
     private Intent intent;
 
     public static CommodityFragment newInstance(String param1, String param2) {
@@ -92,8 +89,6 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
 
     @Override
     protected void initData() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
         mPresenter.GetUserCollectionProduct(Integer.toString(pagaNo),"10",userKey);
 
     }

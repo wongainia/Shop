@@ -1,7 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -21,8 +20,13 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alipay.sdk.app.PayTask;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
@@ -37,7 +41,6 @@ import com.zhenghaikj.shop.adapter.ConfirmOrderAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
-import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.Data;
@@ -68,11 +71,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -112,8 +110,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @BindView(R.id.stateLayout)
     StateFrameLayout mStateLayout;
 
-    private String Userkey;
-    private SPUtils spUtils = SPUtils.getInstance("token");
     Bundle extras;
 
     String addressid="";
@@ -126,7 +122,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     private View popupWindow_view;
     private String orderinfo;
     private WXpayInfo wXpayInfo;
-    private String userName;
     private String OrderId="";
     private IWXAPI api;
 
@@ -153,23 +148,21 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
     @Override
     protected void initData() {
-        Userkey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-//        mPresenter.GetUserInfoList(userName,"1");
+//        mPresenter.GetUserInfoList(UserID,"1");
         api = WXAPIFactory.createWXAPI(mActivity, "wx92928bf751e1628e");
         // 将该app注册到微信
         api.registerApp("wx92928bf751e1628e");
-        // mPresenter.GetShippingAddressList(Userkey);
+        // mPresenter.GetShippingAddressList(userKey);
 
         extras = getIntent().getExtras();
         if ("1".equals(extras.getString("TYPE"))) { //直接购买
             String skuid = extras.getString("skuid");
             String count = extras.getString("count");
-            mPresenter.GetSubmitModel(skuid, count, Userkey);
+            mPresenter.GetSubmitModel(skuid, count, userKey);
 
         } else if ("2".equals(extras.getString("TYPE"))) {//购物车购买
             String cartItemIds = extras.getString("cartItemIds");
-            mPresenter.GetSubmitByCartModel(cartItemIds, Userkey);
+            mPresenter.GetSubmitByCartModel(cartItemIds, userKey);
         }
 
         else {
@@ -197,11 +190,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 if ("1".equals(extras.getString("TYPE"))) { //直接购买
                     String skuid = extras.getString("skuid");
                     String count = extras.getString("count");
-                    mPresenter.GetSubmitModel(skuid, count, Userkey);
+                    mPresenter.GetSubmitModel(skuid, count, userKey);
 
                 } else if ("2".equals(extras.getString("TYPE"))) {//购物车购买
                     String cartItemIds = extras.getString("cartItemIds");
-                    mPresenter.GetSubmitByCartModel(cartItemIds, Userkey);
+                    mPresenter.GetSubmitByCartModel(cartItemIds, userKey);
                 }
 
 
@@ -217,11 +210,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 if ("1".equals(extras.getString("TYPE"))) { //直接购买
                     String skuid = extras.getString("skuid");
                     String count = extras.getString("count");
-                    mPresenter.GetSubmitModel(skuid, count, Userkey);
+                    mPresenter.GetSubmitModel(skuid, count, userKey);
 
                 } else if ("2".equals(extras.getString("TYPE"))) {//购物车购买
                     String cartItemIds = extras.getString("cartItemIds");
-                    mPresenter.GetSubmitByCartModel(cartItemIds, Userkey);
+                    mPresenter.GetSubmitByCartModel(cartItemIds, userKey);
                 }
 
             }
@@ -256,7 +249,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 break;
             case R.id.tv_submit:
                 //结算
-                mPresenter.GetUserInfoList(userName,"1");
+                mPresenter.GetUserInfoList(UserID,"1");
 
 
                 break;
@@ -568,7 +561,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(userName,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
+                mPresenter.GetOrderStr(UserID,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -580,7 +573,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetWXOrderStr(userName,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
+                mPresenter.GetWXOrderStr(UserID,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -869,12 +862,12 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                         if ("1".equals(extras.getString("TYPE"))) {//直接购买
                             String skuId = list.get(0).getList().get(0).getSkuId();
                             String count = list.get(0).getList().get(0).getCount();
-                            mPresenter.PostSubmitOrder(skuId,count,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),Userkey);
+                            mPresenter.PostSubmitOrder(skuId,count,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),userKey);
                         }else {
                             String cartItemIds = extras.getString("cartItemIds");
 
                             Log.d("====>优惠券",getcoupons(list)) ;
-                            mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),Userkey);
+                            mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),userKey);
 
                         }
                     }
@@ -892,7 +885,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @Override
     public void passwordFull(String password) {
         if (userInfo.getPayPassWord().equals(password)){
-          mPresenter.MallBalancePay("","",jsonArray,userName);
+          mPresenter.MallBalancePay("","",jsonArray,UserID);
         }else {
             Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
         }

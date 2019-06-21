@@ -30,7 +30,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -64,10 +67,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -103,8 +102,6 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     LinearLayout mLlGender;
     @BindView(R.id.tv_gender)
     TextView mTvGender;
-    private String userKey;
-    private SPUtils spUtils;
     private View popupWindow_view;
     private String FilePath;
     private PopupWindow mPopupWindow;
@@ -112,7 +109,6 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     private int size;
     private List<Uri> mSelected;
     private Uri uri;
-    private String userName;
     private UserInfo.UserInfoDean userInfo;
     private AlertDialog dialog;
 
@@ -131,11 +127,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         mTvTitle.setText("个人信息");
         mTvTitle.setVisibility(View.VISIBLE);
 
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
+
         mPresenter.PersonalInformation(userKey);
-        mPresenter.GetUserInfoList(userName,"1");
+        mPresenter.GetUserInfoList(UserID,"1");
     }
 
     @Override
@@ -197,7 +191,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         male.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.UpdateSex(userName,"男");
+                mPresenter.UpdateSex(UserID,"男");
                 dialog.dismiss();
                 mTvGender.setText("男");
             }
@@ -205,7 +199,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         img_male.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.UpdateSex(userName,"男");
+                mPresenter.UpdateSex(UserID,"男");
                 dialog.dismiss();
                 mTvGender.setText("男");
             }
@@ -218,7 +212,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         female.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.UpdateSex(userName,"女");
+                mPresenter.UpdateSex(UserID,"女");
                 dialog.dismiss();
                 mTvGender.setText("女");
             }
@@ -227,7 +221,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         img_female.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.UpdateSex(userName,"女");
+                mPresenter.UpdateSex(UserID,"女");
                 dialog.dismiss();
                 mTvGender.setText("女");
             }
@@ -306,10 +300,10 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         switch (name){
             case "UserName":
                 mPresenter.PersonalInformation(userKey);
-                mPresenter.GetUserInfoList(userName,"1");
+                mPresenter.GetUserInfoList(UserID,"1");
                 break;
             case "GetUserInfoList":
-                mPresenter.GetUserInfoList(userName, "1");
+                mPresenter.GetUserInfoList(UserID, "1");
                 break;
 
         }
@@ -600,7 +594,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void Event() {
 ////        if ("GetUserInfoList".equals(message)) {
-//            mPresenter.GetUserInfoList(userName, "1");
+//            mPresenter.GetUserInfoList(UserID, "1");
 ////        }
 //    }
 

@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
@@ -92,8 +91,6 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
     @BindView(R.id.stateLayout)
     StateFrameLayout mStateLayout;
     private String giftId;
-    private SPUtils spUtils;
-    private String userKey;
     private Intent intent;
     private GiftDetailResult result;
     private View popupWindow_view;
@@ -124,8 +121,6 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
     protected void initView() {
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("礼品详情");
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
         giftId =getIntent().getStringExtra("giftId");
         mPresenter.GetGifts(giftId,userKey);
         mStateLayout.changeState(StateFrameLayout.LOADING);
@@ -171,7 +166,11 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
                 finish();
                 break;
             case R.id.tv_buy:
-                showPopupWindow();
+                if (isLogin){
+                    showPopupWindow();
+                }else{
+                    startActivity(new Intent(mActivity,LoginActivity.class));
+                }
                 break;
         }
     }
@@ -182,7 +181,8 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String msg) {
-        if ("GiftDetail".equals(msg)){
+        if ("GiftDetail".equals(msg)||"更新登录信息".equals(msg)){
+            getLoginMsg();
             mPresenter.GetGifts(giftId,userKey);
         }
     }

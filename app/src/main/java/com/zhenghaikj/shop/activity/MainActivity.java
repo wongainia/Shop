@@ -14,7 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.CartFragment;
@@ -26,13 +30,11 @@ import com.zhenghaikj.shop.widget.CustomViewPager;
 import com.zhenghaikj.shop.widget.StarBarView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -80,10 +82,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MineFragment mineFragment;
 
     private long mExittime;
-    private SPUtils spUtils;
-    private String userKey;
-    private String userName;
-    private boolean isLogin;
     private View view;
     private TextView tv_orderid;
     private TextView tv_serach;
@@ -120,10 +118,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mFragments.add(MineFragment.newInstance("",""));
 
         mViewPager.setCurrentItem(0);
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        isLogin = spUtils.getBoolean("isLogin");
     }
 
     @Override
@@ -205,7 +199,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 tabSelected(mLlCategory);
                 break;
             case 2:
-                if ("".equals(userName)&&"".equals(userKey)){
+                if (!isLogin){
                     startActivity(new Intent(mActivity,LoginActivity.class));
                     return;
                 }
@@ -237,7 +231,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 tabSelected(mLlCategory);
                 break;
             case  R.id.ll_car:
-                if ("".equals(userName)&&"".equals(userKey)){
+                if (!isLogin){
                     startActivity(new Intent(mActivity,LoginActivity.class));
                     return;
                 }
@@ -262,6 +256,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mLlShop.setSelected(false);
         mLlMine.setSelected(false);
         linearLayout.setSelected(true);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
+        if ("更新登录信息".equals(name)){
+            getLoginMsg();
+        }
     }
 
     public void setCurrentItem(int i) {

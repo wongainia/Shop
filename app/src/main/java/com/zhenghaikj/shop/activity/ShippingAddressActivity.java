@@ -13,7 +13,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
@@ -56,8 +55,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
 
     private List<ShippingAddressList.ShippingAddressBean> addressList = new ArrayList<>();
     private List<ShippingAddressList.ShippingAddressBean> list = new ArrayList<>();
-    private SPUtils spUtils;
-    private String userkey;
+
     private AddressAdapter addressAdapter;
     private boolean choose_address_request;
     private ShippingAddressList.ShippingAddressBean shippingAddressBean;
@@ -98,7 +96,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                mPresenter.PostDeleteShippingAddress(list.get(position).getId(),userkey);
+                                mPresenter.PostDeleteShippingAddress(list.get(position).getId(),userKey);
                             }
                         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
@@ -146,9 +144,8 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
         mTvTitle.setVisibility(View.VISIBLE);
         choose_address_request = ShippingAddressActivity.this.getIntent().getBooleanExtra("CHOOSE_ADDRESS_REQUEST", false);
 
-        spUtils = SPUtils.getInstance("token");
-        userkey = spUtils.getString("UserKey");
-        mPresenter.GetShippingAddressList(userkey);
+
+        mPresenter.GetShippingAddressList(userKey);
     }
     @Override
     protected void setListener() {
@@ -214,7 +211,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     public void PostDeleteShippingAddress(EasyResult result) {
         if (result.getSuccess()) {
             ToastUtils.showShort("删除成功！");
-            mPresenter.GetShippingAddressList(userkey);
+            mPresenter.GetShippingAddressList(userKey);
         }else{
             ToastUtils.showShort("删除失败！");
         }
@@ -225,10 +222,10 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
         super.onActivityResult(requestCode, resultCode, data);
         Code =requestCode;
         resCode =resultCode;
-        mPresenter.GetShippingAddressList(userkey);
+        mPresenter.GetShippingAddressList(userKey);
         /*switch(requestCode){
             case 100:
-                mPresenter.GetShippingAddressList(userkey);
+                mPresenter.GetShippingAddressList(userKey);
                 break;
             case 200:
                 shippingAddressBean = (ShippingAddressList.ShippingAddressBean) data.getSerializableExtra("address");
@@ -246,7 +243,7 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     public void Event(String message) {
         switch (message){
             case "Refresh_address":
-                mPresenter.GetShippingAddressList(userkey);
+                mPresenter.GetShippingAddressList(userKey);
                 break;
             default:
                 break;

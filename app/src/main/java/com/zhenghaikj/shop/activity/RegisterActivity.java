@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.RegexUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.gyf.barlibrary.ImmersionBar;
@@ -68,7 +67,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     private String password;
     private String passwordAgain;
     private String code;
-    private SPUtils spUtils;
 
     @Override
     protected int setLayoutId() {
@@ -94,7 +92,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     protected void initView() {
         mImgAgreement.setSelected(true);
         mPresenter.GetImageCheckCode();
-        spUtils = SPUtils.getInstance("token");
     }
 
     @Override
@@ -213,7 +210,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 Data<String> data = Result.getData();
                 if (data.isItem1()) {
                     spUtils.put("adminToken", data.getItem2());
-                    spUtils.put("userName2", userName);
+                    spUtils.put("userName", userName);
                     mPresenter.GetUser(userName, password/*, "", "", ""*/);
 //                    spUtils.put("passWord", password);
 //                    spUtils.put("isLogin", true);

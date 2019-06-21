@@ -18,7 +18,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -114,10 +113,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     LinearLayout mLlShare;
     @BindView(R.id.cdl)
     CoordinatorLayout mCdl;
-
-    private String Userkey;
     private String VShopId;
-    private SPUtils spUtils = SPUtils.getInstance("token");
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     StoreDetailResult storeDetailResult = new StoreDetailResult();
 
@@ -126,7 +122,6 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
             "首页", "所有商品", "查看分类"
     };
     private MyPagerAdapter mAdapter;
-    private String userName;
     private String shopid;
     private MineFragment.CustomShareListener mShareListener;
     private ShareAction mShareAction;
@@ -150,10 +145,8 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     @Override
     protected void initData() {
-        Userkey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
         VShopId = getIntent().getStringExtra("VShopId");
-        mPresenter.GetVShop(VShopId, Userkey);
+        mPresenter.GetVShop(VShopId, userKey);
 
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
@@ -294,7 +287,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     @Override
     public void PostAddFavoriteShop(PostattentionResult result) {
-        if (userName == null || "".equals(userName)) {
+        if (!isLogin) {
             startActivity(new Intent(mActivity, LoginActivity.class));
         } else {
             if (result.getMsg().equals("关注成功")) {
@@ -340,7 +333,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
                 break;
             case R.id.ll_attention:
             case R.id.tv_attention:
-                mPresenter.PostAddFavoriteShop(String.valueOf(storeDetailResult.getVShop().getShopId()), Userkey);
+                mPresenter.PostAddFavoriteShop(String.valueOf(storeDetailResult.getVShop().getShopId()), userKey);
                 break;
             case R.id.img_sort:
                 mViewpager.setCurrentItem(2);

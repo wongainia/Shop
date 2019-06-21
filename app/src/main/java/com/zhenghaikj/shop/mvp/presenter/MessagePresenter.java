@@ -3,7 +3,7 @@ package com.zhenghaikj.shop.mvp.presenter;
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.AnnouncementDetail;
-import com.zhenghaikj.shop.entity.EasyResult;
+import com.zhenghaikj.shop.entity.MessageReadResult;
 import com.zhenghaikj.shop.mvp.contract.MessageContract;
 
 public class MessagePresenter extends MessageContract.Presenter {
@@ -31,9 +31,9 @@ public class MessagePresenter extends MessageContract.Presenter {
     @Override
     public void AddArticlRead(String UserId,String CategoryId,String HiMallArticleId) {
         mModel.AddArticlRead(UserId, CategoryId, HiMallArticleId)
-                .subscribe(new BaseObserver<EasyResult>() {
+                .subscribe(new BaseObserver<MessageReadResult>() {
                     @Override
-                    protected void onHandleSuccess(EasyResult value) {
+                    protected void onHandleSuccess(MessageReadResult value) {
                         mView.AddArticlRead(value);
                     }
                 });

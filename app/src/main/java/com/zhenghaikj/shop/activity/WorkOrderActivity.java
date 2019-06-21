@@ -17,7 +17,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
@@ -59,8 +58,6 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.rv_work_order)
     RecyclerView mRvWorkOrder;
-    private SPUtils spUtils;
-    private String userKey;
     private int pageIndex = 1;
     private String mParam1;
     private String mParam2;
@@ -76,7 +73,6 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
     private EditText et_content;
     private AlertDialog complaint_dialog;
     private String content;
-    private String UserID;
 
     @Override
     protected int setLayoutId() {
@@ -166,9 +162,7 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("安装维修");
 
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        UserID = spUtils.getString("userName2");
+
 //        mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
         mPresenter.GetOrderByhmalluserid(UserID);
 

@@ -24,8 +24,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alipay.sdk.app.PayTask;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -69,11 +74,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -177,9 +177,6 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     @BindView(R.id.tv_delete2)
     TextView mTvDelete2;
 
-    private String userKey;
-    private SPUtils spUtils;
-
     private ClipboardManager myClipboard;
     private ClipData myClip;
 
@@ -193,7 +190,6 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private ArrayList<JsonStrOrderPay> payList;
     private View popupWindow_view;
     private JSONArray jsonArray;
-    private String userName;
     private IWXAPI api;
     private WXpayInfo wXpayInfo;
     private String orderinfo;
@@ -224,10 +220,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("订单详情");
 
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        mPresenter.GetUserInfoList(userName,"1");
+        mPresenter.GetUserInfoList(UserID,"1");
         id = getIntent().getStringExtra("orderId");
         mPresenter.GetOrderDetail(id, userKey);
         mPresenter.IsMallid(id);
@@ -534,7 +527,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
      * 弹出付款Popupwindow
      */
     public void showPopupWindow() {
-        mPresenter.GetUserInfoList(userName,"1");
+        mPresenter.GetUserInfoList(UserID,"1");
         payList = new ArrayList<>();
         payList.add(new JsonStrOrderPay(Long.parseLong(id), orderBean.getBisId(), orderBean.getRealTotalAmount()));
         Gson gson = new Gson();
@@ -551,7 +544,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(userName, "", "", orderBean.getRealTotalAmount() + "", jsonArray);
+                mPresenter.GetOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -563,7 +556,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetWXOrderStr(userName, "", "", orderBean.getRealTotalAmount() + "", jsonArray);
+                mPresenter.GetWXOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray);
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -848,7 +841,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     public void passwordFull(String password) {
         if (paytype==1){
             if (userInfo.getPayPassWord().equals(password)){
-                mPresenter.MallBalancePay("","",jsonArray,userName);
+                mPresenter.MallBalancePay("","",jsonArray,UserID);
 
                 mPopupWindow.dismiss();
             } else {

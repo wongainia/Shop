@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -248,14 +247,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private RecyclerView rv_service;
     private Bundle bundle;
     private Intent intent;
-    private SPUtils spUtils;
-    private String userKey;
     private int pageIndex;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private UserInfo.UserInfoDean userInfo;
-    private String userName;
-    private boolean isLogin;
     private View under_review;
     private AlertDialog underReviewDialog;
 
@@ -361,7 +356,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                                             if (aBoolean) {
                                                 // 获取全部权限成功
 
-                                                UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + userName + "&type=8");
+                                                UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + UserID + "&type=8");
                                                 web.setTitle("西瓜鱼");
                                                 web.setDescription("注册送西瓜币了！！！！！");
                                                 web.setThumb(new UMImage(mActivity, R.drawable.shop));
@@ -420,94 +415,66 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                         }
                     }
                 });
-
-//        mPresenter.GetOrderByhmall(userName);
-//        mPresenter.GetOrderInfoList(userName,"5","1","1");
-//        mPresenter.GetOrderByhmalluserid(userName);
-        if (!"".equals(userName) && !"".equals(userKey)) {
-            mPresenter.GetUserInfoList(userName, "1");
+        getData();
+        /*下拉刷新*/
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                i=0;
+                getData();
+                refreshlayout.finishRefresh(1000);
+            }
+        });
+        myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+    }
+    public void getData(){
+        if (isLogin) {
+            mPresenter.GetUserInfoList(UserID, "1");
             mPresenter.PersonalInformation(userKey);
-            mPresenter.GetHistoryVisite("10","1",userKey);
-            mPresenter.GetOrderByhmall(userName);
-//        mPresenter.GetOrderInfoList(userName,"5","1","1");
-            mPresenter.GetOrderByhmalluserid(userName);
-            mPresenter.GetOrders("3", "1", "10", userKey);
-//            for (int i=0;i<order.getOrders().size();i++){
-//                mPresenter.GetExpress(order.getOrders().get(i).getId(),userKey);
-//            }
+            mPresenter.GetOrderByhmall(UserID);
+            mPresenter.GetOrderByhmalluserid(UserID);
             mPresenter.GetList("4","10","1",userKey);
+
+            mTvPhone.setVisibility(View.VISIBLE);
+            mTvUsername.setVisibility(View.VISIBLE);
+            mTvLogin.setVisibility(View.GONE);
+            mLlService.setVisibility(View.VISIBLE);
         } else {
-//            mTvUsername.setText("未登录");
             mTvPhone.setVisibility(View.GONE);
             mTvUsername.setVisibility(View.GONE);
             mTvLogin.setVisibility(View.VISIBLE);
             mLlService.setVisibility(View.GONE);
             mTvCountMsg.setVisibility(View.GONE);
         }
-
-        /*下拉刷新*/
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                if (!"".equals(userName) && !"".equals(userKey)) {
-                    mPresenter.GetUserInfoList(userName, "1");
-                    mPresenter.PersonalInformation(userKey);
-                    mPresenter.GetHistoryVisite("10","1",userKey);
-                    i = 0;
-                    mPresenter.GetOrderByhmalluserid(userName);
-                    mPresenter.GetOrders("3", "1", "10", userKey);
-//                    mPresenter.GetOrderByhmall(userName);
-                    mPresenter.GetList("4","10","1",userKey);
-
-                }
-
-                refreshlayout.finishRefresh(1000);
-            }
-        });
-        myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
-
-
     }
-/*
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden){
-            return;
-        }else {
-            mPresenter.PersonalInformation(userKey);
-        }
-    }*/
 
     @Override
     protected void initView() {
         EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        isLogin = spUtils.getBoolean("isLogin");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if ("UserName".equals(name)) {
-            mPresenter.GetUserInfoList(userName, "1");
+        if ("更新登录信息".equals(name)){
+            getLoginMsg();
+            getData();
         }
-        if ("UpdateReadCount".equals(name)) {
-            mPresenter.GetList("4","10","1",userKey);
-        }
-        if ("UpdateOrderCount".equals(name)) {//更新各种数量
+        if (isLogin) {
+            if ("UserName".equals(name)) {
+                mPresenter.GetUserInfoList(UserID, "1");
+            }
+            if ("UpdateReadCount".equals(name)) {
+                mPresenter.GetList("4","10","1",userKey);
+            }
+            if ("UpdateOrderCount".equals(name)) {//更新各种数量
+                mPresenter.PersonalInformation(userKey);
+            }
+            if (!"PersonalInformation".equals(name)) {
+                return;
+            }
+            mPresenter.GetUserInfoList(UserID, "1");
             mPresenter.PersonalInformation(userKey);
         }
-        if (!"PersonalInformation".equals(name)) {
-            return;
-        }
-        if (!"".equals(userName) && !"".equals(userKey)) {
-            mPresenter.GetUserInfoList(userName, "1");
-            mPresenter.PersonalInformation(userKey);
-            mPresenter.GetHistoryVisite("10","1",userKey);
-        }
-
     }
 
     @Override
@@ -547,7 +514,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void onClick(View v) {
-        if ("".equals(userName) && "".equals(userKey)) {
+        if (!isLogin) {
             startActivity(new Intent(mActivity, LoginActivity.class));
             return;
         }
@@ -736,7 +703,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 btn_share_one = under_review.findViewById(R.id.btn_share_one);
                 iv_code_one = under_review.findViewById(R.id.iv_code_one);
                 btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
-                bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + userName + "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.shop));
+                bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + UserID + "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.shop));
                 iv_code_one.setImageBitmap(bitmap);
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override

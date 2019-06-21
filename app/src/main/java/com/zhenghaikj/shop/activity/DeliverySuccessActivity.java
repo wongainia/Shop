@@ -6,10 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
@@ -25,15 +26,12 @@ import com.zhenghaikj.shop.mvp.model.PaymentSuccessModel;
 import com.zhenghaikj.shop.mvp.presenter.PaymentSuccessPresenter;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresenter, PaymentSuccessModel> implements View.OnClickListener, PaymentSuccessContract.View {
 
-    private SPUtils spUtils=SPUtils.getInstance("token");
-    private String userKey;
+
     private String orderID;
     @BindView(R.id.icon_back)
     ImageView mIconBack;
@@ -75,7 +73,6 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
 
     @Override
     protected void initData() {
-        userKey=spUtils.getString("UserKey");
         orderID = getIntent().getStringExtra("OrderID");
         Log.d("======>orderID",orderID);
         mPresenter.GetOrderDetail(orderID,userKey);

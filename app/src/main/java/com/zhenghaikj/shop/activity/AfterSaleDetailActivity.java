@@ -1,12 +1,13 @@
 package com.zhenghaikj.shop.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import com.blankj.utilcode.util.SPUtils;
+
+import androidx.appcompat.widget.Toolbar;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
@@ -20,7 +21,6 @@ import com.zhenghaikj.shop.mvp.model.AfterSaleDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.AfterSaleDetailPresenter;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -71,9 +71,6 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
 
     @BindView(R.id.rl_process)
     RelativeLayout mRlprocess;
-
-    private SPUtils spUtils = SPUtils.getInstance("token");
-    private String userKey;
     private String Id;
     private String OrderId;
     /**

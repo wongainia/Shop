@@ -3,41 +3,34 @@ package com.zhenghaikj.shop.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.adapter.ShopDetailGoodsAdapter;
-import com.zhenghaikj.shop.adapter.StoreDetailGoodsAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
-import com.zhenghaikj.shop.entity.StoreDetailGoodsEntity;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 import com.zhenghaikj.shop.mvp.model.StoreDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.StoreDetailPresenter;
-import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 
@@ -49,9 +42,6 @@ public class StoreDetailGoodsFragment extends BaseLazyFragment<StoreDetailPresen
     RecyclerView rv;
     @BindView(R.id.smartrefresh)
     SmartRefreshLayout mSmartRefreshLayout;
-
-    private String Userkey;
-    private SPUtils spUtils = SPUtils.getInstance("token");
     private ShopDetailGoodsAdapter shopDetailGoodsAdapter;
 
     private String ShopId;
@@ -76,9 +66,8 @@ public class StoreDetailGoodsFragment extends BaseLazyFragment<StoreDetailPresen
     @Override
     protected void initData() {
         dialog = new ZLoadingDialog(mActivity);
-        Userkey = spUtils.getString("UserKey");
         VShopId=getActivity().getIntent().getStringExtra("VShopId");
-        mPresenter.GetVShop(VShopId,Userkey);
+        mPresenter.GetVShop(VShopId,userKey);
         showLoading();
         rv.setLayoutManager(new GridLayoutManager(mActivity,2));
         shopDetailGoodsAdapter=new ShopDetailGoodsAdapter(R.layout.item_home,list);

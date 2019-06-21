@@ -13,7 +13,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.SPUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
@@ -52,8 +51,6 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
     TextView mTvCheckOrder;
     @BindView(R.id.tv_return_order)
     TextView mTvReturnOrder;
-    private SPUtils spUtils = SPUtils.getInstance("token");
-    private String userKey;
     private String orderID;
 
     @BindView(R.id.tv_count)
@@ -99,7 +96,6 @@ public class PaymentSuccessActivity extends BaseActivity<PaymentSuccessPresenter
 
     @Override
     protected void initData() {
-        userKey = spUtils.getString("UserKey");
         orderID = getIntent().getStringExtra("OrderID");
         mPresenter.GetOrderDetail(orderID, userKey);
 

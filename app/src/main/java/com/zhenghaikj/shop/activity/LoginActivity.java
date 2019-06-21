@@ -8,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -23,6 +22,8 @@ import com.zhenghaikj.shop.mvp.contract.LoginContract;
 import com.zhenghaikj.shop.mvp.model.LoginModel;
 import com.zhenghaikj.shop.mvp.presenter.LoginPresenter;
 import com.zhenghaikj.shop.widget.ClearEditText;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,12 +83,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     protected void initView() {
         spUtils = SPUtils.getInstance("token");
-        userName=spUtils.getString("userName");
+        userName=spUtils.getString("user");
         password=spUtils.getString("password");
-        if (userName!=null||password!=null){
-            mEtUsername.setText(userName);
-            mEtPassword.setText(password);
-        }
+        mEtUsername.setText(userName);
+        mEtPassword.setText(password);
     }
     @Override
     protected void setListener() {
@@ -182,12 +181,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
         if (Result.getSuccess()){
             spUtils.put("UserKey",Result.getUserKey());
+            spUtils.put("user",userName);
             spUtils.put("userName",userName);
             spUtils.put("password",password);
             spUtils.put("isLogin",true);
-//            EventBus.getDefault().post("PersonalInformation");
-            ActivityUtils.finishAllActivities();
-            startActivity(new Intent(mActivity,MainActivity.class));
+            EventBus.getDefault().post("更新登录信息");
+            finish();
+//            ActivityUtils.finishAllActivities();
+//            startActivity(new Intent(mActivity,MainActivity.class));
         }else {
             ToastUtils.showShort("系统错误");
         }
@@ -200,7 +201,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 Data<String> data=Result.getData();
                 if (data.isItem1()){
                     spUtils.put("adminToken", data.getItem2());
-                    spUtils.put("userName2", userName);
+                    spUtils.put("userName", userName);
                     mPresenter.GetUser(userName, password/*,"","",""*/);
 //                    spUtils.put("passWord", password);
 //                    spUtils.put("isLogin", true);
@@ -235,7 +236,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 /*已经登录过了 后台存有token*/
                 if (Result.getData().isItem1()){
                     spUtils.put("adminToken", Result.getData().getItem2());
-                    spUtils.put("userName2", userName);
+                    spUtils.put("userName", userName);
                     mPresenter.GetUser(userName, password/*,"","",""*/);
                     mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"8",userName);
 

@@ -23,7 +23,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
@@ -89,8 +88,6 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
     private String mArea;
     private String mDistrict;
     private String regionId;
-    private SPUtils spUtils;
-    private String userKey;
     private ShippingAddressList.ShippingAddressBean shippingAddressBean;
     private String IsDefault="false";
 
@@ -139,8 +136,6 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
 
     @Override
     protected void initView() {
-        spUtils = SPUtils.getInstance("token");
-        userKey = spUtils.getString("UserKey");
 
     }
 

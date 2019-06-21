@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -75,8 +74,6 @@ public class ConfirmGiftOrderActivity extends BaseActivity<GiftConfirmOrderPrese
     private String addressid;
     private String id;
     private String count;
-    private SPUtils spUtil;
-    private String Userkey;
     private GiftConfirmOrder giftConfirmOrder;
     private String giftId;
     private String regionId;
@@ -107,9 +104,7 @@ public class ConfirmGiftOrderActivity extends BaseActivity<GiftConfirmOrderPrese
         mTvTitle.setVisibility(View.VISIBLE);
         id =getIntent().getStringExtra("id");
         count =getIntent().getStringExtra("count");
-        spUtil = SPUtils.getInstance("token");
-        Userkey = spUtil.getString("UserKey");
-        mPresenter.ConfirmOrder(id,count,Userkey);
+        mPresenter.ConfirmOrder(id,count,userKey);
     }
 
     @Override
@@ -133,7 +128,7 @@ public class ConfirmGiftOrderActivity extends BaseActivity<GiftConfirmOrderPrese
                 break;
             case R.id.tv_submit:
                 giftId =Integer.toString(giftConfirmOrder.getGiftList().get(0).getGiftId());
-                mPresenter.SubmitOrder(giftId,count, addressid,Userkey);
+                mPresenter.SubmitOrder(giftId,count, addressid,userKey);
                 break;
         }
     }

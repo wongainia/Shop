@@ -8,7 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.SPUtils;
+import androidx.appcompat.widget.Toolbar;
+
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
@@ -20,7 +21,6 @@ import com.zhenghaikj.shop.mvp.contract.ChangePayPasswordContract;
 import com.zhenghaikj.shop.mvp.model.ChangePayPasswordModel;
 import com.zhenghaikj.shop.mvp.presenter.ChangePayPasswordPresenter;
 
-import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -48,8 +48,6 @@ public class ChagePayActivity extends BaseActivity<ChangePayPasswordPresenter, C
     Button mBtnSave;
     @BindView(R.id.ll_paypassword)
     LinearLayout mLlPaypassword;
-    private String userkey;
-    private String userName;
     private UserInfo.UserInfoDean userInfo;
 
     @Override
@@ -69,10 +67,7 @@ public class ChagePayActivity extends BaseActivity<ChangePayPasswordPresenter, C
 
     @Override
     protected void initData() {
-        SPUtils spUtils = SPUtils.getInstance("token");
-        userkey = spUtils.getString("UserKey");
-        userName = spUtils.getString("userName2");
-        mPresenter.GetUserInfoList(userName, "1");
+        mPresenter.GetUserInfoList(UserID, "1");
     }
 
     @Override
@@ -102,7 +97,7 @@ public class ChagePayActivity extends BaseActivity<ChangePayPasswordPresenter, C
                     }else if (password2.isEmpty()){
                         ToastUtils.showShort("请确认密码");
                     }else if (password.equals(password2)){
-                        mPresenter.ChangePayPassword(userName,"Pass",password);
+                        mPresenter.ChangePayPassword(UserID,"Pass",password);
                     }else {
                         ToastUtils.showShort("两次密码不一致");
                     }
@@ -121,7 +116,7 @@ public class ChagePayActivity extends BaseActivity<ChangePayPasswordPresenter, C
                     }else if (!password.equals(password2)){
                         ToastUtils.showShort("两次密码不一致");
                     }else {
-                        mPresenter.ChangePayPassword(userName,payPassword,password);
+                        mPresenter.ChangePayPassword(UserID,payPassword,password);
                     }
                 }
                 break;
