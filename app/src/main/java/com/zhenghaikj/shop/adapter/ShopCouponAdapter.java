@@ -26,11 +26,11 @@ public class ShopCouponAdapter extends BaseQuickAdapter<ShopCoupResult.CouponBea
         helper.addOnClickListener(R.id.tv_shop);
         if (item.getReceive()==1){
             helper.setBackgroundRes(R.id.cv,R.drawable.mine_bg_shape);
-            helper.setBackgroundRes(R.id.tv_shop,R.color.red);
+            helper.setBackgroundRes(R.id.tv_shop,R.drawable.red_round_shape);
             helper.setText(R.id.tv_shop,"领取");
         }else if (item.getReceive()==3){
             helper.setBackgroundRes(R.id.cv,R.drawable.coupon_bg_shape_gray);
-            helper.setBackgroundRes(R.id.tv_shop,R.color.gray);
+            helper.setBackgroundRes(R.id.tv_shop,R.drawable.gray_round_shape);
             helper.setText(R.id.tv_shop,"已领取");
         }
     }
