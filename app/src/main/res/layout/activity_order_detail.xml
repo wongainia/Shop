@@ -46,16 +46,17 @@
                                 android:layout_height="wrap_content"
                                 android:text="卖家已发货"
                                 android:textColor="@color/white"
-                                android:textSize="16sp" />
+                                android:textSize="16sp"
+                                android:layout_marginBottom="15dp"/>
                             <TextView
-                                android:visibility="gone"
                                 android:id="@+id/tv_time_of_receipt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:text="还剩3天0时自动确认"
                                 android:textColor="@color/white"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:visibility="gone"/>
                         </LinearLayout>
 
                         <ImageView
@@ -71,11 +72,11 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <LinearLayout
                                 android:layout_width="match_parent"

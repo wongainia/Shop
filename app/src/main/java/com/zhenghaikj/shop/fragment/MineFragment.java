@@ -1086,6 +1086,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     if (datalist == null||datalist.size()==0) {
                         mLlService.setVisibility(View.GONE);
                     } else {
+                        mLlService.setVisibility(View.VISIBLE);
                         mScrolltv.removeAllViews();
                         mScrolltv.initView(R.layout.item_switchview, new SwitchView.ViewBuilder() {
                             @Override

@@ -1047,7 +1047,8 @@
                         android:layout_marginRight="13dp"
                         android:layout_marginBottom="13dp"
                         android:background="@drawable/mine_wuliu_shape"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <com.zhenghaikj.shop.widget.SwitchView
                             android:id="@+id/scrolltv"

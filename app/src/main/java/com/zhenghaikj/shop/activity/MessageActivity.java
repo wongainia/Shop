@@ -120,21 +120,26 @@ public class MessageActivity extends BaseActivity<MessagePresenter, MessageModel
 
     @Override
     public void GetList(Announcement result) {
-        list.addAll(result.getRows());
-        adapter = new MessageAdapter(R.layout.item_message,list);
-        mRvMessage.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvMessage.setAdapter(adapter);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
-                    case R.id.ll_message:
-                        himallArtcleId =list.get(position).getId()+"";
-                        mPresenter.AddArticlRead(userKey,categoryId,himallArtcleId);
-                        break;
+        if (result.getRows().size()!=0){
+            list.addAll(result.getRows());
+            adapter = new MessageAdapter(R.layout.item_message,list);
+            mRvMessage.setLayoutManager(new LinearLayoutManager(mActivity));
+            mRvMessage.setAdapter(adapter);
+            adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    switch (view.getId()){
+                        case R.id.ll_message:
+                            himallArtcleId =list.get(position).getId()+"";
+                            mPresenter.AddArticlRead(userKey,categoryId,himallArtcleId);
+                            break;
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            return;
+        }
+
     }
 
     @Override
