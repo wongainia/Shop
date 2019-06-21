@@ -360,6 +360,7 @@ public class AddAddressActivity extends BaseActivity<AddressPresenter, AddressMo
         popupWindow.setOutsideTouchable(true);
         popupWindow.setOnDismissListener(() -> {
 //                MyUtils.backgroundAlpha(mActivity,1);
+            provinceAdapter2.setNewData(provinceList);
             MyUtils.setWindowAlpa(mActivity, false);
         });
         if (popupWindow != null && !popupWindow.isShowing()) {
