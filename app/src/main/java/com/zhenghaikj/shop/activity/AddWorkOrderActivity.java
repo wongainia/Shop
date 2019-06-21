@@ -1097,7 +1097,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             @Override
                             public void onPositiveClick() {//拨打电话
                                 dialog.dismiss();
-                                startActivity(new Intent(mActivity, RechargeActivity.class));
+                                startActivityForResult(new Intent(mActivity, RechargeActivity.class),100);
                             }
 
                             @Override

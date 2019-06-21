@@ -41,6 +41,7 @@ import com.zhenghaikj.shop.adapter.ConfirmOrderAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CommodityBean;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.Data;
@@ -489,6 +490,9 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             }
 
         }
+        if (requestCode==100){
+            mPresenter.GetUserInfoList(UserID,"1");
+        }
 
     }
 
@@ -806,7 +810,27 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                         ConfirmOrderActivity.this.finish();
                     }
                 }else{
-                    Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+                    if ("余额不足".equals(baseResult.getData().getItem2())){
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage("余额不足，是否去充值？")
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {
+                                dialog.dismiss();
+                                bottomSheetDialog.dismiss();
+                                startActivityForResult(new Intent(mActivity,RechargeActivity.class),100);
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }else{
+                        Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             default:

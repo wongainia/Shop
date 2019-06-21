@@ -505,7 +505,27 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     bottomSheetDialog.dismiss();
                     OrderDetailActivity.this.finish();
                 }else {
-                Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+                    if ("余额不足".equals(baseResult.getData().getItem2())){
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage("余额不足，是否去充值？")
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {
+                                dialog.dismiss();
+                                bottomSheetDialog.dismiss();
+                                startActivityForResult(new Intent(mActivity,RechargeActivity.class),100);
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }else{
+                        Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
         }
@@ -527,7 +547,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
      * 弹出付款Popupwindow
      */
     public void showPopupWindow() {
-        mPresenter.GetUserInfoList(UserID,"1");
+//        mPresenter.GetUserInfoList(UserID,"1");
         payList = new ArrayList<>();
         payList.add(new JsonStrOrderPay(Long.parseLong(id), orderBean.getBisId(), orderBean.getRealTotalAmount()));
         Gson gson = new Gson();
@@ -566,7 +586,6 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         ll_balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userInfo.getTotalMoney()-orderBean.getRealTotalAmount()>=0) {
                     if ("".equals(userInfo.getPayPassWord())) {
                         final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
                         dialog.setMessage("未设置支付密码，是否前去设置")
@@ -590,18 +609,6 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                         openPayPasswordDialog();
                         mPopupWindow.dismiss();
                     }
-
-
-//                    mPopupWindow.dismiss();
-//                if ("".equals(userInfo.getPayPassWord())){
-//                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
-//                    mPopupWindow.dismiss();
-//                }else {
-//                  openPayPasswordDialog();
-//
-//                }
-                }
-
             }
         });
         cancel_btn.setOnClickListener(new View.OnClickListener() {
@@ -814,6 +821,9 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mTv_yuyue.setClickable(false);
             }
 
+        }
+        if (requestCode==100){
+            mPresenter.GetUserInfoList(UserID,"1");
         }
     }
 

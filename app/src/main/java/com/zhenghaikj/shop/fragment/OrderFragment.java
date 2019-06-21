@@ -43,10 +43,12 @@ import com.zhenghaikj.shop.activity.DeliverySuccessActivity;
 import com.zhenghaikj.shop.activity.EvaluateActivity;
 import com.zhenghaikj.shop.activity.LogisticsInformationActivity;
 import com.zhenghaikj.shop.activity.PaymentSuccessActivity;
+import com.zhenghaikj.shop.activity.RechargeActivity;
 import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -632,8 +634,27 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     orderListAdapter.remove(payposition);
                     bottomSheetDialog.dismiss();
                 }else {
+                    if ("余额不足".equals(baseResult.getData().getItem2())){
+                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                        dialog.setMessage("余额不足，是否去充值？")
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {
+                                dialog.dismiss();
+                                bottomSheetDialog.dismiss();
+                                startActivityForResult(new Intent(mActivity, RechargeActivity.class),100);
+                            }
 
-                    Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }else{
+                        Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
         }
@@ -717,4 +738,11 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==100){
+            mPresenter.GetUserInfoList(UserID,"1");
+        }
+    }
 }

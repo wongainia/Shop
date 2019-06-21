@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.gyf.barlibrary.ImmersionBar;
@@ -134,7 +135,7 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
                 startActivity(new Intent(mActivity, RecordingActivity.class));
                 break;
             case R.id.tv_recharge:
-                startActivity(new Intent(mActivity, RechargeActivity.class));
+                startActivityForResult(new Intent(mActivity, RechargeActivity.class),100);
                 break;
             case R.id.tv_withdraw:
                 startActivity(new Intent(mActivity, WithdrawActivity.class));
@@ -258,5 +259,13 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
     @Override
     public void GetExpress(Express Result) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==100){
+            mPresenter.GetUserInfoList(UserID,"1");
+        }
     }
 }
