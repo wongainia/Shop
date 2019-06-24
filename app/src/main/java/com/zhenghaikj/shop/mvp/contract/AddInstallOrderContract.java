@@ -49,7 +49,8 @@ public interface AddInstallOrderContract {
                                                       String Num,
                                                       String IsRecevieGoods,
                                                       String ExpressNo,
-                                                      String MallID);
+                                                      String MallID,
+                                                      String ordersource);
 
         Observable<OrderDetail> GetOrderDetail(String id, String userkey);
         Observable<AddressCodeResult> GetRegion(String id);
@@ -97,7 +98,8 @@ public interface AddInstallOrderContract {
                                       String Num,
                                       String IsRecevieGoods,
                                       String ExpressNo,
-                                      String MallID);
+                                      String MallID,
+                                      String ordersource);
 
         public abstract void GetOrderDetail(String id,String userkey);
         public abstract void GetRegion(String id);

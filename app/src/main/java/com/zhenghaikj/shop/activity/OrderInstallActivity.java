@@ -267,8 +267,8 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                              entry.getValue().getCount(),
                              "N",//客户是否收到货
                              "0",
-                             orderID
-                     );
+                             orderID,
+                             "Mall");
                      showLoading(entry.getKey(),installmap);
                  }
 

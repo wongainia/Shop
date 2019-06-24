@@ -136,8 +136,8 @@ public interface ApiService2 {
                                                   @Field("Num") String Num,
                                                   @Field("IsRecevieGoods") String IsRecevieGoods,
                                                   @Field("ExpressNo") String ExpressNo,
-                                                  @Field("MallID") String MallID
-                                                  );
+                                                  @Field("MallID") String MallID,
+                                                  @Field("OrderSource") String ordersource);
 
 
     @FormUrlEncoded
