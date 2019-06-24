@@ -1,4 +1,4 @@
-package com.zhenghaikj.shop.base;
+package com.zhenghaikj.shop.y;
 
 import android.Manifest;
 import android.content.Context;
@@ -11,12 +11,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.base.BaseModel;
+import com.zhenghaikj.shop.base.BasePresenter;
+import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.base.RxManager;
 import com.zhenghaikj.shop.utils.HandleBackUtil;
 import com.zhenghaikj.shop.utils.TUtil;
 
@@ -28,13 +33,14 @@ import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
- * Activity基类
- * Created by geyifeng on 2017/5/9.
+ *
+ * 用于解决搜索界面无法自动弹出软键盘
+ *
  */
 
-public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel> extends SwipeBackActivity implements BaseView {
+public abstract class NoImmBaseActivity<P extends BasePresenter, M extends BaseModel> extends AppCompatActivity {
 
-    private InputMethodManager imm;
+     private InputMethodManager imm;
     protected ImmersionBar mImmersionBar;
     private Unbinder unbinder;
     public Context mActivity;
@@ -43,7 +49,6 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     public M mModel;
     private RxManager mRxManage;
     // 右滑返回
-    private SwipeBackLayout mSwipeBackLayout;
 
     public SPUtils spUtils;
     public String userKey;
@@ -68,9 +73,6 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mSwipeBackLayout=getSwipeBackLayout();
-        // 设置滑动方向，可设置EDGE_LEFT, EDGE_RIGHT, EDGE_ALL, EDGE_BOTTOM
-        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
 
         mPresenter = obtainPresenter();
         mModel = obtainModel();
@@ -85,9 +87,11 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         mRxManage = new RxManager();
         //绑定控件
         unbinder = ButterKnife.bind(this);
+
         //初始化沉浸式
-       if (isImmersionBarEnabled())
-           initImmersionBar();
+        if (isImmersionBarEnabled())
+            initImmersionBar();
+
         //初始化数据
         initData();
         //view与数据绑定
@@ -108,13 +112,20 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-        this.imm = null;
-        if (mImmersionBar != null)
+      //  this.imm = null;
+      if (mImmersionBar != null)
             mImmersionBar.destroy();  //在BaseActivity里销毁
         EventBus.getDefault().unregister(this);
     }
 
     protected abstract int setLayoutId();
+
+
+    protected abstract void initData();
+
+    protected abstract void initView();
+
+    protected abstract void setListener();
 
     protected void initImmersionBar() {
         //在BaseActivity里初始化
@@ -124,23 +135,6 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         mImmersionBar.fitsSystemWindows(true);
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
-    }
-
-    protected abstract void initData();
-
-    protected abstract void initView();
-
-    protected abstract void setListener();
-
-    /**
-     * 是否可以使用沉浸式
-     * Is immersion bar enabled boolean.
-     *
-     * @return the boolean
-     */
-
-    protected boolean isImmersionBarEnabled() {
-        return true;
     }
 
     public void finish() {
@@ -153,6 +147,12 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         password = spUtils.getString("password");
         isLogin = spUtils.getBoolean("isLogin",false);
     }
+
+
+    protected boolean isImmersionBarEnabled() {
+        return true;
+    }
+
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void Event(String name) {
 //        if ("更新登录信息".equals(name)){
@@ -163,6 +163,18 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
 ////            initView();
 //        }
 //    }
+
+
+    public void hideSoftKeyBoard() {
+        View localView = getCurrentFocus();
+        if (this.imm == null) {
+            this.imm = ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
+        }
+        if ((localView != null) && (this.imm != null)) {
+            this.imm.hideSoftInputFromWindow(localView.getWindowToken(), 2);
+        }
+    }
+
 
     public View getEmptyView() {
         return  LayoutInflater.from(mActivity).inflate(R.layout.layout_no_data_commodity,null);
@@ -179,16 +191,6 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     }
 
 
-    public void hideSoftKeyBoard() {
-        View localView = getCurrentFocus();
-        if (this.imm == null) {
-            this.imm = ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE));
-        }
-        if ((localView != null) && (this.imm != null)) {
-            this.imm.hideSoftInputFromWindow(localView.getWindowToken(), 2);
-        }
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -197,72 +199,5 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         }
     }
 
-    /*电话*/
-    public static final int REQUEST_CALL_PERMISSION = 10111; //拨号请求码
-    /**
-     * 判断是否有某项权限
-     * @param string_permission 权限
-     * @param request_code 请求码
-     * @return
-     */
-    public boolean checkReadPermission(String string_permission,int request_code) {
-        boolean flag = false;
-        if (ContextCompat.checkSelfPermission(this, string_permission) == PackageManager.PERMISSION_GRANTED) {//已有权限
-            flag = true;
-        } else {//申请权限
-            ActivityCompat.requestPermissions(this, new String[]{string_permission}, request_code);
-        }
-        return flag;
-    }
 
-    /**
-     * 拨打电话（直接拨打）
-     * @param telPhone 电话
-     */
-    public void call(String telPhone){
-        if(checkReadPermission(Manifest.permission.CALL_PHONE,REQUEST_CALL_PERMISSION)){
-            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(telPhone));
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void contentLoading() {
-
-    }
-
-    @Override
-    public void contentLoadingComplete() {
-
-    }
-
-    @Override
-    public void contentLoadingError() {
-
-    }
-
-    @Override
-    public void contentLoadingEmpty() {
-
-    }
-
-    @Override
-    public void showProgress() {
-
-    }
-
-    @Override
-    public void hideProgress() {
-
-    }
 }

@@ -1,13 +1,11 @@
 package com.zhenghaikj.shop.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -15,16 +13,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.SerachHistroyAdapter;
 import com.zhenghaikj.shop.api.Config;
-import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.widget.AutoLineFeedLayoutManager;
 import com.zhenghaikj.shop.widget.SqlHelp.SearchListDbOperation;
+import com.zhenghaikj.shop.y.NoImmBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SearchPreDetailActivity extends BaseActivity implements View.OnClickListener {
+public class SearchPreDetailActivity extends NoImmBaseActivity implements View.OnClickListener {
 
     @BindView(R.id.view)
     View mView;
@@ -60,7 +57,6 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
     RecyclerView mRvHistory;
     @BindView(R.id.rl_serach_history)
     RelativeLayout mRlserach_history;
-
     @BindView(R.id.rv_hot)
     RecyclerView mRvhot;
 
@@ -76,7 +72,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
     private List<String> hotsearch;
     private SerachHistroyAdapter serachHistroyAdapterhot;
 
-    @Override
+     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
         //mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
@@ -93,6 +89,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initData() {
+
         searchListDbOperation = new SearchListDbOperation(this,"building");//传入表名，以对表进行操作
         searchRecordsList = new ArrayList<>();
         tempList = new ArrayList<>();
@@ -130,7 +127,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-        openKeyBoard(mEtSearch);
+
 
     }
 
@@ -244,8 +241,24 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
                 return false;
             }
         });
+    }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mEtSearch.setFocusable(true);
+        mEtSearch.setFocusableInTouchMode(true);
+        mEtSearch.requestFocus();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager imm =
+                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mEtSearch, InputMethodManager.SHOW_IMPLICIT);
+            }
+        }, 500);
 
     }
 
@@ -343,18 +356,5 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
     }
 
 
-    public void openKeyBoard(EditText editText) {
-        editText.setFocusable(true);
-        editText.setFocusableInTouchMode(true);
-        editText.requestFocus();
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                InputMethodManager imm =
-                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-            }
-        }, 1000);
-    }
+
 }
