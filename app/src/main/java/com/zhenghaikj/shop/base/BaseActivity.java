@@ -51,6 +51,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     public boolean isLogin;
     private String password;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 //        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
@@ -85,8 +86,8 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
         //绑定控件
         unbinder = ButterKnife.bind(this);
         //初始化沉浸式
-        if (isImmersionBarEnabled())
-            initImmersionBar();
+       if (isImmersionBarEnabled())
+           initImmersionBar();
         //初始化数据
         initData();
         //view与数据绑定
@@ -116,6 +117,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
     protected abstract int setLayoutId();
 
     protected void initImmersionBar() {
+
         //在BaseActivity里初始化
         mImmersionBar = ImmersionBar.with(this);
         //mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
@@ -137,6 +139,7 @@ public abstract class BaseActivity<P extends BasePresenter, M extends BaseModel>
      *
      * @return the boolean
      */
+
     protected boolean isImmersionBarEnabled() {
         return true;
     }

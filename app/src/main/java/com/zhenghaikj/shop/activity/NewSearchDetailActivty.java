@@ -2,6 +2,8 @@ package com.zhenghaikj.shop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,8 +24,10 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.adapter.FliterAttrsAdapter;
 import com.zhenghaikj.shop.adapter.FliterBrandAdapter;
 import com.zhenghaikj.shop.adapter.FliterClassifyAdapter;
+import com.zhenghaikj.shop.adapter.FliterItemAttrsAdapter;
 import com.zhenghaikj.shop.adapter.NewSearchDetailAdapetr;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -45,7 +49,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, SearchModel> implements View.OnClickListener, SearchContract.View {
+public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, SearchModel> implements View.OnClickListener, SearchContract.View,FliterAttrsAdapter.OnItemClickAttrsListner {
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.iv_back)
@@ -90,9 +94,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     private LinearLayout mLlfliter_brand;
     private LinearLayout mLlfliter_classify;
 
-
-
-
     private CustomFilterDrawerPopupView customFilterDrawerPopupView;
     private RecyclerView recyclerView_brand;
     private RecyclerView recyclerView_classify;
@@ -103,14 +104,21 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     private Map<Integer,String> mapchooseclassifyid=new HashMap<>();  //筛选的分类id
     private boolean isFliter=false;
     private BasePopupView xPopup;
+    private String attrsCode=null;
+    private List<FilterResult.AttrsBean> attrsBeanList;
+
+
+
 
     private List<FilterResult.CategoryBean.SubCategoryBeanX.SubCategoryBean> mClist=new ArrayList<>();
 
 
     private FliterBrandAdapter fliterBrandAdapter;
     private FliterClassifyAdapter fliterClassifyAdapter;
+    private FliterAttrsAdapter fliterAttrsAdapter;
+    private FliterItemAttrsAdapter fliterItemAttrsAdapter;
 
-
+    private RecyclerView mRvpopview_attr;
     private SerachType serachtype;
     private String orderType="1";//排序方式 1.升序 2.降序
     private int pagaNo = 1;
@@ -122,8 +130,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     private String cid;
     private int searchbytype =1; //1为搜索  2为点击
 
-
-
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -133,7 +139,19 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         mImmersionBar.init();
     }
 
-     enum SerachType{
+    @Override
+    public void OnItemSaveattrs(String attrscode) {
+        Log.d("======>>",attrscode);
+        if (!"".equals(attrscode)){
+            attrsCode=attrscode.substring(0,attrscode.length()-1);
+        }else {
+            attrsCode=null;
+        }
+
+    }
+
+
+    enum SerachType{
         SYNTHESIS,PRICE_UP,PRICE_DOWN,SALESNUM
     }
     @Override
@@ -146,10 +164,15 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
         mLlSynthesis.setSelected(true);//默认选择综合
         serachtype=SerachType.SYNTHESIS;
+
+
+        //mPresenter.GetSearchProducts(serach_content, null, null, "860,861","1", "1", Integer.toString(pagaNo), "10","0");
+
+
          serach_content=getIntent().getStringExtra("search");
          if (!"".equals(serach_content)&&serach_content!=null){
              searchbytype=1;
-            mPresenter.GetSearchProducts(serach_content, null, null, null,"1", "1", Integer.toString(pagaNo), "10","0");
+             mPresenter.GetSearchProducts(serach_content, null, null, attrsCode,"1", "1", Integer.toString(pagaNo), "10","0");
              Tvsearch_txt.setText(getIntent().getStringExtra("search"));
         }
 
@@ -157,13 +180,16 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             searchbytype=2;
             Tvsearch_txt.setText(((CategoryMall.CategoryBean) getIntent().getSerializableExtra("tag")).getName());
             cid=((CategoryMall.CategoryBean) getIntent().getSerializableExtra("tag")).getId();
-            mPresenter.GetSearchProducts("",cid,null,null,"1","1",Integer.toString(pagaNo), "10","0");
+            mPresenter.GetSearchProducts("",cid,null,attrsCode,"1","1",Integer.toString(pagaNo), "10","0");
         }
         /*获取筛选*/
         mPresenter.GetSearchFilter(Tvsearch_txt.getText().toString(),"0","","0",userKey);
         newSearchDetailAdapetr = new NewSearchDetailAdapetr(R.layout.item_newsearch_detail, productBeanList);
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSearchDetail.setAdapter(newSearchDetailAdapetr);
+
+
+
     }
 
     @Override
@@ -176,6 +202,11 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         recyclerView_classify=customFilterDrawerPopupView.findViewById(R.id.rv_classify);
         mTvbrand_txt=customFilterDrawerPopupView.findViewById(R.id.tv_brand_txt);
         mTvreset=customFilterDrawerPopupView.findViewById(R.id.tv_reset);
+        mRvpopview_attr=customFilterDrawerPopupView.findViewById(R.id.rv_popview_attr);
+
+     // brandview= LayoutInflater.from(mActivity).inflate(R.layout.item_filter_popueview_brand,null);
+
+
         xPopup= new XPopup.Builder(mActivity)
                 .popupPosition(PopupPosition.Right)//右边
                 .hasStatusBarShadow(true) //启用状态栏阴影
@@ -206,9 +237,9 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                  pagaNo++;
                  if (isFliter==false){
                      if (searchbytype==1){
-                         mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "1", orderType, Integer.toString(pagaNo), "10","0");
                      }else {
-                         mPresenter.GetSearchProducts("",  cid, null,null, "1", orderType, Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts("",  cid, null,attrsCode, "1", orderType, Integer.toString(pagaNo), "10","0");
                      }
                  }else {
                      if (searchbytype==1){
@@ -225,15 +256,15 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
                  if (isFliter==false){
                      if (searchbytype==1){
-                         mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                      }else {
-                         mPresenter.GetSearchProducts("",  cid, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts("",  cid, null,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                      }
                  }else {
                      if (searchbytype==1){
-                         mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                      }else {
-                         mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                      }
                  }
 
@@ -243,15 +274,15 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
                  if (isFliter==false){
                      if (searchbytype==1){
-                         mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                      }else {
-                         mPresenter.GetSearchProducts("",  cid, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts("",  cid, null,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                      }
                  }else {
                      if (searchbytype==1){
-                         mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                      }else {
-                         mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                         mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                      }
                  }
 
@@ -261,15 +292,15 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
                     if (isFliter==false){
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content,  null, null,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",  cid, null,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",  cid, null,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                         }
                     }else {
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content,   getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content,   getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",   getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",   getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                         }
                     }
                 break;
@@ -311,16 +342,16 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                /*未筛选*/
                if (isFliter==false){
                    if (searchbytype==1){
-                       mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", "1", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "1", "1", Integer.toString(pagaNo), "10","0");
                    }else {
-                       mPresenter.GetSearchProducts("",  cid, null,null, "1", "1", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts("",  cid, null,attrsCode, "1", "1", Integer.toString(pagaNo), "10","0");
                    }
                }else {
                    /*筛选后*/
                    if (searchbytype==1){
-                       mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "1", "1", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "1", "1", Integer.toString(pagaNo), "10","0");
                    }else {
-                       mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "1", "1", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "1", "1", Integer.toString(pagaNo), "10","0");
                    }
 
                }
@@ -339,16 +370,16 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
                if (isFliter==false){
                    if (searchbytype==1){
-                       mPresenter.GetSearchProducts(serach_content,  null, null,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                    }else {
-                       mPresenter.GetSearchProducts("",  cid, null,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts("",  cid, null,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                    }
 
                }else {
                    if (searchbytype==1){
-                       mPresenter.GetSearchProducts(serach_content, getChooseclassifyid(mapchooseclassifyid) , choosebrandid,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts(serach_content, getChooseclassifyid(mapchooseclassifyid) , choosebrandid,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                    }else {
-                       mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid),choosebrandid,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid),choosebrandid,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                    }
                }
 
@@ -369,33 +400,33 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                     case SYNTHESIS:
                         pagaNo=1;
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "1", orderType, Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "1", orderType, Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "1", orderType, Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "1", orderType, Integer.toString(pagaNo), "10","0");
                         }
                         break;
                     case PRICE_UP:
                         pagaNo=1;
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                         }
                         break;
                     case PRICE_DOWN:
                         pagaNo=1;
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                         }
                         break;
                     case SALESNUM:
                         pagaNo=1;
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content, getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content, getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",   getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "2", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",   getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                         }
                         break;
                 }
@@ -410,6 +441,19 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                    for (int i = 0; i < mClist.size(); i++) {
                     fliterClassifyAdapter.getViewByPosition(recyclerView_classify,i,R.id.item_cb).setSelected(false);
                    }
+
+                   //不为null说明有选择可以重置
+                   if (attrsCode!=null){
+                       attrsCode=null;
+                       mRvpopview_attr.setLayoutManager(new LinearLayoutManager(mActivity));
+                       fliterAttrsAdapter=new FliterAttrsAdapter(R.layout.item_filter_popueview_attrs,attrsBeanList);
+                       fliterAttrsAdapter.setOnItemClickAttrsListner(this);
+                       mRvpopview_attr.setAdapter(fliterAttrsAdapter);
+                   }
+
+
+
+
                 break;
            case R.id.tv_serach: //重新搜索
                //String serach_content = mEtSearch.getText().toString();
@@ -420,9 +464,9 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                    serachtype=SerachType.SYNTHESIS;
                    pagaNo=1;
                    if (searchbytype==1){
-                       mPresenter.GetSearchProducts(serach_content,  null, null,null, "1", "1", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "1", "1", Integer.toString(pagaNo), "10","0");
                    }else {
-                       mPresenter.GetSearchProducts("",  cid, null,null, "1", "1", Integer.toString(pagaNo), "10","0");
+                       mPresenter.GetSearchProducts("",  cid, null,attrsCode, "1", "1", Integer.toString(pagaNo), "10","0");
                    }
 
                //    mPresenter.GetSearchProducts(serach_content, null, null, null,"1", orderType, Integer.toString(pagaNo), "10","0");
@@ -555,7 +599,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                                 }else {
                                     adapter.getViewByPosition(recyclerView_classify, position, R.id.item_cb).setSelected(true);
                                     mapchooseclassifyid.put(position, String.valueOf(((FilterResult.CategoryBean.SubCategoryBeanX.SubCategoryBean)adapter.getItem(position)).getId()));
-
                                 }
                                 break;
                         }
@@ -563,10 +606,16 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
                     }
                 });
+            }
+            if (!Result.getAttrs().isEmpty()){
 
+                attrsBeanList=Result.getAttrs();
+                mRvpopview_attr.setLayoutManager(new LinearLayoutManager(mActivity));
+                fliterAttrsAdapter=new FliterAttrsAdapter(R.layout.item_filter_popueview_attrs,Result.getAttrs());
+                fliterAttrsAdapter.setOnItemClickAttrsListner(this);
+                mRvpopview_attr.setAdapter(fliterAttrsAdapter);
 
             }
-
             if (Result.getBrand().isEmpty()&&Result.getCategory().isEmpty()){
              //   Toast.makeText(mActivity,"无分类",Toast.LENGTH_SHORT).show();
             }
@@ -601,15 +650,15 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
                     if (isFliter==false){
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",  cid, null,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",  cid, null,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                         }
                     }else {
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "1", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                         }
 
                     }
@@ -623,15 +672,15 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
                     if (isFliter==false){
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content,  null, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",  cid, null,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",  cid, null,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                         }
                     }else {
                         if (searchbytype==1){
-                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts(serach_content,  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                         }else {
-                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,null, "3", "2", Integer.toString(pagaNo), "10","0");
+                            mPresenter.GetSearchProducts("",  getChooseclassifyid(mapchooseclassifyid), choosebrandid,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                         }
                     }
 

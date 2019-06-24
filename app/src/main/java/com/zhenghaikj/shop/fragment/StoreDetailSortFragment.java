@@ -90,6 +90,7 @@ public class StoreDetailSortFragment extends BaseLazyFragment<StoreDetailPresent
          mRv.setLayoutManager(new LinearLayoutManager(mActivity));
          storeSortAdapter=new StoreSortAdapter(R.layout.item_store_sort,result.getShopCategories());
          storeSortAdapter.setOnItemSortClickListner(this);
+
          storeSortAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
              @Override
              public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

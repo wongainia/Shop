@@ -56,11 +56,8 @@
             tools:replace="android:authorities">
 
             <meta-data
-
                 android:name="android.support.FILE_PROVIDER_PATHS"
-
                 android:resource="@xml/file_paths"/>
-
         </provider>
 
         <activity
@@ -273,7 +270,6 @@
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysVisible"
             />
 
 

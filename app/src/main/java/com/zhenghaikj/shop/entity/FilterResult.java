@@ -8,13 +8,13 @@ public class FilterResult implements Serializable {
 
     /**
      * Success : true
-     * Attrs : []
-     * Brand : [{"Id":337,"Name":"Aimer","Logo":"/Storage/Plat/Brand/logo_337.jpg"},{"Id":100,"Name":"佰益莱","Logo":"/Storage/Plat/Brand/logo_100.png"},{"Id":326,"Name":"海尔","Logo":"/Storage/Plat/Brand/logo_326.jpg"},{"Id":325,"Name":"美的","Logo":"/Storage/Plat/Brand/logo_325.jpg"},{"Id":356,"Name":"aux","Logo":"/Storage/Plat/Brand/logo_356.jpg"}]
-     * Category : [{"Name":"家用电器","Id":24,"SubCategory":[{"Name":"电视","Id":46,"SubCategory":[{"Name":"超薄电视","Id":51,"SubCategory":[]},{"Name":"55英寸","Id":548,"SubCategory":[]}]},{"Name":"冰箱","Id":555,"SubCategory":[{"Name":"三门双门","Id":557,"SubCategory":[]},{"Name":"冷柜冰吧","Id":558,"SubCategory":[]},{"Name":"多门对开门","Id":556,"SubCategory":[]},{"Name":"酒柜","Id":559,"SubCategory":[]}]},{"Name":"厨卫大电","Id":49,"SubCategory":[{"Name":"电热水器","Id":565,"SubCategory":[]}]},{"Name":"洗衣机","Id":48,"SubCategory":[{"Name":"波轮洗衣机","Id":60,"SubCategory":[]},{"Name":"滚筒洗衣机","Id":58,"SubCategory":[]}]},{"Name":"空调","Id":47,"SubCategory":[{"Name":"空调挂机","Id":54,"SubCategory":[]}]}]}]
+     * Attrs : [{"AttrId":207,"Name":"标签","AttrValues":[{"Id":860,"Name":"属性1"},{"Id":861,"Name":"属性2"},{"Id":862,"Name":"属性3"}]},{"AttrId":208,"Name":"折扣和服务","AttrValues":[{"Id":863,"Name":"包邮"},{"Id":864,"Name":"天猫"},{"Id":865,"Name":"赠送运费险"},{"Id":866,"Name":"天猫直达"},{"Id":867,"Name":"天猫无忧购"},{"Id":868,"Name":"花呗分期"}]}]
+     * Brand : [{"Id":100,"Name":"佰益莱","Logo":"/Storage/Plat/Brand/logo_100.png"},{"Id":326,"Name":"海尔","Logo":"/Storage/Plat/Brand/logo_326.jpg"},{"Id":325,"Name":"美的","Logo":"/Storage/Plat/Brand/logo_325.jpg"},{"Id":356,"Name":"aux","Logo":"/Storage/Plat/Brand/logo_356.jpg"}]
+     * Category : [{"Name":"家用电器","Id":24,"SubCategory":[{"Name":"冰箱","Id":555,"SubCategory":[{"Name":"三门双门","Id":557,"SubCategory":[]},{"Name":"多门对开门","Id":556,"SubCategory":[]}]}]}]
      */
 
     private String Success;
-    private List<?> Attrs;
+    private List<AttrsBean> Attrs;
     private List<BrandBean> Brand;
     private List<CategoryBean> Category;
 
@@ -26,11 +26,11 @@ public class FilterResult implements Serializable {
         this.Success = Success;
     }
 
-    public List<?> getAttrs() {
+    public List<AttrsBean> getAttrs() {
         return Attrs;
     }
 
-    public void setAttrs(List<?> Attrs) {
+    public void setAttrs(List<AttrsBean> Attrs) {
         this.Attrs = Attrs;
     }
 
@@ -50,11 +50,73 @@ public class FilterResult implements Serializable {
         this.Category = Category;
     }
 
+    public static class AttrsBean {
+        /**
+         * AttrId : 207
+         * Name : 标签
+         * AttrValues : [{"Id":860,"Name":"属性1"},{"Id":861,"Name":"属性2"},{"Id":862,"Name":"属性3"}]
+         */
+
+        private int AttrId;
+        private String Name;
+        private List<AttrValuesBean> AttrValues;
+
+        public int getAttrId() {
+            return AttrId;
+        }
+
+        public void setAttrId(int AttrId) {
+            this.AttrId = AttrId;
+        }
+
+        public String getName() {
+            return Name;
+        }
+
+        public void setName(String Name) {
+            this.Name = Name;
+        }
+
+        public List<AttrValuesBean> getAttrValues() {
+            return AttrValues;
+        }
+
+        public void setAttrValues(List<AttrValuesBean> AttrValues) {
+            this.AttrValues = AttrValues;
+        }
+
+        public static class AttrValuesBean {
+            /**
+             * Id : 860
+             * Name : 属性1
+             */
+
+            private int Id;
+            private String Name;
+
+            public int getId() {
+                return Id;
+            }
+
+            public void setId(int Id) {
+                this.Id = Id;
+            }
+
+            public String getName() {
+                return Name;
+            }
+
+            public void setName(String Name) {
+                this.Name = Name;
+            }
+        }
+    }
+
     public static class BrandBean {
         /**
-         * Id : 337
-         * Name : Aimer
-         * Logo : /Storage/Plat/Brand/logo_337.jpg
+         * Id : 100
+         * Name : 佰益莱
+         * Logo : /Storage/Plat/Brand/logo_100.png
          */
 
         private int Id;
@@ -90,7 +152,7 @@ public class FilterResult implements Serializable {
         /**
          * Name : 家用电器
          * Id : 24
-         * SubCategory : [{"Name":"电视","Id":46,"SubCategory":[{"Name":"超薄电视","Id":51,"SubCategory":[]},{"Name":"55英寸","Id":548,"SubCategory":[]}]},{"Name":"冰箱","Id":555,"SubCategory":[{"Name":"三门双门","Id":557,"SubCategory":[]},{"Name":"冷柜冰吧","Id":558,"SubCategory":[]},{"Name":"多门对开门","Id":556,"SubCategory":[]},{"Name":"酒柜","Id":559,"SubCategory":[]}]},{"Name":"厨卫大电","Id":49,"SubCategory":[{"Name":"电热水器","Id":565,"SubCategory":[]}]},{"Name":"洗衣机","Id":48,"SubCategory":[{"Name":"波轮洗衣机","Id":60,"SubCategory":[]},{"Name":"滚筒洗衣机","Id":58,"SubCategory":[]}]},{"Name":"空调","Id":47,"SubCategory":[{"Name":"空调挂机","Id":54,"SubCategory":[]}]}]
+         * SubCategory : [{"Name":"冰箱","Id":555,"SubCategory":[{"Name":"三门双门","Id":557,"SubCategory":[]},{"Name":"多门对开门","Id":556,"SubCategory":[]}]}]
          */
 
         private String Name;
@@ -123,9 +185,9 @@ public class FilterResult implements Serializable {
 
         public static class SubCategoryBeanX {
             /**
-             * Name : 电视
-             * Id : 46
-             * SubCategory : [{"Name":"超薄电视","Id":51,"SubCategory":[]},{"Name":"55英寸","Id":548,"SubCategory":[]}]
+             * Name : 冰箱
+             * Id : 555
+             * SubCategory : [{"Name":"三门双门","Id":557,"SubCategory":[]},{"Name":"多门对开门","Id":556,"SubCategory":[]}]
              */
 
             private String Name;
@@ -158,8 +220,8 @@ public class FilterResult implements Serializable {
 
             public static class SubCategoryBean {
                 /**
-                 * Name : 超薄电视
-                 * Id : 51
+                 * Name : 三门双门
+                 * Id : 557
                  * SubCategory : []
                  */
 

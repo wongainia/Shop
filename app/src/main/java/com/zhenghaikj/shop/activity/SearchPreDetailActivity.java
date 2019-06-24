@@ -75,6 +75,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
 
     private List<String> hotsearch;
     private SerachHistroyAdapter serachHistroyAdapterhot;
+
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -82,6 +83,7 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
         mImmersionBar.statusBarView(mView);
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
+
     }
 
     @Override
@@ -91,7 +93,6 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initData() {
-
         searchListDbOperation = new SearchListDbOperation(this,"building");//传入表名，以对表进行操作
         searchRecordsList = new ArrayList<>();
         tempList = new ArrayList<>();
@@ -129,9 +130,8 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
-        mEtSearch.setFocusable(true);
-        mEtSearch.setFocusableInTouchMode(true);
-        mEtSearch.requestFocus();
+        openKeyBoard(mEtSearch);
+
     }
 
     @Override
@@ -340,5 +340,21 @@ public class SearchPreDetailActivity extends BaseActivity implements View.OnClic
             }
 
         }
+    }
+
+
+    public void openKeyBoard(EditText editText) {
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager imm =
+                        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        }, 1000);
     }
 }
