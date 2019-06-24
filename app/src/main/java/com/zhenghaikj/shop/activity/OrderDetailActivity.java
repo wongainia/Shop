@@ -410,7 +410,12 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.VISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
-                mRl_serach_shifu.setVisibility(View.VISIBLE);
+                for (int i = 0; i <result.getOrderItem().size() ; i++) {
+                    if (result.getOrderItem().get(i).isInstall()){
+                        mRl_serach_shifu.setVisibility(View.VISIBLE);
+                    }
+                }
+
                 mLlClose.setVisibility(View.INVISIBLE);
             }
 
@@ -427,7 +432,11 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.VISIBLE);
-                mRl_serach_shifu.setVisibility(View.VISIBLE);
+                for (int i = 0; i <result.getOrderItem().size() ; i++) {
+                    if (result.getOrderItem().get(i).isInstall()){
+                        mRl_serach_shifu.setVisibility(View.VISIBLE);
+                    }
+                }
                 mLlClose.setVisibility(View.GONE);
             }
 
@@ -436,7 +445,11 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.VISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
-                mRl_serach_shifu.setVisibility(View.VISIBLE);
+                for (int i = 0; i <result.getOrderItem().size() ; i++) {
+                    if (result.getOrderItem().get(i).isInstall()){
+                        mRl_serach_shifu.setVisibility(View.VISIBLE);
+                    }
+                }
                 mLlClose.setVisibility(View.GONE);
             }
 
@@ -445,7 +458,11 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
-                mRl_serach_shifu.setVisibility(View.INVISIBLE);
+                for (int i = 0; i <result.getOrderItem().size() ; i++) {
+                    if (result.getOrderItem().get(i).isInstall()){
+                        mRl_serach_shifu.setVisibility(View.VISIBLE);
+                    }
+                }
                 mLlClose.setVisibility(View.VISIBLE);
             }
         }

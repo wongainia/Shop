@@ -8,12 +8,14 @@
     >
 
 <RelativeLayout
+    android:id="@+id/rl_reservation"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_marginTop="5dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:background="@drawable/bg_shop">
+    android:background="@drawable/bg_shop"
+    android:visibility="gone">
 
     <ImageView
         android:id="@+id/img_shifu1"

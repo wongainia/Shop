@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +34,22 @@ import butterknife.ButterKnife;
 public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresenter, PaymentSuccessModel> implements View.OnClickListener, PaymentSuccessContract.View {
 
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.rl_shop)
+    RelativeLayout mRlShop;
+    @BindView(R.id.img_shifu1)
+    ImageView mImgShifu1;
+    @BindView(R.id.rl_reservation)
+    RelativeLayout mRlReservation;
+    @BindView(R.id.img_shifu2)
+    ImageView mImgShifu2;
+    @BindView(R.id.tv_wuliu)
+    TextView mTvWuliu;
+    @BindView(R.id.img_shifu3)
+    ImageView mImgShifu3;
+    @BindView(R.id.ll_service)
+    LinearLayout mLlService;
     private String orderID;
     @BindView(R.id.icon_back)
     ImageView mIconBack;
@@ -74,8 +92,8 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
     @Override
     protected void initData() {
         orderID = getIntent().getStringExtra("OrderID");
-        Log.d("======>orderID",orderID);
-        mPresenter.GetOrderDetail(orderID,userKey);
+        Log.d("======>orderID", orderID);
+        mPresenter.GetOrderDetail(orderID, userKey);
     }
 
     @Override
@@ -89,6 +107,7 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
         mIconBack.setOnClickListener(this);
         mTvpingjia.setOnClickListener(this);
         mTvyuyue.setOnClickListener(this);
+        mTvWuliu.setOnClickListener(this);
     }
 
 
@@ -102,21 +121,25 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
-            DeliverySuccessActivity.this.finish();
-              break;
-            case R.id.tv_yuyue:
-                Intent intent0=new Intent(mActivity,OrderInstallActivity.class);
-                intent0.putExtra("OrderId",orderID);
-                startActivityForResult(intent0,Config.RECEIPT_REQUEST);
-            break;
-            case R.id.tv_pingjia:
-                Intent intent=new Intent(mActivity,EvaluateActivity.class);
-                intent.putExtra("OrderID",orderID);
-                startActivityForResult(intent,400);
+                DeliverySuccessActivity.this.finish();
                 break;
-
+            case R.id.tv_yuyue:
+                Intent intent0 = new Intent(mActivity, OrderInstallActivity.class);
+                intent0.putExtra("OrderId", orderID);
+                startActivityForResult(intent0, Config.RECEIPT_REQUEST);
+                break;
+            case R.id.tv_pingjia:
+                Intent intent = new Intent(mActivity, EvaluateActivity.class);
+                intent.putExtra("OrderID", orderID);
+                startActivityForResult(intent, 400);
+                break;
+            case R.id.tv_wuliu:
+                Intent intent1=new Intent(mActivity, LogisticsInformationActivity.class);
+                intent1.putExtra("orederId",orderID);
+                startActivity(intent1);
+                break;
 
 
         }
@@ -124,20 +147,24 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
 
     @Override
     public void GetOrderDetail(OrderDetail result) {
-     if (result.isSuccess()){
-         Glide.with(mActivity).load(result.getOrderItem().get(0).getProductImage())
-                 .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
-                 .into(mImgShop);
-         mTvShop.setText(result.getOrderItem().get(0).getProductName());
-
-     }
+        if (result.isSuccess()) {
+            Glide.with(mActivity).load(result.getOrderItem().get(0).getProductImage())
+                    .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
+                    .into(mImgShop);
+            mTvShop.setText(result.getOrderItem().get(0).getProductName());
+            for (int i = 0; i <result.getOrderItem().size() ; i++) {
+                if (result.getOrderItem().get(i).isInstall()){
+                    mRlReservation.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 
     @Override
     public void IsMallid(BaseResult<Data<String>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (!baseResult.getData().isItem1()){
+                if (!baseResult.getData().isItem1()) {
                     mTvyuyue.setText("已预约");
                     mTvyuyue.setClickable(false);
                 }
@@ -149,16 +176,16 @@ public class DeliverySuccessActivity extends BaseActivity<PaymentSuccessPresente
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==400){ //评价请求码
-            if (resultCode==401){ //评价返回码
+        if (requestCode == 400) { //评价请求码
+            if (resultCode == 401) { //评价返回码
                 mTvpingjia_txt.setText("已评价");
                 mTvpingjia.setVisibility(View.GONE);
             }
 
         }
 
-        if (requestCode== Config.RECEIPT_REQUEST){
-            if (resultCode==Config.RECEIPT_RESULT){
+        if (requestCode == Config.RECEIPT_REQUEST) {
+            if (resultCode == Config.RECEIPT_RESULT) {
                 mTvyuyue.setText("已预约");
                 mTvyuyue.setClickable(false);
             }
