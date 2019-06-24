@@ -518,7 +518,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                             }
                         }
 
-                        mPresenter.AddOrder("2", "安装", UserID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number,"123456789");
+                        mPresenter.AddOrder("2", "安装", UserID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, null, Extra, ExtraTime, ExtraFee, num, SigningState, number,"123456789","Mall");
                         break;
                     case "维修":
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
@@ -526,7 +526,7 @@ public class ServiceActivity extends BaseActivity<AddOrderPresenter, AddOrderMod
                             return;
                         }
                         OrderMoney = "100";
-                        mPresenter.AddOrder("1", "维修", UserID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null,"123456789");
+                        mPresenter.AddOrder("1", "维修", UserID, bean.getBrandId(), bean.getBrandName(), bean.getParentCategoryId(), bean.getParentCategoryName(), bean.getCategoryId(), bean.getCategoryName(), ProvinceCode, CityCode, AreaCode, DistrictCode, Address, name, phone, memo, OrderMoney, RecycleOrderHour, Guarantee, AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null,"123456789","Mall");
                         break;
                     default:
                         break;

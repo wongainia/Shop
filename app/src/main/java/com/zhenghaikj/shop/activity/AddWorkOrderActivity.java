@@ -259,6 +259,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     private String price = "0";
     private String installPrice = "0";
 
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_service2;
@@ -331,6 +332,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
             @Override
             public void onValueChange(int value) {
                 num = Integer.toString(value);
+                getTotalMoney();
             }
         });
 
@@ -361,13 +363,18 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                         break;
                 }
                 mTvExpedited.setText("加急费用¥" + ExtraFee);
-                if (mCbService.isChecked()) {
-                    Double money = Double.parseDouble(ExtraFee) + Double.parseDouble(price);
-                    mTvTotalPrice.setText("服务金额:¥" + money);
-                } else {
-                    Double money = Double.parseDouble(ExtraFee) + Double.parseDouble(installPrice);
-                    mTvTotalPrice.setText("服务金额:¥" + money);
-                }
+//                if (mCbService.isChecked()) {
+//                    if (Double.parseDouble(num)>1){
+//                        Double money = Double.parseDouble(ExtraFee) +(Double.parseDouble(price)-30)*(Double.parseDouble(num)-1);
+//                        mTvTotalPrice.setText("服务金额:¥" + money);
+//                    }
+//
+//                } else {
+//                    Double money = Double.parseDouble(ExtraFee) + Double.parseDouble(installPrice)*Double.parseDouble(num);
+//                    mTvTotalPrice.setText("服务金额:¥" + money);
+//                }
+
+                getTotalMoney();
 
             }
 
@@ -381,6 +388,31 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
         });
 
 
+    }
+
+    public void  getTotalMoney(){
+        Double orderMoney=0.0;
+        if (mCbService.isChecked()){
+            if (Double.parseDouble(num)>1){
+//                Double money =(Double.parseDouble(price)-30)*(Double.parseDouble(num)-1);
+//                orderMoney +=money+Double.parseDouble(ExtraFee);
+                orderMoney +=Double.parseDouble(price)+Double.parseDouble(ExtraFee);
+                mTvTotalPrice.setText("服务金额:¥" + orderMoney);
+            }else {
+                orderMoney +=Double.parseDouble(price)+Double.parseDouble(ExtraFee);
+                mTvTotalPrice.setText("服务金额:¥" + orderMoney);
+            }
+        }else {
+            if (Double.parseDouble(num)>1){
+//                Double money =(Double.parseDouble(installPrice)-30)*(Double.parseDouble(num)-1);
+//                orderMoney +=money+Double.parseDouble(ExtraFee);
+                orderMoney +=Double.parseDouble(installPrice)+Double.parseDouble(ExtraFee);
+                mTvTotalPrice.setText("服务金额:¥" + orderMoney);
+            }else {
+                orderMoney +=Double.parseDouble(installPrice)+Double.parseDouble(ExtraFee);
+                mTvTotalPrice.setText("服务金额:¥" + orderMoney);
+            }
+        }
     }
 
     @SingleClick
@@ -472,11 +504,10 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 mLlDescription.setVisibility(View.VISIBLE);
                 mLlAccessories.setVisibility(View.VISIBLE);
                 mLlSigning.setVisibility(View.GONE);
-                if (price == null) {
-                    mTvTotalPrice.setText("服务金额:¥" + "0.00");
-                } else {
-                    mTvTotalPrice.setText("服务金额:¥" + price);
-                }
+//                if (price == null) {
+//                    mTvTotalPrice.setText("服务金额:¥" + "0.00");
+//                }
+                getTotalMoney();
 
                 break;
             case R.id.ll_installation:
@@ -486,11 +517,10 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                 mLlDescription.setVisibility(View.GONE);
                 mLlAccessories.setVisibility(View.GONE);
                 mLlSigning.setVisibility(View.VISIBLE);
-                if (installPrice == null) {
-                    mTvTotalPrice.setText("服务金额:¥" + "0.00");
-                } else {
-                    mTvTotalPrice.setText("服务金额:¥" + installPrice);
-                }
+//                if (installPrice == null) {
+//                    mTvTotalPrice.setText("服务金额:¥" + "0.00");
+//                }
+                getTotalMoney();
                 break;
             case R.id.ll_scan:
                 IntentIntegrator integrator = new IntentIntegrator(AddWorkOrderActivity.this);
@@ -589,7 +619,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                                 return;
                             }
                         }
-                        mPresenter.AddOrder("2", "安装", UserID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", null, Extra, ExtraTime, ExtraFee, num, SigningState, number, "123456789");
+                        mPresenter.AddOrder("2", "安装", UserID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", null, Extra, ExtraTime, ExtraFee, num, SigningState, number, "123456789","Mall");
                         break;
                     case "维修":
                         if (AccessorySendState == null || "".equals(AccessorySendState)) {
@@ -597,7 +627,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                             return;
                         }
                         OrderMoney = "100";
-                        mPresenter.AddOrder("1", "维修", UserID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null, "123456789");
+                        mPresenter.AddOrder("1", "维修", UserID, FBrandID, BrandName, SubCategoryID, SubCategoryName, TypeID, TypeName, ProvinceCode, CityCode, AreaCode, DistrictCode, addressStr, name, phone, memo, OrderMoney, RecycleOrderHour, "N", AccessorySendState, Extra, ExtraTime, ExtraFee, num, null, null, "123456789","Mall");
                         break;
                     default:
                         break;
@@ -1024,6 +1054,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
     public void showPopWindow(final TextView tv, BaseQuickAdapter adapter, final List list) {
 
         View contentView = LayoutInflater.from(mActivity).inflate(R.layout.category_pop, null);
+        final LinearLayout ll_category=contentView.findViewById(R.id.ll_category);
         final RecyclerView rv = contentView.findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(mActivity));
         rv.setAdapter(adapter);
@@ -1043,18 +1074,19 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
                     TypeName = ((Category) list.get(position)).getFCategoryName();
                     price = ((Category) list.get(position)).getGeInitPrice();
                     installPrice = ((Category) list.get(position)).getGeInstallPrice();
-                    mTvTotalPrice.setText("服务金额:¥" + ((Category) list.get(position)).getGeInitPrice());
+//                    mTvTotalPrice.setText("服务金额:¥" + ((Category) list.get(position)).getGeInitPrice());
+                    getTotalMoney();
                     tv.setText(TypeName);
                 }
             }
         });
         popupWindow = new PopupWindow(contentView);
-        popupWindow.setWidth(tv.getWidth());
-        if (list.size() > 5) {
-            popupWindow.setHeight(600);
-        } else {
+        popupWindow.setWidth(1000);
+//        if (list.size() > 5) {
+//            popupWindow.setHeight(600);
+//        } else {
             popupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        }
+//        }
 //        popupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setFocusable(true);
@@ -1066,8 +1098,8 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
             }
         });
         if (popupWindow != null && !popupWindow.isShowing()) {
-            popupWindow.showAsDropDown(tv, 0, 10);
-//            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+//            popupWindow.showAsDropDown(tv, 0, 0);
+            popupWindow.showAtLocation(contentView, Gravity.CENTER, 0, 0);
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
