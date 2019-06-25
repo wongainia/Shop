@@ -9,6 +9,8 @@ import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
+import com.zhenghaikj.shop.entity.Express;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Province;
 import com.zhenghaikj.shop.mvp.contract.AddInstallOrderContract;
@@ -83,4 +85,25 @@ public class AddInstallOrderModel implements AddInstallOrderContract.Model {
                 .subscribeOn(Schedulers.io());
     }
 
+    @Override
+    public Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(String ExpressNo) {
+        return ApiRetrofit2.getDefault().GetExpressInfo(ExpressNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+
+    @Override
+    public Observable<Express> GetExpress(String orderId, String userkey) {
+        map = new HashMap<>();
+        map.put("orderid",orderId);
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetExpressInfo(orderId,userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
 }

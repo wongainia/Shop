@@ -17,12 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AreaAdapter;
 import com.zhenghaikj.shop.adapter.CityAdapter;
 import com.zhenghaikj.shop.adapter.DistrictAdapter;
+import com.zhenghaikj.shop.adapter.LogisticsAdapter;
 import com.zhenghaikj.shop.adapter.OrderInstallAdapter;
 import com.zhenghaikj.shop.adapter.ProvinceAdapter;
 import com.zhenghaikj.shop.api.Config;
@@ -33,6 +35,8 @@ import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
+import com.zhenghaikj.shop.entity.Express;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Province;
 import com.zhenghaikj.shop.mvp.contract.AddInstallOrderContract;
@@ -116,11 +120,12 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     private String DistrictCode;//街道code
     private OrderInstallAdapter orderInstallAdapter;
 
-
     private int installnum=0; //存储发单成功的数量
 
 
     private Map<Integer,OrderDetail.OrderItemBean> installmap =new HashMap<>();//用于储存安装的信息
+    private Express expressResult=new Express();
+
     /**
      * 初始化沉浸式
      */
@@ -142,6 +147,8 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
         orderID = getIntent().getStringExtra("OrderId");
 //        Log.d(TAG,"OrderId"+orderID);
         mPresenter.GetOrderDetail(orderID,userKey);
+        mPresenter.GetExpress(orderID, userKey);
+
     }
 
     @Override
@@ -216,6 +223,24 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     }
 
     @Override
+    public void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+
+                break;
+        }
+    }
+
+    @Override
+    public void GetExpress(Express Result) {
+        if (Result.isSuccess()) {
+//            mPresenter.GetExpressInfo(Result.getExpressNum());
+            expressResult = Result;
+
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.icon_back:
@@ -223,6 +248,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                 break;
 
             case R.id.tv_save://提交
+//                ToastUtils.showShort(expressResult.getExpressNum());
              String name=mEtname.getText().toString();
              String phone=mEtphone.getText().toString();
              String address=mTvaddress.getText().toString();
@@ -265,7 +291,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                              "0", //加急费
                              entry.getValue().getCount(),
                              "N",//客户是否收到货
-                             "0",
+                             expressResult.getExpressNum(),
                              orderID,
                              "Mall");
                             showLoading(entry.getKey(),installmap);

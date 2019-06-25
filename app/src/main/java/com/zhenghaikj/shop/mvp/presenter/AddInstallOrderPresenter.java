@@ -8,6 +8,8 @@ import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
+import com.zhenghaikj.shop.entity.Express;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Province;
 import com.zhenghaikj.shop.mvp.contract.AddInstallOrderContract;
@@ -90,4 +92,25 @@ public class AddInstallOrderPresenter extends AddInstallOrderContract.Presenter 
                 });
     }
 
+    @Override
+    public void GetExpressInfo(String ExpressNo) {
+        mModel.GetExpressInfo(ExpressNo)
+                .subscribe(new BaseObserver2<Data<List<Logistics>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<List<Logistics>>> value) {
+                        mView.GetExpressInfo(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetExpress(String orderId, String userkey) {
+        mModel.GetExpress(orderId, userkey)
+                .subscribe(new BaseObserver<Express>() {
+                    @Override
+                    protected void onHandleSuccess(Express value) {
+                        mView.GetExpress(value);
+                    }
+                });
+    }
 }

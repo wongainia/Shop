@@ -432,11 +432,11 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.VISIBLE);
-                for (int i = 0; i <result.getOrderItem().size() ; i++) {
-                    if (result.getOrderItem().get(i).isInstall()){
-                        mRl_serach_shifu.setVisibility(View.VISIBLE);
-                    }
-                }
+//                for (int i = 0; i <result.getOrderItem().size() ; i++) {
+//                    if (result.getOrderItem().get(i).isInstall()){
+//                        mRl_serach_shifu.setVisibility(View.VISIBLE);
+//                    }
+//                }
                 mLlClose.setVisibility(View.GONE);
             }
 

@@ -9,6 +9,8 @@ import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.City;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
+import com.zhenghaikj.shop.entity.Express;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Province;
 
@@ -54,6 +56,8 @@ public interface AddInstallOrderContract {
 
         Observable<OrderDetail> GetOrderDetail(String id, String userkey);
         Observable<AddressCodeResult> GetRegion(String id);
+        Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(String ExpressNo);
+        Observable<Express> GetExpress(String orderId, String userkey);
     }
 
     interface View extends BaseView {
@@ -64,6 +68,8 @@ public interface AddInstallOrderContract {
         void AddOrder(BaseResult<Data<String>> baseResult);
         void GetOrderDetail(OrderDetail result);
         void GetRegion(AddressCodeResult result);
+        void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult);
+        void GetExpress(Express Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -103,6 +109,8 @@ public interface AddInstallOrderContract {
 
         public abstract void GetOrderDetail(String id,String userkey);
         public abstract void GetRegion(String id);
+        public abstract void GetExpressInfo(String ExpressNo);
+        public abstract void GetExpress(String orderId,String userkey);
     }
 
 }
