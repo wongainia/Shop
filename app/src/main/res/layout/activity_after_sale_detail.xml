@@ -262,6 +262,20 @@
             android:layout_marginLeft="20dp"
             android:textSize="13sp"/>
     </RelativeLayout>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_sendgood"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="发货"
+            android:textColor="@color/red"
+            android:gravity="center"
+            android:textSize="16sp"
+            />
     </LinearLayout>
+
+
+
 </ScrollView>
 </LinearLayout>

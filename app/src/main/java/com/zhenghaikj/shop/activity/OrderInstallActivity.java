@@ -237,7 +237,6 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
              }else {
 
                  for (Map.Entry<Integer,OrderDetail.OrderItemBean> entry :installmap.entrySet()){
-                     System.out.println(entry.getValue());
 
                      mPresenter.AddOrder(
                              "2",
@@ -269,7 +268,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                              "0",
                              orderID,
                              "Mall");
-                     showLoading(entry.getKey(),installmap);
+                            showLoading(entry.getKey(),installmap);
                  }
 
              }

@@ -402,6 +402,10 @@
             android:launchMode="singleTask"
             />
 
+        <activity android:name=".activity.SellerSendGoodActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
         <receiver
             android:name=".wxapi.AppRegister">
             <intent-filter>

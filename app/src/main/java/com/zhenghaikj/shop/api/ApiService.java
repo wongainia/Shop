@@ -623,11 +623,12 @@ public interface ApiService {
      * @param userkey            用户凭证
      * @return
      */
-    @GET("api/OrderRefund/PostSellerSendGoods")
-    Observable<RefundApplyResult> PostSellerSendGoods(@Query("Id") String Id,
-                                                      @Query("ExpressCompanyName") String ExpressCompanyName,
-                                                      @Query("ShipOrderNumber") String ShipOrderNumber,
-                                                      @Query("userkey") String userkey,
+    @FormUrlEncoded
+    @POST("api/OrderRefund/PostSellerSendGoods")
+    Observable<RefundApplyResult> PostSellerSendGoods(@Field("Id") String Id,
+                                                      @Field("ExpressCompanyName") String ExpressCompanyName,
+                                                      @Field("ShipOrderNumber") String ShipOrderNumber,
+                                                      @Field("userkey") String userkey,
                                                       @Query("app_key") String app_key,
                                                       @Query("timestamp") String timestamp,
                                                       @Query("sign") String sign);
@@ -1032,8 +1033,8 @@ public interface ApiService {
                                 @Query("type") String type,
                                 @Query("userkey") String userkey,
                                 @Query("app_key") String app_key,
-                                 @Query("timestamp") String timestamp,
-                                 @Query("sign") String sign);
+                                @Query("timestamp") String timestamp,
+                                @Query("sign") String sign);
     /**
      * 积分确认订单
      */

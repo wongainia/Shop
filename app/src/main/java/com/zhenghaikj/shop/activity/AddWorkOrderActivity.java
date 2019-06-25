@@ -371,7 +371,7 @@ public class AddWorkOrderActivity extends BaseActivity<AddOrderPresenter, AddOrd
 //
 //                } else {
 //                    Double money = Double.parseDouble(ExtraFee) + Double.parseDouble(installPrice)*Double.parseDouble(num);
-//                    mTvTotalPrice.setText("服务金额:¥" + money);
+//                    mTvTotalPrice.setText("服务金额:trim¥" + money);
 //                }
 
                 getTotalMoney();

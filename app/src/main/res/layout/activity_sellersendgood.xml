@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/activity_toolbar"/>
+
+    <RelativeLayout
+        android:background="@drawable/bg_shop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+        <EditText
+            android:id="@+id/et_shipordernumber"
+            android:layout_width="match_parent"
+            android:layout_toLeftOf="@+id/img_scan"
+            android:layout_height="30dp"
+            android:hint="请输入快递单号"
+            android:background="@null"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="13sp"/>
+        
+        <ImageView
+            android:id="@+id/img_scan"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/scan"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@drawable/bg_shop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
+        <EditText
+            android:id="@+id/et_conpanyname"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:hint="请输入快递公司"
+            android:layout_toLeftOf="@+id/tv_sumbit"
+            android:background="@null"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/tv_sumbit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提交"
+            android:textColor="@color/red"
+            android:textSize="15sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.mvp.presenter;
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Refund;
+import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
 import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
 import com.zhenghaikj.shop.mvp.contract.AfterSaleContract;
@@ -39,6 +40,17 @@ public class AfterSaleDetailPresenter extends AfterSaleDetailContract.Presenter 
                     @Override
                     protected void onHandleSuccess(RefundProcessDetailResult value) {
                         mView.GetRefundProcessDetail(value);
+                    }
+                });
+    }
+
+    @Override
+    public void PostSellerSendGoods(String Id, String ExpressCompanyName, String ShipOrderNumber, String userkey) {
+        mModel.PostSellerSendGoods(Id,ExpressCompanyName,ShipOrderNumber,userkey)
+                .subscribe(new BaseObserver<RefundApplyResult>() {
+                    @Override
+                    protected void onHandleSuccess(RefundApplyResult value) {
+                        mView.PostSellerSendGoods(value);
                     }
                 });
     }

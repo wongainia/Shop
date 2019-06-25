@@ -4,6 +4,7 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Refund;
+import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
 import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
 import com.zhenghaikj.shop.mvp.contract.AfterSaleContract;
@@ -61,6 +62,22 @@ public class AfterSaleDetailModel implements AfterSaleDetailContract.Model {
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetRefundProcessDetail(id,userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<RefundApplyResult> PostSellerSendGoods(String Id, String ExpressCompanyName, String ShipOrderNumber, String userkey) {
+        map = new HashMap<>();
+        map.put("id",Id);
+        map.put("expresscompanyname",ExpressCompanyName);
+        map.put("shipordernumber",ShipOrderNumber);
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().PostSellerSendGoods(Id,ExpressCompanyName,ShipOrderNumber,userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

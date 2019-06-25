@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
 import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
 import com.zhenghaikj.shop.mvp.contract.AfterSaleDetailContract;
@@ -71,6 +73,12 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
 
     @BindView(R.id.rl_process)
     RelativeLayout mRlprocess;
+
+
+    @BindView(R.id.tv_sendgood)
+    TextView mTvsendgood;
+
+
     private String Id;
     private String OrderId;
     /**
@@ -107,6 +115,7 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mRlprocess.setOnClickListener(this);
+        mTvsendgood.setOnClickListener(this);
     }
 
 
@@ -121,6 +130,10 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
         mTvreturnmoney_reason.setText(result.getReason());
         mTvitemid.setText(result.getId());
         mTvapply_time.setText(result.getApplyDate());
+
+        if (result.getSellerAuditStatusValue()==2){
+            mTvsendgood.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -137,10 +150,7 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
                  .load(result.getOrderItem().get(0).getProductImage())
                  .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
                  .into(mImgshop);
-
          mTvshop.setText(result.getOrderItem().get(0).getProductName());
-
-
 
      }
 
@@ -149,6 +159,11 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
 
     @Override
     public void GetRefundProcessDetail(RefundProcessDetailResult result) {
+
+    }
+
+    @Override
+    public void PostSellerSendGoods(RefundApplyResult result) {
 
     }
 
@@ -168,6 +183,15 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
                 //获取售后处理进程
                 mPresenter.GetRefundProcessDetail(Id,userKey);
                 break;
+            case R.id.tv_sendgood:
+             //mPresenter.PostSellerSendGoods(Id,"顺丰快递","121214124142",userKey);
+                Intent intent=new Intent(mActivity,SellerSendGoodActivity.class);
+                intent.putExtra("Id",Id);
+                startActivity(intent);
+             break;
+
+
+
 
         }
     }

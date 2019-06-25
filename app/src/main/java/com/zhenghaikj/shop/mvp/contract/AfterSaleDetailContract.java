@@ -5,6 +5,7 @@ import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Refund;
+import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
 import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
 
@@ -18,8 +19,12 @@ public interface AfterSaleDetailContract {
         Observable<OrderDetail> GetOrderDetail(String id, String userkey);
 
         /*获取申请售后/退款单 进程详情*/
-
         Observable<RefundProcessDetailResult> GetRefundProcessDetail(String id, String userkey);
+
+        Observable<RefundApplyResult> PostSellerSendGoods(String Id,
+                                                          String ExpressCompanyName,
+                                                          String ShipOrderNumber,
+                                                          String userkey);
 
     }
 
@@ -27,12 +32,17 @@ public interface AfterSaleDetailContract {
         void GetRefundDetail(RefundDetailResult result);
         void GetOrderDetail(OrderDetail result);
         void GetRefundProcessDetail(RefundProcessDetailResult result);
+        void PostSellerSendGoods(RefundApplyResult result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void GetRefundDetail(String id,String userkey);
         public abstract void GetOrderDetail(String id,String userkey);
         public abstract void GetRefundProcessDetail(String id,String userkey);
+        public abstract void PostSellerSendGoods(String Id,
+                                                 String ExpressCompanyName,
+                                                 String ShipOrderNumber,
+                                                 String userkey);
 
     }
 }
