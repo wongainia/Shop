@@ -1206,9 +1206,9 @@ public interface ApiService {
             @Field("userkey") String userkey,
             @Field("CategoryId") String CategoryId,
             @Field("HiMallArticleId") String HiMallArticleId,
-            @Query("app_key") String app_key,
-            @Query("timestamp") String timestamp,
-            @Query("sign") String sign
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
     );
 
 }

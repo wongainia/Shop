@@ -126,10 +126,15 @@ public class LogisticsInformationActivity extends BaseActivity<ExpressPresenter,
     public void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult) {
         switch (baseResult.getStatusCode()) {
             case 200:
-                logisticsList.addAll(baseResult.getData().getItem2());
-                LogisticsAdapter logisticsAdapter = new LogisticsAdapter(R.layout.item_logistics, logisticsList);
-                mRvLogistics.setLayoutManager(new LinearLayoutManager(mActivity));
-                mRvLogistics.setAdapter(logisticsAdapter);
+                if (baseResult.getData().getItem2()!=null){
+                    if (baseResult.getData().getItem2().size()!=0){
+                        logisticsList.addAll(baseResult.getData().getItem2());
+                        LogisticsAdapter logisticsAdapter = new LogisticsAdapter(R.layout.item_logistics, logisticsList);
+                        mRvLogistics.setLayoutManager(new LinearLayoutManager(mActivity));
+                        mRvLogistics.setAdapter(logisticsAdapter);
+                    }
+                }
+
                 break;
         }
     }

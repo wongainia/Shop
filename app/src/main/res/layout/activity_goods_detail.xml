@@ -660,7 +660,7 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
 
-                                    <com.zhenghaikj.shop.widget.RoundImageView
+                                    <ImageView
                                         android:id="@+id/iv_store_picture"
                                         android:layout_width="50dp"
                                         android:layout_height="50dp"

@@ -171,7 +171,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @BindView(R.id.tv_answer)
     TextView mTvAnswer;
     @BindView(R.id.iv_store_picture)
-    RoundImageView mIvStorePicture;
+    ImageView mIvStorePicture;
     @BindView(R.id.tv_store_name)
     TextView mTvStoreName;
     @BindView(R.id.tv_all_goods)
@@ -1157,7 +1157,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mWebview.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
             mWebview.getSettings().setJavaScriptEnabled(true);
             mWebview.setWebChromeClient(new WebChromeClient());
-            GlideUtil.loadImageViewLoding(mActivity, result.getVShopLog(), mIvStorePicture, R.drawable.image_loading, R.drawable.image_loading);
+            GlideUtil.loadImageViewLoding(mActivity, result.getVShopLog(), mIvStorePicture, R.drawable.dianpumore, R.drawable.dianpumore);
             mTvStoreName.setText(result.getShop().getName());
 
             mTvstore_num.setText("关注人数:"+result.getShop().getFavoriteShopCount()+"人"+"  宝贝数量:"+result.getShop().getProductNum()+"件");
