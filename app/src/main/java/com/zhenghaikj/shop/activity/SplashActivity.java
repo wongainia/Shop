@@ -14,6 +14,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetCode;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
 import com.zhenghaikj.shop.mvp.model.LoginModel;
@@ -141,6 +142,21 @@ public class SplashActivity extends BaseActivity<LoginPresenter, LoginModel> imp
 
         }
 
+
+    }
+
+    @Override
+    public void GetPhoneCode(GetCode Result) {
+
+    }
+
+    @Override
+    public void GetUserWithoutPassword(LoginResult result) {
+
+    }
+
+    @Override
+    public void ValidateUserName(BaseResult<String> Result) {
 
     }
 

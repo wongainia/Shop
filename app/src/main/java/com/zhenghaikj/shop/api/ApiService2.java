@@ -28,6 +28,12 @@ import retrofit2.http.POST;
 
 public interface ApiService2 {
 
+
+
+    @FormUrlEncoded
+    @POST("Account/ValidateUserName")
+    Observable<BaseResult<String>> ValidateUserName(@Field("UserID") String UserID);
+
     /*修改密码*/
 
     @FormUrlEncoded

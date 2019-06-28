@@ -24,6 +24,7 @@ import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
 import com.zhenghaikj.shop.entity.EvaluateResult;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.FilterResult;
+import com.zhenghaikj.shop.entity.GetCode;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
@@ -90,9 +91,6 @@ public interface ApiService {
      *
      * @param userName
      * @param password
-     * @param oauthType
-     * @param oauthOpenId
-     * @param oauthNickName
      * @return {"Success": "true", "ErrorCode": null,"ErrorMsg": null,"UserId":110,"UserKey":"safsdasd"}
      * Success：是否成功，
      * ErrorCode：错误码，
@@ -127,6 +125,25 @@ public interface ApiService {
                                    @Query("app_key") String app_key,
                                    @Query("timestamp") String timestamp,
                                    @Query("sign") String sign);
+
+
+    @GET("Api/login/GetPhoneCode")
+    Observable<GetCode> GetPhoneCode(@Query("contact") String contact,
+                                     @Query("app_key") String app_key,
+                                     @Query("timestamp") String timestamp,
+                                     @Query("sign") String sign);
+
+
+
+    /*验证码登陆*/
+    @GET("Api/Login/GetUserWithoutPassword")
+    Observable<LoginResult> GetUserWithoutPassword(@Query("checkCode") String checkCode,
+                                                   @Query("contact") String contact,
+                                                   @Query("app_key") String app_key,
+                                                   @Query("timestamp") String timestamp,
+                                                   @Query("sign") String sign);
+
+
 
     /*
      * 图片验证码
@@ -208,7 +225,6 @@ public interface ApiService {
      * 搜索
      *
      * @param keywords     搜索关键字
-     * @param exp_keywords 渐进搜索关键字
      * @param cid          分类ID
      * @param b_id         品牌ID
      * @param orderKey     排序项（1：默认，2：销量，3：价格，4：评论数，5：上架时间）

@@ -192,6 +192,4 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
 
         public void OnItemClickDetailListner(View view,int childposition);
     }
-
-
 }

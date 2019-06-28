@@ -1,12 +1,15 @@
 package com.zhenghaikj.shop.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -17,6 +20,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetCode;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
 import com.zhenghaikj.shop.mvp.model.LoginModel;
@@ -87,6 +91,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         password=spUtils.getString("password");
         mEtUsername.setText(userName);
         mEtPassword.setText(password);
+
     }
     @Override
     protected void setListener() {
@@ -128,6 +133,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                         ToastUtils.showShort("请输入验证码！");
                         return;
                     }
+                    mPresenter.GettokenbyUserid(userName);
+
 //                    mPresenter.LoginOnMessage(userName, code);
 
                 }
@@ -139,7 +146,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     mTvChange.setText("密码登录>");
                     //状态为验证码登陆
                     login_state =1;
-
                 }else{
                     mLlCode.setVisibility(View.GONE);
                     mLlPassword.setVisibility(View.VISIBLE);
@@ -164,7 +170,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     ToastUtils.showShort("手机格式不正确！");
                     return;
                 }
-//                mPresenter.ValidateUserName(userName);
+
+
+                TimeCount timeCount = new TimeCount(60000, 1000);
+                timeCount.start();
+                 mPresenter.ValidateUserName(userName);
                 break;
         }
     }
@@ -202,7 +212,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 if (data.isItem1()){
                     spUtils.put("adminToken", data.getItem2());
                     spUtils.put("userName", userName);
-                    mPresenter.GetUser(userName, password/*,"","",""*/);
+
+                    if (login_state==0){
+                        mPresenter.GetUser(userName, password/*,"","",""*/);
+                    }else {
+                        mPresenter.GetUserWithoutPassword(code,userName);
+                    }
+
 //                    spUtils.put("passWord", password);
 //                    spUtils.put("isLogin", true);
                     mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"8",userName);
@@ -237,7 +253,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 if (Result.getData().isItem1()){
                     spUtils.put("adminToken", Result.getData().getItem2());
                     spUtils.put("userName", userName);
-                    mPresenter.GetUser(userName, password/*,"","",""*/);
+
+                    if (login_state==0){
+                        mPresenter.GetUser(userName, password/*,"","",""*/);
+                    }else {
+                        mPresenter.GetUserWithoutPassword(code,userName);
+                    }
                     mPresenter.AddAndUpdatePushAccount(XGPushConfig.getToken(this),"8",userName);
 
                 }else {
@@ -248,4 +269,79 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         }
 
     }
+
+    @Override
+    public void GetPhoneCode(GetCode Result) {
+        if (Result.isSuccess()){
+            Toast.makeText(mActivity,Result.getMsg(),Toast.LENGTH_SHORT).show();
+
+        }else {
+            Toast.makeText(mActivity,Result.getMsg(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void GetUserWithoutPassword(LoginResult result) {
+
+        if (result.getSuccess()){
+            spUtils.put("UserKey",result.getUserKey());
+            spUtils.put("user",userName);
+            spUtils.put("userName",userName);
+            spUtils.put("password",password);
+            spUtils.put("isLogin",true);
+            EventBus.getDefault().post("更新登录信息");
+            finish();
+//            ActivityUtils.finishAllActivities();
+//            startActivity(new Intent(mActivity,MainActivity.class));
+        }else {
+            ToastUtils.showShort(result.getErrorMsg());
+        }
+    }
+
+    @Override
+    public void ValidateUserName(BaseResult<String> Result) {
+
+        switch (Result.getStatusCode()){
+            case 200:
+                if ("false".equals(Result.getData())){//可以登陆
+                    mPresenter.GetPhoneCode(userName);
+                }else {
+                    Toast.makeText(mActivity,"该账号未注册",Toast.LENGTH_SHORT).show();
+                }
+                break;
+         default:
+             break;
+
+        }
+
+    }
+
+
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @SuppressLint("ResourceAsColor")
+        @Override
+        public void onTick(long millisUntilFinished) {
+            if (mTvGetVerificationCode == null) {
+                return;
+            }
+            mTvGetVerificationCode.setClickable(false);
+            mTvGetVerificationCode.setTextColor(R.color.gray_three);
+            mTvGetVerificationCode.setText(millisUntilFinished / 1000 + "秒后重新获取");
+        }
+
+        @Override
+        public void onFinish() {
+            if (mTvGetVerificationCode == null) {
+                return;
+            }
+            mTvGetVerificationCode.setText("重新获取验证码");
+            mTvGetVerificationCode.setClickable(true);
+        }
+    }
+
+
 }

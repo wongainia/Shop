@@ -24,6 +24,7 @@ public interface RegisterContract {
         Observable<SendMessage> GetCode(String contact,String userkey);
         Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(String contact,String checkCode,String userkey);
         Observable<CheckMessage> CheckUserName(String contact,String checkCode);
+
     }
 
     interface View extends BaseView{
@@ -48,5 +49,7 @@ public interface RegisterContract {
         public abstract void GetCode(String contact,String userkey);
         public abstract void GetCheckPhoneOrEmailCheckCode(String contact,String checkCode,String userkey);
         public abstract void CheckUserName(String contact,String checkCode);
+
+
     }
 }

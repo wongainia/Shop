@@ -174,6 +174,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
              searchbytype=1;
              mPresenter.GetSearchProducts(serach_content, null, null, attrsCode,"1", "1", Integer.toString(pagaNo), "10","0");
              Tvsearch_txt.setText(getIntent().getStringExtra("search"));
+             mPresenter.GetSearchFilter(Tvsearch_txt.getText().toString(),"0","","0",userKey);
         }
 
         if (getIntent().getSerializableExtra("tag")!=null){
@@ -181,9 +182,12 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             Tvsearch_txt.setText(((CategoryMall.CategoryBean) getIntent().getSerializableExtra("tag")).getName());
             cid=((CategoryMall.CategoryBean) getIntent().getSerializableExtra("tag")).getId();
             mPresenter.GetSearchProducts("",cid,null,attrsCode,"1","1",Integer.toString(pagaNo), "10","0");
+
+            mPresenter.GetSearchFilter("",cid,"","0",userKey);
+
         }
         /*获取筛选*/
-        mPresenter.GetSearchFilter(Tvsearch_txt.getText().toString(),"0","","0",userKey);
+
         newSearchDetailAdapetr = new NewSearchDetailAdapetr(R.layout.item_newsearch_detail, productBeanList);
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSearchDetail.setAdapter(newSearchDetailAdapetr);

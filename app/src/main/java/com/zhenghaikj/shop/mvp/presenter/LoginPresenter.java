@@ -4,6 +4,7 @@ import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetCode;
 import com.zhenghaikj.shop.entity.GetTokenByUserid;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.mvp.contract.LoginContract;
@@ -52,5 +53,38 @@ public class LoginPresenter extends LoginContract.Presenter {
                     }
                 });
 
+    }
+
+    @Override
+    public void GetPhoneCode(String contact) {
+        mModel.GetPhoneCode(contact)
+                .subscribe(new BaseObserver<GetCode>() {
+                    @Override
+                    protected void onHandleSuccess(GetCode value) {
+                        mView.GetPhoneCode(value);
+                    }
+                });
+
+    }
+    @Override
+    public void GetUserWithoutPassword(String checkCode, String contact) {
+        mModel.GetUserWithoutPassword(checkCode, contact)
+                .subscribe(new BaseObserver<LoginResult>() {
+                    @Override
+                    protected void onHandleSuccess(LoginResult value) {
+                        mView.GetUserWithoutPassword(value);
+                    }
+                });
+    }
+
+    @Override
+    public void ValidateUserName(String UserID) {
+        mModel.ValidateUserName(UserID)
+                .subscribe(new BaseObserver2<String>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<String> value) {
+                        mView.ValidateUserName(value);
+                    }
+                });
     }
 }

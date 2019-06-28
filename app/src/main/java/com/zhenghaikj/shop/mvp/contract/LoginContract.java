@@ -5,6 +5,7 @@ import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetCode;
 import com.zhenghaikj.shop.entity.GetTokenByUserid;
 import com.zhenghaikj.shop.entity.LoginResult;
 
@@ -18,6 +19,11 @@ public interface LoginContract {
         Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String type,String UserID);
 
         Observable<BaseResult<Data<String>>> GettokenbyUserid(String UserID);
+        Observable<GetCode> GetPhoneCode(String contact);
+        Observable<LoginResult> GetUserWithoutPassword(String checkCode,String contact);
+
+        Observable<BaseResult<String>> ValidateUserName(String UserID);
+
     }
 
     interface View extends BaseView {
@@ -27,6 +33,10 @@ public interface LoginContract {
 //        void GetUserInfoList(BaseResult<UserInfo> Result);
 
         void GettokenbyUserid(BaseResult<Data<String>> Result);
+
+        void GetPhoneCode(GetCode Result);
+        void GetUserWithoutPassword(LoginResult result);
+        void ValidateUserName(BaseResult<String> Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -35,5 +45,8 @@ public interface LoginContract {
         public abstract void AddAndUpdatePushAccount(String token,String type,String UserID);
         public abstract void GettokenbyUserid(String UserID);
 //        public abstract void GetUserInfoList(String userName, String limit);
+        public abstract void GetPhoneCode(String contact);
+        public abstract void GetUserWithoutPassword(String checkCode,String contact);
+        public abstract void ValidateUserName(String UserID);
     }
 }

@@ -73,7 +73,7 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
         break;
          case R.id.tv_sumbit:
            if ("".equals(mEtShipordernumber.getText().toString())||"".equals(mEtConpanyname.getText().toString())){
-               Toast.makeText(mActivity,"请输入快递信息",Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity,"请输入快递信息",Toast.LENGTH_SHORT).show();
             return;
            }else {
                mPresenter.PostSellerSendGoods(Id,mEtConpanyname.getText().toString(),mEtShipordernumber.getText().toString(),userKey);

@@ -134,4 +134,6 @@ public class RegisterModel implements RegisterContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+
 }
