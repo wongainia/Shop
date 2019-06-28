@@ -1,6 +1,8 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -42,6 +44,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.DeliverySuccessActivity;
 import com.zhenghaikj.shop.activity.EvaluateActivity;
 import com.zhenghaikj.shop.activity.LogisticsInformationActivity;
+import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.PaymentSuccessActivity;
 import com.zhenghaikj.shop.activity.RechargeActivity;
 import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
@@ -49,6 +52,7 @@ import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
+import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -63,6 +67,9 @@ import com.zhenghaikj.shop.mvp.contract.OrderContract;
 import com.zhenghaikj.shop.mvp.model.OrderModel;
 import com.zhenghaikj.shop.mvp.presenter.OrderPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
+import com.zhenghaikj.shop.widget.fingerprint.FingerprintCore;
+import com.zhenghaikj.shop.widget.fingerprint.PwdFragment;
+import com.zhenghaikj.shop.widget.fingerprint.PwdView;
 import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
 import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
 import com.zyao89.view.zloading.ZLoadingDialog;
@@ -82,7 +89,7 @@ import butterknife.BindView;
 
 
 //全部订单
-public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> implements OrderContract.View,PasswordEditText.PasswordFullListener {
+public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> implements OrderContract.View,PasswordEditText.PasswordFullListener,PwdView.InputCallBack {
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
     private static final String TAG = "OrderFragment";
@@ -117,6 +124,10 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private Order.OrdersBean ordersBean;
     private ZLoadingDialog dialog;
     private int paytype;  //支付方式：支付密码：1  确认收货：2
+
+    private FingerprintCore mFingerprintCore;
+    private PwdFragment fragment;
+    private int count = 5;
 
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
@@ -439,7 +450,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     mPopupWindow.dismiss();
                 }
                 else {
-                    openPayPasswordDialog();
+//                    openPayPasswordDialog();
+                    startFingerprintRecognition();
                 }
 
 
@@ -632,7 +644,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     intent.putExtra("OrderID",OrderId);
                     startActivity(intent);
                     orderListAdapter.remove(payposition);
-                    bottomSheetDialog.dismiss();
+
                 }else {
                     if ("余额不足".equals(baseResult.getData().getItem2())){
                         final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
@@ -670,6 +682,184 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     }
 
+    public void intoPwdFragment() {
+        if (count <= 0)
+            showPwdError();
+        else {
+            synchronized (OrderFragment.class){
+                Log.e("chengww",fragment.getType() +""+ !fragment.isResumed());
+                if (fragment == null || fragment.getType() != 0 || !fragment.isResumed()){
+                    createDialogFragment(0);
+                }
+            }
+        }
+    }
+
+    private void createDialogFragment(int type) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(PwdFragment.TYPE, type);
+        fragment = new PwdFragment();
+        fragment.setInputPassword("输入密码", new PwdFragment.onSetInputPassword() {
+            @Override
+            public void onYesClick() {
+                cancelAuthenticate();
+                fragment.dismiss();
+                intoPwdFragment();
+            }
+        });
+        fragment.setArguments(bundle);
+        fragment.setPaySuccessCallBack(this);
+        fragment.show(getFragmentManager(), "Pwd");
+
+    }
+
+
+
+    @Override
+    public void onInputFinish(String result) {
+        if (result.equals(userInfo.getPayPassWord())) {
+            fragment.dismiss();
+//            Toast.makeText(this, "验证成功", Toast.LENGTH_SHORT).show();
+//            ToastUtils.showShort("验证成功");
+            if (paytype==1){
+                mPresenter.MallBalancePay("","",jsonArray,UserID);
+                mPopupWindow.dismiss();
+            }
+            else if(paytype==2){
+                mPresenter.PostConfirmOrder(OrderId,userKey);
+            }
+
+        }else {
+            showPwdError();
+        }
+    }
+
+    private void showPwdError() {
+        count--;
+        if (count <= 0){
+            showTintDialog("提示：", "密码输入达到上限", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    fragment.dismiss();
+                }
+            });
+        }else {
+            showTintDialog("密码错误","密码输入有误，你还可以输入" + count + "次",null);
+        }
+    }
+
+    public void showTintDialog(String title,String msg,DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder=new AlertDialog.Builder(mActivity);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setCancelable(false);
+        builder.setPositiveButton("确定", listener);
+//        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+        builder.create().show();
+    }
+
+    /**
+     * 开始指纹识别
+     */
+    private void startFingerprintRecognition() {
+        if (mFingerprintCore == null){
+            mFingerprintCore = new FingerprintCore(mActivity);
+            mFingerprintCore.setFingerprintManager(mResultListener);
+        }
+
+        if (mFingerprintCore.isSupport()) {
+            if (!mFingerprintCore.isHasEnrolledFingerprints()) {
+//                Toast.makeText(this,"您还没有录制指纹，请录入！",Toast.LENGTH_SHORT).show();
+                ToastUtils.showShort("您还没有录制指纹，请录入！");
+                return;
+            }
+            //指纹识别已开启
+            if (mFingerprintCore.isAuthenticating()) {
+                createFingerFragment();
+            } else {
+                mFingerprintCore.startAuthenticate();
+            }
+        } else {
+//            Toast.makeText(this,"此设备不支持指纹解锁,或未开启屏幕锁",Toast.LENGTH_SHORT).show();
+//            ToastUtils.showShort("此设备不支持指纹解锁,或未开启屏幕锁");
+            intoPwdFragment();
+        }
+    }
+
+    private void createFingerFragment() {
+        if (fragment == null || fragment.getType() != 1 || !fragment.isResumed()) {
+            createDialogFragment(1);
+        }
+//        cancelAuthenticate();
+    }
+
+    /**
+     * 指纹识别结果回调
+     */
+    private FingerprintCore.IFingerprintResultListener mResultListener = new FingerprintCore.IFingerprintResultListener() {
+        @Override
+        public void onAuthenticateSuccess() {
+            if (fragment != null)
+                fragment.dismiss();
+//            Toast.makeText(mActivity,"指纹解锁成功",Toast.LENGTH_SHORT).show();
+            if (paytype==1){
+                mPresenter.MallBalancePay("","",jsonArray,UserID);
+                mPopupWindow.dismiss();
+            }
+            else if(paytype==2){
+                mPresenter.PostConfirmOrder(OrderId,userKey);
+            }
+
+        }
+
+        @Override
+        public void onAuthenticateFailed(int helpId) {
+            if (!fragment.setTextHint()){
+                Toast.makeText(mActivity,"指纹解锁失败，请重试！",Toast.LENGTH_SHORT).show();
+                intoPwdFragment();
+            }
+
+        }
+
+        @Override
+        public void onAuthenticateError(int errMsgId) {
+            if (errMsgId == 7){
+                Toast.makeText(mActivity,"指纹解锁超过限制",Toast.LENGTH_SHORT).show();
+                if (mFingerprintCore != null){
+                    mFingerprintCore = null;
+                }
+                if (fragment != null) {
+                    fragment.dismiss();
+                }
+                intoPwdFragment();
+            }
+        }
+
+        /**
+         * 开启指纹监听结果回调
+         * @param isSuccess
+         */
+        @Override
+        public void onStartAuthenticateResult(boolean isSuccess) {
+            if (isSuccess) {
+                createFingerFragment();
+            }else{
+                Toast.makeText(mActivity,"开启指纹监听失败",Toast.LENGTH_SHORT).show();
+                intoPwdFragment();
+            }
+
+        }
+    };
+
+    public void cancelAuthenticate() {
+        if (mFingerprintCore != null)
+            mFingerprintCore.cancelAuthenticate();
+    }
 
     /*支付密码*///确认收货
     private void openPayPasswordDialog() {
@@ -694,6 +884,13 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         if(bottomSheetDialog != null) {
             bottomSheetDialog.dismiss();
         }
+
+        if (mFingerprintCore != null) {
+            mFingerprintCore.onDestroy();
+            mFingerprintCore = null;
+        }
+
+        mResultListener = null;
         super.onDestroy();
     }
 
@@ -703,8 +900,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         if (paytype==1){
             if (userInfo.getPayPassWord().equals(password)){
                 mPresenter.MallBalancePay("","",jsonArray,UserID);
-
                 mPopupWindow.dismiss();
+                bottomSheetDialog.dismiss();
             } else {
                 Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
             }

@@ -1,9 +1,11 @@
 package com.zhenghaikj.shop.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -57,10 +59,14 @@ import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PayResult;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
+import com.zhenghaikj.shop.fragment.OrderFragment;
 import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
 import com.zhenghaikj.shop.mvp.model.OrderDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.OrderDetailPresenter;
 import com.zhenghaikj.shop.utils.MyUtils;
+import com.zhenghaikj.shop.widget.fingerprint.FingerprintCore;
+import com.zhenghaikj.shop.widget.fingerprint.PwdFragment;
+import com.zhenghaikj.shop.widget.fingerprint.PwdView;
 import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
 import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
 
@@ -77,7 +83,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View,PasswordEditText.PasswordFullListener {
+public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View,PasswordEditText.PasswordFullListener, PwdView.InputCallBack {
 
     private static final String TAG = "OrderDetailActivity";
     @BindView(R.id.view)
@@ -623,7 +629,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                             }
                         }).show();
                     } else {
-                        openPayPasswordDialog();
+//                        openPayPasswordDialog();
+                        startFingerprintRecognition();
                         mPopupWindow.dismiss();
                     }
             }
@@ -655,6 +662,183 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     public void GetExpressInfo(Express Result) {
 
     }
+
+
+    private FingerprintCore mFingerprintCore;
+    private PwdFragment fragment;
+    private int count = 5;
+    public void intoPwdFragment() {
+        if (count <= 0)
+            showPwdError();
+        else {
+            synchronized (OrderFragment.class){
+                Log.e("chengww",fragment.getType() +""+ !fragment.isResumed());
+                if (fragment == null || fragment.getType() != 0 || !fragment.isResumed()){
+                    createDialogFragment(0);
+                }
+            }
+        }
+    }
+
+    private void createDialogFragment(int type) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(PwdFragment.TYPE, type);
+        fragment = new PwdFragment();
+        fragment.setInputPassword("输入密码", new PwdFragment.onSetInputPassword() {
+            @Override
+            public void onYesClick() {
+                cancelAuthenticate();
+                fragment.dismiss();
+                intoPwdFragment();
+            }
+        });
+        fragment.setArguments(bundle);
+        fragment.setPaySuccessCallBack(OrderDetailActivity.this);
+        fragment.show(getSupportFragmentManager(), "Pwd");
+
+    }
+
+
+
+    @Override
+    public void onInputFinish(String result) {
+        if (result.equals(userInfo.getPayPassWord())) {
+            fragment.dismiss();
+//            Toast.makeText(this, "验证成功", Toast.LENGTH_SHORT).show();
+//            ToastUtils.showShort("验证成功");
+            mPresenter.MallBalancePay("","",jsonArray,UserID);
+            mPopupWindow.dismiss();
+
+
+        }else {
+            showPwdError();
+        }
+    }
+
+    private void showPwdError() {
+        count--;
+        if (count <= 0){
+            showTintDialog("提示：", "密码输入达到上限", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    fragment.dismiss();
+                }
+            });
+        }else {
+            showTintDialog("密码错误","密码输入有误，你还可以输入" + count + "次",null);
+        }
+    }
+
+    public void showTintDialog(String title,String msg,DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder=new AlertDialog.Builder(mActivity);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setCancelable(false);
+        builder.setPositiveButton("确定", listener);
+//        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+        builder.create().show();
+    }
+
+    /**
+     * 开始指纹识别
+     */
+    private void startFingerprintRecognition() {
+        if (mFingerprintCore == null){
+            mFingerprintCore = new FingerprintCore(mActivity);
+            mFingerprintCore.setFingerprintManager(mResultListener);
+        }
+
+        if (mFingerprintCore.isSupport()) {
+            if (!mFingerprintCore.isHasEnrolledFingerprints()) {
+//                Toast.makeText(this,"您还没有录制指纹，请录入！",Toast.LENGTH_SHORT).show();
+                ToastUtils.showShort("您还没有录制指纹，请录入！");
+                return;
+            }
+            //指纹识别已开启
+            if (mFingerprintCore.isAuthenticating()) {
+                createFingerFragment();
+            } else {
+                mFingerprintCore.startAuthenticate();
+            }
+        } else {
+//            Toast.makeText(this,"此设备不支持指纹解锁,或未开启屏幕锁",Toast.LENGTH_SHORT).show();
+//            ToastUtils.showShort("此设备不支持指纹解锁,或未开启屏幕锁");
+            intoPwdFragment();
+        }
+    }
+
+    private void createFingerFragment() {
+        if (fragment == null || fragment.getType() != 1 || !fragment.isResumed()) {
+            createDialogFragment(1);
+        }
+//        cancelAuthenticate();
+    }
+
+    /**
+     * 指纹识别结果回调
+     */
+    private FingerprintCore.IFingerprintResultListener mResultListener = new FingerprintCore.IFingerprintResultListener() {
+        @Override
+        public void onAuthenticateSuccess() {
+            if (fragment != null)
+                fragment.dismiss();
+//            Toast.makeText(mActivity,"指纹解锁成功",Toast.LENGTH_SHORT).show();
+
+            mPresenter.MallBalancePay("","",jsonArray,UserID);
+            mPopupWindow.dismiss();
+
+
+        }
+
+        @Override
+        public void onAuthenticateFailed(int helpId) {
+            if (!fragment.setTextHint()){
+                Toast.makeText(mActivity,"指纹解锁失败，请重试！",Toast.LENGTH_SHORT).show();
+                intoPwdFragment();
+            }
+
+        }
+
+        @Override
+        public void onAuthenticateError(int errMsgId) {
+            if (errMsgId == 7){
+                Toast.makeText(mActivity,"指纹解锁超过限制",Toast.LENGTH_SHORT).show();
+                if (mFingerprintCore != null){
+                    mFingerprintCore = null;
+                }
+                if (fragment != null) {
+                    fragment.dismiss();
+                }
+                intoPwdFragment();
+            }
+        }
+
+        /**
+         * 开启指纹监听结果回调
+         * @param isSuccess
+         */
+        @Override
+        public void onStartAuthenticateResult(boolean isSuccess) {
+            if (isSuccess) {
+                createFingerFragment();
+            }else{
+                Toast.makeText(mActivity,"开启指纹监听失败",Toast.LENGTH_SHORT).show();
+                intoPwdFragment();
+            }
+
+        }
+    };
+
+    public void cancelAuthenticate() {
+        if (mFingerprintCore != null)
+            mFingerprintCore.cancelAuthenticate();
+    }
+
 
     /**
      * 支付宝支付业务
@@ -885,4 +1069,15 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
 
     }
+    @Override
+    protected void onDestroy() {
+        if (mFingerprintCore != null) {
+            mFingerprintCore.onDestroy();
+            mFingerprintCore = null;
+        }
+
+        mResultListener = null;
+        super.onDestroy();
+    }
+
 }

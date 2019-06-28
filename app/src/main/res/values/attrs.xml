@@ -122,4 +122,6 @@
         <attr name="BgColor" format="color"/>
 
     </declare-styleable>
+
+
 </resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/style_black_normal_text"
+                android:layout_width="wrap_content"
+                android:layout_height="43dp"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="请输入支付密码" />
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/selector_item_pressed"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="4dp"
+                android:src="@mipmap/icon_del" />
+
+        </RelativeLayout>
+
+        <View style="@style/style_separate_line" />
+
+        <com.zhenghaikj.shop.widget.fingerprint.PwdView
+            android:id="@+id/pwdView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_miss_pwd"
+            style="@style/style_blue_normal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:text="忘记密码?"
+            android:background="@drawable/selector_item_pressed"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+
+    <com.zhenghaikj.shop.widget.fingerprint.InputMethodView
+        android:id="@+id/inputMethodView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+    </LinearLayout>
+</LinearLayout>
