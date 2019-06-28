@@ -34,5 +34,13 @@
     <color name="bank_16">	#EE2C2C</color>
 
 
+    <color name="gray_text">#919191</color>
+    <color name="gray_btn">#EBEBEB</color>
+
+    <color name="gray_bg">#f0eff5</color>
+    <color name="gray_line">#ebebeb</color>
+    <color name="black_text">#212121</color>
+    <color name="blue_text">#72ACE3</color>
+
 
 </resources>

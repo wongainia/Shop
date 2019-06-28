@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@drawable/shape_dialog">
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_finger"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="验证手机已有指纹"
+        android:gravity="center"
+        android:textColor="#212121"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/btn_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="密码支付"
+        android:gravity="right"
+        android:textColor="@color/blue"
+        android:textSize="14sp"
+        android:paddingRight="15dp"/>
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"/>
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/btn_cancel"
+            android:text="取消"
+            android:visibility="gone"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:text="输入密码"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>
