@@ -987,7 +987,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             case 200:
                 if (baseResult.getData().isItem1()){
                     if (baseResult.getData().getItem2()!=null){
-                        bottomSheetDialog.dismiss();
+                        //bottomSheetDialog.dismiss();
                         mPresenter.PostChangeOrderState(OrderId);
                         intent = new Intent(mActivity, PaymentSuccessActivity.class);
                         intent.putExtra("OrderID", OrderId);
