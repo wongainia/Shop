@@ -45,13 +45,13 @@ public class ShopModel implements ShopContract.Model {
     }
 
     @Override
-    public Observable<ShopResult> IndexJson() {
+    public Observable<ShopResult> IndexJson(String page) {
         map = new HashMap<>();
         map.put("app_key","himalltest");
         timestamp= TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         map.put("timestamp", timestamp);
         sign= ApiRetrofit.SignTopRequest(map);
-        return ApiRetrofit.getDefault().IndexJson("himalltest",timestamp,sign)
+        return ApiRetrofit.getDefault().IndexJson(page,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

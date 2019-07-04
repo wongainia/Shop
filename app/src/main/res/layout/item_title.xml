@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:textColor="#535353"
         android:textSize="12sp"
-        />
+        android:maxLines="1" />
 
 </LinearLayout>

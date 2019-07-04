@@ -629,8 +629,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                             }
                         }).show();
                     } else {
-//                        openPayPasswordDialog();
-                        startFingerprintRecognition();
+                        openPayPasswordDialog();
+//                        startFingerprintRecognition();
                         mPopupWindow.dismiss();
                     }
             }

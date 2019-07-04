@@ -16,7 +16,7 @@ import io.reactivex.Observable;
 public interface ShopContract {
     interface Model extends BaseModel{
         Observable<Shop> index();
-        Observable<ShopResult> IndexJson();
+        Observable<ShopResult> IndexJson(String page);
         Observable<List<GiftAds>> GetSlideAds();
         Observable<Announcement> GetList(String categoryId, String rows, String page, String userkey);
     }
@@ -30,7 +30,7 @@ public interface ShopContract {
 
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void index();
-        public abstract void IndexJson();
+        public abstract void IndexJson(String page);
         public abstract void GetSlideAds();
         public abstract void GetList(String categoryId,String rows, String page, String userkey);
     }

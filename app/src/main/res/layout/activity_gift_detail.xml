@@ -59,13 +59,20 @@
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"
                                     android:orientation="horizontal">
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/jinbi"/>
                                     <TextView
                                         android:id="@+id/tv_good_money"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="100积分"
                                         android:textColor="@color/red"
-                                        android:textSize="20sp" />
+                                        android:textSize="20sp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="5dp"/>
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -96,7 +103,7 @@
                                         android:layout_marginLeft="@dimen/dp_10"
                                         android:text="普通会员专享"
                                         android:textColor="@color/red"
-                                        android:textSize="16sp" />
+                                        android:textSize="12sp" />
                                 </LinearLayout>
                             </LinearLayout>
 

@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="西瓜鱼商城"
+            android:text="西瓜币商城"
             android:textColor="@color/black"
             android:textSize="20sp" />
     </LinearLayout>
@@ -160,10 +160,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="西瓜鱼头条"
+                            android:text="头条"
                             android:textColor="#535353"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:layout_gravity="center"/>
 
                         <LinearLayout
 

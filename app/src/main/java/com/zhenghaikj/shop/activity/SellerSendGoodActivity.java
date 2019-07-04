@@ -18,6 +18,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.PostOrderComplaint;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
 import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
@@ -154,6 +155,11 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
             Toast.makeText(mActivity,"提交成功",Toast.LENGTH_SHORT).show();
             SellerSendGoodActivity.this.finish();
         }
+
+    }
+
+    @Override
+    public void PostOrderComplaint(PostOrderComplaint result) {
 
     }
 }

@@ -49,6 +49,7 @@ import com.zhenghaikj.shop.entity.MessageReadResult;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PersonalInformation;
+import com.zhenghaikj.shop.entity.PostOrderComplaint;
 import com.zhenghaikj.shop.entity.PostPostAddComment;
 import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.Refund;
@@ -1027,9 +1028,10 @@ public interface ApiService {
      * 积分商城
      */
     @POST("IntegralMall/IndexJson")
-    Observable<ShopResult> IndexJson(@Query("app_key") String app_key,
-                                 @Query("timestamp") String timestamp,
-                                 @Query("sign") String sign);
+    Observable<ShopResult> IndexJson(@Query("page") String page,
+                                     @Query("app_key") String app_key,
+                                     @Query("timestamp") String timestamp,
+                                     @Query("sign") String sign);
     /**
      * 积分详情
      */
@@ -1226,5 +1228,23 @@ public interface ApiService {
             @Field("timestamp") String timestamp,
             @Field("sign") String sign
     );
+
+
+    /*
+    * 售后平台介入
+    * */
+    @FormUrlEncoded
+    @POST("api/OrderComplaint/PostOrderComplaint")
+    Observable<PostOrderComplaint> PostOrderComplaint(
+            @Field("userkey") String userkey,
+            @Field("ShopId") String ShopId,
+            @Field("OrderId") String OrderId,
+            @Field("ComplaintReason") String ComplaintReason,
+            @Field("UserPhone") String UserPhone,
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+
 
 }

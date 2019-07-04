@@ -250,7 +250,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         switch (Result.getStatusCode()){
             case 200:
                 /*已经登录过了 后台存有token*/
-                if (Result.getData().isItem1()){
+                if (Result.getData().getItem2()!=null){
                     spUtils.put("adminToken", Result.getData().getItem2());
                     spUtils.put("userName", userName);
 

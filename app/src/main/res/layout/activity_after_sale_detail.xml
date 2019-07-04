@@ -100,7 +100,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        >
+        android:visibility="gone">
         <TextView
             android:id="@+id/tv_process"
             android:layout_width="wrap_content"
@@ -269,6 +269,16 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="发货"
+            android:textColor="@color/red"
+            android:gravity="center"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_platform_intervention"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="平台介入"
             android:textColor="@color/red"
             android:gravity="center"
             android:textSize="16sp"

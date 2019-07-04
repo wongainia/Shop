@@ -157,7 +157,8 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
                     mTvWatermelonBalance.setText("****");//西瓜币
                 }else{
                     flag=false;
-                    mTvBalance.setText("¥" + userInfo.getTotalMoney() + "");//钱包余额
+                    Double money=userInfo.getTotalMoney()-userInfo.getFrozenMoney();
+                    mTvBalance.setText("¥" + money+ "");//钱包余额
                     mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
                 }
                 mIvSee.setSelected(flag);

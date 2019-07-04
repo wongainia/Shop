@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,6 +20,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -98,6 +101,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     private Intent intent;
     private List<String> ids;
     private ArrayList<String> text = new ArrayList<>();
+    private int pagaNo=1;
 
     public static ShopFragment newInstance(String param1, String param2) {
         ShopFragment fragment = new ShopFragment();
@@ -160,7 +164,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     @Override
     protected void initData() {
 //        mPresenter.index();
-        mPresenter.IndexJson();
+        mPresenter.IndexJson(String.valueOf(pagaNo));
         mPresenter.GetSlideAds();
 
         for (int i = 0; i < 4; i++) {
@@ -239,11 +243,26 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             exchageList.clear();
 //            mPresenter.index();
-            mPresenter.IndexJson();
+            pagaNo=1;
+            mPresenter.IndexJson(String.valueOf(pagaNo));
             refreshLayout.setNoMoreData(false);
             refreshLayout.finishRefresh(1000);
+            if (userKey==null||"".equals(userKey)){
+                return;
+            }else {
+                mPresenter.GetList("18", "10", "1", userKey);
+            }
         });
-        mRefreshLayout.setEnableLoadMore(false);
+
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                pagaNo++;
+                mPresenter.IndexJson(String.valueOf(pagaNo));
+                mRefreshLayout.finishLoadmore();
+            }
+        });
+//        mRefreshLayout.setEnableLoadMore(false);
 
 //        mSv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
 //            @Override
@@ -353,6 +372,8 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
                 }
             });
 
+        }else {
+            return;
         }
 
     }

@@ -25,7 +25,7 @@ public class ExchageAdapter extends BaseQuickAdapter<ShopResult.GiftListNewBean,
                 .load("http://mall.xigyu.com/" + item.getImagePath()+"/1.png")
                 .into(goods);
 //        GlideUtil.loadImageViewLoding(mContext,item.getImagePath(),goods,R.drawable.image_loading,R.drawable.image_loading);
-        helper.setText(R.id.tv_goods_money,"¥"+item.getGiftValue());
+        helper.setText(R.id.tv_goods_money,item.getNeedIntegral()+"");
         helper.setText(R.id.tv_goods_name,item.getGiftName());
         helper.setVisible(R.id.tv_payment,false);
     }

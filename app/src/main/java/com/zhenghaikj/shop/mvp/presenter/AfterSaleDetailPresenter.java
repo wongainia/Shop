@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.PostOrderComplaint;
 import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
@@ -51,6 +52,17 @@ public class AfterSaleDetailPresenter extends AfterSaleDetailContract.Presenter 
                     @Override
                     protected void onHandleSuccess(RefundApplyResult value) {
                         mView.PostSellerSendGoods(value);
+                    }
+                });
+    }
+
+    @Override
+    public void PostOrderComplaint(String userkey, String ShopId, String OrderId, String ComplaintReason, String UserPhone) {
+        mModel.PostOrderComplaint(userkey, ShopId, OrderId, ComplaintReason, UserPhone)
+                .subscribe(new BaseObserver<PostOrderComplaint>() {
+                    @Override
+                    protected void onHandleSuccess(PostOrderComplaint value) {
+                        mView.PostOrderComplaint(value);
                     }
                 });
     }

@@ -594,15 +594,15 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         ll_balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if ("".equals(userInfo.getPayPassWord())){
-//                    Toast.makeText(mActivity,"请设置支付密码",Toast.LENGTH_SHORT).show();
-//                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
-//                    mPopupWindow.dismiss();
-//                }else {
-//                    openPayPasswordDialog();
-//                }
+                if ("".equals(userInfo.getPayPassWord())){
+                    Toast.makeText(mActivity,"请设置支付密码",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+                    mPopupWindow.dismiss();
+                }else {
+                    openPayPasswordDialog();
+                }
 
-                startFingerprintRecognition();
+//                startFingerprintRecognition();
 
             }
         });
@@ -988,6 +988,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 if (baseResult.getData().isItem1()){
                     if (baseResult.getData().getItem2()!=null){
                         //bottomSheetDialog.dismiss();
+
                         mPresenter.PostChangeOrderState(OrderId);
                         intent = new Intent(mActivity, PaymentSuccessActivity.class);
                         intent.putExtra("OrderID", OrderId);
@@ -1095,6 +1096,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     @Override
     public void passwordFull(String password) {
         if (userInfo.getPayPassWord().equals(password)){
+            bottomSheetDialog.dismiss();
           mPresenter.MallBalancePay("","",jsonArray,UserID);
         }else {
             Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();

@@ -4,6 +4,7 @@ import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.PostOrderComplaint;
 import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
@@ -26,6 +27,12 @@ public interface AfterSaleDetailContract {
                                                           String ShipOrderNumber,
                                                           String userkey);
 
+        Observable<PostOrderComplaint> PostOrderComplaint(String userkey,
+                                                          String ShopId,
+                                                          String OrderId,
+                                                          String ComplaintReason,
+                                                          String UserPhone);
+
     }
 
     interface View extends BaseView{
@@ -33,6 +40,7 @@ public interface AfterSaleDetailContract {
         void GetOrderDetail(OrderDetail result);
         void GetRefundProcessDetail(RefundProcessDetailResult result);
         void PostSellerSendGoods(RefundApplyResult result);
+        void PostOrderComplaint(PostOrderComplaint result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -43,6 +51,11 @@ public interface AfterSaleDetailContract {
                                                  String ExpressCompanyName,
                                                  String ShipOrderNumber,
                                                  String userkey);
+        public abstract void PostOrderComplaint(String userkey,
+                                                String ShopId,
+                                                String OrderId,
+                                                String ComplaintReason,
+                                                String UserPhone);
 
     }
 }

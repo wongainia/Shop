@@ -211,7 +211,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         OrderId = cartList.get(position).getId();
                         receipt_position=position;
                         paytype=2;
-                        openPayPasswordDialog();
+//                        openPayPasswordDialog();
+                        startFingerprintRecognition();
                         break;
                     case R.id.tv_payment://付款
 
@@ -392,7 +393,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     public void PostConfirmOrder(ConfirmOrder Result) {
         if ("true".equals(Result.getSuccess())){
             orderListAdapter.remove(receipt_position);
-            bottomSheetDialog.dismiss();
+
             Intent intent=new Intent(mActivity, DeliverySuccessActivity.class);
             intent.putExtra("OrderID",OrderId);
             startActivity(intent);
@@ -450,8 +451,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     mPopupWindow.dismiss();
                 }
                 else {
-//                    openPayPasswordDialog();
-                    startFingerprintRecognition();
+                    openPayPasswordDialog();
+//                    startFingerprintRecognition();
                 }
 
 
@@ -909,6 +910,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         else if(paytype==2){
             if (userInfo.getPayPassWord().equals(password)){
                 mPresenter.PostConfirmOrder(OrderId,userKey);
+                bottomSheetDialog.dismiss();
             } else {
                 Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
             }

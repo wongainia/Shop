@@ -36,7 +36,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/dp_10">
+            android:paddingBottom="@dimen/dp_10"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="center"
+                android:src="@drawable/jinbi"/>
+
 
             <TextView
                 android:id="@+id/tv_goods_money"
@@ -45,7 +53,8 @@
                 android:layout_weight="1"
                 android:text="¥69.00"
                 android:textColor="@color/red"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:layout_marginLeft="5dp"/>
             <TextView
                 android:id="@+id/tv_payment"
                 android:layout_width="match_parent"
@@ -61,11 +70,11 @@
                 android:id="@+id/tv_buy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="去兑换"
+                android:text="去免费兑换"
                 android:textSize="12sp"
                 android:textColor="#ED3D48"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:background="@drawable/home_round" />

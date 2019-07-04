@@ -30,8 +30,8 @@ public class ShopPresenter extends ShopContract.Presenter {
     }
 
     @Override
-    public void IndexJson() {
-        mModel.IndexJson().subscribe(new BaseObserver<ShopResult>() {
+    public void IndexJson(String page) {
+        mModel.IndexJson(page).subscribe(new BaseObserver<ShopResult>() {
             @Override
             protected void onHandleSuccess(ShopResult value) {
                 mView.IndexJson(value);
