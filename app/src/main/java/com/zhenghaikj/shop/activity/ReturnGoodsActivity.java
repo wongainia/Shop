@@ -29,6 +29,8 @@ import com.zhenghaikj.shop.mvp.model.ReturnGoodsModel;
 import com.zhenghaikj.shop.mvp.presenter.ReturnGoodsPresenter;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,6 +222,7 @@ public class ReturnGoodsActivity extends BaseActivity<ReturnGoodsPresenter, Retu
         if (result.isSuccess()) {
             Toast.makeText(mActivity, result.getMsg(), Toast.LENGTH_SHORT).show();
             ReturnGoodsActivity.this.finish();
+            EventBus.getDefault().post("UpdateOrderCount");
 
         } else {
             Toast.makeText(mActivity, result.getMsg(), Toast.LENGTH_SHORT).show();

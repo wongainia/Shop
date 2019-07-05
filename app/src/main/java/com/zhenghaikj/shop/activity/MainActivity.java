@@ -26,6 +26,7 @@ import com.zhenghaikj.shop.fragment.ClassificationFragment;
 import com.zhenghaikj.shop.fragment.HomeFragment;
 import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.fragment.ShopFragment;
+import com.zhenghaikj.shop.fragment.ShopFragment2;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 import com.zhenghaikj.shop.widget.StarBarView;
 
@@ -78,7 +79,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private HomeFragment homeFragment;
     private ClassificationFragment classificationFragment;
     private CartFragment cartFragment;
-    private ShopFragment shopFragment;
+    private ShopFragment2 shopFragment;
     private MineFragment mineFragment;
 
     private long mExittime;
@@ -109,12 +110,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         homeFragment = new HomeFragment();
         classificationFragment = new ClassificationFragment();
         cartFragment = new CartFragment();
-        shopFragment = new ShopFragment();
+        shopFragment = new ShopFragment2();
         mineFragment = new MineFragment();
         mFragments.add(HomeFragment.newInstance("",""));
         mFragments.add(ClassificationFragment.newInstance("",""));
         mFragments.add(CartFragment.newInstance("",""));
-        mFragments.add(ShopFragment.newInstance("",""));
+        mFragments.add(ShopFragment2.newInstance("",""));
         mFragments.add(MineFragment.newInstance("",""));
 
         mViewPager.setCurrentItem(0);

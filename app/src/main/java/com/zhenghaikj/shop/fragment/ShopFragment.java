@@ -10,14 +10,21 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.flyco.tablayout.SlidingTabLayout;
+import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -29,12 +36,15 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GiftsDetailActivity;
 import com.zhenghaikj.shop.activity.MessageDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
+import com.zhenghaikj.shop.adapter.HomeCategoryAdapter;
 import com.zhenghaikj.shop.adapter.HotSearchAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Announcement;
+import com.zhenghaikj.shop.entity.Category;
 import com.zhenghaikj.shop.entity.GiftAds;
 import com.zhenghaikj.shop.entity.HomeResult;
+import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopResult;
 import com.zhenghaikj.shop.mvp.contract.ShopContract;
@@ -96,12 +106,16 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
     View mView;
     @BindView(R.id.tv_message)
     SwitchView mTvMessage;
+    @BindView(R.id.rv_category)
+    RecyclerView mRvCategory;
+
     private int i = 0;
     private ExchageAdapter exchageAdapter;
     private Intent intent;
     private List<String> ids;
     private ArrayList<String> text = new ArrayList<>();
-    private int pagaNo=1;
+    private int pagaNo = 1;
+    private List<Product> categoryList = new ArrayList<>();
 
     public static ShopFragment newInstance(String param1, String param2) {
         ShopFragment fragment = new ShopFragment();
@@ -155,7 +169,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if ("更新登录信息".equals(name)){
+        if ("更新登录信息".equals(name)) {
             getLoginMsg();
             mPresenter.GetList("18", "10", "1", userKey);
         }
@@ -181,7 +195,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 //        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 //        mRvExchage.setLayoutManager(linearLayout);
 //        mRvExchage.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvExchage.setLayoutManager(new GridLayoutManager(mActivity,2));
+        mRvExchage.setLayoutManager(new GridLayoutManager(mActivity, 2));
         mRvExchage.setAdapter(exchageAdapter);
         exchageAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -191,6 +205,14 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
                 startActivity(intent);
             }
         });
+
+        for (int i = 0; i < 10; i++) {
+            categoryList.add(new Product());
+        }
+        HomeCategoryAdapter homeCategoryAdapter = new HomeCategoryAdapter(R.layout.item_category, categoryList);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mRvCategory.setLayoutManager(mLayoutManager);
+        mRvCategory.setAdapter(homeCategoryAdapter);
 
         hotSearchAdapter = new HotSearchAdapter(R.layout.item_hot_search, hotsearchList);
         mRvHotSearch.setLayoutManager(new GridLayoutManager(mActivity, 4));
@@ -243,13 +265,13 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             exchageList.clear();
 //            mPresenter.index();
-            pagaNo=1;
+            pagaNo = 1;
             mPresenter.IndexJson(String.valueOf(pagaNo));
             refreshLayout.setNoMoreData(false);
             refreshLayout.finishRefresh(1000);
-            if (userKey==null||"".equals(userKey)){
+            if (userKey == null || "".equals(userKey)) {
                 return;
-            }else {
+            } else {
                 mPresenter.GetList("18", "10", "1", userKey);
             }
         });
@@ -288,9 +310,11 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     protected void initView() {
-        if (isLogin){
+        if (isLogin) {
             mPresenter.GetList("18", "10", "1", userKey);
         }
+
+
     }
 
     @Override
@@ -344,7 +368,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
 
     @Override
     public void GetList(Announcement result) {
-        if (result.getRows().size()>0){
+        if (result.getRows().size() > 0) {
             for (int i = 0; i < result.getRows().size(); i++) {
                 text.add(result.getRows().get(i).getTitle());
             }
@@ -352,15 +376,15 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
             mTvMessage.initView(R.layout.item_title, new SwitchView.ViewBuilder() {
                 @Override
                 public void initView(View view) {
-                    TextView tv_title=view.findViewById(R.id.tv_title);
+                    TextView tv_title = view.findViewById(R.id.tv_title);
                     tv_title.setText(result.getRows().get(i).getTitle());
 
 
                     tv_title.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent=new Intent(mActivity, MessageDetailActivity.class);
-                            intent.putExtra("messageid",String.valueOf(result.getRows().get(i).getId()));
+                            Intent intent = new Intent(mActivity, MessageDetailActivity.class);
+                            intent.putExtra("messageid", String.valueOf(result.getRows().get(i).getId()));
                             startActivity(intent);
                         }
                     });
@@ -372,7 +396,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
                 }
             });
 
-        }else {
+        } else {
             return;
         }
 
@@ -452,5 +476,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
             helper.setText(R.id.tv_home, item.getName());
         }
     }
+
+
 
 }

@@ -462,7 +462,8 @@
                                     android:paddingBottom="2dp"
                                     android:text="¥0.00"
                                     android:textColor="#E3393C"
-                                    android:textSize="8dp" />
+                                    android:textSize="8dp"
+                                    android:visibility="gone"/>
                             </RelativeLayout>
 
                             <TextView

@@ -466,7 +466,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             if ("UpdateReadCount".equals(name)) {
                 mPresenter.GetList("4","10","1",userKey);
             }
-            if ("UpdateOrderCount".equals(name)) {//更新各种数量
+                if ("UpdateOrderCount".equals(name)) {//更新各种数量
+                mPresenter.PersonalInformation(userKey);
+            }
+            if ("待评价".equals(name)) {//更新各种数量
                 mPresenter.PersonalInformation(userKey);
             }
             if (!"PersonalInformation".equals(name)) {

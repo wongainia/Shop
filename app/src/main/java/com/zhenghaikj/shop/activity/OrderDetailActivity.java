@@ -527,6 +527,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                     startActivity(intent);
                     bottomSheetDialog.dismiss();
                     OrderDetailActivity.this.finish();
+                    EventBus.getDefault().post("UpdateOrderCount");
                 }else {
                     if ("余额不足".equals(baseResult.getData().getItem2())){
                         final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
@@ -564,6 +565,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             intent.putExtra("OrderID",id);
             startActivity(intent);
             OrderDetailActivity.this.finish();
+            EventBus.getDefault().post("UpdateOrderCount");
         }
     }
     /**
@@ -913,6 +915,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                         intent.putExtra("OrderID", id);
                         startActivity(intent);
                         OrderDetailActivity.this.finish();
+                        EventBus.getDefault().post("UpdateOrderCount");
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付失败");
@@ -941,6 +944,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 intent.putExtra("OrderID", id);
                 startActivity(intent);
                 OrderDetailActivity.this.finish();
+                EventBus.getDefault().post("UpdateOrderCount");
                 break;
             case -1:
                 ToastUtils.showShort("支付出错");

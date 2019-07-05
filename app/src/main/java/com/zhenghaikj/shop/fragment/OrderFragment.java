@@ -211,8 +211,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         OrderId = cartList.get(position).getId();
                         receipt_position=position;
                         paytype=2;
-//                        openPayPasswordDialog();
-                        startFingerprintRecognition();
+                        openPayPasswordDialog();
+//                        startFingerprintRecognition();
                         break;
                     case R.id.tv_payment://付款
 
@@ -397,7 +397,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             Intent intent=new Intent(mActivity, DeliverySuccessActivity.class);
             intent.putExtra("OrderID",OrderId);
             startActivity(intent);
-
+            EventBus.getDefault().post("UpdateOrderCount");
         }
     }
     /**
@@ -559,6 +559,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
                         intent.putExtra("OrderID",OrderId);
                         startActivity(intent);
+                        EventBus.getDefault().post("UpdateOrderCount");
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         ToastUtils.showShort("支付失败");
@@ -586,6 +587,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
                 intent.putExtra("OrderID",OrderId);
                 startActivity(intent);
+                EventBus.getDefault().post("UpdateOrderCount");
                 break;
             case -1:
                 ToastUtils.showShort("支付出错");
@@ -645,7 +647,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     intent.putExtra("OrderID",OrderId);
                     startActivity(intent);
                     orderListAdapter.remove(payposition);
-
+                    EventBus.getDefault().post("UpdateOrderCount");
                 }else {
                     if ("余额不足".equals(baseResult.getData().getItem2())){
                         final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);

@@ -62,7 +62,7 @@ public class SimilarProduct implements Serializable {
     private int saleCounts;
     private int auditStatus;
     private int freightTemplateId;
-    private int weight;
+    private Double weight;
     private int volume;
     private String measureUnit;
     private int editStatus;
@@ -244,11 +244,11 @@ public class SimilarProduct implements Serializable {
         this.freightTemplateId = freightTemplateId;
     }
 
-    public int getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -83,6 +84,7 @@ public class SimilarActivity extends BaseActivity<HistoryVisitePresenter, Histor
             Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
             intent.putExtra("id", list.get(position).getId());
             startActivity(intent);
+//            ToastUtils.showShort(list.get(position).getId());
         });
     }
 
