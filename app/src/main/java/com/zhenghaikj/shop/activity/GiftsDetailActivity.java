@@ -1,8 +1,13 @@
 package com.zhenghaikj.shop.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -23,12 +29,20 @@ import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
+import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.mvp.contract.GiftDetailContract;
 import com.zhenghaikj.shop.mvp.model.GiftDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.GiftDetailPresenter;
@@ -43,6 +57,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
 
 public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftDetailModel> implements View.OnClickListener, GiftDetailContract.View {
@@ -52,30 +67,36 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
     View mView;
     @BindView(R.id.icon_back)
     ImageView mIconBack;
+
+    @BindView(R.id.tv_back)
+    TextView mTvback;
+
     @BindView(R.id.tv_title)
     TextView mTvTitle;
-    @BindView(R.id.tv_save)
-    TextView mTvSave;
-    @BindView(R.id.icon_search)
-    ImageView mIconSearch;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.banner_goods)
     Banner mBannerGoods;
-    @BindView(R.id.tv_vip)
-    TextView mTvVip;
+
+    @BindView(R.id.tv_haschange)
+    TextView mTvhaschange;
+
+    @BindView(R.id.tv_max_change)
+    TextView mTvmax_change;
+
+    @BindView(R.id.tv_inventory)
+    TextView mTvinventory;
+    @BindView(R.id.icon_share)
+    ImageView mIconshare;
+
     @BindView(R.id.tv_good_money)
     TextView mTvGoodMoney;
     @BindView(R.id.tv_good_money_max)
     TextView mTvGoodMoneyMax;
     @BindView(R.id.tv_good_name)
     TextView mTvGoodName;
-    @BindView(R.id.ll_share)
-    LinearLayout mLlShare;
-    @BindView(R.id.tv_express_delivery)
-    TextView mTvExpressDelivery;
-    @BindView(R.id.tv_sales_volume)
-    TextView mTvSalesVolume;
+
     @BindView(R.id.one)
     LinearLayout mOne;
     @BindView(R.id.webview)
@@ -96,7 +117,8 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
     private View popupWindow_view;
     private PopupWindow mPopupWindow;
     private AdderView adderView;
-
+    private ShareAction mShareAction;
+    private MineFragment.CustomShareListener mShareListener;
     @Override
     protected int setLayoutId() {
         return R.layout.activity_gift_detail;
@@ -157,12 +179,15 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
     protected void setListener() {
         mIconBack.setOnClickListener(this);
         mTvBuy.setOnClickListener(this);
+        mTvback.setOnClickListener(this);
+        mIconshare.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.icon_back:
+            case R.id.tv_back:
                 finish();
                 break;
             case R.id.tv_buy:
@@ -172,6 +197,10 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
                     startActivity(new Intent(mActivity,LoginActivity.class));
                 }
                 break;
+            case R.id.icon_share:
+                mShareAction.open();
+                break;
+
         }
     }
 
@@ -213,12 +242,20 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
             }
         });
         mBannerGoods.start();
-        mTvGoodMoney.setText(Result.getNeedIntegral()+"西瓜币");
+        mTvGoodMoney.setText(Result.getNeedIntegral()+"");
         mTvGoodMoneyMax.setText(Result.getGiftValue()+"");
-        mTvVip.setText(Result.getNeedGradeName()+"专享");
+
+        String money =Result.getGiftValue()+"";
+        SpannableString sp = new SpannableString(money);
+        sp.setSpan(new StrikethroughSpan(), 0, money.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        mTvGoodMoneyMax.setText(sp);
+
         mTvGoodName.setText(Result.getGiftName());
-        mTvExpressDelivery.setText("有效期至："+ Result.getEndDate());
-        mTvSalesVolume.setText("已兑："+ Result.getSumSales()+"   每人限兑："+Result.getShowLimtQuantity()+"   库存："+Result.getStockQuantity());
+
+        mTvhaschange.setText("已兑换: "+Result.getSumSales()+"件");
+        mTvmax_change.setText("每人限兑: "+Result.getShowLimtQuantity()+"件");
+        mTvinventory.setText("库存:"+Result.getStockQuantity());
+
 
         String html = "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
@@ -241,14 +278,61 @@ public class GiftsDetailActivity extends BaseActivity<GiftDetailPresenter, GiftD
 
         if (Result.isCanBuy()){
             mTvBuy.setBackgroundColor(Color.parseColor("#E82C00"));
-            mTvBuy.setText("我要兑换");
+            mTvBuy.setText("立即兑换");
             mTvBuy.setEnabled(true);
         }else{
             mTvBuy.setBackgroundColor(Color.parseColor("#808080"));
             mTvBuy.setText(Result.getCanNotBuyDes());
             mTvBuy.setEnabled(false);
         }
+
+
         mStateLayout.changeState(StateFrameLayout.SUCCESS);
+
+
+
+        mShareAction = new ShareAction((Activity) mActivity).setDisplayList(
+                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.MORE)
+                .addButton("复制文本", "复制文本", "umeng_socialize_copy", "umeng_socialize_copy")
+                .addButton("复制链接", "复制链接", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
+                .setShareboardclickCallback(new ShareBoardlistener() {
+                    @Override
+                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                        if (snsPlatform.mShowWord.equals("复制文本")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+                        } else if (snsPlatform.mShowWord.equals("复制链接")) {
+                            Toast.makeText(mActivity, "已复制", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            RxPermissions rxPermissions = new RxPermissions((Activity) mActivity);
+                            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                    .subscribe(new Consumer<Boolean>() {
+                                        @Override
+                                        public void accept(Boolean aBoolean) throws Exception {
+                                            if (aBoolean) {
+                                                // 获取全部权限成功
+
+                                                UMWeb web = new UMWeb("http://mall.xigyu.com/product/detail/"+result.getId());
+                                                web.setTitle(result.getGiftName());
+                                                web.setThumb(new UMImage(mActivity, result.getImages().get(0)));
+                                                new ShareAction((Activity) mActivity).withMedia(web)
+                                                        .setPlatform(share_media)
+                                                        .setCallback(mShareListener)
+                                                        .share();
+                                            } else {
+                                                // 获取全部权限失败
+                                                ToastUtils.showShort("权限获取失败");
+                                            }
+                                        }
+                                    });
+
+                        }
+                    }
+                });
+
+
+
     }
 
     /**
