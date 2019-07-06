@@ -66,6 +66,7 @@ import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.HomeCategoryAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
+import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.HomeJsonResult;
@@ -156,6 +157,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     View mView;
     @BindView(R.id.tv_count_msg)
     TextView mTvCountMsg;
+
+    @BindView(R.id.ll_home)
+    LinearLayout mLlhome;
 
     private List<ShopResult.GiftListNewBean> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
@@ -528,6 +532,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
                 break;
 
+
+
+
         }
     }
 
@@ -544,6 +551,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @Override
     public void Get(HomeResult Result) {
         if (Result.getSuccess()) {
+
             if (Result.getProduct().size() == 0) {
                 mRefreshLayout.finishLoadMoreWithNoMoreData();
             } else {
@@ -564,11 +572,63 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     public void Get(HomeJsonResult Result) {
+        mLlhome.removeAllViews();
         modules = Result.getLModules();
         for (int i = 0; i < modules.size(); i++) {
             if (modules.get(i).getType() == 9) {
                 dataset = modules.get(i).getContent().getDataset();
             }
+
+            if (modules.get(i).getType()==8){
+                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_8,null);
+                mLlhome.addView(view);
+                int position=i;
+                initViewBy_8(position,view,modules);
+
+            }
+            if (modules.get(i).getType()==20){
+                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_20,null);
+                mLlhome.addView(view);
+                int position=i;
+                initViewBy_20(position,view,modules);
+            }
+            if (modules.get(i).getType()==22){
+                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_22,null);
+                mLlhome.addView(view);
+                int position=i;
+                initViewBy_22(position,view,modules);
+
+            }
+
+            if (modules.get(i).getType()==21){
+                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_21,null);
+                mLlhome.addView(view);
+
+                int position=i;
+                initViewBy_21(position,view,modules);
+
+            }
+
+            if (modules.get(i).getType()==23){
+                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_23,null);
+                mLlhome.addView(view);
+                int position=i;
+                initViewBy_23(position,view,modules);
+            }
+            if (modules.get(i).getType()==24){
+                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_24,null);
+                mLlhome.addView(view);
+                int position=i;
+                initViewBy_24(position,view,modules);
+            }
+
+
+
+
+
+
+
+
         }
         List<String> images = new ArrayList<>();
         ids = new ArrayList<>();
@@ -595,6 +655,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             }
         });
     }
+
+
 
     @Override
     public void GetLismitBuyList(LimitBuyListResult Result) {
@@ -713,6 +775,864 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
 //            Toast.makeText(mContext, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    private void initViewBy_8(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
+        ImageView img_home_8_0=view.findViewById(R.id.img_home_8_0);
+        ImageView img_home_8_1=view.findViewById(R.id.img_home_8_1);
+        ImageView img_home_8_2=view.findViewById(R.id.img_home_8_2);
+        ImageView img_home_8_3=view.findViewById(R.id.img_home_8_3);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_8_0);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_8_1);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_8_2);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_8_3);
+
+        //position为点击的模块所在的位置
+        //判断所点击位置的功能
+        img_home_8_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        img_home_8_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_8_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_8_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+    }
+
+    private void initViewBy_23(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
+        ImageView img_home_23_0=view.findViewById(R.id.img_home_23_0);
+        ImageView img_home_23_1=view.findViewById(R.id.img_home_23_1);
+        ImageView img_home_23_2=view.findViewById(R.id.img_home_23_2);
+        ImageView img_home_23_3=view.findViewById(R.id.img_home_23_3);
+        ImageView img_home_23_4=view.findViewById(R.id.img_home_23_4);
+        ImageView img_home_23_5=view.findViewById(R.id.img_home_23_5);
+        ImageView img_home_23_6=view.findViewById(R.id.img_home_23_6);
+        ImageView img_home_23_7=view.findViewById(R.id.img_home_23_7);
+        ImageView img_home_23_8=view.findViewById(R.id.img_home_23_8);
+
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_23_0);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_23_1);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_23_2);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_3);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_4);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_5);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_6);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_7);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_8);
+
+
+        img_home_23_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_23_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_23_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        img_home_23_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_23_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_23_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(5).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        img_home_23_6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(6).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_23_7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(7).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(7).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(7).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(7).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(7).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        img_home_23_8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(8).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(8).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(8).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(8).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(8).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+    }
+
+    private void initViewBy_20(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
+        ImageView img_home_20_0=view.findViewById(R.id.img_home_20_0);
+        ImageView img_home_20_1=view.findViewById(R.id.img_home_20_1);
+        ImageView img_home_20_2=view.findViewById(R.id.img_home_20_2);
+        ImageView img_home_20_3=view.findViewById(R.id.img_home_20_3);
+        ImageView img_home_20_4=view.findViewById(R.id.img_home_20_4);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_20_0);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_20_1);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_20_2);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_20_3);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(4).getPic()).into(img_home_20_4);
+
+        img_home_20_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_20_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_20_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        img_home_20_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_20_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+    }
+
+    private void initViewBy_22(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
+        ImageView img_home_22_0=view.findViewById(R.id.img_home_22_0);
+        ImageView img_home_22_1=view.findViewById(R.id.img_home_22_1);
+        ImageView img_home_22_2=view.findViewById(R.id.img_home_22_2);
+        ImageView img_home_22_3=view.findViewById(R.id.img_home_22_3);
+        ImageView img_home_22_4=view.findViewById(R.id.img_home_22_4);
+        ImageView img_home_22_5=view.findViewById(R.id.img_home_22_5);
+        ImageView img_home_22_6=view.findViewById(R.id.img_home_22_6);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_22_0);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_22_1);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_22_2);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_22_3);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(4).getPic()).into(img_home_22_4);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(5).getPic()).into(img_home_22_5);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(6).getPic()).into(img_home_22_6);
+        img_home_22_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_22_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_22_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        img_home_22_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_22_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_22_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(5).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_22_6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(6).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+    }
+
+
+    private void initViewBy_21(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
+        ImageView img_home_21_0=view.findViewById(R.id.img_home_21_0);
+        ImageView img_home_21_1=view.findViewById(R.id.img_home_21_1);
+        ImageView img_home_21_2=view.findViewById(R.id.img_home_21_2);
+        ImageView img_home_21_3=view.findViewById(R.id.img_home_21_3);
+        ImageView img_home_21_4=view.findViewById(R.id.img_home_21_4);
+        ImageView img_home_21_5=view.findViewById(R.id.img_home_21_5);
+        ImageView img_home_21_6=view.findViewById(R.id.img_home_21_6);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_21_0);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_21_1);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_21_2);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_21_3);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(4).getPic()).into(img_home_21_4);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(5).getPic()).into(img_home_21_5);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(6).getPic()).into(img_home_21_6);
+        img_home_21_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_21_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_21_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        img_home_21_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+        img_home_21_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_21_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(5).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        img_home_21_6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(6).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+
+    }
+
+    private void initViewBy_24(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
+        ImageView img_home_24_0=view.findViewById(R.id.img_home_24_0);
+        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_24_0);
+        img_home_24_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                    case 1: //选择商品
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 27: //专题列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6: //限时购列表
+                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+
+
+
     }
 
 
