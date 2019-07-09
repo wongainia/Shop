@@ -20,9 +20,9 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
-import com.tencent.android.tpush.service.gdb.ToolService;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.ComplaintRecord;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PostOrderComplaint;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
@@ -104,6 +104,14 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
     TextView mTvShenqingshijian;
     @BindView(R.id.tv_platform_intervention)
     TextView mTvPlatformIntervention;
+    @BindView(R.id.tv_appeal)
+    TextView mTvAppeal;
+    @BindView(R.id.tv_merchant_complaint)
+    TextView mTvMerchantComplaint;
+    @BindView(R.id.tv_complaint)
+    TextView mTvComplaint;
+    @BindView(R.id.rl_complaint)
+    RelativeLayout mRlComplaint;
 
 
     private String Id;
@@ -138,6 +146,7 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
         OrderId = getIntent().getStringExtra("OrderId");
         mPresenter.GetRefundDetail(Id, userKey);
         mPresenter.GetOrderDetail(OrderId, userKey);
+        mPresenter.GetRecord(userKey, "10", "1");
     }
 
     @Override
@@ -151,6 +160,7 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
         mRlprocess.setOnClickListener(this);
         mTvsendgood.setOnClickListener(this);
         mTvPlatformIntervention.setOnClickListener(this);
+        mTvAppeal.setOnClickListener(this);
     }
 
 
@@ -170,8 +180,8 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
 
             if (result.getSellerAuditStatusValue() == 2) {
                 mTvsendgood.setVisibility(View.VISIBLE);
-            }else if (result.getSellerAuditStatusValue()==4){
-                mTvPlatformIntervention.setVisibility(View.VISIBLE);
+            } else if (result.getSellerAuditStatusValue() == 4) {
+                mTvAppeal.setVisibility(View.VISIBLE);
                 mTvstate.setText(result.getSellerAuditStatus() + ":" + result.getSellerRemark());
             }
 
@@ -184,7 +194,7 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
     @Override
     public void GetOrderDetail(OrderDetail result) {
         if (result.isSuccess()) {
-            Ordertail=result;
+            Ordertail = result;
             mTvTitle.setVisibility(View.VISIBLE);
             mTvTitle.setText("详情");
             Glide.with(mActivity)
@@ -210,7 +220,36 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
 
     @Override
     public void PostOrderComplaint(PostOrderComplaint result) {
+        if (result.getSuccess()) {
+            ToastUtils.showShort(result.getMsg());
+            dialog.dismiss();
+        } else {
+            ToastUtils.showShort(result.getMsg());
+        }
+    }
 
+    @Override
+    public void ApplyArbitration(PostOrderComplaint result) {
+        if (result.getSuccess()) {
+            ToastUtils.showShort(result.getMsg());
+        } else {
+            ToastUtils.showShort(result.getMsg());
+        }
+    }
+
+    @Override
+    public void GetRecord(ComplaintRecord result) {
+        for (int i = 0; i < result.getResult().size(); i++) {
+            if (OrderId.equals(result.getResult().get(i).getOrderId())){
+                mRlComplaint.setVisibility(View.VISIBLE);
+                mTvComplaint.setText(result.getResult().get(i).getSellerReply());
+                mTvAppeal.setVisibility(View.GONE);
+                mTvPlatformIntervention.setVisibility(View.VISIBLE);
+                return;
+            }else {
+                mRlComplaint.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -237,8 +276,10 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
                 startActivity(intent);
                 break;
             case R.id.tv_platform_intervention:
+                mPresenter.ApplyArbitration(userKey, OrderId);
+                break;
+            case R.id.tv_appeal:
                 showComplaint();
-
                 break;
 
 
@@ -246,10 +287,10 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
     }
 
     private void showComplaint() {
-        View view= LayoutInflater.from(mActivity).inflate(R.layout.dialog_complaint, null);
-        EditText et_memo=view.findViewById(R.id.et_memo);
-        TextView negtive=view.findViewById(R.id.negtive);
-        TextView positive=view.findViewById(R.id.positive);
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_complaint, null);
+        EditText et_memo = view.findViewById(R.id.et_memo);
+        TextView negtive = view.findViewById(R.id.negtive);
+        TextView positive = view.findViewById(R.id.positive);
 
         negtive.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,18 +302,18 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
         positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String reason=et_memo.getText().toString();
-                if ("".equals(reason)||reason==null){
+                String reason = et_memo.getText().toString();
+                if ("".equals(reason) || reason == null) {
                     ToastUtils.showShort("请输入投诉原因");
-                }else {
-                    mPresenter.PostOrderComplaint(userKey,Ordertail.getOrder().getShopId(),OrderId,reason,userId);
-                    dialog.dismiss();
+                } else {
+                    mPresenter.PostOrderComplaint(userKey, Ordertail.getOrder().getShopId(), OrderId, reason, userId);
+
                 }
             }
         });
         dialog = new AlertDialog.Builder(mActivity).setView(view).create();
         dialog.show();
-        Window window= dialog.getWindow();
+        Window window = dialog.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         window.setAttributes(lp);
         window.setBackgroundDrawable(new ColorDrawable());

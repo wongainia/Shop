@@ -17,6 +17,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.entity.ComplaintRecord;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PostOrderComplaint;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
@@ -160,6 +161,16 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
 
     @Override
     public void PostOrderComplaint(PostOrderComplaint result) {
+
+    }
+
+    @Override
+    public void ApplyArbitration(PostOrderComplaint result) {
+
+    }
+
+    @Override
+    public void GetRecord(ComplaintRecord result) {
 
     }
 }

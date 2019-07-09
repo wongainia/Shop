@@ -49,12 +49,13 @@ public interface ConfirmOrderContract {
                                                  String orderRemarks,
                                                  String userkey
         );
-        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr);
-        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount,JSONArray JsonStr);
+        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr,String ActualMoney);
+        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount,JSONArray JsonStr,String ActualMoney);
         Observable<BaseResult<Data<String>>> MallBalancePay( String OrderId,
                                                              String CustomerId,
                                                              JSONArray JsonStr,
-                                                             String UserID);
+                                                             String UserID,
+                                                             String ActualMoney);
 
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<EasyResult> PostChangeOrderState(String orderId);
@@ -106,12 +107,13 @@ public interface ConfirmOrderContract {
                                               String userkey
         );
 
-        public abstract void GetOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr);
-        public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr);
+        public abstract void GetOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr,String ActualMoney);
+        public abstract void GetWXOrderStr(String userid,String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr,String ActualMoney);
         public abstract void MallBalancePay(String OrderId,
                                             String CustomerId,
                                             JSONArray JsonStr,
-                                            String UserID
+                                            String UserID,
+                                            String ActualMoney
         );
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void PostChangeOrderState(String orderId);

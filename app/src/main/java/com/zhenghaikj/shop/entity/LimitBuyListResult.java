@@ -7,12 +7,12 @@ public class LimitBuyListResult implements Serializable {
 
 
     /**
-     * Total : 3
-     * List : [{"Id":52,"ProductId":756,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/756/1_350.png","ProductName":"Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱","MinPrice":20,"EndDate":"2019-05-10T17:30:16"},{"Id":53,"ProductId":749,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/749/1_350.png","ProductName":"积家（Jaeger）Master Control大师系列机械男表Q1552520 银色","MinPrice":20000,"EndDate":"2019-05-18T17:30:39"},{"Id":54,"ProductId":745,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/745/1_350.png","ProductName":"新西兰蔓越莓蜂蜜480g 进口蜂蜜选新西兰蜂蜜品牌 NatureBeing","MinPrice":219,"EndDate":"2019-05-26T02:30:55"}]
+     * Total : 1
+     * List : [{"Id":70,"ProductId":845,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/845/1_350.png","ProductName":"航天SQD60-611 嵌入式单烤箱家用 60L","MinPrice":2199,"EndDate":"2020-05-05T09:45:14","MarketPrice":5499,"SaleCount":0,"ProductAttributeInfos":["嵌入式","51L（含）-80L（含）","解冻","内置照明"],"Stock":4520}]
      */
 
     private int Total;
-    private List<ListBean> List;
+    private java.util.List<ListBean> List;
 
     public int getTotal() {
         return Total;
@@ -32,46 +32,37 @@ public class LimitBuyListResult implements Serializable {
 
     public static class ListBean {
         /**
-         * Id : 52
-         * ProductId : 756
-         * ProductImg : http://mall.xigyu.com//Storage/Shop/1/Products/756/1_350.png
-         * ProductName : Haier/海尔 BC-50ES 50升家用节能小型单门租房宿舍电冰箱
-         * MinPrice : 20.0
-         * EndDate : 2019-05-10T17:30:16
+         * Id : 70
+         * ProductId : 845
+         * ProductImg : http://mall.xigyu.com//Storage/Shop/1/Products/845/1_350.png
+         * ProductName : 航天SQD60-611 嵌入式单烤箱家用 60L
+         * MinPrice : 2199
+         * EndDate : 2020-05-05T09:45:14
+         * MarketPrice : 5499
+         * SaleCount : 0
+         * ProductAttributeInfos : ["嵌入式","51L（含）-80L（含）","解冻","内置照明"]
+         * Stock : 4520
          */
 
         private int Id;
         private int ProductId;
         private String ProductImg;
         private String ProductName;
-        private double MinPrice;
+        private int MinPrice;
         private String EndDate;
-        private String MarketPrice;
+        private int MarketPrice;
         private int SaleCount;
         private int Stock;
+        private List<String> ProductAttributeInfos;
 
-        public int getStock() {
-            return Stock;
+        private CashDepositsServerBean CashDepositsServer;
+
+        public CashDepositsServerBean getCashDepositsServer() {
+            return CashDepositsServer;
         }
 
-        public void setStock(int stock) {
-            Stock = stock;
-        }
-
-        public String getMarketPrice() {
-            return MarketPrice;
-        }
-
-        public void setMarketPrice(String marketPrice) {
-            MarketPrice = marketPrice;
-        }
-
-        public int getSaleCount() {
-            return SaleCount;
-        }
-
-        public void setSaleCount(int saleCount) {
-            SaleCount = saleCount;
+        public void setCashDepositsServer(CashDepositsServerBean cashDepositsServer) {
+            CashDepositsServer = cashDepositsServer;
         }
 
 
@@ -107,11 +98,11 @@ public class LimitBuyListResult implements Serializable {
             this.ProductName = ProductName;
         }
 
-        public double getMinPrice() {
+        public int getMinPrice() {
             return MinPrice;
         }
 
-        public void setMinPrice(double MinPrice) {
+        public void setMinPrice(int MinPrice) {
             this.MinPrice = MinPrice;
         }
 
@@ -121,6 +112,84 @@ public class LimitBuyListResult implements Serializable {
 
         public void setEndDate(String EndDate) {
             this.EndDate = EndDate;
+        }
+
+        public int getMarketPrice() {
+            return MarketPrice;
+        }
+
+        public void setMarketPrice(int MarketPrice) {
+            this.MarketPrice = MarketPrice;
+        }
+
+        public int getSaleCount() {
+            return SaleCount;
+        }
+
+        public void setSaleCount(int SaleCount) {
+            this.SaleCount = SaleCount;
+        }
+
+        public int getStock() {
+            return Stock;
+        }
+
+        public void setStock(int Stock) {
+            this.Stock = Stock;
+        }
+
+        public List<String> getProductAttributeInfos() {
+            return ProductAttributeInfos;
+        }
+
+        public void setProductAttributeInfos(List<String> ProductAttributeInfos) {
+            this.ProductAttributeInfos = ProductAttributeInfos;
+        }
+    }
+
+    public static class CashDepositsServerBean {
+        /**
+         * IsSevenDayNoReasonReturn : true
+         * IsTimelyShip : false
+         * IsCustomerSecurity : true
+         * CanSelfTake : false
+         */
+
+        private boolean IsSevenDayNoReasonReturn;
+        private boolean IsTimelyShip;
+        private boolean IsCustomerSecurity;
+        private boolean CanSelfTake;
+
+        public boolean isIsSevenDayNoReasonReturn() {
+            return IsSevenDayNoReasonReturn;
+        }
+
+        public void setIsSevenDayNoReasonReturn(boolean IsSevenDayNoReasonReturn) {
+            this.IsSevenDayNoReasonReturn = IsSevenDayNoReasonReturn;
+        }
+
+        public boolean isIsTimelyShip() {
+            return IsTimelyShip;
+        }
+
+        public void setIsTimelyShip(boolean IsTimelyShip) {
+            this.IsTimelyShip = IsTimelyShip;
+        }
+
+        public boolean isIsCustomerSecurity() {
+            return IsCustomerSecurity;
+        }
+
+        public void setIsCustomerSecurity(boolean IsCustomerSecurity) {
+            this.IsCustomerSecurity = IsCustomerSecurity;
+        }
+
+        public boolean isCanSelfTake() {
+            return CanSelfTake;
+        }
+
+        public void setCanSelfTake(boolean CanSelfTake) {
+            this.CanSelfTake = CanSelfTake;
         }
     }
 }

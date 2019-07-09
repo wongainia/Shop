@@ -35,6 +35,7 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
@@ -54,6 +55,7 @@ import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zhenghaikj.shop.widget.StickyNavLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -238,6 +240,17 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
                 mBanner.setIndicatorGravity(BannerConfig.CENTER);
                 mBanner.setDelayTime(5000);
                 mBanner.start();
+
+                mBanner.setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(int position) {
+                        Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+//                        intent.putExtra("id", (Serializable) images);
+                        startActivity(intent);
+
+
+                    }
+                });
             }
 
             /*增加自定义按钮的分享面板*/

@@ -1,8 +1,11 @@
 package com.zhenghaikj.shop.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.utils.GlideUtil;
+import com.zhenghaikj.shop.widget.RoundBackGroundColorSpan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,9 +75,57 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         //填充数据
         HomeResult.ProductBean bean=list.get(position);
-        holder.tv_goods_name.setText(bean.getName());
+        if ("官方自营店".equals(bean.getName())){
+            SpannableString spannableString = new SpannableString("官方"+" "+bean.getName());
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.WHITE);
+            spannableString.setSpan(colorSpan, 0,2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            RoundBackGroundColorSpan span = new RoundBackGroundColorSpan(Color.parseColor("#ff0000"),Color.parseColor("#FFFFFF"), 10);
+            spannableString.setSpan(span, 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new AbsoluteSizeSpan(35), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.tv_goods_name.setText(spannableString);
+        }else {
+            holder.tv_goods_name.setText(bean.getName());
+        }
+
+
+
         holder.tv_goods_money.setText("¥"+bean.getSalePrice()+"");
         String string = "¥"+bean.getMarketPrice();
+        if (list.get(position).getProductAttributeInfos()!=null){
+            if (list.get(position).getProductAttributeInfos().size()>3){
+                holder.tv_comment.setText(list.get(position).getProductAttributeInfos().get(0)+" | "+list.get(position).getProductAttributeInfos().get(1)+" | "+list.get(position).getProductAttributeInfos().get(2));
+
+            }else if (list.get(position).getProductAttributeInfos().size()==1){
+                holder.tv_comment.setText(list.get(position).getProductAttributeInfos().get(0));
+            }else if (list.get(position).getProductAttributeInfos().size()==2){
+                holder.tv_comment.setText(list.get(position).getProductAttributeInfos().get(0)+" | "+list.get(position).getProductAttributeInfos().get(1));
+            }else if (list.get(position).getProductAttributeInfos().size()==0||list.get(position).getProductAttributeInfos()==null){
+                holder.tv_comment.setVisibility(View.GONE);
+            }
+        }else {
+            holder.tv_comment.setVisibility(View.GONE);
+        }
+
+        if (list.get(position).getCashDepositsServer().isIsSevenDayNoReasonReturn()){
+            holder.tv_service.setText("七天无理由退换");
+        }else {
+            holder.tv_service.setVisibility(View.GONE);
+        }
+
+
+        if (list.get(position).getCashDepositsServer().isIsTimelyShip()){
+            holder.tv_service_two.setText("急速发货");
+        }else {
+            holder.tv_service_two.setVisibility(View.GONE);
+        }
+
+        if (list.get(position).getCashDepositsServer().isIsCustomerSecurity()){
+            holder.tv_service_three.setText("消费者保证");
+        }else {
+            holder.tv_service_three.setVisibility(View.GONE);
+        }
+
+
         SpannableString sp = new SpannableString(string);
 //
         sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -116,6 +168,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TextView tv_goods_money;
         TextView tv_look_similar;
         TextView tv_payment;
+        TextView tv_comment;
+        TextView tv_service;
+        TextView tv_service_two;
+        TextView tv_service_three;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -124,6 +180,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             tv_goods_money = itemView.findViewById(R.id.tv_goods_money);
             tv_look_similar = itemView.findViewById(R.id.tv_look_similar);
             tv_payment = itemView.findViewById(R.id.tv_payment);
+            tv_comment = itemView.findViewById(R.id.tv_comment);
+            tv_service = itemView.findViewById(R.id.tv_service);
+            tv_service_two = itemView.findViewById(R.id.tv_service_two);
+            tv_service_three = itemView.findViewById(R.id.tv_service_three);
         }
     }
 

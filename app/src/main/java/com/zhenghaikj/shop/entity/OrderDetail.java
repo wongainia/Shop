@@ -139,6 +139,15 @@ public class OrderDetail implements Serializable {
         private double EnabledRefundAmount;
         private boolean HasAppendComment;
         private String SelfTake;
+        private String ActualMoney;
+
+        public String getActualMoney() {
+            return ActualMoney;
+        }
+
+        public void setActualMoney(String actualMoney) {
+            ActualMoney = actualMoney;
+        }
 
         public String getRegionId() {
             return RegionId;

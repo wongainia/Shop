@@ -406,7 +406,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     public void showPopupWindow() {
         mPresenter.GetUserInfoList(UserID,"1");
         payList =new ArrayList<>();
-        payList.add(new JsonStrOrderPay(Long.parseLong(OrderId),ordersBean.getBisId(),ordersBean.getOrderTotalAmount()));
+        payList.add(new JsonStrOrderPay(Long.parseLong(OrderId),ordersBean.getBisId(),ordersBean.getOrderTotalAmount(),Double.parseDouble(ordersBean.getActualMoney())));
         Gson gson=new Gson();
         try {
             jsonArray = new JSONArray(gson.toJson(payList));
@@ -421,7 +421,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(UserID,"","",ordersBean.getOrderTotalAmount()+"",jsonArray);
+                mPresenter.GetOrderStr(UserID,"","",ordersBean.getOrderTotalAmount()+"",jsonArray,ordersBean.getActualMoney());
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -433,7 +433,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetWXOrderStr(UserID,"","",ordersBean.getOrderTotalAmount()+"",jsonArray);
+                mPresenter.GetWXOrderStr(UserID,"","",ordersBean.getOrderTotalAmount()+"",jsonArray,ordersBean.getActualMoney());
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -725,7 +725,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 //            Toast.makeText(this, "验证成功", Toast.LENGTH_SHORT).show();
 //            ToastUtils.showShort("验证成功");
             if (paytype==1){
-                mPresenter.MallBalancePay("","",jsonArray,UserID);
+                mPresenter.MallBalancePay("","",jsonArray,UserID,ordersBean.getActualMoney());
                 mPopupWindow.dismiss();
             }
             else if(paytype==2){
@@ -811,7 +811,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 fragment.dismiss();
 //            Toast.makeText(mActivity,"指纹解锁成功",Toast.LENGTH_SHORT).show();
             if (paytype==1){
-                mPresenter.MallBalancePay("","",jsonArray,UserID);
+                mPresenter.MallBalancePay("","",jsonArray,UserID,ordersBean.getActualMoney());
                 mPopupWindow.dismiss();
             }
             else if(paytype==2){
@@ -902,7 +902,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
         if (paytype==1){
             if (userInfo.getPayPassWord().equals(password)){
-                mPresenter.MallBalancePay("","",jsonArray,UserID);
+                mPresenter.MallBalancePay("","",jsonArray,UserID,ordersBean.getActualMoney());
                 mPopupWindow.dismiss();
                 bottomSheetDialog.dismiss();
             } else {

@@ -15,6 +15,7 @@ import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.CollectionProduct;
 import com.zhenghaikj.shop.entity.CollectionShop;
 import com.zhenghaikj.shop.entity.Comment;
+import com.zhenghaikj.shop.entity.ComplaintRecord;
 import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrderOverResult;
@@ -1231,7 +1232,8 @@ public interface ApiService {
 
 
     /*
-    * 售后平台介入
+    * 投诉
+    *
     * */
     @FormUrlEncoded
     @POST("api/OrderComplaint/PostOrderComplaint")
@@ -1247,4 +1249,29 @@ public interface ApiService {
     );
 
 
+    /*
+     * 售后平台介入
+     * */
+    @FormUrlEncoded
+    @POST("api/OrderComplaint/ApplyArbitration")
+    Observable<PostOrderComplaint> ApplyArbitration(
+            @Field("userkey") String userkey,
+            @Field("OrderId") String OrderId,
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+
+    /*
+     * 获取投诉记录
+     * */
+    @GET("api/OrderComplaint/GetRecord")
+    Observable<ComplaintRecord> GetRecord(
+            @Query("userkey") String userkey,
+            @Query("pageSize") String pageSize,
+            @Query("pageNo") String pageNo,
+            @Query("app_key") String app_key,
+            @Query("timestamp") String timestamp,
+            @Query("sign") String sign
+    );
 }

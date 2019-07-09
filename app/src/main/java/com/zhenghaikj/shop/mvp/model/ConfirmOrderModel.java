@@ -135,14 +135,14 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr) {
-        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3",JsonStr)
+    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr,String ActualMoney) {
+        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3",JsonStr,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr) {
-        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall",JsonStr)
+    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr,String ActualMoney) {
+        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall",JsonStr,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -151,8 +151,9 @@ public class ConfirmOrderModel implements ConfirmOrderContract.Model {
     public Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId,
                                                                String CustomerId,
                                                                JSONArray JsonStr,
-                                                               String UserID) {
-        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId, JsonStr, UserID)
+                                                               String UserID,
+                                                               String ActualMoney) {
+        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId, JsonStr, UserID,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

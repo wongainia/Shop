@@ -3,6 +3,7 @@ package com.zhenghaikj.shop.mvp.contract;
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.ComplaintRecord;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PostOrderComplaint;
 import com.zhenghaikj.shop.entity.Refund;
@@ -11,6 +12,7 @@ import com.zhenghaikj.shop.entity.RefundDetailResult;
 import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
 
 /*售后详情页*/
 public interface AfterSaleDetailContract {
@@ -32,6 +34,12 @@ public interface AfterSaleDetailContract {
                                                           String OrderId,
                                                           String ComplaintReason,
                                                           String UserPhone);
+        Observable<PostOrderComplaint> ApplyArbitration(String userkey,
+                                                          String OrderId);
+
+        Observable<ComplaintRecord> GetRecord(String userkey,
+                                              String pageSize,
+                                              String pageNo);
 
     }
 
@@ -41,6 +49,8 @@ public interface AfterSaleDetailContract {
         void GetRefundProcessDetail(RefundProcessDetailResult result);
         void PostSellerSendGoods(RefundApplyResult result);
         void PostOrderComplaint(PostOrderComplaint result);
+        void ApplyArbitration(PostOrderComplaint result);
+        void GetRecord(ComplaintRecord result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -56,6 +66,11 @@ public interface AfterSaleDetailContract {
                                                 String OrderId,
                                                 String ComplaintReason,
                                                 String UserPhone);
+        public abstract void ApplyArbitration(String userkey,
+                                                String OrderId);
 
+        public abstract void GetRecord(String userkey,
+                                       String pageSize,
+                                       String pageNo);
     }
 }

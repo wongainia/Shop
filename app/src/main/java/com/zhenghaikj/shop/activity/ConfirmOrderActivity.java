@@ -571,7 +571,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(UserID,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
+                mPresenter.GetOrderStr(UserID,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray,String.valueOf(confirmModel.getPayInfo().get(0).getActualMoney()));
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -583,7 +583,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetWXOrderStr(UserID,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray);
+                mPresenter.GetWXOrderStr(UserID,"", "",GetConfirmModel.getTotalAmount()+"",jsonArray,String.valueOf(confirmModel.getPayInfo().get(0).getActualMoney()));
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -689,7 +689,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             fragment.dismiss();
 //            Toast.makeText(this, "验证成功", Toast.LENGTH_SHORT).show();
 //            ToastUtils.showShort("验证成功");
-                mPresenter.MallBalancePay("","",jsonArray,UserID);
+                mPresenter.MallBalancePay("","",jsonArray,UserID,String.valueOf(cmResult.getPayInfo().get(0).getActualMoney()));
                 mPopupWindow.dismiss();
 
 
@@ -772,7 +772,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 fragment.dismiss();
 //            Toast.makeText(mActivity,"指纹解锁成功",Toast.LENGTH_SHORT).show();
 
-                mPresenter.MallBalancePay("","",jsonArray,UserID);
+                mPresenter.MallBalancePay("","",jsonArray,UserID,String.valueOf(cmResult.getPayInfo().get(0).getActualMoney()));
                 mPopupWindow.dismiss();
 
 
@@ -1100,7 +1100,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     public void passwordFull(String password) {
         if (userInfo.getPayPassWord().equals(password)){
             bottomSheetDialog.dismiss();
-          mPresenter.MallBalancePay("","",jsonArray,UserID);
+          mPresenter.MallBalancePay("","",jsonArray,UserID,String.valueOf(cmResult.getPayInfo().get(0).getActualMoney()));
         }else {
             Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
         }

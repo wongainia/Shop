@@ -114,6 +114,7 @@ public class SearchResult implements Serializable {
          * SkuId : null
          * MinSalePrice : 0.0
          * cartquantity : 0
+         *
          */
 
         private String ProductId;
@@ -129,6 +130,35 @@ public class SearchResult implements Serializable {
         private String SkuId;
         private double MinSalePrice;
         private int cartquantity;
+        private List<String> ProductAttributeInfos;
+        private CashDepositsServerBean CashDepositsServer;
+        private String ProductAddress;
+
+        public String getProductAddress() {
+            return ProductAddress;
+        }
+
+        public void setProductAddress(String productAddress) {
+            ProductAddress = productAddress;
+        }
+
+        public CashDepositsServerBean getCashDepositsServer() {
+            return CashDepositsServer;
+        }
+
+        public void setCashDepositsServer(CashDepositsServerBean cashDepositsServer) {
+            CashDepositsServer = cashDepositsServer;
+        }
+
+
+
+        public List<String> getProductAttributeInfos() {
+            return ProductAttributeInfos;
+        }
+
+        public void setProductAttributeInfos(List<String> productAttributeInfos) {
+            ProductAttributeInfos = productAttributeInfos;
+        }
 
         public String getProductId() {
             return ProductId;
@@ -232,6 +262,52 @@ public class SearchResult implements Serializable {
 
         public void setCartquantity(int cartquantity) {
             this.cartquantity = cartquantity;
+        }
+    }
+
+    public static class CashDepositsServerBean {
+        /**
+         * IsSevenDayNoReasonReturn : true
+         * IsTimelyShip : false
+         * IsCustomerSecurity : true
+         * CanSelfTake : false
+         */
+
+        private boolean IsSevenDayNoReasonReturn;
+        private boolean IsTimelyShip;
+        private boolean IsCustomerSecurity;
+        private boolean CanSelfTake;
+
+        public boolean isIsSevenDayNoReasonReturn() {
+            return IsSevenDayNoReasonReturn;
+        }
+
+        public void setIsSevenDayNoReasonReturn(boolean IsSevenDayNoReasonReturn) {
+            this.IsSevenDayNoReasonReturn = IsSevenDayNoReasonReturn;
+        }
+
+        public boolean isIsTimelyShip() {
+            return IsTimelyShip;
+        }
+
+        public void setIsTimelyShip(boolean IsTimelyShip) {
+            this.IsTimelyShip = IsTimelyShip;
+        }
+
+        public boolean isIsCustomerSecurity() {
+            return IsCustomerSecurity;
+        }
+
+        public void setIsCustomerSecurity(boolean IsCustomerSecurity) {
+            this.IsCustomerSecurity = IsCustomerSecurity;
+        }
+
+        public boolean isCanSelfTake() {
+            return CanSelfTake;
+        }
+
+        public void setCanSelfTake(boolean CanSelfTake) {
+            this.CanSelfTake = CanSelfTake;
         }
     }
 }

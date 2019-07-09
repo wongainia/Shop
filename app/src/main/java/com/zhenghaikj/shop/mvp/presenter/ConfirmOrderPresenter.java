@@ -87,8 +87,8 @@ public class ConfirmOrderPresenter extends ConfirmOrderContract.Presenter {
     }
 
     @Override
-    public void GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr) {
-        mModel.GetOrderStr(userid,Bisid,OrderId, TotalAmount,JsonStr)
+    public void GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr,String ActualMoney) {
+        mModel.GetOrderStr(userid,Bisid,OrderId, TotalAmount,JsonStr,ActualMoney)
                 .subscribe(new BaseObserver2<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
@@ -97,8 +97,8 @@ public class ConfirmOrderPresenter extends ConfirmOrderContract.Presenter {
                 });
     }
     @Override
-    public void GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr) {
-        mModel.GetWXOrderStr(userid,Bisid,OrderId, TotalAmount,JsonStr)
+    public void GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray JsonStr,String ActualMoney) {
+        mModel.GetWXOrderStr(userid,Bisid,OrderId, TotalAmount,JsonStr,ActualMoney)
                 .subscribe(new BaseObserver2<Data<WXpayInfo>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<WXpayInfo>> value) {
@@ -112,8 +112,9 @@ public class ConfirmOrderPresenter extends ConfirmOrderContract.Presenter {
             String OrderId,
             String CustomerId,
             JSONArray JsonStr,
-            String UserID) {
-        mModel.MallBalancePay(OrderId, CustomerId, JsonStr, UserID)
+            String UserID,
+            String ActualMoney) {
+        mModel.MallBalancePay(OrderId, CustomerId, JsonStr, UserID,ActualMoney)
                 .subscribe(new BaseObserver2<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {

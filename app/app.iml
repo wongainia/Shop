@@ -126,6 +126,7 @@
     <orderEntry type="library" name="Gradle: com.google.zxing:core:3.3.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: it.sephiroth.android.library.easing:library:1.0.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.customview:customview:1.0.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.qiyukf.unicorn:unicorn:5.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:D.\Android\Shop\app\libs\umeng-share-QQ-simplify-6.9.4.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.asynclayoutinflater:asynclayoutinflater:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.bumptech.glide:annotations:4.8.0@jar" level="project" />
@@ -203,7 +204,6 @@
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:logging-interceptor:3.9.1@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.youth.banner:banner:1.4.10@aar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:D.\Android\Shop\app\libs\alipaySdk-20180403.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.qiyukf.unicorn:unicorn:4.12.2@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.test:runner:1.1.0-alpha4@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.test.espresso:espresso-core:3.1.0-alpha4@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.jakewharton:butterknife-runtime:10.0.0@aar" level="project" />
@@ -250,30 +250,6 @@
     <orderEntry type="library" name="Gradle: it.sephiroth.android.library.imagezoom:library:1.0.4@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.multidex:multidex-instrumentation:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.0.0@jar" level="project" />
-    <orderEntry type="module" module-name="magicindicator" />
-    <orderEntry type="module" module-name="SwipeBackLayout" />
-    <orderEntry type="module" module-name="wheelsruflibrary" />
-    <orderEntry type="module" module-name="magicindicator" />
-    <orderEntry type="module" module-name="SwipeBackLayout" />
-    <orderEntry type="module" module-name="wheelsruflibrary" />
-    <orderEntry type="module" module-name="magicindicator" />
-    <orderEntry type="module" module-name="SwipeBackLayout" />
-    <orderEntry type="module" module-name="wheelsruflibrary" />
-    <orderEntry type="module" module-name="magicindicator" />
-    <orderEntry type="module" module-name="SwipeBackLayout" />
-    <orderEntry type="module" module-name="wheelsruflibrary" />
-    <orderEntry type="module" module-name="magicindicator" />
-    <orderEntry type="module" module-name="SwipeBackLayout" />
-    <orderEntry type="module" module-name="wheelsruflibrary" />
-    <orderEntry type="module" module-name="magicindicator" />
-    <orderEntry type="module" module-name="SwipeBackLayout" />
-    <orderEntry type="module" module-name="wheelsruflibrary" />
-    <orderEntry type="module" module-name="magicindicator" />
-    <orderEntry type="module" module-name="SwipeBackLayout" />
-    <orderEntry type="module" module-name="wheelsruflibrary" />
-    <orderEntry type="module" module-name="magicindicator" />
-    <orderEntry type="module" module-name="SwipeBackLayout" />
-    <orderEntry type="module" module-name="wheelsruflibrary" />
     <orderEntry type="module" module-name="magicindicator" />
     <orderEntry type="module" module-name="SwipeBackLayout" />
     <orderEntry type="module" module-name="wheelsruflibrary" />

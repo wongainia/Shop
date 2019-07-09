@@ -92,14 +92,14 @@ public class OrderModel implements OrderContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr) {
-        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3",jsonStr)
+    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr,String ActualMoney) {
+        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3",jsonStr,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr) {
-        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall",jsonStr)
+    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr,String ActualMoney) {
+        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall",jsonStr,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -108,8 +108,8 @@ public class OrderModel implements OrderContract.Model {
     public Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId,
                                                                String CustomerId,
                                                                JSONArray JsonStr,
-                                                               String UserID) {
-        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId, JsonStr, UserID)
+                                                               String UserID,String ActualMoney) {
+        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId, JsonStr, UserID,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -138,12 +138,12 @@ public class OrderModel implements OrderContract.Model {
     @Override
     public Observable<EasyResult> CancelOrder(String orderId,String userid) {
         map = new HashMap<>();
-        map.put("cartitemids", userid);
         map.put("recieveaddressid",orderId);
+        map.put("cartitemids", userid);
         map.put("app_key","himalltest");
-        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-        map.put("timestamp", timestamp);
-        sign= ApiRetrofit.SignTopRequest(map);
+        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().CancelOrder(orderId,userid,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

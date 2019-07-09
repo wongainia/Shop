@@ -26,7 +26,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
 
 
             <TextView
@@ -35,21 +36,107 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginRight="@dimen/dp_10"
-                android:lines="2"
+                android:maxLines="2"
                 android:text="浪奇 万丽洁厕液洁厕剂除菌除垢750g*2瓶装多效清洁有效去污"
                 android:lineSpacingExtra="3dp"
                 android:textColor="#535353"
                 android:ellipsize="end"
                 android:textSize="13sp" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp">
+                <TextView
+                    android:id="@+id/tv_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="领券立减40"
+                    android:textSize="10sp"
+                    android:layout_marginTop="5dp"
+                    android:paddingRight="5dp"
+                    android:gravity="center" />
+                <TextView
+                    android:id="@+id/tv_comment_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="领券立减40"
+                    android:textSize="9sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:gravity="center"
+                    android:background="@drawable/gray_attributes"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/tv_comment_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="领券立减40"
+                    android:textSize="9sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:gravity="center"
+                    android:background="@drawable/gray_attributes"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_comment"
+                android:orientation="horizontal"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:id="@+id/tv_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="领券立减40"
+                    android:textSize="9sp"
+                    android:textColor="#ee552b"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:gravity="center"
+                    android:background="@drawable/red_service"/>
+                <TextView
+                    android:id="@+id/tv_service_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="领券立减40"
+                    android:textSize="9sp"
+                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:gravity="center"
+                    android:textColor="#ee552b"
+                    android:background="@drawable/red_service"/>
+                <TextView
+                    android:id="@+id/tv_service_three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="领券立减40"
+                    android:textSize="9sp"
+                    android:layout_marginLeft="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:gravity="center"
+                    android:textColor="#ee552b"
+                    android:background="@drawable/red_service"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="7dp"
                 android:orientation="horizontal"
                 android:layout_gravity="bottom">
 
@@ -63,10 +150,9 @@
 
                 <TextView
                     android:id="@+id/tv_payment"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_weight="1"
                     android:text="3人付款"
                     android:textColor="#808080"
                     android:textSize="12sp" />

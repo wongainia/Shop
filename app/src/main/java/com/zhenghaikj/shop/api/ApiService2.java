@@ -356,7 +356,8 @@ public interface ApiService2 {
                                                      @Field("OrderId") String OrderId,
                                                      @Field("TotalAmount") String TotalAmount,
                                                      @Field("Type") String Type,
-                                                     @Field("JsonStr")JSONArray JsonStr
+                                                     @Field("JsonStr")JSONArray JsonStr,
+                                                     @Field("ActualMoney") String ActualMoney
     );
     /**
      * 充值信息
@@ -374,7 +375,8 @@ public interface ApiService2 {
                                                           @Field("TotalAmount") String TotalAmount,
                                                           @Field("Type") String Type,
                                                           @Field("Style") String Style,
-                                                          @Field("JsonStr")JSONArray JsonStr);
+                                                          @Field("JsonStr")JSONArray JsonStr,
+                                                          @Field("ActualMoney") String ActualMoney);
 
     /**
      * 余额支付
@@ -384,7 +386,8 @@ public interface ApiService2 {
     Observable<BaseResult<Data<String>>> MallBalancePay(@Field("OrderId") String OrderId,
                                                         @Field("CustomerId") String CustomerId,
                                                         @Field("JsonStr") JSONArray JsonStr,
-                                                        @Field("UserID") String UserID);
+                                                        @Field("UserID") String UserID,
+                                                        @Field("ActualMoney") String ActualMoney);
     /**
      * 赠送西瓜币
      */

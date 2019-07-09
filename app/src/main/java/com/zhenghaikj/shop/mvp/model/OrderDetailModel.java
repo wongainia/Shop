@@ -91,14 +91,14 @@ public class OrderDetailModel implements OrderDetailContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr) {
-        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3",jsonStr)
+    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr,String ActualMoney) {
+        return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3",jsonStr,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr) {
-        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall",jsonStr)
+    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr,String ActualMoney) {
+        return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall",jsonStr,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
@@ -139,8 +139,8 @@ public class OrderDetailModel implements OrderDetailContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId, String CustomerId, JSONArray JsonStr, String UserID) {
-        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId,JsonStr,UserID)
+    public Observable<BaseResult<Data<String>>> MallBalancePay(String OrderId, String CustomerId, JSONArray JsonStr, String UserID,String ActualMoney) {
+        return ApiRetrofit2.getDefault().MallBalancePay(OrderId, CustomerId,JsonStr,UserID,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

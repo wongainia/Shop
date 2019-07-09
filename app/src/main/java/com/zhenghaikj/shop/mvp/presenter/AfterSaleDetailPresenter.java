@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
+import com.zhenghaikj.shop.entity.ComplaintRecord;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PostOrderComplaint;
 import com.zhenghaikj.shop.entity.Refund;
@@ -63,6 +64,28 @@ public class AfterSaleDetailPresenter extends AfterSaleDetailContract.Presenter 
                     @Override
                     protected void onHandleSuccess(PostOrderComplaint value) {
                         mView.PostOrderComplaint(value);
+                    }
+                });
+    }
+
+    @Override
+    public void ApplyArbitration(String userkey, String OrderId) {
+        mModel.ApplyArbitration(userkey,  OrderId)
+                .subscribe(new BaseObserver<PostOrderComplaint>() {
+                    @Override
+                    protected void onHandleSuccess(PostOrderComplaint value) {
+                        mView.ApplyArbitration(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetRecord(String userkey, String pageSize, String pageNo) {
+        mModel.GetRecord(userkey, pageSize, pageNo)
+                .subscribe(new BaseObserver<ComplaintRecord>() {
+                    @Override
+                    protected void onHandleSuccess(ComplaintRecord value) {
+                        mView.GetRecord(value);
                     }
                 });
     }

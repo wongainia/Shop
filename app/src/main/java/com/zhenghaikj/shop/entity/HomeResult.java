@@ -198,6 +198,24 @@ public class HomeResult implements Serializable {
         private String CommentsCount;
         private String Discount;
         private String Url;
+        private List<String> ProductAttributeInfos;
+        private CashDepositsServerBean CashDepositsServer;
+
+        public CashDepositsServerBean getCashDepositsServer() {
+            return CashDepositsServer;
+        }
+
+        public void setCashDepositsServer(CashDepositsServerBean cashDepositsServer) {
+            CashDepositsServer = cashDepositsServer;
+        }
+
+        public List<String> getProductAttributeInfos() {
+            return ProductAttributeInfos;
+        }
+
+        public void setProductAttributeInfos(List<String> productAttributeInfos) {
+            ProductAttributeInfos = productAttributeInfos;
+        }
 
         public String getId() {
             return Id;
@@ -261,6 +279,52 @@ public class HomeResult implements Serializable {
 
         public void setUrl(String Url) {
             this.Url = Url;
+        }
+    }
+
+    public static class CashDepositsServerBean {
+        /**
+         * IsSevenDayNoReasonReturn : true
+         * IsTimelyShip : false
+         * IsCustomerSecurity : true
+         * CanSelfTake : false
+         */
+
+        private boolean IsSevenDayNoReasonReturn;
+        private boolean IsTimelyShip;
+        private boolean IsCustomerSecurity;
+        private boolean CanSelfTake;
+
+        public boolean isIsSevenDayNoReasonReturn() {
+            return IsSevenDayNoReasonReturn;
+        }
+
+        public void setIsSevenDayNoReasonReturn(boolean IsSevenDayNoReasonReturn) {
+            this.IsSevenDayNoReasonReturn = IsSevenDayNoReasonReturn;
+        }
+
+        public boolean isIsTimelyShip() {
+            return IsTimelyShip;
+        }
+
+        public void setIsTimelyShip(boolean IsTimelyShip) {
+            this.IsTimelyShip = IsTimelyShip;
+        }
+
+        public boolean isIsCustomerSecurity() {
+            return IsCustomerSecurity;
+        }
+
+        public void setIsCustomerSecurity(boolean IsCustomerSecurity) {
+            this.IsCustomerSecurity = IsCustomerSecurity;
+        }
+
+        public boolean isCanSelfTake() {
+            return CanSelfTake;
+        }
+
+        public void setCanSelfTake(boolean CanSelfTake) {
+            this.CanSelfTake = CanSelfTake;
         }
     }
 }

@@ -95,7 +95,6 @@ import com.zhenghaikj.shop.widget.AutoLineFeedLayoutManager;
 import com.zhenghaikj.shop.widget.CircleImageView;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zhenghaikj.shop.widget.IdeaScrollView;
-import com.zhenghaikj.shop.widget.RoundImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -252,6 +251,10 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     Toolbar mToolbar;
     @BindView(R.id.tv_store_num)
     TextView mTvstore_num;
+    @BindView(R.id.tv_comment)
+    TextView mTvComment;
+    @BindView(R.id.tv_comment_two)
+    TextView mTvCommentTwo;
 
     private AdderView adderView;
     private int getinventory; //库存
@@ -295,7 +298,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 radioButton.setTextColor(radioButton.isChecked() ? getRadioCheckedAlphaColor(currentPercentage) : getRadioAlphaColor(currentPercentage));
                 if (radioButton.isChecked() && isNeedScrollTo) {
                     mIdeaScrollView.setPosition(i);
-                    if (i!=0){
+                    if (i != 0) {
                         mRadioGroup.setAlpha(1);
                         mView.getBackground().setAlpha(255);
                         mToolbar.getBackground().setAlpha(255);
@@ -408,8 +411,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         ArrayList<Integer> araryDistance = new ArrayList<>();
 
         araryDistance.add(0);
-        araryDistance.add(getMeasureHeight(mOne)- getMeasureHeight(mHeaderParent)+50);
-        araryDistance.add(getMeasureHeight(mOne) + getMeasureHeight(mTwo)- getMeasureHeight(mHeaderParent)+50);
+        araryDistance.add(getMeasureHeight(mOne) - getMeasureHeight(mHeaderParent) + 50);
+        araryDistance.add(getMeasureHeight(mOne) + getMeasureHeight(mTwo) - getMeasureHeight(mHeaderParent) + 50);
 //        araryDistance.add(getMeasureHeight(mOne) + getMeasureHeight(mTwo) + getMeasureHeight(mThree) - getMeasureHeight(mHeaderParent));
 
         mIdeaScrollView.setArrayDistance(araryDistance);
@@ -423,9 +426,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 mView.getBackground().setAlpha((int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
                 mToolbar.getBackground().setAlpha((int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
                 setRadioButtonTextColor(percentage);
-                mLlBack.getBackground().setAlpha(255-(int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
-                mLlCart.getBackground().setAlpha(255-(int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
-                mLlHeadShare.getBackground().setAlpha(255-(int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
+                mLlBack.getBackground().setAlpha(255 - (int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
+                mLlCart.getBackground().setAlpha(255 - (int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
+                mLlHeadShare.getBackground().setAlpha(255 - (int) ((percentage > 0.5f ? 1.0f : percentage) * 255));
             }
 
             @Override
@@ -507,15 +510,16 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         view.measure(width, height);
         return view.getMeasuredHeight();
     }
+
     //    #FFD700  orange
     public int getRadioCheckedAlphaColor(float f) {
-//        return Color.argb((int) (f * 255), 0x00, 0x00, 0x00);
-        return Color.argb((int) (f * 255), 0xFF, 0xD7, 0x00);
+        return Color.argb((int) (f * 255), 0x00, 0x00, 0x00);
+//        return Color.argb((int) (f * 255), 0xFF, 0xD7, 0x00);
     }
 
     public int getRadioAlphaColor(float f) {
-//        return Color.argb((int) (f * 255), 0x80, 0x80, 0x80);
-        return Color.argb((int) (f * 255), 0xff, 0xff, 0xff);
+        return Color.argb((int) (f * 255), 0x80, 0x80, 0x80);
+//        return Color.argb((int) (f * 255), 0xff, 0xff, 0xff);
     }
 
     @Override
@@ -546,17 +550,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
  * @param title   聊天窗口的标题
  * @param source  咨询的发起来源，包括发起咨询的url，title，描述信息等
  */
-                source.shopEntrance=new ShopEntrance.Builder().setLogo(result.getVShopLog()).setName(result.getShop().getName()).build();
-                source.sessionListEntrance=new SessionListEntrance.Builder().build();
+                source.shopEntrance = new ShopEntrance.Builder().setLogo(result.getVShopLog()).setName(result.getShop().getName()).build();
+                source.sessionListEntrance = new SessionListEntrance.Builder().build();
                 source.quickEntryList = new ArrayList<>();
                 source.quickEntryList.add(new QuickEntry(0, "查订单", ""));
                 source.quickEntryList.add(new QuickEntry(1, "查物流", ""));
-                source.productDetail=new ProductDetail.Builder()
+                source.productDetail = new ProductDetail.Builder()
                         .setTitle(result.getProduct().getProductName())
                         .setPicture(result.getProduct().getImagePath().get(0))
-                        .setNote("￥"+result.getProduct().getMinSalePrice())
+                        .setNote("￥" + result.getProduct().getMinSalePrice())
                         .setDesc(result.getProduct().getProductName())
-                        .setUrl(result.getProduct().getProductId()+"")
+                        .setUrl(result.getProduct().getProductId() + "")
                         .setShow(1)
                         .setAlwaysSend(true)
                         .build();
@@ -606,9 +610,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //                break;
 
             case R.id.ll_cart:
-                if (!isLogin){
+                if (!isLogin) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
-                }else {
+                } else {
                     startActivity(new Intent(mActivity, CartActivity.class));
                 }
 
@@ -982,9 +986,10 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     public void Event(Throwable e) {
         mStateLayout.changeState(StateFrameLayout.NET_ERROR);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if ("更新登录信息".equals(name)){
+        if ("更新登录信息".equals(name)) {
             getLoginMsg();
             mPresenter.GetSKUInfo(id);
         }
@@ -997,10 +1002,10 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             couplist.addAll(Result.getCoupon());
             if (mPopupWindow == null) {
                 showPopupWindow(Result.getCoupon().get(0).getShopName());
-            }else{
-                if (mPopupWindow.isShowing()){
+            } else {
+                if (mPopupWindow.isShowing()) {
                     shopCoupAdapter.setNewData(couplist);
-                }else{
+                } else {
                     showPopupWindow(Result.getCoupon().get(0).getShopName());
                 }
             }
@@ -1065,12 +1070,25 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
             mBannerGoods.start();
 
-            if (result.getProduct().isInstall()){
+            if (result.getProduct().isInstall()) {
                 mLlInstallService.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 mLlInstallService.setVisibility(View.GONE);
             }
 
+
+            if (result.getProductAttributeInfos()!=null){
+                if (result.getProductAttributeInfos().size()==1){
+                    mTvComment.setText(result.getProductAttributeInfos().get(0));
+                    mTvCommentTwo.setVisibility(View.GONE);
+                }else if (result.getProductAttributeInfos().size()>=2){
+                    mTvComment.setText(result.getProductAttributeInfos().get(0));
+                    mTvCommentTwo.setText(result.getProductAttributeInfos().get(1));
+                }
+            }else {
+                mTvComment.setVisibility(View.GONE);
+                mTvCommentTwo.setVisibility(View.GONE);
+            }
 
 
             /*判断是否收藏*/
@@ -1160,7 +1178,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             GlideUtil.loadImageViewLoding(mActivity, result.getVShopLog(), mIvStorePicture, R.drawable.dianpumore, R.drawable.dianpumore);
             mTvStoreName.setText(result.getShop().getName());
 
-            mTvstore_num.setText("关注人数:"+result.getShop().getFavoriteShopCount()+"人"+"  宝贝数量:"+result.getShop().getProductNum()+"件");
+            mTvstore_num.setText("关注人数:" + result.getShop().getFavoriteShopCount() + "人" + "  宝贝数量:" + result.getShop().getProductNum() + "件");
 
 
             mTvSellerServiceScore.setText(result.getShop().getServiceMark() + "");
@@ -1190,7 +1208,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                                 if (aBoolean) {
                                                     // 获取全部权限成功
 
-                                                    UMWeb web = new UMWeb("http://mall.xigyu.com/product/detail/"+result.getProduct().getProductId());
+                                                    UMWeb web = new UMWeb("http://mall.xigyu.com/product/detail/" + result.getProduct().getProductId());
                                                     web.setTitle(result.getProduct().getProductName());
                                                     web.setDescription(result.getProduct().getProductName());
                                                     web.setThumb(new UMImage(mActivity, result.getProduct().getImagePath().get(0)));

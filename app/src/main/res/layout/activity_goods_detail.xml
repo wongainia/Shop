@@ -268,6 +268,7 @@
                                 android:paddingBottom="10dp">
 
                                 <TextView
+                                    android:id="@+id/tv_comment"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="6dp"
@@ -276,9 +277,10 @@
                                     android:text="此处是标签展示"
                                     android:textColor="#B28850"
                                     android:textSize="8dp"
-                                    android:visibility="gone"/>
+                                    />
 
                                 <TextView
+                                    android:id="@+id/tv_comment_two"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="6dp"
@@ -287,7 +289,7 @@
                                     android:text="此处是标签展示"
                                     android:textColor="#B28850"
                                     android:textSize="8sp"
-                                    android:visibility="gone"/>
+                                    />
 
                                 <LinearLayout
                                     android:id="@+id/ll_install_service"

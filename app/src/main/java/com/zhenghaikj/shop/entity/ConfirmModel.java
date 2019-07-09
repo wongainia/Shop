@@ -69,6 +69,7 @@ public class ConfirmModel implements Serializable {
         private String BisId;
         private long OrderId;
         private double TotalMoney;
+        private double ActualMoney;
 
         public String getBisId() {
             return BisId;
@@ -92,6 +93,14 @@ public class ConfirmModel implements Serializable {
 
         public void setTotalMoney(double TotalMoney) {
             this.TotalMoney = TotalMoney;
+        }
+
+        public double getActualMoney() {
+            return ActualMoney;
+        }
+
+        public void setActualMoney(double actualMoney) {
+            ActualMoney = actualMoney;
         }
     }
 }

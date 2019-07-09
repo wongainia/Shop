@@ -73,6 +73,15 @@ public class DetailResult implements Serializable {
     private List<ShopSize> Size;
     private List<ShopVersion> Version;
     private List<CustomerBean> CustomerServices;
+    private List<String> ProductAttributeInfos;
+
+    public List<String> getProductAttributeInfos() {
+        return ProductAttributeInfos;
+    }
+
+    public void setProductAttributeInfos(List<String> productAttributeInfos) {
+        ProductAttributeInfos = productAttributeInfos;
+    }
 
     public String getFreightFee() {
         return FreightFee;

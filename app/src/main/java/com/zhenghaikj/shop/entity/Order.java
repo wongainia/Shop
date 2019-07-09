@@ -122,6 +122,15 @@ public class Order implements Serializable {
         private String PaymentTypeValue;
         private String CanRefund;
         private String BisId;
+        private String ActualMoney;
+
+        public String getActualMoney() {
+            return ActualMoney;
+        }
+
+        public void setActualMoney(String actualMoney) {
+            ActualMoney = actualMoney;
+        }
 
         public String getBisId() {
             return BisId;

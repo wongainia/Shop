@@ -574,7 +574,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     public void showPopupWindow() {
 //        mPresenter.GetUserInfoList(UserID,"1");
         payList = new ArrayList<>();
-        payList.add(new JsonStrOrderPay(Long.parseLong(id), orderBean.getBisId(), orderBean.getRealTotalAmount()));
+        payList.add(new JsonStrOrderPay(Long.parseLong(id), orderBean.getBisId(), orderBean.getRealTotalAmount(),Double.parseDouble(orderBean.getActualMoney())));
         Gson gson = new Gson();
         try {
             jsonArray = new JSONArray(gson.toJson(payList));
@@ -589,7 +589,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray);
+                mPresenter.GetOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray,orderBean.getActualMoney());
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -601,7 +601,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetWXOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray);
+                mPresenter.GetWXOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray,orderBean.getActualMoney());
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -708,7 +708,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             fragment.dismiss();
 //            Toast.makeText(this, "验证成功", Toast.LENGTH_SHORT).show();
 //            ToastUtils.showShort("验证成功");
-            mPresenter.MallBalancePay("","",jsonArray,UserID);
+            mPresenter.MallBalancePay("","",jsonArray,UserID,orderBean.getActualMoney());
             mPopupWindow.dismiss();
 
 
@@ -791,7 +791,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 fragment.dismiss();
 //            Toast.makeText(mActivity,"指纹解锁成功",Toast.LENGTH_SHORT).show();
 
-            mPresenter.MallBalancePay("","",jsonArray,UserID);
+            mPresenter.MallBalancePay("","",jsonArray,UserID,orderBean.getActualMoney());
             mPopupWindow.dismiss();
 
 
@@ -1056,7 +1056,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     public void passwordFull(String password) {
         if (paytype==1){
             if (userInfo.getPayPassWord().equals(password)){
-                mPresenter.MallBalancePay("","",jsonArray,UserID);
+                mPresenter.MallBalancePay("","",jsonArray,UserID,orderBean.getActualMoney());
 
                 mPopupWindow.dismiss();
             } else {

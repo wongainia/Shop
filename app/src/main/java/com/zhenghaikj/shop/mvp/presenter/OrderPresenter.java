@@ -80,8 +80,8 @@ public class OrderPresenter extends OrderContract.Presenter {
                 });
     }
     @Override
-    public void GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr) {
-        mModel.GetOrderStr(userid,Bisid,OrderId, TotalAmount,jsonStr)
+    public void GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr,String ActualMoney) {
+        mModel.GetOrderStr(userid,Bisid,OrderId, TotalAmount,jsonStr,ActualMoney)
                 .subscribe(new BaseObserver2<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
@@ -90,8 +90,8 @@ public class OrderPresenter extends OrderContract.Presenter {
                 });
     }
     @Override
-    public void GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr) {
-        mModel.GetWXOrderStr(userid,Bisid,OrderId, TotalAmount,jsonStr)
+    public void GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr,String ActualMoney) {
+        mModel.GetWXOrderStr(userid,Bisid,OrderId, TotalAmount,jsonStr,ActualMoney)
                 .subscribe(new BaseObserver2<Data<WXpayInfo>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<WXpayInfo>> value) {
@@ -104,8 +104,8 @@ public class OrderPresenter extends OrderContract.Presenter {
     public void MallBalancePay(String OrderId,
                                String CustomerId,
                                JSONArray JsonStr,
-                               String UserID) {
-        mModel.MallBalancePay(OrderId, CustomerId, JsonStr, UserID)
+                               String UserID,String ActualMoney) {
+        mModel.MallBalancePay(OrderId, CustomerId, JsonStr, UserID,ActualMoney)
                 .subscribe(new BaseObserver2<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
