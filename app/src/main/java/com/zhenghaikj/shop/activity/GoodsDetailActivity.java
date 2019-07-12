@@ -1178,7 +1178,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             GlideUtil.loadImageViewLoding(mActivity, result.getVShopLog(), mIvStorePicture, R.drawable.dianpumore, R.drawable.dianpumore);
             mTvStoreName.setText(result.getShop().getName());
 
-            mTvstore_num.setText("关注人数:" + result.getShop().getFavoriteShopCount() + "人" + "  宝贝数量:" + result.getShop().getProductNum() + "件");
+            mTvstore_num.setText("关注人数:" + result.getShop().getFavoriteShopCount() + "人                  " + "  宝贝数量:" + result.getShop().getProductNum() + "件");
 
 
             mTvSellerServiceScore.setText(result.getShop().getServiceMark() + "");
@@ -1491,8 +1491,13 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Override
     public void ProductComment(Comment Result) {
-        mTvBabyEvaluation.setText("宝贝评价(" + Result.getAllCommentCount() + ")");
-        mPresenter.GetProductCommentShow(id, userKey);
+        if (Result.getAllCommentCount()!=null){
+            mTvBabyEvaluation.setText("宝贝评价(" + Result.getAllCommentCount() + ")");
+            mPresenter.GetProductCommentShow(id, userKey);
+        }else {
+            return;
+        }
+
     }
 
 

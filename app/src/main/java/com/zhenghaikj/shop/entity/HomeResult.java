@@ -200,6 +200,33 @@ public class HomeResult implements Serializable {
         private String Url;
         private List<String> ProductAttributeInfos;
         private CashDepositsServerBean CashDepositsServer;
+        private String Address;
+        private String ShopName;
+        private String VshopId;
+
+        public String getVshopId() {
+            return VshopId;
+        }
+
+        public void setVshopId(String vshopId) {
+            VshopId = vshopId;
+        }
+
+        public String getAddress() {
+            return Address;
+        }
+
+        public void setAddress(String address) {
+            Address = address;
+        }
+
+        public String getShopName() {
+            return ShopName;
+        }
+
+        public void setShopName(String shopName) {
+            ShopName = shopName;
+        }
 
         public CashDepositsServerBean getCashDepositsServer() {
             return CashDepositsServer;

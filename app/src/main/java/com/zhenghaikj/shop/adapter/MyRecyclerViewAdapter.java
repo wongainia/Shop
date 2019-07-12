@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -11,10 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.entity.HomeResult;
+import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.utils.GlideUtil;
 import com.zhenghaikj.shop.widget.RoundBackGroundColorSpan;
 
@@ -23,6 +28,10 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
+
+import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
     private Context context;
@@ -75,7 +84,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         //填充数据
         HomeResult.ProductBean bean=list.get(position);
-        if ("官方自营店".equals(bean.getName())){
+        if ("官方自营店".equals(bean.getShopName())){
             SpannableString spannableString = new SpannableString("官方"+" "+bean.getName());
             ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.WHITE);
             spannableString.setSpan(colorSpan, 0,2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -87,10 +96,26 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.tv_goods_name.setText(bean.getName());
         }
 
+        holder.ll_gotoshop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (bean.getVshopId()==null){
+                    ToastUtils.showShort("该商家未申请微店");
+                }else {
+                    Intent intent1 = new Intent(context, StoreDetailActivity.class);
+                    intent1.putExtra("VShopId", bean.getVshopId());
+                    startActivity(intent1);
+                }
+            }
+        });
 
-
-        holder.tv_goods_money.setText("¥"+bean.getSalePrice()+"");
+        holder.tv_goods_money.setText(bean.getSalePrice()+"");
         String string = "¥"+bean.getMarketPrice();
+        SpannableString sp = new SpannableString(string);
+//
+        sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.tv_payment.setText(sp);
+        holder.tv_shop_name.setText(bean.getShopName());
         if (list.get(position).getProductAttributeInfos()!=null){
             if (list.get(position).getProductAttributeInfos().size()>3){
                 holder.tv_comment.setText(list.get(position).getProductAttributeInfos().get(0)+" | "+list.get(position).getProductAttributeInfos().get(1)+" | "+list.get(position).getProductAttributeInfos().get(2));
@@ -126,10 +151,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
 
 
-        SpannableString sp = new SpannableString(string);
-//
-        sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.tv_payment.setText(sp);
+
         GlideUtil.loadImageViewLodingRadius(context,bean.getImageUrl(),holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
 
         //由于需要实现瀑布流的效果,所以就需要动态的改变控件的高度了
@@ -172,6 +194,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TextView tv_service;
         TextView tv_service_two;
         TextView tv_service_three;
+        TextView tv_shop_name;
+        LinearLayout ll_gotoshop;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -184,6 +208,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             tv_service = itemView.findViewById(R.id.tv_service);
             tv_service_two = itemView.findViewById(R.id.tv_service_two);
             tv_service_three = itemView.findViewById(R.id.tv_service_three);
+            tv_shop_name = itemView.findViewById(R.id.tv_shop_name);
+            ll_gotoshop = itemView.findViewById(R.id.ll_gotoshop);
         }
     }
 

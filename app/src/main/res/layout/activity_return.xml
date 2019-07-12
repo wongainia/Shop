@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#E5E5E5">
 
-    <include layout="@layout/activity_toolbar"/>
+    <include layout="@layout/white_toolbar"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_return_layout"

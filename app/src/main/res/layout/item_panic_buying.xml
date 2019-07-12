@@ -51,7 +51,8 @@
                     android:gravity="center"
                     android:paddingRight="5dp"
                     android:text="领券立减40"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    android:textColor="#808080"/>
 
                 <TextView
                     android:id="@+id/tv_comment_two"
@@ -94,12 +95,11 @@
                     android:id="@+id/tv_service"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/red_service"
-                    android:gravity="center"
+                    android:background="@drawable/gray_attributes"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="领券立减40"
-                    android:textColor="#ee552b"
+                    android:textColor="#808080"
                     android:textSize="9sp" />
 
                 <TextView
@@ -107,12 +107,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/red_service"
-                    android:gravity="center"
+                    android:background="@drawable/gray_attributes"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="领券立减40"
-                    android:textColor="#ee552b"
+                    android:textColor="#808080"
                     android:textSize="9sp" />
 
                 <TextView
@@ -120,12 +119,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/red_service"
-                    android:gravity="center"
+                    android:background="@drawable/gray_attributes"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="领券立减40"
-                    android:textColor="#ee552b"
+                    android:textColor="#808080"
                     android:textSize="9sp" />
             </LinearLayout>
 
@@ -156,17 +154,17 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="¥"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
+                            android:text="¥ "
+                            android:textColor="#f64945"
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tv_money_now"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="21.6"
-                            android:textColor="@color/black"
-                            android:textSize="18sp" />
+                            android:textColor="#f64945"
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/tv_money_old"
@@ -201,7 +199,8 @@
                             android:layout_marginTop="3dp"
                             android:visibility="visible"
                             app:nearOverText="@string/nearOverText"
-                            app:overText="@string/overText" />
+                            app:overText="@string/overText"
+                            app:textSize="8dp"/>
 
                         <LinearLayout
                             android:layout_width="102dp"
@@ -241,7 +240,7 @@
                     android:paddingRight="15dp"
                     android:paddingBottom="4dp"
                     android:text="去抢购"
-                    android:textColor="#ED3D48"
+                    android:textColor="#f64945"
                     android:textSize="12sp"
                     android:layout_gravity="bottom"/>
             </LinearLayout>

@@ -9,7 +9,7 @@
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/white_shape"
         android:padding="@dimen/dp_10">
         <LinearLayout
@@ -18,9 +18,10 @@
             android:orientation="horizontal">
             <CheckBox
                 android:id="@+id/cb_choose_all"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:button="@null"
+                android:layout_gravity="center"
                 android:background="@drawable/cart_circle_selector"/>
             <ImageView
                 android:id="@+id/iv_shop_logo"

@@ -56,6 +56,24 @@ public class LimitBuyListResult implements Serializable {
         private List<String> ProductAttributeInfos;
 
         private CashDepositsServerBean CashDepositsServer;
+        private String Address;
+        private String ShopName;
+
+        public String getAddress() {
+            return Address;
+        }
+
+        public void setAddress(String address) {
+            Address = address;
+        }
+
+        public String getShopName() {
+            return ShopName;
+        }
+
+        public void setShopName(String shopName) {
+            ShopName = shopName;
+        }
 
         public CashDepositsServerBean getCashDepositsServer() {
             return CashDepositsServer;

@@ -14,13 +14,13 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srlPrimaryColor="#ED3D48"
-        app:srlAccentColor="@color/white"
+        app:srlPrimaryColor="@color/white"
+        app:srlAccentColor="#808080"
         >
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/mine_bg_shape"
+            android:background="@color/white"
             />
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@drawable/mine_bg_shape" >
+        android:background="@color/white" >
     </androidx.appcompat.widget.Toolbar>
 
         <LinearLayout
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:orientation="vertical"
-            android:background="@drawable/mine_bg_shape">
+            android:background="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="购物车"
-                    android:textColor="@color/white"
+                    android:textColor="#808080"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -60,7 +60,7 @@
                     android:padding="@dimen/dp_10"
                     android:text="管理"
                     android:textSize="16sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="#808080"/>
             </LinearLayout>
 
             <TextView
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/white"
+                android:textColor="#808080"
                 android:text=""
                 android:layout_marginLeft="@dimen/dp_10"/>
         </LinearLayout>
@@ -78,7 +78,7 @@
                 android:id="@+id/rv_cart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="130dp"
+                android:layout_marginTop="140dp"
                 android:layout_marginBottom="60dp">
 
             </com.zhenghaikj.shop.widget.EmptyRecyclerView>

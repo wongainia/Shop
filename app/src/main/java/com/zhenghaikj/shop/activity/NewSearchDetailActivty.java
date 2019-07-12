@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.lxj.xpopup.XPopup;
@@ -327,6 +328,16 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                         Intent intent=new Intent(mActivity,GoodsDetailActivity.class);
                         intent.putExtra("id",((SearchResult.ProductBean)adapter.getItem(position)).getProductId());
                         startActivity(intent);
+                        break;
+                    case R.id.ll_shop_name:
+                        if (((SearchResult.ProductBean)adapter.getItem(position)).getVshopId()==null){
+                            ToastUtils.showShort("该商家未申请微店");
+                        }else {
+                            Intent intent1 = new Intent(mActivity, StoreDetailActivity.class);
+                            intent1.putExtra("VShopId", ((SearchResult.ProductBean)adapter.getItem(position)).getVshopId());
+                            startActivity(intent1);
+                        }
+
                         break;
                 }
             }

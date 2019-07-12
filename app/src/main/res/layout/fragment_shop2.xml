@@ -103,7 +103,8 @@
                 app:tabIndicatorColor="#ED3D48"
                 app:tabSelectedTextColor="#ED3D48"
                 app:tabTextAppearance="@style/ReturnTabLayout"
-                app:tabTextColor="@color/black" />
+                app:tabTextColor="@color/black"
+                android:visibility="gone"/>
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.zhenghaikj.shop.widget.CustomViewPager

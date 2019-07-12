@@ -19,8 +19,8 @@
         <CheckBox
             android:layout_centerInParent="true"
             android:id="@+id/cb_choose"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_gravity="center"
             android:button="@null"
             android:background="@drawable/cart_circle_selector"/>
@@ -50,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="浪奇 万丽洁厕液洁厕剂除菌除垢750g*2瓶装多效清洁有效去污"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textColor="#333"/>
                 <LinearLayout
                     android:id="@+id/ll_goods_type"
@@ -87,13 +87,20 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¥ "
+                        android:textColor="#f64945"
+                        android:textSize="12sp"
+                        android:layout_gravity="bottom"/>
+                    <TextView
                         android:id="@+id/tv_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="¥ 233.33"
-                        android:textSize="12sp"
-                        android:textColor="@color/red"
+                        android:text="233.33"
+                        android:textSize="20sp"
+                        android:textColor="#f64945"
                         android:layout_gravity="center"/>
 
                     <com.zhenghaikj.shop.widget.AdderView

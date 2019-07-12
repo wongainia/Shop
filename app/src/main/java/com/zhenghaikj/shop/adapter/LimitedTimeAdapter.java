@@ -1,7 +1,10 @@
 package com.zhenghaikj.shop.adapter;
 
+import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StrikethroughSpan;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -10,6 +13,7 @@ import com.vondear.rxui.view.roundprogressbar.RxRoundProgressBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
 import com.zhenghaikj.shop.utils.GlideUtil;
+import com.zhenghaikj.shop.widget.RoundBackGroundColorSpan;
 import com.zhenghaikj.shop.widget.SaleProgressView;
 
 import java.util.ArrayList;
@@ -34,8 +38,18 @@ public class LimitedTimeAdapter extends BaseQuickAdapter<LimitBuyListResult.List
         sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         helper.setText(R.id.tv_money_old,sp);
         helper.setText(R.id.tv_money_now,item.getMinPrice()+"");
-
-        helper.setText(R.id.tv_goods_name,item.getProductName());
+        if ("官方自营店".equals(item.getShopName())){
+            SpannableString spannableString = new SpannableString("官方"+" "+item.getProductName());
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.WHITE);
+            spannableString.setSpan(colorSpan, 0,2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            RoundBackGroundColorSpan span = new RoundBackGroundColorSpan(Color.parseColor("#ff0000"),Color.parseColor("#FFFFFF"), 10);
+            spannableString.setSpan(span, 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new AbsoluteSizeSpan(35), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            helper.setText(R.id.tv_goods_name,spannableString);
+        }else {
+            helper.setText(R.id.tv_goods_name,item.getProductName());
+        }
+//        helper.setText(R.id.tv_goods_name,item.getProductName());
         GlideUtil.loadImageViewLodingRadius(mContext,item.getProductImg(),helper.getView(R.id.iv_goods_picture),R.drawable.image_loading,R.drawable.image_loading,10);
         helper.addOnClickListener(R.id.tv_grab_immediately);
         RxRoundProgressBar pb=helper.getView(R.id.rx_round_pd4);

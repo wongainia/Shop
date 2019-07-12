@@ -33,22 +33,23 @@ public class NewSearchDetailAdapetr extends BaseQuickAdapter<SearchResult.Produc
 
     @Override
     protected void convert(BaseViewHolder helper, SearchResult.ProductBean item) {
-//        if ("官方自营店".equals(item.getShopName())){
-//            SpannableString spannableString = new SpannableString("官方"+" "+item.getProductName());
-//            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.WHITE);
-//            spannableString.setSpan(colorSpan, 0,2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-//            RoundBackGroundColorSpan span = new RoundBackGroundColorSpan(Color.parseColor("#ff0000"),Color.parseColor("#FFFFFF"), 10);
-//            spannableString.setSpan(span, 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-//            spannableString.setSpan(new AbsoluteSizeSpan(35), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            helper.setText(R.id.tv_name,spannableString);
-//        }else {
+        if ("官方自营店".equals(item.getShopName())){
+            SpannableString spannableString = new SpannableString("官方"+" "+item.getProductName());
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.WHITE);
+            spannableString.setSpan(colorSpan, 0,2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            RoundBackGroundColorSpan span = new RoundBackGroundColorSpan(Color.parseColor("#ff0000"),Color.parseColor("#FFFFFF"), 10);
+            spannableString.setSpan(span, 0, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new AbsoluteSizeSpan(35), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            helper.setText(R.id.tv_name,spannableString);
+        }else {
             helper.setText(R.id.tv_name,item.getProductName());
-//        }
+        }
 
         helper.setText(R.id.tv_price,item.getSalePrice()+"");
         helper.setText(R.id.tv_salesnum,item.getSaleCount()+"人付款");
         helper.setText(R.id.tv_shop_name,item.getShopName());
         helper.setText(R.id.tv_place_of_delivery,item.getProductAddress());
+        helper.addOnClickListener(R.id.ll_shop_name);
 
         Glide.with(mContext).load(item.getImagePath())
                 .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mContext, 5)))

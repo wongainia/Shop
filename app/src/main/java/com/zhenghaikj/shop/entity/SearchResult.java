@@ -133,6 +133,15 @@ public class SearchResult implements Serializable {
         private List<String> ProductAttributeInfos;
         private CashDepositsServerBean CashDepositsServer;
         private String ProductAddress;
+        private String VshopId;
+
+        public String getVshopId() {
+            return VshopId;
+        }
+
+        public void setVshopId(String vshopId) {
+            VshopId = vshopId;
+        }
 
         public String getProductAddress() {
             return ProductAddress;

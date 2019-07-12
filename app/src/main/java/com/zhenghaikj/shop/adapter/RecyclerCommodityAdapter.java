@@ -98,7 +98,7 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
     public void onBindViewHolder(final MyHolder holder, final int position) {
         holder.tv_goods_name.setText(list.get(position).getName());
         holder.adderView.setValue(Integer.parseInt(list.get(position).getCount()));
-        holder.tv_price.setText("¥"+list.get(position).getPrice());
+        holder.tv_price.setText(""+list.get(position).getPrice());
 
 
         Glide.with(mContext).load(list.get(position).getImgUrl())
