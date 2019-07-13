@@ -127,6 +127,8 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     private String size_name = "";
     private String version_name = "";
     private String count = "1"; //数量
+
+    private String updatacount="1";//更新数据的数量
     private DetailResult result = new DetailResult();
     private int getinventory;
     private ChooseColorAdapter chooseColorAdapter;
@@ -161,6 +163,8 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     //String sku_delete="";
     private HashMap<String, String> sku_delete_map = new HashMap<>();
     private HashMap<String, String> sku_close_delte_map = new HashMap<>();//失效商品
+
+    private String skuid_by_delete;
 
     @Override
     protected void initImmersionBar() {
@@ -252,6 +256,9 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                         skuid += "," + value;
                     }
                     String final_skuid = skuid.substring(1, skuid.length());//去除第一个逗号
+
+                    Log.d("=====>final_skuid",final_skuid);
+
                     mPresenter.PostDeleteCartProduct(final_skuid, userKey);
 
                 }
@@ -541,7 +548,14 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
 //                    ToastUtils.showShort("成功");
                     mPresenter.GetSKUInfo(shopBeanslist.get(parentposition).getList().get(chaildposition).getId());
                     mPresenter.GetProductDetail(shopBeanslist.get(parentposition).getList().get(chaildposition).getId(), userKey);
-//                    showPopupWindow1(shopBeanslist.get(parentposition).getList().get(chaildposition).getId());
+                 //showPopupWindow1(shopBeanslist.get(parentposition).getList().get(chaildposition).getId());
+                    skuid_by_delete =shopBeanslist.get(parentposition).getList().get(chaildposition).getSkuId();
+                    count=shopBeanslist.get(parentposition).getList().get(chaildposition).getCount();
+                    if (skuid_by_delete==null){
+                       return;
+                    }
+
+
                 }
 
 
@@ -566,7 +580,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
     @Override
     public void PostDeleteCartProduct(CartResult Result) {
         if ("true".equals(Result.getSuccess())) {
-            Toast.makeText(mActivity, "删除成功", Toast.LENGTH_SHORT).show();
+       //     Toast.makeText(mActivity, "删除成功", Toast.LENGTH_SHORT).show();
 //              UpdateRecyclerView();
             // smartRefreshLayout.autoRefresh();
             mPresenter.GetCartProduct(userKey);
@@ -961,6 +975,8 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                                 return;
                             } else {
                                     mPresenter.PostAddProductToCart(type + "_" + skuId_color + "_0_0", count, userKey);
+                                    mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
+
                             }
                         }
                         /*有尺寸没颜色没规格*/
@@ -973,7 +989,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                             } else {
 
                                     mPresenter.PostAddProductToCart(type + "_0" + "_" + skuId_size + "_0", count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
                         }
@@ -988,7 +1004,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                             } else {
 
                                     mPresenter.PostAddProductToCart(type + "_" + skuId_color + "_" + skuId_size + "_0", count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
                         }
@@ -1003,7 +1019,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                             } else {
 
                                     mPresenter.PostAddProductToCart(type + "_" + skuId_color + "_" + skuId_size + "_" + skuId_version, count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
                         }
@@ -1017,7 +1033,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                             } else {
 
                                     mPresenter.PostAddProductToCart(type+ "_" + skuId_color + "_" + "0" + "_" + skuId_version, count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
                         }
@@ -1032,7 +1048,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                             } else {
 
                                     mPresenter.PostAddProductToCart(type+ "_" + "0" + "_" + skuId_size + "_" + skuId_version, count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
                         }
@@ -1046,7 +1062,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                             } else {
 
                                     mPresenter.PostAddProductToCart(type + "_" + "0" + "_" + "0" + "_" + skuId_version, count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
                             }
                         }
 
@@ -1055,7 +1071,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
 
 
                                 mPresenter.PostAddProductToCart(type + "_0_0_0", count, userKey);
-
+                               mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                         }
                         break;
