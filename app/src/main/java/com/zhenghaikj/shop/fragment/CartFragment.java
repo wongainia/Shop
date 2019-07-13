@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -930,6 +931,10 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             rv_color.setLayoutManager(new AutoLineFeedLayoutManager());
             chooseColorAdapter = new ChooseColorAdapter(R.layout.item_color, result.getColor(), mActivity);
             rv_color.setAdapter(chooseColorAdapter);
+
+
+
+
             ChooseColor(rv_color, result.getColor(),type);
         } else {
             popupWindow_view.findViewById(R.id.ll_cloose_color).setVisibility(View.GONE);
@@ -1018,7 +1023,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                                 return;
                             } else {
 
-                                    mPresenter.PostAddProductToCart(type + "_" + skuId_color + "_" + skuId_size + "_" + skuId_version, count, userKey);
+                                mPresenter.PostAddProductToCart(type + "_" + skuId_color + "_" + skuId_size + "_" + skuId_version, count, userKey);
                                 mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
@@ -1094,7 +1099,6 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         chooseColorAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
                 switch (view.getId()) {
                     case R.id.rl_choose:
                         for (int i = 0; i < list.size(); i++) {
@@ -1299,6 +1303,43 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         }
         return price;
     }
+
+
+
+    /*初始化选择属性*/
+    private void initProperty(String skuid,RecyclerView rv_color){
+        List<ShopColor> list_color=new ArrayList<>();
+        List<ShopSize> list_size=new ArrayList<>();
+        List<ShopVersion> list_version=new ArrayList<>();
+
+        String[] split = skuid.split("\\_");
+
+
+        if (!result.getColor().isEmpty()){
+            list_color.addAll(result.getColor());
+            //判断是第几个
+
+            int point =0;
+            for (int i = 0; i < list_color.size(); i++) {
+                if (split[1].equals(list_color.get(i))){
+                  break;
+                }else {
+                 point++;
+                }
+            }
+
+        }
+        if (!result.getSize().isEmpty()){
+            list_size.addAll(result.getSize());
+        }
+
+        if (!result.getVersion().isEmpty()){
+            list_version.addAll(result.getVersion());
+        }
+
+
+    }
+
 
 
 

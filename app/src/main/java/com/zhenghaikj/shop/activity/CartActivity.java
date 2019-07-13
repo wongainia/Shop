@@ -152,6 +152,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
     private ChooseVersionAdapter chooseVersionAdapter;
     private List<GetGoodSKu.SkuArrayBean> skuArray = new ArrayList<>();
 
+    private String skuid_by_delete;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
         switch (name) {
@@ -532,6 +533,12 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                 public void OnItemClickListner(View view, int parentposition, int chaildposition) {
                     mPresenter.GetSKUInfo(shopBeanslist.get(parentposition).getList().get(chaildposition).getId());
                     mPresenter.GetProductDetail(shopBeanslist.get(parentposition).getList().get(chaildposition).getId(), userKey);
+
+                    skuid_by_delete =shopBeanslist.get(parentposition).getList().get(chaildposition).getSkuId();
+                    count=shopBeanslist.get(parentposition).getList().get(chaildposition).getCount();
+                    if (skuid_by_delete==null){
+                        return;
+                    }
                 }
 
                 /*领券*/
@@ -955,6 +962,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                                 return;
                             } else {
                                 mPresenter.PostAddProductToCart(type + "_" + skuId_color + "_0_0", count, userKey);
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
                             }
                         }
                         /*有尺寸没颜色没规格*/
@@ -967,7 +975,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                             } else {
 
                                 mPresenter.PostAddProductToCart(type + "_0" + "_" + skuId_size + "_0", count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
                         }
@@ -982,7 +990,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                             } else {
 
                                 mPresenter.PostAddProductToCart(type + "_" + skuId_color + "_" + skuId_size + "_0", count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
                         }
@@ -997,8 +1005,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                             } else {
 
                                 mPresenter.PostAddProductToCart(type + "_" + skuId_color + "_" + skuId_size + "_" + skuId_version, count, userKey);
-
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
                             }
                         }
                         /*有颜色没尺寸有规格*/
@@ -1011,7 +1018,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                             } else {
 
                                 mPresenter.PostAddProductToCart(type+ "_" + skuId_color + "_" + "0" + "_" + skuId_version, count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
                         }
@@ -1026,7 +1033,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                             } else {
 
                                 mPresenter.PostAddProductToCart(type+ "_" + "0" + "_" + skuId_size + "_" + skuId_version, count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                             }
                         }
@@ -1040,16 +1047,15 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                             } else {
 
                                 mPresenter.PostAddProductToCart(type + "_" + "0" + "_" + "0" + "_" + skuId_version, count, userKey);
-
+                                mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
                             }
                         }
 
                         /*没尺寸没颜色没规格*/
                         if (result.getColor().isEmpty() && result.getSize().isEmpty() && result.getVersion().isEmpty()) {
 
-
                             mPresenter.PostAddProductToCart(type + "_0_0_0", count, userKey);
-
+                            mPresenter.PostDeleteCartProduct(skuid_by_delete,userKey);
 
                         }
                         break;
