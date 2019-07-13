@@ -119,7 +119,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
 
             }
 
+            @Override
+            public void OnItemClickListner(View view, int childposition) {
+                if (mCallBack!=null){
+                    mCallBack.OnItemClickListner(view,position,childposition);
+                }
 
+            }
         });
         holder.itemView.setTag(list.get(position));
 
@@ -146,6 +152,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
 
         public void OnItemClickDetailListner(View view,int parentposition,int chaildposition);
 
+        public void OnItemClickListner(View view,int parentposition,int chaildposition);
         public void OnCheckCoupListner(int parentposition);
     }
 

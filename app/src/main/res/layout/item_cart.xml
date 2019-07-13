@@ -7,8 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/white_shape"
         android:padding="@dimen/dp_10">
@@ -25,8 +23,8 @@
                 android:background="@drawable/cart_circle_selector"/>
             <ImageView
                 android:id="@+id/iv_shop_logo"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/shoplogo"
                 android:layout_marginLeft="10dp"/>
 
@@ -36,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="西瓜鱼"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textColor="#333"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/dp_10" />
@@ -47,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="领券"
-                android:textColor="#333"
-                android:textSize="15sp"
+                android:textColor="#808080"
+                android:textSize="11sp"
                  />
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView

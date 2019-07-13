@@ -125,10 +125,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             }else if (list.get(position).getProductAttributeInfos().size()==2){
                 holder.tv_comment.setText(list.get(position).getProductAttributeInfos().get(0)+" | "+list.get(position).getProductAttributeInfos().get(1));
             }else if (list.get(position).getProductAttributeInfos().size()==0||list.get(position).getProductAttributeInfos()==null){
-                holder.tv_comment.setVisibility(View.GONE);
+                holder.tv_comment.setVisibility(View.INVISIBLE);
             }
         }else {
-            holder.tv_comment.setVisibility(View.GONE);
+            holder.tv_comment.setVisibility(View.INVISIBLE);
         }
 
         if (list.get(position).getCashDepositsServer().isIsSevenDayNoReasonReturn()){

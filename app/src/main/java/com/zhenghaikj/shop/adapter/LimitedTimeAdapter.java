@@ -73,12 +73,14 @@ public class LimitedTimeAdapter extends BaseQuickAdapter<LimitBuyListResult.List
 //                helper.setText(R.id.tv_comment_two,item.getProductAttributeInfos().get(1));
 //                helper.setGone(R.id.tv_comment_three,false);
             }else if (item.getProductAttributeInfos().size()==0||item.getProductAttributeInfos()==null){
-                helper.setGone(R.id.tv_comment,false);
+//                helper.setGone(R.id.tv_comment,false);
+                helper.setVisible(R.id.tv_comment,false);
 //                helper.setGone(R.id.tv_comment_two,false);
 //                helper.setGone(R.id.tv_comment_three,false);
             }
         }else {
-            helper.setGone(R.id.tv_comment,false);
+            helper.setVisible(R.id.tv_comment,false);
+//            helper.setGone(R.id.tv_comment,false);
 //            helper.setGone(R.id.tv_comment_two,false);
 //            helper.setGone(R.id.tv_comment_three,false);
         }
@@ -87,12 +89,14 @@ public class LimitedTimeAdapter extends BaseQuickAdapter<LimitBuyListResult.List
             helper.setText(R.id.tv_service,"七天无理由退换");
         }else {
             helper.setGone(R.id.tv_service,false);
+//            helper.setVisible(R.id.tv_service,false);
         }
 
         if (item.getCashDepositsServer().isIsTimelyShip()){
             helper.setText(R.id.tv_service_two,"急速发货");
         }else {
             helper.setGone(R.id.tv_service_two,false);
+
         }
 
         if (item.getCashDepositsServer().isIsCustomerSecurity()){

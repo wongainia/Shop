@@ -39,9 +39,9 @@
                 android:maxLines="2"
                 android:text="浪奇 万丽洁厕液洁厕剂除菌除垢750g*2瓶装多效清洁有效去污"
                 android:lineSpacingExtra="3dp"
-                android:textColor="#535353"
+                android:textColor="@color/black"
                 android:ellipsize="end"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,6 +129,15 @@
                     android:text="领券立减40"
                     android:textColor="#808080"
                     android:textSize="9sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/gray_attributes"
+                    android:paddingLeft="1dp"
+                    android:text=""
+                    android:textColor="#808080"
+                    android:textSize="9sp"
+                    android:visibility="invisible"/>
             </LinearLayout>
 
 

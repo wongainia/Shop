@@ -70,6 +70,14 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
             this.ll_goods = ll_goods;
         }
 
+        public LinearLayout getLl_goods_type() {
+            return ll_goods_type;
+        }
+
+        public void setLl_goods_type(LinearLayout ll_goods_type) {
+            this.ll_goods_type = ll_goods_type;
+        }
+
         public MyHolder(View itemView) {
             super(itemView);
             cb_choose = (CheckBox) itemView.findViewById(R.id.cb_choose);
@@ -169,6 +177,15 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
             }
         });
 
+        holder.getLl_goods_type().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCallBack!=null){
+                    mCallBack.OnItemClickListner(v,position);
+                }
+            }
+        });
+
 
     }
 
@@ -191,5 +208,7 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
         public void OnAddReduceListner(int value,int childposition);
 
         public void OnItemClickDetailListner(View view,int childposition);
+
+        void OnItemClickListner(View view, int childposition);
     }
 }
