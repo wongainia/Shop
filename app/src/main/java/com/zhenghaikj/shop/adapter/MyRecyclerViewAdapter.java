@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
@@ -23,6 +24,7 @@ import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.utils.GlideUtil;
 import com.zhenghaikj.shop.widget.RoundBackGroundColorSpan;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -151,8 +153,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
 
 
-
-        GlideUtil.loadImageViewLodingRadius(context,bean.getImageUrl(),holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
+        String timestamp= TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        GlideUtil.loadImageViewLodingRadius(context,bean.getImageUrl()+"?"+timestamp,holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
 
         //由于需要实现瀑布流的效果,所以就需要动态的改变控件的高度了
 //        ViewGroup.LayoutParams params = holder.tv_goods_money.getLayoutParams();

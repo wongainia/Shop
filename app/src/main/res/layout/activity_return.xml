@@ -21,7 +21,8 @@
         app:tabTextAppearance="@style/ReturnTabLayout"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        android:fillViewport="false" />
+        android:fillViewport="false"
+        android:visibility="gone"/>
 
     <View
         android:layout_width="match_parent"

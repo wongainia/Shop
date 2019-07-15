@@ -25,8 +25,8 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="标题"
-            android:visibility="invisible"
+            android:text="退货详情"
+
             android:gravity="center"
             android:layout_gravity="center"
             android:singleLine="true"

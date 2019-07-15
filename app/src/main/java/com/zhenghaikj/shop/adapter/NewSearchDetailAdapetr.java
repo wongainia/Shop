@@ -8,6 +8,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.TimeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -18,6 +19,7 @@ import com.zhenghaikj.shop.utils.GlideUtil;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zhenghaikj.shop.widget.RoundBackGroundColorSpan;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +52,8 @@ public class NewSearchDetailAdapetr extends BaseQuickAdapter<SearchResult.Produc
         helper.setText(R.id.tv_shop_name,item.getShopName());
         helper.setText(R.id.tv_place_of_delivery,item.getProductAddress());
         helper.addOnClickListener(R.id.ll_shop_name);
-
-        Glide.with(mContext).load(item.getImagePath())
+        String timestamp= TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        Glide.with(mContext).load(item.getImagePath()+"?"+timestamp)
                 .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mContext, 5)))
                 .into((ImageView) helper.getView(R.id.img_shop));
         helper.addOnClickListener(R.id.rl_shop);

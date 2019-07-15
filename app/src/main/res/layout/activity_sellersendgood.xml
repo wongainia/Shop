@@ -3,75 +3,175 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/activity_toolbar"/>
+    <include layout="@layout/white_toolbar"/>
 
     <RelativeLayout
-        android:background="@drawable/bg_shop"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:paddingLeft="10dp">
+
+        <ImageView
+            android:id="@+id/img_shop"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/goods" />
+
+        <TextView
+            android:id="@+id/tv_shop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/img_shop"
+            android:maxLines="2"
+            android:text="123456"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_specification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_shop"
+            android:layout_toRightOf="@+id/img_shop"
+            android:text="123454"
+            android:textColor="#808080"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        >
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:text="物流单号："
+            android:textSize="14sp"
+            android:textColor="#333"/>
         <EditText
             android:id="@+id/et_shipordernumber"
             android:layout_width="match_parent"
-            android:layout_toLeftOf="@+id/img_scan"
             android:layout_height="30dp"
             android:hint="请输入快递单号"
             android:background="@null"
             android:textColor="@color/black"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textSize="13sp"/>
+            android:textSize="14sp"
+            android:layout_weight="1"/>
         
         <ImageView
             android:id="@+id/img_scan"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@mipmap/scan"
+            android:src="@drawable/saomiao"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            />
-    </RelativeLayout>
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:background="@drawable/bg_shop"
+    <LinearLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        >
-        <EditText
-            android:id="@+id/et_conpanyname"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+        <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:text="物流公司："
+            android:textSize="14sp"
+            android:textColor="#333"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/et_conpanyname"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:hint="请输入快递公司"
+            android:hint="请选择快递公司"
             android:layout_toLeftOf="@+id/tv_sumbit"
             android:background="@null"
             android:textColor="@color/black"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textSize="13sp"/>
+            android:textSize="14sp"
+            android:gravity="center"/>
 
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:src="@drawable/youjiantou"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
         <TextView
-            android:id="@+id/tv_sumbit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="提交"
-            android:textColor="@color/red"
-            android:textSize="15sp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            />
-    </RelativeLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:text="联系电话："
+            android:textSize="14sp"
+            android:textColor="#333" />
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@+id/tv_sumbit"
+            android:background="@null"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="14sp"
+            android:gravity="center"/>
 
 
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_sumbit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/red_return"
+        android:orientation="vertical"/>
 </LinearLayout>

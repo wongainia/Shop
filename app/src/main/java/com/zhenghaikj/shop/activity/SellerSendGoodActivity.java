@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.gyf.barlibrary.ImmersionBar;
@@ -26,6 +27,7 @@ import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
 import com.zhenghaikj.shop.mvp.contract.AfterSaleDetailContract;
 import com.zhenghaikj.shop.mvp.model.AfterSaleDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.AfterSaleDetailPresenter;
+import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,50 +47,59 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.ll_toolbar)
-    LinearLayout mLlToolbar;
     @BindView(R.id.et_shipordernumber)
     EditText mEtShipordernumber;
     @BindView(R.id.img_scan)
     ImageView mImgScan;
     @BindView(R.id.et_conpanyname)
-    EditText mEtConpanyname;
+    TextView mEtConpanyname;
     @BindView(R.id.tv_sumbit)
     TextView mTvSumbit;
-
+    @BindView(R.id.img_shop)
+    ImageView mImgShop;
+    @BindView(R.id.tv_shop)
+    TextView mTvShop;
+    @BindView(R.id.tv_specification)
+    TextView mTvSpecification;
+    @BindView(R.id.tv_count)
+    TextView mTvCount;
+    @BindView(R.id.tv_phone)
+    TextView mTvPhone;
 
 
     private String Id;
+    private String orderId;
+
     @Override
     public void onClick(View v) {
-     switch (v.getId()){
-      case R.id.img_scan:
-          IntentIntegrator integrator = new IntentIntegrator((Activity) mActivity);
-          // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
-          integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-          integrator.setCaptureActivity(ScanActivity.class); //设置打开摄像头的Activity
-          integrator.setPrompt("请扫描快递条形码"); //底部的提示文字，设为""可以置空
-          integrator.setCameraId(0); //前置或者后置摄像头
-          integrator.setBeepEnabled(true); //扫描成功的「哔哔」声，默认开启
-          integrator.setBarcodeImageEnabled(true);
-          integrator.initiateScan();
-        break;
-         case R.id.tv_sumbit:
-           if ("".equals(mEtShipordernumber.getText().toString())||"".equals(mEtConpanyname.getText().toString())){
-            Toast.makeText(mActivity,"请输入快递信息",Toast.LENGTH_SHORT).show();
-            return;
-           }else {
-               mPresenter.PostSellerSendGoods(Id,mEtConpanyname.getText().toString(),mEtShipordernumber.getText().toString(),userKey);
-           }
+        switch (v.getId()) {
+            case R.id.img_scan:
+                IntentIntegrator integrator = new IntentIntegrator((Activity) mActivity);
+                // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                integrator.setCaptureActivity(ScanActivity.class); //设置打开摄像头的Activity
+                integrator.setPrompt("请扫描快递条形码"); //底部的提示文字，设为""可以置空
+                integrator.setCameraId(0); //前置或者后置摄像头
+                integrator.setBeepEnabled(true); //扫描成功的「哔哔」声，默认开启
+                integrator.setBarcodeImageEnabled(true);
+                integrator.initiateScan();
+                break;
+            case R.id.tv_sumbit:
+                if ("".equals(mEtShipordernumber.getText().toString()) || "".equals(mEtConpanyname.getText().toString())) {
+                    Toast.makeText(mActivity, "请输入快递信息", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    mPresenter.PostSellerSendGoods(Id, mEtConpanyname.getText().toString(), mEtShipordernumber.getText().toString(), userKey);
+                }
 
-             break;
-}
+                break;
+        }
     }
 
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
-        //mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
         mImmersionBar.statusBarView(mView);
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
@@ -101,14 +112,16 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
 
     @Override
     protected void initData() {
-    Id=getIntent().getStringExtra("Id");
-
+        Id = getIntent().getStringExtra("Id");
+        orderId = getIntent().getStringExtra("OrderId");
+        mPresenter.GetOrderDetail(orderId, userKey);
 
     }
 
     @Override
     protected void initView() {
-
+        mTvTitle.setText("填写退货物流");
+        mTvTitle.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -141,7 +154,30 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
 
     @Override
     public void GetOrderDetail(OrderDetail result) {
+        Glide.with(mActivity)
+                .load(result.getOrderItem().get(0).getProductImage())
+                .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
+                .into(mImgShop);
+        mTvShop.setText(result.getOrderItem().get(0).getProductName());
+        mTvPhone.setText(result.getOrder().getPhone());
+        String type = "";
+        if (result.getOrderItem().get(0).getSize() != null || result.getOrderItem().get(0).getColor() != null || result.getOrderItem().get(0).getVersion() != null) {
 
+            mTvSpecification.setVisibility(View.VISIBLE);
+            if (result.getOrderItem().get(0).getColor() != null) {
+                type = result.getOrderItem().get(0).getColor();
+                mTvSpecification.setText(type);
+            }
+            if (result.getOrderItem().get(0).getSize() != null) {
+                type = type + " " + result.getOrderItem().get(0).getSize();
+                mTvSpecification.setText(type);
+            }
+            if (result.getOrderItem().get(0).getVersion() != null) {
+                type = type + " " + result.getOrderItem().get(0).getVersion();
+                mTvSpecification.setText(type);
+            }
+
+        }
     }
 
     @Override
@@ -152,8 +188,8 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
     @Override
     public void PostSellerSendGoods(RefundApplyResult result) {
 
-        if (result.isSuccess()){
-            Toast.makeText(mActivity,"提交成功",Toast.LENGTH_SHORT).show();
+        if (result.isSuccess()) {
+            Toast.makeText(mActivity, "提交成功", Toast.LENGTH_SHORT).show();
             SellerSendGoodActivity.this.finish();
         }
 
