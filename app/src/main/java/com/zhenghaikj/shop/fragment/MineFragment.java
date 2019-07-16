@@ -48,6 +48,7 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
+import com.zhenghaikj.shop.activity.ChageUserNameActivity;
 import com.zhenghaikj.shop.activity.CouponActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
@@ -737,6 +738,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
             case R.id.tv_username:
 //                showOrderEvaluate();
+                startActivity(new Intent(mActivity, ChageUserNameActivity.class));
                 break;
             case R.id.ll_merchant:
                 intent = new Intent(mActivity, WebActivity.class);

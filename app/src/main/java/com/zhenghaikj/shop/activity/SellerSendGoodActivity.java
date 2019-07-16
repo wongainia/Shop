@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -32,7 +36,7 @@ import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresenter, AfterSaleDetailModel> implements View.OnClickListener, AfterSaleDetailContract.View {
+public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresenter, AfterSaleDetailModel> implements View.OnClickListener, AfterSaleDetailContract.View, AdapterView.OnItemSelectedListener {
 
 
     @BindView(R.id.view)
@@ -65,14 +69,22 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
     TextView mTvCount;
     @BindView(R.id.tv_phone)
     TextView mTvPhone;
+    @BindView(R.id.ll_choose)
+    LinearLayout mLlChoose;
+    @BindView(R.id.spinner)
+    AppCompatSpinner mSpinner;
 
 
     private String Id;
     private String orderId;
+    private String message;
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.icon_back:
+                finish();
+                break;
             case R.id.img_scan:
                 IntentIntegrator integrator = new IntentIntegrator((Activity) mActivity);
                 // 设置要扫描的条码类型，ONE_D_CODE_TYPES：一维码，QR_CODE_TYPES-二维码
@@ -85,12 +97,19 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
                 integrator.initiateScan();
                 break;
             case R.id.tv_sumbit:
-                if ("".equals(mEtShipordernumber.getText().toString()) || "".equals(mEtConpanyname.getText().toString())) {
-                    Toast.makeText(mActivity, "请输入快递信息", Toast.LENGTH_SHORT).show();
+                if ("".equals(mEtShipordernumber.getText().toString())) {
+                    Toast.makeText(mActivity, "请输入快递单号", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if ("请选择快递公司".equals(message)) {
+                    Toast.makeText(mActivity, "请选择快递公司", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    mPresenter.PostSellerSendGoods(Id, mEtConpanyname.getText().toString(), mEtShipordernumber.getText().toString(), userKey);
+                    mPresenter.PostSellerSendGoods(Id, message, mEtShipordernumber.getText().toString(), userKey);
+//                    ToastUtils.showShort(message);
                 }
+
+                break;
+            case R.id.ll_choose:
 
                 break;
         }
@@ -115,7 +134,6 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
         Id = getIntent().getStringExtra("Id");
         orderId = getIntent().getStringExtra("OrderId");
         mPresenter.GetOrderDetail(orderId, userKey);
-
     }
 
     @Override
@@ -128,6 +146,9 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
     protected void setListener() {
         mImgScan.setOnClickListener(this);
         mTvSumbit.setOnClickListener(this);
+        mLlChoose.setOnClickListener(this);
+        mIconBack.setOnClickListener(this);
+        mSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -207,6 +228,57 @@ public class SellerSendGoodActivity extends BaseActivity<AfterSaleDetailPresente
 
     @Override
     public void GetRecord(ComplaintRecord result) {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.spinner:
+                String[] letter = getResources().getStringArray(R.array.letter);
+//                Log.i("spinner1点击------",letter[position]);
+                switch (position) {
+                    case 0:
+                        message = "请选择快递公司";
+                        break;
+                    case 1:
+                        message = "邮政EMS";
+                        break;
+                    case 2:
+                        message = "申通快递";
+                        break;
+                    case 3:
+                        message = "顺丰快递";
+                        break;
+                    case 4:
+                        message = "天天快递";
+                        break;
+                    case 5:
+                        message = "圆通快递";
+                        break;
+                    case 6:
+                        message = "韵达快递";
+                        break;
+                    case 7:
+                        message = "宅急送";
+                        break;
+                    case 8:
+                        message = "中通速递";
+                        break;
+                    case 9:
+                        message = "邮政平邮";
+                        break;
+                    case 10:
+                        message = "其他";
+                        break;
+
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

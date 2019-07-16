@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alipay.sdk.app.PayTask;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -41,18 +42,24 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.CartActivity;
 import com.zhenghaikj.shop.activity.DeliverySuccessActivity;
 import com.zhenghaikj.shop.activity.EvaluateActivity;
 import com.zhenghaikj.shop.activity.LogisticsInformationActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
+import com.zhenghaikj.shop.activity.OrderActivity;
 import com.zhenghaikj.shop.activity.PaymentSuccessActivity;
 import com.zhenghaikj.shop.activity.RechargeActivity;
 import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
+import com.zhenghaikj.shop.activity.ShippingAddressActivity;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
+import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.dialog.CustomDialog;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
+import com.zhenghaikj.shop.entity.ChangeOrderAddress;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -61,6 +68,7 @@ import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.JsonStrOrderPay;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.PayResult;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
@@ -128,6 +136,8 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private FingerprintCore mFingerprintCore;
     private PwdFragment fragment;
     private int count = 5;
+    private ShippingAddressList.ShippingAddressBean address;
+    String addressid="";
 
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
@@ -193,7 +203,28 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 switch (view.getId()) {
                     case R.id.tv_buy:
                     case R.id.tv_buy_again://再次购买
+                        List<Order.itemInfoBean> itemInfo = cartList.get(position).getItemInfo();
+                        for (int i = 0; i < itemInfo.size(); i++) {
+                            mPresenter.PostAddProductToCart(itemInfo.get(i).getSKuId(),itemInfo.get(i).getCount(),userKey);
+                        }
+                        final CommonDialog_Home dialog = new CommonDialog_Home(getActivity());
+                        dialog.setMessage("商品已加入购物车")
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setPositive("前往购物车")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {
+                                dialog.dismiss();
+                                startActivity(new Intent(mActivity, CartActivity.class));
+                            }
 
+                            @Override
+                            public void onNegtiveClick() {
+                                dialog.dismiss();
+                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
 //                        startActivity(new Intent(mActivity, OrderDetailActivity.class));
 //                        mPresenter.PostCloseOrder(cartList.get(position).getId(),userKey);
                         break;
@@ -230,6 +261,10 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     //    break;
                     case R.id.tv_change_address://修改地址
 //                        showPopupWindow();
+                        Intent intent2 = new Intent(mActivity, ShippingAddressActivity.class);
+                        intent2.putExtra("CHOOSE_ADDRESS_REQUEST", true);
+                        intent2.putExtra("orderId",cartList.get(position).getId());
+                        startActivityForResult(intent2, Config.CHOOSE_ADDRESS_REQUEST);
                         break;
                     case R.id.tv_friend_pay://朋友代付
 //                        showPopupWindow();
@@ -386,6 +421,22 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             default:
                 break;
 
+        }
+    }
+
+    @Override
+    public void PostAddProductToCart(AddtoCartResult Result) {
+        if ("true".equals(Result.getSuccess()) ){
+
+        }
+    }
+
+    @Override
+    public void PostChangeOrderAddress(ChangeOrderAddress Result) {
+        if (Result.isSuccess()){
+            ToastUtils.showShort(Result.getMsg());
+        }else {
+            ToastUtils.showShort(Result.getMsg());
         }
     }
 
@@ -944,6 +995,19 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==100){
             mPresenter.GetUserInfoList(UserID,"1");
+        }
+        if (resultCode == Config.CHOOSE_ADDRESS_RESULT) {
+            if (requestCode == Config.CHOOSE_ADDRESS_REQUEST) {
+                address = (ShippingAddressList.ShippingAddressBean) data.getSerializableExtra("Address");
+                String orderId=data.getStringExtra("orderId");
+                if (address != null) {
+                    addressid= address.getId();
+                   mPresenter.PostChangeOrderAddress(orderId,addressid,userKey);
+                } else {
+                    return;
+                }
+            }
+
         }
     }
 }

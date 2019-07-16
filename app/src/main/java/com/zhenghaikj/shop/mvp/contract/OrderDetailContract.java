@@ -4,6 +4,8 @@ import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
+import com.zhenghaikj.shop.entity.ChangeOrderAddress;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -40,6 +42,8 @@ public interface OrderDetailContract {
         /*判断商品工单号是否发起过保内安装*/
         Observable<BaseResult<Data<String>>> IsMallid(String MallID);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
+        Observable<AddtoCartResult> PostAddProductToCart(String skuId, String count, String Userkey);
+        Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
 
     }
 
@@ -57,6 +61,9 @@ public interface OrderDetailContract {
         void IsMallid(BaseResult<Data<String>> baseResult);
         void GetUserInfoList(BaseResult<UserInfo> Result);
         void MallBalancePay(BaseResult<Data<String>> baseResult);
+        void PostAddProductToCart(AddtoCartResult Result);
+
+        void PostChangeOrderAddress(ChangeOrderAddress Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -78,7 +85,9 @@ public interface OrderDetailContract {
 
         public abstract void IsMallid(String MallID);
         public abstract void GetUserInfoList(String userName, String limit);
+        public abstract void PostAddProductToCart(String skuId,String count,String Userkey);
 
+        public abstract void PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
 
     }
 }

@@ -368,6 +368,15 @@ public class Order implements Serializable {
         private String RefundStats;
         private String OrderRefundId;
         private String EnabledRefundAmount;
+        private String SKuId;
+
+        public String getSKuId() {
+            return SKuId;
+        }
+
+        public void setSKuId(String SKuId) {
+            this.SKuId = SKuId;
+        }
 
         public String getProductId() {
             return productId;

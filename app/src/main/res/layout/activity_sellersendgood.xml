@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <include layout="@layout/white_toolbar"/>
 
@@ -95,6 +96,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_choose"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -121,7 +123,22 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:textSize="14sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:entries="@array/letter"
+            android:spinnerMode="dropdown"
+            android:background="@null"
+            style="@style/myDropTheme"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12sp"
+            android:gravity="right"
+            />
 
         <ImageView
             android:layout_width="15dp"

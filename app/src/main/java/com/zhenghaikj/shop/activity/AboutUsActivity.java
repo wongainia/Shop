@@ -91,7 +91,8 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.ll_check_for_updates:
-                Beta.checkUpgrade(false,false);
+//                Beta.checkUpgrade(false,false);
+                Beta.checkUpgrade();
                 break;
             case R.id.ll_using_help:
                 intent = new Intent(mActivity, WebActivity.class);

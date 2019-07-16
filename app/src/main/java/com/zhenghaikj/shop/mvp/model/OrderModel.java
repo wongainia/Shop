@@ -5,6 +5,8 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
+import com.zhenghaikj.shop.entity.ChangeOrderAddress;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -152,6 +154,36 @@ public class OrderModel implements OrderContract.Model {
     @Override
     public Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit) {
         return ApiRetrofit2.getDefault().GetUserInfoList(userName, limit)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<AddtoCartResult> PostAddProductToCart(String skuId, String count, String Userkey) {
+        map = new HashMap<>();
+        map.put("skuid",skuId);
+        map.put("count",count);
+        map.put("userkey",Userkey);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().PostAddProductToCart(skuId,count,Userkey,"himalltest", timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId, String ReceiveAddressId,String userkey) {
+        map = new HashMap<>();
+        map.put("orderid",OrderId);
+        map.put("receiveaddressid",ReceiveAddressId);
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp=TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp",timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().PostChangeOrderAddress(OrderId,ReceiveAddressId,userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

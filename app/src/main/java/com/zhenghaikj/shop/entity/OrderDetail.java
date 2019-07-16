@@ -507,6 +507,15 @@ public class OrderDetail implements Serializable {
         private String VersionAlias;
         private double EnabledRefundAmount;
         private boolean IsInstall;
+        private String SKuId;
+
+        public String getSKuId() {
+            return SKuId;
+        }
+
+        public void setSKuId(String SKuId) {
+            this.SKuId = SKuId;
+        }
 
         public boolean isInstall() {
             return IsInstall;

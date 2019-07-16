@@ -211,6 +211,7 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
             StringBuilder stringBuilder1 = new StringBuilder(result.getApplyDate());
             String time1 = "" + stringBuilder1.replace(10, 11, " "); //替换"T"为" "
             mTvapply_time.setText(time1);
+            mTvAddress.setText(result.getRefundAddress());
             if (result.getSellerAuditStatusValue() == 1) {
                 mTvStatus.setText("待商家确认");
                 mTvStatusTwo.setText("请等待商家确认");

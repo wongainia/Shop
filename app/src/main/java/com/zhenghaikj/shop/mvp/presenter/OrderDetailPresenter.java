@@ -3,6 +3,8 @@ package com.zhenghaikj.shop.mvp.presenter;
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
+import com.zhenghaikj.shop.entity.ChangeOrderAddress;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -129,6 +131,28 @@ public class OrderDetailPresenter extends OrderDetailContract.Presenter {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
                         mView.MallBalancePay(value);
+                    }
+                });
+    }
+
+    @Override
+    public void PostAddProductToCart(String skuId, String count, String Userkey) {
+        mModel.PostAddProductToCart(skuId,count,Userkey)
+                .subscribe(new BaseObserver<AddtoCartResult>() {
+                    @Override
+                    protected void onHandleSuccess(AddtoCartResult value) {
+                        mView.PostAddProductToCart(value);
+                    }
+                });
+    }
+
+    @Override
+    public void PostChangeOrderAddress(String OrderId, String ReceiveAddressId,String userkey) {
+        mModel.PostChangeOrderAddress(OrderId, ReceiveAddressId,userkey)
+                .subscribe(new BaseObserver<ChangeOrderAddress>() {
+                    @Override
+                    protected void onHandleSuccess(ChangeOrderAddress value) {
+                        mView.PostChangeOrderAddress(value);
                     }
                 });
     }

@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -548,6 +549,17 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                     mPresenter.GetShopCouponList(shopid);
 
 
+                }
+
+                @Override
+                public void OnShopNameListner(int parentposition) {
+                    if ("0".equals(Result.getShop().get(parentposition).get(0).getVShopId())){
+                        ToastUtils.showShort("该店铺未开通微店");
+                    }else {
+                        Intent intent=new Intent(mActivity, StoreDetailActivity.class);
+                        intent.putExtra("VShopId",Result.getShop().get(parentposition).get(0).getVShopId());
+                        startActivity(intent);
+                    }
                 }
 
 

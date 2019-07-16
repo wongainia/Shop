@@ -49,14 +49,18 @@ import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
+import com.zhenghaikj.shop.entity.ChangeOrderAddress;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.JsonStrOrderPay;
+import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PayResult;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
 import com.zhenghaikj.shop.fragment.OrderFragment;
@@ -204,6 +208,10 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private UserInfo.UserInfoDean userInfo;
 
     private int paytype;  //支付方式：支付密码：1  确认收货：2
+    private List<OrderDetail.OrderItemBean> orderItemBean;
+    private ShippingAddressList.ShippingAddressBean address;
+    private String addressid="";
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_order_detail;
@@ -328,7 +336,27 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 break;
             case R.id.tv_buy:
             case R.id.tv_buy_again://再次购买
+                for (int i = 0; i < orderItemBean.size(); i++) {
+                    mPresenter.PostAddProductToCart(orderItemBean.get(i).getSKuId(),orderItemBean.get(i).getCount(),userKey);
+                }
+                final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                dialog.setMessage("商品已加入购物车")
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setPositive("前往购物车")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        dialog.dismiss();
+                        startActivity(new Intent(mActivity, CartActivity.class));
+                    }
 
+                    @Override
+                    public void onNegtiveClick() {
+                        dialog.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
 //                        startActivity(new Intent(mActivity, OrderDetailActivity.class));
 //                        mPresenter.PostCloseOrder(id,userKey);
                 break;
@@ -356,6 +384,10 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             //    break;
             case R.id.tv_change_address://修改地址
 //                        showPopupWindow();
+                Intent intent3 = new Intent(mActivity, ShippingAddressActivity.class);
+                intent3.putExtra("CHOOSE_ADDRESS_REQUEST", true);
+//                intent2.putExtra("orderId",cartList.get(position).getId());
+                startActivityForResult(intent3, Config.CHOOSE_ADDRESS_REQUEST);
                 break;
             case R.id.tv_friend_pay://朋友代付
 //                        showPopupWindow();
@@ -395,6 +427,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         if (result.isSuccess()) {
 
             orderBean = result.getOrder();
+            orderItemBean = result.getOrderItem();
             mTvShip.setText(orderBean.getStatus());
             mTvName.setText(orderBean.getShipTo());
             mTvAddress.setText(orderBean.getAddress());
@@ -555,6 +588,21 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         }
 
 
+    }
+
+    @Override
+    public void PostAddProductToCart(AddtoCartResult Result) {
+
+    }
+
+    @Override
+    public void PostChangeOrderAddress(ChangeOrderAddress Result) {
+        if (Result.isSuccess()){
+            mPresenter.GetOrderDetail(id, userKey);
+            ToastUtils.showShort(Result.getMsg());
+        }else {
+            ToastUtils.showShort(Result.getMsg());
+        }
     }
 
     @Override
@@ -1029,6 +1077,19 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         }
         if (requestCode==100){
             mPresenter.GetUserInfoList(UserID,"1");
+        }
+        if (resultCode == Config.CHOOSE_ADDRESS_RESULT) {
+            if (requestCode == Config.CHOOSE_ADDRESS_REQUEST) {
+                address = (ShippingAddressList.ShippingAddressBean) data.getSerializableExtra("Address");
+//                String orderId=data.getStringExtra("orderId");
+                if (address != null) {
+                    addressid = address.getId();
+                    mPresenter.PostChangeOrderAddress(id, addressid,userKey);
+                } else {
+                    return;
+                }
+            }
+
         }
     }
 

@@ -35,6 +35,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.ConfirmOrderActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
+import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.adapter.CartAdapter;
 import com.zhenghaikj.shop.adapter.ChooseColorAdapter;
 import com.zhenghaikj.shop.adapter.ChooseSizeAdapter;
@@ -567,6 +568,17 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                     mPresenter.GetShopCouponList(shopid);
 
 
+                }
+
+                @Override
+                public void OnShopNameListner(int parentposition) {
+                    if ("0".equals(Result.getShop().get(parentposition).get(0).getVShopId())){
+                        ToastUtils.showShort("该店铺未开通微店");
+                    }else {
+                        Intent intent=new Intent(mActivity, StoreDetailActivity.class);
+                        intent.putExtra("VShopId",Result.getShop().get(parentposition).get(0).getVShopId());
+                        startActivity(intent);
+                    }
                 }
 
 

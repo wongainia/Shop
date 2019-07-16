@@ -81,6 +81,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
             }
         });
 
+        holder.ShopName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCallBack!=null){
+                    mCallBack.OnShopNameListner(position);
+                }
+            }
+        });
 
         holder.getCheckBox().setChecked(list.get(position).isIscheck());
         holder.getCheckBox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -154,6 +162,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
 
         public void OnItemClickListner(View view,int parentposition,int chaildposition);
         public void OnCheckCoupListner(int parentposition);
+
+        public void OnShopNameListner(int parentposition);
     }
 
 

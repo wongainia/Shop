@@ -117,9 +117,11 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
                         break;
                     case R.id.ll_address:
                         if (choose_address_request) {
+                            String orderId=getIntent().getStringExtra("orderId");
                             shippingAddressBean = ((ShippingAddressList.ShippingAddressBean) adapter.getData().get(position));
                             Intent intent1 = new Intent();
                             intent1.putExtra("Address", shippingAddressBean);
+                            intent1.putExtra("orderId",orderId);
                             setResult(Config.CHOOSE_ADDRESS_RESULT, intent1);
                             finish();
                         } else {

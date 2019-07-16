@@ -9,6 +9,7 @@ import com.zhenghaikj.shop.entity.Cart;
 import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.entity.ChagePassword;
+import com.zhenghaikj.shop.entity.ChangeOrderAddress;
 import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.CollectResult;
@@ -1274,4 +1275,19 @@ public interface ApiService {
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
+
+    /*
+    * 订单修改收货地址
+    * */
+    @FormUrlEncoded
+    @POST("Api/Order/PostChangeOrderAddress")
+    Observable<ChangeOrderAddress> PostChangeOrderAddress(
+            @Field("OrderId") String OrderId,
+            @Field("ReceiveAddressId") String ReceiveAddressId,
+            @Field("userkey") String userkey,
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+
 }

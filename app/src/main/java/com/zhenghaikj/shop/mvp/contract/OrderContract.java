@@ -4,6 +4,8 @@ import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
+import com.zhenghaikj.shop.entity.ChangeOrderAddress;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -37,6 +39,8 @@ public interface OrderContract {
         Observable<EasyResult> PostChangeOrderState(String orderId);
         Observable<EasyResult> CancelOrder(String orderId,String userid);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
+        Observable<AddtoCartResult> PostAddProductToCart(String skuId, String count, String Userkey);
+        Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
 
     }
 
@@ -53,6 +57,9 @@ public interface OrderContract {
         void PostChangeOrderState(EasyResult baseResult);
         void CancelOrder(EasyResult baseResult);
         void GetUserInfoList(BaseResult<UserInfo> Result);
+        void PostAddProductToCart(AddtoCartResult Result);
+
+        void PostChangeOrderAddress(ChangeOrderAddress Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -71,5 +78,8 @@ public interface OrderContract {
         public abstract void PostChangeOrderState(String orderId);
         public abstract void CancelOrder(String orderId,String userid);
         public abstract void GetUserInfoList(String userName, String limit);
+        public abstract void PostAddProductToCart(String skuId,String count,String Userkey);
+
+        public abstract void PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
     }
 }

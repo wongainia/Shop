@@ -20,6 +20,8 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.OrderListAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
+import com.zhenghaikj.shop.entity.ChangeOrderAddress;
 import com.zhenghaikj.shop.entity.CloseOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.Data;
@@ -212,6 +214,16 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
 
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
+
+    }
+
+    @Override
+    public void PostAddProductToCart(AddtoCartResult Result) {
+
+    }
+
+    @Override
+    public void PostChangeOrderAddress(ChangeOrderAddress Result) {
 
     }
 }

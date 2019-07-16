@@ -42,6 +42,15 @@ public class RefundDetailResult implements Serializable {
     private int RefundPayTypeValue;
     private String Reason;
     private String ApplyDate;
+    private String RefundAddress;
+
+    public String getRefundAddress() {
+        return RefundAddress;
+    }
+
+    public void setRefundAddress(String refundAddress) {
+        RefundAddress = refundAddress;
+    }
 
     public String getManagerConfirmStatus() {
         return ManagerConfirmStatus;

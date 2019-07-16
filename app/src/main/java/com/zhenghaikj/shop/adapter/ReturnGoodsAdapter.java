@@ -33,7 +33,7 @@ public class ReturnGoodsAdapter extends BaseQuickAdapter<Refund.DataBean, BaseVi
                 .load(item.getImg())
                 .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mContext, 5)))
                 .into((ImageView) helper.getView(R.id.img_shop));
-        helper.setText(R.id.tv_return_money,"退款金额¥: "+item.getAmount());
+        helper.setText(R.id.tv_return_money,"退款金额¥ "+item.getAmount());
         helper.setText(R.id.tv_shopname,item.getProductName());
         helper.addOnClickListener(R.id.ll_shop);
 

@@ -123,5 +123,17 @@
 
     </declare-styleable>
 
-
+    <string-array name="letter" >
+        <item>请选择快递公司</item>
+        <item>邮政EMS</item>
+        <item>申通快递</item>
+        <item>顺丰快递</item>
+        <item>天天快递</item>
+        <item>圆通快递</item>
+        <item>韵达快递</item>
+        <item>宅急送</item>
+        <item>中通速递</item>
+        <item>邮政平邮</item>
+        <item>其他</item>
+    </string-array>
 </resources>
