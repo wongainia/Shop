@@ -163,7 +163,38 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#eee"/>
-
+        <LinearLayout
+            android:id="@+id/ll_billing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="开具发票："
+                android:textColor="#333"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/et_billing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="本次不开具发票"
+                android:textColor="#333"
+                android:textSize="14sp"
+                android:background="@null"
+                android:layout_marginLeft="10dp"/>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/right_arrow_black"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eee"/>
 
         <LinearLayout
             android:visibility="gone"

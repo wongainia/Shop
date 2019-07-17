@@ -408,6 +408,10 @@
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             />
+        <activity android:name=".activity.BillingActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
         <receiver
             android:name=".wxapi.AppRegister">
             <intent-filter>

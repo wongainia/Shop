@@ -184,6 +184,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private Intent intent;
     private List<String> ids;
     private String link;
+    private String pageSize="10";
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -293,10 +294,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                         }
                     }
                 });
-        mPresenter.GetList("4","10","1",userKey);
+        mPresenter.GetList("4",pageSize,"1",userKey);
         mPresenter.Get();
-        mPresenter.Get(Integer.toString(pageNo), "999");
-        mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999", "");
+        mPresenter.Get(Integer.toString(pageNo), pageSize);
+        mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
 
         for (int i = 0; i < 10; i++) {
             categoryList.add(new Product());
@@ -409,19 +410,19 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             pageNo = 1;
             mDatas.clear();
-            mPresenter.GetList("4","10","1",userKey);
+            mPresenter.GetList("4",pageSize,"1",userKey);
             mPresenter.Get();
-            mPresenter.Get(Integer.toString(pageNo), "999");
-            mPresenter.GetLismitBuyList(Integer.toString(pageNo), "999", "");
+            mPresenter.Get(Integer.toString(pageNo), pageSize);
+            mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
             refreshLayout.setNoMoreData(false);
             refreshLayout.finishRefresh(1000);
         });
-        mRefreshLayout.setEnableLoadMore(false);
-//        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-//            pageNo++;
-//            mPresenter.Get(Integer.toString(pageNo), "999");
-//            refreshLayout.finishLoadMore(1000);
-//        });
+        mRefreshLayout.setEnableLoadMore(true);
+        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            pageNo++;
+            mPresenter.Get(Integer.toString(pageNo), pageSize);
+            refreshLayout.finishLoadMore(1000);
+        });
     }
 
     @Override
@@ -438,10 +439,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     public void Event(String name) {
         if ("更新登录信息".equals(name)){
             getLoginMsg();
-            mPresenter.GetList("4","10","1",userKey);
+            mPresenter.GetList("4",pageSize,"1",userKey);
         }
         if ("UpdateReadCount".equals(name)) {
-            mPresenter.GetList("4","10","1",userKey);
+            mPresenter.GetList("4",pageSize,"1",userKey);
         }
     }
 

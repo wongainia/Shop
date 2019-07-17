@@ -20,10 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ConfirmOrderAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
     private List<StoreBean> list;
     private Context mContext;
-    public ConfirmOrderAdapter(int layoutResId, @Nullable List<StoreBean> data,Context context) {
+    private String content;
+    public ConfirmOrderAdapter(int layoutResId, @Nullable List<StoreBean> data,Context context,String content) {
         super(layoutResId, data);
         list=data;
         mContext=context;
+        this.content=content;
     }
 
     @Override
@@ -52,8 +54,8 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<StoreBean, BaseViewHol
         }
 
 
-
-
+        helper.addOnClickListener(R.id.ll_billing);
+        helper.setText(R.id.et_billing,content);
 
         helper.setText(R.id.tv_store_name,item.getShopName());
         ConfirmOrderListAdapter confirmOrderListAdapter=new ConfirmOrderListAdapter(R.layout.item_confirm_order_list,item.getList());

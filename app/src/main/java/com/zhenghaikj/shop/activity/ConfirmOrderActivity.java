@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alipay.sdk.app.PayTask;
 import com.blankj.utilcode.util.ToastUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
@@ -138,6 +139,8 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     private UserInfo.UserInfoDean userInfo;
     private BottomSheetDialog bottomSheetDialog;
     private ConfirmModel cmResult;
+    private String content="本次不开具发票";
+    private String invoiceType="0";
 
     @Override
     protected int setLayoutId() {
@@ -336,7 +339,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             list_shop.add(commodityBean);
             storeBean.setList(list_shop);
             list.add(storeBean);
-            confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list,mActivity);
+            confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list,mActivity,content);
             confirmOrderAdapter.setEmptyView(getEmptyView());
             mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
             mRvConfirmOrder.setAdapter(confirmOrderAdapter);
@@ -344,6 +347,21 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             //优惠后的价格
             mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getOrderAmount()));
             mStateLayout.changeState(StateFrameLayout.SUCCESS);
+            confirmOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    switch (view.getId()){
+                        case R.id.ll_billing:
+                            Intent intent=new Intent(mActivity,BillingActivity.class);
+//                            intent.putExtra("position",position);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("position", position);
+                            intent.putExtras(bundle);
+                            startActivityForResult(intent,200);
+                            break;
+                    }
+                }
+            });
         }else{
             mStateLayout.changeState(StateFrameLayout.EMPTY);
         }
@@ -419,7 +437,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
 
             }
 
-            confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list,mActivity);
+            confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list,mActivity,content);
             confirmOrderAdapter.setEmptyView(getEmptyView());
             mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
             mRvConfirmOrder.setAdapter(confirmOrderAdapter);
@@ -428,7 +446,22 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             mTvtotalmoney.setText("合计¥:" + String.format("%.2f", result.getOrderAmount()));
 
             mStateLayout.changeState(StateFrameLayout.SUCCESS);
+            confirmOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    switch (view.getId()) {
+                        case R.id.ll_billing:
+                            Intent intent=new Intent(mActivity,BillingActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("position", position);
+                            intent.putExtras(bundle);
+//                            intent.putExtra("position",position);
+                            startActivityForResult(intent,200);
 
+                            break;
+                    }
+                }
+            });
         }else {
             mStateLayout.changeState(StateFrameLayout.EMPTY);
         }
@@ -498,6 +531,37 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
         }
         if (requestCode==100){
             mPresenter.GetUserInfoList(UserID,"1");
+        }
+
+        if (requestCode==200){
+            Bundle extras = getIntent().getExtras();
+            int position=extras.getInt("position");
+//            String content =extras.getString("position");
+            content = data.getStringExtra("noInvoice");
+            invoiceType = data.getStringExtra("invoiceType");
+//            String position=data.getStringExtra("position");
+//            ToastUtils.showShort(content);
+            confirmOrderAdapter.notifyItemChanged(position);
+            confirmOrderAdapter = new ConfirmOrderAdapter(R.layout.item_confirm_order, list,mActivity,content);
+            confirmOrderAdapter.setEmptyView(getEmptyView());
+            mRvConfirmOrder.setLayoutManager(new LinearLayoutManager(mActivity));
+            mRvConfirmOrder.setAdapter(confirmOrderAdapter);
+            confirmOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    switch (view.getId()) {
+                        case R.id.ll_billing:
+                            Intent intent=new Intent(mActivity,BillingActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("position", position);
+                            intent.putExtras(bundle);
+//                            intent.putExtra("position",position);
+                            startActivityForResult(intent,200);
+
+                            break;
+                    }
+                }
+            });
         }
 
     }
@@ -1076,12 +1140,22 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                         if ("1".equals(extras.getString("TYPE"))) {//直接购买
                             String skuId = list.get(0).getList().get(0).getSkuId();
                             String count = list.get(0).getList().get(0).getCount();
-                            mPresenter.PostSubmitOrder(skuId,count,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),userKey);
+                            if ("0".equals(invoiceType)){
+                                mPresenter.PostSubmitOrder(skuId,count,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),userKey);
+                            }else {
+                                mPresenter.PostSubmitOrder(skuId,count,addressid,getcoupons(list),"0","false","2","",content,getleave_message(messagemap),userKey);
+                            }
+
                         }else {
                             String cartItemIds = extras.getString("cartItemIds");
 
                             Log.d("====>优惠券",getcoupons(list)) ;
-                            mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),userKey);
+                            if ("0".equals(invoiceType)){
+                                mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,getcoupons(list),"0","false","0","","",getleave_message(messagemap),userKey);
+                            }else {
+                                mPresenter.PostSubmitOrderByCart(cartItemIds,addressid,getcoupons(list),"0","false","2","",content,getleave_message(messagemap),userKey);
+
+                            }
 
                         }
                     }
