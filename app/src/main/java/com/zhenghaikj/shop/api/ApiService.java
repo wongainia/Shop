@@ -424,8 +424,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("api/Order/CancelOrder")
     Observable<EasyResult> CancelOrder(
-            @Field("cartItemIds") String orderid,
-            @Field("recieveAddressId") String userid,
+            @Field("cartItemIds") String cartItemIds,
+            @Field("recieveAddressId") String recieveAddressId,
+            @Field("userkey") String userkey,
             @Field("app_key") String app_key,
             @Field("timestamp") String timestamp,
             @Field("sign") String sign

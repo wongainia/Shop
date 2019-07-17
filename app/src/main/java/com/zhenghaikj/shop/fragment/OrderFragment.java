@@ -231,7 +231,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                     case R.id.tv_delete2://删除订单
                     case R.id.tv_delete://删除订单
                         closeid =position;
-                        mPresenter.CancelOrder(cartList.get(position).getId(),"0");
+                        mPresenter.CancelOrder(cartList.get(position).getId(),"0",userKey);
                         break;
                     case R.id.tv_delete_order://取消订单
                         Log.d(TAG,"编号："+cartList.get(position).getId());
@@ -396,7 +396,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     @Override
     public void CancelOrder(EasyResult baseResult) {
         if (baseResult.getSuccess()){
-            cartList.remove(closeid);
+            orderListAdapter.remove(closeid);
             orderListAdapter.notifyDataSetChanged();
             EventBus.getDefault().post("UpdateOrderCount");
         }

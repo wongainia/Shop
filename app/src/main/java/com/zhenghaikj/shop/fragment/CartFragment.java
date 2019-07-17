@@ -943,17 +943,13 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
             rv_color.setLayoutManager(new AutoLineFeedLayoutManager());
             chooseColorAdapter = new ChooseColorAdapter(R.layout.item_color, result.getColor(), mActivity);
             rv_color.setAdapter(chooseColorAdapter);
-
-
-
-
             ChooseColor(rv_color, result.getColor(),type);
         } else {
             popupWindow_view.findViewById(R.id.ll_cloose_color).setVisibility(View.GONE);
         }
 
         if (!result.getSize().isEmpty()) {
-            popupWindow_view.findViewById(R.id.ll_cloose_size).setVisibility(View.VISIBLE);
+           popupWindow_view.findViewById(R.id.ll_cloose_size).setVisibility(View.VISIBLE);
             RecyclerView rv_size = popupWindow_view.findViewById(R.id.rv_size);
             rv_size.setLayoutManager(new AutoLineFeedLayoutManager());
             chooseSizeAdapter = new ChooseSizeAdapter(R.layout.item_size, result.getSize());
@@ -1118,12 +1114,10 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                         }
                         if (adapter.getViewByPosition(rv_color, position, R.id.rl_choose).isSelected()) {
                             adapter.getViewByPosition(rv_color, position, R.id.rl_choose).setSelected(false);
-                        } else {
+                        }else{
                             adapter.getViewByPosition(rv_color, position, R.id.rl_choose).setSelected(true);
-
                             /*获取color的sku判断其他是否存在*/
                             String colorskuId = ((ShopColor) adapter.getData().get(position)).getSkuId();
-
 
                             Glide.with(mActivity)
                                     .load(result.getColor().get(position).getImg())

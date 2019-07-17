@@ -37,7 +37,7 @@ public interface OrderContract {
 
         Observable<BaseResult<Data<String>>> WXNotifyManual(String OutTradeNo);
         Observable<EasyResult> PostChangeOrderState(String orderId);
-        Observable<EasyResult> CancelOrder(String orderId,String userid);
+        Observable<EasyResult> CancelOrder(String cartItemIds,String recieveAddressId,String userkey);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
         Observable<AddtoCartResult> PostAddProductToCart(String skuId, String count, String Userkey);
         Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
@@ -76,7 +76,7 @@ public interface OrderContract {
                                             String UserID,String ActualMoney);
         public abstract void WXNotifyManual(String OutTradeNo);
         public abstract void PostChangeOrderState(String orderId);
-        public abstract void CancelOrder(String orderId,String userid);
+        public abstract void CancelOrder(String cartItemIds,String recieveAddressId,String userkey);
         public abstract void GetUserInfoList(String userName, String limit);
         public abstract void PostAddProductToCart(String skuId,String count,String Userkey);
 
