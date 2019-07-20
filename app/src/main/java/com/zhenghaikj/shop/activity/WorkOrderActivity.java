@@ -150,7 +150,7 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
                         String orderId = workOrderList.get(position).getOrderID();
                         mPresenter.UpdateOrderState(orderId, "-2");
                         workOrderList.clear();
-//                        mRefreshLayout.finishRefresh();
+                        mRefreshLayout.autoRefresh();
                         break;
                 }
             }

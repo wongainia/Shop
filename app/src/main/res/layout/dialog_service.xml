@@ -60,9 +60,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#ED3D48"
+        android:background="@drawable/logistics_bg_shape"
         android:layout_marginTop="20dp"
-        android:paddingBottom="24dp">
+        android:paddingBottom="24dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/tv_logistics_status"
@@ -87,27 +89,47 @@
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:src="@drawable/goods"
-                android:visibility="invisible"/>
+                android:visibility="gone"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="9dp"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tv_goods_name"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="防滑胶带橡胶楼梯台接发那个纸发撒旦发....."
-                    android:textSize="12sp"
-                    android:textColor="@color/white"
-                    android:maxLines="1"/>
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/tv_goods_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="防滑胶带橡胶楼梯台接发那个纸发撒旦发....."
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:maxLines="1"/>
+
+                    <TextView
+                        android:id="@+id/tv_type"
+                        android:layout_width="31dp"
+                        android:layout_height="13dp"
+                        android:text="安装"
+                        android:textColor="@color/white"
+                        android:textSize="9sp"
+                        android:background="@drawable/logistics_white_shape"
+                        android:paddingLeft="3dp"
+                        android:paddingRight="3dp"
+                        android:layout_marginLeft="6dp"
+                        android:gravity="center"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:gravity="center">
                     <TextView
                         android:id="@+id/tv_order_number"
                         android:layout_width="wrap_content"
@@ -120,9 +142,9 @@
                         android:id="@+id/iv_copy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/fuzhi"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"/>
+                        android:layout_marginLeft="6dp"
+                        android:src="@mipmap/fuzhi" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -135,7 +157,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/logistics_white_bg_shape">
+        android:background="@drawable/logistics_white_bg_shape"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -143,12 +167,12 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/tv_reminders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="42dp"
+                android:layout_height="19dp"
                 android:text="催 单"
-                android:textSize="10dp"
+                android:textSize="12sp"
                 android:textColor="@color/white"
-                android:padding="10dp"
+                android:gravity="center"
                 android:background="@drawable/pink_shape"
                 android:layout_gravity="center"
                 android:layout_marginLeft="35dp"/>
@@ -158,11 +182,16 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#D2D2D2"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="@dimen/dp_4"
+            android:paddingTop="13dp"
             android:paddingBottom="15dp"
             android:gravity="center">
             <TextView
@@ -190,7 +219,9 @@
         android:id="@+id/iv_close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/guanbi"
-        android:layout_marginTop="13dp"/>
+        android:src="@mipmap/close1"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
 </LinearLayout>

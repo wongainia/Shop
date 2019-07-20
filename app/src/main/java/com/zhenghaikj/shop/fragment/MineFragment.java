@@ -244,7 +244,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
-    private ServiceDialog serviceDialog;
     private RecyclerView rv_service;
     private Bundle bundle;
     private Intent intent;
@@ -811,26 +810,26 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     private List<Track> ServiceList = new ArrayList<>();
 
-    private void showService(String id, String state, String name) {
+    private void showService(String id, String state, String name,String type) {
         mPresenter.GetOrderRecordByOrderID(id);
-        serviceDialog = new ServiceDialog(getContext());
-        serviceDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
-        serviceDialog.show();
-        serviceDialog.setNoOnclickListener("取消", new ServiceDialog.onNoOnclickListener() {
-            @Override
-            public void onNoClick() {
-                serviceDialog.dismiss();
-            }
-        });
+        under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_service, null);
         Log.d(TAG, "ServiceList" + state);
 //        serviceDialog.setOrderId("订单号："+id);
 //        serviceDialog.setState(state);
 //        serviceDialog.setTitle(name);
-        TextView tv_logistics_status = serviceDialog.findViewById(R.id.tv_logistics_status);
-        TextView titleTv = serviceDialog.findViewById(R.id.tv_goods_name);
-        TextView tv_order_number = serviceDialog.findViewById(R.id.tv_order_number);
-        ImageView iv_copy = serviceDialog.findViewById(R.id.iv_copy);
-        TextView tv_reminders = serviceDialog.findViewById(R.id.tv_reminders);
+        TextView tv_logistics_status = under_review.findViewById(R.id.tv_logistics_status);
+        TextView titleTv = under_review.findViewById(R.id.tv_goods_name);
+        TextView tv_type=under_review.findViewById(R.id.tv_type);
+        TextView tv_order_number = under_review.findViewById(R.id.tv_order_number);
+        ImageView iv_copy = under_review.findViewById(R.id.iv_copy);
+        TextView tv_reminders = under_review.findViewById(R.id.tv_reminders);
+        ImageView iv_close=under_review.findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                underReviewDialog.dismiss();
+            }
+        });
         tv_reminders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -848,8 +847,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         });
         tv_logistics_status.setText(state);
         titleTv.setText(name);
+        tv_type.setText(type);
         tv_order_number.setText("订单号：" + id);
-        rv_service = serviceDialog.findViewById(R.id.rv_service);
+        rv_service = under_review.findViewById(R.id.rv_service);
 //        for (int i = 0; i < 10; i++) {
 //            ServiceList.add(new Product());
 //        }
@@ -858,6 +858,16 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         serviceAdapter = new ServiceAdapter(R.layout.item_service, ServiceList);
         rv_service.setLayoutManager(new LinearLayoutManager(mActivity));
         rv_service.setAdapter(serviceAdapter);
+        underReviewDialog = new AlertDialog.Builder(mActivity).setView(under_review)
+                .create();
+        underReviewDialog.show();
+        window = underReviewDialog.getWindow();
+//                window.setContentView(under_review);
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+//                window.setDimAmount(0.1f);
+        window.setBackgroundDrawable(new ColorDrawable());
     }
 
     private void reminders(String id) {
@@ -1101,8 +1111,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                                 TextView tv_state = (TextView) view.findViewById(R.id.tv_state);
                                 ImageView iv_copy = (ImageView) view.findViewById(R.id.iv_copy);
                                 LinearLayout ll_swith = (LinearLayout) view.findViewById(R.id.ll_swith);
+                                TextView tv_type=(TextView) view.findViewById(R.id.tv_type);
 
-                                tv_name.setText(datalist.get(i % datalist.size()).getBrandName() + "/" + datalist.get(i % datalist.size()).getCategoryName() + "/" + datalist.get(i % datalist.size()).getSubCategoryName() + "/" + datalist.get(i % datalist.size()).getMemo());
+                                tv_name.setText( datalist.get(i % datalist.size()).getMemo());
+                                tv_type.setText(datalist.get(i%datalist.size()).getTypeName());
                                 tv_orderid.setText(datalist.get(i % datalist.size()).getOrderID());
                                 tv_state.setText(datalist.get(i % datalist.size()).getState());
 //
@@ -1129,7 +1141,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                                         String id = tv_orderid.getText().toString();
                                         String state = tv_state.getText().toString();
                                         String name = tv_name.getText().toString();
-                                        showService(id, state, name);
+                                        String type=tv_type.getText().toString();
+                                        showService(id, state, name,type);
                                     }
                                 });
                             }

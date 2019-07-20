@@ -347,6 +347,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Override
     protected void initData() {
+
         for (int i = 0; i < 6; i++) {
             shopRecommendationList.add(new Product());
         }

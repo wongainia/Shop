@@ -1,5 +1,7 @@
 package com.zhenghaikj.shop.adapter;
 
+import android.widget.TextView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
@@ -31,8 +33,13 @@ public class WorkOrderAdapter extends BaseQuickAdapter<WorkOrder.DataBean,BaseVi
         }else{
             helper.setText(R.id.tv_cost,"¥" + item.getOrderMoney() + "");
         }
-        if ("待接单".equals(name)){
+        TextView tv=helper.getView(R.id.tv_status);
+        String status=tv.getText().toString();
+        if ("待接单".equals(status)){
+//            helper.setGone(R.id.tv_obsolete,false);
             helper.setVisible(R.id.tv_obsolete,true);
+        }else {
+            helper.setVisible(R.id.tv_obsolete,false);
         }
 //        if ("0".equals(item.getBeyondState())){
 //            helper.setText(R.id.tv_remind,"远程费待审核");

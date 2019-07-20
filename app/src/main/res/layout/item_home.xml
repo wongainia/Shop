@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="3dp"
-        android:background="@drawable/white_round_shape"
+        android:background="@color/white"
         android:orientation="vertical">
         <com.zhenghaikj.shop.widget.MyImageView
             android:id="@+id/iv_goods"

@@ -421,7 +421,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
             pageNo++;
             mPresenter.Get(Integer.toString(pageNo), pageSize);
-            refreshLayout.finishLoadMore(1000);
+//            refreshLayout.finishLoadMore(1000);
+            mRefreshLayout.finishLoadmore();
         });
     }
 

@@ -24,15 +24,29 @@
             android:layout_marginRight="9dp"
             android:orientation="vertical"
             android:layout_marginLeft="10dp">
-
-            <TextView
-                android:id="@+id/tv_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="Midea/美的 MB80V31 8公斤kg洗衣机 全自动家用波......"
-                android:textColor="#393939"
-                android:textSize="10sp" />
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Midea/美的 MB80V31 8公斤kg洗衣机 全自动家用波......"
+                    android:textColor="#393939"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="安装"
+                    android:textColor="#393939"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="6dp"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

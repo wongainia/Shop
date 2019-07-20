@@ -254,7 +254,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
              String address=mTvaddress.getText().toString();
              String housenumber=mEtaddress.getText().toString();
              /*故障描述默认格式安装 : 某某东西 */
-             String Memo="安装:"+bean.getBrandName()+" "+bean.getCategoryName();
+             String Memo=""+bean.getBrandName()+" "+bean.getCategoryName();
 
              Log.d("=====>", String.valueOf(installmap.size()));
 

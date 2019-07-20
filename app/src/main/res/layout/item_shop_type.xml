@@ -50,8 +50,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="浪奇 万丽洁厕液洁厕剂除菌除垢750g*2瓶装多效清洁有效去污"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="12sp"
+                    android:textColor="#808080"/>
                 <LinearLayout
                     android:id="@+id/ll_goods_type"
                     android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="233.33"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         android:textColor="#f64945"
                         android:layout_gravity="bottom" />
 
