@@ -58,8 +58,8 @@ public class AllWorkOrdersModel implements AllWorkOrdersContract.Model {
 
 
     @Override
-    public Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID) {
-        return ApiRetrofit2.getDefault().GetOrderByhmalluserid(UserID)
+    public Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID,String State) {
+        return ApiRetrofit2.getDefault().GetOrderByhmalluserid(UserID,State)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

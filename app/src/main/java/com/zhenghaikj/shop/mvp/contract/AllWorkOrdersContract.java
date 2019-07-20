@@ -21,7 +21,7 @@ public interface AllWorkOrdersContract {
         Observable<BaseResult<Data<String>>> EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
         Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(String OrderID, String IsLook, String FIsLook);
-        Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID);
+        Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID,String State);
     }
 
     interface View extends BaseView {
@@ -41,6 +41,6 @@ public interface AllWorkOrdersContract {
         public abstract void EnSureOrder(String OrderID, String PayPassword,String Grade,String OrgAppraise);
         public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
         public abstract void UpdateOrderFIsLook(String OrderID, String IsLook,String FIsLook);
-        public abstract void GetOrderByhmalluserid(String UserID);
+        public abstract void GetOrderByhmalluserid(String UserID,String State);
     }
 }

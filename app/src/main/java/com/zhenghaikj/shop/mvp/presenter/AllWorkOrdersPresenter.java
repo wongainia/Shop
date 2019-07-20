@@ -77,8 +77,8 @@ public class AllWorkOrdersPresenter extends AllWorkOrdersContract.Presenter {
     }
 
     @Override
-    public void GetOrderByhmalluserid(String UserID) {
-        mModel.GetOrderByhmalluserid(UserID)
+    public void GetOrderByhmalluserid(String UserID,String State) {
+        mModel.GetOrderByhmalluserid(UserID,State)
                 .subscribe(new BaseObserver2<Data<List<WorkOrder.DataBean>>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<List<WorkOrder.DataBean>>> value) {

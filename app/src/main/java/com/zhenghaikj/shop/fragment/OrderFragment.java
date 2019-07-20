@@ -48,6 +48,7 @@ import com.zhenghaikj.shop.activity.EvaluateActivity;
 import com.zhenghaikj.shop.activity.LogisticsInformationActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.OrderActivity;
+import com.zhenghaikj.shop.activity.OrderInstallActivity;
 import com.zhenghaikj.shop.activity.PaymentSuccessActivity;
 import com.zhenghaikj.shop.activity.RechargeActivity;
 import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
@@ -282,6 +283,14 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         startActivity(intent1);
                         mPresenter.GetExpressInfo(cartList.get(position).getId(),userKey);
                         break;
+
+                    case R.id.tv_sendorder://发单
+
+                        Intent intent3=new Intent(mActivity, OrderInstallActivity.class);
+                        intent3.putExtra("OrderId",cartList.get(position).getId());
+                        startActivity(intent3);
+                    break;
+
                 }
             }
         });

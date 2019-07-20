@@ -14,11 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
@@ -30,6 +35,7 @@ import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.WorkOrder;
+import com.zhenghaikj.shop.fragment.WorkOrderFragment;
 import com.zhenghaikj.shop.mvp.contract.AllWorkOrdersContract;
 import com.zhenghaikj.shop.mvp.model.AllWorkOrdersModel;
 import com.zhenghaikj.shop.mvp.presenter.AllWorkOrdersPresenter;
@@ -54,10 +60,12 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
-    @BindView(R.id.rv_work_order)
-    RecyclerView mRvWorkOrder;
+    @BindView(R.id.tab_receiving_layout)
+    SlidingTabLayout mTabreceiving_layout;
+    @BindView(R.id.view_pager)
+    ViewPager mViewpager;
+
+
     private int pageIndex = 1;
     private String mParam1;
     private String mParam2;
@@ -74,6 +82,12 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
     private AlertDialog complaint_dialog;
     private String content;
 
+    private String[] mTitleDataList = new String[]{
+            "所有工单","待接单","已接单","待审核", "待支付", "已完成", "质保单","退单处理"
+    };
+
+    private MyPagerAdapter mAdapter;
+    private ArrayList<Fragment> mWorkOrderFragmentList=new ArrayList<>();
     @Override
     protected int setLayoutId() {
         return R.layout.activity_work_order;
@@ -92,7 +106,27 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
     }
 
     @Override
+    protected void initView() {
+        for (int i = 0; i < 8; i++) {
+            mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
+        }
+        mAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        mViewpager.setAdapter(mAdapter);
+        mViewpager.setOffscreenPageLimit(mWorkOrderFragmentList.size());
+        mTabreceiving_layout.setViewPager(mViewpager);
+        setSwipeBackEnable(false);
+
+
+    }
+
+
+
+
+    @Override
     protected void initData() {
+
+
+/*
         mRvWorkOrder.setLayoutManager(new LinearLayoutManager(mActivity));
         mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, workOrderList, mParam1);
         mWorkOrderAdapter.setEmptyView(getEmptyView());
@@ -150,54 +184,13 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
                         String orderId = workOrderList.get(position).getOrderID();
                         mPresenter.UpdateOrderState(orderId, "-2");
                         workOrderList.clear();
-                        mRefreshLayout.autoRefresh();
                         break;
                 }
             }
-        });
+        });*/
     }
 
-    @Override
-    protected void initView() {
-        mTvTitle.setVisibility(View.VISIBLE);
-        mTvTitle.setText("安装维修");
 
-
-//        mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
-        mPresenter.GetOrderByhmalluserid(UserID);
-
-        /*下拉刷新*/
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-          /*      if (!list.isEmpty()){ //当有数据的时候
-                    ll_empty.setVisibility(View.INVISIBLE);//隐藏空的界面
-                }*/
-                pageIndex = 1;
-                workOrderList.clear();
-//                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
-                mPresenter.GetOrderByhmalluserid(UserID);
-                refreshlayout.finishRefresh(1000);
-                mRefreshLayout.setNoMoreData(false);
-            }
-        });
-
-
-        //没满屏时禁止上拉
-//        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
-
-        //上拉加载更多
-        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                pageIndex++; //页数加1
-//                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
-                mPresenter.GetOrderByhmalluserid(UserID);
-                refreshlayout.finishLoadmore();
-            }
-        });
-
-    }
 
     @Override
     protected void setListener() {
@@ -269,7 +262,7 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
 
     @Override
     public void GetOrderByhmalluserid(BaseResult<Data<List<WorkOrder.DataBean>>> baseResult) {
-        switch (baseResult.getStatusCode()) {
+       /* switch (baseResult.getStatusCode()) {
             case 200:
                 workOrderList.clear();
                 if (baseResult.getData().getItem2()!=null){
@@ -286,6 +279,29 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
             case 401:
                 ToastUtils.showShort(baseResult.getInfo());
                 break;
+        }*/
+    }
+
+
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return mWorkOrderFragmentList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mTitleDataList[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mWorkOrderFragmentList.get(position);
         }
     }
 }

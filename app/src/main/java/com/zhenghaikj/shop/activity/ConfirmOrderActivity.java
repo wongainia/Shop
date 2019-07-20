@@ -1174,7 +1174,9 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
     public void passwordFull(String password) {
         if (userInfo.getPayPassWord().equals(password)){
             bottomSheetDialog.dismiss();
-          mPresenter.MallBalancePay("","",jsonArray,UserID,String.valueOf(cmResult.getPayInfo().get(0).getActualMoney()));
+            mPresenter.MallBalancePay("","",jsonArray,UserID,String.valueOf(cmResult.getPayInfo().get(0).getActualMoney()));
+
+         Log.d("=======>",jsonArray.toString());
         }else {
             Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
         }

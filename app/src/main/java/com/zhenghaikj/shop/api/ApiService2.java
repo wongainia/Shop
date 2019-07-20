@@ -473,10 +473,23 @@ public interface ApiService2 {
 
     /**
      * 获取待支付订单
+     * 0、所有工单
+     * 1、待接单
+     * 2、已接待预约
+     * 3、退单处理
+     * 4、已完结
+     * 5、配件单
+     * 6、待支付
+     * 7、远程费单
+     * 8、质保单
+     * 9、未完成单
+     * 10、费用变更
+     * 11、留言工单
      */
+
     @FormUrlEncoded
     @POST("Order/GetOrderByhmalluserid")
-    Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(@Field("UserID") String UserID);
+    Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(@Field("UserID") String UserID,@Field("State") String State);
 
 
     /*添加银行卡*/

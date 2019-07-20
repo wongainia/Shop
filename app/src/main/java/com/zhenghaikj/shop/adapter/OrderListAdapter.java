@@ -48,6 +48,8 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
         helper.addOnClickListener(R.id.tv_logistics);//查看物流
         helper.addOnClickListener(R.id.tv_evaluation);//评价
         helper.addOnClickListener(R.id.tv_change_address);//修改地址
+
+        helper.addOnClickListener(R.id.tv_sendorder);//发单
         RecyclerView rv=helper.getView(R.id.rv_order_list);
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.setAdapter(orderListAdapter2);

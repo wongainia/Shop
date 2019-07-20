@@ -30,6 +30,8 @@ public class OrderInstallAdapter extends BaseQuickAdapter<OrderDetail.OrderItemB
         helper.setText(R.id.tv_count,"数量:"+item.getCount());
         if (!item.isInstall()){
            helper.setVisible(R.id.img_check,false);
+        }else {
+            helper.getView(R.id.img_check).setSelected(true);
         }
         helper.addOnClickListener(R.id.img_check);
 

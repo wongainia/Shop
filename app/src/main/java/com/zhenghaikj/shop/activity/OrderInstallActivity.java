@@ -65,8 +65,8 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     //ImageView mImgshop;
     //@BindView(R.id.tv_shop)
     //TextView mTvshop;
-    @BindView(R.id.tv_save)
-    TextView mTvsave;
+  // @BindView(R.id.tv_save)
+  // TextView mTvsave;
     @BindView(R.id.view)
     View mView;
  //   @BindView(R.id.tv_count)
@@ -90,6 +90,9 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
      @BindView(R.id.rv)
      RecyclerView rv;
+
+     @BindView(R.id.tv_ordersend)
+     TextView mTvordersend;
 
     private TextView tv_province;
     private TextView tv_city;
@@ -158,10 +161,11 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
     @Override
     protected void setListener() {
-        mTvsave.setOnClickListener(this);
+       // mTvsave.setOnClickListener(this);
         mTvaddress.setOnClickListener(this);
         mImgarrow.setOnClickListener(this);
         mIconback.setOnClickListener(this);
+        mTvordersend.setOnClickListener(this);
      /*   adderView.setOnValueChangeListene(new AdderView.OnValueChangeListener() {
             @Override
             public void onValueChange(int value) {
@@ -175,9 +179,20 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     @Override
     public void GetOrderDetail(OrderDetail result) {
         if (result.isSuccess()){
-            mTvsave.setVisibility(View.VISIBLE);
-            mTvsave.setText("发单");
+           // mTvsave.setVisibility(View.VISIBLE);
+           // mTvsave.setText("发单");
             order=result.getOrder();
+
+
+            for (int i = 0; i <result.getOrderItem().size() ; i++) {
+                if (result.getOrderItem().get(i).isInstall()==false){
+                    continue;
+                }
+                installmap.put(i,result.getOrderItem().get(i));
+            }
+
+
+
 
             orderInstallAdapter=new OrderInstallAdapter(R.layout.item_orderinstall,result.getOrderItem());
             rv.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -247,7 +262,8 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                 OrderInstallActivity.this.finish();
                 break;
 
-            case R.id.tv_save://提交
+    //        case R.id.tv_save://提交
+            case R.id.tv_ordersend:
 //                ToastUtils.showShort(expressResult.getExpressNum());
              String name=mEtname.getText().toString();
              String phone=mEtphone.getText().toString();

@@ -38,7 +38,7 @@ public interface MineContract {
                                                          String Grade3,
                                                          String OrgAppraise);
         Observable<BaseResult<WorkOrder>> GetOrderInfoList(String UserID, String state, String page, String limit);
-        Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID);
+        Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID,String State);
         Observable<BaseResult<List<Track>>> GetOrderRecordByOrderID(String OrderId);
         Observable<BaseResult<Data<String>>> PressWokerAccount(String OrderID,String Content);
         Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(String ExpressNo);
@@ -82,7 +82,7 @@ public interface MineContract {
                                          String Grade3,
                                          String OrgAppraise);
         public abstract void GetOrderInfoList(String UserID,String state, String page,String limit);
-        public abstract void GetOrderByhmalluserid(String UserID);
+        public abstract void GetOrderByhmalluserid(String UserID,String State);
         public abstract void GetOrderRecordByOrderID(String OrderId);
         public abstract void PressWokerAccount(String OrderID,String Content);
         public abstract void GetExpressInfo(String ExpressNo);
