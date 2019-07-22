@@ -26,6 +26,8 @@ public class GetSerachListAdapter extends BaseQuickAdapter<GetSerachListResult.D
 
         helper.setText(R.id.tv_goods_money,item.getNeedIntegral()+"");
 
+        helper.setText(R.id.tv_goods_name,item.getGiftName());
+
         helper.addOnClickListener(R.id.ll_item);
     }
 }
