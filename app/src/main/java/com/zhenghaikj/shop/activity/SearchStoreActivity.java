@@ -33,6 +33,9 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
+
+/*兑换商城搜索*/
 public class SearchStoreActivity extends NoImmBaseActivity implements View.OnClickListener {
 
     @BindView(R.id.view)
@@ -139,8 +142,8 @@ public class SearchStoreActivity extends NoImmBaseActivity implements View.OnCli
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
                     case R.id.ll_item_history:
-                        Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
-                        intent.putExtra("search",(String) adapter.getItem(position));
+                        Intent intent=new Intent(mActivity,GetSerachListActivity.class);
+                        intent.putExtra("skey",(String) adapter.getItem(position));
                         startActivityForResult(intent, Config.SEARCH_REQUEST);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         break;
@@ -199,8 +202,8 @@ public class SearchStoreActivity extends NoImmBaseActivity implements View.OnCli
                         reversedList();
                         serachHistroyAdapter.notifyDataSetChanged();
                         // Intent intent=new Intent(mActivity,SearchDetailActivity.class);
-                        Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
-                        intent.putExtra("search",record);
+                        Intent intent=new Intent(mActivity,GetSerachListActivity.class);
+                        intent.putExtra("skey",record);
                         startActivityForResult(intent, Config.SEARCH_REQUEST);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -210,8 +213,8 @@ public class SearchStoreActivity extends NoImmBaseActivity implements View.OnCli
                     } else {
                         mEtSearch.setText(String.valueOf(mEtSearch.getHint()));
                         mEtSearch.setSelection(String.valueOf(mEtSearch.getHint()).length());
-                        Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
-                        intent.putExtra("search",String.valueOf(mEtSearch.getHint()));
+                        Intent intent=new Intent(mActivity,GetSerachListActivity.class);
+                        intent.putExtra("skey",String.valueOf(mEtSearch.getHint()));
                         startActivityForResult(intent, Config.SEARCH_REQUEST);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -282,8 +285,9 @@ public class SearchStoreActivity extends NoImmBaseActivity implements View.OnCli
                     reversedList();
                     serachHistroyAdapter.notifyDataSetChanged();
                    // Intent intent=new Intent(mActivity,SearchDetailActivity.class);
-                    Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
-                    intent.putExtra("search",record);
+                    Intent intent=new Intent(mActivity,GetSerachListActivity.class);
+                    intent.putExtra("skey",record);
+
                     startActivityForResult(intent, Config.SEARCH_REQUEST);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -293,8 +297,8 @@ public class SearchStoreActivity extends NoImmBaseActivity implements View.OnCli
                 } else {
                     mEtSearch.setText(String.valueOf(mEtSearch.getHint()));
                     mEtSearch.setSelection(String.valueOf(mEtSearch.getHint()).length());
-                    Intent intent=new Intent(mActivity,NewSearchDetailActivty.class);
-                    intent.putExtra("search",String.valueOf(mEtSearch.getHint()));
+                    Intent intent=new Intent(mActivity,GetSerachListActivity.class);
+                    intent.putExtra("skey",String.valueOf(mEtSearch.getHint()));
                     startActivityForResult(intent, Config.SEARCH_REQUEST);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 

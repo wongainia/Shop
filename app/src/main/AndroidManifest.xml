@@ -416,6 +416,12 @@
             android:theme="@style/AppSplash"
             android:launchMode="singleTask"
             />
+
+        <activity android:name=".activity.GetSerachListActivity"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
+
         <receiver
             android:name=".wxapi.AppRegister">
             <intent-filter>

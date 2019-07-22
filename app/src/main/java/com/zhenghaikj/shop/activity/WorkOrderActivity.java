@@ -126,7 +126,7 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
 
     @Override
     protected void initData() {
-
+        mTvTitle.setText("工单列表");
 
 /*
         mRvWorkOrder.setLayoutManager(new LinearLayoutManager(mActivity));

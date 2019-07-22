@@ -125,7 +125,7 @@ public class CategoryFragment extends BaseLazyFragment<ShopPresenter, ShopModel>
             shopAdapter = new ShopAdapter(mActivity,exchageList);
             StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
             mRvExchage.setLayoutManager(staggeredGridLayoutManager);
-//        mRvExchage.setAdapter(exchageAdapter);
+//          mRvExchage.setAdapter(exchageAdapter);
             mRvExchage.setAdapter(shopAdapter);
         }
     }

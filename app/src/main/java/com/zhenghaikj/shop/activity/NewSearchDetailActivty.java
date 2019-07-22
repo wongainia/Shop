@@ -112,8 +112,6 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
 
 
     private List<FilterResult.CategoryBean.SubCategoryBeanX.SubCategoryBean> mClist=new ArrayList<>();
-
-
     private FliterBrandAdapter fliterBrandAdapter;
     private FliterClassifyAdapter fliterClassifyAdapter;
     private FliterAttrsAdapter fliterAttrsAdapter;

@@ -1160,8 +1160,6 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                         }
                     }
                 }
-
-
                 break;
 
             default:

@@ -33,6 +33,7 @@ import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.GetIntroForStoreResult;
 import com.zhenghaikj.shop.entity.GetPayPwd;
+import com.zhenghaikj.shop.entity.GetSerachListResult;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.GiftAds;
@@ -1209,6 +1210,17 @@ public interface ApiService {
             @Query("timestamp") String timestamp,
             @Query("sign") String sign
     );
+
+
+     /*兑换商城搜索*/
+    @GET("api/Gifts/GetList")
+    Observable<GetSerachListResult> GetSerachList(@Query("skey") String skey,
+                                                  @Query("app_key") String app_key,
+                                                  @Query("timestamp") String timestamp,
+                                                  @Query("sign") String sign);
+
+
+
     /**
     * 猜你喜欢，找相似
     */
