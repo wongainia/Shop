@@ -43,6 +43,24 @@ public class RefundDetailResult implements Serializable {
     private String Reason;
     private String ApplyDate;
     private String RefundAddress;
+    private String Reciver;
+    private String RecivePhone;
+
+    public String getReciver() {
+        return Reciver;
+    }
+
+    public void setReciver(String reciver) {
+        Reciver = reciver;
+    }
+
+    public String getRecivePhone() {
+        return RecivePhone;
+    }
+
+    public void setRecivePhone(String recivePhone) {
+        RecivePhone = recivePhone;
+    }
 
     public String getRefundAddress() {
         return RefundAddress;

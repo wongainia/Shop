@@ -574,4 +574,12 @@ public interface ApiService2 {
     @POST("mall/CoinList")
     Observable<BaseResult<Data<List<CoinRecord>>>> CoinList(@Field("UserID") String UserID, @Field("state") String state);
 
+
+    /*
+     * 删除订单
+     * */
+    @FormUrlEncoded
+    @POST("order/ApplyCancelOrder")
+    Observable<BaseResult<Data<String>>> ApplyCancelOrder(@Field("OrderID") String OrderID);
+
 }

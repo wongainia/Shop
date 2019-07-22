@@ -22,6 +22,7 @@ public interface AllWorkOrdersContract {
         Observable<BaseResult<Data<String>>> FactoryEnsureOrder(String OrderID, String PayPassword);
         Observable<BaseResult<Data<String>>> UpdateOrderFIsLook(String OrderID, String IsLook, String FIsLook);
         Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID,String State);
+        Observable<BaseResult<Data<String>>> ApplyCancelOrder(String OrderID);
     }
 
     interface View extends BaseView {
@@ -32,6 +33,7 @@ public interface AllWorkOrdersContract {
         void FactoryEnsureOrder(BaseResult<Data<String>> baseResult);
         void UpdateOrderFIsLook(BaseResult<Data<String>> baseResult);
         void GetOrderByhmalluserid(BaseResult<Data<List<WorkOrder.DataBean>>> baseResult);
+        void ApplyCancelOrder(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -42,5 +44,6 @@ public interface AllWorkOrdersContract {
         public abstract void FactoryEnsureOrder(String OrderID, String PayPassword);
         public abstract void UpdateOrderFIsLook(String OrderID, String IsLook,String FIsLook);
         public abstract void GetOrderByhmalluserid(String UserID,String State);
+        public abstract void ApplyCancelOrder(String OrderID);
     }
 }

@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop.mvp.model;
 
+import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
@@ -60,6 +61,13 @@ public class AllWorkOrdersModel implements AllWorkOrdersContract.Model {
     @Override
     public Observable<BaseResult<Data<List<WorkOrder.DataBean>>>> GetOrderByhmalluserid(String UserID,String State) {
         return ApiRetrofit2.getDefault().GetOrderByhmalluserid(UserID,State)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<BaseResult<Data<String>>> ApplyCancelOrder(String OrderID) {
+        return ApiRetrofit2.getDefault().ApplyCancelOrder(OrderID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

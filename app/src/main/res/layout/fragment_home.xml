@@ -266,46 +266,90 @@
                             android:orientation="horizontal"
                             android:padding="10dp">
 
-                            <ImageView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/home_onee" />
-
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="精选品质制造商"
-                                android:textColor="#333"
-                                android:textSize="12sp" />
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:gravity="center">
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/top_one"
+                                    android:layout_gravity="center"/>
 
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:layout_marginLeft="25dp"
-                                android:src="@drawable/home_two" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="优质产品厂价直销"
+                                    android:textColor="#808080"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
 
-                            <TextView
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="7天无理由退换"
-                                android:textColor="#333"
-                                android:textSize="12sp" />
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:gravity="center">
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/top_three"
+                                    android:layout_gravity="center"/>
 
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:layout_marginLeft="25dp"
-                                android:src="@drawable/home_three" />
-
-                            <TextView
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="7天无理由退换"
+                                    android:textColor="#808080"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="自带服务"
-                                android:textColor="#333"
-                                android:textSize="12sp" />
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:gravity="center">
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/top_two"
+                                    android:layout_gravity="center"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="免费上门安装"
+                                    android:textColor="#808080"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:gravity="center">
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/top_four"
+                                    android:layout_gravity="center"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="保修期免费保修"
+                                    android:textColor="#808080"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+
+
                         </LinearLayout>
 
                         <View

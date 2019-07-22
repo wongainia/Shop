@@ -1,9 +1,10 @@
 package com.zhenghaikj.shop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.activity.SearchStoreActivity;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Announcement;
@@ -39,7 +41,7 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
     @BindView(R.id.view)
     View mView;
     @BindView(R.id.et_search)
-    EditText mEtSearch;
+    TextView mEtSearch;
     @BindView(R.id.tab_goods_layout)
     TabLayout mTabGoodsLayout;
     @BindView(R.id.vp_goods)
@@ -110,6 +112,7 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
 
     @Override
     protected void setListener() {
+        mEtSearch.setOnClickListener(this);
         mAppbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -170,7 +173,9 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.et_search:
+                startActivity(new Intent(mActivity, SearchStoreActivity.class));
+                break;
         }
     }
 

@@ -107,6 +107,8 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
 
     @Override
     protected void initView() {
+        mTvTitle.setText("所有工单");
+        mTvTitle.setVisibility(View.VISIBLE);
         for (int i = 0; i < 8; i++) {
             mWorkOrderFragmentList.add(WorkOrderFragment.newInstance(mTitleDataList[i], ""));
         }
@@ -282,6 +284,10 @@ public class WorkOrderActivity extends BaseActivity<AllWorkOrdersPresenter, AllW
         }*/
     }
 
+    @Override
+    public void ApplyCancelOrder(BaseResult<Data<String>> baseResult) {
+
+    }
 
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
