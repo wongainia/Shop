@@ -42,6 +42,9 @@ public interface OrderContract {
         Observable<AddtoCartResult> PostAddProductToCart(String skuId, String count, String Userkey);
         Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
 
+        /*判断商品工单号是否发起过保内安装*/
+        Observable<BaseResult<Data<String>>> IsMallid(String MallID);
+
     }
 
     interface View extends BaseView{
@@ -58,8 +61,9 @@ public interface OrderContract {
         void CancelOrder(EasyResult baseResult);
         void GetUserInfoList(BaseResult<UserInfo> Result);
         void PostAddProductToCart(AddtoCartResult Result);
-
         void PostChangeOrderAddress(ChangeOrderAddress Result);
+
+        void IsMallid(BaseResult<Data<String>> baseResult);
     }
 
     abstract class Presenter extends BasePresenter<View,Model>{
@@ -79,7 +83,8 @@ public interface OrderContract {
         public abstract void CancelOrder(String cartItemIds,String recieveAddressId,String userkey);
         public abstract void GetUserInfoList(String userName, String limit);
         public abstract void PostAddProductToCart(String skuId,String count,String Userkey);
-
         public abstract void PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
+
+        public abstract void IsMallid(String MallID);
     }
 }

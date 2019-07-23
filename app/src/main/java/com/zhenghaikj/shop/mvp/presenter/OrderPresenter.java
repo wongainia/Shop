@@ -158,4 +158,16 @@ public class OrderPresenter extends OrderContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void IsMallid(String MallID) {
+        mModel.IsMallid(MallID)
+                .subscribe(new BaseObserver2<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.IsMallid(value);
+                    }
+                });
+    }
+
 }

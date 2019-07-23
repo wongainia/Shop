@@ -125,6 +125,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
     private List<JsonStrOrderPay> payList;
     private JSONArray jsonArray;
     private int payposition;
+    private int sendorderposition;
 
     private BottomSheetDialog bottomSheetDialog;
     private int closeid;
@@ -285,10 +286,9 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                         break;
 
                     case R.id.tv_sendorder://发单
+                        sendorderposition=position;
+                        mPresenter.IsMallid(cartList.get(position).getId());
 
-                        Intent intent3=new Intent(mActivity, OrderInstallActivity.class);
-                        intent3.putExtra("OrderId",cartList.get(position).getId());
-                        startActivity(intent3);
                     break;
 
                 }
@@ -446,6 +446,24 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
             ToastUtils.showShort(Result.getMsg());
         }else {
             ToastUtils.showShort(Result.getMsg());
+        }
+    }
+
+    @Override
+    public void IsMallid(BaseResult<Data<String>> baseResult) {
+
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().isItem1()){
+                    Intent intent3=new Intent(mActivity, OrderInstallActivity.class);
+                    intent3.putExtra("OrderId",cartList.get(sendorderposition).getId());
+                    startActivity(intent3);
+                }else {
+                    Toast.makeText(mActivity,"该订单已发过工单",Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+
         }
     }
 

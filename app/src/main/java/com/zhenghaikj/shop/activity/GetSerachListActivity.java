@@ -71,8 +71,7 @@ public class GetSerachListActivity extends BaseActivity<GetSerachListPresenter, 
 
     @Override
     protected void initData() {
-       skey = getIntent().getStringExtra("skey");
-
+        skey = getIntent().getStringExtra("skey");
         getSerachListAdapter=new GetSerachListAdapter(R.layout.item_shop,list);
         StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mRv.setLayoutManager(staggeredGridLayoutManager);

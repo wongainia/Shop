@@ -226,4 +226,9 @@ public class AddOrderActivity extends BaseActivity<OrderPresenter, OrderModel> i
     public void PostChangeOrderAddress(ChangeOrderAddress Result) {
 
     }
+
+    @Override
+    public void IsMallid(BaseResult<Data<String>> baseResult) {
+
+    }
 }
