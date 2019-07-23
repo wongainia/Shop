@@ -12,6 +12,10 @@
         android:layout_height="0dp"
         android:background="@color/white" />
 
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cdl"
         android:layout_width="match_parent"
@@ -22,18 +26,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
+          <!--  <LinearLayout
                 android:id="@+id/ll_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
 
                 <LinearLayout
+                    android:id="@+id/ll_head"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:gravity="center"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
                     android:padding="10dp">
 
                     <TextView
@@ -83,7 +89,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
             <View
                 android:layout_width="match_parent"
@@ -91,7 +97,7 @@
                 android:background="#eee" />
 
 
-            <com.google.android.material.tabs.TabLayout
+            <!--<com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_goods_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -104,16 +110,49 @@
                 app:tabSelectedTextColor="#ED3D48"
                 app:tabTextAppearance="@style/ReturnTabLayout"
                 app:tabTextColor="@color/black"
-                android:visibility="gone"/>
+                android:visibility="gone"/>-->
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.zhenghaikj.shop.widget.CustomViewPager
+      <!--  <com.zhenghaikj.shop.widget.CustomViewPager
             android:id="@+id/vp_goods"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_marginBottom="5dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_exchage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/cdl"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+<androidx.cardview.widget.CardView
+    android:id="@+id/cv_up"
+    app:cardCornerRadius="20dp"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:layout_margin="20dp"
+    ><ImageView
+    android:id="@+id/img_up"
+    android:layout_width="25dp"
+    android:layout_height="25dp"
+    android:src="@mipmap/icon_returntop"
+    android:layout_gravity="center"
 
+    />
 
+</androidx.cardview.widget.CardView>
+
+   </RelativeLayout>
 </LinearLayout>

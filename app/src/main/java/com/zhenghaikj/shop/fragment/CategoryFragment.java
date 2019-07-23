@@ -1,10 +1,14 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -32,7 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class CategoryFragment extends BaseLazyFragment<ShopPresenter, ShopModel> implements ShopContract.View {
+public class CategoryFragment extends BaseLazyFragment<ShopPresenter, ShopModel> implements ShopContract.View, View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";//
     private static final String ARG_PARAM2 = "param2";//
     @BindView(R.id.rv_exchage)
@@ -85,7 +89,6 @@ public class CategoryFragment extends BaseLazyFragment<ShopPresenter, ShopModel>
 //        });
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             exchageList.clear();
-//            mPresenter.index();
             pagaNo = 1;
             mPresenter.IndexJson(String.valueOf(pagaNo));
             refreshLayout.setNoMoreData(false);
@@ -100,6 +103,8 @@ public class CategoryFragment extends BaseLazyFragment<ShopPresenter, ShopModel>
                 mRefreshLayout.finishLoadmore();
             }
         });
+
+
     }
 
     @Override
@@ -128,6 +133,7 @@ public class CategoryFragment extends BaseLazyFragment<ShopPresenter, ShopModel>
 //          mRvExchage.setAdapter(exchageAdapter);
             mRvExchage.setAdapter(shopAdapter);
         }
+
     }
 
     @Override
@@ -138,5 +144,9 @@ public class CategoryFragment extends BaseLazyFragment<ShopPresenter, ShopModel>
     @Override
     public void GetList(Announcement result) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
     }
 }

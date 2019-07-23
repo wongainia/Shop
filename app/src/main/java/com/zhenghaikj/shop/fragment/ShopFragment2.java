@@ -1,20 +1,33 @@
 package com.zhenghaikj.shop.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.SearchStoreActivity;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
+import com.zhenghaikj.shop.adapter.ShopAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.GiftAds;
@@ -42,20 +55,37 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
     View mView;
     @BindView(R.id.et_search)
     TextView mEtSearch;
-    @BindView(R.id.tab_goods_layout)
-    TabLayout mTabGoodsLayout;
-    @BindView(R.id.vp_goods)
-    CustomViewPager mVpGoods;
+   /* @BindView(R.id.tab_goods_layout)
+    TabLayout mTabGoodsLayout;*/
+ /*   @BindView(R.id.vp_goods)
+    CustomViewPager mVpGoods;*/
     public static final int MOVABLE_COUNT = 5;
     @BindView(R.id.appbarlayout)
     AppBarLayout mAppbarlayout;
     @BindView(R.id.cdl)
     CoordinatorLayout mCdl;
+    @BindView(R.id.rv_exchage)
+    RecyclerView mRvExchage;
 
+    @BindView(R.id.img_up)
+    ImageView img_up;
+
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.cv_up)
+    CardView mCvup;
+
+    @BindView(R.id.ll_head)
+    LinearLayout mLlhead;
     private String[] mTitleDataList = new String[]{
             "全部", "衣服", "裤子", "鞋子", "帽子", "热水器", "水龙头", "饰品", "零食"
     };
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
+
+
+    private int pagaNo = 1;
+    private ShopAdapter shopAdapter;
+    private List<ShopResult.GiftListNewBean> exchageList = new ArrayList<>();
 
     public static ShopFragment2 newInstance(String param1, String param2) {
         ShopFragment2 fragment = new ShopFragment2();
@@ -91,7 +121,13 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
 
     @Override
     protected void initData() {
-        for (int i = 0; i < mTitleDataList.length; i++) {
+        shopAdapter = new ShopAdapter(mActivity,exchageList);
+        StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        mRvExchage.setLayoutManager(staggeredGridLayoutManager);
+        mRvExchage.setAdapter(shopAdapter);
+
+        mPresenter.IndexJson(String.valueOf(pagaNo));
+      /*  for (int i = 0; i < mTitleDataList.length; i++) {
             fragmentList.add(CategoryFragment.newInstance(mTitleDataList[i], ""));
         }
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager(), fragmentList, Arrays.asList(mTitleDataList));
@@ -101,7 +137,15 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
         mTabGoodsLayout.setupWithViewPager(mVpGoods);
         mVpGoods.setCurrentItem(0);
         mVpGoods.setOffscreenPageLimit(0);
+*/
 
+     /* mLlhead.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+          @Override
+          public void onGlobalLayout() {
+              Log.d("====>getViewT",mLlhead.getHeight()+"");
+
+          }
+      });*/
     }
 
     @Override
@@ -113,7 +157,8 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
     @Override
     protected void setListener() {
         mEtSearch.setOnClickListener(this);
-        mAppbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        img_up.setOnClickListener(this);
+  /*      mAppbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 Log.d("======>appbar", String.valueOf(verticalOffset));
@@ -125,7 +170,41 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
 //                    mTvTitle.setVisibility(View.VISIBLE);
 //                }
             }
+        });*/
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+             pagaNo++;
+             mPresenter.IndexJson(String.valueOf(pagaNo));
+             mRefreshLayout.finishLoadMore();
+
+
+            }
         });
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                exchageList.clear();
+                pagaNo=1;
+                mPresenter.IndexJson(String.valueOf(pagaNo));
+                mRefreshLayout.finishRefresh();
+            }
+        });
+
+
+        mAppbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+
+                if (i>-mLlhead.getHeight()&&i<=0){
+                    mCvup.setVisibility(View.INVISIBLE);
+                }else {
+                    mCvup.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
     }
 
     //初始化数据
@@ -143,6 +222,10 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
 
     @Override
     public void IndexJson(ShopResult result) {
+        if (result.getGiftTotal() != 0) {
+            exchageList.addAll(result.getGiftListNew());
+            shopAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -176,8 +259,11 @@ public class ShopFragment2 extends BaseLazyFragment<ShopPresenter, ShopModel> im
             case R.id.et_search:
                 startActivity(new Intent(mActivity, SearchStoreActivity.class));
                 break;
+            case R.id.img_up:
+                mRvExchage.scrollToPosition(0);
+                mCvup.setVisibility(View.INVISIBLE);
+                break;
+
         }
     }
-
-
 }
