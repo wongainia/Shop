@@ -58,18 +58,26 @@
                                 android:textSize="12sp"
                                 android:visibility="gone"/>
                         </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
 
                         <ImageView
+                            android:id="@+id/iv_logo"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/wuliu" />
+                            android:layout_height="60dp"
+                            android:src="@drawable/wuliuche"
+                            android:layout_gravity="bottom"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -115,6 +123,13 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@mipmap/dingwei"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="10dp"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -180,8 +195,8 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
-                                    android:layout_width="14dp"
-                                    android:layout_height="17dp"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
                                     android:layout_gravity="center"
                                     android:src="@drawable/dianpu" />
 
@@ -311,7 +326,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="20dp"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -381,7 +396,7 @@
                         android:orientation="vertical"
                         android:background="@color/white"
                         android:padding="10dp"
-                        android:layout_marginBottom="50dp">
+                        android:layout_marginBottom="70dp">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -502,7 +517,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:background="@color/white"
-                android:paddingBottom="10dp">
+                android:paddingBottom="20dp">
 
                 <View
                     android:layout_width="match_parent"
@@ -513,7 +528,7 @@
                     android:id="@+id/ll_close"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="right"
                     android:orientation="horizontal"
                     android:visibility="gone">
@@ -533,7 +548,7 @@
                         android:id="@+id/tv_buy_again"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/gray_circle_shape"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
@@ -546,7 +561,7 @@
                     android:id="@+id/ll_all_orders"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="right"
                     android:orientation="horizontal"
                     android:visibility="gone">
@@ -568,7 +583,7 @@
                         android:id="@+id/tv_view_logistics"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/gray_circle_shape"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
@@ -581,7 +596,7 @@
                         android:id="@+id/tv_evaluation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/red_shape"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
@@ -595,7 +610,7 @@
                     android:id="@+id/ll_pending_receipt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="right"
                     android:orientation="horizontal">
 
@@ -615,20 +630,21 @@
                         android:id="@+id/tv_extended_receipt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/gray_circle_shape"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
                         android:paddingRight="10dp"
                         android:paddingBottom="5dp"
                         android:text="延长收货"
-                        android:textColor="#333" />
+                        android:textColor="#333"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tv_confirm_receipt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/red_shape"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
@@ -643,7 +659,7 @@
                     android:id="@+id/ll_pending_payment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="right"
                     android:orientation="horizontal"
                     android:visibility="gone">
@@ -662,7 +678,7 @@
                         android:id="@+id/tv_friend_pay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/gray_circle_shape"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
@@ -676,7 +692,7 @@
                         android:id="@+id/tv_payment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/red_shape"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
@@ -694,7 +710,7 @@
                     android:id="@+id/ll_to_be_delivered"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="right"
                     android:orientation="horizontal"
                     android:visibility="gone">
@@ -715,7 +731,7 @@
                         android:id="@+id/tv_change_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/gray_circle_shape"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
@@ -728,7 +744,7 @@
                         android:id="@+id/tv_buy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/gray_circle_shape"
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"

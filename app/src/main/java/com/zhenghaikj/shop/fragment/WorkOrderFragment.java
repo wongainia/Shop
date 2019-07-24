@@ -161,7 +161,8 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                         break;
                     case R.id.tv_obsolete:
                         String orderId = workOrderList.get(position).getOrderID();
-                        mPresenter.UpdateOrderState(orderId, "-2");
+//                                    mPresenter.UpdateOrderState(orderId, "-2");
+                        mPresenter.ApplyCancelOrder(orderId);
                         workOrderList.clear();
                         break;
                 }
@@ -182,55 +183,55 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
 
     public void getData() {
         switch (mParam1) {
-//            case "待接单":
-//                mPresenter.GetOrderByhmalluserid(UserID,"0");
-//                break;
-//            case "待审核":
-//                mPresenter.GetOrderByhmalluserid(UserID,"1");
-//                break;
-//            case "已接单":
-//                mPresenter.GetOrderByhmalluserid(UserID,"7");
-//                break;
-//            case "待支付":
-//                mPresenter.GetOrderByhmalluserid(UserID,"2");
-//                break;
-//            case "已完成":
-//                mPresenter.GetOrderByhmalluserid(UserID,"3");
-//                break;
-//            case "质保单":
-//                mPresenter.GetOrderByhmalluserid(UserID,"4");
-//                break;
-//            case "所有工单":
-//                mPresenter.GetOrderByhmalluserid(UserID,"5");
-//                break;
-//            case "退单处理":
-//                mPresenter.GetOrderByhmalluserid(UserID,"6");
-//                break;
-
             case "待接单":
-                mPresenter.GetOrderInfoList(UserID,"0", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID,"0");
                 break;
             case "待审核":
-                mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID,"1");
                 break;
             case "已接单":
-                mPresenter.GetOrderInfoList(UserID,"7", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID,"7");
                 break;
             case "待支付":
-                mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID,"2");
                 break;
             case "已完成":
-                mPresenter.GetOrderInfoList(UserID,"3", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID,"3");
                 break;
             case "质保单":
-                mPresenter.GetOrderInfoList(UserID,"4", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID,"4");
                 break;
             case "所有工单":
-                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID,"5");
                 break;
             case "退单处理":
-                mPresenter.GetOrderInfoList(UserID,"6", Integer.toString(pageIndex), "3");
+                mPresenter.GetOrderByhmalluserid(UserID,"6");
                 break;
+
+//            case "待接单":
+//                mPresenter.GetOrderInfoList(UserID,"0", Integer.toString(pageIndex), "3");
+//                break;
+//            case "待审核":
+//                mPresenter.GetOrderInfoList(UserID,"1", Integer.toString(pageIndex), "3");
+//                break;
+//            case "已接单":
+//                mPresenter.GetOrderInfoList(UserID,"7", Integer.toString(pageIndex), "3");
+//                break;
+//            case "待支付":
+//                mPresenter.GetOrderInfoList(UserID,"2", Integer.toString(pageIndex), "3");
+//                break;
+//            case "已完成":
+//                mPresenter.GetOrderInfoList(UserID,"3", Integer.toString(pageIndex), "3");
+//                break;
+//            case "质保单":
+//                mPresenter.GetOrderInfoList(UserID,"4", Integer.toString(pageIndex), "3");
+//                break;
+//            case "所有工单":
+//                mPresenter.GetOrderInfoList(UserID,"5", Integer.toString(pageIndex), "3");
+//                break;
+//            case "退单处理":
+//                mPresenter.GetOrderInfoList(UserID,"6", Integer.toString(pageIndex), "3");
+//                break;
 
         }
     }
@@ -282,71 +283,20 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
         switch (baseResult.getStatusCode()) {
 
             case 200:
-//                if (!baseResult.getData().getItem2().isEmpty()){
-//                    workOrderList=baseResult.getData().getItem2();
-//                    mRvWorkOrder.setLayoutManager(new LinearLayoutManager(mActivity));
-//                    mWorkOrderAdapter = new WorkOrderAdapter(R.layout.order_item, baseResult.getData().getItem2(), mParam1);
-//                    mRvWorkOrder.setAdapter(mWorkOrderAdapter);
-//                    mWorkOrderAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-//                        @Override
-//                        public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
-//                            switch (view.getId()) {
-//                                case R.id.tv_complaint:
-//                                   View complaint_view = LayoutInflater.from(mActivity).inflate(R.layout.customdialog_complaint, null);
-//                                    title = complaint_view.findViewById(R.id.title);
-//                                    btn_negtive = complaint_view.findViewById(R.id.negtive);
-//                                    btn_positive = complaint_view.findViewById(R.id.positive);
-//                                    et_content = complaint_view.findViewById(R.id.et_content);
-//                                    title.setText("投诉");
-//                                    complaint_dialog = new AlertDialog.Builder(mActivity)
-//                                            .setView(complaint_view)
-//                                            .create();
-//                                    complaint_dialog.show();
-//                                    btn_negtive.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            complaint_dialog.dismiss();
-//                                        }
-//                                    });
-//                                    btn_positive.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            String content = et_content.getText().toString().trim();
-//                                            if ("".equals(content)) {
-//                                                MyUtils.showToast(mActivity, "请输入投诉原因");
-//                                            } else {
-//                                                mPresenter.FactoryComplaint(workOrderList.get(position).getOrderID(), content);
-//                                            }
-//                                        }
-//                                    });
-//                                    break;
-//                                case R.id.tv_leave_message:
-//
-//                                    break;
-//                                case R.id.tv_see_detail:
-//                                    mPresenter.UpdateOrderFIsLook(workOrderList.get(position).getOrderID(), "2", "2");
-//                                    Intent intent1 = new Intent(mActivity, WorkOrderDetailActivity.class);
-//                                    intent1.putExtra("OrderID", workOrderList.get(position).getOrderID());
-//                                    startActivity(intent1);
-//                                    break;
-//                                case R.id.iv_copy:
-//                                    String id = workOrderList.get(position).getOrderID();
-//                                    myClip = ClipData.newPlainText("", id);
-//                                    myClipboard.setPrimaryClip(myClip);
-//                                    ToastUtils.showShort("复制成功");
-//                                    break;
-//                                case R.id.tv_obsolete:
-//                                    String orderId = workOrderList.get(position).getOrderID();
-////                                    mPresenter.UpdateOrderState(orderId, "-2");
-//                                    mPresenter.ApplyCancelOrder(orderId);
-//                                    workOrderList.clear();
-//                                    break;
-//                            }
-//                        }
-//                    });
-//                }else {
-//                    mWorkOrderAdapter.setEmptyView(getEmptyView());
-//                }
+                workOrderList.clear();
+                if (baseResult.getData().getItem2()!=null){
+                    workOrderList.addAll(baseResult.getData().getItem2());
+                    mWorkOrderAdapter.setNewData(workOrderList);
+
+                }
+                if (pageIndex!=1&&baseResult.getData().getItem2()==null){
+                    mRefreshLayout.finishLoadMoreWithNoMoreData();
+                }else{
+                    mRefreshLayout.finishLoadMore();
+                }
+                break;
+            case 401:
+                ToastUtils.showShort(baseResult.getInfo());
                 break;
 
         }

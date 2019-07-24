@@ -119,7 +119,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.tv_payment.setText(sp);
         holder.tv_shop_name.setText(bean.getShopName());
         if (list.get(position).getProductAttributeInfos()!=null){
-            if (list.get(position).getProductAttributeInfos().size()>3){
+            if (list.get(position).getProductAttributeInfos().size()>=3){
                 holder.tv_comment.setText(list.get(position).getProductAttributeInfos().get(0)+" | "+list.get(position).getProductAttributeInfos().get(1)+" | "+list.get(position).getProductAttributeInfos().get(2));
 
             }else if (list.get(position).getProductAttributeInfos().size()==1){

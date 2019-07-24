@@ -58,7 +58,7 @@ public class NewSearchDetailAdapetr extends BaseQuickAdapter<SearchResult.Produc
                 .into((ImageView) helper.getView(R.id.img_shop));
         helper.addOnClickListener(R.id.rl_shop);
         if (item.getProductAttributeInfos()!=null){
-            if (item.getProductAttributeInfos().size()>3){
+            if (item.getProductAttributeInfos().size()>=3){
                 helper.setText(R.id.tv_comment,item.getProductAttributeInfos().get(0)+" | "+item.getProductAttributeInfos().get(1)+" | "+item.getProductAttributeInfos().get(2));
 //                helper.setText(R.id.tv_comment_two,item.getProductAttributeInfos().get(1));
 //                helper.setText(R.id.tv_comment_three,item.getProductAttributeInfos().get(2));

@@ -61,6 +61,7 @@ public interface OrderContract {
         void CancelOrder(EasyResult baseResult);
         void GetUserInfoList(BaseResult<UserInfo> Result);
         void PostAddProductToCart(AddtoCartResult Result);
+
         void PostChangeOrderAddress(ChangeOrderAddress Result);
 
         void IsMallid(BaseResult<Data<String>> baseResult);
@@ -83,6 +84,7 @@ public interface OrderContract {
         public abstract void CancelOrder(String cartItemIds,String recieveAddressId,String userkey);
         public abstract void GetUserInfoList(String userName, String limit);
         public abstract void PostAddProductToCart(String skuId,String count,String Userkey);
+
         public abstract void PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
 
         public abstract void IsMallid(String MallID);

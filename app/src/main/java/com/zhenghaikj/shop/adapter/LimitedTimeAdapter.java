@@ -62,7 +62,7 @@ public class LimitedTimeAdapter extends BaseQuickAdapter<LimitBuyListResult.List
         spv.setTotalAndCurrentCount(item.getStock(),item.getSaleCount());
 
         if (item.getProductAttributeInfos()!=null){
-            if (item.getProductAttributeInfos().size()>3){
+            if (item.getProductAttributeInfos().size()>=3){
                 helper.setText(R.id.tv_comment,item.getProductAttributeInfos().get(0)+" | "+item.getProductAttributeInfos().get(1)+" | "+item.getProductAttributeInfos().get(2));
 //                helper.setText(R.id.tv_comment_two,item.getProductAttributeInfos().get(1));
 //                helper.setText(R.id.tv_comment_three,item.getProductAttributeInfos().get(2));

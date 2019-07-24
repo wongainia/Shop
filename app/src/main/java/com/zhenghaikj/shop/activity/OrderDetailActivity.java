@@ -57,7 +57,6 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.JsonStrOrderPay;
-import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PayResult;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
@@ -67,6 +66,7 @@ import com.zhenghaikj.shop.fragment.OrderFragment;
 import com.zhenghaikj.shop.mvp.contract.OrderDetailContract;
 import com.zhenghaikj.shop.mvp.model.OrderDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.OrderDetailPresenter;
+import com.zhenghaikj.shop.utils.GlideUtil;
 import com.zhenghaikj.shop.utils.MyUtils;
 import com.zhenghaikj.shop.widget.fingerprint.FingerprintCore;
 import com.zhenghaikj.shop.widget.fingerprint.PwdFragment;
@@ -87,7 +87,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View,PasswordEditText.PasswordFullListener, PwdView.InputCallBack {
+public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, OrderDetailModel> implements View.OnClickListener, OrderDetailContract.View, PasswordEditText.PasswordFullListener, PwdView.InputCallBack {
 
     private static final String TAG = "OrderDetailActivity";
     @BindView(R.id.view)
@@ -186,6 +186,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     LinearLayout mLlClose;
     @BindView(R.id.tv_delete2)
     TextView mTvDelete2;
+    @BindView(R.id.iv_logo)
+    ImageView mIvLogo;
 
     private ClipboardManager myClipboard;
     private ClipData myClip;
@@ -210,7 +212,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private int paytype;  //支付方式：支付密码：1  确认收货：2
     private List<OrderDetail.OrderItemBean> orderItemBean;
     private ShippingAddressList.ShippingAddressBean address;
-    private String addressid="";
+    private String addressid = "";
 
     @Override
     protected int setLayoutId() {
@@ -234,7 +236,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         mTvTitle.setVisibility(View.VISIBLE);
         mTvTitle.setText("订单详情");
 
-        mPresenter.GetUserInfoList(UserID,"1");
+        mPresenter.GetUserInfoList(UserID, "1");
         id = getIntent().getStringExtra("orderId");
         mPresenter.GetOrderDetail(id, userKey);
         mPresenter.IsMallid(id);
@@ -337,7 +339,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             case R.id.tv_buy:
             case R.id.tv_buy_again://再次购买
                 for (int i = 0; i < orderItemBean.size(); i++) {
-                    mPresenter.PostAddProductToCart(orderItemBean.get(i).getSKuId(),orderItemBean.get(i).getCount(),userKey);
+                    mPresenter.PostAddProductToCart(orderItemBean.get(i).getSKuId(), orderItemBean.get(i).getCount(), userKey);
                 }
                 final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
                 dialog.setMessage("商品已加入购物车")
@@ -362,18 +364,18 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 break;
             case R.id.tv_delete2://删除订单
             case R.id.tv_delete://删除订单
-                mPresenter.PostCloseOrder(id,userKey);
+                mPresenter.PostCloseOrder(id, userKey);
                 break;
             case R.id.tv_delete_order://取消订单
-                Log.d(TAG,"编号："+id);
-                mPresenter.PostCloseOrder(id,userKey);
+                Log.d(TAG, "编号：" + id);
+                mPresenter.PostCloseOrder(id, userKey);
                 break;
             case R.id.tv_confirm_receipt://确认收货
-                paytype=2;
+                paytype = 2;
                 openPayPasswordDialog();
                 break;
             case R.id.tv_payment://付款
-                paytype=1;
+                paytype = 1;
                 showPopupWindow();
                 break;
             case R.id.tv_extended_receipt://延长收货
@@ -393,16 +395,16 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 //                        showPopupWindow();
                 break;
             case R.id.tv_evaluation:
-                Intent intent=new Intent(mActivity, EvaluateActivity.class);
-                intent.putExtra("OrderID",id);
+                Intent intent = new Intent(mActivity, EvaluateActivity.class);
+                intent.putExtra("OrderID", id);
                 startActivity(intent);
                 break;
             case R.id.tv_see_logistics://查看物流
             case R.id.tv_logistics:
             case R.id.tv_view_logistics:
 //                mPresenter.GetExpressInfo(id,userKey);
-                Intent intent2=new Intent(mActivity, LogisticsInformationActivity.class);
-                intent2.putExtra("orederId",id);
+                Intent intent2 = new Intent(mActivity, LogisticsInformationActivity.class);
+                intent2.putExtra("orederId", id);
                 startActivity(intent2);
                 break;
             case R.id.tv_yuyue:
@@ -444,17 +446,17 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             adapter.setStatus(orderBean.getOrderStatus());
 //           mTvShip.setText(orderBeans.get(0).getStatus());
 
-            if ("5".equals(orderBean.getOrderStatus())||"7".equals(orderBean.getOrderStatus())) {
+            if ("5".equals(orderBean.getOrderStatus()) || "7".equals(orderBean.getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.INVISIBLE);
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.VISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
-                for (int i = 0; i <result.getOrderItem().size() ; i++) {
-                    if (result.getOrderItem().get(i).isInstall()){
+                for (int i = 0; i < result.getOrderItem().size(); i++) {
+                    if (result.getOrderItem().get(i).isInstall()) {
                         mRl_serach_shifu.setVisibility(View.VISIBLE);
                     }
-                }
-
+                };
+                mIvLogo.setImageDrawable(getResources().getDrawable((R.drawable.wuliuche)));
                 mLlClose.setVisibility(View.INVISIBLE);
             }
 
@@ -464,6 +466,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
                 mLlClose.setVisibility(View.GONE);
+                mIvLogo.setImageDrawable(getResources().getDrawable((R.drawable.daifukuanqian)));
+
             }
 
             if ("2".equals(orderBean.getOrderStatus())) {
@@ -479,13 +483,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlClose.setVisibility(View.GONE);
             }
 
-            if ("3".equals(orderBean.getOrderStatus())||"6".equals(orderBean.getOrderStatus())) {
+            if ("3".equals(orderBean.getOrderStatus()) || "6".equals(orderBean.getOrderStatus())) {
                 mLlPendingPayment.setVisibility(View.INVISIBLE);
                 mLlPendingReceipt.setVisibility(View.VISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
-                for (int i = 0; i <result.getOrderItem().size() ; i++) {
-                    if (result.getOrderItem().get(i).isInstall()){
+                for (int i = 0; i < result.getOrderItem().size(); i++) {
+                    if (result.getOrderItem().get(i).isInstall()) {
                         mRl_serach_shifu.setVisibility(View.VISIBLE);
                     }
                 }
@@ -497,8 +501,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 mLlPendingReceipt.setVisibility(View.INVISIBLE);
                 mLlAllOrders.setVisibility(View.INVISIBLE);
                 mLlToBeDelivered.setVisibility(View.INVISIBLE);
-                for (int i = 0; i <result.getOrderItem().size() ; i++) {
-                    if (result.getOrderItem().get(i).isInstall()){
+                for (int i = 0; i < result.getOrderItem().size(); i++) {
+                    if (result.getOrderItem().get(i).isInstall()) {
                         mRl_serach_shifu.setVisibility(View.VISIBLE);
                     }
                 }
@@ -524,13 +528,14 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             EventBus.getDefault().post("全部");
         }
     }
+
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
         switch (Result.getStatusCode()) {
             case 200:
-                if (Result.getData().getData()==null){
+                if (Result.getData().getData() == null) {
 
-                }else {
+                } else {
                     userInfo = Result.getData().getData().get(0);
 //                    if (userInfo !=null){
 //                        mTvBalance.setText(""+userInfo.getTotalMoney()+"");//钱包余额
@@ -550,19 +555,19 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     @Override
     public void MallBalancePay(BaseResult<Data<String>> baseResult) {
 
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                if (baseResult.getData().isItem1()){
+                if (baseResult.getData().isItem1()) {
                     mPresenter.PostChangeOrderState(id);
-                    Toast.makeText(mActivity,"支付成功",Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
-                    intent.putExtra("OrderID",id);
+                    Toast.makeText(mActivity, "支付成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mActivity, PaymentSuccessActivity.class);
+                    intent.putExtra("OrderID", id);
                     startActivity(intent);
                     bottomSheetDialog.dismiss();
                     OrderDetailActivity.this.finish();
                     EventBus.getDefault().post("UpdateOrderCount");
-                }else {
-                    if ("余额不足".equals(baseResult.getData().getItem2())){
+                } else {
+                    if ("余额不足".equals(baseResult.getData().getItem2())) {
                         final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
                         dialog.setMessage("余额不足，是否去充值？")
                                 //.setImageResId(R.mipmap.ic_launcher)
@@ -572,7 +577,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                             public void onPositiveClick() {
                                 dialog.dismiss();
                                 bottomSheetDialog.dismiss();
-                                startActivityForResult(new Intent(mActivity,RechargeActivity.class),100);
+                                startActivityForResult(new Intent(mActivity, RechargeActivity.class), 100);
                             }
 
                             @Override
@@ -580,8 +585,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                                 dialog.dismiss();
                             }
                         }).show();
-                    }else{
-                        Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mActivity, baseResult.getData().getItem2(), Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -597,32 +602,33 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
     @Override
     public void PostChangeOrderAddress(ChangeOrderAddress Result) {
-        if (Result.isSuccess()){
+        if (Result.isSuccess()) {
             mPresenter.GetOrderDetail(id, userKey);
             ToastUtils.showShort(Result.getMsg());
-        }else {
+        } else {
             ToastUtils.showShort(Result.getMsg());
         }
     }
 
     @Override
     public void PostConfirmOrder(ConfirmOrder Result) {
-        if ("true".equals(Result.getSuccess())){
+        if ("true".equals(Result.getSuccess())) {
             bottomSheetDialog.dismiss();
-            Intent intent=new Intent(mActivity, DeliverySuccessActivity.class);
-            intent.putExtra("OrderID",id);
+            Intent intent = new Intent(mActivity, DeliverySuccessActivity.class);
+            intent.putExtra("OrderID", id);
             startActivity(intent);
             OrderDetailActivity.this.finish();
             EventBus.getDefault().post("UpdateOrderCount");
         }
     }
+
     /**
      * 弹出付款Popupwindow
      */
     public void showPopupWindow() {
 //        mPresenter.GetUserInfoList(UserID,"1");
         payList = new ArrayList<>();
-        payList.add(new JsonStrOrderPay(Long.parseLong(id), orderBean.getBisId(), orderBean.getRealTotalAmount(),Double.parseDouble(orderBean.getActualMoney())));
+        payList.add(new JsonStrOrderPay(Long.parseLong(id), orderBean.getBisId(), orderBean.getRealTotalAmount(), Double.parseDouble(orderBean.getActualMoney())));
         Gson gson = new Gson();
         try {
             jsonArray = new JSONArray(gson.toJson(payList));
@@ -637,7 +643,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         ll_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.GetOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray,orderBean.getActualMoney());
+                mPresenter.GetOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray, orderBean.getActualMoney());
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -649,7 +655,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                mPresenter.GetWXOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray,orderBean.getActualMoney());
+                mPresenter.GetWXOrderStr(UserID, "", "", orderBean.getRealTotalAmount() + "", jsonArray, orderBean.getActualMoney());
 //                Intent intent=new Intent(mActivity, PaymentSuccessActivity.class);
 //                intent.putExtra("OrderID",OrderId);
 //                startActivity(intent);
@@ -659,30 +665,30 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         ll_balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if ("".equals(userInfo.getPayPassWord())) {
-                        final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                        dialog.setMessage("未设置支付密码，是否前去设置")
-                                //.setImageResId(R.mipmap.ic_launcher)
-                                .setTitle("提示")
-                                .setPositive("去设置")
-                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
-                            @Override
-                            public void onPositiveClick() {//拨打电话
-                                dialog.dismiss();
-                                startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
-                            }
+                if ("".equals(userInfo.getPayPassWord())) {
+                    final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                    dialog.setMessage("未设置支付密码，是否前去设置")
+                            //.setImageResId(R.mipmap.ic_launcher)
+                            .setTitle("提示")
+                            .setPositive("去设置")
+                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                        @Override
+                        public void onPositiveClick() {//拨打电话
+                            dialog.dismiss();
+                            startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+                        }
 
-                            @Override
-                            public void onNegtiveClick() {//取消
-                                dialog.dismiss();
-                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
-                            }
-                        }).show();
-                    } else {
-                        openPayPasswordDialog();
+                        @Override
+                        public void onNegtiveClick() {//取消
+                            dialog.dismiss();
+                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+                } else {
+                    openPayPasswordDialog();
 //                        startFingerprintRecognition();
-                        mPopupWindow.dismiss();
-                    }
+                    mPopupWindow.dismiss();
+                }
             }
         });
         cancel_btn.setOnClickListener(new View.OnClickListener() {
@@ -717,13 +723,14 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     private FingerprintCore mFingerprintCore;
     private PwdFragment fragment;
     private int count = 5;
+
     public void intoPwdFragment() {
         if (count <= 0)
             showPwdError();
         else {
-            synchronized (OrderFragment.class){
-                Log.e("chengww",fragment.getType() +""+ !fragment.isResumed());
-                if (fragment == null || fragment.getType() != 0 || !fragment.isResumed()){
+            synchronized (OrderFragment.class) {
+                Log.e("chengww", fragment.getType() + "" + !fragment.isResumed());
+                if (fragment == null || fragment.getType() != 0 || !fragment.isResumed()) {
                     createDialogFragment(0);
                 }
             }
@@ -749,38 +756,37 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
     }
 
 
-
     @Override
     public void onInputFinish(String result) {
         if (result.equals(userInfo.getPayPassWord())) {
             fragment.dismiss();
 //            Toast.makeText(this, "验证成功", Toast.LENGTH_SHORT).show();
 //            ToastUtils.showShort("验证成功");
-            mPresenter.MallBalancePay("","",jsonArray,UserID,orderBean.getActualMoney());
+            mPresenter.MallBalancePay("", "", jsonArray, UserID, orderBean.getActualMoney());
             mPopupWindow.dismiss();
 
 
-        }else {
+        } else {
             showPwdError();
         }
     }
 
     private void showPwdError() {
         count--;
-        if (count <= 0){
+        if (count <= 0) {
             showTintDialog("提示：", "密码输入达到上限", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     fragment.dismiss();
                 }
             });
-        }else {
-            showTintDialog("密码错误","密码输入有误，你还可以输入" + count + "次",null);
+        } else {
+            showTintDialog("密码错误", "密码输入有误，你还可以输入" + count + "次", null);
         }
     }
 
-    public void showTintDialog(String title,String msg,DialogInterface.OnClickListener listener) {
-        AlertDialog.Builder builder=new AlertDialog.Builder(mActivity);
+    public void showTintDialog(String title, String msg, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setCancelable(false);
@@ -798,7 +804,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
      * 开始指纹识别
      */
     private void startFingerprintRecognition() {
-        if (mFingerprintCore == null){
+        if (mFingerprintCore == null) {
             mFingerprintCore = new FingerprintCore(mActivity);
             mFingerprintCore.setFingerprintManager(mResultListener);
         }
@@ -839,7 +845,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                 fragment.dismiss();
 //            Toast.makeText(mActivity,"指纹解锁成功",Toast.LENGTH_SHORT).show();
 
-            mPresenter.MallBalancePay("","",jsonArray,UserID,orderBean.getActualMoney());
+            mPresenter.MallBalancePay("", "", jsonArray, UserID, orderBean.getActualMoney());
             mPopupWindow.dismiss();
 
 
@@ -847,8 +853,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
         @Override
         public void onAuthenticateFailed(int helpId) {
-            if (!fragment.setTextHint()){
-                Toast.makeText(mActivity,"指纹解锁失败，请重试！",Toast.LENGTH_SHORT).show();
+            if (!fragment.setTextHint()) {
+                Toast.makeText(mActivity, "指纹解锁失败，请重试！", Toast.LENGTH_SHORT).show();
                 intoPwdFragment();
             }
 
@@ -856,9 +862,9 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
         @Override
         public void onAuthenticateError(int errMsgId) {
-            if (errMsgId == 7){
-                Toast.makeText(mActivity,"指纹解锁超过限制",Toast.LENGTH_SHORT).show();
-                if (mFingerprintCore != null){
+            if (errMsgId == 7) {
+                Toast.makeText(mActivity, "指纹解锁超过限制", Toast.LENGTH_SHORT).show();
+                if (mFingerprintCore != null) {
                     mFingerprintCore = null;
                 }
                 if (fragment != null) {
@@ -876,8 +882,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
         public void onStartAuthenticateResult(boolean isSuccess) {
             if (isSuccess) {
                 createFingerFragment();
-            }else{
-                Toast.makeText(mActivity,"开启指纹监听失败",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(mActivity, "开启指纹监听失败", Toast.LENGTH_SHORT).show();
                 intoPwdFragment();
             }
 
@@ -1054,13 +1060,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
     @Override
     public void IsMallid(BaseResult<Data<String>> baseResult) {
-        switch (baseResult.getStatusCode()){
+        switch (baseResult.getStatusCode()) {
             case 200:
-                  if (!baseResult.getData().isItem1()){
-                      //没发过安装单可以安装
-                      mTv_yuyue.setText("已预约");
-                      mTv_yuyue.setClickable(false);
-                  }
+                if (!baseResult.getData().isItem1()) {
+                    //没发过安装单可以安装
+                    mTv_yuyue.setText("已预约");
+                    mTv_yuyue.setClickable(false);
+                }
                 break;
         }
     }
@@ -1075,8 +1081,8 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
             }
 
         }
-        if (requestCode==100){
-            mPresenter.GetUserInfoList(UserID,"1");
+        if (requestCode == 100) {
+            mPresenter.GetUserInfoList(UserID, "1");
         }
         if (resultCode == Config.CHOOSE_ADDRESS_RESULT) {
             if (requestCode == Config.CHOOSE_ADDRESS_REQUEST) {
@@ -1084,7 +1090,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 //                String orderId=data.getStringExtra("orderId");
                 if (address != null) {
                     addressid = address.getId();
-                    mPresenter.PostChangeOrderAddress(id, addressid,userKey);
+                    mPresenter.PostChangeOrderAddress(id, addressid, userKey);
                 } else {
                     return;
                 }
@@ -1115,25 +1121,25 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
 
     @Override
     public void passwordFull(String password) {
-        if (paytype==1){
-            if (userInfo.getPayPassWord().equals(password)){
-                mPresenter.MallBalancePay("","",jsonArray,UserID,orderBean.getActualMoney());
+        if (paytype == 1) {
+            if (userInfo.getPayPassWord().equals(password)) {
+                mPresenter.MallBalancePay("", "", jsonArray, UserID, orderBean.getActualMoney());
 
                 mPopupWindow.dismiss();
             } else {
-                Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "支付密码错误", Toast.LENGTH_SHORT).show();
             }
-        }
-        else if(paytype==2){
-            if (userInfo.getPayPassWord().equals(password)){
-                mPresenter.PostConfirmOrder(id,userKey);
+        } else if (paytype == 2) {
+            if (userInfo.getPayPassWord().equals(password)) {
+                mPresenter.PostConfirmOrder(id, userKey);
             } else {
-                Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "支付密码错误", Toast.LENGTH_SHORT).show();
             }
         }
 
 
     }
+
     @Override
     protected void onDestroy() {
         if (mFingerprintCore != null) {

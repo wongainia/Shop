@@ -52,11 +52,12 @@
                     android:id="@+id/tv_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="领券立减40"
+                    android:text=""
                     android:textSize="10sp"
                     android:paddingRight="5dp"
-                    android:gravity="center"
-                    android:textColor="#808080"/>
+                    android:textColor="#808080"
+                    android:lines="1"
+                    android:ellipsize="end"/>
                 <TextView
                     android:id="@+id/tv_comment_two"
                     android:layout_width="wrap_content"

@@ -18,7 +18,7 @@
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
         <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/src/main/res;file://$MODULE_DIR$/build/generated/res/rs/debug;file://$MODULE_DIR$/build/generated/res/resValues/debug" />
-        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/build/generated/res/rs/androidTest/debug" />
+        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
     </facet>
@@ -100,7 +100,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javac" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/legacy_multidex_aapt_derived_proguard_rules" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/legacy_multidex_main_dex_list" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged_assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged_manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/metadata_feature_manifest" />
@@ -113,7 +112,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/signing_config" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tinker_intermediates" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
@@ -251,6 +249,18 @@
     <orderEntry type="library" name="Gradle: it.sephiroth.android.library.imagezoom:library:1.0.4@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.multidex:multidex-instrumentation:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.0.0@jar" level="project" />
+    <orderEntry type="module" module-name="magicindicator" />
+    <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="wheelsruflibrary" />
+    <orderEntry type="module" module-name="magicindicator" />
+    <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="wheelsruflibrary" />
+    <orderEntry type="module" module-name="magicindicator" />
+    <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="wheelsruflibrary" />
+    <orderEntry type="module" module-name="magicindicator" />
+    <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="wheelsruflibrary" />
     <orderEntry type="module" module-name="magicindicator" />
     <orderEntry type="module" module-name="SwipeBackLayout" />
     <orderEntry type="module" module-name="wheelsruflibrary" />
