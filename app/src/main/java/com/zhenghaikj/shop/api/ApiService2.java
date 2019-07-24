@@ -269,7 +269,8 @@ public interface ApiService2 {
     Observable<BaseResult<Data<String>>> ApproveOrderAccessory(
             @Field("OrderID") String OrderID,
             @Field("AccessoryApplyState") String AccessoryApplyState,
-            @Field("NewMoney") String NewMoney
+            @Field("NewMoney") String NewMoney,
+            @Field("OrderAccessoryID") String OrderAccessoryID
     );
 
     /**
@@ -585,4 +586,22 @@ public interface ApiService2 {
     @POST("order/ApplyCancelOrder")
     Observable<BaseResult<Data<String>>> ApplyCancelOrder(@Field("OrderID") String OrderID);
 
+    /*
+     * 审核配件,配件价格为0
+     * */
+    @FormUrlEncoded
+    @POST("FactoryConfig/UpdateFactoryAccessorybyFactory")
+    Observable<BaseResult<Data<String>>> UpdateFactoryAccessorybyFactory(@Field("Id") String Id,
+                                                                         @Field("AccessoryName") String AccessoryName,
+                                                                         @Field("AccessoryPrice") String AccessoryPrice,
+                                                                         @Field("OrderAccessoryId") String OrderAccessoryId);
+    /*
+     * 审核配件,配件价格不为0
+     * */
+    @FormUrlEncoded
+    @POST("Order/ApproveOrderAccessoryByModifyPrice")
+    Observable<BaseResult<Data<String>>> ApproveOrderAccessoryByModifyPrice(@Field("OrderID") String OrderID,
+                                                                            @Field("AccessoryApplyState") String AccessoryApplyState,
+                                                                            @Field("NewMoney") String NewMoney,
+                                                                            @Field("OrderAccessoryID") String OrderAccessoryID);
 }

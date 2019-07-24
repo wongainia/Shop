@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:background="@color/white"
     android:padding="@dimen/dp_10"
-    android:id="@+id/ll_old_accessory">
+    android:id="@+id/ll_old_accessory"
+    android:visibility="gone">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

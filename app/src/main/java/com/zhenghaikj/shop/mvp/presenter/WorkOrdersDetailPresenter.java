@@ -37,8 +37,8 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
     }
 
     @Override
-    public void ApproveOrderAccessory(String OrderID, String AccessoryApplyState,String NewMoney) {
-        mModel.ApproveOrderAccessory(OrderID, AccessoryApplyState,NewMoney)
+    public void ApproveOrderAccessory(String OrderID, String AccessoryApplyState,String NewMoney,String OrderAccessoryID) {
+        mModel.ApproveOrderAccessory(OrderID, AccessoryApplyState,NewMoney,OrderAccessoryID)
                 .subscribe(new BaseObserver2<Data<String>>() {
                     @Override
                     protected void onHandleSuccess(BaseResult<Data<String>> value) {
@@ -129,6 +129,28 @@ public class WorkOrdersDetailPresenter extends WorkOrdersDetailContract.Presente
                     @Override
                     protected void onHandleSuccess(BaseResult<UserInfo> value) {
                         mView.GetUserInfoList(value);
+                    }
+                });
+    }
+
+    @Override
+    public void UpdateFactoryAccessorybyFactory(String Id, String AccessoryName, String AccessoryPrice, String OrderAccessoryId) {
+        mModel.UpdateFactoryAccessorybyFactory(Id, AccessoryName, AccessoryPrice, OrderAccessoryId)
+                .subscribe(new BaseObserver2<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.UpdateFactoryAccessorybyFactory(value);
+                    }
+                });
+    }
+
+    @Override
+    public void ApproveOrderAccessoryByModifyPrice(String OrderID, String AccessoryApplyState, String NewMoney, String OrderAccessoryID) {
+        mModel.ApproveOrderAccessoryByModifyPrice(OrderID, AccessoryApplyState, NewMoney, OrderAccessoryID)
+                .subscribe(new BaseObserver2<Data<String>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<String>> value) {
+                        mView.ApproveOrderAccessoryByModifyPrice(value);
                     }
                 });
     }
