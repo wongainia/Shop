@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.dialog.CustomDialog;
 import com.zhenghaikj.shop.fragment.OrderFragment;
 
 /**

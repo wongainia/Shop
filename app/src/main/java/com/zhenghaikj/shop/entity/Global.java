@@ -1,7 +1,5 @@
 package com.zhenghaikj.shop.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Global {

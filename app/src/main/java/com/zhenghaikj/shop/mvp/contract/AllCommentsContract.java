@@ -3,12 +3,7 @@ package com.zhenghaikj.shop.mvp.contract;
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
-import com.zhenghaikj.shop.entity.AddtoCartResult;
-import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.Comment;
-import com.zhenghaikj.shop.entity.DetailResult;
-import com.zhenghaikj.shop.entity.GetCommentResult;
-import com.zhenghaikj.shop.entity.GetGoodSKu;
 
 import io.reactivex.Observable;
 

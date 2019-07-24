@@ -5,11 +5,9 @@ import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.ComplaintRecord;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PostOrderComplaint;
-import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
 import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
-import com.zhenghaikj.shop.mvp.contract.AfterSaleContract;
 import com.zhenghaikj.shop.mvp.contract.AfterSaleDetailContract;
 
 import java.text.SimpleDateFormat;

@@ -17,14 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ScreenUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.AreaAdapter;
 import com.zhenghaikj.shop.adapter.CityAdapter;
 import com.zhenghaikj.shop.adapter.DistrictAdapter;
-import com.zhenghaikj.shop.adapter.LogisticsAdapter;
 import com.zhenghaikj.shop.adapter.OrderInstallAdapter;
 import com.zhenghaikj.shop.adapter.ProvinceAdapter;
 import com.zhenghaikj.shop.api.Config;
@@ -185,7 +183,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
 
             for (int i = 0; i <result.getOrderItem().size() ; i++) {
-                if (result.getOrderItem().get(i).isInstall()==false){
+                if (!result.getOrderItem().get(i).isInstall()){
                     continue;
                 }
                 installmap.put(i,result.getOrderItem().get(i));

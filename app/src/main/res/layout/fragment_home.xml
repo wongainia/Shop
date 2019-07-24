@@ -195,7 +195,7 @@
                     android:id="@+id/rv_category"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
+                    android:nestedScrollingEnabled="false"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -229,7 +229,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/white"></LinearLayout>
+                    android:background="@color/white"/>
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -405,7 +405,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:nestedScrollingEnabled="false"
-                                android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
+                                android:overScrollMode="never"/>
                         </RelativeLayout>
 
                         <LinearLayout
@@ -789,7 +789,7 @@
                                 android:id="@+id/rv_home"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
+                                android:nestedScrollingEnabled="false"/>
                         </RelativeLayout>
 
                     </LinearLayout>

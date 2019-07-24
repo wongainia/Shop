@@ -3,9 +3,7 @@ package com.zhenghaikj.shop.mvp.contract;
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
-import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Refund;
-import com.zhenghaikj.shop.entity.RefundApplyResult;
 
 import io.reactivex.Observable;
 /*售后*/

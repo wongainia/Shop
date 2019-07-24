@@ -1,6 +1,5 @@
 package com.zhenghaikj.shop.adapter;
 
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -9,8 +8,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.CommodityBean;
-import com.zhenghaikj.shop.entity.Product;
-import com.zhenghaikj.shop.entity.StoreBean;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
 import java.util.List;

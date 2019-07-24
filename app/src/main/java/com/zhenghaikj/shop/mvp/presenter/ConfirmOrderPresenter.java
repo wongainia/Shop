@@ -14,7 +14,6 @@ import com.zhenghaikj.shop.mvp.contract.ConfirmOrderContract;
 
 import org.json.JSONArray;
 
-import retrofit2.http.Field;
 
 public class ConfirmOrderPresenter extends ConfirmOrderContract.Presenter {
     @Override

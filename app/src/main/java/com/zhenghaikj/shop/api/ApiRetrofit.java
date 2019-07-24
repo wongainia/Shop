@@ -2,11 +2,9 @@ package com.zhenghaikj.shop.api;
 
 import com.zhenghaikj.shop.utils.CEComplexComparator;
 import com.zhenghaikj.shop.utils.MD5Util;
-import com.zhenghaikj.shop.utils.MyUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import retrofit2.Retrofit;

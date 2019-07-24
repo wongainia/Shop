@@ -1,14 +1,10 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
-import com.zhenghaikj.shop.entity.GetStoreSortResult;
-import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SearchShopResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
-import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.mvp.contract.SearchDetailShopDetailContract;
-import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 
 public class SearchDetailShopDetailPresenter extends SearchDetailShopDetailContract.Presenter {
 

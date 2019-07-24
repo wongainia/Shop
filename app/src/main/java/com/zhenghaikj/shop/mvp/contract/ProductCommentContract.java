@@ -1,13 +1,11 @@
 package com.zhenghaikj.shop.mvp.contract;
 
 import com.zhenghaikj.shop.base.BaseModel;
-import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Comment;
 
 import io.reactivex.Observable;
-import retrofit2.http.Query;
 
 public interface ProductCommentContract {
     interface Model extends BaseModel{

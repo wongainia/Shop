@@ -9,7 +9,6 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.NewSearchDetailActivty;
-import com.zhenghaikj.shop.activity.SearchDetailActivity;
 import com.zhenghaikj.shop.entity.CategoryMall;
 import com.zhenghaikj.shop.utils.GlideUtil;
 

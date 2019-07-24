@@ -18,12 +18,9 @@ import com.zhenghaikj.shop.widget.RoundBackGroundColorSpan;
 import com.zhenghaikj.shop.widget.SaleProgressView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class LimitedTimeAdapter extends BaseQuickAdapter<LimitBuyListResult.ListBean, BaseViewHolder> {
 

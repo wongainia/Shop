@@ -8,8 +8,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.Comment;
-import com.zhenghaikj.shop.utils.GlideUtil;
-import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zhenghaikj.shop.widget.GlideRoundTransform;
 
 import java.util.List;

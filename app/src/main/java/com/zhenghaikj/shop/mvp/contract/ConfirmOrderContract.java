@@ -15,7 +15,6 @@ import com.zhenghaikj.shop.entity.WXpayInfo;
 import org.json.JSONArray;
 
 import io.reactivex.Observable;
-import retrofit2.http.Field;
 
 public interface ConfirmOrderContract {
     interface Model extends BaseModel{

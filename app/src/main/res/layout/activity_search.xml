@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rv_search_discovery"
-            android:paddingLeft="@dimen/dp_10"></androidx.recyclerview.widget.RecyclerView>
+            android:paddingLeft="@dimen/dp_10"/>
 
     </LinearLayout>
     <LinearLayout

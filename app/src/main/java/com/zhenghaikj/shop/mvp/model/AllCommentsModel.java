@@ -2,14 +2,8 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.entity.AddtoCartResult;
-import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.Comment;
-import com.zhenghaikj.shop.entity.DetailResult;
-import com.zhenghaikj.shop.entity.GetCommentResult;
-import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.mvp.contract.AllCommentsContract;
-import com.zhenghaikj.shop.mvp.contract.DetailContract;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;

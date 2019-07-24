@@ -17,7 +17,6 @@ import com.zhenghaikj.shop.widget.StarBarView;
 import com.zhenghaikj.shop.widget.flowtaglayout.FlowTagLayout;
 import com.zhenghaikj.shop.widget.flowtaglayout.OnTagSelectListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;

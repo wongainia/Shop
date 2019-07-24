@@ -32,7 +32,7 @@
                         android:background="@color/white"
                         android:nestedScrollingEnabled="false"
                         android:overScrollMode="never"
-                        android:padding="10dp"></androidx.recyclerview.widget.RecyclerView>
+                        android:padding="10dp"/>
                 </RelativeLayout>
 
 
@@ -47,7 +47,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:nestedScrollingEnabled="false"
-                        android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
+                        android:overScrollMode="never"/>
                 </RelativeLayout>
 
             </LinearLayout>

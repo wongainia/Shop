@@ -2,9 +2,7 @@ package com.zhenghaikj.shop.adapter;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,12 +19,10 @@ import com.zhenghaikj.shop.widget.StarBarView;
 import com.zhenghaikj.shop.widget.flowtaglayout.FlowTagLayout;
 import com.zhenghaikj.shop.widget.flowtaglayout.OnTagSelectListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 
 public class EvaluateAdapter extends BaseQuickAdapter<EvaluateResult.ProductBean, BaseViewHolder> {
    private Context mContext;

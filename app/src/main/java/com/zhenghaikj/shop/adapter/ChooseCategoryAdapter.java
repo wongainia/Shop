@@ -1,22 +1,15 @@
 package com.zhenghaikj.shop.adapter;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.activity.SearchDetailActivity;
 import com.zhenghaikj.shop.entity.Category;
-import com.zhenghaikj.shop.entity.CategoryMall;
-import com.zhenghaikj.shop.utils.GlideUtil;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ChooseCategoryAdapter extends BaseMultiItemQuickAdapter<Category, BaseViewHolder> {
 

@@ -8,7 +8,6 @@ import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.UserInfo;
 
 import io.reactivex.Observable;
-import retrofit2.http.Field;
 
 public interface ChangePayPasswordContract {
     interface Model extends BaseModel{

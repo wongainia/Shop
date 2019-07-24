@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:nestedScrollingEnabled="false"
-                android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
+                android:overScrollMode="never"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -159,7 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
+                    android:overScrollMode="never"/>
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout

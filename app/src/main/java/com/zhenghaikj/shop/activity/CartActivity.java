@@ -840,7 +840,7 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
         String mCartitems = ""; //记录cartitem 传给结算页面
         for (int i = 0; i < shoplist.size(); i++) {
             for (int j = 0; j < shoplist.get(i).getList().size(); j++) {
-                if (shoplist.get(i).getList().get(j).isIscheck() == true) {
+                if (shoplist.get(i).getList().get(j).isIscheck()) {
                     mCartitems += "," + shoplist.get(i).getList().get(j).getCartItemId();
                 }
 

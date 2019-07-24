@@ -5,7 +5,6 @@ import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
 import com.zhenghaikj.shop.entity.EvaluateResult;
 import com.zhenghaikj.shop.entity.PostPostAddComment;
-import com.zhenghaikj.shop.mvp.contract.AllCommentsContract;
 import com.zhenghaikj.shop.mvp.contract.EvaluateContract;
 
 import java.text.SimpleDateFormat;

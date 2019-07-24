@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.OnLoadmoreListener;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.CommentAdapter;
 import com.zhenghaikj.shop.adapter.CommentCategoryAdapter;

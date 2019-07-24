@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.CommodityBean;
-import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.widget.AdderView;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 

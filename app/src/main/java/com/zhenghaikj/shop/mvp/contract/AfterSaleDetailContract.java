@@ -6,13 +6,11 @@ import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.ComplaintRecord;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.PostOrderComplaint;
-import com.zhenghaikj.shop.entity.Refund;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
 import com.zhenghaikj.shop.entity.RefundDetailResult;
 import com.zhenghaikj.shop.entity.RefundProcessDetailResult;
 
 import io.reactivex.Observable;
-import retrofit2.http.Field;
 
 /*售后详情页*/
 public interface AfterSaleDetailContract {

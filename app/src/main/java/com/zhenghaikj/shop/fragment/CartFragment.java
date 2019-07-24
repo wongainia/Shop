@@ -14,7 +14,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -859,7 +858,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
         String mCartitems = ""; //记录cartitem 传给结算页面
         for (int i = 0; i < shoplist.size(); i++) {
             for (int j = 0; j < shoplist.get(i).getList().size(); j++) {
-                if (shoplist.get(i).getList().get(j).isIscheck() == true) {
+                if (shoplist.get(i).getList().get(j).isIscheck()) {
                     mCartitems += "," + shoplist.get(i).getList().get(j).getCartItemId();
                 }
 

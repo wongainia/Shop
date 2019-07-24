@@ -238,7 +238,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             switch (serachtype){
                 case SYNTHESIS://综合
                  pagaNo++;
-                 if (isFliter==false){
+                 if (!isFliter){
                      if (searchbytype==1){
                          mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "1", orderType, Integer.toString(pagaNo), "10","0");
                      }else {
@@ -257,7 +257,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                 case PRICE_UP://价格升序
                  pagaNo++;
 
-                 if (isFliter==false){
+                 if (!isFliter){
                      if (searchbytype==1){
                          mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                      }else {
@@ -275,7 +275,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                 case PRICE_DOWN://价格降序
                  pagaNo++;
 
-                 if (isFliter==false){
+                 if (!isFliter){
                      if (searchbytype==1){
                          mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                      }else {
@@ -293,7 +293,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                 case SALESNUM: //销量
                 pagaNo++;
 
-                    if (isFliter==false){
+                    if (!isFliter){
                         if (searchbytype==1){
                             mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                         }else {
@@ -353,7 +353,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                pagaNo=1;
 
                /*未筛选*/
-               if (isFliter==false){
+               if (!isFliter){
                    if (searchbytype==1){
                        mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "1", "1", Integer.toString(pagaNo), "10","0");
                    }else {
@@ -381,7 +381,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                serachtype=SerachType.SALESNUM;
                pagaNo=1;
 
-               if (isFliter==false){
+               if (!isFliter){
                    if (searchbytype==1){
                        mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "2", "2", Integer.toString(pagaNo), "10","0");
                    }else {
@@ -661,7 +661,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                     mImg_price_up_down.setImageDrawable(ContextCompat.getDrawable(mActivity,R.mipmap.icon_up));
                     bool_price_up_down=false;
 
-                    if (isFliter==false){
+                    if (!isFliter){
                         if (searchbytype==1){
                             mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "3", "1", Integer.toString(pagaNo), "10","0");
                         }else {
@@ -683,7 +683,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                     mImg_price_up_down.setImageDrawable(ContextCompat.getDrawable(mActivity,R.mipmap.icon_down));
                     bool_price_up_down=true;
 
-                    if (isFliter==false){
+                    if (!isFliter){
                         if (searchbytype==1){
                             mPresenter.GetSearchProducts(serach_content,  null, null,attrsCode, "3", "2", Integer.toString(pagaNo), "10","0");
                         }else {
