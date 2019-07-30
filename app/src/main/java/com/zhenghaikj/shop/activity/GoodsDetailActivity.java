@@ -752,6 +752,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         if (!result.getColor().isEmpty()) {
             popupWindow_view.findViewById(R.id.ll_cloose_color).setVisibility(View.VISIBLE);
+            TextView tv_color=popupWindow_view.findViewById(R.id.tv_color);
+            tv_color.setText(result.getColorAlias());
             RecyclerView rv_color = popupWindow_view.findViewById(R.id.rv_color);
             rv_color.setLayoutManager(new AutoLineFeedLayoutManager());
             chooseColorAdapter = new ChooseColorAdapter(R.layout.item_color, result.getColor(), mActivity);
@@ -763,6 +765,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         if (!result.getSize().isEmpty()) {
             popupWindow_view.findViewById(R.id.ll_cloose_size).setVisibility(View.VISIBLE);
+            TextView tv_size=popupWindow_view.findViewById(R.id.tv_size);
+            tv_size.setText(result.getSizeAlias());
             RecyclerView rv_size = popupWindow_view.findViewById(R.id.rv_size);
             rv_size.setLayoutManager(new AutoLineFeedLayoutManager());
             chooseSizeAdapter = new ChooseSizeAdapter(R.layout.item_size, result.getSize());
@@ -775,6 +779,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         if (!result.getVersion().isEmpty()) {
             popupWindow_view.findViewById(R.id.ll_cloose_version).setVisibility(View.VISIBLE);
+            TextView tv_specification=popupWindow_view.findViewById(R.id.tv_specification);
+            tv_specification.setText(result.getVersionAlias());
             RecyclerView rv_version = popupWindow_view.findViewById(R.id.rv_version);
             rv_version.setLayoutManager(new AutoLineFeedLayoutManager());
             chooseVersionAdapter = new ChooseVersionAdapter(R.layout.item_version, result.getVersion());
