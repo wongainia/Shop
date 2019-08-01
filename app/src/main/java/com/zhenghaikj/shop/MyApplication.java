@@ -1,5 +1,6 @@
 package com.zhenghaikj.shop;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -34,6 +35,10 @@ import com.tencent.bugly.beta.download.DownloadTask;
 import com.tencent.bugly.beta.upgrade.UpgradeListener;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
+import com.v5kf.client.lib.Logger;
+import com.v5kf.client.lib.V5ClientAgent;
+import com.v5kf.client.lib.V5ClientConfig;
+import com.v5kf.client.lib.callback.V5InitCallback;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.MessageActivity2;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
@@ -44,6 +49,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -161,6 +167,38 @@ public class MyApplication extends MultiDexApplication {
         PlatformConfig.setSinaWeibo("2520420227", "e76b6df1fd9b46b41b7ea70008cde46a","http://sns.whalecloud.com");
         //QQ
         PlatformConfig.setQQZone("1109159306", "h1ECHyxVEiZ18ews");
+
+        if (isMainProcess()) { // 判断为主进程，在主进程中初始化，多进程同时初始化可能导致不可预料的后果
+            Logger.w("MyApplication", "onCreate isMainProcess V5ClientAgent.init");
+            V5ClientConfig.FILE_PROVIDER = "com.zhenghaikj.shop.fileprovider"; // 设置fileprovider的authorities
+            V5ClientAgent.init(this, "165010", "284920801c3fd",  new V5InitCallback() {
+
+                @Override
+                public void onSuccess(String response) {
+                    // TODO Auto-generated method stub
+                    Logger.i("MyApplication", "V5ClientAgent.init(): " + response);
+                }
+
+                @Override
+                public void onFailure(String response) {
+                    // TODO Auto-generated method stub
+                    Logger.e("MyApplication", "V5ClientAgent.init(): " + response);
+                }
+            });
+        }
+    }
+
+    public boolean isMainProcess() {
+        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = android.os.Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

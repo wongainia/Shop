@@ -52,7 +52,13 @@ public class ConfirmOrderAdapter extends BaseQuickAdapter<StoreBean, BaseViewHol
             helper.setText(R.id.tv_subtotal,"¥"+String.format("%.2f", Money));
         }
 
-
+        if ("true".equals(item.getProvideInvoice())){
+            helper.setVisible(R.id.ll_billing,true);
+            helper.setVisible(R.id.view,true);
+        }else {
+            helper.setGone(R.id.ll_billing,false);
+            helper.setGone(R.id.view,false);
+        }
         helper.addOnClickListener(R.id.ll_billing);
         helper.setText(R.id.et_billing,content);
 

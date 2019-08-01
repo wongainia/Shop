@@ -253,6 +253,15 @@ public class GetConfirmModel implements Serializable {
         private Object ShopBranchName;
         private List<CartItemModelsBean> CartItemModels;
         private List<?> UserCoupons;
+        private String ProvideInvoice;
+
+        public String getProvideInvoice() {
+            return ProvideInvoice;
+        }
+
+        public void setProvideInvoice(String provideInvoice) {
+            ProvideInvoice = provideInvoice;
+        }
 
         public int getShopId() {
             return shopId;

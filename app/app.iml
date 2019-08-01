@@ -139,6 +139,7 @@
     <orderEntry type="library" name="Gradle: com.squareup.retrofit2:retrofit:2.3.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.amap.api:location:4.7.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.dongjunkun:CouponView:1.0.4@aar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:D.\Android\Shop\V5ClientLibrary\libs\V5KF_1.3.12_r190508.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:D.\Android\Shop\app\libs\umeng-sharetool-6.9.4.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: org.greenrobot:eventbus:3.0.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.coordinatorlayout:coordinatorlayout:1.0.0@aar" level="project" />
@@ -253,6 +254,19 @@
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.0.0@jar" level="project" />
     <orderEntry type="module" module-name="magicindicator" />
     <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="V5ClientLibrary" />
+    <orderEntry type="module" module-name="wheelsruflibrary" />
+    <orderEntry type="module" module-name="magicindicator" />
+    <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="V5ClientLibrary" />
+    <orderEntry type="module" module-name="wheelsruflibrary" />
+    <orderEntry type="module" module-name="magicindicator" />
+    <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="V5ClientLibrary" />
+    <orderEntry type="module" module-name="wheelsruflibrary" />
+    <orderEntry type="module" module-name="magicindicator" />
+    <orderEntry type="module" module-name="SwipeBackLayout" />
+    <orderEntry type="module" module-name="V5ClientLibrary" />
     <orderEntry type="module" module-name="wheelsruflibrary" />
   </component>
 </module>

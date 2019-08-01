@@ -9,7 +9,15 @@ public class StoreBean implements Serializable {
     private String ShopName;//店铺名
     private String ShopLogo;//店铺标志
     private OneCoupons oneCoupons;//店铺中领的优惠券
+    private String ProvideInvoice;
 
+    public String getProvideInvoice() {
+        return ProvideInvoice;
+    }
+
+    public void setProvideInvoice(String provideInvoice) {
+        ProvideInvoice = provideInvoice;
+    }
 
     private List<CommodityBean> list; //店铺中的商品
 

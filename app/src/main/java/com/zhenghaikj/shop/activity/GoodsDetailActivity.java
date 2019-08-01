@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -62,6 +63,12 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.v5kf.client.lib.V5ClientAgent;
+import com.v5kf.client.lib.V5ClientConfig;
+import com.v5kf.client.lib.V5KFException;
+import com.v5kf.client.lib.callback.MessageSendCallback;
+import com.v5kf.client.lib.entity.V5ArticlesMessage;
+import com.v5kf.client.lib.entity.V5Message;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -100,6 +107,8 @@ import com.zhenghaikj.shop.widget.IdeaScrollView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -360,6 +369,16 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mRvRecommend.setAdapter(shopRecommendationAdapter1);
 
         id = getIntent().getStringExtra("id");
+        Intent i_getvalue = getIntent();
+        String action = i_getvalue.getAction();
+
+        if(Intent.ACTION_VIEW.equals(action)){
+            Uri uri = i_getvalue.getData();
+            if(uri != null){
+                id = uri.getQueryParameter("ProductId");
+                String age= uri.getQueryParameter("age");
+            }
+        }
 
         // userKey="YVdzb1BrelMyRXA0YU4xNExrUnJJWUxCdjZkN2ZxbEU4am1SM0dTd2ZiazlWWS80T1VQdnJ3SVdYNlc0WkZSKw==";
         mPresenter.GetSKUInfo(id);
@@ -492,6 +511,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+
     }
 
     public void setRadioButtonTextColor(float percentage) {
@@ -538,37 +558,115 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 finish();
                 break;
             case R.id.ll_customer_service:
-                String title = result.getShop().getName();
+//                String title = result.getShop().getName();
+///**
+// * 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入。
+// * 三个参数分别为：来源页面的url，来源页面标题，来源页面额外信息（保留字段，暂时无用）。
+// * 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
+// */
+//                ConsultSource source = new ConsultSource("", "商品详情页面", "custom information string");
+///**
+// * 请注意： 调用该接口前，应先检查Unicorn.isServiceAvailable()，
+// * 如果返回为false，该接口不会有任何动作
+// *
+// * @param context 上下文
+// * @param title   聊天窗口的标题
+// * @param source  咨询的发起来源，包括发起咨询的url，title，描述信息等
+// */
+//                source.shopEntrance = new ShopEntrance.Builder().setLogo(result.getVShopLog()).setName(result.getShop().getName()).build();
+//                source.sessionListEntrance = new SessionListEntrance.Builder().build();
+//                source.quickEntryList = new ArrayList<>();
+//                source.quickEntryList.add(new QuickEntry(0, "查订单", ""));
+//                source.quickEntryList.add(new QuickEntry(1, "查物流", ""));
+//                source.productDetail = new ProductDetail.Builder()
+//                        .setTitle(result.getProduct().getProductName())
+//                        .setPicture(result.getProduct().getImagePath().get(0))
+//                        .setNote("￥" + result.getProduct().getMinSalePrice())
+//                        .setDesc(result.getProduct().getProductName())
+//                        .setUrl(result.getProduct().getProductId() + "")
+//                        .setShow(1)
+//                        .setAlwaysSend(true)
+//                        .build();
+////                source.shopId=result.getShop().getVShopId()+"";
+//                Unicorn.openServiceActivity(mActivity, title, source);
+
+                V5ClientConfig config = V5ClientConfig.getInstance(mActivity);
+// V5客服系统客户端配置
+// config.setShowLog(true); // 显示日志，默认为true
+
+/*** 客户信息设置 ***/
+// 如果更改了用户信息，需要在设置前调用shouldUpdateUserInfo
+// config.shouldUpdateUserInfo();
+// 【建议】设置用户昵称
+                config.setNickname("android_sdk_test");
+// 设置用户性别: 0-未知 1-男 2-女
+                config.setGender(1);
+// 【建议】设置用户头像URL
+                config.setAvatar("http://debugimg-10013434.image.myqcloud.com/fe1382d100019cfb572b1934af3d2c04/thumbnail");
 /**
- * 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入。
- * 三个参数分别为：来源页面的url，来源页面标题，来源页面额外信息（保留字段，暂时无用）。
- * 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
+ *【建议】设置用户OpenId，以识别不同登录用户，不设置则默认由SDK生成，替代v1.2.0之前的uid,
+ *  openId将透传到座席端(长度32字节以内，建议使用含字母数字和下划线的字符串，尽量不用特殊字符，若含特殊字符系统会进行URL encode处理，影响最终长度和座席端获得的结果)
+ *	若您是旧版本SDK用户，只是想升级，为兼容旧版，避免客户信息改变可继续使用config.setUid，可不用openId
  */
-                ConsultSource source = new ConsultSource("", "商品详情页面", "custom information string");
-/**
- * 请注意： 调用该接口前，应先检查Unicorn.isServiceAvailable()，
- * 如果返回为false，该接口不会有任何动作
- *
- * @param context 上下文
- * @param title   聊天窗口的标题
- * @param source  咨询的发起来源，包括发起咨询的url，title，描述信息等
- */
-                source.shopEntrance = new ShopEntrance.Builder().setLogo(result.getVShopLog()).setName(result.getShop().getName()).build();
-                source.sessionListEntrance = new SessionListEntrance.Builder().build();
-                source.quickEntryList = new ArrayList<>();
-                source.quickEntryList.add(new QuickEntry(0, "查订单", ""));
-                source.quickEntryList.add(new QuickEntry(1, "查物流", ""));
-                source.productDetail = new ProductDetail.Builder()
-                        .setTitle(result.getProduct().getProductName())
-                        .setPicture(result.getProduct().getImagePath().get(0))
-                        .setNote("￥" + result.getProduct().getMinSalePrice())
-                        .setDesc(result.getProduct().getProductName())
-                        .setUrl(result.getProduct().getProductId() + "")
-                        .setShow(1)
-                        .setAlwaysSend(true)
-                        .build();
-//                source.shopId=result.getShop().getVShopId()+"";
-                Unicorn.openServiceActivity(mActivity, title, source);
+                config.setOpenId("android_sdk_test");
+//config.setUid(uid); //【弃用】请使用setOpenId替代
+// 设置用户VIP等级(0-5)
+                config.setVip(0);
+// 使用消息推送时需设置device_token:集成第三方推送(腾讯信鸽、百度云推)或自定义推送地址时设置此参数以在离开会话界面时接收推送消息
+//config.setDeviceToken(XGPushConfig.getToken(getApplicationContext()));
+
+// [1.3.0新增]设置V5系统内置的客户基本信息，区别于setUserInfo，这是V5系统内置字段
+                JSONObject baseInfo = new JSONObject();
+                try {
+                    baseInfo.put("country", "中国");
+                    baseInfo.put("province", "广东");
+                    baseInfo.put("city", "深圳");
+                    baseInfo.put("language", "zh-cn");
+                    // nickname,gender,avatar,vip也可在此设置
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                config.setBaseInfo(baseInfo);
+
+// 客户信息键值对，下面为示例（JSONObject）
+                JSONObject customContent = new JSONObject();
+                try {
+                    customContent.put("用户名", "V5KF");
+                    customContent.put("用户级别", "VIP");
+                    customContent.put("用户积分", "3000");
+                    customContent.put("浏览商品", "衬衣");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+// 设置客户信息（自定义字段名称与值，自定义JSONObjectjian键值对，开启会话前设置，替代之前通过`setUserWillSendMessageListener`在消息中携带信息的方式，此方式更加安全便捷）
+                config.setUserInfo(customContent);
+                // 开启对话界面
+                V5ClientAgent.getInstance().startV5ChatActivity(getApplicationContext());
+                JSONObject msg = new JSONObject();
+                try {
+                    msg.put("title", "V5KF");
+                    msg.put("pic_url", "VIP");
+                    msg.put("url", "3000");
+                    msg.put("description", "衬衣");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    V5ArticlesMessage message=new V5ArticlesMessage(msg);
+                    V5ClientAgent.getInstance().sendMessage(message, new MessageSendCallback() {
+                        @Override
+                        public void onSuccess(V5Message v5Message) {
+                            ToastUtils.showShort("成功");
+                        }
+
+                        @Override
+                        public void onFailure(V5Message v5Message, V5KFException.V5ExceptionStatus v5ExceptionStatus, String s) {
+                            ToastUtils.showShort("失败");
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.ll_collect:
                 if (!isLogin) {
@@ -1218,7 +1316,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                                 if (aBoolean) {
                                                     // 获取全部权限成功
 
-                                                    UMWeb web = new UMWeb("http://mall.xigyu.com/product/detail/" + result.getProduct().getProductId());
+                                                    UMWeb web = new UMWeb("http://mall.xigyu.com/product/detail/?ProductId=" + result.getProduct().getProductId()+ "&userId="+UserID);
                                                     web.setTitle(result.getProduct().getProductName());
                                                     web.setDescription(result.getProduct().getProductName());
                                                     web.setThumb(new UMImage(mActivity, result.getProduct().getImagePath().get(0)));

@@ -306,6 +306,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
             StoreBean storeBean = new StoreBean();
             storeBean.setShopLogo(""); //没店铺图标
             storeBean.setShopName(result.getProducts().get(0).getShopName());
+            storeBean.setProvideInvoice(result.getProducts().get(0).getProvideInvoice());
 
             /*如果存在优惠券则存入*/
             if (result.getProducts().get(0).getOneCoupons()!=null){
@@ -400,6 +401,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderPresenter, Co
                 StoreBean storeBean = new StoreBean();
                 storeBean.setShopLogo(""); //没店铺图标
                 storeBean.setShopName(result.getProducts().get(i).getShopName());
+                storeBean.setProvideInvoice(result.getProducts().get(i).getProvideInvoice());
                 /*如果存在优惠券则存入*/
                 if (result.getProducts().get(i).getOneCoupons()!=null){
                     /*设置优惠券OneCoupons*/
