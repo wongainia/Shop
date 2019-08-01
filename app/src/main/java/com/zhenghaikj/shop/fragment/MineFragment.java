@@ -356,7 +356,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                                             if (aBoolean) {
                                                 // 获取全部权限成功
 
-                                                UMWeb web = new UMWeb("http://admin.xigyu.com/sign?phone=" + UserID + "&type=8");
+                                                UMWeb web = new UMWeb("http://admin.xigyu.com/NewSign?phone=" + UserID + "&type=8");
                                                 web.setTitle("西瓜鱼");
                                                 web.setDescription("注册送西瓜币了！！！！！");
                                                 web.setThumb(new UMImage(mActivity, R.drawable.shop));
@@ -706,7 +706,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 btn_share_one = under_review.findViewById(R.id.btn_share_one);
                 iv_code_one = under_review.findViewById(R.id.iv_code_one);
                 btn_go_to_the_mall = under_review.findViewById(R.id.btn_go_to_the_mall);
-                bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?phone=" + UserID + "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.shop));
+                bitmap = ZXingUtils.createQRImage("http://admin.xigyu.com/sign?NewSign=" + UserID + "&type=8", 600, 600, BitmapFactory.decodeResource(getResources(), R.drawable.shop));
                 iv_code_one.setImageBitmap(bitmap);
                 btn_share_one.setOnClickListener(new View.OnClickListener() {
                     @Override

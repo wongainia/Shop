@@ -1,5 +1,8 @@
 package com.zhenghaikj.shop.adapter;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -29,7 +32,12 @@ public class ShopDetailGoodsAdapter extends BaseQuickAdapter<StoreCommodityResul
                 .into((ImageView) helper.getView(R.id.iv_goods));
 
         helper.setText(R.id.tv_goods_name,item.getProductName());
-        helper.setText(R.id.tv_goods_money,""+item.getMinSalePrice());
+        SpannableString spannableString = new SpannableString(item.getMinSalePrice());
+        if (item.getMinSalePrice().contains(".")) {
+            spannableString.setSpan(new RelativeSizeSpan(0.6f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            spannableString.setSpan(new RelativeSizeSpan(0.5f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), USIVE_EXCLUSIVE);
+        }
+        helper.setText(R.id.tv_goods_money,spannableString);
 
         helper.addOnClickListener(R.id.ll_item);
 

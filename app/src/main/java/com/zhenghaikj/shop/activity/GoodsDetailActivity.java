@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -833,7 +834,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         /*用于显示没有颜色没尺寸时候的价格和库存*/
         if (result.getColor().isEmpty() && result.getSize().isEmpty()) {
-            ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(skuArray.get(0).getPrice());
+            SpannableString spannableString = new SpannableString(skuArray.get(0).getPrice());
+            if (skuArray.get(0).getPrice().contains(".")) {
+                spannableString.setSpan(new RelativeSizeSpan(0.6f),skuArray.get(0).getPrice().indexOf("."), skuArray.get(0).getPrice().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            spannableString.setSpan(new RelativeSizeSpan(0.5f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), USIVE_EXCLUSIVE);
+            }
+            ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(spannableString);
             ((TextView) popupWindow_view.findViewById(R.id.tv_repertory)).setText("库存:" + skuArray.get(0).getStock() + "件");
             getinventory = skuArray.get(0).getStock();
 
@@ -1209,7 +1215,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             }
 
             /*显示价格暂时取范围*/
-            mTvGoodMoney.setText(Result.getProduct().getMinSalePrice() + "");
+            SpannableString spannableString = new SpannableString(String.valueOf(Result.getProduct().getMinSalePrice()));
+            if (String.valueOf(Result.getProduct().getMinSalePrice()).contains(".")) {
+                spannableString.setSpan(new RelativeSizeSpan(0.6f), String.valueOf(Result.getProduct().getMinSalePrice()).indexOf("."), String.valueOf(Result.getProduct().getMinSalePrice()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            mTvGoodMoney.setText(spannableString);
             String string = Result.getProduct().getMarketPrice() + "";
             SpannableString sp = new SpannableString(string);
             sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -1400,7 +1410,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
                             //价格
                             String price = getPrice(SkuId);
-                            ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(price);
+                            SpannableString spannableString = new SpannableString(price);
+                            if (price.contains(".")) {
+                                spannableString.setSpan(new RelativeSizeSpan(0.6f),price.indexOf("."), price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            spannableString.setSpan(new RelativeSizeSpan(0.5f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), USIVE_EXCLUSIVE);
+                            }
+                            ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(spannableString);
 
 
                         }
@@ -1459,7 +1474,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
                             //价格
                             String price = getPrice(SkuId);
-                            ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(price);
+                            SpannableString spannableString = new SpannableString(price);
+                            if (price.contains(".")) {
+                                spannableString.setSpan(new RelativeSizeSpan(0.6f),price.indexOf("."), price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            spannableString.setSpan(new RelativeSizeSpan(0.5f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), USIVE_EXCLUSIVE);
+                            }
+                            ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(spannableString);
                         }
                         break;
                 }
@@ -1516,7 +1536,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
                             //价格
                             String price = getPrice(SkuId);
-                            ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(price);
+                            SpannableString spannableString = new SpannableString(price);
+                            if (price.contains(".")) {
+                                spannableString.setSpan(new RelativeSizeSpan(0.6f),price.indexOf("."), price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            spannableString.setSpan(new RelativeSizeSpan(0.5f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), USIVE_EXCLUSIVE);
+                            }
+                            ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(spannableString);
 
                         }
 

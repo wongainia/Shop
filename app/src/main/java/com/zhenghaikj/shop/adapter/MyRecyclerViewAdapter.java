@@ -7,6 +7,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,7 +112,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             }
         });
 
-        holder.tv_goods_money.setText(bean.getSalePrice()+"");
+        SpannableString spannableString = new SpannableString(bean.getSalePrice());
+        if (bean.getSalePrice().contains(".")) {
+            spannableString.setSpan(new RelativeSizeSpan(0.6f), bean.getSalePrice().indexOf("."), bean.getSalePrice().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        holder.tv_goods_money.setText(spannableString);
         String string = "¥"+bean.getMarketPrice();
         SpannableString sp = new SpannableString(string);
 //

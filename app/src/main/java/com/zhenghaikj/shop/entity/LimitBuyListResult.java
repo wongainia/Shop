@@ -48,9 +48,9 @@ public class LimitBuyListResult implements Serializable {
         private int ProductId;
         private String ProductImg;
         private String ProductName;
-        private int MinPrice;
+        private Double MinPrice;
         private String EndDate;
-        private int MarketPrice;
+        private double MarketPrice;
         private int SaleCount;
         private int Stock;
         private List<String> ProductAttributeInfos;
@@ -116,11 +116,11 @@ public class LimitBuyListResult implements Serializable {
             this.ProductName = ProductName;
         }
 
-        public int getMinPrice() {
+        public Double getMinPrice() {
             return MinPrice;
         }
 
-        public void setMinPrice(int MinPrice) {
+        public void setMinPrice(Double MinPrice) {
             this.MinPrice = MinPrice;
         }
 
@@ -132,11 +132,11 @@ public class LimitBuyListResult implements Serializable {
             this.EndDate = EndDate;
         }
 
-        public int getMarketPrice() {
+        public double getMarketPrice() {
             return MarketPrice;
         }
 
-        public void setMarketPrice(int MarketPrice) {
+        public void setMarketPrice(double MarketPrice) {
             this.MarketPrice = MarketPrice;
         }
 

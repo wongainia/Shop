@@ -5,6 +5,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 
 import com.blankj.utilcode.util.TimeUtils;
@@ -36,7 +37,11 @@ public class LimitedTimeAdapter extends BaseQuickAdapter<LimitBuyListResult.List
 //
         sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         helper.setText(R.id.tv_money_old,sp);
-        helper.setText(R.id.tv_money_now,item.getMinPrice()+"");
+        SpannableString spannableString1 = new SpannableString(String.valueOf(item.getMinPrice()));
+        if (String.valueOf(item.getMinPrice()).contains(".")) {
+            spannableString1.setSpan(new RelativeSizeSpan(0.6f), String.valueOf(item.getMinPrice()).indexOf("."), String.valueOf(item.getMinPrice()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        helper.setText(R.id.tv_money_now,spannableString1);
         if ("官方自营店".equals(item.getShopName())){
             SpannableString spannableString = new SpannableString("官方"+" "+item.getProductName());
             ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.WHITE);

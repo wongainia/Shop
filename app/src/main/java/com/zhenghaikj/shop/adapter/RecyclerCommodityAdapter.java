@@ -2,6 +2,9 @@ package com.zhenghaikj.shop.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +108,11 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
     public void onBindViewHolder(final MyHolder holder, final int position) {
         holder.tv_goods_name.setText(list.get(position).getName());
         holder.adderView.setValue(Integer.parseInt(list.get(position).getCount()));
-        holder.tv_price.setText(""+list.get(position).getPrice());
+        SpannableString spannableString = new SpannableString(String.valueOf(list.get(position).getPrice()));
+        if (String.valueOf(list.get(position).getPrice()).contains(".")) {
+            spannableString.setSpan(new RelativeSizeSpan(0.6f), String.valueOf(list.get(position).getPrice()).indexOf("."), String.valueOf(list.get(position).getPrice()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        holder.tv_price.setText(spannableString);
 
 
         Glide.with(mContext).load(list.get(position).getImgUrl())
