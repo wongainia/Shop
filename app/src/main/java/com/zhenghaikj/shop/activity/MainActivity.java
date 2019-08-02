@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.ethanhua.skeleton.Skeleton;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.CartFragment;
@@ -75,6 +76,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     LinearLayout mLlMine;
     @BindView(R.id.tab_menu)
     LinearLayout mTabMenu;
+
+    @BindView(R.id.rootview)
+    View rootview;
+
     private ArrayList<Fragment> mFragments;
     private HomeFragment homeFragment;
     private ClassificationFragment classificationFragment;
@@ -123,6 +128,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void initView() {
+
         mViewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
         mViewPager.setOffscreenPageLimit(5);
         mViewPager.setScroll(false);

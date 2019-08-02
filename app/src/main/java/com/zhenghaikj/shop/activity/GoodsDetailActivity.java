@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -44,8 +45,9 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ethanhua.skeleton.Skeleton;
+import com.ethanhua.skeleton.SkeletonScreen;
 import com.gyf.barlibrary.ImmersionBar;
-import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.ProductDetail;
 import com.qiyukf.unicorn.api.QuickEntry;
@@ -123,12 +125,12 @@ import io.reactivex.functions.Consumer;
 
 
 public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailModel> implements View.OnClickListener, DetailContract.View {
-    @BindView(R.id.banner_goods)
-    Banner mBannerGoods;
-    @BindView(R.id.countdownview)
-    CountdownView mCountdownview;
+
+
     @BindView(R.id.tv_only_left)
     TextView mTvOnlyLeft;
+    @BindView(R.id.countdownview)
+    CountdownView mCountdownview;
     @BindView(R.id.ll_limit)
     LinearLayout mLlLimit;
     @BindView(R.id.tv_good_money)
@@ -245,8 +247,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     LinearLayout mLlNormal;
     @BindView(R.id.tv_limit_buy)
     TextView mTvLimitBuy;
-    @BindView(R.id.stateLayout)
-    StateFrameLayout mStateLayout;
+ /*   @BindView(R.id.stateLayout)
+    StateFrameLayout mStateLayout;*/
+
+    @BindView(R.id.banner_goods)
+    Banner mBannerGoods;
     @BindView(R.id.ll_back)
     LinearLayout mLlBack;
     @BindView(R.id.radioGroup)
@@ -267,7 +272,10 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     TextView mTvComment;
     @BindView(R.id.tv_comment_two)
     TextView mTvCommentTwo;
+    @BindView(R.id.RootView)
+    View RootView;
 
+    private   SkeletonScreen skeletonScreen;
     private AdderView adderView;
     private int getinventory; //库存
     private View popupWindow_view;
@@ -358,6 +366,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     @Override
     protected void initData() {
 
+
         for (int i = 0; i < 6; i++) {
             shopRecommendationList.add(new Product());
         }
@@ -395,13 +404,21 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         UMShareAPI.get(mActivity).setShareConfig(config);
         mShareListener = new MineFragment.CustomShareListener(mActivity);
 
+
+
     }
 
 
     @Override
     protected void initView() {
+            skeletonScreen=  Skeleton.bind(RootView)
+            .load(R.layout.activity_good_skeleton)
+            .duration(2000)
+            .color(R.color.shimmer_color)
+            .angle(10)
+            .show();
 
-        mStateLayout.changeState(StateFrameLayout.LOADING);
+     /*   mStateLayout.changeState(StateFrameLayout.LOADING);
         //是否在展示内容布局的时候开启动画（200ms的Alpha动画）
         mStateLayout.enableContentAnim(false);
 
@@ -420,7 +437,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 //TODO 在这里相应重试操作
                 mPresenter.GetSKUInfo(id);
             }
-        });
+        });*/
+
 
 
         Rect rectangle = new Rect();
@@ -511,8 +529,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
 
+       // ButterKnife.bind(this);
     }
 
     public void setRadioButtonTextColor(float percentage) {
@@ -1097,7 +1115,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(Throwable e) {
-        mStateLayout.changeState(StateFrameLayout.NET_ERROR);
+       // mStateLayout.changeState(StateFrameLayout.NET_ERROR);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1344,11 +1362,14 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             }
                         }
                     });
-
+            skeletonScreen.hide();
             mPresenter.ProductComment(id, String.valueOf(1), "10", "0");
         } else {
-            mStateLayout.changeState(StateFrameLayout.EMPTY);
+           // mStateLayout.changeState(StateFrameLayout.EMPTY);
         }
+
+
+
     }
 
 
@@ -1618,7 +1639,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mTvUsername.setVisibility(View.GONE);
             mTvContent.setText(result.getErrorMsg());
         }
-        mStateLayout.changeState(StateFrameLayout.SUCCESS);
+       // mStateLayout.changeState(StateFrameLayout.SUCCESS);
         EventBus.getDefault().post("UpdateOrderCount");//更新个人中心足迹数量
     }
 

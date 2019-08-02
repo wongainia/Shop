@@ -240,4 +240,7 @@ dependencies {
     implementation project(path: ':V5ClientLibrary')
 
 
+    /*skeleton screen*/
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+    implementation 'com.ethanhua:skeleton:1.1.2'
 }

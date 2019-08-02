@@ -587,7 +587,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 mLlhome.addView(view);
                 int position=i;
                 initViewBy_8(position,view,modules);
-
             }
             if (modules.get(i).getType()==20){
                 View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_20,null);
