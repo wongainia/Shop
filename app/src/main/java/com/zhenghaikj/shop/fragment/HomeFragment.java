@@ -35,6 +35,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.beta.Beta;
 import com.umeng.socialize.ShareAction;
@@ -63,10 +66,12 @@ import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.activity.MessageActivity2;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.SearchPreDetailActivity;
+import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.HomeCategoryAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
 import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
+import com.zhenghaikj.shop.adapter.NewHomeAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.entity.Announcement;
@@ -90,6 +95,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
+
+import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 
 public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements View.OnClickListener, HomeContract.View {
 
@@ -187,6 +194,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private String link;
     private String pageSize="10";
 
+
+
+    private NewHomeAdapter newHomeAdapter;
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -225,7 +235,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             R.drawable.cmd, R.mipmap.quan
     };
     private MenuAdapter mMainAdapter;
-    private MyRecyclerViewAdapter myRecyclerViewAdapter;
+ //   private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private int pageNo = 1;
 
     /**
@@ -295,6 +305,15 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                         }
                     }
                 });
+
+
+        newHomeAdapter=new NewHomeAdapter(R.layout.item_home_two,mDatas);
+        mRvHome.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvHome.setAdapter(newHomeAdapter);
+
+
+
+
         mPresenter.GetList("4",pageSize,"1",userKey);
         mPresenter.Get();
         mPresenter.Get(Integer.toString(pageNo), pageSize);
@@ -380,7 +399,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });
 
 //声名为瀑布流的布局方式: 2列,垂直方向
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+     /*   StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mRvHome.setLayoutManager(staggeredGridLayoutManager);
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(), mDatas);
         mRvHome.setItemAnimator(new DefaultItemAnimator());
@@ -389,42 +408,32 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
             intent.putExtra("id", mDatas.get(position).getId());
             startActivity(intent);
-        });
+        });*/
 
 
-//        mSv.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-//            if (scrollY > fadingHeight) {
-//                scrollY = fadingHeight;
-//            } else if (scrollY < 0) {
-//                scrollY = 0;
-//            } else {
-//
-//            }
-//            mToolbar.getBackground().setAlpha(scrollY * (END_ALPHA - START_ALPHA) / fadingHeight + START_ALPHA);
-//        });
-//        if (Global.appTheme != null) {
-//            mToolbar.setBackgroundColor(Color.parseColor(Global.appTheme.getHome_top_color() != null ? Global.appTheme.getHome_top_color() : "#E82C00"));
-//        } else {
-//            mToolbar.setBackgroundColor(Color.parseColor("#E82C00"));
-//        }
-//        mToolbar.getBackground().setAlpha(START_ALPHA);
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            pageNo = 1;
-            mDatas.clear();
-            mPresenter.GetList("4",pageSize,"1",userKey);
-            mPresenter.Get();
-            mPresenter.Get(Integer.toString(pageNo), pageSize);
-            mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
-            refreshLayout.setNoMoreData(false);
-            refreshLayout.finishRefresh(1000);
+
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                pageNo = 1;
+                mDatas.clear();
+                mPresenter.GetList("4",pageSize,"1",userKey);
+                mPresenter.Get();
+                mPresenter.Get(Integer.toString(pageNo), pageSize);
+                mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
+                refreshLayout.setNoMoreData(false);
+                refreshLayout.finishRefresh(1000);
+            }
         });
-        mRefreshLayout.setEnableLoadMore(true);
-        mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            pageNo++;
-            mPresenter.Get(Integer.toString(pageNo), pageSize);
-//            refreshLayout.finishLoadMore(1000);
-            mRefreshLayout.finishLoadmore();
+
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                pageNo++;
+                mPresenter.Get(Integer.toString(pageNo), pageSize);
+            }
         });
+
     }
 
     @Override
@@ -459,6 +468,30 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mLlMemberCode.setOnClickListener(this);
         mIvRegister.setOnClickListener(this);
         mFlMessage.setOnClickListener(this);
+
+        newHomeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.ll_goods:
+                        Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+                        intent.putExtra("id", mDatas.get(position).getId());
+                        startActivity(intent);
+                        break;
+                    case R.id.ll_gotoshop:
+                        if (mDatas.get(position).getVshopId()==null){
+                            ToastUtils.showShort("该商家未申请微店");
+                        }else {
+                            Intent intent1 = new Intent(mActivity, StoreDetailActivity.class);
+                            intent1.putExtra("VShopId", mDatas.get(position).getVshopId());
+                            startActivity(intent1);
+                        }
+
+                        break;
+
+                }
+            }
+        });
     }
 
     @Override
@@ -558,8 +591,16 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             if (Result.getProduct().size() == 0) {
                 mRefreshLayout.finishLoadMoreWithNoMoreData();
             } else {
-                mDatas.addAll(Result.getProduct());
-                myRecyclerViewAdapter.setList(mDatas);
+                if (mDatas.size()!=0){
+                    int lastposition=mDatas.size();
+                    int itemCount=Result.getProduct().size();
+                    mDatas.addAll(Result.getProduct());
+                    newHomeAdapter.notifyItemRangeChanged(lastposition,itemCount);
+                }else {
+                    mDatas.addAll(Result.getProduct());
+                    newHomeAdapter.notifyDataSetChanged();
+                }
+                mRefreshLayout.finishLoadMore();
             }
             /*List<String> images = new ArrayList<>();
             for (int i = 0; i < Result.getSlide().size(); i++) {

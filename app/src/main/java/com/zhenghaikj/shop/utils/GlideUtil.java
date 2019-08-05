@@ -54,7 +54,7 @@ public class GlideUtil {
         CornerTransform transform=new CornerTransform(mContext,radius);
         transform.setExceptCorner(false,false,true,true);
         RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+               // .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(lodingImage)
                 .error(errorImageView)
                 .bitmapTransform(transform);

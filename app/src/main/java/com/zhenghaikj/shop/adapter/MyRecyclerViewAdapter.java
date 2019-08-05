@@ -9,6 +9,7 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,14 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.utils.GlideUtil;
+import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zhenghaikj.shop.widget.RoundBackGroundColorSpan;
 
 import java.text.SimpleDateFormat;
@@ -119,14 +123,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.tv_goods_money.setText(spannableString);
         String string = "¥"+bean.getMarketPrice();
         SpannableString sp = new SpannableString(string);
-//
         sp.setSpan(new StrikethroughSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.tv_payment.setText(sp);
         holder.tv_shop_name.setText(bean.getShopName());
         if (list.get(position).getProductAttributeInfos()!=null){
             if (list.get(position).getProductAttributeInfos().size()>=3){
                 holder.tv_comment.setText(list.get(position).getProductAttributeInfos().get(0)+" | "+list.get(position).getProductAttributeInfos().get(1)+" | "+list.get(position).getProductAttributeInfos().get(2));
-
             }else if (list.get(position).getProductAttributeInfos().size()==1){
                 holder.tv_comment.setText(list.get(position).getProductAttributeInfos().get(0));
             }else if (list.get(position).getProductAttributeInfos().size()==2){
@@ -137,6 +139,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }else {
             holder.tv_comment.setVisibility(View.INVISIBLE);
         }
+
 
         if (list.get(position).getCashDepositsServer().isIsSevenDayNoReasonReturn()){
             holder.tv_service.setText("七天无理由退换");
@@ -159,7 +162,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
         String timestamp= TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-        GlideUtil.loadImageViewLodingRadius(context,bean.getImageUrl()+"?"+timestamp,holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
+
+       // GlideUtil.loadImageViewLodingRadius(context,bean.getImageUrl()+"?"+timestamp,holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
+
+      //  Log.d("=====>",bean.getImageUrl()+"?"+timestamp);
+
+        Glide.with(context).load(bean.getImageUrl()+"?"+timestamp)
+                .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(context, 5)))
+                .into(holder.iv_goods);
 
         //由于需要实现瀑布流的效果,所以就需要动态的改变控件的高度了
 //        ViewGroup.LayoutParams params = holder.tv_goods_money.getLayoutParams();
