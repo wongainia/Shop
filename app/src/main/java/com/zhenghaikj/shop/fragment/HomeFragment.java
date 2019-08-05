@@ -298,7 +298,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                                             } else {
                                                 // 获取全部权限失败
                                                 ToastUtils.showShort("权限获取失败");
-                                            }
+                                        }
                                         }
                                     });
 

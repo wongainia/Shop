@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.ethanhua.skeleton.Skeleton;
+import com.ethanhua.skeleton.SkeletonScreen;
 import com.gyf.barlibrary.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -129,6 +131,7 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
     private String cid;
     private int searchbytype =1; //1为搜索  2为点击
 
+    private SkeletonScreen skeletonScreen;
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
@@ -174,6 +177,8 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
              mPresenter.GetSearchProducts(serach_content, null, null, attrsCode,"1", "1", Integer.toString(pagaNo), "10","0");
              Tvsearch_txt.setText(getIntent().getStringExtra("search"));
              mPresenter.GetSearchFilter(Tvsearch_txt.getText().toString(),"0","","0",userKey);
+
+
         }
 
         if (getIntent().getSerializableExtra("tag")!=null){
@@ -187,11 +192,20 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
         }
         /*获取筛选*/
 
+
+
         newSearchDetailAdapetr = new NewSearchDetailAdapetr(R.layout.item_newsearch_detail, productBeanList);
         mRvSearchDetail.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvSearchDetail.setAdapter(newSearchDetailAdapetr);
-
-
+            skeletonScreen = Skeleton.bind(mRvSearchDetail)
+                .adapter(newSearchDetailAdapetr)
+                .shimmer(true)
+                .angle(20)
+                .frozen(false)
+                .duration(1000)
+                .count(10)
+                .load(R.layout.item_skeleton_goods)
+                .show();
 
     }
 
@@ -533,6 +547,9 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             return;
         }
        if (Result.getSuccess()){
+           if (skeletonScreen!=null){
+               skeletonScreen.hide();
+           }
            if (Result.getTotal()==0||Result.getProduct().isEmpty()){
                //找不到产品
                if (pagaNo==1){
@@ -551,11 +568,8 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                    newSearchDetailAdapetr.setNewData(productBeanList);
                    newSearchDetailAdapetr.notifyDataSetChanged();
 
-
-
                }
            }
-
        }else {
 
        }
