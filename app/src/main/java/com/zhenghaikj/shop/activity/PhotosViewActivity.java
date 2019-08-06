@@ -62,6 +62,7 @@ public class PhotosViewActivity extends AppCompatActivity {
         PhotoPagerAdapter viewPagerAdapter = new PhotoPagerAdapter(getSupportFragmentManager(), urlList);
         viewPager.setAdapter(viewPagerAdapter);
 
+
         viewPager.setCurrentItem(photo_position);
         tvNum.setText("(" + String.valueOf(photo_position + 1) + "/" + urlList.size() + ")");
 

@@ -314,6 +314,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private String VShopId = ""; //微店id用于进入店铺详情
     private String ShopId = "";
 
+    private String Photourl;// 查看图片大图的地址
     private RadioGroup.OnCheckedChangeListener radioGroupListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -835,6 +836,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         popupWindow_view = LayoutInflater.from(mActivity).inflate(R.layout.popwindow_chooseproperty, null);
         mPopupWindow = new PopupWindow(popupWindow_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         adderView = popupWindow_view.findViewById(R.id.adderview);
+
+
         //   img_bankcancle = popupWindow_view.findViewById(R.id.img_bankcancle);
         mPopupWindow.setAnimationStyle(R.style.popwindow_anim_style);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources()));
@@ -872,6 +875,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                     .load(result.getProduct().getImagePath().get(0))
                     .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
                     .into((ImageView) popupWindow_view.findViewById(R.id.img_shop));
+                     Photourl=result.getProduct().getImagePath().get(0);
+                     Log.d("=====>",Photourl);
         }
 
 
@@ -1136,6 +1141,15 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             }
         });
 
+
+        popupWindow_view.findViewById(R.id.img_shop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, PhotoViewActivity2.class);
+                intent.putExtra("PhotoUrl", Photourl);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -1429,10 +1443,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             String colorskuId = ((ShopColor) adapter.getData().get(position)).getSkuId();
 
 
+                            if ("".equals(result.getColor().get(position).getImg())){
+
+                            }else {
                             Glide.with(mActivity)
-                                    .load(result.getColor().get(position).getImg())
-                                    .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
-                                    .into((ImageView) popupWindow_view.findViewById(R.id.img_shop));
+                             .load(result.getColor().get(position).getImg())
+                             .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
+                             .into((ImageView) popupWindow_view.findViewById(R.id.img_shop));
+                              Photourl=result.getColor().get(position).getImg();
+                                Log.d("=====>",Photourl);
+                            }
+
 
 
                             skuId_color = ((ShopColor) adapter.getItem(position)).getSkuId();
@@ -1751,10 +1772,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                         mPresenter.PostAcceptCoupon(((ShopCoupResult.CouponBean) adapter.getData().get(position)).getVShopId(), ((ShopCoupResult.CouponBean) adapter.getData().get(position)).getCouponId(), userKey);
                         break;
                 }
-
             }
         });
-
-
     }
+
 }

@@ -360,6 +360,10 @@
             android:launchMode="singleTask">
         </activity>
 
+        <activity android:name=".activity.PhotoViewActivity2"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask">
+        </activity>
 
         <activity android:name=".activity.AllCommentsActivity"
             android:theme="@style/AppSplash"
