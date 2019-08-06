@@ -44,16 +44,19 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.fragment.StoreDetailGoodsFragment;
 import com.zhenghaikj.shop.fragment.StoreDetailHomeFragment;
 import com.zhenghaikj.shop.fragment.StoreDetailSortFragment;
+import com.zhenghaikj.shop.imkfsdk.MainActivity;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 import com.zhenghaikj.shop.mvp.model.StoreDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.StoreDetailPresenter;
@@ -133,6 +136,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
     private String shopid;
     private MineFragment.CustomShareListener mShareListener;
     private ShareAction mShareAction;
+    private UserInfo.UserInfoDean userInfo;
 
     //用来记录内层固定布局到屏幕顶部的距离
 
@@ -165,7 +169,9 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     @Override
     protected void initView() {
-
+        if(isLogin){
+            mPresenter.GetUserInfoList(UserID, "1");
+        }
         mFragments.add(StoreDetailHomeFragment.newInstance("首页"));
         mFragments.add(StoreDetailGoodsFragment.newInstance("所有商品"));
         mFragments.add(StoreDetailSortFragment.newInstance("查看分类"));
@@ -343,6 +349,15 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     }
 
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()){
+            case 200:
+                userInfo = Result.getData().getData().get(0);
+                break;
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -368,37 +383,54 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
                 finish();
                 break;
             case R.id.ll_customer_service:
-                String title = storeDetailResult.getVShop().getName();
-/**
- * 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入。
- * 三个参数分别为：来源页面的url，来源页面标题，来源页面额外信息（保留字段，暂时无用）。
- * 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
- */
-                ConsultSource source = new ConsultSource("", "店铺页面", "custom information string");
-/**
- * 请注意： 调用该接口前，应先检查Unicorn.isServiceAvailable()，
- * 如果返回为false，该接口不会有任何动作
- *
- * @param context 上下文
- * @param title   聊天窗口的标题
- * @param source  咨询的发起来源，包括发起咨询的url，title，描述信息等
- */
-                source.shopEntrance = new ShopEntrance.Builder().setLogo(storeDetailResult.getVShop().getLogo()).setName(storeDetailResult.getVShop().getName()).build();
-                source.sessionListEntrance = new SessionListEntrance.Builder().build();
-                source.quickEntryList = new ArrayList<>();
-                source.quickEntryList.add(new QuickEntry(0, "查订单", ""));
-                source.quickEntryList.add(new QuickEntry(1, "查物流", ""));
-//                source.productDetail = new ProductDetail.Builder()
-//                        .setTitle(result.getProduct().getProductName())
-//                        .setPicture(result.getProduct().getImagePath().get(0))
-//                        .setNote("￥" + result.getProduct().getMinSalePrice())
-//                        .setDesc(result.getProduct().getProductName())
-//                        .setUrl(result.getProduct().getProductId() + "")
-//                        .setShow(1)
-//                        .setAlwaysSend(true)
-//                        .build();
-//                source.shopId=storeDetailResult.getVShop().getShopId()+"";
-                Unicorn.openServiceActivity(mActivity, title, source);
+//                String title = storeDetailResult.getVShop().getName();
+///**
+// * 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入。
+// * 三个参数分别为：来源页面的url，来源页面标题，来源页面额外信息（保留字段，暂时无用）。
+// * 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
+// */
+//                ConsultSource source = new ConsultSource("", "店铺页面", "custom information string");
+///**
+// * 请注意： 调用该接口前，应先检查Unicorn.isServiceAvailable()，
+// * 如果返回为false，该接口不会有任何动作
+// *
+// * @param context 上下文
+// * @param title   聊天窗口的标题
+// * @param source  咨询的发起来源，包括发起咨询的url，title，描述信息等
+// */
+//                source.shopEntrance = new ShopEntrance.Builder().setLogo(storeDetailResult.getVShop().getLogo()).setName(storeDetailResult.getVShop().getName()).build();
+//                source.sessionListEntrance = new SessionListEntrance.Builder().build();
+//                source.quickEntryList = new ArrayList<>();
+//                source.quickEntryList.add(new QuickEntry(0, "查订单", ""));
+//                source.quickEntryList.add(new QuickEntry(1, "查物流", ""));
+////                source.productDetail = new ProductDetail.Builder()
+////                        .setTitle(result.getProduct().getProductName())
+////                        .setPicture(result.getProduct().getImagePath().get(0))
+////                        .setNote("￥" + result.getProduct().getMinSalePrice())
+////                        .setDesc(result.getProduct().getProductName())
+////                        .setUrl(result.getProduct().getProductId() + "")
+////                        .setShow(1)
+////                        .setAlwaysSend(true)
+////                        .build();
+////                source.shopId=storeDetailResult.getVShop().getShopId()+"";
+//                Unicorn.openServiceActivity(mActivity, title, source);
+
+                Intent intent1=new Intent(mActivity, MainActivity.class);
+//                intent1.putExtra("goodsName",result.getProduct().getProductName());
+//                intent1.putExtra("goodsPricture",result.getProduct().getImagePath().get(0));
+//                intent1.putExtra("goodsPrice","￥" + result.getProduct().getMinSalePrice());
+//                intent1.putExtra("goodsURL","http://seller.xigyu.com/product/detail/"+result.getProduct().getProductId());
+                if (isLogin){
+                    intent1.putExtra("userName",userInfo.getNickName());
+                    intent1.putExtra("userId",userInfo.getUserID());
+                    intent1.putExtra("userPic",userInfo.getAvator());
+                }else {
+                    intent1.putExtra("userName","游客");
+                    intent1.putExtra("userId","123456789");
+                    intent1.putExtra("userPic",R.drawable.default_avator);
+                }
+
+                startActivity(intent1);
                 break;
         }
 

@@ -48,6 +48,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.SkeletonScreen;
 import com.gyf.barlibrary.ImmersionBar;
+import com.lwkandroid.widget.stateframelayout.StateFrameLayout;
 import com.qiyukf.unicorn.api.ConsultSource;
 import com.qiyukf.unicorn.api.ProductDetail;
 import com.qiyukf.unicorn.api.QuickEntry;
@@ -82,6 +83,7 @@ import com.zhenghaikj.shop.adapter.ChooseVersionAdapter;
 import com.zhenghaikj.shop.adapter.ShopCoupAdapter;
 import com.zhenghaikj.shop.adapter.ShopRecommendationAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.Comment;
@@ -94,7 +96,9 @@ import com.zhenghaikj.shop.entity.ShopColor;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopSize;
 import com.zhenghaikj.shop.entity.ShopVersion;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.fragment.MineFragment;
+import com.zhenghaikj.shop.imkfsdk.MainActivity;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
 import com.zhenghaikj.shop.mvp.model.DetailModel;
 import com.zhenghaikj.shop.mvp.presenter.DetailPresenter;
@@ -344,6 +348,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private MineFragment.CustomShareListener mShareListener;
     private ShareAction mShareAction;
     private ShopCoupAdapter shopCoupAdapter;
+    private UserInfo.UserInfoDean userInfo;
 
 
     @Override
@@ -367,6 +372,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     protected void initData() {
 
 
+        if(isLogin){
+            mPresenter.GetUserInfoList(UserID, "1");
+        }
         for (int i = 0; i < 6; i++) {
             shopRecommendationList.add(new Product());
         }
@@ -609,83 +617,101 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 ////                source.shopId=result.getShop().getVShopId()+"";
 //                Unicorn.openServiceActivity(mActivity, title, source);
 
-                V5ClientConfig config = V5ClientConfig.getInstance(mActivity);
-// V5客服系统客户端配置
-// config.setShowLog(true); // 显示日志，默认为true
+//                V5ClientConfig config = V5ClientConfig.getInstance(mActivity);
+//// V5客服系统客户端配置
+//// config.setShowLog(true); // 显示日志，默认为true
+//
+///*** 客户信息设置 ***/
+//// 如果更改了用户信息，需要在设置前调用shouldUpdateUserInfo
+//// config.shouldUpdateUserInfo();
+//// 【建议】设置用户昵称
+//                config.setNickname("android_sdk_test");
+//// 设置用户性别: 0-未知 1-男 2-女
+//                config.setGender(1);
+//// 【建议】设置用户头像URL
+//                config.setAvatar("http://debugimg-10013434.image.myqcloud.com/fe1382d100019cfb572b1934af3d2c04/thumbnail");
+///**
+// *【建议】设置用户OpenId，以识别不同登录用户，不设置则默认由SDK生成，替代v1.2.0之前的uid,
+// *  openId将透传到座席端(长度32字节以内，建议使用含字母数字和下划线的字符串，尽量不用特殊字符，若含特殊字符系统会进行URL encode处理，影响最终长度和座席端获得的结果)
+// *	若您是旧版本SDK用户，只是想升级，为兼容旧版，避免客户信息改变可继续使用config.setUid，可不用openId
+// */
+//                config.setOpenId("android_sdk_test");
+////config.setUid(uid); //【弃用】请使用setOpenId替代
+//// 设置用户VIP等级(0-5)
+//                config.setVip(0);
+//// 使用消息推送时需设置device_token:集成第三方推送(腾讯信鸽、百度云推)或自定义推送地址时设置此参数以在离开会话界面时接收推送消息
+////config.setDeviceToken(XGPushConfig.getToken(getApplicationContext()));
+//
+//// [1.3.0新增]设置V5系统内置的客户基本信息，区别于setUserInfo，这是V5系统内置字段
+//                JSONObject baseInfo = new JSONObject();
+//                try {
+//                    baseInfo.put("country", "中国");
+//                    baseInfo.put("province", "广东");
+//                    baseInfo.put("city", "深圳");
+//                    baseInfo.put("language", "zh-cn");
+//                    // nickname,gender,avatar,vip也可在此设置
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                config.setBaseInfo(baseInfo);
+//
+//// 客户信息键值对，下面为示例（JSONObject）
+//                JSONObject customContent = new JSONObject();
+//                try {
+//                    customContent.put("用户名", "V5KF");
+//                    customContent.put("用户级别", "VIP");
+//                    customContent.put("用户积分", "3000");
+//                    customContent.put("浏览商品", "衬衣");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//// 设置客户信息（自定义字段名称与值，自定义JSONObjectjian键值对，开启会话前设置，替代之前通过`setUserWillSendMessageListener`在消息中携带信息的方式，此方式更加安全便捷）
+//                config.setUserInfo(customContent);
+//                // 开启对话界面
+//                V5ClientAgent.getInstance().startV5ChatActivity(getApplicationContext());
+//                JSONObject msg = new JSONObject();
+//                try {
+//                    msg.put("title", "V5KF");
+//                    msg.put("pic_url", "VIP");
+//                    msg.put("url", "3000");
+//                    msg.put("description", "衬衣");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                try {
+//                    V5ArticlesMessage message=new V5ArticlesMessage(msg);
+//                    V5ClientAgent.getInstance().sendMessage(message, new MessageSendCallback() {
+//                        @Override
+//                        public void onSuccess(V5Message v5Message) {
+//                            ToastUtils.showShort("成功");
+//                        }
+//
+//                        @Override
+//                        public void onFailure(V5Message v5Message, V5KFException.V5ExceptionStatus v5ExceptionStatus, String s) {
+//                            ToastUtils.showShort("失败");
+//                        }
+//                    });
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+                Intent intent1=new Intent(mActivity, MainActivity.class);
 
-/*** 客户信息设置 ***/
-// 如果更改了用户信息，需要在设置前调用shouldUpdateUserInfo
-// config.shouldUpdateUserInfo();
-// 【建议】设置用户昵称
-                config.setNickname("android_sdk_test");
-// 设置用户性别: 0-未知 1-男 2-女
-                config.setGender(1);
-// 【建议】设置用户头像URL
-                config.setAvatar("http://debugimg-10013434.image.myqcloud.com/fe1382d100019cfb572b1934af3d2c04/thumbnail");
-/**
- *【建议】设置用户OpenId，以识别不同登录用户，不设置则默认由SDK生成，替代v1.2.0之前的uid,
- *  openId将透传到座席端(长度32字节以内，建议使用含字母数字和下划线的字符串，尽量不用特殊字符，若含特殊字符系统会进行URL encode处理，影响最终长度和座席端获得的结果)
- *	若您是旧版本SDK用户，只是想升级，为兼容旧版，避免客户信息改变可继续使用config.setUid，可不用openId
- */
-                config.setOpenId("android_sdk_test");
-//config.setUid(uid); //【弃用】请使用setOpenId替代
-// 设置用户VIP等级(0-5)
-                config.setVip(0);
-// 使用消息推送时需设置device_token:集成第三方推送(腾讯信鸽、百度云推)或自定义推送地址时设置此参数以在离开会话界面时接收推送消息
-//config.setDeviceToken(XGPushConfig.getToken(getApplicationContext()));
+                intent1.putExtra("goodsName",result.getProduct().getProductName());
+                intent1.putExtra("goodsPricture",result.getProduct().getImagePath().get(0));
+                intent1.putExtra("goodsPrice","￥" + result.getProduct().getMinSalePrice());
+                intent1.putExtra("goodsURL",""+result.getProduct().getProductId());
+                if (isLogin){
+                    intent1.putExtra("userName",userInfo.getNickName());
+                    intent1.putExtra("userId",userInfo.getUserID());
+                    intent1.putExtra("userPic",userInfo.getAvator());
+                }else {
+                    intent1.putExtra("userName","游客");
+                    intent1.putExtra("userId","123456789");
+                    intent1.putExtra("userPic",R.drawable.default_avator);
+                }
 
-// [1.3.0新增]设置V5系统内置的客户基本信息，区别于setUserInfo，这是V5系统内置字段
-                JSONObject baseInfo = new JSONObject();
-                try {
-                    baseInfo.put("country", "中国");
-                    baseInfo.put("province", "广东");
-                    baseInfo.put("city", "深圳");
-                    baseInfo.put("language", "zh-cn");
-                    // nickname,gender,avatar,vip也可在此设置
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                config.setBaseInfo(baseInfo);
-
-// 客户信息键值对，下面为示例（JSONObject）
-                JSONObject customContent = new JSONObject();
-                try {
-                    customContent.put("用户名", "V5KF");
-                    customContent.put("用户级别", "VIP");
-                    customContent.put("用户积分", "3000");
-                    customContent.put("浏览商品", "衬衣");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-// 设置客户信息（自定义字段名称与值，自定义JSONObjectjian键值对，开启会话前设置，替代之前通过`setUserWillSendMessageListener`在消息中携带信息的方式，此方式更加安全便捷）
-                config.setUserInfo(customContent);
-                // 开启对话界面
-                V5ClientAgent.getInstance().startV5ChatActivity(getApplicationContext());
-                JSONObject msg = new JSONObject();
-                try {
-                    msg.put("title", "V5KF");
-                    msg.put("pic_url", "VIP");
-                    msg.put("url", "3000");
-                    msg.put("description", "衬衣");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    V5ArticlesMessage message=new V5ArticlesMessage(msg);
-                    V5ClientAgent.getInstance().sendMessage(message, new MessageSendCallback() {
-                        @Override
-                        public void onSuccess(V5Message v5Message) {
-                            ToastUtils.showShort("成功");
-                        }
-
-                        @Override
-                        public void onFailure(V5Message v5Message, V5KFException.V5ExceptionStatus v5ExceptionStatus, String s) {
-                            ToastUtils.showShort("失败");
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                startActivity(intent1);
+//                startActivity(new Intent(mActivity, MainActivity.class));
                 break;
             case R.id.ll_collect:
                 if (!isLogin) {
@@ -1161,6 +1187,15 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     }
 
     @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()){
+            case 200:
+                userInfo = Result.getData().getData().get(0);
+                break;
+        }
+    }
+
+    @Override
     public void GetProductDetail(DetailResult Result) {
 
         result = Result;
@@ -1344,7 +1379,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                                 if (aBoolean) {
                                                     // 获取全部权限成功
 
-                                                    UMWeb web = new UMWeb("http://mall.xigyu.com/product/detail/?ProductId=" + result.getProduct().getProductId()+ "&userId="+UserID);
+                                                    UMWeb web = new UMWeb("http://mall.xigyu.com/Share?ProductId=" + result.getProduct().getProductId()+ "&userId="+UserID);
                                                     web.setTitle(result.getProduct().getProductName());
                                                     web.setDescription(result.getProduct().getProductName());
                                                     web.setThumb(new UMImage(mActivity, result.getProduct().getImagePath().get(0)));

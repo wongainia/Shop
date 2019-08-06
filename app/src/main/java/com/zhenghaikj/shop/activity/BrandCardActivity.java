@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.BrankCardAdapter;
@@ -57,6 +58,7 @@ public class BrandCardActivity extends BaseActivity<CardPresenter, CardModel> im
 
     private List<BankCard> list = new ArrayList<>();
     private BrankCardAdapter adapter;
+    private String endNum;
 
     @Override
     protected int setLayoutId() {
@@ -84,6 +86,24 @@ public class BrandCardActivity extends BaseActivity<CardPresenter, CardModel> im
 //        adapter.setEmptyView(getEmptyViewCommodity());
         mRvBrankCard.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvBrankCard.setAdapter(adapter);
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.fl_card:
+                        int length = list.get(position).getPayNo().length();
+                        if (length > 4) {
+                            endNum = list.get(position).getPayNo().substring(length - 4, length);
+                        }
+                        Intent intent = new Intent();
+                        intent.putExtra("bankName", list.get(position).getPayInfoName());
+                        intent.putExtra("bankNo", endNum);
+                        setResult(2000, intent);
+                        finish();
+                        break;
+                }
+            }
+        });
     }
 
     @Override

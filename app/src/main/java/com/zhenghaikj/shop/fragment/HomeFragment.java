@@ -61,6 +61,7 @@ import com.zhenghaikj.shop.activity.GoodDailyShopActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.LotteryActivity;
+
 import com.zhenghaikj.shop.activity.MainActivity;
 import com.zhenghaikj.shop.activity.MessageActivity;
 import com.zhenghaikj.shop.activity.MessageActivity2;
@@ -74,12 +75,14 @@ import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.adapter.NewHomeAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.HomeJsonResult;
 import com.zhenghaikj.shop.entity.HomeResult;
 import com.zhenghaikj.shop.entity.LimitBuyListResult;
 import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.ShopResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.HomeContract;
 import com.zhenghaikj.shop.mvp.model.HomeModel;
 import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
@@ -197,6 +200,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
 
     private NewHomeAdapter newHomeAdapter;
+    private UserInfo.UserInfoDean userInfo;
+
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -260,6 +265,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initData() {
+        if(isLogin){
+            mPresenter.GetUserInfoList(UserID, "1");
+        }
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
         UMShareAPI.get(mActivity).setShareConfig(config);
@@ -425,7 +433,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 refreshLayout.finishRefresh(1000);
             }
         });
-
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
@@ -435,6 +442,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });
 
     }
+
 
     @Override
     protected void initView() {
@@ -560,10 +568,26 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 if (!isLogin) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
-                    intent = new Intent(mActivity, MessageActivity2.class);
-//                    intent.putExtra("categoryId","4");
-//                    intent.putExtra("title","消息");
-                    startActivity(intent);
+//                    intent = new Intent(mActivity, MessageActivity2.class);
+////                    intent.putExtra("categoryId","4");
+////                    intent.putExtra("title","消息");
+//                    startActivity(intent);
+                    Intent intent1=new Intent(mActivity, com.zhenghaikj.shop.imkfsdk.MainActivity.class);
+//                intent1.putExtra("goodsName",result.getProduct().getProductName());
+//                intent1.putExtra("goodsPricture",result.getProduct().getImagePath().get(0));
+//                intent1.putExtra("goodsPrice","￥" + result.getProduct().getMinSalePrice());
+//                intent1.putExtra("goodsURL","http://seller.xigyu.com/product/detail/"+result.getProduct().getProductId());
+                    if (isLogin){
+                        intent1.putExtra("userName",userInfo.getNickName());
+                        intent1.putExtra("userId",userInfo.getUserID());
+                        intent1.putExtra("userPic",userInfo.getAvator());
+                    }else {
+                        intent1.putExtra("userName","游客");
+                        intent1.putExtra("userId","123456789");
+                        intent1.putExtra("userPic",R.drawable.default_avator);
+                    }
+
+                    startActivity(intent1);
                 }
 
                 break;
@@ -676,7 +700,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         List<String> images = new ArrayList<>();
         ids = new ArrayList<>();
         for (int i = 0; i < dataset.size(); i++) {
-            images.add(dataset.get(i).getPic());
+            String str=dataset.get(i).getPic();
+            str=str.replace("http","https");
+            images.add(str);
             if (dataset.get(i).getLinkType()==1){
                 link =dataset.get(i).getLink();
                 ids.add(link.substring(link.lastIndexOf("/")+1));
@@ -705,6 +731,15 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     public void GetLismitBuyList(LimitBuyListResult Result) {
         limitedTimeList = Result.getList();
         limitedTimeAdapter.setNewData(limitedTimeList);
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()){
+            case 200:
+                userInfo = Result.getData().getData().get(0);
+                break;
+        }
     }
 
     public class MenuItem {

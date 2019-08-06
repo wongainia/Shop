@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.ChooseBankAdapter;
@@ -50,7 +51,7 @@ public class AddBrankCardActivity extends BaseActivity<CardPresenter, CardModel>
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.tv_add_card_name)
-    TextView mTvAddCardName;
+    EditText mTvAddCardName;
     @BindView(R.id.tv_add_card_bankname)
     TextView mTvAddCardBankname;
     @BindView(R.id.ll_choose_bank)
@@ -140,10 +141,11 @@ public class AddBrankCardActivity extends BaseActivity<CardPresenter, CardModel>
                 finish();
                 break;
             case R.id.tv_bind_card:
-
-                if (mTvAddCardBankname.getText().toString().length()==0||mEtBanknumber.getText().toString().length()==0||mEtAddCardPhone.getText()==null){
+                if ("".equals(mTvAddCardName.getText().toString())){
+                    ToastUtils.showShort("请输入姓名");
+                } else if (mTvAddCardBankname.getText().toString().length()==0||mEtBanknumber.getText().toString().length()==0||mEtAddCardPhone.getText()==null){
                     Toast.makeText(this,"请选择银行并输入卡号和手机号",Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     mPresenter.AddorUpdateAccountPayInfo(UserID,"Bank",mTvAddCardBankname.getText().toString(),mEtBanknumber.getText().toString());
                 }
 
@@ -171,7 +173,7 @@ public class AddBrankCardActivity extends BaseActivity<CardPresenter, CardModel>
                     if (userInfo.getTrueName()==null){
                         return;
                     }else {
-                        mTvAddCardName.setText(userInfo.getTrueName());
+//                        mTvAddCardName.setText(userInfo.getTrueName());
                         if (userInfo.getPhone()==null){
                             return;
                         }else {

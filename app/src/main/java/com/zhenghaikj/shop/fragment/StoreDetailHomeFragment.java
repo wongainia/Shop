@@ -16,12 +16,14 @@ import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.adapter.ShopCouponAdapter;
 import com.zhenghaikj.shop.adapter.StoreDetailGoodsAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 import com.zhenghaikj.shop.mvp.model.StoreDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.StoreDetailPresenter;
@@ -184,6 +186,11 @@ public class StoreDetailHomeFragment extends BaseLazyFragment<StoreDetailPresent
         } else {
             Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+
     }
 
 }

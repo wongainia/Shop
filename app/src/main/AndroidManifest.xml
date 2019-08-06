@@ -10,7 +10,8 @@
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -47,7 +48,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 往 SDCard 写入数据权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <application
@@ -120,7 +122,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="http"
                     android:host="mall.xigyu.com"
-                    android:pathPrefix="/detail"
+                    android:pathPrefix="/Share"
                     />
             </intent-filter>
 
@@ -570,16 +572,68 @@
             android:name="com.v5kf.client.ui.ShowImageActivity" >
         </activity>
 
-        <provider
-            android:name="com.v5kf.client.lib.V5FileProvider"
-            android:authorities="com.zhenghaikj.shop.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/v5_file_paths">
-            </meta-data>
-        </provider>
+        <!--<provider-->
+            <!--android:name="com.v5kf.client.lib.V5FileProvider"-->
+            <!--android:authorities="com.zhenghaikj.shop.fileprovider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/v5_file_paths">-->
+            <!--</meta-data>-->
+        <!--</provider>-->
+        <activity android:name=".imkfsdk.MainActivity"/>
+        <activity android:name=".imkfsdk.chat.OfflineMessageActicity"/>
+        <activity android:name=".imkfsdk.chat.ChatActivity"/>
+        <activity android:name=".imkfsdk.chat.ScheduleOfflineMessageActivity"/>
+        <activity android:name=".imkfsdk.chat.ImageViewLookActivity"/>
+        <activity android:name=".imkfsdk.MoorWebCenter"/>
+        <activity android:name=".imkfsdk.SettingActivity"/>
+        <service android:name="com.moor.imkf.tcpservice.service.IMService"
+            android:priority="2147483647"
+            />
+
+        <receiver android:name="com.moor.imkf.receiver.NetWorkReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+
+        <!--自己定义消息接收的广播-->
+        <receiver
+            android:name="com.m7.imkfsdk.receiver.NewMsgReceiver"
+            android:enabled="true">
+            <intent-filter android:priority="2147483647">
+                <action android:name="com.m7.imkfsdk.KEFU_NEW_MSG" />
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="com.m7.imkfsdk.MainActivity">
+        </activity>
+        <activity
+            android:name="com.m7.imkfsdk.chat.ChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.m7.imkfsdk.chat.OfflineMessageActicity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.m7.imkfsdk.chat.ScheduleOfflineMessageActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.m7.imkfsdk.chat.ImageViewLookActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.m7.imkfsdk.MoorWebCenter"
+            android:screenOrientation="portrait"></activity>
+        <!--测试专用-->
+        <activity
+            android:name="com.m7.imkfsdk.SettingActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

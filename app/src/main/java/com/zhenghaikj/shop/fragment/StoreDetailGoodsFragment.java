@@ -16,12 +16,14 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.adapter.ShopDetailGoodsAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 import com.zhenghaikj.shop.mvp.model.StoreDetailModel;
 import com.zhenghaikj.shop.mvp.presenter.StoreDetailPresenter;
@@ -159,6 +161,11 @@ public class StoreDetailGoodsFragment extends BaseLazyFragment<StoreDetailPresen
 
     @Override
     public void PostAcceptCoupon(GetShopCoupResult Result) {
+
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
 
     }
 

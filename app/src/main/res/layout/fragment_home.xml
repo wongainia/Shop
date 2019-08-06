@@ -283,7 +283,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="厂价直销"
                                     android:textColor="#808080"
-                                    android:textSize="10sp" />
+                                    android:textSize="10sp"
+                                    android:layout_gravity="center"/>
                             </LinearLayout>
 
 
@@ -302,9 +303,10 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="7天无理由退换"
+                                    android:text="7天无理由"
                                     android:textColor="#808080"
-                                    android:textSize="10sp" />
+                                    android:textSize="10sp"
+                                    android:layout_gravity="center"/>
                             </LinearLayout>
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -321,7 +323,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="免费上门安装"
+                                    android:text="免费安装"
                                     android:textColor="#808080"
                                     android:textSize="10sp"
                                     android:layout_gravity="center"/>
@@ -363,7 +365,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="终生维护"
                                     android:textColor="#808080"
-                                    android:textSize="10sp" />
+                                    android:textSize="10sp"
+                                    android:layout_gravity="center"/>
                             </LinearLayout>
 
                         </LinearLayout>

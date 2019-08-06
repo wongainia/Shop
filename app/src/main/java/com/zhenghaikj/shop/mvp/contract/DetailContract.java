@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.mvp.contract;
 
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.CollectResult;
@@ -11,6 +12,7 @@ import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 
 import io.reactivex.Observable;
 
@@ -33,6 +35,7 @@ public interface DetailContract {
                                            String commentType);
         Observable<ShopCoupResult> GetShopCouponList(String shopId);
         Observable<GetShopCoupResult> PostAcceptCoupon(String vshopId,String couponId,String Userkey);
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
     }
 
     interface View extends BaseView {
@@ -47,6 +50,8 @@ public interface DetailContract {
         void ProductComment(Comment Result);
         void GetShopCouponList(ShopCoupResult Result);
         void PostAcceptCoupon(GetShopCoupResult Result);
+        void GetUserInfoList(BaseResult<UserInfo> Result);
+
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -61,5 +66,6 @@ public interface DetailContract {
                                             String commentType);
         public abstract void GetShopCouponList(String shopId);
         public abstract void PostAcceptCoupon(String vshopId,String couponId,String Userkey);
+        public abstract void GetUserInfoList(String userName, String limit);
     }
 }

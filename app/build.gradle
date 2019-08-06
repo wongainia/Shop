@@ -9,8 +9,8 @@ android {
         applicationId "com.zhenghaikj.shop"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 27
-        versionName "1.2.6"
+        versionCode 28
+        versionName "1.2.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -243,4 +243,6 @@ dependencies {
     /*skeleton screen*/
     implementation 'io.supercharge:shimmerlayout:2.1.0'
     implementation 'com.ethanhua:skeleton:1.1.2'
+    implementation files('libs\\IMKFSDK-3.2.3.jar')
+    implementation 'com.google.android:flexbox:0.3.2'
 }

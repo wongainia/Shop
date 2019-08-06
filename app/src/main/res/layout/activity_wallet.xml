@@ -171,42 +171,33 @@
 
                         <TextView
                             android:id="@+id/tv_recharge"
-                            android:layout_width="wrap_content"
+                            android:layout_width="86dp"
                             android:layout_height="40dp"
                             android:background="@drawable/wallet_btn_shape"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="10dp"
-                            android:paddingRight="20dp"
-                            android:paddingBottom="10dp"
+                            android:gravity="center"
                             android:text="充     值"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:layout_marginLeft="30dp"/>
 
                         <TextView
                             android:id="@+id/tv_withdraw"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_width="86dp"
+                            android:layout_height="40dp"
                             android:background="@drawable/wallet_btn_shape"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="11dp"
-                            android:paddingRight="20dp"
-                            android:paddingBottom="14dp"
-                            android:text="提    现"
-                            android:textColor="@color/black"
+                            android:gravity="center"
+                            android:text="提     现"
+                            android:textColor="@color/white"
                             android:textSize="16sp"
-                            android:visibility="gone" />
+                            android:layout_marginLeft="10dp"/>
 
                         <TextView
                             android:id="@+id/tv_gift"
-                            android:layout_width="wrap_content"
+                            android:layout_width="86dp"
                             android:layout_height="40dp"
-                            android:layout_marginLeft="30dp"
+                            android:layout_marginLeft="10dp"
                             android:background="@drawable/wallet_btn_shape"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="10dp"
-                            android:paddingRight="20dp"
-                            android:paddingBottom="10dp"
+                            android:gravity="center"
                             android:text="赠    送"
                             android:textColor="@color/white"
                             android:textSize="16sp" />

@@ -14,6 +14,7 @@ import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public interface StoreDetailContract {
         );
         Observable<ShopCoupResult> GetShopCouponList(String shopId);
         Observable<GetShopCoupResult> PostAcceptCoupon(String vshopId, String couponId, String Userkey);
+        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
     }
     interface View extends BaseView {
         void GetVShop(StoreDetailResult result);
@@ -45,6 +47,7 @@ public interface StoreDetailContract {
         void GetProductList(StoreCommodityResult result);
         void GetShopCouponList(ShopCoupResult Result);
         void PostAcceptCoupon(GetShopCoupResult Result);
+        void GetUserInfoList(BaseResult<UserInfo> Result);
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
@@ -58,6 +61,7 @@ public interface StoreDetailContract {
                                              String shopBranchId);
         public abstract void GetShopCouponList(String shopId);
         public abstract void PostAcceptCoupon(String vshopId,String couponId,String Userkey);
+        public abstract void GetUserInfoList(String userName, String limit);
     }
 
 }
