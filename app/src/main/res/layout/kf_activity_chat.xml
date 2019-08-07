@@ -103,7 +103,7 @@
                 android:background="@drawable/kf_chatting_setmode_keyboard_btn"
                 android:visibility="gone" />
 
-            <com.zhenghaikj.shop.imkfsdk.recordbutton.AudioRecorderButton
+            <com.m7.imkfsdk.recordbutton.AudioRecorderButton
                 android:id="@+id/chat_press_to_speak"
                 android:layout_width="0dp"
                 android:layout_height="33dp"
@@ -119,7 +119,7 @@
                 android:visibility="gone">
 
 
-            </com.zhenghaikj.shop.imkfsdk.recordbutton.AudioRecorderButton>
+            </com.m7.imkfsdk.recordbutton.AudioRecorderButton>
 
             <RelativeLayout
                 android:id="@+id/chat_edittext_layout"
@@ -256,7 +256,7 @@
         android:layout_below="@id/chat_title"
         android:background="@color/chatlist_bg">
 
-        <com.zhenghaikj.shop.imkfsdk.view.ChatListView
+        <com.m7.imkfsdk.view.ChatListView
             android:id="@+id/chat_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

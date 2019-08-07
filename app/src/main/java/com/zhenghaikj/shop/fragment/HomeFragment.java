@@ -34,6 +34,9 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
+import com.m7.imkfsdk.KfStartHelper;
+import com.moor.imkf.IMChatManager;
+import com.moor.imkf.utils.MoorUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -318,7 +321,29 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         newHomeAdapter=new NewHomeAdapter(R.layout.item_home_two,mDatas);
         mRvHome.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvHome.setAdapter(newHomeAdapter);
+        newHomeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.ll_goods:
+                        Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
+                        intent.putExtra("id", mDatas.get(position).getId());
+                        startActivity(intent);
+                        break;
+                    case R.id.ll_gotoshop:
+                        if (mDatas.get(position).getVshopId()==null){
+                            ToastUtils.showShort("该商家未申请微店");
+                        }else {
+                            Intent intent1 = new Intent(mActivity, StoreDetailActivity.class);
+                            intent1.putExtra("VShopId", mDatas.get(position).getVshopId());
+                            startActivity(intent1);
+                        }
 
+                        break;
+
+                }
+            }
+        });
 
 
 
@@ -447,6 +472,29 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @Override
     protected void initView() {
         Beta.checkUpgrade(false, false);
+        /**
+         * 第一步：初始化help 文件
+         */
+      /*  final KfStartHelper helper = new KfStartHelper(mActivity);
+//        helper.initSdkChat("87326950-b5a5-11e9-be6e-a515be030f55", "游客", "123456789");//腾讯云正式
+        if (MoorUtils.isInitForUnread(mActivity)) {
+            IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
+                @Override
+                public void getUnRead(int acount) {
+//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
+                    if (acount==0){
+                        mTvCountMsg.setVisibility(View.GONE);
+                    }else {
+                        mTvCountMsg.setVisibility(View.VISIBLE);
+                        mTvCountMsg.setText(acount+"");
+                    }
+                }
+            });
+        } else {
+            //未初始化，消息当然为 ：0
+//            Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
+            mTvCountMsg.setVisibility(View.GONE);
+        }*/
     }
 
 
@@ -477,29 +525,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mIvRegister.setOnClickListener(this);
         mFlMessage.setOnClickListener(this);
 
-        newHomeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
-                    case R.id.ll_goods:
-                        Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
-                        intent.putExtra("id", mDatas.get(position).getId());
-                        startActivity(intent);
-                        break;
-                    case R.id.ll_gotoshop:
-                        if (mDatas.get(position).getVshopId()==null){
-                            ToastUtils.showShort("该商家未申请微店");
-                        }else {
-                            Intent intent1 = new Intent(mActivity, StoreDetailActivity.class);
-                            intent1.putExtra("VShopId", mDatas.get(position).getVshopId());
-                            startActivity(intent1);
-                        }
 
-                        break;
-
-                }
-            }
-        });
     }
 
     @Override
@@ -565,14 +591,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
                 break;
             case R.id.fl_message:
-                if (!isLogin) {
-                    startActivity(new Intent(mActivity, LoginActivity.class));
-                } else {
+//                if (!isLogin) {
+//                    startActivity(new Intent(mActivity, LoginActivity.class));
+//                } else {
 //                    intent = new Intent(mActivity, MessageActivity2.class);
 ////                    intent.putExtra("categoryId","4");
 ////                    intent.putExtra("title","消息");
 //                    startActivity(intent);
-                    Intent intent1=new Intent(mActivity, com.zhenghaikj.shop.imkfsdk.MainActivity.class);
+                    Intent intent1=new Intent(mActivity, com.m7.imkfsdk.MainActivity.class);
 //                intent1.putExtra("goodsName",result.getProduct().getProductName());
 //                intent1.putExtra("goodsPricture",result.getProduct().getImagePath().get(0));
 //                intent1.putExtra("goodsPrice","￥" + result.getProduct().getMinSalePrice());
@@ -580,6 +606,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     if (isLogin){
                         intent1.putExtra("userName",userInfo.getNickName());
                         intent1.putExtra("userId",userInfo.getUserID());
+
                         intent1.putExtra("userPic",userInfo.getAvator());
                     }else {
                         intent1.putExtra("userName","游客");
@@ -588,7 +615,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     }
 
                     startActivity(intent1);
-                }
+//                }
 
                 break;
 
@@ -700,9 +727,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         List<String> images = new ArrayList<>();
         ids = new ArrayList<>();
         for (int i = 0; i < dataset.size(); i++) {
-            String str=dataset.get(i).getPic();
-            str=str.replace("http","https");
-            images.add(str);
+//            String str=dataset.get(i).getPic();
+//            str=str.replace("http","https");
+            images.add(dataset.get(i).getPic());
             if (dataset.get(i).getLinkType()==1){
                 link =dataset.get(i).getLink();
                 ids.add(link.substring(link.lastIndexOf("/")+1));

@@ -52,6 +52,31 @@
         tools:ignore="ProtectedPermissions" />
     <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+    <uses-permission android:name="android.permission.GET_TASKS"/>
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -586,13 +611,13 @@
                 <!--android:resource="@xml/v5_file_paths">-->
             <!--</meta-data>-->
         <!--</provider>-->
-        <activity android:name=".imkfsdk.MainActivity"/>
-        <activity android:name=".imkfsdk.chat.OfflineMessageActicity"/>
-        <activity android:name=".imkfsdk.chat.ChatActivity"/>
-        <activity android:name=".imkfsdk.chat.ScheduleOfflineMessageActivity"/>
-        <activity android:name=".imkfsdk.chat.ImageViewLookActivity"/>
-        <activity android:name=".imkfsdk.MoorWebCenter"/>
-        <activity android:name=".imkfsdk.SettingActivity"/>
+        <activity android:name="com.m7.imkfsdk.MainActivity"/>
+        <activity android:name="com.m7.imkfsdk.chat.OfflineMessageActicity"/>
+        <activity android:name="com.m7.imkfsdk.chat.ChatActivity"/>
+        <activity android:name="com.m7.imkfsdk.chat.ScheduleOfflineMessageActivity"/>
+        <activity android:name="com.m7.imkfsdk.chat.ImageViewLookActivity"/>
+        <activity android:name="com.m7.imkfsdk.MoorWebCenter"/>
+        <activity android:name="com.m7.imkfsdk.SettingActivity"/>
         <service android:name="com.moor.imkf.tcpservice.service.IMService"
             android:priority="2147483647"
             />
@@ -612,32 +637,32 @@
                 <action android:name="com.m7.imkfsdk.KEFU_NEW_MSG" />
             </intent-filter>
         </receiver>
-        <activity
-            android:name="com.m7.imkfsdk.MainActivity">
-        </activity>
-        <activity
-            android:name="com.m7.imkfsdk.chat.ChatActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.m7.imkfsdk.chat.OfflineMessageActicity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="com.m7.imkfsdk.chat.ScheduleOfflineMessageActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+        <!--<activity-->
+            <!--android:name="com.m7.imkfsdk.MainActivity">-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name="com.m7.imkfsdk.chat.ChatActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:screenOrientation="portrait" />-->
+        <!--<activity-->
+            <!--android:name="com.m7.imkfsdk.chat.OfflineMessageActicity"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:screenOrientation="portrait"></activity>-->
+        <!--<activity-->
+            <!--android:name="com.m7.imkfsdk.chat.ScheduleOfflineMessageActivity"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:screenOrientation="portrait"></activity>-->
 
-        <activity
-            android:name="com.m7.imkfsdk.chat.ImageViewLookActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="com.m7.imkfsdk.MoorWebCenter"
-            android:screenOrientation="portrait"></activity>
-        <!--测试专用-->
-        <activity
-            android:name="com.m7.imkfsdk.SettingActivity"
-            android:screenOrientation="portrait"></activity>
+        <!--<activity-->
+            <!--android:name="com.m7.imkfsdk.chat.ImageViewLookActivity"-->
+            <!--android:screenOrientation="portrait"></activity>-->
+        <!--<activity-->
+            <!--android:name="com.m7.imkfsdk.MoorWebCenter"-->
+            <!--android:screenOrientation="portrait"></activity>-->
+        <!--&lt;!&ndash;测试专用&ndash;&gt;-->
+        <!--<activity-->
+            <!--android:name="com.m7.imkfsdk.SettingActivity"-->
+            <!--android:screenOrientation="portrait"></activity>-->
     </application>
 
 </manifest>
