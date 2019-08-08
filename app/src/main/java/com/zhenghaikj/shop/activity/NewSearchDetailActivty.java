@@ -547,15 +547,16 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
             return;
         }
        if (Result.getSuccess()){
-           if (skeletonScreen!=null){
-               skeletonScreen.hide();
-           }
+
            if (Result.getTotal()==0||Result.getProduct().isEmpty()){
                //找不到产品
                if (pagaNo==1){
                    productBeanList.clear();
                    newSearchDetailAdapetr.setEmptyView(getEmptyView());
                    newSearchDetailAdapetr.notifyDataSetChanged();
+                   if (skeletonScreen!=null){
+                       skeletonScreen.hide();
+                   }
                }
 
            }else {
@@ -563,6 +564,9 @@ public class NewSearchDetailActivty extends BaseActivity<SearchPresenter, Search
                    productBeanList.clear();
                    productBeanList.addAll(Result.getProduct());
                    newSearchDetailAdapetr.notifyDataSetChanged();
+                   if (skeletonScreen!=null){
+                       skeletonScreen.hide();
+                   }
                }else {
                    productBeanList.addAll(Result.getProduct());
                    newSearchDetailAdapetr.setNewData(productBeanList);

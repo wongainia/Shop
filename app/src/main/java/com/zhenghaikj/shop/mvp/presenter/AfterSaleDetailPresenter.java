@@ -25,6 +25,7 @@ public class AfterSaleDetailPresenter extends AfterSaleDetailContract.Presenter 
     @Override
     public void GetOrderDetail(String id, String userkey) {
         mModel.GetOrderDetail(id,userkey)
+
                 .subscribe(new BaseObserver<OrderDetail>() {
                     @Override
                     protected void onHandleSuccess(OrderDetail value) {
