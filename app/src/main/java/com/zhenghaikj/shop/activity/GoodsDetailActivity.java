@@ -1393,7 +1393,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                                                 if (aBoolean) {
                                                     // 获取全部权限成功
 
-                                                    UMWeb web = new UMWeb("http://mall.xigyu.com/Share?ProductId=" + result.getProduct().getProductId()+ "&userId="+UserID);
+                                                    UMWeb web = new UMWeb("http://mall.xigyu.com/product/detail/" + result.getProduct().getProductId());
                                                     web.setTitle(result.getProduct().getProductName());
                                                     web.setDescription(result.getProduct().getProductName());
                                                     web.setThumb(new UMImage(mActivity, result.getProduct().getImagePath().get(0)));

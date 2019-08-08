@@ -26,7 +26,7 @@ public class BrankCardAdapter extends BaseQuickAdapter<BankCard, BaseViewHolder>
 
     @Override
     protected void convert(BaseViewHolder helper, BankCard item) {
-        helper.addOnClickListener(R.id.fl_card);
+        helper.addOnClickListener(R.id.cardview);
         cardView = helper.getView(R.id.cardview);
         switch (item.getPayInfoName()){
             case "光大银行":

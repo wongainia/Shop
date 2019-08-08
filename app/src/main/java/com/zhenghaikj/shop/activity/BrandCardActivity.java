@@ -90,14 +90,14 @@ public class BrandCardActivity extends BaseActivity<CardPresenter, CardModel> im
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
-                    case R.id.fl_card:
+                    case R.id.cardview:
                         int length = list.get(position).getPayNo().length();
                         if (length > 4) {
                             endNum = list.get(position).getPayNo().substring(length - 4, length);
                         }
                         Intent intent = new Intent();
                         intent.putExtra("bankName", list.get(position).getPayInfoName());
-                        intent.putExtra("bankNo", endNum);
+                        intent.putExtra("bankNo", list.get(position).getPayNo());
                         setResult(2000, intent);
                         finish();
                         break;

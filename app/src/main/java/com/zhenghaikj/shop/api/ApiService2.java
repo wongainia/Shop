@@ -604,4 +604,11 @@ public interface ApiService2 {
                                                                             @Field("AccessoryApplyState") String AccessoryApplyState,
                                                                             @Field("NewMoney") String NewMoney,
                                                                             @Field("OrderAccessoryID") String OrderAccessoryID);
+
+    /*提现*/
+    @FormUrlEncoded
+    @POST("Account/WithDraw")
+    Observable<BaseResult<Data<String>>> WithDraw(@Field("DrawMoney") String DrawMoney,
+                                                  @Field("CardNo") String CardNo,
+                                                  @Field("UserID") String UserID);
 }

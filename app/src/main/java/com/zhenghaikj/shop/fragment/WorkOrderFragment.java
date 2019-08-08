@@ -95,6 +95,8 @@ public class WorkOrderFragment extends BaseLazyFragment<AllWorkOrdersPresenter, 
                 workOrderList.clear();
                 pageIndex = 1;
                 getData();
+                mRefreshLayout.finishRefresh(1000);
+                mRefreshLayout.setNoMoreData(false);
             }
         });
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {

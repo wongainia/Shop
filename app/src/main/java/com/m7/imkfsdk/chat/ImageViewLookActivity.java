@@ -3,9 +3,11 @@ package com.m7.imkfsdk.chat;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,17 @@ public class ImageViewLookActivity extends Activity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.kf_activity_image_look);
         touchImageView = (TouchImageView) findViewById(R.id.matrixImageView);
+
+        Window window = getWindow();
+        //After LOLLIPOP not translucent status bar
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //Then call setStatusBarColor.
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getResources().getColor(R.color.kf_bg));
+        }
+
 
         Intent intent = getIntent();
         final String imgPath = intent.getStringExtra("imagePath");
