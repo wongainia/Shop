@@ -3,7 +3,6 @@ package com.zhenghaikj.shop.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,7 +20,7 @@ import com.zhenghaikj.shop.adapter.SerachHistroyAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.widget.AutoLineFeedLayoutManager;
 import com.zhenghaikj.shop.widget.SqlHelp.SearchListDbOperation;
-import com.zhenghaikj.shop.y.NoImmBaseActivity;
+import com.zhenghaikj.shop.base.NoImmBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;

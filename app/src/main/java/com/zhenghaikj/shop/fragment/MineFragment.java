@@ -580,6 +580,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 intent = new Intent(getActivity(), OrderActivity.class);
                 intent.putExtra("intent", "全部");
                 startActivity(intent);
+                mActivity.overridePendingTransition(R.anim.anim_no, R.anim.anim_no);
                 break;
             case R.id.ll_pending_payment:
                 bundle = new Bundle();
@@ -588,6 +589,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 intent = new Intent(mActivity, OrderActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
+                mActivity.overridePendingTransition(R.anim.anim_no, R.anim.anim_no);
                 break;
             case R.id.ll_to_be_delivered:
                 bundle = new Bundle();
@@ -596,6 +598,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 intent = new Intent(mActivity, OrderActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
+                mActivity.overridePendingTransition(R.anim.anim_no, R.anim.anim_no);
                 break;
             case R.id.ll_pending_receipt:
                 bundle = new Bundle();
@@ -604,6 +607,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 intent = new Intent(mActivity, OrderActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
+                mActivity.overridePendingTransition(R.anim.anim_no, R.anim.anim_no);
                 break;
             case R.id.ll_comment:
                 bundle = new Bundle();
@@ -612,6 +616,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 intent = new Intent(mActivity, OrderActivity.class);
                 intent.putExtras(bundle);
                 ActivityUtils.startActivity(intent);
+                mActivity.overridePendingTransition(R.anim.anim_no, R.anim.anim_no);
                 break;
             case R.id.ll_gift:
                 //赠送界面
