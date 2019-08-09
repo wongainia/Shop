@@ -35,10 +35,10 @@ public class OrderDetailAdapter extends BaseQuickAdapter<OrderDetail.OrderItemBe
 
         switch(status){
             case "1"://待付款
-            case "2"://待消费
             case "4"://已关闭
                 helper.setGone(R.id.tv_apply_refund,false);
                 break;
+            case "2"://待消费
             case "3"://待收货
             case "5"://已完成
             case "6"://待自提
