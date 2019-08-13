@@ -34,6 +34,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.ConfirmOrderActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
+import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.adapter.CartAdapter;
 import com.zhenghaikj.shop.adapter.ChooseColorAdapter;
@@ -557,6 +558,29 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                     }
 
 
+                }
+
+                @Override
+                public void OnItemClickLongListner(View view, int parentposition, int chaildposition) {
+//                    ToastUtils.showShort("删除");
+                    final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                    dialog.setMessage("是否该商品删除")
+                            //.setImageResId(R.mipmap.ic_launcher)
+                            .setTitle("提示")
+                            .setPositive("删除")
+                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                        @Override
+                        public void onPositiveClick() {//拨打电话
+                            dialog.dismiss();
+                            mPresenter.PostDeleteCartProduct(shopBeanslist.get(parentposition).getList().get(chaildposition).getSkuId(),userKey);
+                        }
+
+                        @Override
+                        public void onNegtiveClick() {//取消
+                            dialog.dismiss();
+                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
                 }
 
 

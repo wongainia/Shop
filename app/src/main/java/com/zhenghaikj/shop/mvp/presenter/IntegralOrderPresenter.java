@@ -1,11 +1,18 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
 import com.zhenghaikj.shop.base.BaseObserver;
+import com.zhenghaikj.shop.base.BaseObserver2;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ConfirmOrderOverResult;
+import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetExpressInfo;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
 import com.zhenghaikj.shop.entity.GiftOrder;
 import com.zhenghaikj.shop.entity.GiftOrderDetail;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.mvp.contract.IntegralOrderContract;
+
+import java.util.List;
 
 public class IntegralOrderPresenter extends IntegralOrderContract.Presenter {
     @Override
@@ -48,4 +55,17 @@ public class IntegralOrderPresenter extends IntegralOrderContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void GetExpressInfo(String ExpressNo) {
+        mModel.GetExpressInfo(ExpressNo)
+                .subscribe(new BaseObserver2<Data<List<Logistics>>>() {
+                    @Override
+                    protected void onHandleSuccess(BaseResult<Data<List<Logistics>>> value) {
+                        mView.GetExpressInfo(value);
+                    }
+                });
+    }
+
+
 }

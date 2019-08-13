@@ -19,10 +19,13 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.GiftOrderDetailActivity;
 import com.zhenghaikj.shop.adapter.GiftOrderListAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ConfirmOrderOverResult;
+import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
 import com.zhenghaikj.shop.entity.GiftOrder;
 import com.zhenghaikj.shop.entity.GiftOrderDetail;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.mvp.contract.IntegralOrderContract;
 import com.zhenghaikj.shop.mvp.model.IntegralOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.IntegralOrderPresenter;
@@ -214,6 +217,11 @@ public class IntegralOrderFragment extends BaseLazyFragment<IntegralOrderPresent
 
     @Override
     public void GetOrder(GiftOrderDetail Result) {
+
+    }
+
+    @Override
+    public void GetExpressInfo(BaseResult<Data<List<Logistics>>> Result) {
 
     }
 }

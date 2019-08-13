@@ -71,7 +71,6 @@ import com.zhenghaikj.shop.base.BaseLazyFragment;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.dialog.CustomDialog;
-import com.zhenghaikj.shop.dialog.ServiceDialog;
 import com.zhenghaikj.shop.dialog.WordOrderDialog;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.Data;
@@ -103,7 +102,7 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
-public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View , PasswordEditText.PasswordFullListener{
+public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> implements View.OnClickListener, MineContract.View, PasswordEditText.PasswordFullListener {
 
     private static final String TAG = "MineFragment";//
 
@@ -241,6 +240,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     View mView;
     @BindView(R.id.tv_count_msg)
     TextView mTvCountMsg;
+    @BindView(R.id.ll_distribution)
+    LinearLayout mLlDistribution;
 
     private CustomDialog customDialog;
     private RecyclerView rv_logistics;
@@ -420,20 +421,21 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                i=0;
+                i = 0;
                 getData();
                 refreshlayout.finishRefresh(1000);
             }
         });
         myClipboard = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
     }
-    public void getData(){
+
+    public void getData() {
         if (isLogin) {
             mPresenter.GetUserInfoList(UserID, "1");
             mPresenter.PersonalInformation(userKey);
             mPresenter.GetOrderByhmall(UserID);
-            mPresenter.GetOrderByhmalluserid(UserID,"0");
-            mPresenter.GetList("4","10","1",userKey);
+            mPresenter.GetOrderByhmalluserid(UserID, "0");
+            mPresenter.GetList("4", "10", "1", userKey);
 
             mTvPhone.setVisibility(View.VISIBLE);
             mTvUsername.setVisibility(View.VISIBLE);
@@ -455,7 +457,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if ("更新登录信息".equals(name)){
+        if ("更新登录信息".equals(name)) {
             getLoginMsg();
             getData();
         }
@@ -464,9 +466,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 mPresenter.GetUserInfoList(UserID, "1");
             }
             if ("UpdateReadCount".equals(name)) {
-                mPresenter.GetList("4","10","1",userKey);
+                mPresenter.GetList("4", "10", "1", userKey);
             }
-                if ("UpdateOrderCount".equals(name)) {//更新各种数量
+            if ("UpdateOrderCount".equals(name)) {//更新各种数量
                 mPresenter.PersonalInformation(userKey);
             }
             if ("待评价".equals(name)) {//更新各种数量
@@ -513,6 +515,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlBecomeMaster.setOnClickListener(this);
         mLlMerchant.setOnClickListener(this);
         mFlInfo.setOnClickListener(this);
+        mLlDistribution.setOnClickListener(this);
     }
 
     @Override
@@ -533,8 +536,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.fl_message:
                 intent = new Intent(mActivity, MessageActivity.class);
-                intent.putExtra("categoryId","4");
-                intent.putExtra("title","消息");
+                intent.putExtra("categoryId", "4");
+                intent.putExtra("title", "消息");
                 startActivity(intent);
                 break;
             case R.id.ll_coupon:
@@ -684,7 +687,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                     public void onClick(View v) {
                         underReviewDialog.dismiss();
 //                        mShareAction1.open();
-                        openBrowser(mActivity,"https://sj.qq.com/myapp/detail.htm?apkName=com.ying.administrator.masterappdemo");
+                        openBrowser(mActivity, "https://sj.qq.com/myapp/detail.htm?apkName=com.ying.administrator.masterappdemo");
                     }
                 });
 
@@ -746,10 +749,16 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_merchant:
                 intent = new Intent(mActivity, WebActivity.class);
-                intent.putExtra("Url","http://mall.xigyu.com/m-weixin/shopregister/step1");
-                intent.putExtra("Title","商家入驻");
+                intent.putExtra("Url", "http://mall.xigyu.com/m-weixin/shopregister/step1");
+                intent.putExtra("Title", "商家入驻");
                 startActivity(intent);
 //                startActivity(new Intent(mActivity, BecomeBusinessFirstActivity.class));
+                break;
+            case R.id.ll_distribution:
+                intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("Url", "http://mall.xigyu.com/m-wap/home/RecruitPlan");
+                intent.putExtra("Title", "我要分销");
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -815,7 +824,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     private List<Track> ServiceList = new ArrayList<>();
 
-    private void showService(String id, String state, String name,String type) {
+    private void showService(String id, String state, String name, String type) {
         mPresenter.GetOrderRecordByOrderID(id);
         under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_service, null);
         Log.d(TAG, "ServiceList" + state);
@@ -824,11 +833,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //        serviceDialog.setTitle(name);
         TextView tv_logistics_status = under_review.findViewById(R.id.tv_logistics_status);
         TextView titleTv = under_review.findViewById(R.id.tv_goods_name);
-        TextView tv_type=under_review.findViewById(R.id.tv_type);
+        TextView tv_type = under_review.findViewById(R.id.tv_type);
         TextView tv_order_number = under_review.findViewById(R.id.tv_order_number);
         ImageView iv_copy = under_review.findViewById(R.id.iv_copy);
         TextView tv_reminders = under_review.findViewById(R.id.tv_reminders);
-        ImageView iv_close=under_review.findViewById(R.id.iv_close);
+        ImageView iv_close = under_review.findViewById(R.id.iv_close);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -915,10 +924,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void GetList(Announcement result) {
-        if (result.getCount()>0){
+        if (result.getCount() > 0) {
             mTvCountMsg.setVisibility(View.VISIBLE);
-            mTvCountMsg.setText(result.getCount()+"");
-        }else{
+            mTvCountMsg.setText(result.getCount() + "");
+        } else {
             mTvCountMsg.setVisibility(View.GONE);
         }
     }
@@ -1103,7 +1112,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case 200:
                 if (baseResult.getData() != null) {
                     datalist = baseResult.getData().getItem2();
-                    if (datalist == null||datalist.size()==0) {
+                    if (datalist == null || datalist.size() == 0) {
                         mLlService.setVisibility(View.GONE);
                     } else {
                         mLlService.setVisibility(View.VISIBLE);
@@ -1116,10 +1125,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                                 TextView tv_state = (TextView) view.findViewById(R.id.tv_state);
                                 ImageView iv_copy = (ImageView) view.findViewById(R.id.iv_copy);
                                 LinearLayout ll_swith = (LinearLayout) view.findViewById(R.id.ll_swith);
-                                TextView tv_type=(TextView) view.findViewById(R.id.tv_type);
+                                TextView tv_type = (TextView) view.findViewById(R.id.tv_type);
 
-                                tv_name.setText( datalist.get(i % datalist.size()).getMemo());
-                                tv_type.setText(datalist.get(i%datalist.size()).getTypeName());
+                                tv_name.setText(datalist.get(i % datalist.size()).getMemo());
+                                tv_type.setText(datalist.get(i % datalist.size()).getTypeName());
                                 tv_orderid.setText(datalist.get(i % datalist.size()).getOrderID());
                                 tv_state.setText(datalist.get(i % datalist.size()).getState());
 //
@@ -1146,8 +1155,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                                         String id = tv_orderid.getText().toString();
                                         String state = tv_state.getText().toString();
                                         String name = tv_name.getText().toString();
-                                        String type=tv_type.getText().toString();
-                                        showService(id, state, name,type);
+                                        String type = tv_type.getText().toString();
+                                        showService(id, state, name, type);
                                     }
                                 });
                             }
@@ -1342,10 +1351,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         tv_submit1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("".equals(userInfo.getPayPassWord())){
+                if ("".equals(userInfo.getPayPassWord())) {
                     startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
-                }else {
-                    paytype=1;
+                } else {
+                    paytype = 1;
                     openPayPasswordDialog();
                 }
 
@@ -1358,10 +1367,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         tv_undone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("".equals(userInfo.getPayPassWord())){
+                if ("".equals(userInfo.getPayPassWord())) {
                     startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
-                }else {
-                    paytype=2;
+                } else {
+                    paytype = 2;
                     openPayPasswordDialog();
                 }
             }
@@ -1431,15 +1440,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
     @Override
     public void passwordFull(String password) {
-        if (userInfo.getPayPassWord().equals(password)){
-            if (paytype==1){
+        if (userInfo.getPayPassWord().equals(password)) {
+            if (paytype == 1) {
                 mPresenter.EnSureOrder(data.getOrderID(), password, String.valueOf(starRating), String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
-            }else if (paytype==2){
+            } else if (paytype == 2) {
                 mPresenter.EnSureOrder(data.getOrderID(), password, "1", String.valueOf(starRating1), String.valueOf(starRating2), String.valueOf(starRating3), content);
             }
             bottomSheetDialog.dismiss();
-        }else {
-            Toast.makeText(mActivity,"支付密码错误",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mActivity, "支付密码错误", Toast.LENGTH_SHORT).show();
         }
     }
 

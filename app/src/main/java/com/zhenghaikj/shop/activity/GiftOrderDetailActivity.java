@@ -1,20 +1,28 @@
 package com.zhenghaikj.shop.activity;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.adapter.LogisticsAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ConfirmOrderOverResult;
+import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetExpressInfo;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
 import com.zhenghaikj.shop.entity.GiftOrder;
 import com.zhenghaikj.shop.entity.GiftOrderDetail;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.mvp.contract.IntegralOrderContract;
 import com.zhenghaikj.shop.mvp.model.IntegralOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.IntegralOrderPresenter;
@@ -22,7 +30,11 @@ import com.zhenghaikj.shop.utils.GlideUtil;
 import com.zhenghaikj.shop.utils.SingleClick;
 import com.zhenghaikj.shop.widget.MyImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter, IntegralOrderModel> implements View.OnClickListener, IntegralOrderContract.View {
 
@@ -79,8 +91,15 @@ public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter
     TextView mTvOrderWl;
     @BindView(R.id.ll_wl)
     LinearLayout mLlWl;
+    @BindView(R.id.iv_location)
+    ImageView mIvLocation;
+    @BindView(R.id.rv_logistics)
+    RecyclerView mRvLogistics;
+    @BindView(R.id.ll_logistics)
+    LinearLayout mLlLogistics;
     private String id;
     private GiftOrderDetail giftOrderDetail;
+    private List<Logistics> logisticsList=new ArrayList<>();
 
     @Override
     protected int setLayoutId() {
@@ -90,7 +109,7 @@ public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
         mImmersionBar.statusBarView(mView);
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
@@ -130,7 +149,6 @@ public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter
     }
 
 
-
     @Override
     public void GetMyOrderList(GiftOrder Result) {
 
@@ -143,15 +161,15 @@ public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter
 
     @Override
     public void ConfirmOrderOver(ConfirmOrderOverResult Result) {
-        if (Result.isSuccess()){
-            mPresenter.GetOrder(id,userKey);
+        if (Result.isSuccess()) {
+            mPresenter.GetOrder(id, userKey);
         }
         ToastUtils.showShort(Result.getMsg());
     }
 
     @Override
     public void GetOrder(GiftOrderDetail Result) {
-        giftOrderDetail =Result;
+        giftOrderDetail = Result;
         mLlAddAddress.setVisibility(View.GONE);
         mTvName.setText(Result.getShipTo());
         mTvPhone.setText(Result.getCellPhone());
@@ -159,23 +177,62 @@ public class GiftOrderDetailActivity extends BaseActivity<IntegralOrderPresenter
         mTvOrderNumber.setText(Result.getId());
         mTvTradingStatus.setText(Result.getShowOrderStatus());
         mTvProductName.setText(Result.getItems().get(0).getGiftName());
-        mTvCoin.setText(Result.getItems().get(0).getSaleIntegral()+"西瓜币");
-        mTvNum.setText("x"+Result.getItems().get(0).getQuantity());
-        mTvGoodsNumber.setText("共"+Result.getItems().get(0).getQuantity()+"件礼品，");
-        mTvGoodsPrice.setText("合计："+Result.getTotalIntegral()+"西瓜币");
-        mTvOrderDate.setText("兑换时间："+Result.getOrderDate());
-        GlideUtil.loadImageViewLoding(mActivity,Result.getItems().get(0).getDefaultImage(),mIvImg,R.drawable.image_loading,R.drawable.image_loading);
+        mTvCoin.setText(Result.getItems().get(0).getSaleIntegral() + "西瓜币");
+        mTvNum.setText("x" + Result.getItems().get(0).getQuantity());
+        mTvGoodsNumber.setText("共" + Result.getItems().get(0).getQuantity() + "件礼品，");
+        mTvGoodsPrice.setText("合计：" + Result.getTotalIntegral() + "西瓜币");
+        mTvOrderDate.setText("兑换时间：" + Result.getOrderDate());
+        GlideUtil.loadImageViewLoding(mActivity, Result.getItems().get(0).getDefaultImage(), mIvImg, R.drawable.image_loading, R.drawable.image_loading);
 
-        if (Result.getOrderStatus()==3){
+        if (Result.getOrderStatus() == 3) {
             mTvConfirmReceipt.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mTvConfirmReceipt.setVisibility(View.GONE);
         }
-        if (Result.getOrderStatus()==5){
+        if (Result.getOrderStatus() == 5 || Result.getOrderStatus() == 3) {
             mLlWl.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mLlWl.setVisibility(View.GONE);
         }
-        mTvOrderWl.setText("运单号码："+Result.getShipOrderNumber()+"     物流公司："+Result.getExpressCompanyName());
+
+        if (Result.getOrderStatus()==3){
+            mLlLogistics.setVisibility(View.VISIBLE);
+        }else {
+            mLlLogistics.setVisibility(View.GONE);
+        }
+        mTvOrderWl.setText("运单号码：" + Result.getShipOrderNumber() + "     物流公司：" + Result.getExpressCompanyName());
+        if (Result.getShipOrderNumber()!=null){
+            mPresenter.GetExpressInfo(Result.getShipOrderNumber());
+        }else {
+            return;
+        }
+
+    }
+
+    @Override
+    public void GetExpressInfo(BaseResult<Data<List<Logistics>>> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                if (Result.getData().getItem2()!=null){
+                    if (Result.getData().getItem2().size()!=0){
+                        logisticsList.addAll(Result.getData().getItem2());
+                        LogisticsAdapter logisticsAdapter = new LogisticsAdapter(R.layout.item_logistics, logisticsList);
+                        mRvLogistics.setLayoutManager(new LinearLayoutManager(mActivity));
+                        mRvLogistics.setAdapter(logisticsAdapter);
+                    }
+                }else {
+
+                }
+
+                break;
+        }
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

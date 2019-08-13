@@ -183,6 +183,16 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
             }
         });
 
+        holder.getLl_goods().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mCallBack!=null){
+                    mCallBack.OnItemClickLongListner(v,position);
+                }
+                return true;
+            }
+        });
+
         holder.getLl_goods_type().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,5 +226,7 @@ public class RecyclerCommodityAdapter extends RecyclerView.Adapter<RecyclerCommo
         public void OnItemClickDetailListner(View view,int childposition);
 
         void OnItemClickListner(View view, int childposition);
+
+        void OnItemClickLongListner(View view,int childposition);
     }
 }

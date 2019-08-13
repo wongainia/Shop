@@ -542,6 +542,28 @@ public class CartActivity extends BaseActivity<CartPresenter, CartModel> impleme
                     }
                 }
 
+                @Override
+                public void OnItemClickLongListner(View view, int parentposition, int chaildposition) {
+                    final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                    dialog.setMessage("是否该商品删除")
+                            //.setImageResId(R.mipmap.ic_launcher)
+                            .setTitle("提示")
+                            .setPositive("删除")
+                            .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                        @Override
+                        public void onPositiveClick() {
+                            dialog.dismiss();
+                            mPresenter.PostDeleteCartProduct(shopBeanslist.get(parentposition).getList().get(chaildposition).getSkuId(),userKey);
+                        }
+
+                        @Override
+                        public void onNegtiveClick() {//取消
+                            dialog.dismiss();
+                            // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+                }
+
                 /*领券*/
                 @Override
                 public void OnCheckCoupListner(int parentposition) {

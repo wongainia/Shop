@@ -2,14 +2,20 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
 import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ConfirmOrderOverResult;
+import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.entity.GetExpressInfo;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
 import com.zhenghaikj.shop.entity.GiftOrder;
 import com.zhenghaikj.shop.entity.GiftOrderDetail;
+import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.mvp.contract.IntegralOrderContract;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -74,4 +80,13 @@ public class IntegralOrderModel implements IntegralOrderContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(String ExpressNo) {
+        return ApiRetrofit2.getDefault().GetExpressInfo(ExpressNo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+
 }
