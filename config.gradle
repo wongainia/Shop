@@ -1,0 +1,108 @@
+ext{
+    android=[
+            compileSdkVersion: 28,
+            buildToolsVersion: "27.0.3",
+            minSdkVersion    : 17,
+            targetSdkVersion : 28,
+            versionCode      : 32,
+            versionName      : "1.3.1"
+    ]
+    dependVersion = [
+            androidSupportSdkVersion: "1.0.2",
+            retrofitSdkVersion      : "2.3.0",
+            multidex                : "2.0.1",
+            rxJava                  : "2.1.9",
+            rxAndroid               : "2.0.2",
+            gson                    : "2.6.2",
+            okhttp                  : "3.9.1",
+            okio                    : "1.5.0",
+            butterknife             : "10.0.0",
+            eventbus                : "3.0.0",
+            banner                  : "1.4.10",
+            glide                   : "4.8.0",
+            smartRefresh            : "1.0.5.1",
+            utilcodex               : "1.23.7"
+    ]
+
+    /*谷歌官方的库*/
+    support =[
+            appcompat               :"androidx.appcompat:appcompat:$dependVersion.androidSupportSdkVersion",
+            multidex                :"androidx.multidex:multidex:$dependVersion.multidex",
+            material                :'com.google.android.material:material:1.0.0-beta01',
+            cardview                :'androidx.cardview:cardview:1.0.0-beta01',
+            constraintlayout        :'androidx.constraintlayout:constraintlayout:1.1.2',
+            recyclerview            :'androidx.recyclerview:recyclerview:1.0.0-beta01',
+            flexbox                 :'com.google.android:flexbox:0.3.2'
+    ]
+
+
+    retrofit = [
+            //------ retrofit和RxJava ---------
+            retrofit                : "com.squareup.retrofit2:retrofit:$dependVersion.retrofitSdkVersion",
+            retrofitConverterGson   : "com.squareup.retrofit2:converter-gson:$dependVersion.retrofitSdkVersion",
+            retrofitAdapterRxjava2  : "com.squareup.retrofit2:adapter-rxjava2:$dependVersion.retrofitSdkVersion",
+            okhttp3LoggerInterceptor: "com.squareup.okhttp3:logging-interceptor:$dependVersion.okhttp",
+            okhttp                  : "com.squareup.okhttp3:okhttp:$dependVersion.okhttp",
+            gson                    : "com.google.code.gson:gson:$dependVersion.gson",
+            okio                    : "com.squareup.okio:okio:$dependVersion.okio"
+    ]
+
+    rxJava = [
+            rxJava                  : "io.reactivex.rxjava2:rxjava:$dependVersion.rxJava",
+            rxAndroid               : "io.reactivex.rxjava2:rxandroid:$dependVersion.rxAndroid",
+            RxPermissions           : 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar' //权限管理
+    ]
+
+    /*第三方常用的库*/
+    common =[
+            butterknife            :"com.jakewharton:butterknife:$dependVersion.butterknife", //黄油刀
+            eventbus               :"org.greenrobot:eventbus:$dependVersion.eventbus",        //eventbus
+            banner                 :"com.youth.banner:banner:$dependVersion.banner",          //轮播图
+            glide                  :"com.github.bumptech.glide:glide:$dependVersion.glide",   //glide
+            barlibrary             :'com.gyf.barlibrary:barlibrary:2.3.0',                    //侧滑返回
+            baseRecyclerViewAdapterHelper:'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.43-alpha1',//万能适配器
+            smartRefreshLayout     :"com.scwang.smartrefresh:SmartRefreshLayout:$dependVersion.smartRefresh",//刷新
+            smartRefreshHeader     :"com.scwang.smartrefresh:SmartRefreshHeader:$dependVersion.smartRefresh",
+            utilcodex              :"com.blankj:utilcodex:$dependVersion.utilcodex",          //工具类库
+            photoview              :'com.github.chrisbanes.photoview:library:+',              //图片查看
+            rxKit                  :'com.github.vondear.RxTool:RxKit:v2.2.7',                 //基础工具库
+            rxUI                   :'com.github.vondear.RxTool:RxUI:v2.2.7',                  //UI库
+            tablayout              :'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar',       //tablayout
+            labelsview             :'com.github.donkingliang:LabelsView:1.5.0',               //labelsview
+            ucrop                  :'com.yalantis:ucrop:1.4.1',                               //头像裁剪
+            countdownview          :'com.github.iwgang:countdownview:2.1.6',                  //倒计时
+            xpopup                 :'com.lxj:xpopup:1.8.0-x',                                 //xpopup
+            shimmerlayout          :'io.supercharge:shimmerlayout:2.1.0',                     //闪烁
+            skeleton               :'com.ethanhua:skeleton:1.1.2',                            //skeleton
+            zloading               :'com.zyao89:zloading:1.2.0',                              //加载动画
+            matisse                :'com.zhihu.android:matisse:0.5.2-beta3',                  //知乎图片选择
+            StateFrameLayout       :'com.lwkandroid:StateFrameLayout:1.1.2'                   //状态页面
+
+    ]
+
+     /*腾讯tinker*/
+    tinker=[
+            crashreport_upgrade    :'com.tencent.bugly:crashreport_upgrade:1.3.6',
+            tinkerandroidlib       :'com.tencent.tinker:tinker-android-lib:1.9.9',
+            nativecrashreport      :'com.tencent.bugly:nativecrashreport:latest.release'
+    ]
+
+    /*推送push*/
+
+    push=[
+         xinge                     :'com.tencent.xinge:xinge:4.3.0-beta',
+         wup                       :'com.tencent.wup:wup:1.0.0.E-release',
+         mid                       :'com.tencent.mid:mid:4.0.7-Release',
+         mipush                    :'com.tencent.xinge:mipush:4.3.0-xiaomi-beta',
+         xgmz                      :'com.tencent.xinge:xgmz:4.3.0-meizu-beta',
+         xghw                      :'com.tencent.xinge:xghw:4.3.0-huawei-beta'
+    ]
+    supportLibs=support.values()
+    networkLibs=retrofit.values()
+    rxJavaLibs=rxJava.values()
+    commonLibs=common.values()
+    tinkerLibs=tinker.values()
+    pushLibs= push.values()
+
+
+}
