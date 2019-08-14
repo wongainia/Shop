@@ -4,6 +4,7 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.Area;
 import com.zhenghaikj.shop.entity.BankCard;
+import com.zhenghaikj.shop.entity.Bill;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.City;
@@ -611,4 +612,10 @@ public interface ApiService2 {
     Observable<BaseResult<Data<String>>> WithDraw(@Field("DrawMoney") String DrawMoney,
                                                   @Field("CardNo") String CardNo,
                                                   @Field("UserID") String UserID);
+
+    /*获取用户账单*/
+    @FormUrlEncoded
+    @POST("Account/AccountBill")
+    Observable<BaseResult<Data<Bill>>> AccountBill(@Field("UserID") String UserID,
+                                                   @Field("state") String state);
 }

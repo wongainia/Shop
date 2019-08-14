@@ -1,260 +1,297 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ratios="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white" />
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <LinearLayout
-        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+
+        <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:background="@drawable/home_shape" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
-
-                <LinearLayout
-                    android:id="@+id/ll_scan_it"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/saoyisao" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="扫一扫"
-                        android:textColor="@color/white"
-                        android:textSize="10sp" />
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/search_edit_shape"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/iv_search"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center"
-                            android:src="@mipmap/sousuo" />
-
-                        <TextView
-                            android:id="@+id/tv_search"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="1"
-                            android:text="搜索"
-                            android:textColor="#808080"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_member_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/erweimama" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:text="分享码"
-                        android:textColor="#808080"
-                        android:textSize="10sp"
-                        android:visibility="gone" />
-
-
-                </LinearLayout>
-
-                <FrameLayout
-                    android:id="@+id/fl_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_5">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:padding="5dp"
-                        android:src="@drawable/xiaoxixi" />
-
-                    <TextView
-                        android:id="@+id/tv_count_msg"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="right"
-                        android:background="@drawable/circle_shape"
-                        android:gravity="center"
-                        android:text="99"
-                        android:textSize="10sp"
-                        android:textColor="@color/white"
-                        android:visibility="gone"/>
-                </FrameLayout>
-            </LinearLayout>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="13dp"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/default_avator" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:text="推荐"
-                    android:textColor="#ED3D48"
-                    android:textSize="14sp" />
-
-
-                <TextView
-                    android:id="@+id/tv_shop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="15dp"
-                    android:text="西瓜鱼商城"
-                    android:textColor="#808080"
-                    android:textSize="14sp" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:descendantFocusability="blocksDescendants"
-                    android:visibility="gone">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_category"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
-                </RelativeLayout>
-            </LinearLayout>
-
-            </HorizontalScrollView>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#eee" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.zhenghaikj.shop.widget.ObservableScrollView
-            android:id="@+id/sv"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:background="@color/white">
+            app:srlAccentColor="@color/white"
+            app:srlEnableLoadMore="false"
+            app:srlPrimaryColor="#FF4D85">
 
-            <LinearLayout
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_shape" />
+
+            <com.zhenghaikj.shop.widget.ObservableScrollView
+                android:id="@+id/sv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:scrollbars="none">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:background="@color/white"/>
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    ratios:ignore="ExtraText"
-                    android:background="@color/white">
 
-                    <com.zhenghaikj.shop.widget.RatioLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:ratios="2.6">
+                        android:layout_height="wrap_content">
 
-                        <com.youth.banner.Banner
-                            android:id="@+id/banner_home"
+                        <LinearLayout
+
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:image_scale_type="fit_xy"
-                            app:indicator_margin="5dp" />
-                    </com.zhenghaikj.shop.widget.RatioLayout>
+                            android:layout_height="157dp"
+                            android:background="@drawable/home_shape">
+
+                            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.google.android.material.appbar.AppBarLayout
+                                    android:id="@+id/appbarlayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/home_shape"
+                                    android:orientation="vertical"
+                                    app:elevation="0dp">
+
+                                    <FrameLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+
+                                        <LinearLayout
+                                            android:id="@+id/toolbar"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/home_shape"
+                                            android:orientation="vertical"
+                                            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                                            <LinearLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="16dp"
+                                                android:layout_marginTop="10dp"
+                                                android:layout_marginBottom="9dp"
+                                                android:orientation="horizontal">
+
+                                                <ImageView
+                                                    android:layout_width="12dp"
+                                                    android:layout_height="12dp"
+                                                    android:layout_gravity="center"
+                                                    android:src="@drawable/yu" />
+
+                                                <TextView
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_gravity="center"
+                                                    android:layout_marginLeft="5dp"
+                                                    android:layout_weight="1"
+                                                    android:text="西瓜鱼-售后无忧"
+                                                    android:textColor="@color/white"
+                                                    android:textSize="12sp" />
+
+                                                <LinearLayout
+                                                    android:id="@+id/ll_member_code"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_gravity="center"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:orientation="vertical">
+
+                                                    <ImageView
+                                                        android:layout_width="24dp"
+                                                        android:layout_height="24dp"
+                                                        android:layout_gravity="center"
+                                                        android:padding="5dp"
+                                                        android:src="@drawable/erwei" />
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_gravity="center"
+                                                        android:layout_marginTop="5dp"
+                                                        android:text="分享码"
+                                                        android:textColor="#808080"
+                                                        android:textSize="10sp"
+                                                        android:visibility="gone" />
+
+
+                                                </LinearLayout>
+
+                                                <FrameLayout
+                                                    android:id="@+id/fl_message"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginRight="8dp">
+
+                                                    <ImageView
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="24dp"
+                                                        android:padding="5dp"
+                                                        android:src="@mipmap/mess" />
+
+                                                    <TextView
+                                                        android:id="@+id/tv_count_msg"
+                                                        android:layout_width="15dp"
+                                                        android:layout_height="15dp"
+                                                        android:layout_gravity="right"
+                                                        android:background="@drawable/circle_shape"
+                                                        android:gravity="center"
+                                                        android:text="99"
+                                                        android:textColor="@color/white"
+                                                        android:textSize="10sp"
+                                                        android:visibility="gone" />
+                                                </FrameLayout>
+
+                                                <RelativeLayout
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:descendantFocusability="blocksDescendants"
+                                                    android:visibility="gone">
+
+                                                    <androidx.recyclerview.widget.RecyclerView
+                                                        android:id="@+id/rv_category"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:nestedScrollingEnabled="false" />
+                                                </RelativeLayout>
+                                            </LinearLayout>
+
+                                            <LinearLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginLeft="10dp"
+                                                android:layout_marginRight="10dp"
+                                                android:layout_marginBottom="@dimen/dp_10"
+                                                android:orientation="horizontal">
+
+                                                <LinearLayout
+                                                    android:id="@+id/ll_scan_it"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_gravity="center"
+                                                    android:layout_marginRight="10dp"
+                                                    android:orientation="vertical"
+                                                    android:visibility="gone">
+
+                                                    <ImageView
+                                                        android:layout_width="25dp"
+                                                        android:layout_height="25dp"
+                                                        android:layout_gravity="center"
+                                                        android:src="@drawable/saoyisao" />
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_gravity="center"
+                                                        android:text="扫一扫"
+                                                        android:textColor="@color/white"
+                                                        android:textSize="10sp" />
+
+
+                                                </LinearLayout>
+
+
+                                                <LinearLayout
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="33dp"
+                                                    android:layout_gravity="center"
+                                                    android:layout_weight="1"
+                                                    android:background="@drawable/search_edit_shape"
+                                                    android:gravity="center"
+                                                    android:orientation="horizontal">
+
+
+                                                    <LinearLayout
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="match_parent"
+                                                        android:layout_marginLeft="10dp"
+                                                        android:layout_marginRight="10dp"
+                                                        android:orientation="horizontal">
+
+                                                        <ImageView
+                                                            android:id="@+id/iv_search"
+                                                            android:layout_width="14dp"
+                                                            android:layout_height="14dp"
+                                                            android:layout_gravity="center"
+                                                            android:src="@mipmap/sousuo" />
+
+                                                        <TextView
+                                                            android:id="@+id/tv_search"
+                                                            android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:layout_gravity="center"
+                                                            android:layout_marginLeft="10dp"
+                                                            android:layout_weight="1"
+                                                            android:text="搜索"
+                                                            android:textColor="#808080"
+                                                            android:textSize="13sp" />
+                                                    </LinearLayout>
+                                                </LinearLayout>
+
+
+                                            </LinearLayout>
+
+                                        </LinearLayout>
+
+                                    </FrameLayout>
+                                </com.google.android.material.appbar.AppBarLayout>
+                            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                        </LinearLayout>
+
+                        <com.zhenghaikj.shop.widget.RatioLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="90dp"
+                            android:layout_marginRight="10dp"
+                            app:ratios="2.6"
+                            android:background="@drawable/banner_shape">
+
+                            <com.youth.banner.Banner
+                                android:id="@+id/banner_home"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:image_scale_type="fit_xy"
+                                app:indicator_margin="5dp"
+                                android:background="@drawable/banner_shape"/>
+                        </com.zhenghaikj.shop.widget.RatioLayout>
+
+
+                    </FrameLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/white" />
+
+                    <!--<FrameLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@color/white"-->
+                    <!--ratios:ignore="ExtraText">-->
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="140dp"
                         android:background="@color/white"
                         android:orientation="vertical">
 
@@ -269,112 +306,116 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
                                 android:layout_weight="1"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="vertical">
+
                                 <ImageView
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/top_one"
-                                    android:layout_gravity="center"/>
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/top_one" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
                                     android:text="厂价直销"
                                     android:textColor="#808080"
-                                    android:textSize="10sp"
-                                    android:layout_gravity="center"/>
+                                    android:textSize="10sp" />
                             </LinearLayout>
 
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
                                 android:layout_weight="1"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="vertical">
+
                                 <ImageView
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/top_three"
-                                    android:layout_gravity="center"/>
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/top_three" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
                                     android:text="7天无理由"
                                     android:textColor="#808080"
-                                    android:textSize="10sp"
-                                    android:layout_gravity="center"/>
+                                    android:textSize="10sp" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
                                 android:layout_weight="1"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="vertical">
+
                                 <ImageView
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/top_two"
-                                    android:layout_gravity="center"/>
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/top_two" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
                                     android:text="免费安装"
                                     android:textColor="#808080"
-                                    android:textSize="10sp"
-                                    android:layout_gravity="center"/>
+                                    android:textSize="10sp" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
                                 android:layout_weight="1"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="vertical">
+
                                 <ImageView
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/top_four"
-                                    android:layout_gravity="center"/>
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/top_four" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
                                     android:text="免费保修"
                                     android:textColor="#808080"
-                                    android:textSize="10sp"
-                                    android:layout_gravity="center"/>
+                                    android:textSize="10sp" />
                             </LinearLayout>
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
                                 android:layout_weight="1"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="vertical">
+
                                 <ImageView
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/zhong"
-                                    android:layout_gravity="center"/>
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/zhong" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
                                     android:text="终生维护"
                                     android:textColor="#808080"
-                                    android:textSize="10sp"
-                                    android:layout_gravity="center"/>
+                                    android:textSize="10sp" />
                             </LinearLayout>
 
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="#eee" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -388,31 +429,70 @@
                                 android:nestedScrollingEnabled="false"
                                 android:overScrollMode="never"
                                 android:padding="10dp"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
                         </RelativeLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="#eee"/>
 
                         <ImageView
                             android:id="@+id/iv_register"
                             android:layout_width="match_parent"
                             android:layout_height="70dp"
-                            android:src="@drawable/home_banner2"
-                            />
+                            android:src="@drawable/home_banner2" />
 
 
                         <LinearLayout
                             android:id="@+id/ll_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
+                            android:orientation="vertical"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="7dp"
+                            android:background="#eee" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginBottom="16dp"
+                            android:orientation="horizontal"
+                            android:paddingLeft="10dp">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/time" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="bottom">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="限时折扣"
+                                    android:textColor="#474747"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="抢到就是赚"
+                                    android:textColor="#858585"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
-
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="#D2D2D2" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -424,7 +504,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:nestedScrollingEnabled="false"
-                                android:overScrollMode="never"/>
+                                android:overScrollMode="never" />
                         </RelativeLayout>
 
                         <LinearLayout
@@ -779,23 +859,26 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:background="@color/white"
+                            android:gravity="center"
                             android:orientation="vertical">
+
                             <com.zhenghaikj.shop.widget.RatioLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:ratios="5.07">
+
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:scaleType="fitXY"
                                     android:src="@drawable/renqi" />
                             </com.zhenghaikj.shop.widget.RatioLayout>
+
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="0.5dp"
-                                android:background="#eee"/>
+                                android:background="#eee" />
 
                         </LinearLayout>
 
@@ -808,13 +891,68 @@
                                 android:id="@+id/rv_home"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:nestedScrollingEnabled="false"/>
+                                android:nestedScrollingEnabled="false" />
                         </RelativeLayout>
 
                     </LinearLayout>
-                </FrameLayout>
-            </LinearLayout>
-        </com.zhenghaikj.shop.widget.ObservableScrollView>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                    <!--</FrameLayout>-->
 
-</LinearLayout>
+                </LinearLayout>
+            </com.zhenghaikj.shop.widget.ObservableScrollView>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/headerParent"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        app:layout_collapseMode="pin"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/search_edit_shape"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_search_two"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/sousuo" />
+
+                <TextView
+                    android:id="@+id/tv_search_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="搜索"
+                    android:textColor="#808080"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -522,7 +522,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mLlSpecification.setOnClickListener(this);
         mTvAllGoods.setOnClickListener(this);
         mTvGoShopping.setOnClickListener(this);
-
+        mLlParameter.setOnClickListener(this);
         mLlEvaluation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -752,6 +752,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             case R.id.ll_service:
                 Service();
                 break;
+            case R.id.ll_parameter:
+                Parameter();
+                break;
 //            case R.id.ll_evaluation:
 //                startActivity(new Intent(mActivity,EvaluationDetailsActivity.class));
 //                break;
@@ -779,6 +782,29 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 break;
 
         }
+    }
+
+    private void Parameter() {
+        view=LayoutInflater.from(mActivity).inflate(R.layout.dialog_goods_parameter,null);
+        RecyclerView rl_parameter=view.findViewById(R.id.rl_parameter);
+        TextView tv_submit=view.findViewById(R.id.tv_submit);
+        tv_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                serviceDialog.dismiss();
+            }
+        });
+
+        serviceDialog = new AlertDialog.Builder(mActivity).setView(view).create();
+        serviceDialog.show();
+        Window window = serviceDialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.gravity = Gravity.BOTTOM;
+//        Display display = mActivity.getManager().getDefaultDisplay();
+        DisplayMetrics dm = new DisplayMetrics();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        window.setBackgroundDrawable(new ColorDrawable());
     }
 
     public void Service() {

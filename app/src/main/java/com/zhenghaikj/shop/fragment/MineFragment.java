@@ -434,7 +434,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             mPresenter.GetUserInfoList(UserID, "1");
             mPresenter.PersonalInformation(userKey);
             mPresenter.GetOrderByhmall(UserID);
-            mPresenter.GetOrderByhmalluserid(UserID, "0");
+            mPresenter.GetOrderByhmalluserid(UserID, "7");
             mPresenter.GetList("4", "10", "1", userKey);
 
             mTvPhone.setVisibility(View.VISIBLE);

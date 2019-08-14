@@ -132,7 +132,9 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
                 startActivity(new Intent(mActivity, BrandCardActivity.class));
                 break;
             case R.id.ll_record:
-                startActivity(new Intent(mActivity, RecordingActivity.class));
+                intent=new Intent(mActivity,RecordingActivity.class);
+                intent.putExtra("intent","收支");
+                startActivity(intent);
                 break;
             case R.id.tv_recharge:
                 startActivityForResult(new Intent(mActivity, RechargeActivity.class),100);

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,20 +24,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.android.material.appbar.AppBarLayout;
 import com.gyf.barlibrary.ImmersionBar;
-import com.m7.imkfsdk.KfStartHelper;
-import com.moor.imkf.IMChatManager;
-import com.moor.imkf.utils.MoorUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -64,17 +61,13 @@ import com.zhenghaikj.shop.activity.GoodDailyShopActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.LotteryActivity;
-
 import com.zhenghaikj.shop.activity.MainActivity;
-import com.zhenghaikj.shop.activity.MessageActivity;
-import com.zhenghaikj.shop.activity.MessageActivity2;
 import com.zhenghaikj.shop.activity.PanicBuyingActivity;
 import com.zhenghaikj.shop.activity.SearchPreDetailActivity;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.HomeCategoryAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
-import com.zhenghaikj.shop.adapter.MyRecyclerViewAdapter;
 import com.zhenghaikj.shop.adapter.NewHomeAdapter;
 import com.zhenghaikj.shop.api.Config;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
@@ -101,8 +94,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
-
-import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 
 public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements View.OnClickListener, HomeContract.View {
 
@@ -161,8 +152,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     RecyclerView mRvExchange;
     @BindView(R.id.rv_panic)
     RecyclerView mRvPanic;
-    @BindView(R.id.tv_shop)
-    TextView mTvShop;
     @BindView(R.id.iv_register)
     ImageView mIvRegister;
     @BindView(R.id.rv_category)
@@ -174,6 +163,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @BindView(R.id.ll_home)
     LinearLayout mLlhome;
+    @BindView(R.id.appbarlayout)
+    AppBarLayout mAppbarlayout;
+    @BindView(R.id.iv_search_two)
+    ImageView mIvSearchTwo;
+    @BindView(R.id.tv_search_two)
+    TextView mTvSearchTwo;
+    @BindView(R.id.headerParent)
+    LinearLayout mHeaderParent;
 
     private List<ShopResult.GiftListNewBean> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
@@ -198,8 +195,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private Intent intent;
     private List<String> ids;
     private String link;
-    private String pageSize="10";
-
+    private String pageSize = "10";
 
 
     private NewHomeAdapter newHomeAdapter;
@@ -230,7 +226,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //    };
 
     private String[] names = new String[]{
-            "免费兑", "签到",  "抽免单", "优惠券"
+            "免费兑", "签到", "抽免单", "优惠券"
     };
 
 //    private Integer[] picture = new Integer[]{
@@ -243,7 +239,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             R.drawable.cmd, R.mipmap.quan
     };
     private MenuAdapter mMainAdapter;
- //   private MyRecyclerViewAdapter myRecyclerViewAdapter;
+    //   private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private int pageNo = 1;
 
     /**
@@ -252,7 +248,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @Override
     protected void initImmersionBar() {
         mImmersionBar = ImmersionBar.with(this);
-        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
+//        mImmersionBar.statusBarDarkFont(true, 0.2f); //原理：如果当前设备支持状态栏字体变色，会设置状态栏字体为黑色，如果当前设备不支持状态栏字体变色，会使当前状态栏加上透明度，否则不执行透明度
         mImmersionBar.statusBarView(mView);
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
@@ -268,7 +264,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initData() {
-        if(isLogin){
+        if (isLogin) {
             mPresenter.GetUserInfoList(UserID, "1");
         }
         UMShareConfig config = new UMShareConfig();
@@ -309,7 +305,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                                             } else {
                                                 // 获取全部权限失败
                                                 ToastUtils.showShort("权限获取失败");
-                                        }
+                                            }
                                         }
                                     });
 
@@ -318,22 +314,22 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 });
 
 
-        newHomeAdapter=new NewHomeAdapter(R.layout.item_home_two,mDatas);
+        newHomeAdapter = new NewHomeAdapter(R.layout.item_home_two, mDatas);
         mRvHome.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvHome.setAdapter(newHomeAdapter);
         newHomeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.ll_goods:
                         Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
                         intent.putExtra("id", mDatas.get(position).getId());
                         startActivity(intent);
                         break;
                     case R.id.ll_gotoshop:
-                        if (mDatas.get(position).getVshopId()==null){
+                        if (mDatas.get(position).getVshopId() == null) {
                             ToastUtils.showShort("该商家未申请微店");
-                        }else {
+                        } else {
                             Intent intent1 = new Intent(mActivity, StoreDetailActivity.class);
                             intent1.putExtra("VShopId", mDatas.get(position).getVshopId());
                             startActivity(intent1);
@@ -346,8 +342,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });
 
 
-
-        mPresenter.GetList("4",pageSize,"1",userKey);
+        mPresenter.GetList("4", pageSize, "1", userKey);
         mPresenter.Get();
         mPresenter.Get(Integer.toString(pageNo), pageSize);
         mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
@@ -444,13 +439,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });*/
 
 
-
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 pageNo = 1;
                 mDatas.clear();
-                mPresenter.GetList("4",pageSize,"1",userKey);
+                mPresenter.GetList("4", pageSize, "1", userKey);
                 mPresenter.Get();
                 mPresenter.Get(Integer.toString(pageNo), pageSize);
                 mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
@@ -495,6 +489,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //            Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
             mTvCountMsg.setVisibility(View.GONE);
         }*/
+
+//        mHeaderParent.setAlpha(0);
+//
     }
 
 
@@ -504,12 +501,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(String name) {
-        if ("更新登录信息".equals(name)){
+        if ("更新登录信息".equals(name)) {
             getLoginMsg();
-            mPresenter.GetList("4",pageSize,"1",userKey);
+            mPresenter.GetList("4", pageSize, "1", userKey);
         }
         if ("UpdateReadCount".equals(name)) {
-            mPresenter.GetList("4",pageSize,"1",userKey);
+            mPresenter.GetList("4", pageSize, "1", userKey);
         }
     }
 
@@ -520,12 +517,37 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mLlFoundGoodGoods.setOnClickListener(this);
         mLlGoodDailyShop.setOnClickListener(this);
         mLlWatermelonCoinMall.setOnClickListener(this);
-        mTvShop.setOnClickListener(this);
         mLlMemberCode.setOnClickListener(this);
         mIvRegister.setOnClickListener(this);
         mFlMessage.setOnClickListener(this);
 
+        mAppbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
+                float percent = Float.valueOf(Math.abs(verticalOffset)) / Float.valueOf(appBarLayout.getTotalScrollRange());
+
+                //第一种
+//                int toolbarHeight = appBarLayout.getTotalScrollRange();
+//
+//                int dy = Math.abs(verticalOffset);
+//
+//
+//                if (dy <= toolbarHeight) {
+//                    float scale = (float) dy / toolbarHeight;
+//                    float alpha = scale * 255;
+//                    mHeaderParent.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
+//
+////                    mTextView.setText("setBackgroundColor(Color.argb((int) "+(int) alpha+", 255, 255, 255))\n"+"mFLayout.setAlpha("+percent+")");
+//                }
+
+                //第二种
+
+                mHeaderParent.setAlpha(percent);
+
+
+            }
+        });
     }
 
     @Override
@@ -544,7 +566,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             case R.id.ll_good_daily_shop:
                 startActivity(new Intent(mActivity, GoodDailyShopActivity.class));
                 break;
-            case R.id.tv_shop:
             case R.id.ll_watermelon_coin_mall:
                 MainActivity activity = (MainActivity) getActivity();
                 activity.setCurrentItem(3);
@@ -598,28 +619,26 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 ////                    intent.putExtra("categoryId","4");
 ////                    intent.putExtra("title","消息");
 //                    startActivity(intent);
-                    Intent intent1=new Intent(mActivity, com.m7.imkfsdk.MainActivity.class);
+                Intent intent1 = new Intent(mActivity, com.m7.imkfsdk.MainActivity.class);
 //                intent1.putExtra("goodsName",result.getProduct().getProductName());
 //                intent1.putExtra("goodsPricture",result.getProduct().getImagePath().get(0));
 //                intent1.putExtra("goodsPrice","￥" + result.getProduct().getMinSalePrice());
 //                intent1.putExtra("goodsURL","http://seller.xigyu.com/product/detail/"+result.getProduct().getProductId());
-                    if (isLogin){
-                        intent1.putExtra("userName",userInfo.getNickName());
-                        intent1.putExtra("userId",userInfo.getUserID());
+                if (isLogin) {
+                    intent1.putExtra("userName", userInfo.getNickName());
+                    intent1.putExtra("userId", userInfo.getUserID());
 
-                        intent1.putExtra("userPic",userInfo.getAvator());
-                    }else {
-                        intent1.putExtra("userName","游客");
-                        intent1.putExtra("userId","123456789");
-                        intent1.putExtra("userPic",R.drawable.default_avator);
-                    }
+                    intent1.putExtra("userPic", userInfo.getAvator());
+                } else {
+                    intent1.putExtra("userName", "游客");
+                    intent1.putExtra("userId", "123456789");
+                    intent1.putExtra("userPic", R.drawable.default_avator);
+                }
 
-                    startActivity(intent1);
+                startActivity(intent1);
 //                }
 
                 break;
-
-
 
 
         }
@@ -627,10 +646,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     public void GetList(Announcement result) {
-        if (result.getCount()>0){
+        if (result.getCount() > 0) {
             mTvCountMsg.setVisibility(View.VISIBLE);
-            mTvCountMsg.setText(result.getCount()+"");
-        }else{
+            mTvCountMsg.setText(result.getCount() + "");
+        } else {
             mTvCountMsg.setVisibility(View.GONE);
         }
     }
@@ -642,12 +661,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             if (Result.getProduct().size() == 0) {
                 mRefreshLayout.finishLoadMoreWithNoMoreData();
             } else {
-                if (mDatas.size()!=0){
-                    int lastposition=mDatas.size();
-                    int itemCount=Result.getProduct().size();
+                if (mDatas.size() != 0) {
+                    int lastposition = mDatas.size();
+                    int itemCount = Result.getProduct().size();
                     mDatas.addAll(Result.getProduct());
-                    newHomeAdapter.notifyItemRangeChanged(lastposition,itemCount);
-                }else {
+                    newHomeAdapter.notifyItemRangeChanged(lastposition, itemCount);
+                } else {
                     mDatas.addAll(Result.getProduct());
                     newHomeAdapter.notifyDataSetChanged();
                 }
@@ -674,53 +693,47 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 dataset = modules.get(i).getContent().getDataset();
             }
 
-            if (modules.get(i).getType()==8){
-                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_8,null);
+            if (modules.get(i).getType() == 8) {
+                View view = LayoutInflater.from(mActivity).inflate(R.layout.activity_home_8, null);
                 mLlhome.addView(view);
-                int position=i;
-                initViewBy_8(position,view,modules);
+                int position = i;
+                initViewBy_8(position, view, modules);
             }
-            if (modules.get(i).getType()==20){
-                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_20,null);
+            if (modules.get(i).getType() == 20) {
+                View view = LayoutInflater.from(mActivity).inflate(R.layout.activity_home_20, null);
                 mLlhome.addView(view);
-                int position=i;
-                initViewBy_20(position,view,modules);
+                int position = i;
+                initViewBy_20(position, view, modules);
             }
-            if (modules.get(i).getType()==22){
-                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_22,null);
+            if (modules.get(i).getType() == 22) {
+                View view = LayoutInflater.from(mActivity).inflate(R.layout.activity_home_22, null);
                 mLlhome.addView(view);
-                int position=i;
-                initViewBy_22(position,view,modules);
-
-            }
-
-            if (modules.get(i).getType()==21){
-                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_21,null);
-                mLlhome.addView(view);
-
-                int position=i;
-                initViewBy_21(position,view,modules);
+                int position = i;
+                initViewBy_22(position, view, modules);
 
             }
 
-            if (modules.get(i).getType()==23){
-                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_23,null);
+            if (modules.get(i).getType() == 21) {
+                View view = LayoutInflater.from(mActivity).inflate(R.layout.activity_home_21, null);
                 mLlhome.addView(view);
-                int position=i;
-                initViewBy_23(position,view,modules);
-            }
-            if (modules.get(i).getType()==24){
-                View view=LayoutInflater.from(mActivity).inflate(R.layout.activity_home_24,null);
-                mLlhome.addView(view);
-                int position=i;
-                initViewBy_24(position,view,modules);
+
+                int position = i;
+                initViewBy_21(position, view, modules);
+
             }
 
-
-
-
-
-
+            if (modules.get(i).getType() == 23) {
+                View view = LayoutInflater.from(mActivity).inflate(R.layout.activity_home_23, null);
+                mLlhome.addView(view);
+                int position = i;
+                initViewBy_23(position, view, modules);
+            }
+            if (modules.get(i).getType() == 24) {
+                View view = LayoutInflater.from(mActivity).inflate(R.layout.activity_home_24, null);
+                mLlhome.addView(view);
+                int position = i;
+                initViewBy_24(position, view, modules);
+            }
 
 
         }
@@ -730,9 +743,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //            String str=dataset.get(i).getPic();
 //            str=str.replace("http","https");
             images.add(dataset.get(i).getPic());
-            if (dataset.get(i).getLinkType()==1){
-                link =dataset.get(i).getLink();
-                ids.add(link.substring(link.lastIndexOf("/")+1));
+            if (dataset.get(i).getLinkType() == 1) {
+                link = dataset.get(i).getLink();
+                ids.add(link.substring(link.lastIndexOf("/") + 1));
             }
         }
         mBannerHome.setImageLoader(new GlideImageLoader());
@@ -743,7 +756,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mBannerHome.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                if (dataset.get(position).getLinkType()==1){
+                if (dataset.get(position).getLinkType() == 1) {
                     Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
                     intent.putExtra("id", ids.get(position));
                     startActivity(intent);
@@ -751,7 +764,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             }
         });
     }
-
 
 
     @Override
@@ -762,7 +774,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
-        switch (Result.getStatusCode()){
+        switch (Result.getStatusCode()) {
             case 200:
                 userInfo = Result.getData().getData().get(0);
                 break;
@@ -884,35 +896,35 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
 
     private void initViewBy_8(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
-        ImageView img_home_8_0=view.findViewById(R.id.img_home_8_0);
-        ImageView img_home_8_1=view.findViewById(R.id.img_home_8_1);
-        ImageView img_home_8_2=view.findViewById(R.id.img_home_8_2);
-        ImageView img_home_8_3=view.findViewById(R.id.img_home_8_3);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_8_0);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_8_1);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_8_2);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_8_3);
+        ImageView img_home_8_0 = view.findViewById(R.id.img_home_8_0);
+        ImageView img_home_8_1 = view.findViewById(R.id.img_home_8_1);
+        ImageView img_home_8_2 = view.findViewById(R.id.img_home_8_2);
+        ImageView img_home_8_3 = view.findViewById(R.id.img_home_8_3);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_8_0);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_8_1);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_8_2);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_8_3);
 
         //position为点击的模块所在的位置
         //判断所点击位置的功能
         img_home_8_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -921,21 +933,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_8_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -943,21 +955,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_8_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -965,21 +977,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_8_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -988,45 +1000,45 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     }
 
     private void initViewBy_23(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
-        ImageView img_home_23_0=view.findViewById(R.id.img_home_23_0);
-        ImageView img_home_23_1=view.findViewById(R.id.img_home_23_1);
-        ImageView img_home_23_2=view.findViewById(R.id.img_home_23_2);
-        ImageView img_home_23_3=view.findViewById(R.id.img_home_23_3);
-        ImageView img_home_23_4=view.findViewById(R.id.img_home_23_4);
-        ImageView img_home_23_5=view.findViewById(R.id.img_home_23_5);
-        ImageView img_home_23_6=view.findViewById(R.id.img_home_23_6);
-        ImageView img_home_23_7=view.findViewById(R.id.img_home_23_7);
-        ImageView img_home_23_8=view.findViewById(R.id.img_home_23_8);
+        ImageView img_home_23_0 = view.findViewById(R.id.img_home_23_0);
+        ImageView img_home_23_1 = view.findViewById(R.id.img_home_23_1);
+        ImageView img_home_23_2 = view.findViewById(R.id.img_home_23_2);
+        ImageView img_home_23_3 = view.findViewById(R.id.img_home_23_3);
+        ImageView img_home_23_4 = view.findViewById(R.id.img_home_23_4);
+        ImageView img_home_23_5 = view.findViewById(R.id.img_home_23_5);
+        ImageView img_home_23_6 = view.findViewById(R.id.img_home_23_6);
+        ImageView img_home_23_7 = view.findViewById(R.id.img_home_23_7);
+        ImageView img_home_23_8 = view.findViewById(R.id.img_home_23_8);
 
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_23_0);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_23_1);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_23_2);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_3);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_4);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_5);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_6);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_7);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_8);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_23_0);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_23_1);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_23_2);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_3);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_4);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_5);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_6);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_7);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_23_8);
 
 
         img_home_23_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1034,21 +1046,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_23_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1058,21 +1070,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_23_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1081,21 +1093,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_23_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1105,21 +1117,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_23_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1129,21 +1141,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_23_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(5).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(5).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1152,21 +1164,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_23_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(6).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(6).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1176,21 +1188,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_23_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(7).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(7).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(7).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(7).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(7).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(7).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(7).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(7).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(7).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(7).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1199,21 +1211,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_23_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(8).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(8).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(8).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(8).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(8).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(8).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(8).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(8).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(8).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(8).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1222,35 +1234,35 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     }
 
     private void initViewBy_20(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
-        ImageView img_home_20_0=view.findViewById(R.id.img_home_20_0);
-        ImageView img_home_20_1=view.findViewById(R.id.img_home_20_1);
-        ImageView img_home_20_2=view.findViewById(R.id.img_home_20_2);
-        ImageView img_home_20_3=view.findViewById(R.id.img_home_20_3);
-        ImageView img_home_20_4=view.findViewById(R.id.img_home_20_4);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_20_0);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_20_1);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_20_2);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_20_3);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(4).getPic()).into(img_home_20_4);
+        ImageView img_home_20_0 = view.findViewById(R.id.img_home_20_0);
+        ImageView img_home_20_1 = view.findViewById(R.id.img_home_20_1);
+        ImageView img_home_20_2 = view.findViewById(R.id.img_home_20_2);
+        ImageView img_home_20_3 = view.findViewById(R.id.img_home_20_3);
+        ImageView img_home_20_4 = view.findViewById(R.id.img_home_20_4);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_20_0);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_20_1);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_20_2);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_20_3);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(4).getPic()).into(img_home_20_4);
 
         img_home_20_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1258,21 +1270,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_20_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1282,21 +1294,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_20_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1305,21 +1317,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_20_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1329,21 +1341,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_20_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1353,38 +1365,38 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     }
 
     private void initViewBy_22(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
-        ImageView img_home_22_0=view.findViewById(R.id.img_home_22_0);
-        ImageView img_home_22_1=view.findViewById(R.id.img_home_22_1);
-        ImageView img_home_22_2=view.findViewById(R.id.img_home_22_2);
-        ImageView img_home_22_3=view.findViewById(R.id.img_home_22_3);
-        ImageView img_home_22_4=view.findViewById(R.id.img_home_22_4);
-        ImageView img_home_22_5=view.findViewById(R.id.img_home_22_5);
-        ImageView img_home_22_6=view.findViewById(R.id.img_home_22_6);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_22_0);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_22_1);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_22_2);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_22_3);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(4).getPic()).into(img_home_22_4);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(5).getPic()).into(img_home_22_5);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(6).getPic()).into(img_home_22_6);
+        ImageView img_home_22_0 = view.findViewById(R.id.img_home_22_0);
+        ImageView img_home_22_1 = view.findViewById(R.id.img_home_22_1);
+        ImageView img_home_22_2 = view.findViewById(R.id.img_home_22_2);
+        ImageView img_home_22_3 = view.findViewById(R.id.img_home_22_3);
+        ImageView img_home_22_4 = view.findViewById(R.id.img_home_22_4);
+        ImageView img_home_22_5 = view.findViewById(R.id.img_home_22_5);
+        ImageView img_home_22_6 = view.findViewById(R.id.img_home_22_6);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_22_0);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_22_1);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_22_2);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_22_3);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(4).getPic()).into(img_home_22_4);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(5).getPic()).into(img_home_22_5);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(6).getPic()).into(img_home_22_6);
         img_home_22_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1392,21 +1404,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_22_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1416,21 +1428,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_22_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1439,21 +1451,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_22_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1463,21 +1475,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_22_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1485,21 +1497,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_22_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(5).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(5).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1507,21 +1519,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_22_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(6).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(6).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1531,38 +1543,38 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
 
     private void initViewBy_21(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
-        ImageView img_home_21_0=view.findViewById(R.id.img_home_21_0);
-        ImageView img_home_21_1=view.findViewById(R.id.img_home_21_1);
-        ImageView img_home_21_2=view.findViewById(R.id.img_home_21_2);
-        ImageView img_home_21_3=view.findViewById(R.id.img_home_21_3);
-        ImageView img_home_21_4=view.findViewById(R.id.img_home_21_4);
-        ImageView img_home_21_5=view.findViewById(R.id.img_home_21_5);
-        ImageView img_home_21_6=view.findViewById(R.id.img_home_21_6);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_21_0);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_21_1);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_21_2);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_21_3);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(4).getPic()).into(img_home_21_4);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(5).getPic()).into(img_home_21_5);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(6).getPic()).into(img_home_21_6);
+        ImageView img_home_21_0 = view.findViewById(R.id.img_home_21_0);
+        ImageView img_home_21_1 = view.findViewById(R.id.img_home_21_1);
+        ImageView img_home_21_2 = view.findViewById(R.id.img_home_21_2);
+        ImageView img_home_21_3 = view.findViewById(R.id.img_home_21_3);
+        ImageView img_home_21_4 = view.findViewById(R.id.img_home_21_4);
+        ImageView img_home_21_5 = view.findViewById(R.id.img_home_21_5);
+        ImageView img_home_21_6 = view.findViewById(R.id.img_home_21_6);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_21_0);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(1).getPic()).into(img_home_21_1);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(2).getPic()).into(img_home_21_2);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(3).getPic()).into(img_home_21_3);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(4).getPic()).into(img_home_21_4);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(5).getPic()).into(img_home_21_5);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(6).getPic()).into(img_home_21_6);
         img_home_21_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1570,21 +1582,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_21_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(1).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(1).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(1).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1594,21 +1606,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_21_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(2).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(2).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(2).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1617,21 +1629,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_21_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(3).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(3).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(3).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1641,21 +1653,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_21_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(4).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(4).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(4).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1663,21 +1675,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_21_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(5).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(5).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(5).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(5).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -1685,57 +1697,54 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         img_home_21_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(6).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(6).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(6).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(6).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
         });
-
 
 
     }
 
     private void initViewBy_24(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
-        ImageView img_home_24_0=view.findViewById(R.id.img_home_24_0);
-        Glide.with(mActivity).load(Config.URL_PIC+modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_24_0);
+        ImageView img_home_24_0 = view.findViewById(R.id.img_home_24_0);
+        Glide.with(mActivity).load(Config.URL_PIC + modules.get(position).getContent().getDataset().get(0).getPic()).into(img_home_24_0);
         img_home_24_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()){
+                switch (modules.get(position).getContent().getDataset().get(0).getLinkType()) {
                     case 1: //选择商品
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 3: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 27: //专题列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     case 6: //限时购列表
-                        Toast.makeText(mActivity,"选中了"+"第"+position+"个"+modules.get(position).getContent().getDataset().get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "选中了" + "第" + position + "个" + modules.get(position).getContent().getDataset().get(0).getTitle(), Toast.LENGTH_SHORT).show();
                         break;
                     default:
-                        Toast.makeText(mActivity,"暂未开发",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "暂未开发", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
         });
-
-
 
 
     }

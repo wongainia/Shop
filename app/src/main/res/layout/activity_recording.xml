@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include layout="@layout/activity_toolbar"/>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_order_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:fillViewport="false"
+        android:gravity="bottom"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="#ED3D48"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="#ED3D48"
+        app:tabTextAppearance="@style/ReturnTabLayout"
+        app:tabTextColor="@color/black" />
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#eeeeee"/>
-    <androidx.recyclerview.widget.RecyclerView
+        android:layout_height="0.5dp"
+        android:background="#eee"/>
+
+    <com.zhenghaikj.shop.widget.CustomViewPager
+        android:id="@+id/vp_order"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rv_recording"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>
