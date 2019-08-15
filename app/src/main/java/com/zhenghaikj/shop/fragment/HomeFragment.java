@@ -7,19 +7,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextSwitcher;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,9 +81,10 @@ import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.HomeContract;
 import com.zhenghaikj.shop.mvp.model.HomeModel;
 import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
+import com.zhenghaikj.shop.utils.CommonUtil;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.utils.ZXingUtils;
-import com.zhenghaikj.shop.widget.ObservableScrollView;
+import com.zhenghaikj.shop.widget.AnimationNestedScrollView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -96,81 +96,45 @@ import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
 public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> implements View.OnClickListener, HomeContract.View {
-
-
-    @BindView(R.id.banner_home)
-    Banner mBannerHome;
-    @BindView(R.id.rv_main_menu)
-    RecyclerView mRvMainMenu;
-    @BindView(R.id.tv_message)
-    TextSwitcher mTvMessage;
-    @BindView(R.id.ll_message)
-    LinearLayout mLlMessage;
-    @BindView(R.id.tv_hour)
-    TextView mTvHour;
-    @BindView(R.id.tv_minute)
-    TextView mTvMinute;
-    @BindView(R.id.tv_second)
-    TextView mTvSecond;
-    @BindView(R.id.iv_panic_buying)
-    ImageView mIvPanicBuying;
-    @BindView(R.id.ll_panic_buying)
-    LinearLayout mLlPanicBuying;
-    @BindView(R.id.iv_found_good_goods)
-    ImageView mIvFoundGoodGoods;
-    @BindView(R.id.ll_found_good_goods)
-    LinearLayout mLlFoundGoodGoods;
-    @BindView(R.id.iv_coin_mall)
-    ImageView mIvCoinMall;
-    @BindView(R.id.iv_good_daily_shop)
-    ImageView mIvGoodDailyShop;
-    @BindView(R.id.rv_home)
-    RecyclerView mRvHome;
-    @BindView(R.id.sv)
-    ObservableScrollView mSv;
-    @BindView(R.id.iv_search)
-    ImageView mIvSearch;
-    @BindView(R.id.tv_search)
-    TextView mTvSearch;
-    @BindView(R.id.toolbar)
-    LinearLayout mToolbar;
-    @BindView(R.id.ll_good_daily_shop)
-    LinearLayout mLlGoodDailyShop;
-    @BindView(R.id.ll_watermelon_coin_mall)
-    LinearLayout mLlWatermelonCoinMall;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
-    @BindView(R.id.ll_scan_it)
-    LinearLayout mLlScanIt;
+    @BindView(R.id.img_icon_yu)
+    ImageView mImgIconYu;
+    @BindView(R.id.search_tv_title)
+    TextView mSearchTvTitle; //标题
     @BindView(R.id.ll_member_code)
     LinearLayout mLlMemberCode;
-    @BindView(R.id.fl_message)
-    FrameLayout mFlMessage;
-    @BindView(R.id.rv_panic_buying)
-    RecyclerView mRvPanicBuying;
-    @BindView(R.id.rv_exchange)
-    RecyclerView mRvExchange;
-    @BindView(R.id.rv_panic)
-    RecyclerView mRvPanic;
+    @BindView(R.id.ll_message)
+    LinearLayout mLlMessage;
+    @BindView(R.id.search_layout)
+    RelativeLayout mSearchLayout;
+    @BindView(R.id.search_tv_search)
+    TextView mSearchTvSearch;
+    @BindView(R.id.search_ll_search)
+    LinearLayout mSearchLlSearch; //搜索框
+    @BindView(R.id.search_rl_top)
+    RelativeLayout mSearchRlTop;
+    @BindView(R.id.banner_home)
+    Banner mBannerHome;
     @BindView(R.id.iv_register)
     ImageView mIvRegister;
-    @BindView(R.id.rv_category)
-    RecyclerView mRvCategory;
-    @BindView(R.id.view)
-    View mView;
-    @BindView(R.id.tv_count_msg)
-    TextView mTvCountMsg;
-
+    @BindView(R.id.rv_panic)
+    RecyclerView mRvPanic;
+    @BindView(R.id.rv_home)
+    RecyclerView mRvHome;
+    @BindView(R.id.search_sv_view)
+    AnimationNestedScrollView mSearchSvView; //滑动内容
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.ll_home)
     LinearLayout mLlhome;
-    @BindView(R.id.appbarlayout)
-    AppBarLayout mAppbarlayout;
-    @BindView(R.id.iv_search_two)
-    ImageView mIvSearchTwo;
-    @BindView(R.id.tv_search_two)
-    TextView mTvSearchTwo;
-    @BindView(R.id.headerParent)
-    LinearLayout mHeaderParent;
+
+    @BindView(R.id.view)
+    View mView;
+
+    private float LL_SEARCH_MIN_TOP_MARGIN, LL_SEARCH_MAX_TOP_MARGIN, LL_SEARCH_MAX_WIDTH, LL_SEARCH_MIN_WIDTH, TV_TITLE_MAX_TOP_MARGIN;
+    private ViewGroup.MarginLayoutParams searchLayoutParams, titleLayoutParams;
+
+
+
 
     private List<ShopResult.GiftListNewBean> panicBuyList = new ArrayList<>();
     private List<Product> exchageList = new ArrayList<>();
@@ -254,10 +218,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mImmersionBar.init();
     }
 
-
     @Override
     protected int setLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_home2;
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -347,15 +310,15 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mPresenter.Get(Integer.toString(pageNo), pageSize);
         mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
 
-        for (int i = 0; i < 10; i++) {
+  /*      for (int i = 0; i < 10; i++) {
             categoryList.add(new Product());
         }
         HomeCategoryAdapter homeCategoryAdapter = new HomeCategoryAdapter(R.layout.item_category, categoryList);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRvCategory.setLayoutManager(mLayoutManager);
-        mRvCategory.setAdapter(homeCategoryAdapter);
+        mRvCategory.setAdapter(homeCategoryAdapter);*/
 
-        for (int i = 0; i < 10; i++) {
+       /* for (int i = 0; i < 10; i++) {
             panicBuyList.add(new ShopResult.GiftListNewBean());
             exchageList.add(new Product());
         }
@@ -368,7 +331,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity);
         linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRvExchange.setLayoutManager(linearLayoutManager1);
-        mRvExchange.setAdapter(exchageAdapter);
+        mRvExchange.setAdapter(exchageAdapter);*/
+
+
 
         limitedTimeAdapter = new LimitedTimeAdapter(R.layout.item_panic_buying, limitedTimeList);
         mRvPanic.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -394,7 +359,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             }
         });
 
-        mMainMenus = new ArrayList<>();
+     /*  mMainMenus = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             mMainMenus.add(new MenuItem(icons[i], names[i], picture[i]));
         }
@@ -402,7 +367,9 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mMainAdapter = new MenuAdapter(R.layout.item_main_menu, mMainMenus);
         mRvMainMenu.setLayoutManager(new GridLayoutManager(mActivity, 4));
         mRvMainMenu.setAdapter(mMainAdapter);
-        mMainAdapter.setOnItemClickListener((adapter, view, position) -> {
+*/
+
+      /*  mMainAdapter.setOnItemClickListener((adapter, view, position) -> {
             switch (position) {
                 case 0:
 //                    startActivity(new Intent(mActivity, LoginActivity.class));
@@ -424,7 +391,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                     startActivity(new Intent(mActivity, CouponActivity.class));
                     break;
             }
-        });
+        });*/
 
 //声名为瀑布流的布局方式: 2列,垂直方向
      /*   StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -465,33 +432,20 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     protected void initView() {
-        Beta.checkUpgrade(false, false);
-        /**
-         * 第一步：初始化help 文件
-         */
-      /*  final KfStartHelper helper = new KfStartHelper(mActivity);
-//        helper.initSdkChat("87326950-b5a5-11e9-be6e-a515be030f55", "游客", "123456789");//腾讯云正式
-        if (MoorUtils.isInitForUnread(mActivity)) {
-            IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
-                @Override
-                public void getUnRead(int acount) {
-//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
-                    if (acount==0){
-                        mTvCountMsg.setVisibility(View.GONE);
-                    }else {
-                        mTvCountMsg.setVisibility(View.VISIBLE);
-                        mTvCountMsg.setText(acount+"");
-                    }
-                }
-            });
-        } else {
-            //未初始化，消息当然为 ：0
-//            Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
-            mTvCountMsg.setVisibility(View.GONE);
-        }*/
 
-//        mHeaderParent.setAlpha(0);
-//
+        searchLayoutParams = (ViewGroup.MarginLayoutParams) mSearchLlSearch.getLayoutParams();
+        titleLayoutParams = (ViewGroup.MarginLayoutParams) mSearchTvTitle.getLayoutParams();
+
+        LL_SEARCH_MIN_TOP_MARGIN = CommonUtil.dp2px(mActivity, 4.5f);//布局关闭时顶部距离
+        LL_SEARCH_MAX_TOP_MARGIN = CommonUtil.dp2px(mActivity, 49f);//布局默认展开时顶部距离
+        LL_SEARCH_MAX_WIDTH = CommonUtil.getScreenWidth(mActivity) - CommonUtil.dp2px(mActivity, 30f);//布局默认展开时的宽度
+        LL_SEARCH_MIN_WIDTH = CommonUtil.getScreenWidth(mActivity) - CommonUtil.dp2px(mActivity, 112f);//布局关闭时的宽度
+        TV_TITLE_MAX_TOP_MARGIN = CommonUtil.dp2px(mActivity, 11.5f);
+
+
+
+        Beta.checkUpgrade(false, false);
+
     }
 
 
@@ -512,64 +466,71 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     protected void setListener() {
-        mTvSearch.setOnClickListener(this);
-        mLlPanicBuying.setOnClickListener(this);
-        mLlFoundGoodGoods.setOnClickListener(this);
-        mLlGoodDailyShop.setOnClickListener(this);
-        mLlWatermelonCoinMall.setOnClickListener(this);
+        mLlMessage.setOnClickListener(this);
         mLlMemberCode.setOnClickListener(this);
         mIvRegister.setOnClickListener(this);
-        mFlMessage.setOnClickListener(this);
+        mSearchLlSearch.setOnClickListener(this);
 
-        mAppbarlayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        mSearchSvView.setOnAnimationScrollListener(new AnimationNestedScrollView.OnAnimationScrollChangeListener() {
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            public void onScrollChanged(float dy) {
+                float searchLayoutNewTopMargin = LL_SEARCH_MAX_TOP_MARGIN - dy;
+                float searchLayoutNewWidth = LL_SEARCH_MAX_WIDTH - dy * 2.0f;//此处 * 1.3f 可以设置搜索框宽度缩放的速率
+                float titleNewTopMargin = (float) (TV_TITLE_MAX_TOP_MARGIN - dy * 0.5);
+                //处理布局的边界问题
 
-                float percent = Float.valueOf(Math.abs(verticalOffset)) / Float.valueOf(appBarLayout.getTotalScrollRange());
+                searchLayoutNewWidth = searchLayoutNewWidth < LL_SEARCH_MIN_WIDTH ? LL_SEARCH_MIN_WIDTH : searchLayoutNewWidth;
+                if (searchLayoutNewTopMargin < LL_SEARCH_MIN_TOP_MARGIN) {
+                    searchLayoutNewTopMargin = LL_SEARCH_MIN_TOP_MARGIN;
+                }
 
-                //第一种
-//                int toolbarHeight = appBarLayout.getTotalScrollRange();
-//
-//                int dy = Math.abs(verticalOffset);
-//
-//
-//                if (dy <= toolbarHeight) {
-//                    float scale = (float) dy / toolbarHeight;
-//                    float alpha = scale * 255;
-//                    mHeaderParent.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
-//
-////                    mTextView.setText("setBackgroundColor(Color.argb((int) "+(int) alpha+", 255, 255, 255))\n"+"mFLayout.setAlpha("+percent+")");
-//                }
+                if (searchLayoutNewWidth < LL_SEARCH_MIN_WIDTH) {
+                    searchLayoutNewWidth = LL_SEARCH_MIN_WIDTH;
+                }
 
-                //第二种
+                float titleAlpha = 255 * titleNewTopMargin / TV_TITLE_MAX_TOP_MARGIN;
+                if (titleAlpha < 0) {
+                    titleAlpha = 0;
+                }
 
-                mHeaderParent.setAlpha(percent);
+                //设置相关控件的LayoutParams  此处使用的是MarginLayoutParams，便于设置params的topMargin属性
+                mSearchTvTitle.setTextColor(mSearchTvTitle.getTextColors().withAlpha((int) titleAlpha));
+                titleLayoutParams.topMargin = (int) titleNewTopMargin;
+                mSearchTvTitle.setLayoutParams(titleLayoutParams);
+
+                searchLayoutParams.topMargin = (int) searchLayoutNewTopMargin;
+                searchLayoutParams.width = (int) searchLayoutNewWidth;
+                mSearchLlSearch.setLayoutParams(searchLayoutParams);
 
 
             }
         });
+
+
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_search:
+            case R.id.search_ll_search:
                 // startActivity(new Intent(mActivity, SearchDetailActivity.class));
                 startActivity(new Intent(mActivity, SearchPreDetailActivity.class));
+
                 break;
-            case R.id.ll_panic_buying:
+          /*  case R.id.ll_panic_buying:
                 startActivity(new Intent(mActivity, PanicBuyingActivity.class));
-                break;
-            case R.id.ll_found_good_goods:
+                break;*/
+           /*case R.id.ll_found_good_goods:
                 startActivity(new Intent(mActivity, FoundGoodGoodsActivity.class));
-                break;
-            case R.id.ll_good_daily_shop:
+                break;*/
+          /*  case R.id.ll_good_daily_shop:
                 startActivity(new Intent(mActivity, GoodDailyShopActivity.class));
-                break;
-            case R.id.ll_watermelon_coin_mall:
+                break;*/
+           /* case R.id.ll_watermelon_coin_mall:
                 MainActivity activity = (MainActivity) getActivity();
                 activity.setCurrentItem(3);
-                break;
+                break;*/
             case R.id.ll_member_code:
                 under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
                 Button btn_share_one = under_review.findViewById(R.id.btn_share_one);
@@ -611,7 +572,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 }
 
                 break;
-            case R.id.fl_message:
+            case R.id.ll_message:
 //                if (!isLogin) {
 //                    startActivity(new Intent(mActivity, LoginActivity.class));
 //                } else {
@@ -646,12 +607,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     public void GetList(Announcement result) {
-        if (result.getCount() > 0) {
+     /*   if (result.getCount() > 0) {
             mTvCountMsg.setVisibility(View.VISIBLE);
             mTvCountMsg.setText(result.getCount() + "");
         } else {
             mTvCountMsg.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override

@@ -3,6 +3,10 @@ apply plugin: 'com.android.application'
 apply from: 'tinker-support.gradle'
 // 注意：主App中请确保添加aspectjx
 apply plugin: 'android-aspectjx'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
@@ -105,7 +109,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation rootProject.ext.supportLibs
     implementation rootProject.ext.networkLibs

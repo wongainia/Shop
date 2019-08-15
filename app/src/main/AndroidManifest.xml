@@ -601,6 +601,11 @@
             android:name="com.v5kf.client.ui.ShowImageActivity" >
         </activity>
 
+
+        <activity android:name=".kt.ui.HistoryActivityKtKt"
+            android:theme="@style/AppSplash"
+            android:launchMode="singleTask"
+            />
         <!--<provider-->
             <!--android:name="com.v5kf.client.lib.V5FileProvider"-->
             <!--android:authorities="com.zhenghaikj.shop.fileprovider"-->
