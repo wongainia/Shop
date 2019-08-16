@@ -20,15 +20,15 @@ import org.json.JSONArray;
 import io.reactivex.Observable;
 
 public interface OrderContract {
-    interface Model extends BaseModel{
-        Observable<Order> GetOrders(String orderStatus,String pageNo,String pageSize,String userkey );
+    interface Model extends BaseModel {
+        Observable<Order> GetOrders(String orderStatus, String pageNo, String pageSize, String userkey );
         Observable<CloseOrder> PostCloseOrder(String orderId, String userkey);
         Observable<ConfirmOrder> PostConfirmOrder(String orderId, String userkey);
         //查询物流
         Observable<Express> GetExpressInfo(String orderId, String userkey);
 
-        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr,String ActualMoney);
-        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid,String Bisid,String OrderId, String TotalAmount, JSONArray jsonStr,String ActualMoney);
+        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr, String ActualMoney);
+        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr, String ActualMoney);
 
         Observable<BaseResult<Data<String>>> MallBalancePay( String OrderId,
                                                              String CustomerId,
@@ -40,14 +40,14 @@ public interface OrderContract {
         Observable<EasyResult> CancelOrder(String cartItemIds,String recieveAddressId,String userkey);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
         Observable<AddtoCartResult> PostAddProductToCart(String skuId, String count, String Userkey);
-        Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
+        Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId, String ReceiveAddressId, String userkey);
 
         /*判断商品工单号是否发起过保内安装*/
         Observable<BaseResult<Data<String>>> IsMallid(String MallID);
 
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetOrders(Order result);
         void PostCloseOrder(CloseOrder Result);
         void PostConfirmOrder(ConfirmOrder Result);
@@ -67,7 +67,7 @@ public interface OrderContract {
         void IsMallid(BaseResult<Data<String>> baseResult);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetOrders(String orderStatus,String pageNo,String pageSize,String userkey );
         public abstract void PostCloseOrder(String orderId, String userkey);
         public abstract void PostConfirmOrder(String orderId, String userkey);

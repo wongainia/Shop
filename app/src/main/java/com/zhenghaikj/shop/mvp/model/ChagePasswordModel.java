@@ -1,11 +1,11 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.ChagePassword;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.ChagePasswordContract;
 
 import java.text.SimpleDateFormat;

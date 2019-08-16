@@ -6,18 +6,17 @@ import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Refund;
 
 import io.reactivex.Observable;
-import retrofit2.http.Query;
 
 public interface RefundContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<Refund> GetRefundList(String pageNo, String pageSize, String userkey);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetRefundList(Refund result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetRefundList(String pageNo, String pageSize, String userkey);
     }
 }

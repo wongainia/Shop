@@ -19,15 +19,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.ethanhua.skeleton.Skeleton;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.CartFragment;
 import com.zhenghaikj.shop.fragment.ClassificationFragment;
 import com.zhenghaikj.shop.fragment.HomeFragment;
 import com.zhenghaikj.shop.fragment.MineFragment;
-import com.zhenghaikj.shop.fragment.ShopFragment;
 import com.zhenghaikj.shop.fragment.ShopFragment2;
+import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 import com.zhenghaikj.shop.widget.StarBarView;
 

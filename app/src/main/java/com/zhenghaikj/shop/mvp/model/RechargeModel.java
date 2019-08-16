@@ -1,9 +1,9 @@
 package com.zhenghaikj.shop.mvp.model;
 
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.WXpayInfo;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.RechargeContract;
 
 import org.json.JSONArray;

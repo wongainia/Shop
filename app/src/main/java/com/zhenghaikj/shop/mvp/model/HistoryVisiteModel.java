@@ -1,9 +1,9 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.HistoryVisite;
 import com.zhenghaikj.shop.entity.SimilarProduct;
+import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.mvp.contract.HistoryVisiteContract;
 
 import java.text.SimpleDateFormat;
@@ -22,7 +22,7 @@ public class HistoryVisiteModel implements HistoryVisiteContract.Model {
     private String timestamp;
 
     @Override
-    public Observable<HistoryVisite> GetHistoryVisite(String rows,String page,String userkey) {
+    public Observable<HistoryVisite> GetHistoryVisite(String rows, String page, String userkey) {
         map = new HashMap<>();
         map.put("rows",rows);
         map.put("page",page);

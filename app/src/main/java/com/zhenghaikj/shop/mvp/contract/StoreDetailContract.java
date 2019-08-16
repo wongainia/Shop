@@ -5,9 +5,6 @@ import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
-import com.zhenghaikj.shop.entity.Brand;
-import com.zhenghaikj.shop.entity.CategoryData;
-import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
@@ -16,17 +13,14 @@ import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.entity.UserInfo;
 
-import java.util.List;
-
 import io.reactivex.Observable;
-import retrofit2.http.Query;
 
 
 public interface StoreDetailContract {
     interface Model extends BaseModel {
 
-        Observable<StoreDetailResult> GetVShop(String id,String Userkey);
-        Observable<PostattentionResult> PostAddFavoriteShop(String shopId,String Userkey);
+        Observable<StoreDetailResult> GetVShop(String id, String Userkey);
+        Observable<PostattentionResult> PostAddFavoriteShop(String shopId, String Userkey);
         Observable<GetStoreSortResult> GetVShopCategory(String id);
         Observable<StoreCommodityResult> GetProductList(
                String PageSize,

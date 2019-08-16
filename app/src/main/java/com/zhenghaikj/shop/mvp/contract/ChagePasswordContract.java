@@ -11,17 +11,17 @@ import io.reactivex.Observable;
 
 
 public interface ChagePasswordContract {
-    interface Model extends BaseModel{
-        Observable<ChagePassword> PostChangePassword(String oldPassword,String password,String userkey);
+    interface Model extends BaseModel {
+        Observable<ChagePassword> PostChangePassword(String oldPassword, String password, String userkey);
         Observable<BaseResult<Data>> UpdatePassword(String UserID, String password);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void PostChangePassword(ChagePassword result);
         void UpdatePassword(BaseResult<Data> result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void PostChangePassword(String oldPassword,String password,String userkey);
         public abstract void UpdatePassword(String UserID,String password);
     }

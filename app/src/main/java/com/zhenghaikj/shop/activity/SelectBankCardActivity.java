@@ -11,7 +11,6 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.BrankCardAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.BankCard;
-import com.zhenghaikj.shop.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,17 +9,17 @@ import com.zhenghaikj.shop.entity.CollectionProduct;
 import io.reactivex.Observable;
 
 public interface CollectionProductContract {
-    interface Model extends BaseModel{
-        Observable<CollectionProduct> GetUserCollectionProduct(String pageNo,String pageSize,String userkey);
+    interface Model extends BaseModel {
+        Observable<CollectionProduct> GetUserCollectionProduct(String pageNo, String pageSize, String userkey);
         Observable<CollectResult> PostAddFavoriteProduct(String productId, String Userkey);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetUserCollectionProduct(CollectionProduct result);
         void PostAddFavoriteProduct(CollectResult Result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetUserCollectionProduct(String pageNo,String pageSize,String userkey);
         public abstract void PostAddFavoriteProduct(String productId,String Userkey);
     }

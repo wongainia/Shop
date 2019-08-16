@@ -1,12 +1,12 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.CoinRecord;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
+import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.IntegralUseContract;
 
 import java.text.SimpleDateFormat;

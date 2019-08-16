@@ -1,9 +1,9 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.Address;
 import com.zhenghaikj.shop.entity.RegionResult;
+import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.mvp.contract.AddressContract;
 
 import java.text.SimpleDateFormat;

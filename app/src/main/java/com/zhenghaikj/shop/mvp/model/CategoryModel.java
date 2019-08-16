@@ -1,8 +1,8 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.CategoryMall;
+import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.mvp.contract.CategoryContract;
 
 import java.text.SimpleDateFormat;

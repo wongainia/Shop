@@ -12,10 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.blankj.utilcode.util.SPUtils;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.base.BaseModel;
-import com.zhenghaikj.shop.base.BasePresenter;
-import com.zhenghaikj.shop.base.BaseView;
-import com.zhenghaikj.shop.base.RxManager;
 import com.zhenghaikj.shop.utils.HandleBackUtil;
 import com.zhenghaikj.shop.utils.TUtil;
 
@@ -23,8 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
  *

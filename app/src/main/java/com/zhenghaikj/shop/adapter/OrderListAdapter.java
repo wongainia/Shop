@@ -100,7 +100,7 @@ public class OrderListAdapter extends BaseQuickAdapter<Order.OrdersBean, BaseVie
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.ll_goods:
-                        intent =new Intent(mContext,OrderDetailActivity.class);
+                        intent =new Intent(mContext, OrderDetailActivity.class);
                         intent.putExtra("orderId",item.getId());
                         startActivity(intent);
                         break;

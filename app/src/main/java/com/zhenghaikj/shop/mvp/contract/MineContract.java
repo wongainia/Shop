@@ -24,7 +24,7 @@ public interface MineContract {
         Observable<Announcement> GetList(String categoryId, String rows, String page, String userkey);
 
         Observable<PersonalInformation> PersonalInformation(String UserKey);
-        Observable<HistoryVisite> GetHistoryVisite(String rows,String page,String userkey);
+        Observable<HistoryVisite> GetHistoryVisite(String rows, String page, String userkey);
 
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
 

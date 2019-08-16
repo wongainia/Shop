@@ -22,7 +22,6 @@ import com.zhenghaikj.shop.widget.AdderView;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import androidx.recyclerview.widget.RecyclerView;
 

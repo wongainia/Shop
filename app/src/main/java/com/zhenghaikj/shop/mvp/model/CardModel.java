@@ -1,11 +1,11 @@
 package com.zhenghaikj.shop.mvp.model;
 
 
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.BankCard;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.CardContract;
 
 import java.util.List;

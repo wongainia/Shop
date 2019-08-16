@@ -2,8 +2,6 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
@@ -12,6 +10,8 @@ import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 
 import java.text.SimpleDateFormat;
@@ -72,11 +72,11 @@ public class StoreDetailModel implements StoreDetailContract.Model {
     }
 
     @Override
-    public Observable<StoreCommodityResult> GetProductList( String PageSize,
-                                                            String pageNo,
-                                                            String shopCategoryId,
-                                                            String shopId,
-                                                            String shopBranchId) {
+    public Observable<StoreCommodityResult> GetProductList(String PageSize,
+                                                           String pageNo,
+                                                           String shopCategoryId,
+                                                           String shopId,
+                                                           String shopBranchId) {
         map = new HashMap<>();
         map.put("pagesize",PageSize);
         map.put("pageno",pageNo);

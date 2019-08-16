@@ -1,13 +1,13 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.UploadImgResult;
 import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.PersonalInformationContract;
 
 import java.text.SimpleDateFormat;
@@ -35,7 +35,7 @@ public class PersonalInformationModel implements PersonalInformationContract.Mod
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<UploadImgResult> UploadPic(String picStr,String UserKey) {
+    public Observable<UploadImgResult> UploadPic(String picStr, String UserKey) {
         map=new HashMap<>();
         map.put("picstr",picStr);
         map.put("userkey",UserKey);

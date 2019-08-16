@@ -10,17 +10,17 @@ import com.zhenghaikj.shop.entity.UserInfo;
 import io.reactivex.Observable;
 
 public interface ChangePayPasswordContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<BaseResult<UserInfo>> GetUserInfoList(String UserId, String limit);
         Observable<BaseResult<Data>> ChangePayPassword(String UserID, String OldPayPassword, String PayPassword);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetUserInfoList(BaseResult<UserInfo> baseResult);
         void ChangePayPassword(BaseResult<Data> baseResult);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetUserInfoList(String UserId,String limit);
         public abstract void ChangePayPassword(String UserID, String OldPayPassword, String PayPassword);
     }

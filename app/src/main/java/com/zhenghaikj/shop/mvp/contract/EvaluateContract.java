@@ -13,7 +13,7 @@ public interface EvaluateContract {
     interface Model extends BaseModel {
         Observable<EvaluateResult> GetComment(String orderId, String userkey);
         Observable<EvaluatePhotoEntity> UploadPicEvaluate(String picStr);
-        Observable<PostPostAddComment> PostAddComment(String userkey,String jsonstr);
+        Observable<PostPostAddComment> PostAddComment(String userkey, String jsonstr);
 
     }
 

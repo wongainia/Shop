@@ -6,7 +6,6 @@ import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.GetCode;
-import com.zhenghaikj.shop.entity.GetTokenByUserid;
 import com.zhenghaikj.shop.entity.LoginResult;
 
 import io.reactivex.Observable;
@@ -14,7 +13,7 @@ import io.reactivex.Observable;
 public interface LoginContract {
     interface Model extends BaseModel {
         Observable<LoginResult> GetUser(String userName, String password/*,String oauthType,String oauthOpenId,String oauthNickName*/);
-        Observable<BaseResult<Data<String>>> LoginOn(String userName,String passWord);
+        Observable<BaseResult<Data<String>>> LoginOn(String userName, String passWord);
 //        Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
         Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String type,String UserID);
 

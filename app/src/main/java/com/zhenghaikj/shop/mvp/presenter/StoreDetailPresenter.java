@@ -3,8 +3,6 @@ package com.zhenghaikj.shop.mvp.presenter;
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BaseObserver2;
 import com.zhenghaikj.shop.base.BaseResult;
-import com.zhenghaikj.shop.entity.Cart;
-import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;
 import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import com.zhenghaikj.shop.entity.PostattentionResult;
@@ -12,7 +10,6 @@ import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.entity.UserInfo;
-import com.zhenghaikj.shop.mvp.contract.CartContract;
 import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 
 public class StoreDetailPresenter extends StoreDetailContract.Presenter {

@@ -15,7 +15,7 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public interface ExpressContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<BaseResult<Data<List<Logistics>>>> GetExpressInfo(String ExpressNo);
         Observable<Order> GetOrders(String orderStatus, String pageNo, String pageSize, String userkey );
         //查询物流Or
@@ -23,14 +23,14 @@ public interface ExpressContract {
         Observable<OrderDetail> GetOrderDetail(String id, String userkey);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetExpressInfo(BaseResult<Data<List<Logistics>>> baseResult);
         void GetOrders(Order result);
         void GetExpress(Express Result);
         void GetOrderDetail(OrderDetail result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetExpressInfo(String ExpressNo);
         public abstract void GetOrders(String orderStatus,String pageNo,String pageSize,String userkey );
         public abstract void GetExpress(String orderId,String userkey);

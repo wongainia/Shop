@@ -13,12 +13,11 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.fragment.RecordFragment;
 import com.zhenghaikj.shop.adapter.MyPagerAdapter;
 import com.zhenghaikj.shop.adapter.RecordingAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.entity.Product;
-import com.zhenghaikj.shop.fragment.IntegralUseFragment;
-import com.zhenghaikj.shop.fragment.RecordFragment;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;

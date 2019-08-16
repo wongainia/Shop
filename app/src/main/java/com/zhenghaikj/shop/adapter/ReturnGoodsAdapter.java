@@ -1,7 +1,6 @@
 package com.zhenghaikj.shop.adapter;
 
 import android.content.Context;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;

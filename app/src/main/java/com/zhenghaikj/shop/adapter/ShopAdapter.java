@@ -17,7 +17,6 @@ import com.zhenghaikj.shop.activity.GiftsDetailActivity;
 import com.zhenghaikj.shop.entity.ShopResult;
 
 import java.util.List;
-import java.util.Random;
 
 import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 

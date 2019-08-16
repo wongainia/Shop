@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.fragment.GoodDailyFragment;
 import com.zhenghaikj.shop.adapter.GoodsdailyShopAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
-import com.zhenghaikj.shop.fragment.GoodDailyFragment;
 
 import java.util.ArrayList;
 import java.util.List;

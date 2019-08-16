@@ -9,17 +9,17 @@ import com.zhenghaikj.shop.entity.GiftConfirmOrder;
 import io.reactivex.Observable;
 
 public interface GiftConfirmOrderContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<GiftConfirmOrder> ConfirmOrder(String id, String count, String userkey);
         Observable<ConfirmOrderOverResult> SubmitOrder(String id, String count, String regionId, String userkey);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void ConfirmOrder(GiftConfirmOrder result);
         void SubmitOrder(ConfirmOrderOverResult result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void ConfirmOrder(String id,String count,String userkey);
         public abstract void SubmitOrder(String id,String count,String regionId,String userkey);
     }

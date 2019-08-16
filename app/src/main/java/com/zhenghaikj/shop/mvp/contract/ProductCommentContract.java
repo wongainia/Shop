@@ -8,18 +8,18 @@ import com.zhenghaikj.shop.entity.Comment;
 import io.reactivex.Observable;
 
 public interface ProductCommentContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<Comment> ProductComment(String pId,
                                            String pageNo,
                                            String pageSize,
                                            String commentType);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void ProductComment(Comment Result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void ProductComment(String pId,
                                             String pageNo,
                                             String pageSize,

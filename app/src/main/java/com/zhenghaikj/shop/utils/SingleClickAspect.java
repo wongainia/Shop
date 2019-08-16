@@ -19,7 +19,7 @@ public class SingleClickAspect {
      * 注意：这里me.baron.test.annotation.SingleClick需要替换成
      * 你自己项目中SingleClick这个类的全路径哦
      */
-    @Pointcut("execution(@com.zhenghaikj.shop.utils.SingleClick * *(..))")
+    @Pointcut("execution(@SingleClick * *(..))")
     public void methodAnnotated() {}
 
     /** 

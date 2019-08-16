@@ -3,7 +3,6 @@ package com.zhenghaikj.shop.mvp.presenter;
 import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
-import com.zhenghaikj.shop.mvp.contract.PaymentSuccessContract;
 import com.zhenghaikj.shop.mvp.contract.ReturnGoodsContract;
 
 public class ReturnGoodsPresenter extends ReturnGoodsContract.Presenter {

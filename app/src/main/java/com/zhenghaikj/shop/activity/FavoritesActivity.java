@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.adapter.MyPagerAdapter;
-import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.CommodityFragment;
 import com.zhenghaikj.shop.fragment.StoreFragment;
+import com.zhenghaikj.shop.adapter.MyPagerAdapter;
+import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;

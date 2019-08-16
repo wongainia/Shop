@@ -12,7 +12,7 @@ import io.reactivex.Observable;
 
 public interface GiftContract {
     interface Model extends BaseModel {
-        Observable<BaseResult<Data<String>>> FAddCon(String UserID, String ToUserID,String Msg,String Connum);
+        Observable<BaseResult<Data<String>>> FAddCon(String UserID, String ToUserID, String Msg, String Connum);
 
 
 

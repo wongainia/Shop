@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.fragment.PanicBuyingFragment;
 import com.zhenghaikj.shop.adapter.PanicBuyingAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
-import com.zhenghaikj.shop.fragment.PanicBuyingFragment;
 
 import java.util.ArrayList;
 import java.util.List;

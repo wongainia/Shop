@@ -176,12 +176,20 @@
                  android:layout_height="wrap_content">
 
                  <!--渐变颜色-->
-                 <RelativeLayout
+             <!--    <RelativeLayout
                      android:layout_width="match_parent"
                      android:layout_height="90dp"
-                     android:background="@drawable/home_shape"/>
+                     android:background="@drawable/home_shape"/>-->
 
-
+                 <com.zhenghaikj.shop.widget.ArcGradualView
+                     android:id="@+id/header_view"
+                     app:height_arc="10dp"
+                     app:color_gradual_start="#FF4D85"
+                     app:color_gradual_end="#F7414E"
+                     app:gradual_or="vertical"
+                     app:color_other_arc="@color/white"
+                     android:layout_width="match_parent"
+                     android:layout_height="90dp"/>
                  <!--渐变颜色-->
 
                  <!--轮播图-->

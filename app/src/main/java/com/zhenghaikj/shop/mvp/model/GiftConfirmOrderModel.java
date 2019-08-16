@@ -1,9 +1,9 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.ConfirmOrderOverResult;
 import com.zhenghaikj.shop.entity.GiftConfirmOrder;
+import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.mvp.contract.GiftConfirmOrderContract;
 
 import java.text.SimpleDateFormat;

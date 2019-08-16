@@ -20,11 +20,11 @@ public interface DetailContract {
     interface Model extends BaseModel {
         Observable<DetailResult> GetProductDetail(String id, String Userkey);
 
-        Observable<AddtoCartResult> PostAddProductToCart(String skuId,String count,String Userkey);
+        Observable<AddtoCartResult> PostAddProductToCart(String skuId, String count, String Userkey);
 
         Observable<GetGoodSKu> GetSKUInfo(String productId);
 
-        Observable<CollectResult> PostAddFavoriteProduct(String productId,String Userkey);
+        Observable<CollectResult> PostAddFavoriteProduct(String productId, String Userkey);
 
 
         Observable<GetCommentResult> GetProductCommentShow(String id, String userkey);
@@ -34,7 +34,7 @@ public interface DetailContract {
                                            String pageSize,
                                            String commentType);
         Observable<ShopCoupResult> GetShopCouponList(String shopId);
-        Observable<GetShopCoupResult> PostAcceptCoupon(String vshopId,String couponId,String Userkey);
+        Observable<GetShopCoupResult> PostAcceptCoupon(String vshopId, String couponId, String Userkey);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
     }
 

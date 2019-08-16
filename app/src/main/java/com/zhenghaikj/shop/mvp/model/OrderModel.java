@@ -2,8 +2,6 @@ package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.ChangeOrderAddress;
@@ -15,6 +13,8 @@ import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WXpayInfo;
+import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.OrderContract;
 
 import org.json.JSONArray;
@@ -36,7 +36,7 @@ public class OrderModel implements OrderContract.Model {
     private String Userkey;
 
     @Override
-    public Observable<Order> GetOrders(String orderStatus,String pageNo,String pageSize,String userkey ) {
+    public Observable<Order> GetOrders(String orderStatus, String pageNo, String pageSize, String userkey ) {
         map = new HashMap<>();
         map.put("orderstatus",orderStatus);
         map.put("pageno",pageNo);
@@ -94,13 +94,13 @@ public class OrderModel implements OrderContract.Model {
     }
 
     @Override
-    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr,String ActualMoney) {
+    public Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr, String ActualMoney) {
         return ApiRetrofit2.getDefault().GetOrderStr(userid, Bisid,OrderId,TotalAmount,"3",jsonStr,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid,String OrderId,String TotalAmount, JSONArray jsonStr,String ActualMoney) {
+    public Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray jsonStr, String ActualMoney) {
         return ApiRetrofit2.getDefault().GetWXOrderStr(userid, Bisid,OrderId,TotalAmount,"3","mall",jsonStr,ActualMoney)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
@@ -175,7 +175,7 @@ public class OrderModel implements OrderContract.Model {
     }
 
     @Override
-    public Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId, String ReceiveAddressId,String userkey) {
+    public Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId, String ReceiveAddressId, String userkey) {
         map = new HashMap<>();
         map.put("orderid",OrderId);
         map.put("receiveaddressid",ReceiveAddressId);

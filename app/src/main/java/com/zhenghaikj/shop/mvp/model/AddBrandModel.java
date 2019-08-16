@@ -1,10 +1,10 @@
 package com.zhenghaikj.shop.mvp.model;
 
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Brand;
 import com.zhenghaikj.shop.entity.CategoryData;
 import com.zhenghaikj.shop.entity.Data;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.AddBrandContract;
 
 import java.util.List;

@@ -11,13 +11,13 @@ import com.zhenghaikj.shop.entity.UserInfo;
 import io.reactivex.Observable;
 
 public interface SettingContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<Logout> PostLogout();
         Observable<PersonalInformation> PersonalInformation(String UserKey);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void PostLogout(Logout result);
         void PersonalInformation(PersonalInformation result);
         void GetUserInfoList(BaseResult<UserInfo> Result);

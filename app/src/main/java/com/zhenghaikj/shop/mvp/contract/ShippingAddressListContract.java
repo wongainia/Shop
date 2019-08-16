@@ -9,17 +9,17 @@ import com.zhenghaikj.shop.entity.ShippingAddressList;
 import io.reactivex.Observable;
 
 public interface ShippingAddressListContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<ShippingAddressList> GetShippingAddressList(String userkey);
         Observable<EasyResult> PostDeleteShippingAddress(String id, String userkey);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetShippingAddressList(ShippingAddressList result);
         void PostDeleteShippingAddress(EasyResult result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetShippingAddressList(String userkey);
         public abstract void PostDeleteShippingAddress(String id,String userkey);
     }

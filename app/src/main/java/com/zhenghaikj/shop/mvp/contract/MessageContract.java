@@ -10,19 +10,19 @@ import com.zhenghaikj.shop.entity.MessageReadResult;
 import io.reactivex.Observable;
 
 public interface MessageContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<Announcement> GetList(String categoryId, String rows, String page, String userkey);
         Observable<AnnouncementDetail> GetDetail(String id);
         Observable<MessageReadResult> AddArticlRead(String UserId, String CategoryId, String HiMallArticleId);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetList(Announcement result);
         void GetDetail(AnnouncementDetail result);
         void AddArticlRead(MessageReadResult result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetList(String categoryId,String rows, String page, String userkey);
         public abstract void GetDetail(String id);
         public abstract void AddArticlRead(String UserId,String CategoryId,String HiMallArticleId);

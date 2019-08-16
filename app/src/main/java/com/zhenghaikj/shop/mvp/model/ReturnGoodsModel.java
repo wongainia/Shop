@@ -1,10 +1,9 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.RefundApplyResult;
-import com.zhenghaikj.shop.mvp.contract.PaymentSuccessContract;
+import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.mvp.contract.ReturnGoodsContract;
 
 import java.text.SimpleDateFormat;

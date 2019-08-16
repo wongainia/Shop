@@ -1,13 +1,11 @@
 package com.zhenghaikj.shop.mvp.contract;
 
 import com.zhenghaikj.shop.base.BaseModel;
-import com.zhenghaikj.shop.base.BaseObserver;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.base.BaseView;
 import com.zhenghaikj.shop.entity.ConfirmOrderOverResult;
 import com.zhenghaikj.shop.entity.Data;
-import com.zhenghaikj.shop.entity.GetExpressInfo;
 import com.zhenghaikj.shop.entity.GiftDetailResult;
 import com.zhenghaikj.shop.entity.GiftOrder;
 import com.zhenghaikj.shop.entity.GiftOrderDetail;

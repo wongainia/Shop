@@ -14,7 +14,7 @@ import io.reactivex.Observable;
 
 public interface IntegralUseContract {
     interface Model extends BaseModel {
-        Observable<GiftDetailResult> GetIntegralRecord(String page,String type,String userkey);
+        Observable<GiftDetailResult> GetIntegralRecord(String page, String type, String userkey);
         Observable<BaseResult<Data<List<CoinRecord>>>> CoinList(String UserID, String state);
     }
 

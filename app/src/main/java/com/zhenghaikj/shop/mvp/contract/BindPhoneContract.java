@@ -10,21 +10,21 @@ import com.zhenghaikj.shop.entity.SendMessage;
 import io.reactivex.Observable;
 
 public interface BindPhoneContract {
-    interface Model extends BaseModel{
-        Observable<SendMessage> GetCode(String contact,String userkey);
-        Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(String contact,String checkCode,String userkey);
+    interface Model extends BaseModel {
+        Observable<SendMessage> GetCode(String contact, String userkey);
+        Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(String contact, String checkCode, String userkey);
         Observable<GetImageCheckCode> GetImageCheckCode();
         Observable<CheckMessage> CheckUserName(String contact,String checkCode);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetCode(SendMessage result);
         void GetCheckPhoneOrEmailCheckCode(CheckMessage result);
         void GetImageCheckCode(GetImageCheckCode baseResult);
         void CheckUserName(CheckMessage result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetCode(String contact,String userkey);
         public abstract void GetCheckPhoneOrEmailCheckCode(String contact,String checkCode,String userkey);
         public abstract void GetImageCheckCode();

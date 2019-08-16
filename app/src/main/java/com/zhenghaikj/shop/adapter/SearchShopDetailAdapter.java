@@ -7,9 +7,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SearchShopResult;
-import com.zhenghaikj.shop.entity.StoreCommodityResult;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
 import java.util.List;

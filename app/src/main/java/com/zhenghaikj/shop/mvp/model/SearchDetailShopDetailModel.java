@@ -1,22 +1,17 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.entity.GetStoreSortResult;
-import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SearchShopResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
-import com.zhenghaikj.shop.entity.StoreDetailResult;
+import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.mvp.contract.SearchDetailShopDetailContract;
-import com.zhenghaikj.shop.mvp.contract.StoreDetailContract;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -28,11 +23,11 @@ public class SearchDetailShopDetailModel implements SearchDetailShopDetailContra
 
 
     @Override
-    public Observable<StoreCommodityResult> GetProductList( String PageSize,
-                                                            String pageNo,
-                                                            String shopCategoryId,
-                                                            String shopId,
-                                                            String shopBranchId) {
+    public Observable<StoreCommodityResult> GetProductList(String PageSize,
+                                                           String pageNo,
+                                                           String shopCategoryId,
+                                                           String shopId,
+                                                           String shopBranchId) {
         map = new HashMap<>();
         map.put("pagesize",PageSize);
         map.put("pageno",pageNo);

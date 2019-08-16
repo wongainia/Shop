@@ -17,7 +17,7 @@ import org.json.JSONArray;
 import io.reactivex.Observable;
 
 public interface ConfirmOrderContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<ShippingAddressList> GetShippingAddressList(String userkey);
         Observable<GetConfirmModel> GetSubmitModel(String skuId, String count, String userkey);
 
@@ -48,8 +48,8 @@ public interface ConfirmOrderContract {
                                                  String orderRemarks,
                                                  String userkey
         );
-        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr,String ActualMoney);
-        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount,JSONArray JsonStr,String ActualMoney);
+        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr, String ActualMoney);
+        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr, String ActualMoney);
         Observable<BaseResult<Data<String>>> MallBalancePay( String OrderId,
                                                              String CustomerId,
                                                              JSONArray JsonStr,
@@ -62,7 +62,7 @@ public interface ConfirmOrderContract {
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetShippingAddressList(ShippingAddressList result);
         void GetSubmitModel(GetConfirmModel result);
         void GetSubmitByCartModel(GetConfirmModel result);
@@ -77,7 +77,7 @@ public interface ConfirmOrderContract {
         void GetUserInfoList(BaseResult<UserInfo> Result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetShippingAddressList(String userkey);
         public abstract void GetSubmitModel(String skuId, String count, String userkey);
 

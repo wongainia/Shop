@@ -11,17 +11,17 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public interface HistoryVisiteContract  {
-    interface Model extends BaseModel{
-        Observable<HistoryVisite> GetHistoryVisite(String rows,String page,String userkey);
-        Observable<List<SimilarProduct>> GetHotProduct(String productId,String categoryId);
+    interface Model extends BaseModel {
+        Observable<HistoryVisite> GetHistoryVisite(String rows, String page, String userkey);
+        Observable<List<SimilarProduct>> GetHotProduct(String productId, String categoryId);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetHistoryVisite(HistoryVisite result);
         void GetHotProduct(List<SimilarProduct> result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetHistoryVisite(String rows,String page,String userkey);
         public abstract void GetHotProduct(String productId,String categoryId);
     }

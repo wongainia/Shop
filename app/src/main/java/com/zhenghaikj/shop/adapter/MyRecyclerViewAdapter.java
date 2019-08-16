@@ -9,7 +9,6 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.entity.HomeResult;
-import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.utils.GlideUtil;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zhenghaikj.shop.widget.RoundBackGroundColorSpan;
@@ -35,8 +33,6 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import static com.blankj.utilcode.util.ActivityUtils.startActivity;
 

@@ -9,7 +9,7 @@ import com.zhenghaikj.shop.entity.RefundApplyResult;
 import io.reactivex.Observable;
 
 public interface ReturnGoodsContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<OrderDetail> GetOrderDetail(String id, String userkey);
         Observable<RefundApplyResult> PostRefundApply(String OrderId,
                                                       String OrderItemId,
@@ -23,12 +23,12 @@ public interface ReturnGoodsContract {
                                                       String userkey);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetOrderDetail(OrderDetail result);
         void PostRefundApply(RefundApplyResult result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetOrderDetail(String id,String userkey);
 
         public abstract void PostRefundApply(String OrderId,

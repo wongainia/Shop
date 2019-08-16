@@ -14,21 +14,21 @@ import io.reactivex.Observable;
 
 
 public interface ShopContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<Shop> index();
         Observable<ShopResult> IndexJson(String page);
         Observable<List<GiftAds>> GetSlideAds();
         Observable<Announcement> GetList(String categoryId, String rows, String page, String userkey);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void index(Shop result);
         void IndexJson(ShopResult result);
         void GetSlideAds(List<GiftAds> result);
         void GetList(Announcement result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void index();
         public abstract void IndexJson(String page);
         public abstract void GetSlideAds();

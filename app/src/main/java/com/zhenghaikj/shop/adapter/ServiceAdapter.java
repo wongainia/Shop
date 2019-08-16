@@ -6,9 +6,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.entity.Product;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.utils.DensityUtil;
 

@@ -1,8 +1,6 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.Data;
@@ -14,6 +12,8 @@ import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
+import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 
 import java.text.SimpleDateFormat;
@@ -58,7 +58,7 @@ public class MineModel implements MineContract.Model {
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<HistoryVisite> GetHistoryVisite(String rows,String page,String userkey) {
+    public Observable<HistoryVisite> GetHistoryVisite(String rows, String page, String userkey) {
         map = new HashMap<>();
         map.put("rows",rows);
         map.put("page",page);

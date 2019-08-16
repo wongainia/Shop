@@ -1,8 +1,6 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.CheckMessage;
 import com.zhenghaikj.shop.entity.Data;
@@ -10,6 +8,8 @@ import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.LoginResult;
 import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.SendMessage;
+import com.zhenghaikj.shop.api.ApiRetrofit;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.RegisterContract;
 
 import java.text.SimpleDateFormat;
@@ -25,7 +25,7 @@ public class RegisterModel implements RegisterContract.Model {
     private String sign;
     private String timestamp;
     @Override
-    public Observable<RegisterResult> Reg(String userName, String password,String oauthType,String email,String code,String oauthOpenId ,String oauthNickName) {
+    public Observable<RegisterResult> Reg(String userName, String password, String oauthType, String email, String code, String oauthOpenId , String oauthNickName) {
         map = new HashMap<>();
         map.put("username",userName);
         map.put("password",password);

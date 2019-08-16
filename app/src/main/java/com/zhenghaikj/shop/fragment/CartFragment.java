@@ -34,7 +34,6 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.ConfirmOrderActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.MainActivity;
-import com.zhenghaikj.shop.activity.SettingPayPasswordActivity;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.adapter.CartAdapter;
 import com.zhenghaikj.shop.adapter.ChooseColorAdapter;

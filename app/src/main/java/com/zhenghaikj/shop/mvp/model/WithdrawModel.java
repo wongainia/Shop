@@ -1,10 +1,9 @@
 package com.zhenghaikj.shop.mvp.model;
 
-import com.moor.imkf.a.AnalyticManager;
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.WithdrawContract;
 
 import io.reactivex.Observable;

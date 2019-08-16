@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.widget.ImageView;
 
@@ -15,17 +14,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.SearchResult;
-import com.zhenghaikj.shop.utils.GlideUtil;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 import com.zhenghaikj.shop.widget.RoundBackGroundColorSpan;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class NewSearchDetailAdapetr extends BaseQuickAdapter<SearchResult.ProductBean, BaseViewHolder> {
 

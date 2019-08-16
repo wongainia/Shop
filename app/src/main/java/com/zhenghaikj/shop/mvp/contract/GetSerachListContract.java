@@ -9,15 +9,15 @@ import io.reactivex.Observable;
 
 
 public interface GetSerachListContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<GetSerachListResult> GetSerachList(String skey);
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetSerachList(GetSerachListResult result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
 
         public abstract void GetSerachList(String skey);
     }

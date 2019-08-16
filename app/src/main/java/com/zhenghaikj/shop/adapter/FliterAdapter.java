@@ -2,14 +2,11 @@ package com.zhenghaikj.shop.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.FilterResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FliterAdapter extends BaseQuickAdapter<FilterResult,BaseViewHolder> {

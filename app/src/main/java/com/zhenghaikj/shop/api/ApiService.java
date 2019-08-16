@@ -29,7 +29,6 @@ import com.zhenghaikj.shop.entity.FilterResult;
 import com.zhenghaikj.shop.entity.GetCode;
 import com.zhenghaikj.shop.entity.GetCommentResult;
 import com.zhenghaikj.shop.entity.GetConfirmModel;
-import com.zhenghaikj.shop.entity.GetExpressInfo;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetImageCheckCode;
 import com.zhenghaikj.shop.entity.GetIntroForStoreResult;

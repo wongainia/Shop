@@ -11,7 +11,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
-import com.zhenghaikj.shop.entity.StoreDetailResult;
 import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
 import java.util.List;

@@ -1,9 +1,9 @@
 package com.zhenghaikj.shop.mvp.presenter;
 
-import com.zhenghaikj.shop.entity.AddtoCartResult;
-import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.base.BaseObserver;
+import com.zhenghaikj.shop.entity.AddtoCartResult;
 import com.zhenghaikj.shop.entity.Cart;
+import com.zhenghaikj.shop.entity.CartResult;
 import com.zhenghaikj.shop.entity.DetailResult;
 import com.zhenghaikj.shop.entity.GetGoodSKu;
 import com.zhenghaikj.shop.entity.GetShopCoupResult;

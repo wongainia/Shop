@@ -20,16 +20,16 @@ import org.json.JSONArray;
 import io.reactivex.Observable;
 
 public interface OrderDetailContract {
-    interface Model extends BaseModel{
-        Observable<OrderDetail> GetOrderDetail(String id,String userkey);
+    interface Model extends BaseModel {
+        Observable<OrderDetail> GetOrderDetail(String id, String userkey);
         Observable<CloseOrder> PostCloseOrder(String orderId, String userkey);
         Observable<ConfirmOrder> PostConfirmOrder(String orderId, String userkey);
         //查询物流Or
         Observable<Express> GetExpressInfo(String orderId, String userkey);
 
 
-        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr,String ActualMoney);
-        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount,JSONArray JsonStr,String ActualMoney);
+        Observable<BaseResult<Data<String>>> GetOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr, String ActualMoney);
+        Observable<BaseResult<Data<WXpayInfo>>> GetWXOrderStr(String userid, String Bisid, String OrderId, String TotalAmount, JSONArray JsonStr, String ActualMoney);
         Observable<BaseResult<Data<String>>> MallBalancePay( String OrderId,
                                                              String CustomerId,
                                                              JSONArray JsonStr,
@@ -43,11 +43,11 @@ public interface OrderDetailContract {
         Observable<BaseResult<Data<String>>> IsMallid(String MallID);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
         Observable<AddtoCartResult> PostAddProductToCart(String skuId, String count, String Userkey);
-        Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId,String ReceiveAddressId,String userkey);
+        Observable<ChangeOrderAddress> PostChangeOrderAddress(String OrderId, String ReceiveAddressId, String userkey);
 
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetOrderDetail(OrderDetail result);
         void PostCloseOrder(CloseOrder Result);
         void PostConfirmOrder(ConfirmOrder Result);
@@ -66,7 +66,7 @@ public interface OrderDetailContract {
         void PostChangeOrderAddress(ChangeOrderAddress Result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetOrderDetail(String id,String userkey);
         public abstract void PostCloseOrder(String orderId, String userkey);
         public abstract void PostConfirmOrder(String orderId, String userkey);

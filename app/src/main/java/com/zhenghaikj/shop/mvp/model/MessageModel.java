@@ -1,10 +1,10 @@
 package com.zhenghaikj.shop.mvp.model;
 
 import com.blankj.utilcode.util.TimeUtils;
-import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.AnnouncementDetail;
 import com.zhenghaikj.shop.entity.MessageReadResult;
+import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.mvp.contract.MessageContract;
 
 import java.text.SimpleDateFormat;
@@ -34,7 +34,7 @@ public class MessageModel implements MessageContract.Model {
                 .subscribeOn(Schedulers.io());
     }
     @Override
-    public Observable<Announcement> GetList(String categoryId,String rows, String page, String userkey) {
+    public Observable<Announcement> GetList(String categoryId, String rows, String page, String userkey) {
         map = new HashMap<>();
         map.put("categoryid",categoryId);
         map.put("rows",rows);

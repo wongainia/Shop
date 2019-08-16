@@ -1,8 +1,8 @@
 package com.zhenghaikj.shop.mvp.model;
 
-import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Track;
+import com.zhenghaikj.shop.api.ApiRetrofit2;
 import com.zhenghaikj.shop.mvp.contract.TrackContract;
 
 import java.util.List;

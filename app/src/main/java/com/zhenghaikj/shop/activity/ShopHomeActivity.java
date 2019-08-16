@@ -11,12 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.fragment.storeFragment.AllbabyFragment;
 import com.zhenghaikj.shop.fragment.storeFragment.BabyClassificationFragment;
 import com.zhenghaikj.shop.fragment.storeFragment.ContactCustomerServiceFragment;
 import com.zhenghaikj.shop.fragment.storeFragment.ShopHomeFragment;
 import com.zhenghaikj.shop.fragment.storeFragment.ShopMicroAmoyFragment;
+import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.widget.CustomViewPager;
 
 import java.util.ArrayList;

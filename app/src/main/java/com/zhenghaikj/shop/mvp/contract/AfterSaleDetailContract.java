@@ -14,7 +14,7 @@ import io.reactivex.Observable;
 
 /*售后详情页*/
 public interface AfterSaleDetailContract {
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         /*获取  申请售后/退款单 详情*/
         Observable<RefundDetailResult> GetRefundDetail(String id, String userkey);
         Observable<OrderDetail> GetOrderDetail(String id, String userkey);
@@ -41,7 +41,7 @@ public interface AfterSaleDetailContract {
 
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void GetRefundDetail(RefundDetailResult result);
         void GetOrderDetail(OrderDetail result);
         void GetRefundProcessDetail(RefundProcessDetailResult result);
@@ -51,7 +51,7 @@ public interface AfterSaleDetailContract {
         void GetRecord(ComplaintRecord result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void GetRefundDetail(String id,String userkey);
         public abstract void GetOrderDetail(String id,String userkey);
         public abstract void GetRefundProcessDetail(String id,String userkey);

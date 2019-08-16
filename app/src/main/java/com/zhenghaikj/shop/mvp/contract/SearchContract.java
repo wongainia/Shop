@@ -7,7 +7,6 @@ import com.zhenghaikj.shop.entity.FilterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 
 import io.reactivex.Observable;
-import retrofit2.http.Query;
 
 public interface SearchContract {
     interface Model extends BaseModel {

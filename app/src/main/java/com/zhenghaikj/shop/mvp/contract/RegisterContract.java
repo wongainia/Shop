@@ -14,20 +14,20 @@ import com.zhenghaikj.shop.entity.SendMessage;
 import io.reactivex.Observable;
 
 public interface RegisterContract {
-    interface Model extends BaseModel{
-        Observable<RegisterResult> Reg(String userName, String password,String oauthType,String email,String code,String oauthOpenId ,String oauthNickName);
+    interface Model extends BaseModel {
+        Observable<RegisterResult> Reg(String userName, String password, String oauthType, String email, String code, String oauthOpenId , String oauthNickName);
         Observable<GetImageCheckCode> GetImageCheckCode();
         Observable<LoginResult> GetUser(String userName, String password/*, String oauthType, String oauthOpenId, String oauthNickName*/);
-        Observable<BaseResult<Data<String>>> LoginOn(String userName,String passWord);
+        Observable<BaseResult<Data<String>>> LoginOn(String userName, String passWord);
         Observable<BaseResult<Data<String>>> AddAndUpdatePushAccount(String token,String type,String UserID);
         Observable<BaseResult<Data>> AddFactoryBrand(String UserID, String FBrandName);
-        Observable<SendMessage> GetCode(String contact,String userkey);
-        Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(String contact,String checkCode,String userkey);
+        Observable<SendMessage> GetCode(String contact, String userkey);
+        Observable<CheckMessage> GetCheckPhoneOrEmailCheckCode(String contact, String checkCode, String userkey);
         Observable<CheckMessage> CheckUserName(String contact,String checkCode);
 
     }
 
-    interface View extends BaseView{
+    interface View extends BaseView {
         void Reg(RegisterResult baseResult);
         void GetImageCheckCode(GetImageCheckCode baseResult);
         void GetUser(LoginResult Result);
@@ -39,7 +39,7 @@ public interface RegisterContract {
         void CheckUserName(CheckMessage result);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View,Model> {
         public abstract void Reg(String userName, String password,String oauthType,String email,String code,String oauthOpenId ,String oauthNickName);
         public abstract void GetImageCheckCode();
         public abstract void GetUser(String userName, String password/*,String oauthType,String oauthOpenId,String oauthNickName*/);

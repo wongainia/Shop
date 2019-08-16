@@ -8,7 +8,6 @@ import com.zhenghaikj.shop.entity.GetStoreSortResult;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class StoreSubSortAdapter extends BaseQuickAdapter<GetStoreSortResult.ShopCategoriesBean.SubCategoriesBean, BaseViewHolder> {
 

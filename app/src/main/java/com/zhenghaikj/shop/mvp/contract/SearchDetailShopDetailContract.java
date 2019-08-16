@@ -4,12 +4,9 @@ package com.zhenghaikj.shop.mvp.contract;
 import com.zhenghaikj.shop.base.BaseModel;
 import com.zhenghaikj.shop.base.BasePresenter;
 import com.zhenghaikj.shop.base.BaseView;
-import com.zhenghaikj.shop.entity.GetStoreSortResult;
-import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SearchShopResult;
 import com.zhenghaikj.shop.entity.StoreCommodityResult;
-import com.zhenghaikj.shop.entity.StoreDetailResult;
 
 import io.reactivex.Observable;
 
