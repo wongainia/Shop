@@ -184,11 +184,6 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content">
 
-                 <!--渐变颜色-->
-             <!--    <RelativeLayout
-                     android:layout_width="match_parent"
-                     android:layout_height="90dp"
-                     android:background="@drawable/home_shape"/>-->
 
                  <com.zhenghaikj.shop.widget.ArcGradualView
                      android:id="@+id/header_view"

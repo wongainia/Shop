@@ -22,13 +22,15 @@ public class GlideImageLoader extends ImageLoader {
 //        eg：
 
         //Glide 加载图片简单用法
-        RequestOptions options=new RequestOptions();
-        options.diskCacheStrategy(DiskCacheStrategy.ALL);
-        options.bitmapTransform(new GlideRoundCropTransform(context, 10));
+  /*      RequestOptions options=new RequestOptions();
+        options.diskCacheStrategy(DiskCacheStrategy.ALL);*/
 
 //        options.error(R.drawable.banner_home);
 //        options.placeholder(R.drawable.banner_home);
-        Glide.with(context).load(path).apply(options).into(imageView);
+        Glide.with(context)
+                .load(path)
+                .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(context, 10)))
+                .into(imageView);
 //        Glide.with(context).load(path).into(imageView);
 
         //Picasso 加载图片简单用法

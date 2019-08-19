@@ -730,6 +730,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mBannerHome.setImages(images);
         mBannerHome.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         mBannerHome.setIndicatorGravity(BannerConfig.CENTER);
+        mBannerHome.setDelayTime(6000);
         mBannerHome.start();
         mBannerHome.setOnBannerListener(new OnBannerListener() {
             @Override
