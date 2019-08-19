@@ -84,6 +84,7 @@ import com.zhenghaikj.shop.mvp.contract.HomeContract;
 import com.zhenghaikj.shop.mvp.model.HomeModel;
 import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
 import com.zhenghaikj.shop.utils.CommonUtil;
+import com.zhenghaikj.shop.utils.GlideHomeBannerImageLoader;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.utils.ZXingUtils;
 import com.zhenghaikj.shop.widget.AnimationNestedScrollView;
@@ -726,7 +727,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 ids.add(link.substring(link.lastIndexOf("/") + 1));
             }
         }
-        mBannerHome.setImageLoader(new GlideImageLoader());
+        mBannerHome.setImageLoader(new GlideHomeBannerImageLoader());
         mBannerHome.setImages(images);
         mBannerHome.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
         mBannerHome.setIndicatorGravity(BannerConfig.CENTER);
