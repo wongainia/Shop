@@ -3,12 +3,13 @@ package com.zhenghaikj.shop.kt.mvp.presenter
 import com.blankj.utilcode.util.TimeUtils
 import com.zhenghaikj.shop.api.ApiRetrofit
 import com.zhenghaikj.shop.kt.base.BaseRxPresenter
+import com.zhenghaikj.shop.kt.bean.HistoryBean
 import com.zhenghaikj.shop.kt.mvp.contract.GetHistoryVisiteContract
 import com.zhenghaikj.shop.kt.net.exception.ExceptionHandle
 import com.zhenghaikj.shop.kt.net.rx.RetrofitManager
 import com.zhenghaikj.shop.kt.net.rx.RxManage
 import java.text.SimpleDateFormat
-import java.util.HashMap
+import kotlin.collections.HashMap
 
 /**
 Data:2019/8/14
@@ -20,20 +21,15 @@ class GetHistoryVisitePresenter:BaseRxPresenter<GetHistoryVisiteContract.View>()
     private var sign: String? = null
     private var timestamp: String? = null
 
+    var history:HistoryBean?=null
 
 
     override fun GetHistoryVisite(rows: String, page: String, userkey: String) {
-        map = HashMap()
-        map!!["rows"] = rows
-        map!!["page"] = page
-        map!!["userkey"] = userkey
-        map!!["app_key"] = "himalltest"
-        timestamp = TimeUtils.getNowString(SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))
-        map!!["timestamp"] = timestamp!!
-        sign = ApiRetrofit.SignTopRequest(map)
-
+     timestamp = TimeUtils.getNowString(SimpleDateFormat("yyyy-MM-dd HH:mm:ss"))
+     map = mutableMapOf("rows" to rows,"page" to page,"userkey" to userkey,"app_key" to "himalltest","timestamp" to timestamp!!)
+     sign = ApiRetrofit.SignTopRequest(map)
     addSubScription(
-     RetrofitManager.apiService.GetHistoryVisite(rows,page,userkey,"himalltest",timestamp!!,sign!!)
+     RetrofitManager.apiService.GetHistoryVisite(rows,page,userkey,"himalltest",timestamp!!, sign!!)
              .compose(RxManage.rxSchedulerObservableHelper())
              .subscribe({
                  run {->

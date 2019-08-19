@@ -87,14 +87,16 @@ public class CategoryFragment extends BaseLazyFragment<ShopPresenter, ShopModel>
             refreshLayout.finishRefresh(1000);
         });
 
+
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 pagaNo++;
                 mPresenter.IndexJson(String.valueOf(pagaNo));
-                mRefreshLayout.finishLoadmore();
+                refreshLayout.finishLoadMore();
             }
         });
+
 
 
     }

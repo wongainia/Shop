@@ -7,7 +7,7 @@ author:ying
  **/
 
 data class HistoryBean(
-    val Product: List<Product>,
+    val Product: MutableList<Product>,
     val Success: String
 )
 

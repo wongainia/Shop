@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.youth.banner.loader.ImageLoader;
+import com.zhenghaikj.shop.widget.GlideRoundCropTransform;
 
 public class GlideImageLoader extends ImageLoader {
     @Override
@@ -23,6 +24,8 @@ public class GlideImageLoader extends ImageLoader {
         //Glide 加载图片简单用法
         RequestOptions options=new RequestOptions();
         options.diskCacheStrategy(DiskCacheStrategy.ALL);
+        options.bitmapTransform(new GlideRoundCropTransform(context, 10));
+
 //        options.error(R.drawable.banner_home);
 //        options.placeholder(R.drawable.banner_home);
         Glide.with(context).load(path).apply(options).into(imageView);

@@ -7,14 +7,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +27,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,8 +39,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.beta.Beta;
@@ -75,6 +87,7 @@ import com.zhenghaikj.shop.utils.CommonUtil;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.utils.ZXingUtils;
 import com.zhenghaikj.shop.widget.AnimationNestedScrollView;
+import com.zhenghaikj.shop.widget.mysmartrefresh.MyHeaderView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -120,6 +133,17 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @BindView(R.id.view)
     View mView;
 
+
+    @BindView(R.id.img_code)
+    ImageView mImgcode;
+    @BindView(R.id.img_message)
+    ImageView mImgmessage;
+    @BindView(R.id.img_search)
+    ImageView mImgsearch;
+
+
+
+
     private float LL_SEARCH_MIN_TOP_MARGIN, LL_SEARCH_MAX_TOP_MARGIN, LL_SEARCH_MAX_WIDTH, LL_SEARCH_MIN_WIDTH, TV_TITLE_MAX_TOP_MARGIN;
     private ViewGroup.MarginLayoutParams searchLayoutParams, titleLayoutParams;
 
@@ -155,6 +179,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private NewHomeAdapter newHomeAdapter;
     private UserInfo.UserInfoDean userInfo;
 
+    private float mSlope=3.0f;//透明度斜率
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -300,28 +325,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mPresenter.Get(Integer.toString(pageNo), pageSize);
         mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
 
-  /*      for (int i = 0; i < 10; i++) {
-            categoryList.add(new Product());
-        }
-        HomeCategoryAdapter homeCategoryAdapter = new HomeCategoryAdapter(R.layout.item_category, categoryList);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mRvCategory.setLayoutManager(mLayoutManager);
-        mRvCategory.setAdapter(homeCategoryAdapter);*/
-
-       /* for (int i = 0; i < 10; i++) {
-            panicBuyList.add(new ShopResult.GiftListNewBean());
-            exchageList.add(new Product());
-        }
-        exchageAdapter = new ExchageAdapter(R.layout.item_exchage, panicBuyList);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRvPanicBuying.setLayoutManager(linearLayoutManager);
-        mRvPanicBuying.setAdapter(exchageAdapter);
-
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mActivity);
-        linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRvExchange.setLayoutManager(linearLayoutManager1);
-        mRvExchange.setAdapter(exchageAdapter);*/
 
 
 
@@ -349,56 +352,96 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             }
         });
 
-     /*  mMainMenus = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            mMainMenus.add(new MenuItem(icons[i], names[i], picture[i]));
-        }
-
-        mMainAdapter = new MenuAdapter(R.layout.item_main_menu, mMainMenus);
-        mRvMainMenu.setLayoutManager(new GridLayoutManager(mActivity, 4));
-        mRvMainMenu.setAdapter(mMainAdapter);
-*/
-
-      /*  mMainAdapter.setOnItemClickListener((adapter, view, position) -> {
-            switch (position) {
-                case 0:
-//                    startActivity(new Intent(mActivity, LoginActivity.class));
-//                        mPresenter.GetUser("菊花之战神","abcd1234","","","");
-                    MainActivity activity = (MainActivity) getActivity();
-                    activity.setCurrentItem(3);
-                    break;
-                case 1:
-//                    Intent intent = new Intent(mActivity, WebActivity.class);
-//                    intent.putExtra("Url","http://mall.xigyu.com/m-wap/SignIn/Detail");
-//                    intent.putExtra("Title","签到得积分");
-//                    startActivity(intent);
-                    startActivity(new Intent(mActivity, CheckinActivity.class));
-                    break;
-                case 2:
-                    startActivity(new Intent(mActivity, LotteryActivity.class));
-                    break;
-                case 3:
-                    startActivity(new Intent(mActivity, CouponActivity.class));
-                    break;
-            }
-        });*/
-
-//声名为瀑布流的布局方式: 2列,垂直方向
-     /*   StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        mRvHome.setLayoutManager(staggeredGridLayoutManager);
-        myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(), mDatas);
-        mRvHome.setItemAnimator(new DefaultItemAnimator());
-        mRvHome.setAdapter(myRecyclerViewAdapter);
-        myRecyclerViewAdapter.setOnItemClickListener((view, position) -> {
-            Intent intent = new Intent(mActivity, GoodsDetailActivity.class);
-            intent.putExtra("id", mDatas.get(position).getId());
-            startActivity(intent);
-        });*/
 
 
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        mRefreshLayout.setOnMultiPurposeListener(new OnMultiPurposeListener() {
+           /*  0->255   0为透明  255为不透明
+                      根据percent百分比显示隐藏头布局 0->1  1为完全透明*/
+
+             /*header的拖拽*/
             @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
+            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
+                Log.d("======>Moving", String.valueOf(percent));
+
+
+                if (percent<1/3f){
+                    mImgIconYu.setImageAlpha((int) ((-percent*765)+255));
+                    mImgcode.setImageAlpha((int) ((-percent*765)+255));
+                    mImgmessage.setImageAlpha((int) ((-percent*765)+255));
+                    mSearchTvTitle.setTextColor(mSearchTvTitle.getTextColors().withAlpha((int) ((-percent*765)+255)));
+                    mSearchLlSearch.getBackground().setAlpha((int) ((-percent*765)+255));
+                    mSearchTvSearch.setTextColor(mSearchTvSearch.getTextColors().withAlpha((int) ((-percent*765)+255)));
+                    mImgsearch.setImageAlpha((int) ((-percent*765)+255));
+                    mSearchRlTop.getBackground().setAlpha((int) ((-percent*765)+255));
+                }else {
+                    mImgIconYu.setImageAlpha(0);
+                    mImgcode.setImageAlpha(0);
+                    mImgmessage.setImageAlpha(0);
+                    mSearchTvTitle.setTextColor(mSearchTvTitle.getTextColors().withAlpha(0));
+                    mSearchLlSearch.getBackground().setAlpha(0);
+                    mSearchTvSearch.setTextColor(mSearchTvSearch.getTextColors().withAlpha(0));
+                    mImgsearch.setImageAlpha(0);
+                    mSearchRlTop.getBackground().setAlpha(0);
+                }
+
+
+            }
+
+            /*刷新中*/
+            @Override
+            public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
+                Log.d("======>Released", "Released"+headerHeight+" "+maxDragHeight);
+                mImgIconYu.setImageAlpha(0);
+                mImgcode.setImageAlpha(0);
+                mImgmessage.setImageAlpha(0);
+                mSearchTvTitle.setTextColor(mSearchTvTitle.getTextColors().withAlpha(0));
+                mSearchLlSearch.getBackground().setAlpha(0);
+                mSearchTvSearch.setTextColor(mSearchTvSearch.getTextColors().withAlpha(0));
+                mImgsearch.setImageAlpha(0);
+                mSearchRlTop.getBackground().setAlpha(0);
+            }
+
+            @Override
+            public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int maxDragHeight) {
+                Log.d("======>StartAnimator", "StartAnimator"+headerHeight+" "+maxDragHeight);
+            }
+
+            /*刷新完成*/
+            @Override
+            public void onHeaderFinish(RefreshHeader header, boolean success) {
+                Log.d("======>Finish", "Finish"+success);
+
+
+            }
+
+            @Override
+            public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onFooterReleased(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onFooterStartAnimator(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onFooterFinish(RefreshFooter footer, boolean success) {
+
+            }
+
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                pageNo++;
+                mPresenter.Get(Integer.toString(pageNo), pageSize);
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageNo = 1;
                 mDatas.clear();
                 mPresenter.GetList("4", pageSize, "1", userKey);
@@ -408,14 +451,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 refreshLayout.setNoMoreData(false);
                 refreshLayout.finishRefresh(1000);
             }
-        });
-        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
             @Override
-            public void onLoadMore(RefreshLayout refreshLayout) {
-                pageNo++;
-                mPresenter.Get(Integer.toString(pageNo), pageSize);
+            public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
+
             }
         });
+
+
 
     }
 
@@ -456,6 +499,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     protected void setListener() {
+
         mLlMessage.setOnClickListener(this);
         mLlMemberCode.setOnClickListener(this);
         mIvRegister.setOnClickListener(this);
@@ -491,12 +535,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 searchLayoutParams.topMargin = (int) searchLayoutNewTopMargin;
                 searchLayoutParams.width = (int) searchLayoutNewWidth;
                 mSearchLlSearch.setLayoutParams(searchLayoutParams);
-
-
             }
         });
-
-
 
     }
 
@@ -508,19 +548,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 startActivity(new Intent(mActivity, SearchPreDetailActivity.class));
 
                 break;
-          /*  case R.id.ll_panic_buying:
-                startActivity(new Intent(mActivity, PanicBuyingActivity.class));
-                break;*/
-           /*case R.id.ll_found_good_goods:
-                startActivity(new Intent(mActivity, FoundGoodGoodsActivity.class));
-                break;*/
-          /*  case R.id.ll_good_daily_shop:
-                startActivity(new Intent(mActivity, GoodDailyShopActivity.class));
-                break;*/
-           /* case R.id.ll_watermelon_coin_mall:
-                MainActivity activity = (MainActivity) getActivity();
-                activity.setCurrentItem(3);
-                break;*/
             case R.id.ll_member_code:
                 under_review = LayoutInflater.from(mActivity).inflate(R.layout.dialog_share, null);
                 Button btn_share_one = under_review.findViewById(R.id.btn_share_one);
@@ -844,6 +871,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //            Toast.makeText(mContext, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
+
 
 
     private void initViewBy_8(int position, View view, List<HomeJsonResult.LModulesBean> modules) {

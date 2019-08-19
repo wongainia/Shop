@@ -2,6 +2,7 @@ package com.zhenghaikj.shop.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,5 +42,6 @@ public class AnimationNestedScrollView extends NestedScrollView {
         if (listener != null) {
             listener.onScrollChanged(getScrollY() * 0.65f);//x0.65 使位移效果更加平滑 解决手指按住停留时抖动问题
         }
+
     }
 }

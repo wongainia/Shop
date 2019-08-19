@@ -274,7 +274,7 @@ public class ShopFragment extends BaseLazyFragment<ShopPresenter, ShopModel> imp
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 pagaNo++;
                 mPresenter.IndexJson(String.valueOf(pagaNo));
-                mRefreshLayout.finishLoadmore();
+                mRefreshLayout.finishLoadMore();
             }
         });
 //        mRefreshLayout.setEnableLoadMore(false);
