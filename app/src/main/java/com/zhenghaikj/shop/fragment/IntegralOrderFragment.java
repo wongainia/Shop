@@ -86,6 +86,7 @@ public class IntegralOrderFragment extends BaseLazyFragment<IntegralOrderPresent
                 giftOrderList.clear();
                 pagaNo = 1;
                 getData(mParam1);
+                refreshLayout.finishRefresh(1000);
             }
         });
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {

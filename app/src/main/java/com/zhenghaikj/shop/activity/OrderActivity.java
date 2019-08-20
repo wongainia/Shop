@@ -87,7 +87,8 @@ public class  OrderActivity extends BaseActivity implements View.OnClickListener
     protected void initView() {
         mTvTitle.setText("我的订单");
         mTvTitle.setVisibility(View.VISIBLE);
-
+        mTvSave.setText("兑换列表");
+        mTvSave.setVisibility(View.VISIBLE);
         String intent=getIntent().getStringExtra("intent");
         switch (intent){
             case "全部":
@@ -112,6 +113,7 @@ public class  OrderActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mTvSave.setOnClickListener(this);
     }
 
     @Override
@@ -119,6 +121,11 @@ public class  OrderActivity extends BaseActivity implements View.OnClickListener
         switch (v.getId()){
             case R.id.icon_back:
                 finish();
+                break;
+            case R.id.tv_save:
+                Intent intent = new Intent(mActivity, IntegralOrderActivity.class);
+                intent.putExtra("intent", "全部");
+                startActivity(intent);
                 break;
         }
     }

@@ -4,10 +4,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.zhenghaikj.shop.widget.SwipeMenu
+    <!--<com.zhenghaikj.shop.widget.SwipeMenu-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+    <com.mcxtzhang.swipemenulib.SwipeMenuLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:clickable="true">
         <LinearLayout
             android:id="@+id/ll_commodity"
             android:layout_width="match_parent"
@@ -139,5 +142,6 @@
                 android:textColor="@color/white"
                 android:textSize="12sp" />
         </LinearLayout>
-    </com.zhenghaikj.shop.widget.SwipeMenu>
+    <!--</com.zhenghaikj.shop.widget.SwipeMenu>-->
+    </com.mcxtzhang.swipemenulib.SwipeMenuLayout>
 </LinearLayout>

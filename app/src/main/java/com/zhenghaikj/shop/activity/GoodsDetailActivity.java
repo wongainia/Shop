@@ -64,10 +64,12 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
+import com.zhenghaikj.shop.adapter.ServicesAdapter;
 import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.adapter.ChooseColorAdapter;
 import com.zhenghaikj.shop.adapter.ChooseSizeAdapter;
 import com.zhenghaikj.shop.adapter.ChooseVersionAdapter;
+import com.zhenghaikj.shop.adapter.ParameterAdapter;
 import com.zhenghaikj.shop.adapter.ShopCoupAdapter;
 import com.zhenghaikj.shop.adapter.ShopRecommendationAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -271,6 +273,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private ChooseSizeAdapter chooseSizeAdapter;
     private ChooseVersionAdapter chooseVersionAdapter;
     private DetailResult result = new DetailResult();
+
+    private List<DetailResult.ProductAttributeInfolistBean> parameterList=new ArrayList<>();
 
     private List<GetGoodSKu.SkuArrayBean> skuArray = new ArrayList<>();
 //    @BindView(R.id.number_indicater)
@@ -770,6 +774,9 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private void Parameter() {
         view=LayoutInflater.from(mActivity).inflate(R.layout.dialog_goods_parameter,null);
         RecyclerView rl_parameter=view.findViewById(R.id.rl_parameter);
+        ParameterAdapter adapter=new ParameterAdapter(R.layout.item_parameter,result.getProductAttributeInfolist());
+        rl_parameter.setLayoutManager(new LinearLayoutManager(mActivity));
+        rl_parameter.setAdapter(adapter);
         TextView tv_submit=view.findViewById(R.id.tv_submit);
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -792,38 +799,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     public void Service() {
         view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_goods_service, null);
-        tv_customersecurity = view.findViewById(R.id.tv_customersecurity);
-        tv_sevendaynoreasonreturn = view.findViewById(R.id.tv_sevendaynoreasonreturn);
-        tv_timelyship = view.findViewById(R.id.tv_timelyship);
         tv_submit = view.findViewById(R.id.tv_submit);
-        ll_customersecurity = view.findViewById(R.id.ll_customersecurity);
-        ll_sevendaynoreasonreturn = view.findViewById(R.id.ll_sevendaynoreasonreturn);
-        ll_timelyship = view.findViewById(R.id.ll_timelyship);
+        RecyclerView rv_service=view.findViewById(R.id.rv_service);
+        ServicesAdapter servicesAdapter=new ServicesAdapter(R.layout.item_services,result.getCashDepositsServerName());
+        rv_service.setLayoutManager(new LinearLayoutManager(mActivity));
+        rv_service.setAdapter(servicesAdapter);
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 serviceDialog.dismiss();
             }
         });
-
-        if (result.getCashDepositsServer().isIsSevenDayNoReasonReturn()) {
-
-            tv_sevendaynoreasonreturn.setText("七天无理由");
-        } else {
-            ll_sevendaynoreasonreturn.setVisibility(View.GONE);
-        }
-        if (result.getCashDepositsServer().isIsTimelyShip()) {
-
-            tv_timelyship.setText("及时发货");
-        } else {
-//                tv_timelyship.setText("不及时发货");
-            ll_timelyship.setVisibility(View.GONE);
-        }
-        if (result.getCashDepositsServer().isIsCustomerSecurity()) {
-            tv_customersecurity.setText("消费者保证");
-        } else {
-            ll_customersecurity.setVisibility(View.GONE);
-        }
 
         serviceDialog = new AlertDialog.Builder(mActivity).setView(view).create();
         serviceDialog.show();
@@ -1190,6 +1176,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 }
             }
         } else {
+//            mLlSpecification.setVisibility(View.GONE);
             Toast.makeText(mActivity, Result.getErrorMsg(), Toast.LENGTH_SHORT).show();
 
         }
@@ -1328,26 +1315,23 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
             String server = "";
 
-            if (Result.getCashDepositsServer().isIsSevenDayNoReasonReturn()) {
-                server = "七天无理由";
-//                tv_sevendaynoreasonreturn.setText("七天无理由");
-            } else {
-//                ll_sevendaynoreasonreturn.setVisibility(View.GONE);
-            }
-            if (Result.getCashDepositsServer().isIsTimelyShip()) {
-                server = server + " " + "及时发货";
-//                tv_timelyship.setText("及时发货");
-            } else {
-//                tv_timelyship.setText("不及时发货");
-//                ll_timelyship.setVisibility(View.GONE);
-            }
-            if (Result.getCashDepositsServer().isIsCustomerSecurity()) {
-                server = server + " " + "消费者保证";
-//                tv_customersecurity.setText("消费者保证");
-            } else {
-//                ll_customersecurity.setVisibility(View.GONE);
+            if (Result.getCashDepositsServerName().size()>=3) {
+                server = Result.getCashDepositsServerName().get(0).getCashServiceName()+" "+Result.getCashDepositsServerName().get(1).getCashServiceName()+" "+Result.getCashDepositsServerName().get(2).getCashServiceName();
+            } else if (Result.getCashDepositsServerName().size()==2){
+                server = Result.getCashDepositsServerName().get(0).getCashServiceName()+" "+Result.getCashDepositsServerName().get(1).getCashServiceName();
+            }else if (Result.getCashDepositsServerName().size()==1){
+                server = Result.getCashDepositsServerName().get(0).getCashServiceName();
+            }else {
+                mLlService.setVisibility(View.GONE);
             }
             mTvService.setText(server);
+
+
+            if (Result.getProductAttributeInfolist()==null){
+                mLlParameter.setVisibility(View.GONE);
+            }else {
+                mTvParameter.setText(Result.getProductAttributeInfolist().get(0).getKey());
+            }
 
             /*添加颜色item*/
             // mRvcolor.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.HORIZONTAL,false));

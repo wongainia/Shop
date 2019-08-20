@@ -50,6 +50,7 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
 import com.zhenghaikj.shop.activity.ChageUserNameActivity;
 import com.zhenghaikj.shop.activity.CouponActivity;
+import com.zhenghaikj.shop.activity.DistributionActivity;
 import com.zhenghaikj.shop.activity.FavoritesActivity;
 import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
@@ -304,6 +305,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private BottomSheetDialog bottomSheetDialog;
     private String content;
     private int paytype;
+    private PersonalInformation userInfoResult;
 
     @Override
     protected void initImmersionBar() {
@@ -757,10 +759,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                startActivity(new Intent(mActivity, BecomeBusinessFirstActivity.class));
                 break;
             case R.id.ll_distribution:
-                intent = new Intent(mActivity, WebActivity.class);
-                intent.putExtra("Url", "http://mall.xigyu.com/m-wap/home/RecruitPlan");
-                intent.putExtra("Title", "我要分销");
-                startActivity(intent);
+//                ToastUtils.showShort("即将上线，敬请期待");
+                if ("true".equals(userInfoResult.getPromoter())){
+                    startActivity(new Intent(mActivity, DistributionActivity.class));
+                }else {
+                    intent = new Intent(mActivity, WebActivity.class);
+                    intent.putExtra("Url", "http://seller.xigyu.com/m-wap/DistributionMarket/");
+                    intent.putExtra("Title", "我要分销");
+                    startActivity(intent);
+                }
                 break;
             default:
                 break;
@@ -943,6 +950,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 //                mTvUsername.setText(result.getNick());
 //            }
 //            mTvUsername.setText(result.getNick());
+
+            userInfoResult = result;
             String mobile = result.getCellPhone();
             String maskNumber = mobile.substring(0, 3) + "****" + mobile.substring(7, mobile.length());
             mTvPhone.setText(maskNumber);

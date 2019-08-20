@@ -27,7 +27,7 @@ public class Config2 {
 //    public static final String URL = "https://api.emjiayuan.com/";//正式服
 //    public static final String URL = "http://emapi.jb.emjiayuan.com/";//测试服
     public static final String URL = "http://47.96.126.145:8001/api/";//正式服
-    public static final String URL_test= "http://47.111.124.153:8001/api/";//测试服
+    public static final String URL_test= "http://42.51.69.35:8001/api/";//测试服
     public static final String HEAD_URL="http://47.96.126.145:8820/Pics/Avator/";//头像地址
 
     public static final String SAVE_CITY_KEY = "save_city_key";

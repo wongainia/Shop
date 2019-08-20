@@ -563,7 +563,7 @@ public class CartFragment extends BaseLazyFragment<CartPresenter, CartModel> imp
                 public void OnItemClickLongListner(View view, int parentposition, int chaildposition) {
 //                    ToastUtils.showShort("删除");
                     final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
-                    dialog.setMessage("是否该商品删除")
+                    dialog.setMessage("是否删除该商品")
                             //.setImageResId(R.mipmap.ic_launcher)
                             .setTitle("提示")
                             .setPositive("删除")

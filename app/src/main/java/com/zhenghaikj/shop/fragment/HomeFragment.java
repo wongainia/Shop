@@ -88,7 +88,6 @@ import com.zhenghaikj.shop.utils.GlideHomeBannerImageLoader;
 import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.utils.ZXingUtils;
 import com.zhenghaikj.shop.widget.AnimationNestedScrollView;
-import com.zhenghaikj.shop.widget.mysmartrefresh.MyHeaderView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -473,7 +472,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         LL_SEARCH_MIN_TOP_MARGIN = CommonUtil.dp2px(mActivity, 4.5f);//布局关闭时顶部距离
         LL_SEARCH_MAX_TOP_MARGIN = CommonUtil.dp2px(mActivity, 49f);//布局默认展开时顶部距离
         LL_SEARCH_MAX_WIDTH = CommonUtil.getScreenWidth(mActivity) - CommonUtil.dp2px(mActivity, 30f);//布局默认展开时的宽度
-        LL_SEARCH_MIN_WIDTH = CommonUtil.getScreenWidth(mActivity) - CommonUtil.dp2px(mActivity, 112f);//布局关闭时的宽度
+        LL_SEARCH_MIN_WIDTH = CommonUtil.getScreenWidth(mActivity) - CommonUtil.dp2px(mActivity, 110f);//布局关闭时的宽度
         TV_TITLE_MAX_TOP_MARGIN = CommonUtil.dp2px(mActivity, 11.5f);
 
 

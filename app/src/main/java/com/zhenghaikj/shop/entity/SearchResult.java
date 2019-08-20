@@ -134,6 +134,15 @@ public class SearchResult implements Serializable {
         private CashDepositsServerBean CashDepositsServer;
         private String ProductAddress;
         private String VshopId;
+        private java.util.List<CashDepositsServerNameBean> CashDepositsServerName;
+
+        public List<CashDepositsServerNameBean> getCashDepositsServerName() {
+            return CashDepositsServerName;
+        }
+
+        public void setCashDepositsServerName(List<CashDepositsServerNameBean> cashDepositsServerName) {
+            CashDepositsServerName = cashDepositsServerName;
+        }
 
         public String getVshopId() {
             return VshopId;
@@ -317,6 +326,22 @@ public class SearchResult implements Serializable {
 
         public void setCanSelfTake(boolean CanSelfTake) {
             this.CanSelfTake = CanSelfTake;
+        }
+    }
+
+    public static class CashDepositsServerNameBean {
+        /**
+         * CashServiceName : 七天无理由退换货
+         */
+
+        private String CashServiceName;
+
+        public String getCashServiceName() {
+            return CashServiceName;
+        }
+
+        public void setCashServiceName(String CashServiceName) {
+            this.CashServiceName = CashServiceName;
         }
     }
 }

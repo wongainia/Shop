@@ -173,6 +173,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
                 cartList.clear();
                 pagaNo = 1;
                 getData(mParam1);
+                refreshLayout.finishRefresh(1000);
             }
         });
 

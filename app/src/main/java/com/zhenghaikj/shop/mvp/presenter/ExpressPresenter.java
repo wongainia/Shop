@@ -8,6 +8,7 @@ import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.ShipmentNumber;
 import com.zhenghaikj.shop.mvp.contract.ExpressContract;
 
 import java.util.List;
@@ -53,6 +54,17 @@ public class ExpressPresenter extends ExpressContract.Presenter {
                     @Override
                     protected void onHandleSuccess(OrderDetail value) {
                         mView.GetOrderDetail(value);
+                    }
+                });
+    }
+
+    @Override
+    public void GetExpressNum(String orderId,String userkey) {
+        mModel.GetExpressNum(orderId,userkey)
+                .subscribe(new BaseObserver<ShipmentNumber>() {
+                    @Override
+                    protected void onHandleSuccess(ShipmentNumber value) {
+                        mView.GetExpressNum(value);
                     }
                 });
     }

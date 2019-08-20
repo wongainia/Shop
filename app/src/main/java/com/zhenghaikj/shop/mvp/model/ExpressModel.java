@@ -9,6 +9,7 @@ import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.api.ApiRetrofit;
 import com.zhenghaikj.shop.api.ApiRetrofit2;
+import com.zhenghaikj.shop.entity.ShipmentNumber;
 import com.zhenghaikj.shop.mvp.contract.ExpressContract;
 
 import java.text.SimpleDateFormat;
@@ -71,6 +72,20 @@ public class ExpressModel implements ExpressContract.Model {
         map.put("timestamp", timestamp);
         sign = ApiRetrofit.SignTopRequest(map);
         return ApiRetrofit.getDefault().GetOrderDetail(id,userkey,"himalltest",timestamp,sign)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<ShipmentNumber> GetExpressNum(String orderId,String userkey) {
+        map = new HashMap<>();
+        map.put("orderid",orderId);
+        map.put("userkey",userkey);
+        map.put("app_key","himalltest");
+        timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        map.put("timestamp", timestamp);
+        sign = ApiRetrofit.SignTopRequest(map);
+        return ApiRetrofit.getDefault().GetExpressNum(orderId,userkey,"himalltest",timestamp,sign)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

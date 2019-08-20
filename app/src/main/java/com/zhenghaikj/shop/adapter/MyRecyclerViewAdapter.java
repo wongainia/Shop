@@ -158,9 +158,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
         String timestamp= TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-        String str=bean.getImageUrl();
-        str=str.replace("http","https");
-        GlideUtil.loadImageViewLodingRadius(context,str+"?"+timestamp,holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
+//        String str=bean.getImageUrl();
+//        str=str.replace("http","https");
+//        GlideUtil.loadImageViewLodingRadius(context,str+"?"+timestamp,holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
 
        // GlideUtil.loadImageViewLodingRadius(context,bean.getImageUrl()+"?"+timestamp,holder.iv_goods,R.drawable.image_loading,R.drawable.image_loading,10);
 

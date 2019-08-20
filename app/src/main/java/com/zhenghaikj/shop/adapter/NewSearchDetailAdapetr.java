@@ -77,21 +77,21 @@ public class NewSearchDetailAdapetr extends BaseQuickAdapter<SearchResult.Produc
 //            helper.setGone(R.id.tv_comment_three,false);
         }
 
-        if (item.getCashDepositsServer().isIsSevenDayNoReasonReturn()){
-            helper.setText(R.id.tv_service,"七天无理由退换");
+        if (item.getCashDepositsServerName().size()>=3){
+            helper.setText(R.id.tv_service,item.getCashDepositsServerName().get(0).getCashServiceName());
+            helper.setText(R.id.tv_service_two,item.getCashDepositsServerName().get(1).getCashServiceName());
+            helper.setText(R.id.tv_service_three,item.getCashDepositsServerName().get(2).getCashServiceName());
+        }else if (item.getCashDepositsServerName().size()==2){
+            helper.setText(R.id.tv_service,item.getCashDepositsServerName().get(0).getCashServiceName());
+            helper.setText(R.id.tv_service_two,item.getCashDepositsServerName().get(1).getCashServiceName());
+            helper.setGone(R.id.tv_service_three,false);
+        }else if (item.getCashDepositsServerName().size()==1){
+            helper.setText(R.id.tv_service,item.getCashDepositsServerName().get(0).getCashServiceName());
+            helper.setGone(R.id.tv_service_two,false);
+            helper.setGone(R.id.tv_service_three,false);
         }else {
             helper.setGone(R.id.tv_service,false);
-        }
-
-        if (item.getCashDepositsServer().isIsTimelyShip()){
-            helper.setText(R.id.tv_service_two,"急速发货");
-        }else {
             helper.setGone(R.id.tv_service_two,false);
-        }
-
-        if (item.getCashDepositsServer().isIsCustomerSecurity()){
-            helper.setText(R.id.tv_service_three,"消费者保证");
-        }else {
             helper.setGone(R.id.tv_service_three,false);
         }
 

@@ -7,8 +7,8 @@ public class LimitBuyListResult implements Serializable {
 
 
     /**
-     * Total : 1
-     * List : [{"Id":70,"ProductId":845,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/845/1_350.png","ProductName":"航天SQD60-611 嵌入式单烤箱家用 60L","MinPrice":2199,"EndDate":"2020-05-05T09:45:14","MarketPrice":5499,"SaleCount":0,"ProductAttributeInfos":["嵌入式","51L（含）-80L（含）","解冻","内置照明"],"Stock":4520}]
+     * Total : 13
+     * List : [{"Id":81,"ProductId":887,"ProductImg":"http://mall.xigyu.com//Storage/Shop/336/Products/887/1_350.png","ProductName":"佰益莱水电分离热水器XY-JR02《创界》","MinPrice":880,"EndDate":"2020-07-09T10:50:00","MarketPrice":2069,"SaleCount":0,"ProductAttributeInfos":["二级","触摸屏","机械恒温","防冻型","10以下","5KW以上","触控式","超薄型"],"Stock":1981,"CashDepositsServer":{"IsSevenDayNoReasonReturn":false,"IsTimelyShip":false,"IsCustomerSecurity":false,"CanSelfTake":false},"ShopName":"快益小铺","Address":"宁波市","CashDepositsServerName":[]},{"Id":82,"ProductId":886,"ProductImg":"http://mall.xigyu.com//Storage/Shop/336/Products/886/1_350.png","ProductName":"佰益莱水电分离热水器XY-JR02《贵族》","MinPrice":960,"EndDate":"2020-07-01T17:55:00","MarketPrice":2169,"SaleCount":0,"ProductAttributeInfos":["二级","触摸屏","机械恒温","防冻型","10以下","5KW以上","触控式","超薄型"],"Stock":1977,"CashDepositsServer":{"IsSevenDayNoReasonReturn":false,"IsTimelyShip":false,"IsCustomerSecurity":false,"CanSelfTake":false},"ShopName":"快益小铺","Address":"宁波市","CashDepositsServerName":[]},{"Id":83,"ProductId":885,"ProductImg":"http://mall.xigyu.com//Storage/Shop/336/Products/885/1_350.png","ProductName":"佰益莱水电分离热水器XY-JR02《竞技》","MinPrice":980,"EndDate":"2020-07-02T17:55:00","MarketPrice":2239,"SaleCount":0,"ProductAttributeInfos":["二级","触摸屏","机械恒温","防冻型","10以下","5KW以上","触控式","超薄型"],"Stock":998,"CashDepositsServer":{"IsSevenDayNoReasonReturn":false,"IsTimelyShip":false,"IsCustomerSecurity":false,"CanSelfTake":false},"ShopName":"快益小铺","Address":"宁波市","CashDepositsServerName":[]},{"Id":84,"ProductId":884,"ProductImg":"http://mall.xigyu.com//Storage/Shop/336/Products/884/1_350.png","ProductName":"佰益莱 水电分离热水器 KY-65（创意）","MinPrice":1280,"EndDate":"2020-07-02T17:55:00","MarketPrice":2638,"SaleCount":5,"ProductAttributeInfos":["二级","触摸屏","机械恒温","防冻型","10以下","5KW以上","触控式","超薄型"],"Stock":992,"CashDepositsServer":{"IsSevenDayNoReasonReturn":false,"IsTimelyShip":false,"IsCustomerSecurity":false,"CanSelfTake":false},"ShopName":"快益小铺","Address":"宁波市","CashDepositsServerName":[]},{"Id":86,"ProductId":1003,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/1003/1_350.png","ProductName":"一能净7H食物垃圾处理器 家用厨房水槽厨余粉碎机搅碎机 全自动","MinPrice":1298,"EndDate":"2020-08-14T11:55:00","MarketPrice":3198,"SaleCount":0,"ProductAttributeInfos":["中国大陆","浙江省","24个月"],"Stock":19994,"CashDepositsServer":{"IsSevenDayNoReasonReturn":true,"IsTimelyShip":false,"IsCustomerSecurity":true,"CanSelfTake":false},"ShopName":"官方自营店","Address":"宁波市","CashDepositsServerName":[{"CashServiceName":"七天无理由退换货"},{"CashServiceName":"包邮"},{"CashServiceName":"急速退款"},{"CashServiceName":"邰振江服务"}]},{"Id":87,"ProductId":1002,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/1002/1_350.png","ProductName":"一能净7D食物垃圾处理器家用厨房水槽厨余粉碎机垃圾分类全自动","MinPrice":1298,"EndDate":"2020-08-14T11:55:00","MarketPrice":3198,"SaleCount":0,"ProductAttributeInfos":["中国大陆","浙江省","24个月"],"Stock":19998,"CashDepositsServer":{"IsSevenDayNoReasonReturn":true,"IsTimelyShip":false,"IsCustomerSecurity":true,"CanSelfTake":false},"ShopName":"官方自营店","Address":"宁波市","CashDepositsServerName":[{"CashServiceName":"七天无理由退换货"},{"CashServiceName":"包邮"},{"CashServiceName":"急速退款"},{"CashServiceName":"邰振江服务"}]},{"Id":88,"ProductId":1001,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/1001/1_350.png","ProductName":"一能净5D食物垃圾处理器家用厨房水槽厨余粉碎机垃圾处理全自动","MinPrice":1268,"EndDate":"2020-08-14T11:55:00","MarketPrice":2598,"SaleCount":0,"ProductAttributeInfos":["中国大陆","浙江省","24个月"],"Stock":1998,"CashDepositsServer":{"IsSevenDayNoReasonReturn":true,"IsTimelyShip":false,"IsCustomerSecurity":true,"CanSelfTake":false},"ShopName":"官方自营店","Address":"宁波市","CashDepositsServerName":[{"CashServiceName":"七天无理由退换货"},{"CashServiceName":"包邮"},{"CashServiceName":"急速退款"},{"CashServiceName":"邰振江服务"}]},{"Id":89,"ProductId":1000,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/1000/1_350.png","ProductName":"一能净5C食物垃圾处理器 家用厨房水槽厨余粉碎机搅碎机 全自动","MinPrice":1268,"EndDate":"2020-08-14T12:00:00","MarketPrice":2598,"SaleCount":0,"ProductAttributeInfos":["中国大陆","浙江省","24个月"],"Stock":1994,"CashDepositsServer":{"IsSevenDayNoReasonReturn":true,"IsTimelyShip":false,"IsCustomerSecurity":true,"CanSelfTake":false},"ShopName":"官方自营店","Address":"宁波市","CashDepositsServerName":[{"CashServiceName":"七天无理由退换货"},{"CashServiceName":"包邮"},{"CashServiceName":"急速退款"},{"CashServiceName":"邰振江服务"}]},{"Id":90,"ProductId":999,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/999/1_350.png","ProductName":"一能净5H食物垃圾处理器 家用厨房水槽厨余粉碎机搅碎机 全自动","MinPrice":1268,"EndDate":"2020-08-14T12:00:00","MarketPrice":2598,"SaleCount":0,"ProductAttributeInfos":["中国大陆","浙江省","24个月"],"Stock":1995,"CashDepositsServer":{"IsSevenDayNoReasonReturn":true,"IsTimelyShip":false,"IsCustomerSecurity":true,"CanSelfTake":false},"ShopName":"官方自营店","Address":"宁波市","CashDepositsServerName":[{"CashServiceName":"七天无理由退换货"},{"CashServiceName":"包邮"},{"CashServiceName":"急速退款"},{"CashServiceName":"邰振江服务"}]},{"Id":91,"ProductId":998,"ProductImg":"http://mall.xigyu.com//Storage/Shop/1/Products/998/1_350.png","ProductName":"一能净3H食物垃圾处理器 家用厨房水槽厨余粉碎机搅碎机 全自动","MinPrice":588,"EndDate":"2020-08-14T12:00:10","MarketPrice":1998,"SaleCount":0,"ProductAttributeInfos":["中国大陆","浙江省","24个月"],"Stock":1998,"CashDepositsServer":{"IsSevenDayNoReasonReturn":true,"IsTimelyShip":false,"IsCustomerSecurity":true,"CanSelfTake":false},"ShopName":"官方自营店","Address":"宁波市","CashDepositsServerName":[{"CashServiceName":"七天无理由退换货"},{"CashServiceName":"包邮"},{"CashServiceName":"急速退款"},{"CashServiceName":"邰振江服务"}]}]
      */
 
     private int Total;
@@ -31,58 +31,38 @@ public class LimitBuyListResult implements Serializable {
     }
 
     public static class ListBean {
+
         /**
-         * Id : 70
-         * ProductId : 845
-         * ProductImg : http://mall.xigyu.com//Storage/Shop/1/Products/845/1_350.png
-         * ProductName : 航天SQD60-611 嵌入式单烤箱家用 60L
-         * MinPrice : 2199
-         * EndDate : 2020-05-05T09:45:14
-         * MarketPrice : 5499
+         * Id : 90
+         * ProductId : 999
+         * ProductImg : http://mall.xigyu.com//Storage/Shop/1/Products/999/1_350.png
+         * ProductName : 一能净5H食物垃圾处理器 家用厨房水槽厨余粉碎机搅碎机 全自动
+         * MinPrice : 1268
+         * EndDate : 2020-08-14T12:00:00
+         * MarketPrice : 2598
          * SaleCount : 0
-         * ProductAttributeInfos : ["嵌入式","51L（含）-80L（含）","解冻","内置照明"]
-         * Stock : 4520
+         * ProductAttributeInfos : ["中国大陆","浙江省","24个月"]
+         * Stock : 1995
+         * CashDepositsServer : {"IsSevenDayNoReasonReturn":true,"IsTimelyShip":false,"IsCustomerSecurity":true,"CanSelfTake":false}
+         * ShopName : 官方自营店
+         * Address : 宁波市
+         * CashDepositsServerName : [{"CashServiceName":"七天无理由退换货"},{"CashServiceName":"包邮"},{"CashServiceName":"急速退款"},{"CashServiceName":"邰振江服务"}]
          */
 
         private int Id;
         private int ProductId;
         private String ProductImg;
         private String ProductName;
-        private Double MinPrice;
+        private int MinPrice;
         private String EndDate;
-        private double MarketPrice;
+        private int MarketPrice;
         private int SaleCount;
         private int Stock;
-        private List<String> ProductAttributeInfos;
-
         private CashDepositsServerBean CashDepositsServer;
-        private String Address;
         private String ShopName;
-
-        public String getAddress() {
-            return Address;
-        }
-
-        public void setAddress(String address) {
-            Address = address;
-        }
-
-        public String getShopName() {
-            return ShopName;
-        }
-
-        public void setShopName(String shopName) {
-            ShopName = shopName;
-        }
-
-        public CashDepositsServerBean getCashDepositsServer() {
-            return CashDepositsServer;
-        }
-
-        public void setCashDepositsServer(CashDepositsServerBean cashDepositsServer) {
-            CashDepositsServer = cashDepositsServer;
-        }
-
+        private String Address;
+        private java.util.List<String> ProductAttributeInfos;
+        private java.util.List<CashDepositsServerNameBean> CashDepositsServerName;
 
         public int getId() {
             return Id;
@@ -116,11 +96,11 @@ public class LimitBuyListResult implements Serializable {
             this.ProductName = ProductName;
         }
 
-        public Double getMinPrice() {
+        public int getMinPrice() {
             return MinPrice;
         }
 
-        public void setMinPrice(Double MinPrice) {
+        public void setMinPrice(int MinPrice) {
             this.MinPrice = MinPrice;
         }
 
@@ -132,11 +112,11 @@ public class LimitBuyListResult implements Serializable {
             this.EndDate = EndDate;
         }
 
-        public double getMarketPrice() {
+        public int getMarketPrice() {
             return MarketPrice;
         }
 
-        public void setMarketPrice(double MarketPrice) {
+        public void setMarketPrice(int MarketPrice) {
             this.MarketPrice = MarketPrice;
         }
 
@@ -156,6 +136,30 @@ public class LimitBuyListResult implements Serializable {
             this.Stock = Stock;
         }
 
+        public CashDepositsServerBean getCashDepositsServer() {
+            return CashDepositsServer;
+        }
+
+        public void setCashDepositsServer(CashDepositsServerBean CashDepositsServer) {
+            this.CashDepositsServer = CashDepositsServer;
+        }
+
+        public String getShopName() {
+            return ShopName;
+        }
+
+        public void setShopName(String ShopName) {
+            this.ShopName = ShopName;
+        }
+
+        public String getAddress() {
+            return Address;
+        }
+
+        public void setAddress(String Address) {
+            this.Address = Address;
+        }
+
         public List<String> getProductAttributeInfos() {
             return ProductAttributeInfos;
         }
@@ -163,51 +167,75 @@ public class LimitBuyListResult implements Serializable {
         public void setProductAttributeInfos(List<String> ProductAttributeInfos) {
             this.ProductAttributeInfos = ProductAttributeInfos;
         }
-    }
 
-    public static class CashDepositsServerBean {
-        /**
-         * IsSevenDayNoReasonReturn : true
-         * IsTimelyShip : false
-         * IsCustomerSecurity : true
-         * CanSelfTake : false
-         */
-
-        private boolean IsSevenDayNoReasonReturn;
-        private boolean IsTimelyShip;
-        private boolean IsCustomerSecurity;
-        private boolean CanSelfTake;
-
-        public boolean isIsSevenDayNoReasonReturn() {
-            return IsSevenDayNoReasonReturn;
+        public List<CashDepositsServerNameBean> getCashDepositsServerName() {
+            return CashDepositsServerName;
         }
 
-        public void setIsSevenDayNoReasonReturn(boolean IsSevenDayNoReasonReturn) {
-            this.IsSevenDayNoReasonReturn = IsSevenDayNoReasonReturn;
+        public void setCashDepositsServerName(List<CashDepositsServerNameBean> CashDepositsServerName) {
+            this.CashDepositsServerName = CashDepositsServerName;
         }
 
-        public boolean isIsTimelyShip() {
-            return IsTimelyShip;
+        public static class CashDepositsServerBean {
+            /**
+             * IsSevenDayNoReasonReturn : true
+             * IsTimelyShip : false
+             * IsCustomerSecurity : true
+             * CanSelfTake : false
+             */
+
+            private boolean IsSevenDayNoReasonReturn;
+            private boolean IsTimelyShip;
+            private boolean IsCustomerSecurity;
+            private boolean CanSelfTake;
+
+            public boolean isIsSevenDayNoReasonReturn() {
+                return IsSevenDayNoReasonReturn;
+            }
+
+            public void setIsSevenDayNoReasonReturn(boolean IsSevenDayNoReasonReturn) {
+                this.IsSevenDayNoReasonReturn = IsSevenDayNoReasonReturn;
+            }
+
+            public boolean isIsTimelyShip() {
+                return IsTimelyShip;
+            }
+
+            public void setIsTimelyShip(boolean IsTimelyShip) {
+                this.IsTimelyShip = IsTimelyShip;
+            }
+
+            public boolean isIsCustomerSecurity() {
+                return IsCustomerSecurity;
+            }
+
+            public void setIsCustomerSecurity(boolean IsCustomerSecurity) {
+                this.IsCustomerSecurity = IsCustomerSecurity;
+            }
+
+            public boolean isCanSelfTake() {
+                return CanSelfTake;
+            }
+
+            public void setCanSelfTake(boolean CanSelfTake) {
+                this.CanSelfTake = CanSelfTake;
+            }
         }
 
-        public void setIsTimelyShip(boolean IsTimelyShip) {
-            this.IsTimelyShip = IsTimelyShip;
-        }
+        public static class CashDepositsServerNameBean {
+            /**
+             * CashServiceName : 七天无理由退换货
+             */
 
-        public boolean isIsCustomerSecurity() {
-            return IsCustomerSecurity;
-        }
+            private String CashServiceName;
 
-        public void setIsCustomerSecurity(boolean IsCustomerSecurity) {
-            this.IsCustomerSecurity = IsCustomerSecurity;
-        }
+            public String getCashServiceName() {
+                return CashServiceName;
+            }
 
-        public boolean isCanSelfTake() {
-            return CanSelfTake;
-        }
-
-        public void setCanSelfTake(boolean CanSelfTake) {
-            this.CanSelfTake = CanSelfTake;
+            public void setCashServiceName(String CashServiceName) {
+                this.CashServiceName = CashServiceName;
+            }
         }
     }
 }

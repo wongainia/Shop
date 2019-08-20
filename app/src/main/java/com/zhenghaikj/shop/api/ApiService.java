@@ -21,6 +21,7 @@ import com.zhenghaikj.shop.entity.ConfirmModel;
 import com.zhenghaikj.shop.entity.ConfirmOrder;
 import com.zhenghaikj.shop.entity.ConfirmOrderOverResult;
 import com.zhenghaikj.shop.entity.DetailResult;
+import com.zhenghaikj.shop.entity.Distribution;
 import com.zhenghaikj.shop.entity.EasyResult;
 import com.zhenghaikj.shop.entity.EvaluatePhotoEntity;
 import com.zhenghaikj.shop.entity.EvaluateResult;
@@ -65,6 +66,7 @@ import com.zhenghaikj.shop.entity.RegisterResult;
 import com.zhenghaikj.shop.entity.SearchResult;
 import com.zhenghaikj.shop.entity.SearchShopResult;
 import com.zhenghaikj.shop.entity.SendMessage;
+import com.zhenghaikj.shop.entity.ShipmentNumber;
 import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.entity.Shop;
 import com.zhenghaikj.shop.entity.ShopCoupResult;
@@ -1302,4 +1304,30 @@ public interface ApiService {
             @Field("sign") String sign
     );
 
+    /*
+    * 分销列表
+    * */
+    @FormUrlEncoded
+    @POST("api/distribution/ProductList")
+    Observable<List<Distribution>> ProductList(
+            @Field("agentUserId") String gentUserId,
+            @Field("userkey") String userkey,
+            @Field("app_key") String app_key,
+            @Field("timestamp") String timestamp,
+            @Field("sign") String sign
+    );
+
+
+
+    /*
+     * 获取物流接口
+     * */
+   @GET("api/MemberOrder/GetExpressNum")
+    Observable<ShipmentNumber> GetExpressNum(
+           @Query("orderId") String orderId,
+           @Query("userkey") String userkey,
+           @Query("app_key") String app_key,
+           @Query("timestamp") String timestamp,
+           @Query("sign") String sign
+    );
 }

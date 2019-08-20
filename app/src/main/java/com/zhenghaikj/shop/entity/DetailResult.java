@@ -74,6 +74,25 @@ public class DetailResult implements Serializable {
     private List<ShopVersion> Version;
     private List<CustomerBean> CustomerServices;
     private List<String> ProductAttributeInfos;
+    private List<ProductAttributeInfolistBean> ProductAttributeInfolist;
+    private List<CashDepositsServerNameBean> CashDepositsServerName;
+
+    public List<CashDepositsServerNameBean> getCashDepositsServerName() {
+        return CashDepositsServerName;
+    }
+
+    public void setCashDepositsServerName(List<CashDepositsServerNameBean> cashDepositsServerName) {
+        CashDepositsServerName = cashDepositsServerName;
+    }
+
+
+    public List<ProductAttributeInfolistBean> getProductAttributeInfolist() {
+        return ProductAttributeInfolist;
+    }
+
+    public void setProductAttributeInfolist(List<ProductAttributeInfolistBean> productAttributeInfolist) {
+        ProductAttributeInfolist = productAttributeInfolist;
+    }
 
     public List<String> getProductAttributeInfos() {
         return ProductAttributeInfos;
@@ -781,6 +800,69 @@ public class DetailResult implements Serializable {
 
         public void setFavoriteShopCount(String FavoriteShopCount) {
             this.FavoriteShopCount = FavoriteShopCount;
+        }
+    }
+
+    private class ProductAttributeInfosList {
+        private String key;
+        private String value;
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
+
+    public static class ProductAttributeInfolistBean {
+        /**
+         * key : 接口类型
+         * value : USB
+         */
+
+        private String key;
+        private String value;
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
+
+    public static class CashDepositsServerNameBean {
+        /**
+         * CashServiceName : 七天无理由退换货
+         */
+
+        private String CashServiceName;
+
+        public String getCashServiceName() {
+            return CashServiceName;
+        }
+
+        public void setCashServiceName(String CashServiceName) {
+            this.CashServiceName = CashServiceName;
         }
     }
 }

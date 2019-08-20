@@ -43,6 +43,15 @@ public class PersonalInformation implements Serializable {
     private String Stringegral;
     private String GroupTotal;
     private String MyGroup;
+    private String Promoter;
+
+    public String getPromoter() {
+        return Promoter;
+    }
+
+    public void setPromoter(String promoter) {
+        Promoter = promoter;
+    }
 
     public boolean isSuccess() {
         return Success;

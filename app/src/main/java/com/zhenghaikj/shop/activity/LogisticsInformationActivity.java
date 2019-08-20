@@ -25,6 +25,7 @@ import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.Order;
 import com.zhenghaikj.shop.entity.OrderDetail;
+import com.zhenghaikj.shop.entity.ShipmentNumber;
 import com.zhenghaikj.shop.mvp.contract.ExpressContract;
 import com.zhenghaikj.shop.mvp.model.ExpressModel;
 import com.zhenghaikj.shop.mvp.presenter.ExpressPresenter;
@@ -83,7 +84,8 @@ public class LogisticsInformationActivity extends BaseActivity<ExpressPresenter,
     protected void initData() {
         orderId = getIntent().getStringExtra("orederId");
 //        ToastUtils.showShort(orderId);
-        mPresenter.GetExpress(orderId, userKey);
+//        mPresenter.GetExpress(orderId, userKey);
+        mPresenter.GetExpressNum(orderId,userKey);
         mPresenter.GetOrders("3", "1", "10", userKey);
         mPresenter.GetOrderDetail(orderId,userKey);
     }
@@ -163,6 +165,15 @@ public class LogisticsInformationActivity extends BaseActivity<ExpressPresenter,
                     .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
                     .into(mIvGoods);
             mTvAddress.setText("配送至："+result.getOrder().getAddress());
+        }
+    }
+
+    @Override
+    public void GetExpressNum(ShipmentNumber result) {
+        if ("true".equals(result.getSuccess())){
+            mPresenter.GetExpressInfo(result.getExpressNum());
+            mTvLogisticsCompany.setText("物流公司：" + result.getExpressCompany());
+            mTvTrackingNumber.setText("物流编号：" + result.getExpressNum());
         }
     }
 }
