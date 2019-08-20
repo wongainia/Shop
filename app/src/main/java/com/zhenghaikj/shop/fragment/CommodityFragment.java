@@ -57,7 +57,7 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
     TextView mTvSmartCleaning;
     @BindView(R.id.tv_delete)
     TextView mTvDelete;
-    @BindView(R.id.ll_management)
+   @BindView(R.id.ll_management)
     LinearLayout mLlManagement;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;

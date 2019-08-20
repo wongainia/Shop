@@ -14,7 +14,8 @@ interface GetHistoryVisiteContract {
         /*
         * 显示应用接口
         **/
-        fun  GetHistoryVisite(historyBean: HistoryBean)
+         fun  GetHistoryVisite(historyBean: HistoryBean)
+
     }
 
       interface Presenter:IBasePresenter<View>{

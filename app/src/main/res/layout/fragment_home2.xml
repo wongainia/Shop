@@ -22,11 +22,13 @@
 
 
 
+
         <RelativeLayout
             android:id="@+id/search_rl_top_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/home_shape">
+            android:background="@drawable/home_shape"
+            >
 
     <RelativeLayout
         android:id="@+id/search_rl_top"
@@ -143,29 +145,39 @@
                 android:textColor="@color/_6"
                 android:textSize="15dp" />
 
-
         </LinearLayout>
-    </RelativeLayout>
-
+       </RelativeLayout>
         </RelativeLayout>
 
+        <!--
+          app:srlHeaderMaxDragRate="1"
+            app:srlHeaderTriggerRate="0.6"
+            app:srlDragRate="0.8"
+        -->
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlAccentColor="@color/white"
-            app:srlHeaderMaxDragRate="1"
-            app:srlHeaderTriggerRate="0.6"
-            app:srlDragRate="0.8"
+
             >
 
-      <com.scwang.smartrefresh.layout.header.ClassicsHeader
+
+   <!--  <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/home_shape"
-            />
+               />-->
 
+<com.scwang.smartrefresh.layout.header.TwoLevelHeader
+    android:id="@+id/header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/home_shape"
+    >
+
+</com.scwang.smartrefresh.layout.header.TwoLevelHeader>
 
 
 
@@ -173,6 +185,7 @@
         android:id="@+id/search_sv_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:layout_below="@id/search_rl_top">
         <LinearLayout
             android:layout_width="match_parent"
@@ -351,7 +364,8 @@
                       android:id="@+id/iv_register"
                       android:layout_width="match_parent"
                       android:layout_height="70dp"
-                      android:src="@drawable/home_banner2" />
+                      android:src="@drawable/home_banner2"
+                      android:background="@color/white"/>
 
 
                <!--找师傅-->
@@ -363,6 +377,7 @@
                 android:id="@+id/ll_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#eee"
                 android:orientation="vertical"/>
             <!--后台添加框架样式-->
 
@@ -385,7 +400,8 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/time" />
+                    android:src="@drawable/time"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"

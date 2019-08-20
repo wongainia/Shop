@@ -39,11 +39,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.OnTwoLevelListener;
 import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.header.TwoLevelHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -67,6 +69,7 @@ import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.SearchPreDetailActivity;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
+import com.zhenghaikj.shop.activity.TwoLevelActivity;
 import com.zhenghaikj.shop.adapter.ExchageAdapter;
 import com.zhenghaikj.shop.adapter.LimitedTimeAdapter;
 import com.zhenghaikj.shop.adapter.NewHomeAdapter;
@@ -141,6 +144,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @BindView(R.id.img_search)
     ImageView mImgsearch;
 
+    @BindView(R.id.header)
+    TwoLevelHeader header;
 
 
 
@@ -354,6 +359,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
 
 
+
         mRefreshLayout.setOnMultiPurposeListener(new OnMultiPurposeListener() {
            /*  0->255   0为透明  255为不透明
                       根据percent百分比显示隐藏头布局 0->1  1为完全透明*/
@@ -363,6 +369,10 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
                 Log.d("======>Moving", String.valueOf(percent));
 
+                Log.d("======>isDragging", String.valueOf(isDragging));
+                Log.d("======>offset", String.valueOf(offset));
+                Log.d("======>headerHeight", String.valueOf(headerHeight));
+                Log.d("======>maxDragHeight", String.valueOf(maxDragHeight));
 
                 if (percent<1/3f){
                     mImgIconYu.setImageAlpha((int) ((-percent*765)+255));
@@ -385,6 +395,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 }
 
 
+
             }
 
             /*刷新中*/
@@ -399,6 +410,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 mSearchTvSearch.setTextColor(mSearchTvSearch.getTextColors().withAlpha(0));
                 mImgsearch.setImageAlpha(0);
                 mSearchRlTop.getBackground().setAlpha(0);
+
             }
 
             @Override
@@ -455,11 +467,33 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
             @Override
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
 
+                Log.d("=======>StateChanged", String.valueOf(refreshLayout.getState().isTwoLevel));
+                Log.d("=======>isDragging", String.valueOf(refreshLayout.getState().isDragging));
+                Log.d("=======>newState", String.valueOf(newState.isTwoLevel));
+                Log.d("=======>oldState", String.valueOf(oldState.isTwoLevel));
+
+                Log.d("1=======>isFinishing", String.valueOf(newState.isFinishing));
+                Log.d("2=======>isFinishing", String.valueOf(refreshLayout.getState().isFinishing));
+                Log.d("3=======>isFinishing", String.valueOf(oldState.isFinishing));
+
+                Log.d("1=isReleaseToOpening", String.valueOf(newState.isReleaseToOpening));
+                Log.d("2=isReleaseToOpening", String.valueOf(refreshLayout.getState().isReleaseToOpening));
+                Log.d("3=isReleaseToOpening", String.valueOf(oldState.isReleaseToOpening));
+
+
+               if (!refreshLayout.getState().isDragging){
+                    if (oldState.isTwoLevel){
+                     if (oldState.isReleaseToOpening){
+                         startActivity(new Intent(mActivity, TwoLevelActivity.class));
+                         mActivity.overridePendingTransition(R.anim.anim_no, R.anim.anim_no);
+                     }
+                        header.finishTwoLevel();
+
+                    }
+                }
+
             }
         });
-
-
-
     }
 
 

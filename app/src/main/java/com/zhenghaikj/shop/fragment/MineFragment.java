@@ -506,15 +506,12 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         mLlGift.setOnClickListener(this);
         mLlBaby.setOnClickListener(this);
         mLlPurse.setOnClickListener(this);
-
         mLlFreeInstallation.setOnClickListener(this);
         mLlFreeRepair.setOnClickListener(this);
         mLlCustomerService.setOnClickListener(this);
         mLlCoins.setOnClickListener(this);
-
         mTvUsername.setOnClickListener(this);
         mFlMessage.setOnClickListener(this);
-
         mLlBecomeMaster.setOnClickListener(this);
         mLlMerchant.setOnClickListener(this);
         mFlInfo.setOnClickListener(this);
@@ -631,7 +628,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_baby:
                 //足迹
                  startActivity(new Intent(mActivity, FootprintActivity.class));
-              //  startActivity(new Intent(mActivity, HistoryActivityKt.class));
+              //startActivity(new Intent(mActivity, HistoryActivityKt.class));
                 break;
             case R.id.ll_purse:
                 //我的钱包

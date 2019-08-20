@@ -113,13 +113,21 @@
             android:name=".activity.SplashActivity"
             android:theme="@style/ThemeSplash"
             >
+
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!--二楼-->
+               <activity android:name=".activity.TwoLevelActivity"
+         android:theme="@style/AppSplash"
+         android:launchMode="singleTask"
 
+         />
 
 
         <activity android:name=".activity.CallChageActivity"

@@ -20,8 +20,8 @@ class GetHistoryVisitePresenter:BaseRxPresenter<GetHistoryVisiteContract.View>()
     private var map: MutableMap<String, String>? = null
     private var sign: String? = null
     private var timestamp: String? = null
-
     var history:HistoryBean?=null
+
 
 
     override fun GetHistoryVisite(rows: String, page: String, userkey: String) {

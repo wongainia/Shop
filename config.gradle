@@ -20,7 +20,7 @@ ext{
             eventbus                : "3.0.0",
             banner                  : "1.4.10",
             glide                   : "4.8.0",
-            smartRefresh            : "1.0.5.1",
+            smartRefresh            : "1.1.0",
             utilcodex               : "1.23.7"
     ]
 
