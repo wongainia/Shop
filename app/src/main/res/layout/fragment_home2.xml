@@ -159,7 +159,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlAccentColor="@color/white"
-
+            app:srlFooterMaxDragRate="1"
             >
 
 
@@ -179,7 +179,11 @@
 
 </com.scwang.smartrefresh.layout.header.TwoLevelHeader>
 
-
+<com.scwang.smartrefresh.layout.footer.ClassicsFooter
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+</com.scwang.smartrefresh.layout.footer.ClassicsFooter>
 
     <com.zhenghaikj.shop.widget.AnimationNestedScrollView
         android:id="@+id/search_sv_view"

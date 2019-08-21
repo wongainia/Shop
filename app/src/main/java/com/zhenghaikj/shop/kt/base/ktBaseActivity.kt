@@ -21,6 +21,7 @@ abstract class ktBaseActivity :AppCompatActivity(){
         mActivity=this
         //向activity栈中添加当前activity
         ActivityManager.instance.addActivity(this)
+        setContentView(getLayoutId())
         initView(savedInstanceState)
         initData()
         initListener()

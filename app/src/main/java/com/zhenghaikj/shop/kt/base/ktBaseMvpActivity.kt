@@ -20,7 +20,6 @@ abstract class ktBaseMvpActivity<in V:IBaseView,P:IBasePresenter<V>>:ktBaseActiv
 
     override fun initListener() {
         super.initListener()
-
     }
     /**
      * 释放一些资源

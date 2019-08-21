@@ -83,7 +83,7 @@ import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
-import com.zhenghaikj.shop.kt.ui.HistoryActivityKt;
+import com.zhenghaikj.shop.kt.ui.activity.HistoryActivityKt;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
 import com.zhenghaikj.shop.mvp.presenter.MinePresenter;
@@ -627,8 +627,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 break;
             case R.id.ll_baby:
                 //足迹
-                 startActivity(new Intent(mActivity, FootprintActivity.class));
-              //startActivity(new Intent(mActivity, HistoryActivityKt.class));
+                // startActivity(new Intent(mActivity, FootprintActivity.class));
+                startActivity(new Intent(mActivity, HistoryActivityKt.class));
                 break;
             case R.id.ll_purse:
                 //我的钱包

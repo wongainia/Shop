@@ -147,6 +147,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @BindView(R.id.header)
     TwoLevelHeader header;
 
+    @BindView(R.id.search_rl_top_bg)
+    RelativeLayout mSearchrl_top_bg;
 
 
     private float LL_SEARCH_MIN_TOP_MARGIN, LL_SEARCH_MAX_TOP_MARGIN, LL_SEARCH_MAX_WIDTH, LL_SEARCH_MIN_WIDTH, TV_TITLE_MAX_TOP_MARGIN;
@@ -491,6 +493,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
                     }
                 }
+
+
 
             }
         });

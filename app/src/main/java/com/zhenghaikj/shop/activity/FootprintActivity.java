@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -81,6 +82,8 @@ public class FootprintActivity extends BaseActivity<HistoryVisitePresenter, Hist
             intent.putExtra("id", list.get(position).getProductId());
             startActivity(intent);
         });
+
+
     }
 
     @Override
