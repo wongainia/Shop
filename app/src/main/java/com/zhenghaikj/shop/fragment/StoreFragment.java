@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -18,6 +19,8 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.adapter.StoreAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
+import com.zhenghaikj.shop.entity.CollectionProduct;
 import com.zhenghaikj.shop.entity.CollectionShop;
 import com.zhenghaikj.shop.entity.PostattentionResult;
 import com.zhenghaikj.shop.mvp.contract.CollectionShopContract;
@@ -82,7 +85,8 @@ public class StoreFragment extends BaseLazyFragment<CollectionShopPresenter, Col
                 switch (view.getId()) {
                     case R.id.tv_unsubscribe:
                         mPresenter.PostAddFavoriteShop(((CollectionShop.DataBean)adapter.getItem(position)).getShopId(),userKey);
-                        mRefreshLayout.autoRefresh();
+//                        mRefreshLayout.autoRefresh();
+                        adapter.remove(position);
                         break;
                     case R.id.ll_store:
                         Intent intent=new Intent(mActivity, StoreDetailActivity.class);
@@ -94,6 +98,35 @@ public class StoreFragment extends BaseLazyFragment<CollectionShopPresenter, Col
             }
         });
 
+        storeAdapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
+            @Override
+            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.ll_store:
+                        final CommonDialog_Home dialog = new CommonDialog_Home(getActivity());
+                        dialog.setMessage("是否删除商品")
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//拨打电话
+                                dialog.dismiss();
+                                mPresenter.PostAddFavoriteShop(((CollectionShop.DataBean)adapter.getItem(position)).getShopId(),userKey);
+//                                mRefreshLayout.autoRefresh();
+                                adapter.remove(position);
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+                        break;
+                }
+                return true;
+            }
+        });
         /*下拉刷新*/
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -147,5 +180,8 @@ public class StoreFragment extends BaseLazyFragment<CollectionShopPresenter, Col
     @Override
     public void PostAddFavoriteShop(PostattentionResult result) {
 //        mPresenter.GetUserCollectionShop(Integer.toString(pageNo), "10", userKey);
+        if (result.isSuccess()){
+            ToastUtils.showShort(result.getMsg());
+        }
     }
 }

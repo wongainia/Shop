@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -22,6 +23,7 @@ import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.SimilarActivity;
 import com.zhenghaikj.shop.adapter.CommodityAdapter;
 import com.zhenghaikj.shop.base.BaseLazyFragment;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.CollectResult;
 import com.zhenghaikj.shop.entity.CollectionProduct;
 import com.zhenghaikj.shop.mvp.contract.CollectionProductContract;
@@ -108,7 +110,8 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
                     case R.id.tv_delete:
                         Log.d(TAG, "onItemChildClick: "+((CollectionProduct.DataBean)adapter.getItem(position)).getId());
                         mPresenter.PostAddFavoriteProduct((((CollectionProduct.DataBean)adapter.getItem(position)).getId()),userKey);
-                        mRefreshLayout.autoRefresh();
+//                        mRefreshLayout.autoRefresh();
+                        adapter.remove(position);
                         break;
                     case R.id.ll_commodity:
                         Intent intent=new Intent(mActivity, GoodsDetailActivity.class);
@@ -122,6 +125,36 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
                         startActivity(intent);
                         break;
                 }
+            }
+        });
+
+        commodityAdapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
+            @Override
+            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.ll_commodity:
+                        final CommonDialog_Home dialog = new CommonDialog_Home(getActivity());
+                        dialog.setMessage("是否删除商品")
+                                //.setImageResId(R.mipmap.ic_launcher)
+                                .setTitle("提示")
+                                .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                            @Override
+                            public void onPositiveClick() {//拨打电话
+                                dialog.dismiss();
+                                mPresenter.PostAddFavoriteProduct((((CollectionProduct.DataBean)adapter.getItem(position)).getId()),userKey);
+//                                mRefreshLayout.autoRefresh();
+                                adapter.remove(position);
+                            }
+
+                            @Override
+                            public void onNegtiveClick() {//取消
+                                dialog.dismiss();
+                                // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                            }
+                        }).show();
+                        break;
+                }
+                return true;
             }
         });
 
@@ -177,6 +210,7 @@ public class CommodityFragment extends BaseLazyFragment<CollectionProductPresent
         if (Result.isSuccess()){
             idList=Result.getData();
 //            idList.addAll(Result.getData());
+            ToastUtils.showShort("删除成功");
         }
     }
 }

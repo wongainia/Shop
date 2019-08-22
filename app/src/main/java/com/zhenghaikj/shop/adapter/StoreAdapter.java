@@ -21,6 +21,7 @@ public class StoreAdapter extends BaseQuickAdapter<CollectionShop.DataBean, Base
     protected void convert(BaseViewHolder helper, CollectionShop.DataBean item) {
         helper.addOnClickListener(R.id.ll_store);
         helper.addOnClickListener(R.id.tv_unsubscribe);
+        helper.addOnLongClickListener(R.id.ll_store);
         helper.setText(R.id.tv_store_name,item.getName());
         ImageView icon=helper.getView(R.id.iv_store_picture);
         GlideUtil.loadImageViewLoding(mContext,item.getLogo(),icon,R.drawable.image_loading,R.drawable.image_loading);

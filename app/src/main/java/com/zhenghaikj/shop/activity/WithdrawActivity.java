@@ -266,6 +266,9 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 2000:
+                if(data==null){
+                    return;
+                }
                 String bankName = data.getStringExtra("bankName");
                 bankNo = data.getStringExtra("bankNo");
 //                ToastUtils.showShort(bankNo);

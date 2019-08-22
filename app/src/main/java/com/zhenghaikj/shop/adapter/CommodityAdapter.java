@@ -26,5 +26,6 @@ public class CommodityAdapter extends BaseQuickAdapter<CollectionProduct.DataBea
         helper.addOnClickListener(R.id.tv_delete)
                 .addOnClickListener(R.id.tv_find_similar)
                 .addOnClickListener(R.id.ll_commodity);
+        helper.addOnLongClickListener(R.id.ll_commodity);
     }
 }
