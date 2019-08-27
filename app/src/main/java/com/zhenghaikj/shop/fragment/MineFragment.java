@@ -630,10 +630,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_baby:
                 //足迹
                 // startActivity(new Intent(mActivity, FootprintActivity.class));
-                //startActivity(new Intent(mActivity, HistoryActivityKt.class));
+                startActivity(new Intent(mActivity, HistoryActivityKt.class));
                 //flutter测试
 
-                startActivity(new Intent(mActivity, FlutterTestActivity.class));
+                //startActivity(new Intent(mActivity, FlutterTestActivity.class));
 
                 break;
             case R.id.ll_purse:
