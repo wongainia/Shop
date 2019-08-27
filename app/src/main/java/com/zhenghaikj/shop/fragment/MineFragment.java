@@ -83,6 +83,7 @@ import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
+import com.zhenghaikj.shop.kt.ui.activity.FlutterTestActivity;
 import com.zhenghaikj.shop.kt.ui.activity.HistoryActivityKt;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
@@ -306,6 +307,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private String content;
     private int paytype;
     private PersonalInformation userInfoResult;
+
 
     @Override
     protected void initImmersionBar() {
@@ -628,7 +630,11 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             case R.id.ll_baby:
                 //足迹
                 // startActivity(new Intent(mActivity, FootprintActivity.class));
-                startActivity(new Intent(mActivity, HistoryActivityKt.class));
+                //startActivity(new Intent(mActivity, HistoryActivityKt.class));
+                //flutter测试
+
+                startActivity(new Intent(mActivity, FlutterTestActivity.class));
+
                 break;
             case R.id.ll_purse:
                 //我的钱包
@@ -1058,6 +1064,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                             if (data != null) {
                                 if ("服务完成".equals(data.getState())) {
                                     showOrderEvaluate();
+                                    return;
                                 }
                             }
                         }
@@ -1084,6 +1091,9 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 } else {
                     ToastUtils.showShort(data.getItem2());
                 }
+
+                //支付成功后检查是否有别的已完成的单子
+                mPresenter.GetOrderByhmall(UserID);
                 break;
             default:
                 break;
@@ -1286,7 +1296,6 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
 
         }
     }
-
     /*弹出确认工单评价*/
     public void showOrderEvaluate() {
         view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_evaluate, null);
@@ -1348,10 +1357,13 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 setStarName2(tv_fuwu_content, starRating3);
             }
         });
+
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EvalateDialog.dismiss();
+                mPresenter.GetOrderByhmall(UserID);
+                Toast.makeText(mActivity,"请您完成评价!!",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -1383,6 +1395,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 }
             }
         });
+
+
+
+
 
 
         EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
