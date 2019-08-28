@@ -1,35 +1,49 @@
 package com.zhenghaikj.shop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gyf.barlibrary.ImmersionBar;
-import com.qiyukf.unicorn.api.ConsultSource;
-import com.qiyukf.unicorn.api.QuickEntry;
-import com.qiyukf.unicorn.api.Unicorn;
-import com.qiyukf.unicorn.api.pop.POPManager;
+import com.m7.imkfsdk.KfStartHelper;
+import com.m7.imkfsdk.MainActivity;
+import com.moor.imkf.IMChatManager;
+import com.moor.imkf.utils.MoorUtils;
 import com.qiyukf.unicorn.api.pop.Session;
-import com.qiyukf.unicorn.api.pop.SessionListEntrance;
-import com.qiyukf.unicorn.api.pop.ShopEntrance;
-import com.qiyukf.unicorn.api.pop.ShopInfo;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.adapter.SessionAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.Announcement;
+import com.zhenghaikj.shop.entity.AnnouncementDetail;
+import com.zhenghaikj.shop.entity.Message;
+import com.zhenghaikj.shop.entity.MessageData;
+import com.zhenghaikj.shop.entity.MessageReadResult;
+import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.mvp.contract.ArticleContract;
+import com.zhenghaikj.shop.mvp.contract.MessageContract;
+import com.zhenghaikj.shop.mvp.model.ArticleModel;
+import com.zhenghaikj.shop.mvp.model.MessageModel;
+import com.zhenghaikj.shop.mvp.presenter.ArticlePresenter;
+import com.zhenghaikj.shop.mvp.presenter.MessagePresenter;
 
-import java.util.ArrayList;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import q.rorbin.badgeview.QBadgeView;
 
-public class MessageActivity2 extends BaseActivity implements View.OnClickListener {
+public class MessageActivity2 extends BaseActivity<ArticlePresenter, ArticleModel> implements View.OnClickListener , ArticleContract.View {
 
     @BindView(R.id.view)
     View mView;
@@ -43,16 +57,40 @@ public class MessageActivity2 extends BaseActivity implements View.OnClickListen
     ImageView mIconSearch;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.rv_message)
-    RecyclerView mRvMessage;
+    @BindView(R.id.tv_chat_message)
+    TextView mTvChatMessage;
+    @BindView(R.id.ll_chat_message)
+    LinearLayout mLlChatMessage;
+    @BindView(R.id.ll_chat)
+    LinearLayout mLlChat;
+    @BindView(R.id.tv_work_order_message)
+    TextView mTvWorkOrderMessage;
+    @BindView(R.id.ll_workmessage)
+    LinearLayout mLlWorkmessage;
+    @BindView(R.id.ll_work_order_message)
+    LinearLayout mLlWorkOrderMessage;
+    @BindView(R.id.tv_trading_information)
+    TextView mTvTradingInformation;
+    @BindView(R.id.ll_transactionmessage)
+    LinearLayout mLlTransactionmessage;
+    @BindView(R.id.ll_transaction_news)
+    LinearLayout mLlTransactionNews;
+    @BindView(R.id.tv_system_information)
+    TextView mTvSystemInformation;
+    @BindView(R.id.ll_announcement)
+    LinearLayout mLlAnnouncement;
 
     private SessionAdapter adapter;
 
     private List<Session> sessionList;
+    private UserInfo.UserInfoDean userInfo;
+    private QBadgeView workqBadgeView;
+    private QBadgeView transactionqBadgeView;
+    private QBadgeView chatBadgeView;
 
     @Override
     protected int setLayoutId() {
-        return R.layout.activity_message;
+        return R.layout.activity_message2;
     }
 
     /**
@@ -70,76 +108,99 @@ public class MessageActivity2 extends BaseActivity implements View.OnClickListen
     @Override
     protected void initData() {
         mTvTitle.setVisibility(View.VISIBLE);
+
+
     }
 
     @Override
     protected void initView() {
         mTvTitle.setText("消息");
-        /**
-         * 获取最近联系商家列表
-         *
-         * @return 最近联系商家列表
-         */
-        sessionList = POPManager.getSessionList();
-        adapter = new SessionAdapter(R.layout.item_message, sessionList);
-        mRvMessage.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRvMessage.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                /**
-                 * 根据商家ID获取商家信息，如名称，logo
-                 *
-                 * @param shopId 商家ID
-                 * @return 如果用户联系过该商家，返回商家信息，否则返回 null
-                 */
-                ShopInfo shopInfo = POPManager.getShopInfo(sessionList.get(position).getContactId());
+        mLlChat.setOnClickListener(this);
+        if (isLogin) {
+            mPresenter.GetUserInfoList(UserID, "1");
+        }
 
-                String title = shopInfo.getName();
-/**
- * 设置访客来源，标识访客是从哪个页面发起咨询的，用于客服了解用户是从什么页面进入。
- * 三个参数分别为：来源页面的url，来源页面标题，来源页面额外信息（保留字段，暂时无用）。
- * 设置来源后，在客服会话界面的"用户资料"栏的页面项，可以看到这里设置的值。
- */
-                ConsultSource source = new ConsultSource("", "消息页面", "custom information string");
-/**
- * 请注意： 调用该接口前，应先检查Unicorn.isServiceAvailable()，
- * 如果返回为false，该接口不会有任何动作
- *
- * @param context 上下文
- * @param title   聊天窗口的标题
- * @param source  咨询的发起来源，包括发起咨询的url，title，描述信息等
- */
-                source.shopEntrance=new ShopEntrance.Builder().setLogo(shopInfo.getAvatar()).setName(shopInfo.getName()).build();
-                source.sessionListEntrance=new SessionListEntrance.Builder().build();
-                source.quickEntryList = new ArrayList<>();
-                source.quickEntryList.add(new QuickEntry(0, "查订单", ""));
-                source.quickEntryList.add(new QuickEntry(1, "查物流", ""));
-//                source.productDetail=new ProductDetail.Builder()
-//                        .setTitle(result.getProduct().getProductName())
-//                        .setPicture(result.getProduct().getImagePath().get(0))
-//                        .setNote("￥"+result.getProduct().getMinSalePrice())
-//                        .setDesc(result.getProduct().getProductName())
-//                        .setUrl(result.getProduct().getProductId()+"")
-//                        .setShow(1)
-//                        .setAlwaysSend(true)
-//                        .build();
-//                source.shopId=result.getShop().getVShopId()+"";
-                Unicorn.openServiceActivity(mActivity, title, source);
-            }
-        });
+        chatBadgeView = new QBadgeView(mActivity);
+        chatBadgeView.bindTarget(mLlChatMessage);
+        chatBadgeView.setBadgeGravity(Gravity.CENTER|Gravity.END);
+
+        workqBadgeView = new QBadgeView(mActivity);
+        workqBadgeView.bindTarget(mLlWorkmessage);
+        workqBadgeView.setBadgeGravity(Gravity.CENTER|Gravity.END);
+
+
+        transactionqBadgeView = new QBadgeView(mActivity);
+        transactionqBadgeView.bindTarget(mLlTransactionmessage);
+        transactionqBadgeView.setBadgeGravity(Gravity.CENTER|Gravity.END);
+
+        mPresenter.GetOrderMessageList(UserID,"0","99","1");
+        mPresenter.GetTransactionMessageList(UserID,"0","99","1");
+        final KfStartHelper helper = new KfStartHelper(MessageActivity2.this);
+//        helper.initSdkChat("87326950-b5a5-11e9-be6e-a515be030f55", "name", "i12345678");//腾讯云正式
+        if (MoorUtils.isInitForUnread(mActivity)) {
+            IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
+                @Override
+                public void getUnRead(int acount) {
+//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
+                    if (acount==0){
+                        chatBadgeView.setVisibility(View.INVISIBLE);
+                        return;
+                    }else if (acount>=99){
+                        chatBadgeView.setVisibility(View.VISIBLE);
+                        chatBadgeView.setBadgeNumber(99);
+                    }else {
+                        chatBadgeView.setVisibility(View.VISIBLE);
+                        chatBadgeView.setBadgeNumber(acount);
+                    }
+
+                }
+            });
+        } else {
+            //未初始化，消息当然为 ：0
+            Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     protected void setListener() {
         mIconBack.setOnClickListener(this);
+        mLlWorkOrderMessage.setOnClickListener(this);
+        mLlTransactionNews.setOnClickListener(this);
+        mLlAnnouncement.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 finish();
+                break;
+            case R.id.ll_chat:
+                Intent intent1 = new Intent(mActivity, MainActivity.class);
+                if (isLogin) {
+                    intent1.putExtra("userName", userInfo.getNickName());
+                    intent1.putExtra("userId", userInfo.getUserID());
+
+                    intent1.putExtra("userPic", userInfo.getAvator());
+                } else {
+                    intent1.putExtra("userName", "游客");
+                    intent1.putExtra("userId", "123456789");
+                    intent1.putExtra("userPic", R.drawable.default_avator);
+                }
+
+                startActivity(intent1);
+                break;
+            case R.id.ll_work_order_message://工单消息
+
+                startActivity(new Intent(mActivity, OrderMessageActivity.class));
+                break;
+            case R.id.ll_transaction_news://交易信息
+                startActivity(new Intent(mActivity, TransactionMessageActivity.class));
+                break;
+            case R.id.ll_announcement:
+                Intent intent = new Intent(mActivity, MessageActivity.class);
+                intent.putExtra("CategoryID","7");
+                startActivity(intent);
                 break;
         }
     }
@@ -151,4 +212,91 @@ public class MessageActivity2 extends BaseActivity implements View.OnClickListen
         ButterKnife.bind(this);
     }
 
+
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
+        switch (Result.getStatusCode()) {
+            case 200:
+                userInfo = Result.getData().getData().get(0);
+                break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(String name) {
+        if (isLogin) {
+            if ("message".equals(name)) {
+                if (MoorUtils.isInitForUnread(mActivity)) {
+                    IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
+                        @Override
+                        public void getUnRead(int acount) {
+//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
+                            if (acount==0){
+                                chatBadgeView.setVisibility(View.INVISIBLE);
+                                return;
+                            }else if (acount>=99){
+                                chatBadgeView.setVisibility(View.VISIBLE);
+                                chatBadgeView.setBadgeNumber(99);
+                            }else {
+                                chatBadgeView.setVisibility(View.VISIBLE);
+                                chatBadgeView.setBadgeNumber(acount);
+                            }
+
+                        }
+                    });
+                } else {
+                    //未初始化，消息当然为 ：0
+                    Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            if ("transaction_num".equals(name)){
+                mPresenter.GetTransactionMessageList(UserID,"0","99","1");
+            }else if ("order_num".equals(name)){
+                mPresenter.GetOrderMessageList(UserID,"0","99","1");
+            }
+        }
+    }
+
+    @Override
+    public void GetOrderMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().getCount()==0){
+                    workqBadgeView.setVisibility(View.INVISIBLE);
+                    return;
+                }else if (baseResult.getData().getCount()>=99){
+                    workqBadgeView.setVisibility(View.VISIBLE);
+                    workqBadgeView.setBadgeNumber(99);
+                }else {
+                    workqBadgeView.setVisibility(View.VISIBLE);
+                    workqBadgeView.setBadgeNumber(baseResult.getData().getCount());
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void GetTransactionMessageList(BaseResult<MessageData<List<Message>>> baseResult) {
+        switch (baseResult.getStatusCode()){
+            case 200:
+                if (baseResult.getData().getCount()==0){
+                    transactionqBadgeView.setVisibility(View.INVISIBLE);
+                    return;
+                }else if (baseResult.getData().getCount()>=99){
+                    transactionqBadgeView.setVisibility(View.VISIBLE);
+                    transactionqBadgeView.setBadgeNumber(99);
+                }else {
+                    transactionqBadgeView.setVisibility(View.VISIBLE);
+                    transactionqBadgeView.setBadgeNumber(baseResult.getData().getCount());
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

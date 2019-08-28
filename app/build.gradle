@@ -157,4 +157,6 @@ dependencies {
     implementation project(path: ':V5ClientLibrary')
     implementation files('libs\\IMKFSDKTX-3.2.4.jar')
 
+    /*badgeview*/
+    implementation 'q.rorbin:badgeview:1.1.3'
 }

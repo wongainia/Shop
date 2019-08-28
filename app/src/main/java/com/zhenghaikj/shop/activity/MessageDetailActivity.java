@@ -12,9 +12,11 @@ import androidx.appcompat.widget.Toolbar;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.base.BaseResult;
 import com.zhenghaikj.shop.entity.Announcement;
 import com.zhenghaikj.shop.entity.AnnouncementDetail;
 import com.zhenghaikj.shop.entity.MessageReadResult;
+import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.MessageContract;
 import com.zhenghaikj.shop.mvp.model.MessageModel;
 import com.zhenghaikj.shop.mvp.presenter.MessagePresenter;
@@ -81,6 +83,11 @@ public class MessageDetailActivity extends BaseActivity<MessagePresenter, Messag
 
     @Override
     public void AddArticlRead(MessageReadResult result) {
+
+    }
+
+    @Override
+    public void GetUserInfoList(BaseResult<UserInfo> Result) {
 
     }
 

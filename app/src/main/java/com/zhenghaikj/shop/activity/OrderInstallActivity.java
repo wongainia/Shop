@@ -1,7 +1,9 @@
 package com.zhenghaikj.shop.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +40,7 @@ import com.zhenghaikj.shop.entity.Express;
 import com.zhenghaikj.shop.entity.Logistics;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.entity.Province;
+import com.zhenghaikj.shop.entity.ShippingAddressList;
 import com.zhenghaikj.shop.mvp.contract.AddInstallOrderContract;
 import com.zhenghaikj.shop.mvp.model.AddInstallOrderModel;
 import com.zhenghaikj.shop.mvp.presenter.AddInstallOrderPresenter;
@@ -49,13 +53,16 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /*保内上门安装*/
 public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter, AddInstallOrderModel> implements AddInstallOrderContract.View, View.OnClickListener {
-    private static final String TAG ="OrderInstallActivity" ;
+    private static final String TAG = "OrderInstallActivity";
+    @BindView(R.id.tv_chage_Address)
+    TextView mTvChageAddress;
     private String orderID;
-    private OrderDetail.OrderItemBean bean=new OrderDetail.OrderItemBean();
-    private OrderDetail.OrderBean order=new OrderDetail.OrderBean();
+    private OrderDetail.OrderItemBean bean = new OrderDetail.OrderItemBean();
+    private OrderDetail.OrderBean order = new OrderDetail.OrderBean();
 
     private ZLoadingDialog dialog;
 
@@ -63,34 +70,34 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     //ImageView mImgshop;
     //@BindView(R.id.tv_shop)
     //TextView mTvshop;
-  // @BindView(R.id.tv_save)
-  // TextView mTvsave;
+    // @BindView(R.id.tv_save)
+    // TextView mTvsave;
     @BindView(R.id.view)
     View mView;
- //   @BindView(R.id.tv_count)
- //   TextView mTvcount;
+    //   @BindView(R.id.tv_count)
+    //   TextView mTvcount;
     @BindView(R.id.tv_address)
     TextView mTvaddress;
-     @BindView(R.id.img_arrow)
-     ImageView mImgarrow;
-     @BindView(R.id.icon_back)
-     ImageView mIconback;
-     @BindView(R.id.tv_to_Address)
-     TextView mTvtoAddress;
-     @BindView(R.id.et_name)
-     EditText mEtname;
-     @BindView(R.id.et_phone)
-     EditText mEtphone;
-     //@BindView(R.id.adderview)
-     //AdderView adderView;
-     @BindView(R.id.et_address)
-     EditText mEtaddress;
+    @BindView(R.id.img_arrow)
+    ImageView mImgarrow;
+    @BindView(R.id.icon_back)
+    ImageView mIconback;
+    @BindView(R.id.tv_to_Address)
+    TextView mTvtoAddress;
+    @BindView(R.id.et_name)
+    EditText mEtname;
+    @BindView(R.id.et_phone)
+    EditText mEtphone;
+    //@BindView(R.id.adderview)
+    //AdderView adderView;
+    @BindView(R.id.et_address)
+    EditText mEtaddress;
 
-     @BindView(R.id.rv)
-     RecyclerView rv;
+    @BindView(R.id.rv)
+    RecyclerView rv;
 
-     @BindView(R.id.tv_ordersend)
-     TextView mTvordersend;
+    @BindView(R.id.tv_ordersend)
+    TextView mTvordersend;
 
     private TextView tv_province;
     private TextView tv_city;
@@ -121,11 +128,13 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     private String DistrictCode;//街道code
     private OrderInstallAdapter orderInstallAdapter;
 
-    private int installnum=0; //存储发单成功的数量
+    private int installnum = 0; //存储发单成功的数量
 
 
-    private Map<Integer,OrderDetail.OrderItemBean> installmap =new HashMap<>();//用于储存安装的信息
-    private Express expressResult=new Express();
+    private Map<Integer, OrderDetail.OrderItemBean> installmap = new HashMap<>();//用于储存安装的信息
+    private Express expressResult = new Express();
+    private ShippingAddressList.ShippingAddressBean address;
+    private String addressid = "";
 
     /**
      * 初始化沉浸式
@@ -138,6 +147,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
         mImmersionBar.keyboardEnable(true);
         mImmersionBar.init();
     }
+
     @Override
     protected int setLayoutId() {
         return R.layout.activity_orderinstall;
@@ -147,7 +157,7 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
     protected void initData() {
         orderID = getIntent().getStringExtra("OrderId");
 //        Log.d(TAG,"OrderId"+orderID);
-        mPresenter.GetOrderDetail(orderID,userKey);
+        mPresenter.GetOrderDetail(orderID, userKey);
         mPresenter.GetExpress(orderID, userKey);
 
     }
@@ -159,11 +169,12 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
     @Override
     protected void setListener() {
-       // mTvsave.setOnClickListener(this);
+        // mTvsave.setOnClickListener(this);
         mTvaddress.setOnClickListener(this);
         mImgarrow.setOnClickListener(this);
         mIconback.setOnClickListener(this);
         mTvordersend.setOnClickListener(this);
+        mTvChageAddress.setOnClickListener(this);
      /*   adderView.setOnValueChangeListene(new AdderView.OnValueChangeListener() {
             @Override
             public void onValueChange(int value) {
@@ -174,39 +185,38 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
             }
         });*/
     }
+
     @Override
     public void GetOrderDetail(OrderDetail result) {
-        if (result.isSuccess()){
-           // mTvsave.setVisibility(View.VISIBLE);
-           // mTvsave.setText("发单");
-            order=result.getOrder();
+        if (result.isSuccess()) {
+            // mTvsave.setVisibility(View.VISIBLE);
+            // mTvsave.setText("发单");
+            order = result.getOrder();
 
 
-            for (int i = 0; i <result.getOrderItem().size() ; i++) {
-                if (!result.getOrderItem().get(i).isInstall()){
+            for (int i = 0; i < result.getOrderItem().size(); i++) {
+                if (!result.getOrderItem().get(i).isInstall()) {
                     continue;
                 }
-                installmap.put(i,result.getOrderItem().get(i));
+                installmap.put(i, result.getOrderItem().get(i));
             }
 
 
-
-
-            orderInstallAdapter=new OrderInstallAdapter(R.layout.item_orderinstall,result.getOrderItem());
+            orderInstallAdapter = new OrderInstallAdapter(R.layout.item_orderinstall, result.getOrderItem());
             rv.setLayoutManager(new LinearLayoutManager(mActivity));
             rv.setAdapter(orderInstallAdapter);
 
             orderInstallAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    switch (view.getId()){
+                    switch (view.getId()) {
                         case R.id.img_check:
-                            if (adapter.getViewByPosition(rv,position,R.id.img_check).isSelected()){
-                                adapter.getViewByPosition(rv,position,R.id.img_check).setSelected(false);
+                            if (adapter.getViewByPosition(rv, position, R.id.img_check).isSelected()) {
+                                adapter.getViewByPosition(rv, position, R.id.img_check).setSelected(false);
                                 installmap.remove(position);
-                            }else {
-                                adapter.getViewByPosition(rv,position,R.id.img_check).setSelected(true);
-                                installmap.put(position,(OrderDetail.OrderItemBean)adapter.getItem(position));
+                            } else {
+                                adapter.getViewByPosition(rv, position, R.id.img_check).setSelected(true);
+                                installmap.put(position, (OrderDetail.OrderItemBean) adapter.getItem(position));
                             }
 
                             break;
@@ -216,13 +226,12 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
             });
 
 
-
             mPresenter.GetRegion(order.getRegionId());
             mTvtoAddress.setText(order.getAddress());
             mEtname.setText(order.getShipTo());
             mEtphone.setText(order.getPhone());
-          //  adderView.setValue(Integer.parseInt(result.getOrderItem().get(0).getCount()));
-            bean=result.getOrderItem().get(0);
+            //  adderView.setValue(Integer.parseInt(result.getOrderItem().get(0).getCount()));
+            bean = result.getOrderItem().get(0);
         }
 
     }
@@ -255,64 +264,63 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.icon_back:
                 OrderInstallActivity.this.finish();
                 break;
 
-    //        case R.id.tv_save://提交
+            //        case R.id.tv_save://提交
             case R.id.tv_ordersend:
 //                ToastUtils.showShort(expressResult.getExpressNum());
-             String name=mEtname.getText().toString();
-             String phone=mEtphone.getText().toString();
-             String address=mTvaddress.getText().toString();
-             String housenumber=mEtaddress.getText().toString();
-             /*故障描述默认格式安装 : 某某东西 */
-             String Memo=""+bean.getBrandName()+" "+bean.getCategoryName();
+                String name = mEtname.getText().toString();
+                String phone = mEtphone.getText().toString();
+                String address = mTvaddress.getText().toString();
+                String housenumber = mEtaddress.getText().toString();
+                /*故障描述默认格式安装 : 某某东西 */
+                String Memo = "" + bean.getBrandName() + " " + bean.getCategoryName();
 
-             Log.d("=====>", String.valueOf(installmap.size()));
+                Log.d("=====>", String.valueOf(installmap.size()));
 
-             if (installmap.size()==0){
-             Toast.makeText(mActivity,"请选择产品发单",Toast.LENGTH_SHORT).show();
-             }else {
+                if (installmap.size() == 0) {
+                    Toast.makeText(mActivity, "请选择产品发单", Toast.LENGTH_SHORT).show();
+                } else {
 
-                 for (Map.Entry<Integer,OrderDetail.OrderItemBean> entry :installmap.entrySet()){
+                    for (Map.Entry<Integer, OrderDetail.OrderItemBean> entry : installmap.entrySet()) {
 
-                     mPresenter.AddOrder(
-                             "2",
-                             "安装",
-                             order.getBisId(),//UserID传商家的bisid
-                             entry.getValue().getBrandId(),
-                             entry.getValue().getBrandName(),
-                             entry.getValue().getParentCategoryId(),
-                             entry.getValue().getParentCategoryName(),
-                             entry.getValue().getCategoryId(),
-                             entry.getValue().getCategoryName(),
-                             ProvinceCode,
-                             CityCode,
-                             AreaCode,
-                             DistrictCode,
-                             order.getAddress(),
-                             order.getShipTo(),
-                             UserID,
-                             Memo,
-                             "100",
-                             "48", //回收时间先为48小时
-                             "Y",  //保内
-                             "N",
-                             "N",       //加急时间
-                             "0",
-                             "0", //加急费
-                             entry.getValue().getCount(),
-                             "N",//客户是否收到货
-                             expressResult.getExpressNum(),
-                             orderID,
-                             "Mall");
-                            showLoading(entry.getKey(),installmap);
-                 }
+                        mPresenter.AddOrder(
+                                "2",
+                                "安装",
+                                order.getBisId(),//UserID传商家的bisid
+                                entry.getValue().getBrandId(),
+                                entry.getValue().getBrandName(),
+                                entry.getValue().getParentCategoryId(),
+                                entry.getValue().getParentCategoryName(),
+                                entry.getValue().getCategoryId(),
+                                entry.getValue().getCategoryName(),
+                                ProvinceCode,
+                                CityCode,
+                                AreaCode,
+                                DistrictCode,
+                                mTvtoAddress.getText().toString(),
+                                mEtname.getText().toString(),
+                                UserID,
+                                Memo,
+                                "100",
+                                "48", //回收时间先为48小时
+                                "Y",  //保内
+                                "N",
+                                "N",       //加急时间
+                                "0",
+                                "0", //加急费
+                                entry.getValue().getCount(),
+                                "N",//客户是否收到货
+                                expressResult.getExpressNum(),
+                                orderID,
+                                "Mall");
+                        showLoading(entry.getKey(), installmap);
+                    }
 
-             }
-
+                }
 
 
                 /**
@@ -341,17 +349,17 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                  * ExtraFee;//加急费用
                  */
 
-              Log.d("=====>order","安装"+bean.getBrandName()
-                      +" "+bean.getCategoryName()+" "+
-                      bean.getParentCategoryName()+" "+
-                      address+housenumber+" "+
-                      name+" "+
-                      Memo);
+                Log.d("=====>order", "安装" + bean.getBrandName()
+                        + " " + bean.getCategoryName() + " " +
+                        bean.getParentCategoryName() + " " +
+                        address + housenumber + " " +
+                        name + " " +
+                        Memo);
                 break;
             case R.id.tv_address://地址选择
             case R.id.img_arrow:
             case R.id.tv_province:
-              mPresenter.GetProvince();
+                mPresenter.GetProvince();
                 break;
             case R.id.tv_city:
                 mPresenter.GetCity(ProvinceCode);
@@ -359,10 +367,13 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
             case R.id.tv_area:
                 mPresenter.GetArea(CityCode);
                 break;
-
+            case R.id.tv_chage_Address:
+                Intent intent = new Intent(mActivity, ShippingAddressActivity.class);
+                intent.putExtra("CHOOSE_ADDRESS_REQUEST", true);
+                startActivityForResult(intent, Config.CHOOSE_ADDRESS_REQUEST);
+                break;
         }
     }
-
 
 
     public void showPopWindowGetAddress(final TextView tv) {
@@ -416,7 +427,6 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
         }
         MyUtils.setWindowAlpa(mActivity, true);
     }
-
 
 
     @Override
@@ -553,33 +563,33 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
 
     @Override
     public void AddOrder(BaseResult<Data<String>> baseResult) {
-    switch (baseResult.getStatusCode()){
-    case 200:
-    if (baseResult.getData().isItem1()){
-        Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
-        installnum++;
-       if (installnum==installmap.size()){
-           setResult(Config.RECEIPT_RESULT);
-           OrderInstallActivity.this.finish();
-           cancleLoading();
-       }
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData().isItem1()) {
+                    Toast.makeText(mActivity, baseResult.getData().getItem2(), Toast.LENGTH_SHORT).show();
+                    installnum++;
+                    if (installnum == installmap.size()) {
+                        setResult(Config.RECEIPT_RESULT);
+                        OrderInstallActivity.this.finish();
+                        cancleLoading();
+                    }
 
-    }else {
-        Toast.makeText(mActivity,baseResult.getData().getItem2(),Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mActivity, baseResult.getData().getItem2(), Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            default:
+                cancleLoading();
+                break;
+        }
     }
 
-     break;
-     default:
-         cancleLoading();
-         break;
-     }
-    }
 
-
-    public void showLoading(int position ,Map<Integer,OrderDetail.OrderItemBean> map) {
+    public void showLoading(int position, Map<Integer, OrderDetail.OrderItemBean> map) {
         dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
                 .setLoadingColor(Color.BLACK)//颜色
-                .setHintText("发单中(共"+map.size()+"单)请稍后...")
+                .setHintText("发单中(共" + map.size() + "单)请稍后...")
                 .setHintTextSize(14) // 设置字体大小 dp
                 .setHintTextColor(Color.BLACK)  // 设置字体颜色
                 .setDurationTime(1) // 设置动画时间百分比 - 0.5倍
@@ -587,10 +597,39 @@ public class OrderInstallActivity extends BaseActivity<AddInstallOrderPresenter,
                 .show();
 
     }
+
     public void cancleLoading() {
-        if (dialog!=null){
+        if (dialog != null) {
             dialog.dismiss();
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*处理选择的地址*/
+        if (resultCode == Config.CHOOSE_ADDRESS_RESULT) {
+            if (requestCode == Config.CHOOSE_ADDRESS_REQUEST) {
+                address = (ShippingAddressList.ShippingAddressBean) data.getSerializableExtra("Address");
+                if (address != null) {
+                    addressid = address.getRegionId();
+                    mPresenter.GetRegion(addressid);
+                    mTvtoAddress.setText(address.getRegionFullName() + " " + address.getAddress());
+                    mEtname.setText(address.getShipTo());
+                    mEtphone.setText(address.getPhone());
+                } else {
+
+                }
+            }
+
+        }
+
+    }
 }

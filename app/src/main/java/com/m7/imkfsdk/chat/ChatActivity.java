@@ -691,6 +691,8 @@ public class ChatActivity extends MyBaseActivity implements OnClickListener,
 
         //重置未读消息数量
         IMChatManager.getInstance().resetMsgUnReadCount();
+//        EventBus.getDefault().post("message");
+        org.greenrobot.eventbus.EventBus.getDefault().post("message");
         //刷新标题
         mOtherName.setText(titleName);
         if (handler.hasMessages(HANDLER_NO_WRITING)) {
@@ -750,6 +752,7 @@ public class ChatActivity extends MyBaseActivity implements OnClickListener,
         }
         //初始化成功打标记（引用于调用服务未读消息数）
         MoorUtils.initForUnread(ChatActivity.this);
+        org.greenrobot.eventbus.EventBus.getDefault().post("message");
         IMChatManager.getInstance().isFinishWhenReConnect = false;
     }
 

@@ -73,15 +73,16 @@
                 android:layout_gravity="center"
                 android:layout_toLeftOf="@+id/ll_message"
                 android:layout_centerVertical="true"
-                android:padding="5dp"
+
                 >
 
             <ImageView
                 android:id="@+id/img_code"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:src="@drawable/erwei" />
+                android:src="@drawable/erwei"
+                android:padding="5dp" />
             </LinearLayout>
             <!--二维码-->
 
@@ -95,13 +96,33 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:padding="5dp">
+                >
 
-                <ImageView
-                    android:id="@+id/img_message"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:src="@mipmap/mess" />
+                <FrameLayout
+                    android:id="@+id/fl_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp">
+
+                    <ImageView
+                        android:id="@+id/img_message"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:padding="5dp"
+                        android:src="@mipmap/mess" />
+
+                    <TextView
+                        android:id="@+id/tv_count_msg"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="right"
+                        android:background="@drawable/circle_shape"
+                        android:gravity="center"
+                        android:text="99"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:visibility="gone" />
+                </FrameLayout>
             </LinearLayout>
             <!--消息-->
 

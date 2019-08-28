@@ -33,6 +33,9 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gyf.barlibrary.ImmersionBar;
+import com.m7.imkfsdk.KfStartHelper;
+import com.moor.imkf.IMChatManager;
+import com.moor.imkf.utils.MoorUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -56,6 +59,7 @@ import com.zhenghaikj.shop.activity.FootprintActivity;
 import com.zhenghaikj.shop.activity.GiftActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
 import com.zhenghaikj.shop.activity.MessageActivity;
+import com.zhenghaikj.shop.activity.MessageActivity2;
 import com.zhenghaikj.shop.activity.OrderActivity;
 import com.zhenghaikj.shop.activity.PersonalInformationActivity;
 import com.zhenghaikj.shop.activity.ReturnActivity;
@@ -83,7 +87,6 @@ import com.zhenghaikj.shop.entity.PersonalInformation;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.entity.WorkOrder;
-import com.zhenghaikj.shop.kt.ui.activity.FlutterTestActivity;
 import com.zhenghaikj.shop.kt.ui.activity.HistoryActivityKt;
 import com.zhenghaikj.shop.mvp.contract.MineContract;
 import com.zhenghaikj.shop.mvp.model.MineModel;
@@ -428,6 +431,26 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             public void onRefresh(RefreshLayout refreshlayout) {
                 i = 0;
                 getData();
+                final KfStartHelper helper = new KfStartHelper(mActivity);
+//        helper.initSdkChat("87326950-b5a5-11e9-be6e-a515be030f55", "name", "i12345678");//腾讯云正式
+                if (MoorUtils.isInitForUnread(mActivity)) {
+                    IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
+                        @Override
+                        public void getUnRead(int acount) {
+//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
+                            if (acount==0){
+                                mTvCountMsg.setVisibility(View.GONE);
+                            }else {
+                                mTvCountMsg.setText(acount+"");
+                                mTvCountMsg.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    });
+                } else {
+                    //未初始化，消息当然为 ：0
+                    Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
+                }
                 refreshlayout.finishRefresh(1000);
             }
         });
@@ -458,6 +481,26 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     @Override
     protected void initView() {
         EvalateDialog = new AlertDialog.Builder(mActivity).setView(view).create();
+        final KfStartHelper helper = new KfStartHelper(mActivity);
+//        helper.initSdkChat("87326950-b5a5-11e9-be6e-a515be030f55", "name", "i12345678");//腾讯云正式
+        if (MoorUtils.isInitForUnread(mActivity)) {
+            IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
+                @Override
+                public void getUnRead(int acount) {
+//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
+                    if (acount==0){
+                        mTvCountMsg.setVisibility(View.GONE);
+                    }else {
+                        mTvCountMsg.setText(acount+"");
+                        mTvCountMsg.setVisibility(View.VISIBLE);
+                    }
+
+                }
+            });
+        } else {
+            //未初始化，消息当然为 ：0
+            Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -484,6 +527,28 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             }
             mPresenter.GetUserInfoList(UserID, "1");
             mPresenter.PersonalInformation(userKey);
+        }
+        if ("message".equals(name)){
+            final KfStartHelper helper = new KfStartHelper(mActivity);
+//        helper.initSdkChat("87326950-b5a5-11e9-be6e-a515be030f55", "name", "i12345678");//腾讯云正式
+            if (MoorUtils.isInitForUnread(mActivity)) {
+                IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
+                    @Override
+                    public void getUnRead(int acount) {
+//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
+                        if (acount==0){
+                            mTvCountMsg.setVisibility(View.GONE);
+                        }else {
+                            mTvCountMsg.setText(acount+"");
+                            mTvCountMsg.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                });
+            } else {
+                //未初始化，消息当然为 ：0
+                Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -537,7 +602,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.fl_message:
-                intent = new Intent(mActivity, MessageActivity.class);
+                intent = new Intent(mActivity, MessageActivity2.class);
                 intent.putExtra("categoryId", "4");
                 intent.putExtra("title", "消息");
                 startActivity(intent);
@@ -1362,8 +1427,8 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
             @Override
             public void onClick(View v) {
                 EvalateDialog.dismiss();
-                mPresenter.GetOrderByhmall(UserID);
-                Toast.makeText(mActivity,"请您完成评价!!",Toast.LENGTH_SHORT).show();
+//                mPresenter.GetOrderByhmall(UserID);
+//                Toast.makeText(mActivity,"请您完成评价!!",Toast.LENGTH_SHORT).show();
             }
         });
 

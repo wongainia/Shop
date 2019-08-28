@@ -12,6 +12,8 @@ import com.zhenghaikj.shop.entity.CoinRecord;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.District;
 import com.zhenghaikj.shop.entity.Logistics;
+import com.zhenghaikj.shop.entity.Message;
+import com.zhenghaikj.shop.entity.MessageData;
 import com.zhenghaikj.shop.entity.Province;
 import com.zhenghaikj.shop.entity.Track;
 import com.zhenghaikj.shop.entity.UserInfo;
@@ -618,4 +620,20 @@ public interface ApiService2 {
     @POST("Account/AccountBill")
     Observable<BaseResult<Data<Bill>>> AccountBill(@Field("UserID") String UserID,
                                                    @Field("state") String state);
+
+    /*获取个人消息  1.交易消息类型  2.订单消息类型*/
+    @FormUrlEncoded
+    @POST("Cms/GetListmessageByType")
+    Observable<BaseResult<MessageData<List<Message>>>> GetMessageList(@Field("UserID") String UserID,
+                                                                      @Field("Type") String Type,
+                                                                      @Field("SubType") String SubType,
+                                                                      @Field("limit") String limit,
+                                                                      @Field("page") String page,
+                                                                      @Field("IsLook") String IsLook);
+
+    /*更新消息状态点击后*/
+    @FormUrlEncoded
+    @POST("Cms/AddOrUpdatemessage")
+    Observable<BaseResult<Data<String>>> AddOrUpdatemessage(@Field("MessageID") String MessageID,
+                                                            @Field("IsLook") String IsLook);
 }

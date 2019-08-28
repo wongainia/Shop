@@ -63,7 +63,17 @@
                 android:textSize="12sp"/>
         </RelativeLayout>
 
-
+        <TextView
+            android:id="@+id/tv_chage_Address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:textSize="12sp"
+            android:text="修改发单地址"
+            android:paddingTop="10dp"/>
 
 
 <!--

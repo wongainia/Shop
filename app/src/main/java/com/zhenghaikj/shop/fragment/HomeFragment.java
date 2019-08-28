@@ -7,20 +7,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,7 +27,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,17 +35,17 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.gyf.barlibrary.ImmersionBar;
+import com.m7.imkfsdk.KfStartHelper;
+import com.m7.imkfsdk.MainActivity;
+import com.moor.imkf.IMChatManager;
+import com.moor.imkf.utils.MoorUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.OnTwoLevelListener;
 import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.header.TwoLevelHeader;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.bugly.beta.Beta;
 import com.umeng.socialize.ShareAction;
@@ -67,6 +64,8 @@ import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.activity.AddWorkOrderActivity;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.LoginActivity;
+import com.zhenghaikj.shop.activity.MessageActivity;
+import com.zhenghaikj.shop.activity.MessageActivity2;
 import com.zhenghaikj.shop.activity.SearchPreDetailActivity;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
 import com.zhenghaikj.shop.activity.TwoLevelActivity;
@@ -88,9 +87,9 @@ import com.zhenghaikj.shop.mvp.model.HomeModel;
 import com.zhenghaikj.shop.mvp.presenter.HomePresenter;
 import com.zhenghaikj.shop.utils.CommonUtil;
 import com.zhenghaikj.shop.utils.GlideHomeBannerImageLoader;
-import com.zhenghaikj.shop.utils.GlideImageLoader;
 import com.zhenghaikj.shop.utils.ZXingUtils;
 import com.zhenghaikj.shop.widget.AnimationNestedScrollView;
+import com.zhenghaikj.shop.widget.ArcGradualView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -149,12 +148,16 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @BindView(R.id.search_rl_top_bg)
     RelativeLayout mSearchrl_top_bg;
+    @BindView(R.id.tv_count_msg)
+    TextView mTvCountMsg;
+    @BindView(R.id.fl_message)
+    FrameLayout mFlMessage;
+    @BindView(R.id.header_view)
+    ArcGradualView mHeaderView;
 
 
     private float LL_SEARCH_MIN_TOP_MARGIN, LL_SEARCH_MAX_TOP_MARGIN, LL_SEARCH_MAX_WIDTH, LL_SEARCH_MIN_WIDTH, TV_TITLE_MAX_TOP_MARGIN;
     private ViewGroup.MarginLayoutParams searchLayoutParams, titleLayoutParams;
-
-
 
 
     private List<ShopResult.GiftListNewBean> panicBuyList = new ArrayList<>();
@@ -186,7 +189,8 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     private NewHomeAdapter newHomeAdapter;
     private UserInfo.UserInfoDean userInfo;
 
-    private float mSlope=3.0f;//透明度斜率
+    private float mSlope = 3.0f;//透明度斜率
+
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -249,6 +253,7 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initData() {
+
         if (isLogin) {
             mPresenter.GetUserInfoList(UserID, "1");
         }
@@ -333,8 +338,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
 
 
-
-
         limitedTimeAdapter = new LimitedTimeAdapter(R.layout.item_panic_buying, limitedTimeList);
         mRvPanic.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvPanic.setAdapter(limitedTimeAdapter);
@@ -360,13 +363,11 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         });
 
 
-
-
         mRefreshLayout.setOnMultiPurposeListener(new OnMultiPurposeListener() {
            /*  0->255   0为透明  255为不透明
                       根据percent百分比显示隐藏头布局 0->1  1为完全透明*/
 
-             /*header的拖拽*/
+            /*header的拖拽*/
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
                 Log.d("======>Moving", String.valueOf(percent));
@@ -376,19 +377,21 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 Log.d("======>headerHeight", String.valueOf(headerHeight));
                 Log.d("======>maxDragHeight", String.valueOf(maxDragHeight));
 
-                if (percent<1/3f){
-                    mImgIconYu.setImageAlpha((int) ((-percent*765)+255));
-                    mImgcode.setImageAlpha((int) ((-percent*765)+255));
-                    mImgmessage.setImageAlpha((int) ((-percent*765)+255));
-                    mSearchTvTitle.setTextColor(mSearchTvTitle.getTextColors().withAlpha((int) ((-percent*765)+255)));
-                    mSearchLlSearch.getBackground().setAlpha((int) ((-percent*765)+255));
-                    mSearchTvSearch.setTextColor(mSearchTvSearch.getTextColors().withAlpha((int) ((-percent*765)+255)));
-                    mImgsearch.setImageAlpha((int) ((-percent*765)+255));
-                    mSearchRlTop.getBackground().setAlpha((int) ((-percent*765)+255));
-                }else {
+                if (percent < 1 / 3f) {
+                    mImgIconYu.setImageAlpha((int) ((-percent * 765) + 255));
+                    mImgcode.setImageAlpha((int) ((-percent * 765) + 255));
+                    mImgmessage.setImageAlpha((int) ((-percent * 765) + 255));
+                    mTvCountMsg.setTextColor(mTvCountMsg.getTextColors().withAlpha((int)((-percent*765)+255)));
+                    mSearchTvTitle.setTextColor(mSearchTvTitle.getTextColors().withAlpha((int) ((-percent * 765) + 255)));
+                    mSearchLlSearch.getBackground().setAlpha((int) ((-percent * 765) + 255));
+                    mSearchTvSearch.setTextColor(mSearchTvSearch.getTextColors().withAlpha((int) ((-percent * 765) + 255)));
+                    mImgsearch.setImageAlpha((int) ((-percent * 765) + 255));
+                    mSearchRlTop.getBackground().setAlpha((int) ((-percent * 765) + 255));
+                } else {
                     mImgIconYu.setImageAlpha(0);
                     mImgcode.setImageAlpha(0);
                     mImgmessage.setImageAlpha(0);
+                    mTvCountMsg.setTextColor(mTvCountMsg.getTextColors().withAlpha(0));
                     mSearchTvTitle.setTextColor(mSearchTvTitle.getTextColors().withAlpha(0));
                     mSearchLlSearch.getBackground().setAlpha(0);
                     mSearchTvSearch.setTextColor(mSearchTvSearch.getTextColors().withAlpha(0));
@@ -397,13 +400,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 }
 
 
-
             }
 
             /*刷新中*/
             @Override
             public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
-                Log.d("======>Released", "Released"+headerHeight+" "+maxDragHeight);
+                Log.d("======>Released", "Released" + headerHeight + " " + maxDragHeight);
                 mImgIconYu.setImageAlpha(0);
                 mImgcode.setImageAlpha(0);
                 mImgmessage.setImageAlpha(0);
@@ -412,18 +414,20 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 mSearchTvSearch.setTextColor(mSearchTvSearch.getTextColors().withAlpha(0));
                 mImgsearch.setImageAlpha(0);
                 mSearchRlTop.getBackground().setAlpha(0);
+                mTvCountMsg.getBackground().setAlpha(0);
+                mTvCountMsg.setTextColor(mTvCountMsg.getTextColors().withAlpha(0));
 
             }
 
             @Override
             public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int maxDragHeight) {
-                Log.d("======>StartAnimator", "StartAnimator"+headerHeight+" "+maxDragHeight);
+                Log.d("======>StartAnimator", "StartAnimator" + headerHeight + " " + maxDragHeight);
             }
 
             /*刷新完成*/
             @Override
             public void onHeaderFinish(RefreshHeader header, boolean success) {
-                Log.d("======>Finish", "Finish"+success);
+                Log.d("======>Finish", "Finish" + success);
 
 
             }
@@ -462,6 +466,26 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 mPresenter.Get();
                 mPresenter.Get(Integer.toString(pageNo), pageSize);
                 mPresenter.GetLismitBuyList(Integer.toString(pageNo), pageSize, "");
+                final KfStartHelper helper = new KfStartHelper(mActivity);
+//        helper.initSdkChat("87326950-b5a5-11e9-be6e-a515be030f55", "name", "i12345678");//腾讯云正式
+                if (MoorUtils.isInitForUnread(mActivity)) {
+                    IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
+                        @Override
+                        public void getUnRead(int acount) {
+//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
+                            if (acount==0){
+                                mTvCountMsg.setVisibility(View.GONE);
+                            }else {
+                                mTvCountMsg.setText(acount+"");
+                                mTvCountMsg.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    });
+                } else {
+                    //未初始化，消息当然为 ：0
+                    Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
+                }
                 refreshLayout.setNoMoreData(false);
                 refreshLayout.finishRefresh(1000);
             }
@@ -483,17 +507,16 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
                 Log.d("3=isReleaseToOpening", String.valueOf(oldState.isReleaseToOpening));
 
 
-               if (!refreshLayout.getState().isDragging){
-                    if (oldState.isTwoLevel){
-                     if (oldState.isReleaseToOpening){
-                         startActivity(new Intent(mActivity, TwoLevelActivity.class));
-                         mActivity.overridePendingTransition(R.anim.anim_no, R.anim.anim_no);
-                     }
+                if (!refreshLayout.getState().isDragging) {
+                    if (oldState.isTwoLevel) {
+                        if (oldState.isReleaseToOpening) {
+                            startActivity(new Intent(mActivity, TwoLevelActivity.class));
+                            mActivity.overridePendingTransition(R.anim.anim_no, R.anim.anim_no);
+                        }
                         header.finishTwoLevel();
 
                     }
                 }
-
 
 
             }
@@ -510,13 +533,32 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         LL_SEARCH_MIN_TOP_MARGIN = CommonUtil.dp2px(mActivity, 4.5f);//布局关闭时顶部距离
         LL_SEARCH_MAX_TOP_MARGIN = CommonUtil.dp2px(mActivity, 49f);//布局默认展开时顶部距离
         LL_SEARCH_MAX_WIDTH = CommonUtil.getScreenWidth(mActivity) - CommonUtil.dp2px(mActivity, 30f);//布局默认展开时的宽度
-        LL_SEARCH_MIN_WIDTH = CommonUtil.getScreenWidth(mActivity) - CommonUtil.dp2px(mActivity, 110f);//布局关闭时的宽度
+        LL_SEARCH_MIN_WIDTH = CommonUtil.getScreenWidth(mActivity) - CommonUtil.dp2px(mActivity, 95f);//布局关闭时的宽度
         TV_TITLE_MAX_TOP_MARGIN = CommonUtil.dp2px(mActivity, 11.5f);
-
 
 
         Beta.checkUpgrade(false, false);
 
+        final KfStartHelper helper = new KfStartHelper(mActivity);
+//        helper.initSdkChat("87326950-b5a5-11e9-be6e-a515be030f55", "name", "i12345678");//腾讯云正式
+        if (MoorUtils.isInitForUnread(mActivity)) {
+            IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
+                @Override
+                public void getUnRead(int acount) {
+//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
+                    if (acount==0){
+                        mTvCountMsg.setVisibility(View.GONE);
+                    }else {
+                        mTvCountMsg.setText(acount+"");
+                        mTvCountMsg.setVisibility(View.VISIBLE);
+                    }
+
+                }
+            });
+        } else {
+            //未初始化，消息当然为 ：0
+            Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -532,6 +574,28 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
         }
         if ("UpdateReadCount".equals(name)) {
             mPresenter.GetList("4", pageSize, "1", userKey);
+        }
+        if ("message".equals(name)) {
+            final KfStartHelper helper = new KfStartHelper(mActivity);
+//        helper.initSdkChat("87326950-b5a5-11e9-be6e-a515be030f55", "name", "i12345678");//腾讯云正式
+            if (MoorUtils.isInitForUnread(mActivity)) {
+                IMChatManager.getInstance().getMsgUnReadCountFromService(new IMChatManager.HttpUnReadListen() {
+                    @Override
+                    public void getUnRead(int acount) {
+//                    Toast.makeText(mActivity, "未读消息数为：" + acount, Toast.LENGTH_SHORT).show();
+                        if (acount==0){
+                            mTvCountMsg.setVisibility(View.GONE);
+                        }else {
+                            mTvCountMsg.setText(acount+"");
+                            mTvCountMsg.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                });
+            } else {
+                //未初始化，消息当然为 ：0
+                Toast.makeText(mActivity, "还没初始化", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -635,25 +699,35 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 ////                    intent.putExtra("categoryId","4");
 ////                    intent.putExtra("title","消息");
 //                    startActivity(intent);
-                Intent intent1 = new Intent(mActivity, com.m7.imkfsdk.MainActivity.class);
-//                intent1.putExtra("goodsName",result.getProduct().getProductName());
-//                intent1.putExtra("goodsPricture",result.getProduct().getImagePath().get(0));
-//                intent1.putExtra("goodsPrice","￥" + result.getProduct().getMinSalePrice());
-//                intent1.putExtra("goodsURL","http://seller.xigyu.com/product/detail/"+result.getProduct().getProductId());
-                if (isLogin) {
-                    intent1.putExtra("userName", userInfo.getNickName());
-                    intent1.putExtra("userId", userInfo.getUserID());
-
-                    intent1.putExtra("userPic", userInfo.getAvator());
-                } else {
-                    intent1.putExtra("userName", "游客");
-                    intent1.putExtra("userId", "123456789");
-                    intent1.putExtra("userPic", R.drawable.default_avator);
-                }
-
-                startActivity(intent1);
+//                Intent intent1 = new Intent(mActivity, MainActivity.class);
+////                intent1.putExtra("goodsName",result.getProduct().getProductName());
+////                intent1.putExtra("goodsPricture",result.getProduct().getImagePath().get(0));
+////                intent1.putExtra("goodsPrice","￥" + result.getProduct().getMinSalePrice());
+////                intent1.putExtra("goodsURL","http://seller.xigyu.com/product/detail/"+result.getProduct().getProductId());
+//                if (isLogin) {
+//                    intent1.putExtra("userName", userInfo.getNickName());
+//                    intent1.putExtra("userId", userInfo.getUserID());
+//
+//                    intent1.putExtra("userPic", userInfo.getAvator());
+//                } else {
+//                    intent1.putExtra("userName", "游客");
+//                    intent1.putExtra("userId", "123456789");
+//                    intent1.putExtra("userPic", R.drawable.default_avator);
 //                }
+//
+//                startActivity(intent1);
+//                }
+                intent = new Intent(mActivity, MessageActivity2.class);
+                intent.putExtra("categoryId", "4");
+                intent.putExtra("title", "消息");
+                startActivity(intent);
 
+//                String url11 = "mqqwpa://im/chat?chat_type=wpa&uin=2701274443&version=1";
+//                try {
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url11)));
+//                } catch (Exception e) {
+//                    // 未安装手Q或安装的版本不支持    showToast("未安装手Q或安装的版本不支持");
+//                }
                 break;
 
 
@@ -662,12 +736,12 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 
     @Override
     public void GetList(Announcement result) {
-     /*   if (result.getCount() > 0) {
+      if (result.getCount() > 0) {
             mTvCountMsg.setVisibility(View.VISIBLE);
             mTvCountMsg.setText(result.getCount() + "");
         } else {
             mTvCountMsg.setVisibility(View.GONE);
-        }*/
+        }
     }
 
     @Override
@@ -910,10 +984,6 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //            Toast.makeText(mContext, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
 
 
     private void initViewBy_8(int position, View view, List<HomeJsonResult.LModulesBean> modules) {
