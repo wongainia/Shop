@@ -12,8 +12,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class WithdrawModel implements WithdrawContract.Model {
     @Override
-    public Observable<BaseResult<Data<String>>> WithDraw(String DrawMoney, String CardNo, String UserID) {
-        return ApiRetrofit2.getDefault().WithDraw(DrawMoney, CardNo, UserID)
+    public Observable<BaseResult<Data<String>>> WithDraw(String DrawMoney, String CardNo, String UserID,String CardName) {
+        return ApiRetrofit2.getDefault().WithDraw(DrawMoney, CardNo, UserID,CardName)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

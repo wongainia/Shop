@@ -103,6 +103,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
     private String endNum;
     private String bankNo;
     private UserInfo.UserInfoDean userInfoDeanrInfo;
+    private String payName;
 
     @Override
     protected int setLayoutId() {
@@ -187,7 +188,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
                 }else if (money>userInfoDeanrInfo.getTotalMoney()-userInfoDeanrInfo.getFrozenMoney()){
                     ToastUtils.showShort("超出可提现金额");
                 } else {
-                    mPresenter.WithDraw(String.valueOf(money),bankNo,UserID);
+                    mPresenter.WithDraw(String.valueOf(money),bankNo,UserID,payName);
                 }
             } else if (id == R.id.btn_price_del) {//清除
                 if (mEtWithdrawalAmount.getText().length() > 0) {
@@ -240,7 +241,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
                 }else if (money>userInfoDeanrInfo.getTotalMoney()-userInfoDeanrInfo.getFrozenMoney()){
                     ToastUtils.showShort("超出可提现金额");
                 } else {
-                    mPresenter.WithDraw(String.valueOf(money),bankNo,UserID);
+                    mPresenter.WithDraw(String.valueOf(money),bankNo,UserID,payName);
                 }
                 break;
             case R.id.tv_withdrawal_amount:
@@ -271,6 +272,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
                 }
                 String bankName = data.getStringExtra("bankName");
                 bankNo = data.getStringExtra("bankNo");
+                payName = data.getStringExtra("payName");
 //                ToastUtils.showShort(bankNo);
                 int length = bankNo.length();
                 if (length > 4) {
@@ -406,6 +408,10 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
                         break;
 
                     default:
+                        Glide.with(mActivity)
+                                .load(R.drawable.default_avator)
+                                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                .into(mIvBrankLogo);
                         break;
 
                 }

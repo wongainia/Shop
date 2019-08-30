@@ -15,6 +15,7 @@
     <color name="gray_four">#f4f4f4</color>
     <color name="gray_five">#f5f5f5</color>
     <color name="orange">#FFD700</color>
+    <color name="main_color">#ff4e8a</color>
 
     <color name="bank_01">#8B658B</color>
     <color name="bank_02">	#B22222</color>

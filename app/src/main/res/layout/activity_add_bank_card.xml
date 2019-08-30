@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:background="@null"/>
+            android:background="@null"
+            android:maxLines="1"/>
     </LinearLayout>
 
     <LinearLayout
@@ -175,7 +176,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:text="请认证校对银行卡号,卡号出错资金无法到账"
+        android:text="请认真校对银行卡号,卡号出错资金无法到账"
 
         />
 

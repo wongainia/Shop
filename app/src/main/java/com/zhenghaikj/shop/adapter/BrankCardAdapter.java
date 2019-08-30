@@ -197,6 +197,12 @@ public class BrankCardAdapter extends BaseQuickAdapter<BankCard, BaseViewHolder>
                 break;
 
             default:
+                Glide.with(context)
+                        .load(R.drawable.default_avator)
+                        .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                        .into((ImageView) helper.getView(R.id.iv_bank_card));
+                helper.setText(R.id.tv_bank_name,item.getPayInfoName());
+                cardView.setCardBackgroundColor(context.getResources().getColor(R.color.main_color));
                 break;
 
 

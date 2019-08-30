@@ -505,7 +505,8 @@ public interface ApiService2 {
     Observable<BaseResult<Data<String>>> AddorUpdateAccountPayInfo(@Field("UserID") String UserID,
                                                                    @Field("PayInfoCode") String PayInfoCode,
                                                                    @Field("PayInfoName") String PayInfoName,
-                                                                   @Field("PayNo") String PayNo);
+                                                                   @Field("PayNo") String PayNo,
+                                                                   @Field("PayName") String PayName);
     /*获取银行卡*/
     @FormUrlEncoded
     @POST("Account/GetAccountPayInfoList")
@@ -613,7 +614,8 @@ public interface ApiService2 {
     @POST("Account/WithDraw")
     Observable<BaseResult<Data<String>>> WithDraw(@Field("DrawMoney") String DrawMoney,
                                                   @Field("CardNo") String CardNo,
-                                                  @Field("UserID") String UserID);
+                                                  @Field("UserID") String UserID,
+                                                  @Field("CardName") String CardName);
 
     /*获取用户账单*/
     @FormUrlEncoded

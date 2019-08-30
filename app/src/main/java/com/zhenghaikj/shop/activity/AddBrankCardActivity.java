@@ -146,7 +146,7 @@ public class AddBrankCardActivity extends BaseActivity<CardPresenter, CardModel>
                 } else if (mTvAddCardBankname.getText().toString().length()==0||mEtBanknumber.getText().toString().length()==0||mEtAddCardPhone.getText()==null){
                     Toast.makeText(this,"请选择银行并输入卡号和手机号",Toast.LENGTH_SHORT).show();
                 } else {
-                    mPresenter.AddorUpdateAccountPayInfo(UserID,"Bank",mTvAddCardBankname.getText().toString(),mEtBanknumber.getText().toString());
+                    mPresenter.AddorUpdateAccountPayInfo(UserID,"Bank",mTvAddCardBankname.getText().toString(),mEtBanknumber.getText().toString(),mTvAddCardName.getText().toString());
                 }
 
 

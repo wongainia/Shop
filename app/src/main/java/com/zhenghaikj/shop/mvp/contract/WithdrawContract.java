@@ -11,7 +11,7 @@ import io.reactivex.Observable;
 
 public interface WithdrawContract {
     interface Model extends BaseModel {
-        Observable<BaseResult<Data<String>>> WithDraw(String DrawMoney, String CardNo, String UserID);
+        Observable<BaseResult<Data<String>>> WithDraw(String DrawMoney, String CardNo, String UserID,String CardName);
         Observable<BaseResult<UserInfo>> GetUserInfoList(String userName, String limit);
     }
 
@@ -21,7 +21,7 @@ public interface WithdrawContract {
     }
 
     abstract class Presenter extends BasePresenter<View,Model> {
-        public abstract void WithDraw(String DrawMoney,String CardNo,String UserID);
+        public abstract void WithDraw(String DrawMoney,String CardNo,String UserID,String CardName);
         public abstract void GetUserInfoList(String userName, String limit);
     }
 }

@@ -98,6 +98,7 @@ public class BrandCardActivity extends BaseActivity<CardPresenter, CardModel> im
                         Intent intent = new Intent();
                         intent.putExtra("bankName", list.get(position).getPayInfoName());
                         intent.putExtra("bankNo", list.get(position).getPayNo());
+                        intent.putExtra("payName",list.get(position).getPayName());
                         setResult(2000, intent);
                         finish();
                         break;
@@ -180,6 +181,7 @@ public class BrandCardActivity extends BaseActivity<CardPresenter, CardModel> im
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 2000) {
             if (requestCode == 2002) {//添加卡的请求
+                list.clear();
                 mPresenter.GetAccountPayInfoList(UserID);
             }
         }
