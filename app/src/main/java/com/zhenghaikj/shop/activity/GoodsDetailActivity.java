@@ -1,6 +1,7 @@
 package com.zhenghaikj.shop.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -64,12 +65,11 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
 import com.zhenghaikj.shop.R;
-import com.zhenghaikj.shop.adapter.ServicesAdapter;
-import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.adapter.ChooseColorAdapter;
 import com.zhenghaikj.shop.adapter.ChooseSizeAdapter;
 import com.zhenghaikj.shop.adapter.ChooseVersionAdapter;
 import com.zhenghaikj.shop.adapter.ParameterAdapter;
+import com.zhenghaikj.shop.adapter.ServicesAdapter;
 import com.zhenghaikj.shop.adapter.ShopCoupAdapter;
 import com.zhenghaikj.shop.adapter.ShopRecommendationAdapter;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -87,6 +87,7 @@ import com.zhenghaikj.shop.entity.ShopCoupResult;
 import com.zhenghaikj.shop.entity.ShopSize;
 import com.zhenghaikj.shop.entity.ShopVersion;
 import com.zhenghaikj.shop.entity.UserInfo;
+import com.zhenghaikj.shop.fragment.MineFragment;
 import com.zhenghaikj.shop.mvp.contract.DetailContract;
 import com.zhenghaikj.shop.mvp.model.DetailModel;
 import com.zhenghaikj.shop.mvp.presenter.DetailPresenter;
@@ -263,8 +264,10 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     TextView mTvCommentTwo;
     @BindView(R.id.RootView)
     View RootView;
+    @BindView(R.id.tv_obtained)
+    TextView mTvObtained;
 
-    private   SkeletonScreen skeletonScreen;
+    private SkeletonScreen skeletonScreen;
     private AdderView adderView;
     private int getinventory; //库存
     private View popupWindow_view;
@@ -274,7 +277,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     private ChooseVersionAdapter chooseVersionAdapter;
     private DetailResult result = new DetailResult();
 
-    private List<DetailResult.ProductAttributeInfolistBean> parameterList=new ArrayList<>();
+    private List<DetailResult.ProductAttributeInfolistBean> parameterList = new ArrayList<>();
 
     private List<GetGoodSKu.SkuArrayBean> skuArray = new ArrayList<>();
 //    @BindView(R.id.number_indicater)
@@ -360,7 +363,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     protected void initData() {
 
 
-        if(isLogin){
+        if (isLogin) {
             mPresenter.GetUserInfoList(UserID, "1");
         }
         for (int i = 0; i < 6; i++) {
@@ -378,11 +381,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         Intent i_getvalue = getIntent();
         String action = i_getvalue.getAction();
 
-        if(Intent.ACTION_VIEW.equals(action)){
+        if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = i_getvalue.getData();
-            if(uri != null){
+            if (uri != null) {
                 id = uri.getQueryParameter("ProductId");
-                String age= uri.getQueryParameter("age");
+                String age = uri.getQueryParameter("age");
             }
         }
 
@@ -401,18 +404,17 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         mShareListener = new MineFragment.CustomShareListener(mActivity);
 
 
-
     }
 
 
     @Override
     protected void initView() {
-            skeletonScreen=  Skeleton.bind(RootView)
-            .load(R.layout.activity_good_skeleton)
-            .duration(2000)
-            .color(R.color.shimmer_color)
-            .angle(10)
-            .show();
+        skeletonScreen = Skeleton.bind(RootView)
+                .load(R.layout.activity_good_skeleton)
+                .duration(2000)
+                .color(R.color.shimmer_color)
+                .angle(10)
+                .show();
 
      /*   mStateLayout.changeState(StateFrameLayout.LOADING);
         //是否在展示内容布局的时候开启动画（200ms的Alpha动画）
@@ -434,7 +436,6 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 mPresenter.GetSKUInfo(id);
             }
         });*/
-
 
 
         Rect rectangle = new Rect();
@@ -526,7 +527,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
 
-       // ButterKnife.bind(this);
+        // ButterKnife.bind(this);
     }
 
     public void setRadioButtonTextColor(float percentage) {
@@ -682,20 +683,20 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
 //                }
-                Intent intent1=new Intent(mActivity, MainActivity.class);
+                Intent intent1 = new Intent(mActivity, MainActivity.class);
 
-                intent1.putExtra("goodsName",result.getProduct().getProductName());
-                intent1.putExtra("goodsPricture",result.getProduct().getImagePath().get(0));
-                intent1.putExtra("goodsPrice","￥" + result.getProduct().getMinSalePrice());
-                intent1.putExtra("goodsURL",""+result.getProduct().getProductId());
-                if (isLogin){
-                    intent1.putExtra("userName",userInfo.getNickName());
-                    intent1.putExtra("userId",userInfo.getUserID());
-                    intent1.putExtra("userPic",userInfo.getAvator());
-                }else {
-                    intent1.putExtra("userName","游客");
-                    intent1.putExtra("userId","123456789");
-                    intent1.putExtra("userPic",R.drawable.default_avator);
+                intent1.putExtra("goodsName", result.getProduct().getProductName());
+                intent1.putExtra("goodsPricture", result.getProduct().getImagePath().get(0));
+                intent1.putExtra("goodsPrice", "￥" + result.getProduct().getMinSalePrice());
+                intent1.putExtra("goodsURL", "" + result.getProduct().getProductId());
+                if (isLogin) {
+                    intent1.putExtra("userName", userInfo.getNickName());
+                    intent1.putExtra("userId", userInfo.getUserID());
+                    intent1.putExtra("userPic", userInfo.getAvator());
+                } else {
+                    intent1.putExtra("userName", "游客");
+                    intent1.putExtra("userId", "123456789");
+                    intent1.putExtra("userPic", R.drawable.default_avator);
                 }
 
                 startActivity(intent1);
@@ -772,12 +773,12 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     }
 
     private void Parameter() {
-        view=LayoutInflater.from(mActivity).inflate(R.layout.dialog_goods_parameter,null);
-        RecyclerView rl_parameter=view.findViewById(R.id.rl_parameter);
-        ParameterAdapter adapter=new ParameterAdapter(R.layout.item_parameter,result.getProductAttributeInfolist());
+        view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_goods_parameter, null);
+        RecyclerView rl_parameter = view.findViewById(R.id.rl_parameter);
+        ParameterAdapter adapter = new ParameterAdapter(R.layout.item_parameter, result.getProductAttributeInfolist());
         rl_parameter.setLayoutManager(new LinearLayoutManager(mActivity));
         rl_parameter.setAdapter(adapter);
-        TextView tv_submit=view.findViewById(R.id.tv_submit);
+        TextView tv_submit = view.findViewById(R.id.tv_submit);
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -800,8 +801,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
     public void Service() {
         view = LayoutInflater.from(mActivity).inflate(R.layout.dialog_goods_service, null);
         tv_submit = view.findViewById(R.id.tv_submit);
-        RecyclerView rv_service=view.findViewById(R.id.rv_service);
-        ServicesAdapter servicesAdapter=new ServicesAdapter(R.layout.item_services,result.getCashDepositsServerName());
+        RecyclerView rv_service = view.findViewById(R.id.rv_service);
+        ServicesAdapter servicesAdapter = new ServicesAdapter(R.layout.item_services, result.getCashDepositsServerName());
         rv_service.setLayoutManager(new LinearLayoutManager(mActivity));
         rv_service.setAdapter(servicesAdapter);
         tv_submit.setOnClickListener(new View.OnClickListener() {
@@ -870,8 +871,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                     .load(result.getProduct().getImagePath().get(0))
                     .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
                     .into((ImageView) popupWindow_view.findViewById(R.id.img_shop));
-                     Photourl=result.getProduct().getImagePath().get(0);
-                     Log.d("=====>",Photourl);
+            Photourl = result.getProduct().getImagePath().get(0);
+            Log.d("=====>", Photourl);
         }
 
 
@@ -880,7 +881,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
         if (result.getColor().isEmpty() && result.getSize().isEmpty()) {
             SpannableString spannableString = new SpannableString(skuArray.get(0).getPrice());
             if (skuArray.get(0).getPrice().contains(".")) {
-                spannableString.setSpan(new RelativeSizeSpan(0.6f),skuArray.get(0).getPrice().indexOf("."), skuArray.get(0).getPrice().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new RelativeSizeSpan(0.6f), skuArray.get(0).getPrice().indexOf("."), skuArray.get(0).getPrice().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //            spannableString.setSpan(new RelativeSizeSpan(0.5f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), USIVE_EXCLUSIVE);
             }
             ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(spannableString);
@@ -900,7 +901,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         if (!result.getColor().isEmpty()) {
             popupWindow_view.findViewById(R.id.ll_cloose_color).setVisibility(View.VISIBLE);
-            TextView tv_color=popupWindow_view.findViewById(R.id.tv_color);
+            TextView tv_color = popupWindow_view.findViewById(R.id.tv_color);
             tv_color.setText(result.getColorAlias());
             RecyclerView rv_color = popupWindow_view.findViewById(R.id.rv_color);
             rv_color.setLayoutManager(new AutoLineFeedLayoutManager());
@@ -913,7 +914,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         if (!result.getSize().isEmpty()) {
             popupWindow_view.findViewById(R.id.ll_cloose_size).setVisibility(View.VISIBLE);
-            TextView tv_size=popupWindow_view.findViewById(R.id.tv_size);
+            TextView tv_size = popupWindow_view.findViewById(R.id.tv_size);
             tv_size.setText(result.getSizeAlias());
             RecyclerView rv_size = popupWindow_view.findViewById(R.id.rv_size);
             rv_size.setLayoutManager(new AutoLineFeedLayoutManager());
@@ -927,7 +928,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
         if (!result.getVersion().isEmpty()) {
             popupWindow_view.findViewById(R.id.ll_cloose_version).setVisibility(View.VISIBLE);
-            TextView tv_specification=popupWindow_view.findViewById(R.id.tv_specification);
+            TextView tv_specification = popupWindow_view.findViewById(R.id.tv_specification);
             tv_specification.setText(result.getVersionAlias());
             RecyclerView rv_version = popupWindow_view.findViewById(R.id.rv_version);
             rv_version.setLayoutManager(new AutoLineFeedLayoutManager());
@@ -1150,7 +1151,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(Throwable e) {
-       // mStateLayout.changeState(StateFrameLayout.NET_ERROR);
+        // mStateLayout.changeState(StateFrameLayout.NET_ERROR);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1198,13 +1199,14 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
-        switch (Result.getStatusCode()){
+        switch (Result.getStatusCode()) {
             case 200:
                 userInfo = Result.getData().getData().get(0);
                 break;
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void GetProductDetail(DetailResult Result) {
 
@@ -1221,11 +1223,11 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 mLlLimit.setVisibility(View.GONE);
                 mLlNormal.setVisibility(View.VISIBLE);
             }
-            String timestamp= TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+            String timestamp = TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
             /*ImagePath顶部图片轮播*/
             ArrayList<String> images = new ArrayList<>();
             for (int i = 0; i < Result.getProduct().getImagePath().size(); i++) {
-                images.add(Result.getProduct().getImagePath().get(i)+"?"+timestamp);
+                images.add(Result.getProduct().getImagePath().get(i) + "?" + timestamp);
             }
             mBannerGoods.setImageLoader(new GlideImageLoader());
             mBannerGoods.setImages(images);
@@ -1254,19 +1256,29 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             }
 
 
-            if (result.getProductAttributeInfos()!=null){
-                if (result.getProductAttributeInfos().size()==1){
+            if (result.getProductAttributeInfos() != null) {
+                if (result.getProductAttributeInfos().size() == 1) {
                     mTvComment.setText(result.getProductAttributeInfos().get(0));
                     mTvCommentTwo.setVisibility(View.GONE);
-                }else if (result.getProductAttributeInfos().size()>=2){
+                } else if (result.getProductAttributeInfos().size() >= 2) {
                     mTvComment.setText(result.getProductAttributeInfos().get(0));
                     mTvCommentTwo.setText(result.getProductAttributeInfos().get(1));
                 }
-            }else {
+            } else {
                 mTvComment.setVisibility(View.GONE);
                 mTvCommentTwo.setVisibility(View.GONE);
             }
 
+            /*判断商品是否下架*/
+            if (Result.getProduct().getProductSaleStatus()==2){
+                mTvObtained.setVisibility(View.VISIBLE);
+                mTvBuy.setBackground(getResources().getDrawable(R.drawable.red__goods_transparent));
+                mTvAddcart.setBackground(getResources().getDrawable(R.drawable.yellow__goods_transparent));
+                mTvAddcart.setEnabled(false);
+                mTvBuy.setEnabled(false);
+            }else {
+                mTvObtained.setVisibility(View.GONE);
+            }
 
             /*判断是否收藏*/
             if (Result.getProduct().isIsFavorite()) {
@@ -1315,21 +1327,21 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 
             String server = "";
 
-            if (Result.getCashDepositsServerName().size()>=3) {
-                server = Result.getCashDepositsServerName().get(0).getCashServiceName()+" "+Result.getCashDepositsServerName().get(1).getCashServiceName()+" "+Result.getCashDepositsServerName().get(2).getCashServiceName();
-            } else if (Result.getCashDepositsServerName().size()==2){
-                server = Result.getCashDepositsServerName().get(0).getCashServiceName()+" "+Result.getCashDepositsServerName().get(1).getCashServiceName();
-            }else if (Result.getCashDepositsServerName().size()==1){
+            if (Result.getCashDepositsServerName().size() >= 3) {
+                server = Result.getCashDepositsServerName().get(0).getCashServiceName() + " " + Result.getCashDepositsServerName().get(1).getCashServiceName() + " " + Result.getCashDepositsServerName().get(2).getCashServiceName();
+            } else if (Result.getCashDepositsServerName().size() == 2) {
+                server = Result.getCashDepositsServerName().get(0).getCashServiceName() + " " + Result.getCashDepositsServerName().get(1).getCashServiceName();
+            } else if (Result.getCashDepositsServerName().size() == 1) {
                 server = Result.getCashDepositsServerName().get(0).getCashServiceName();
-            }else {
+            } else {
                 mLlService.setVisibility(View.GONE);
             }
             mTvService.setText(server);
 
 
-            if (Result.getProductAttributeInfolist()==null){
+            if (Result.getProductAttributeInfolist() == null) {
                 mLlParameter.setVisibility(View.GONE);
-            }else {
+            } else {
                 mTvParameter.setText(Result.getProductAttributeInfolist().get(0).getKey());
             }
 
@@ -1407,9 +1419,8 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             skeletonScreen.hide();
             mPresenter.ProductComment(id, String.valueOf(1), "10", "0");
         } else {
-           // mStateLayout.changeState(StateFrameLayout.EMPTY);
+            // mStateLayout.changeState(StateFrameLayout.EMPTY);
         }
-
 
 
     }
@@ -1436,17 +1447,16 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             String colorskuId = ((ShopColor) adapter.getData().get(position)).getSkuId();
 
 
-                            if ("".equals(result.getColor().get(position).getImg())){
+                            if ("".equals(result.getColor().get(position).getImg())) {
 
-                            }else {
-                            Glide.with(mActivity)
-                             .load(result.getColor().get(position).getImg())
-                             .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
-                             .into((ImageView) popupWindow_view.findViewById(R.id.img_shop));
-                              Photourl=result.getColor().get(position).getImg();
-                                Log.d("=====>",Photourl);
+                            } else {
+                                Glide.with(mActivity)
+                                        .load(result.getColor().get(position).getImg())
+                                        .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
+                                        .into((ImageView) popupWindow_view.findViewById(R.id.img_shop));
+                                Photourl = result.getColor().get(position).getImg();
+                                Log.d("=====>", Photourl);
                             }
-
 
 
                             skuId_color = ((ShopColor) adapter.getItem(position)).getSkuId();
@@ -1482,7 +1492,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             String price = getPrice(SkuId);
                             SpannableString spannableString = new SpannableString(price);
                             if (price.contains(".")) {
-                                spannableString.setSpan(new RelativeSizeSpan(0.6f),price.indexOf("."), price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                spannableString.setSpan(new RelativeSizeSpan(0.6f), price.indexOf("."), price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //            spannableString.setSpan(new RelativeSizeSpan(0.5f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), USIVE_EXCLUSIVE);
                             }
                             ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(spannableString);
@@ -1546,7 +1556,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             String price = getPrice(SkuId);
                             SpannableString spannableString = new SpannableString(price);
                             if (price.contains(".")) {
-                                spannableString.setSpan(new RelativeSizeSpan(0.6f),price.indexOf("."), price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                spannableString.setSpan(new RelativeSizeSpan(0.6f), price.indexOf("."), price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //            spannableString.setSpan(new RelativeSizeSpan(0.5f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), USIVE_EXCLUSIVE);
                             }
                             ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(spannableString);
@@ -1608,7 +1618,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                             String price = getPrice(SkuId);
                             SpannableString spannableString = new SpannableString(price);
                             if (price.contains(".")) {
-                                spannableString.setSpan(new RelativeSizeSpan(0.6f),price.indexOf("."), price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                spannableString.setSpan(new RelativeSizeSpan(0.6f), price.indexOf("."), price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //            spannableString.setSpan(new RelativeSizeSpan(0.5f), item.getMinSalePrice().indexOf("."), item.getMinSalePrice().length(), USIVE_EXCLUSIVE);
                             }
                             ((TextView) popupWindow_view.findViewById(R.id.tv_rmb)).setText(spannableString);
@@ -1688,16 +1698,16 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             mTvUsername.setVisibility(View.GONE);
             mTvContent.setText(result.getErrorMsg());
         }
-       // mStateLayout.changeState(StateFrameLayout.SUCCESS);
+        // mStateLayout.changeState(StateFrameLayout.SUCCESS);
         EventBus.getDefault().post("UpdateOrderCount");//更新个人中心足迹数量
     }
 
     @Override
     public void ProductComment(Comment Result) {
-        if (Result.getAllCommentCount()!=null){
+        if (Result.getAllCommentCount() != null) {
             mTvBabyEvaluation.setText("宝贝评价(" + Result.getAllCommentCount() + ")");
             mPresenter.GetProductCommentShow(id, userKey);
-        }else {
+        } else {
             return;
         }
 

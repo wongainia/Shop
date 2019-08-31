@@ -53,13 +53,14 @@ public class PhotoViewActivity2 extends BaseActivity {
         photoview.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-
                 return true;
             }
         });
+
         photoview.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
             public void onPhotoTap(View view, float x, float y) {
+                finish();
             }
         });
 

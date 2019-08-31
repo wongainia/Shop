@@ -159,9 +159,10 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
                     mTvWatermelonBalance.setText("****");//西瓜币
                 }else{
                     flag=false;
-                    Double money=userInfo.getTotalMoney()-userInfo.getFrozenMoney();
+                    String money=String.format("%.2f",userInfo.getTotalMoney()-userInfo.getFrozenMoney());
                     mTvBalance.setText("¥" + money+ "");//钱包余额
-                    mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
+                    String con=String.format("%.2f",userInfo.getCon());
+                    mTvWatermelonBalance.setText("¥" + con + "");//西瓜币
                 }
                 mIvSee.setSelected(flag);
                 spUtils.put("flag",flag);
@@ -204,9 +205,10 @@ public class WalletActivity extends BaseActivity<MinePresenter, MineModel> imple
                             mTvBalance.setText("****");//钱包余额
                             mTvWatermelonBalance.setText("****");//西瓜币
                         }else{
-                            Double money=userInfo.getTotalMoney()-userInfo.getFrozenMoney();
+                            String money=String.format("%.2f",userInfo.getTotalMoney()-userInfo.getFrozenMoney());
                             mTvBalance.setText("¥" + money+ "");//钱包余额
-                            mTvWatermelonBalance.setText("¥" + userInfo.getCon() + "");//西瓜币
+                            String con=String.format("%.2f",userInfo.getCon());
+                            mTvWatermelonBalance.setText("¥" + con + "");//西瓜币
                         }
                     }
                 }

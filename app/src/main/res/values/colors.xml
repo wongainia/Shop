@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="white">#ffffff</color>
+    <color name="white_transparent">#80ffffff</color>
     <color name="grey">#808080</color><!--灰色 -->
     <color name="red">#E82C00</color><!--红色 -->
     <color name="black">#000000</color>

@@ -963,7 +963,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
+                <TextView
+                    android:id="@+id/tv_obtained"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@color/gray"
+                    android:text="商品已经下架啦！"
+                    android:textColor="@color/white"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:visibility="gone"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"

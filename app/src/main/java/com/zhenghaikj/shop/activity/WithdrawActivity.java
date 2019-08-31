@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +19,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
@@ -28,11 +30,13 @@ import com.zhenghaikj.shop.mvp.contract.WithdrawContract;
 import com.zhenghaikj.shop.mvp.model.WithdrawModel;
 import com.zhenghaikj.shop.mvp.presenter.WithdrawPresenter;
 import com.zhenghaikj.shop.widget.TradeTextWatcher;
+import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
+import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawModel> implements View.OnClickListener, WithdrawContract.View {
+public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawModel> implements View.OnClickListener, WithdrawContract.View , PasswordEditText.PasswordFullListener{
 
     @BindView(R.id.view)
     View mView;
@@ -104,6 +108,8 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
     private String bankNo;
     private UserInfo.UserInfoDean userInfoDeanrInfo;
     private String payName;
+    private BottomSheetDialog bottomSheetDialog;
+    private String money;
 
     @Override
     protected int setLayoutId() {
@@ -180,15 +186,19 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
                 mEtWithdrawalAmount.setTextColor(Color.BLACK);
             } else if (id == R.id.btn_price_shoukuan) {//收款
 //                Toast.makeText(mActivity, "点击了确定", Toast.LENGTH_SHORT).show();
-                Double money=Double.parseDouble(mEtWithdrawalAmount.getText().toString());
+                money= mEtWithdrawalAmount.getText().toString();
                 if (bankNo==null||"".equals(bankNo)){
                     ToastUtils.showShort("请选择银行卡");
-                } else if (money==null||"".equals(money)||money==0) {
+                } else if (money==null||"".equals(money)) {
                     ToastUtils.showShort("请输入提现金额");
-                }else if (money>userInfoDeanrInfo.getTotalMoney()-userInfoDeanrInfo.getFrozenMoney()){
+                }else if (Double.parseDouble(money)>userInfoDeanrInfo.getTotalMoney()-userInfoDeanrInfo.getFrozenMoney()){
                     ToastUtils.showShort("超出可提现金额");
                 } else {
-                    mPresenter.WithDraw(String.valueOf(money),bankNo,UserID,payName);
+                    if ("".equals(userInfoDeanrInfo.getPayPassWord())) {
+                        startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+                    } else {
+                        openPayPasswordDialog();
+                    }
                 }
             } else if (id == R.id.btn_price_del) {//清除
                 if (mEtWithdrawalAmount.getText().length() > 0) {
@@ -233,15 +243,20 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
             case R.id.et_withdrawal_amount:
                 break;
             case R.id.btn_confirm_withdrawal:
-                Double money=Double.parseDouble(mEtWithdrawalAmount.getText().toString());
+                money = mEtWithdrawalAmount.getText().toString();
                 if (bankNo==null||"".equals(bankNo)){
                     ToastUtils.showShort("请选择银行卡");
-                } else if (money==null||"".equals(money)||money==0) {
+                } else if (money ==null||"".equals(money)) {
                     ToastUtils.showShort("请输入提现金额");
-                }else if (money>userInfoDeanrInfo.getTotalMoney()-userInfoDeanrInfo.getFrozenMoney()){
+                }else if (Double.parseDouble(money)>userInfoDeanrInfo.getTotalMoney()-userInfoDeanrInfo.getFrozenMoney()){
                     ToastUtils.showShort("超出可提现金额");
                 } else {
-                    mPresenter.WithDraw(String.valueOf(money),bankNo,UserID,payName);
+                    if ("".equals(userInfoDeanrInfo.getPayPassWord())) {
+                        startActivity(new Intent(mActivity, SettingPayPasswordActivity.class));
+                    } else {
+                        openPayPasswordDialog();
+                    }
+
                 }
                 break;
             case R.id.tv_withdrawal_amount:
@@ -252,6 +267,34 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
                 startActivityForResult(new Intent(mActivity, BrandCardActivity.class), 2000);
                 break;
 
+        }
+    }
+
+    /*支付密码*/
+    private void openPayPasswordDialog() {
+        PayPasswordView payPasswordView = new PayPasswordView(mActivity);
+        bottomSheetDialog = new BottomSheetDialog(mActivity);
+        bottomSheetDialog.setContentView(payPasswordView);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.show();
+        /*注册监听*/
+        payPasswordView.getmPasswordEditText().setPasswordFullListener(this);
+        /*关闭*/
+        payPasswordView.getImg_back().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void passwordFull(String password) {
+        if (userInfoDeanrInfo.getPayPassWord().equals(password)) {
+            mPresenter.WithDraw(money,bankNo,UserID,payName);
+            bottomSheetDialog.dismiss();
+        } else {
+            Toast.makeText(mActivity, "支付密码错误", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -433,7 +476,8 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
         switch (Result.getStatusCode()){
             case 200:
                 userInfoDeanrInfo = Result.getData().getData().get(0);
-
+                String money=String.format("%.2f",userInfoDeanrInfo.getTotalMoney()-userInfoDeanrInfo.getFrozenMoney());
+                mTvAvailableBalance.setText("可用余额"+money+"元");
                 break;
         }
     }
