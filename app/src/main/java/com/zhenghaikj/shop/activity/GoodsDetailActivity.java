@@ -1308,7 +1308,7 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
                 mTvExpressDelivery.setText("快递：" + Result.getFreightFee());
             }
             /*月销量暂未总销量*/
-            mTvSalesVolume.setText("月销" + Result.getMaxSaleCount());
+            mTvSalesVolume.setText("月销" + Result.getSalesCount());
             //商品名称
             mTvGoodName.setText(Result.getProduct().getProductName());
 

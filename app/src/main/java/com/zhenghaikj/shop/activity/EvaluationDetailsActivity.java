@@ -27,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -99,7 +100,7 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
         mTvTitle.setVisibility(View.VISIBLE);
         productId = getIntent().getStringExtra("productId");
 
-        Log.d("=====>productId",productId);
+        Log.d("=====>productId", productId);
         CommentList.clear();
 
         /*评论标题*/
@@ -112,6 +113,7 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
                 for (int i = 0; i < CommentCategoryList.size(); i++) {
                     if (i == position) {
                         CommentCategoryList.get(i).setSelect(true);
+                        pageIndex = 1;
                         CommentList.clear();
                         mPresenter.ProductComment(productId, String.valueOf(pageIndex), "10", String.valueOf(position));
                         size = position;
@@ -120,7 +122,20 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
                     }
                 }
                 commentCategoryAdapter.notifyDataSetChanged();
-
+                mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+                    pageIndex = 1;
+                    CommentList.clear();
+                    mPresenter.ProductComment(productId, String.valueOf(pageIndex), "10", String.valueOf(position));
+                    refreshLayout.setNoMoreData(false);
+                    refreshLayout.finishRefresh(1000);
+                });
+                //没满屏时禁止上拉
+                mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
+                mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+                    pageIndex++;
+                    mPresenter.ProductComment(productId, String.valueOf(pageIndex), "10", String.valueOf(position));
+                    refreshLayout.finishLoadMore(1000);
+                });
             }
         });
 
@@ -132,13 +147,18 @@ public class EvaluationDetailsActivity extends BaseActivity<ProductCommentPresen
         commentAdapter.setEmptyView(getEmptyViewComment());
         mPresenter.ProductComment(productId, String.valueOf(pageIndex), "10", "0");
 
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            pageIndex = 1;
-            refreshLayout.setNoMoreData(false);
-            refreshLayout.finishRefresh(1000);
-        });
+//        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+//            pageIndex = 1;
+//            CommentList.clear();
+//            mPresenter.ProductComment(productId, String.valueOf(pageIndex), "10", "0");
+//            refreshLayout.setNoMoreData(false);
+//            refreshLayout.finishRefresh(1000);
+//        });
+        //没满屏时禁止上拉
+//        mRefreshLayout.setEnableLoadMoreWhenContentNotFull(false);
         mRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
             pageIndex++;
+            mPresenter.ProductComment(productId, String.valueOf(pageIndex), "10", "0");
             refreshLayout.finishLoadMore(1000);
         });
     }

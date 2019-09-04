@@ -10,17 +10,16 @@ public class EasyResult implements Serializable {
      * ErrorMsg : null
      */
 
-    private boolean success;
+    private boolean Success;
     private String ErrorCode;
     private String ErrorMsg;
 
-
-    public boolean getSuccess() {
-        return success;
+    public boolean isSuccess() {
+        return Success;
     }
 
     public void setSuccess(boolean success) {
-        success = success;
+        this.Success = success;
     }
 
     public String getErrorCode() {

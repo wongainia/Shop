@@ -191,7 +191,23 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     @Override
     public void GetShippingAddressList(ShippingAddressList result) {
         if (result.isSuccess()) {
-            addressList=result.getShippingAddress();
+            ShippingAddressList.ShippingAddressBean address=new ShippingAddressList.ShippingAddressBean();
+            List<ShippingAddressList.ShippingAddressBean> addressBeanList=new ArrayList<>();
+            address=null;
+            for (int i = 0; i < result.getShippingAddress().size(); i++) {
+                if (result.getShippingAddress().get(i).isDefault()){
+                    address=result.getShippingAddress().get(i);
+                }else {
+                    addressBeanList.add(result.getShippingAddress().get(i));
+                }
+            }
+            if (address==null){
+                addressList.addAll(addressBeanList);
+            }else {
+                addressList.add(address);
+                addressList.addAll(addressBeanList);
+            }
+//            addressList=result.getShippingAddress();
             list.clear();
             list.addAll(addressList);
             addressAdapter.setNewData(list);
@@ -211,8 +227,10 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
 
     @Override
     public void PostDeleteShippingAddress(EasyResult result) {
-        if (result.getSuccess()) {
+        if (result.isSuccess()) {
             ToastUtils.showShort("删除成功！");
+            list.clear();
+            addressList.clear();
             mPresenter.GetShippingAddressList(userKey);
         }else{
             ToastUtils.showShort("删除失败！");
@@ -224,6 +242,8 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
         super.onActivityResult(requestCode, resultCode, data);
         Code =requestCode;
         resCode =resultCode;
+        list.clear();
+        addressList.clear();
         mPresenter.GetShippingAddressList(userKey);
         /*switch(requestCode){
             case 100:
@@ -245,6 +265,8 @@ public class ShippingAddressActivity extends BaseActivity<ShippingAddressListPre
     public void Event(String message) {
         switch (message){
             case "Refresh_address":
+                list.clear();
+                addressList.clear();
                 mPresenter.GetShippingAddressList(userKey);
                 break;
             default:

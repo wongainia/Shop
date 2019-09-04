@@ -207,13 +207,16 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
             mTvtype.setText(result.getRefundMode());
             mTvreturn_money.setText("¥" + result.getAmount());
             mTvreturnmoney_reason.setText(result.getReason());
-            mTvitemid.setText(result.getId());
+            mTvitemid.setText(result.getId()+"");
             StringBuilder stringBuilder1 = new StringBuilder(result.getApplyDate());
             String time1 = "" + stringBuilder1.replace(10, 11, " "); //替换"T"为" "
             mTvapply_time.setText(time1);
-            mTvAddress.setText(result.getRefundAddress());
-            mTvName.setText(result.getReciver());
-            mTvPhone.setText(result.getRecivePhone());
+//            mTvAddress.setText(result.getRefundAddress());
+//            mTvName.setText(result.getReciver());
+            mTvName.setText(result.getRefundAddressList().get(0).getShipTo());
+            mTvAddress.setText(result.getRefundAddressList().get(0).getRegionFullName()+result.getRefundAddressList().get(0).getAddress()+result.getRefundAddressList().get(0).getAddressDetail());
+            mTvPhone.setText(result.getRefundAddressList().get(0).getPhone());
+//            mTvPhone.setText(result.getRecivePhone());
             if (result.getSellerAuditStatusValue() == 1) {
                 mTvStatus.setText("待商家确认");
                 mTvStatusTwo.setText("请等待商家确认");

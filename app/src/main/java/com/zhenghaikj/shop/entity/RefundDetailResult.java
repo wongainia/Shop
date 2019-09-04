@@ -1,27 +1,37 @@
 package com.zhenghaikj.shop.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class RefundDetailResult implements Serializable {
+
     /**
      * ManagerConfirmStatus : 待平台确认
      * ManagerConfirmStatusValue : 6
-     * ManagerConfirmDate : 2016-02-19T11:12:58
-     * SellerAuditStatus : 待商家审核
-     * SellerAuditStatusValue : 1
-     * SellerRemark : null
-     * SellerAuditDate : 2016-02-19T11:12:58
-     * RefundStatus : 待商家审核
-     * Amount : 0.1
-     * Id : 35
+     * ManagerConfirmDate : 2019-08-18T14:57:10
+     * SellerAuditStatus : 商家通过审核
+     * SellerAuditStatusValue : 5
+     * SellerRemark :
+     * SellerAuditDate : 2019-08-18T14:57:10
+     * RefundStatus : 待平台确认
+     * Amount : 739
+     * Id : 269
+     * OrderId : 2019072458933410
+     * OrderItemId : 1316
      * ShopName : 官方自营店
      * RefundMode : 货品退款
      * RefundModeValue : 2
      * ReturnQuantity : 0
-     * RefundPayType : 退到预付款
-     * RefundPayTypeValue : 3
-     * Reason : 111111
-     * ApplyDate : 2016-02-19T11:12:58
+     * RefundPayType : 原路返回
+     * RefundPayTypeValue : 1
+     * Reason : 不想买了
+     * ApplyDate : 2019-08-16T09:05:27
+     * IsOrderRefundTimeOut : false
+     * LastConfirmDate : 2019-08-18T14:57:10
+     * ResetActive : true
+     * Reciver : uki-
+     * RecivePhone :
+     * RefundAddressList : [{"ShipTo":"肖敏","Address":"江北111","Phone":"18977777777","AddressDetail":"90号","Type":"2","UserId":573,"RegionFullName":"浙江省 宁波市 江北区 望山路703号靠近宁波企协大厦"}]
      */
 
     private String ManagerConfirmStatus;
@@ -32,8 +42,10 @@ public class RefundDetailResult implements Serializable {
     private String SellerRemark;
     private String SellerAuditDate;
     private String RefundStatus;
-    private double Amount;
-    private String Id;
+    private int Amount;
+    private int Id;
+    private long OrderId;
+    private int OrderItemId;
     private String ShopName;
     private String RefundMode;
     private int RefundModeValue;
@@ -42,33 +54,12 @@ public class RefundDetailResult implements Serializable {
     private int RefundPayTypeValue;
     private String Reason;
     private String ApplyDate;
-    private String RefundAddress;
+    private boolean IsOrderRefundTimeOut;
+    private String LastConfirmDate;
+    private boolean ResetActive;
     private String Reciver;
     private String RecivePhone;
-
-    public String getReciver() {
-        return Reciver;
-    }
-
-    public void setReciver(String reciver) {
-        Reciver = reciver;
-    }
-
-    public String getRecivePhone() {
-        return RecivePhone;
-    }
-
-    public void setRecivePhone(String recivePhone) {
-        RecivePhone = recivePhone;
-    }
-
-    public String getRefundAddress() {
-        return RefundAddress;
-    }
-
-    public void setRefundAddress(String refundAddress) {
-        RefundAddress = refundAddress;
-    }
+    private List<RefundAddressListBean> RefundAddressList;
 
     public String getManagerConfirmStatus() {
         return ManagerConfirmStatus;
@@ -134,20 +125,36 @@ public class RefundDetailResult implements Serializable {
         this.RefundStatus = RefundStatus;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return Amount;
     }
 
-    public void setAmount(double Amount) {
+    public void setAmount(int Amount) {
         this.Amount = Amount;
     }
 
-    public String getId() {
+    public int getId() {
         return Id;
     }
 
-    public void setId(String id) {
-        Id = id;
+    public void setId(int Id) {
+        this.Id = Id;
+    }
+
+    public long getOrderId() {
+        return OrderId;
+    }
+
+    public void setOrderId(long OrderId) {
+        this.OrderId = OrderId;
+    }
+
+    public int getOrderItemId() {
+        return OrderItemId;
+    }
+
+    public void setOrderItemId(int OrderItemId) {
+        this.OrderItemId = OrderItemId;
     }
 
     public String getShopName() {
@@ -214,4 +221,127 @@ public class RefundDetailResult implements Serializable {
         this.ApplyDate = ApplyDate;
     }
 
+    public boolean isIsOrderRefundTimeOut() {
+        return IsOrderRefundTimeOut;
+    }
+
+    public void setIsOrderRefundTimeOut(boolean IsOrderRefundTimeOut) {
+        this.IsOrderRefundTimeOut = IsOrderRefundTimeOut;
+    }
+
+    public String getLastConfirmDate() {
+        return LastConfirmDate;
+    }
+
+    public void setLastConfirmDate(String LastConfirmDate) {
+        this.LastConfirmDate = LastConfirmDate;
+    }
+
+    public boolean isResetActive() {
+        return ResetActive;
+    }
+
+    public void setResetActive(boolean ResetActive) {
+        this.ResetActive = ResetActive;
+    }
+
+    public String getReciver() {
+        return Reciver;
+    }
+
+    public void setReciver(String Reciver) {
+        this.Reciver = Reciver;
+    }
+
+    public String getRecivePhone() {
+        return RecivePhone;
+    }
+
+    public void setRecivePhone(String RecivePhone) {
+        this.RecivePhone = RecivePhone;
+    }
+
+    public List<RefundAddressListBean> getRefundAddressList() {
+        return RefundAddressList;
+    }
+
+    public void setRefundAddressList(List<RefundAddressListBean> RefundAddressList) {
+        this.RefundAddressList = RefundAddressList;
+    }
+
+    public static class RefundAddressListBean {
+        /**
+         * ShipTo : 肖敏
+         * Address : 江北111
+         * Phone : 18977777777
+         * AddressDetail : 90号
+         * Type : 2
+         * UserId : 573
+         * RegionFullName : 浙江省 宁波市 江北区 望山路703号靠近宁波企协大厦
+         */
+
+        private String ShipTo;
+        private String Address;
+        private String Phone;
+        private String AddressDetail;
+        private String Type;
+        private int UserId;
+        private String RegionFullName;
+
+        public String getShipTo() {
+            return ShipTo;
+        }
+
+        public void setShipTo(String ShipTo) {
+            this.ShipTo = ShipTo;
+        }
+
+        public String getAddress() {
+            return Address;
+        }
+
+        public void setAddress(String Address) {
+            this.Address = Address;
+        }
+
+        public String getPhone() {
+            return Phone;
+        }
+
+        public void setPhone(String Phone) {
+            this.Phone = Phone;
+        }
+
+        public String getAddressDetail() {
+            return AddressDetail;
+        }
+
+        public void setAddressDetail(String AddressDetail) {
+            this.AddressDetail = AddressDetail;
+        }
+
+        public String getType() {
+            return Type;
+        }
+
+        public void setType(String Type) {
+            this.Type = Type;
+        }
+
+        public int getUserId() {
+            return UserId;
+        }
+
+        public void setUserId(int UserId) {
+            this.UserId = UserId;
+        }
+
+        public String getRegionFullName() {
+            return RegionFullName;
+        }
+
+        public void setRegionFullName(String RegionFullName) {
+            this.RegionFullName = RegionFullName;
+        }
+    }
 }

@@ -401,7 +401,7 @@ public class OrderFragment extends BaseLazyFragment<OrderPresenter, OrderModel> 
 
     @Override
     public void CancelOrder(EasyResult baseResult) {
-        if (baseResult.getSuccess()){
+        if (baseResult.isSuccess()){
             orderListAdapter.remove(closeid);
             orderListAdapter.notifyDataSetChanged();
             EventBus.getDefault().post("UpdateOrderCount");

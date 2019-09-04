@@ -76,6 +76,15 @@ public class DetailResult implements Serializable {
     private List<String> ProductAttributeInfos;
     private List<ProductAttributeInfolistBean> ProductAttributeInfolist;
     private List<CashDepositsServerNameBean> CashDepositsServerName;
+    private String SalesCount;
+
+    public String getSalesCount() {
+        return SalesCount;
+    }
+
+    public void setSalesCount(String salesCount) {
+        SalesCount = salesCount;
+    }
 
     public List<CashDepositsServerNameBean> getCashDepositsServerName() {
         return CashDepositsServerName;
