@@ -683,23 +683,19 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
 //                } catch (JSONException e) {
 //                    e.printStackTrace();
 //                }
-                Intent intent1 = new Intent(mActivity, MainActivity.class);
-
-                intent1.putExtra("goodsName", result.getProduct().getProductName());
-                intent1.putExtra("goodsPricture", result.getProduct().getImagePath().get(0));
-                intent1.putExtra("goodsPrice", "￥" + result.getProduct().getMinSalePrice());
-                intent1.putExtra("goodsURL", "" + result.getProduct().getProductId());
-                if (isLogin) {
+                if (!isLogin) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                } else {
+                    Intent intent1 = new Intent(mActivity, MainActivity.class);
+                    intent1.putExtra("goodsName", result.getProduct().getProductName());
+                    intent1.putExtra("goodsPricture", result.getProduct().getImagePath().get(0));
+                    intent1.putExtra("goodsPrice", "￥" + result.getProduct().getMinSalePrice());
+                    intent1.putExtra("goodsURL", "" + result.getProduct().getProductId());
                     intent1.putExtra("userName", userInfo.getNickName());
                     intent1.putExtra("userId", userInfo.getUserID());
                     intent1.putExtra("userPic", userInfo.getAvator());
-                } else {
-                    intent1.putExtra("userName", "游客");
-                    intent1.putExtra("userId", "123456789");
-                    intent1.putExtra("userPic", R.drawable.default_avator);
+                    startActivity(intent1);
                 }
-
-                startActivity(intent1);
 //                startActivity(new Intent(mActivity, MainActivity.class));
                 break;
             case R.id.ll_collect:
@@ -1270,13 +1266,13 @@ public class GoodsDetailActivity extends BaseActivity<DetailPresenter, DetailMod
             }
 
             /*判断商品是否下架*/
-            if (Result.getProduct().getProductSaleStatus()==2){
+            if (Result.getProduct().getProductSaleStatus() == 2) {
                 mTvObtained.setVisibility(View.VISIBLE);
                 mTvBuy.setBackground(getResources().getDrawable(R.drawable.red__goods_transparent));
                 mTvAddcart.setBackground(getResources().getDrawable(R.drawable.yellow__goods_transparent));
                 mTvAddcart.setEnabled(false);
                 mTvBuy.setEnabled(false);
-            }else {
+            } else {
                 mTvObtained.setVisibility(View.GONE);
             }
 

@@ -43,7 +43,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.MyViewHolder> 
 //        holder.iv_goods.setLayoutParams(params);
         Glide.with(context)
                 .asBitmap()
-                .load("http://mall.xigyu.com/" + list.get(position).getImagePath()+"/1.png")
+                .load("https://mall.xigyu.com/" + list.get(position).getImagePath()+"/1.png")
                 .into(holder.iv_goods);
 //        holder.iv_goods.setImageResource(Integer.parseInt("http://mall.xigyu.com/" + list.get(position).getImagePath()+"/1.png"));
         holder.tv_goods_name.setText(list.get(position).getGiftName());

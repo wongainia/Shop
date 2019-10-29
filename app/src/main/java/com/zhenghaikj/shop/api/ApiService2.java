@@ -409,7 +409,7 @@ public interface ApiService2 {
      */
     @FormUrlEncoded
     @POST("Pay/WXNotifyManual")
-    Observable<BaseResult<Data<String>>> WXNotifyManual(@Field("OutTradeNo") String OutTradeNo);
+    Observable<BaseResult<Data<String>>> WXNotifyManual(@Field("out_trade_no") String OutTradeNo);
 
     /**
      * 添加品牌

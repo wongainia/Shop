@@ -284,6 +284,9 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailPresenter, Orde
                         intent.putExtra("storeName", orderBean.getShopName());
                         intent.putExtra("product", orderItemBeans.get(position));
                         intent.putExtra("order", orderBean);
+                        intent.putExtra("NickName",userInfo.getNickName());
+                        intent.putExtra("userId",userInfo.getUserID());
+                        intent.putExtra("avator",userInfo.getAvator());
                         startActivity(intent);
                         break;
                     default:

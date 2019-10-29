@@ -80,7 +80,7 @@ public class Bill implements Serializable {
         private String CreateTime;
         private String State;
         private String StateName;
-        private int OrderID;
+        private String OrderID;
         private String IsUse;
         private String UserID;
         private Object BuyerAccount;
@@ -168,11 +168,11 @@ public class Bill implements Serializable {
             this.StateName = StateName;
         }
 
-        public int getOrderID() {
+        public String getOrderID() {
             return OrderID;
         }
 
-        public void setOrderID(int OrderID) {
+        public void setOrderID(String OrderID) {
             this.OrderID = OrderID;
         }
 

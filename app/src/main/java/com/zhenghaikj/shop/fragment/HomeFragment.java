@@ -717,10 +717,14 @@ public class HomeFragment extends BaseLazyFragment<HomePresenter, HomeModel> imp
 //
 //                startActivity(intent1);
 //                }
-                intent = new Intent(mActivity, MessageActivity2.class);
-                intent.putExtra("categoryId", "4");
-                intent.putExtra("title", "消息");
-                startActivity(intent);
+                if (!isLogin) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                } else {
+                    intent = new Intent(mActivity, MessageActivity2.class);
+                    intent.putExtra("categoryId", "4");
+                    intent.putExtra("title", "消息");
+                    startActivity(intent);
+                }
 
 //                String url11 = "mqqwpa://im/chat?chat_type=wpa&uin=2701274443&version=1";
 //                try {

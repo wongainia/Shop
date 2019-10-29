@@ -609,21 +609,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize" android:launchMode="singleTask"/>
         <!--QQend-->
 
-        <activity
-            android:name="com.v5kf.client.ui.ClientChatActivity" 	android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/v5_chat_title"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
-        <service
-            android:name="com.v5kf.client.lib.V5ClientService" >
-        </service>
-        <activity android:name="com.v5kf.client.ui.WebViewActivity" >
-        </activity>
-        <activity
-            android:theme="@style/v5_transparent_activity"
-            android:name="com.v5kf.client.ui.ShowImageActivity" >
-        </activity>
 
 
         <activity android:name=".kt.ui.activity.HistoryActivityKt"
@@ -666,32 +651,6 @@
                 <action android:name="com.m7.imkfsdk.KEFU_NEW_MSG" />
             </intent-filter>
         </receiver>
-        <!--<activity-->
-            <!--android:name="com.m7.imkfsdk.MainActivity">-->
-        <!--</activity>-->
-        <!--<activity-->
-            <!--android:name="com.m7.imkfsdk.chat.ChatActivity"-->
-            <!--android:launchMode="singleTask"-->
-            <!--android:screenOrientation="portrait" />-->
-        <!--<activity-->
-            <!--android:name="com.m7.imkfsdk.chat.OfflineMessageActicity"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait"></activity>-->
-        <!--<activity-->
-            <!--android:name="com.m7.imkfsdk.chat.ScheduleOfflineMessageActivity"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait"></activity>-->
-
-        <!--<activity-->
-            <!--android:name="com.m7.imkfsdk.chat.ImageViewLookActivity"-->
-            <!--android:screenOrientation="portrait"></activity>-->
-        <!--<activity-->
-            <!--android:name="com.m7.imkfsdk.MoorWebCenter"-->
-            <!--android:screenOrientation="portrait"></activity>-->
-        <!--&lt;!&ndash;测试专用&ndash;&gt;-->
-        <!--<activity-->
-            <!--android:name="com.m7.imkfsdk.SettingActivity"-->
-            <!--android:screenOrientation="portrait"></activity>-->
     </application>
 
 </manifest>

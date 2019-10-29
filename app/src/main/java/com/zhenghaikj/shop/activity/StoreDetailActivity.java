@@ -162,7 +162,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     @Override
     protected void initView() {
-        if(isLogin){
+        if (isLogin) {
             mPresenter.GetUserInfoList(UserID, "1");
         }
         mFragments.add(StoreDetailHomeFragment.newInstance("首页"));
@@ -217,7 +217,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
         if ("True".equals(result.getSuccess())) {
             storeDetailResult = result;
-            shopid =result.getVShop().getId();
+            shopid = result.getVShop().getId();
             Glide.with(mActivity).load(result.getVShop().getLogo())
                     .apply(RequestOptions.bitmapTransform(new GlideRoundCropTransform(mActivity, 5)))
                     .into(mImgShop);
@@ -344,7 +344,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 
     @Override
     public void GetUserInfoList(BaseResult<UserInfo> Result) {
-        switch (Result.getStatusCode()){
+        switch (Result.getStatusCode()) {
             case 200:
                 userInfo = Result.getData().getData().get(0);
                 break;
@@ -366,7 +366,7 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
                 mViewpager.setCurrentItem(2);
                 break;
             case R.id.icon_search:
-                Intent intent=new Intent(mActivity,SearchShopPreDetailActivity.class);
+                Intent intent = new Intent(mActivity, SearchShopPreDetailActivity.class);
                 intent.putExtra("shopid", shopid);
                 startActivity(intent);
                 startActivity(intent);
@@ -407,23 +407,15 @@ public class StoreDetailActivity extends BaseActivity<StoreDetailPresenter, Stor
 ////                        .build();
 ////                source.shopId=storeDetailResult.getVShop().getShopId()+"";
 //                Unicorn.openServiceActivity(mActivity, title, source);
-
-                Intent intent1=new Intent(mActivity, MainActivity.class);
-//                intent1.putExtra("goodsName",result.getProduct().getProductName());
-//                intent1.putExtra("goodsPricture",result.getProduct().getImagePath().get(0));
-//                intent1.putExtra("goodsPrice","￥" + result.getProduct().getMinSalePrice());
-//                intent1.putExtra("goodsURL","http://seller.xigyu.com/product/detail/"+result.getProduct().getProductId());
-                if (isLogin){
-                    intent1.putExtra("userName",userInfo.getNickName());
-                    intent1.putExtra("userId",userInfo.getUserID());
-                    intent1.putExtra("userPic",userInfo.getAvator());
-                }else {
-                    intent1.putExtra("userName","游客");
-                    intent1.putExtra("userId","123456789");
-                    intent1.putExtra("userPic",R.drawable.default_avator);
+                if (!isLogin) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                } else {
+                    Intent intent1 = new Intent(mActivity, MainActivity.class);
+                    intent1.putExtra("userName", userInfo.getNickName());
+                    intent1.putExtra("userId", userInfo.getUserID());
+                    intent1.putExtra("userPic", userInfo.getAvator());
+                    startActivity(intent1);
                 }
-
-                startActivity(intent1);
                 break;
         }
 

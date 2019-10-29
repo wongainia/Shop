@@ -24,6 +24,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
 import com.zhenghaikj.shop.base.BaseResult;
+import com.zhenghaikj.shop.entity.BankCard;
 import com.zhenghaikj.shop.entity.Data;
 import com.zhenghaikj.shop.entity.UserInfo;
 import com.zhenghaikj.shop.mvp.contract.WithdrawContract;
@@ -32,6 +33,8 @@ import com.zhenghaikj.shop.mvp.presenter.WithdrawPresenter;
 import com.zhenghaikj.shop.widget.TradeTextWatcher;
 import com.zhenghaikj.shop.widget.paypassword.PasswordEditText;
 import com.zhenghaikj.shop.widget.paypassword.PayPasswordView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,6 +131,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
     @Override
     protected void initData() {
         mPresenter.GetUserInfoList(UserID, "1");
+        mPresenter.GetAccountPayInfoList(UserID);
 //        mEtWithdrawalAmount.setInputType(InputType.TYPE_NULL);
         mEtWithdrawalAmount.setEnabled(false);
         mEtWithdrawalAmount.addTextChangedListener(new TradeTextWatcher(mEtWithdrawalAmount, null));
@@ -478,6 +482,166 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresenter, WithdrawMo
                 userInfoDeanrInfo = Result.getData().getData().get(0);
                 String money=String.format("%.2f",userInfoDeanrInfo.getTotalMoney()-userInfoDeanrInfo.getFrozenMoney());
                 mTvAvailableBalance.setText("可用余额"+money+"元");
+                break;
+        }
+    }
+
+    @Override
+    public void GetAccountPayInfoList(BaseResult<List<BankCard>> baseResult) {
+        switch (baseResult.getStatusCode()) {
+            case 200:
+                if (baseResult.getData() == null) {
+                    mLlBankCardOne.setVisibility(View.VISIBLE);
+                    mLlBankCard.setVisibility(View.GONE);
+                    return;
+                } else {
+                   mLlBankCard.setVisibility(View.VISIBLE);
+                   mLlBankCardOne.setVisibility(View.GONE);
+                   bankNo=baseResult.getData().get(0).getPayNo();
+                    payName=baseResult.getData().get(0).getPayName();
+                    mTvBankName.setText(baseResult.getData().get(0).getPayInfoName());
+                    int length = baseResult.getData().get(0).getPayNo().length();
+                    if (length > 4) {
+                        endNum = baseResult.getData().get(0).getPayNo().substring(length - 4, length);
+                    }
+                    mTvTailNumber.setText(endNum);
+                    switch (baseResult.getData().get(0).getPayInfoName()) {
+                        case "光大银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.gaungda)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "广发银行股份有限公司":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.gaungfa)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "工商银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.gongshang)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "中国工商银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.gongshang)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "华夏银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.huaxia)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+
+                        case "中国建设银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.jianshe)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "建设银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.jianshe)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "中国交通银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.jiaotong)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "民生银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.minsheng)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "宁波银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.ningbo)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "农业银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.nongye)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "中国农业银行贷记卡":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.nongye)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "浦发银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.pufa)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "兴业银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.xinye)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "邮政储蓄银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.youzheng)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "邮储银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.youzheng)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "招商银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.zhaoshan)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+
+                            break;
+                        case "浙商银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.zheshang)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "中国银行":
+
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.zhongguo)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+                        case "中信银行":
+                            Glide.with(mActivity)
+                                    .load(R.mipmap.zhongxin)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+
+                        default:
+                            Glide.with(mActivity)
+                                    .load(R.drawable.default_avator)
+                                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                                    .into(mIvBrankLogo);
+                            break;
+
+                    }
+
+                }
+                break;
+            default:
                 break;
         }
     }

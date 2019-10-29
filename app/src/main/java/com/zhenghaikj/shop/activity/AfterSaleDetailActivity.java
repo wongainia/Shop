@@ -213,9 +213,14 @@ public class AfterSaleDetailActivity extends BaseActivity<AfterSaleDetailPresent
             mTvapply_time.setText(time1);
 //            mTvAddress.setText(result.getRefundAddress());
 //            mTvName.setText(result.getReciver());
-            mTvName.setText(result.getRefundAddressList().get(0).getShipTo());
-            mTvAddress.setText(result.getRefundAddressList().get(0).getRegionFullName()+result.getRefundAddressList().get(0).getAddress()+result.getRefundAddressList().get(0).getAddressDetail());
-            mTvPhone.setText(result.getRefundAddressList().get(0).getPhone());
+            for (int i = 0; i < result.getRefundAddressList().size(); i++) {
+                if ("true".equals(result.getRefundAddressList().get(i).getIsDefault())){
+                    mTvName.setText(result.getRefundAddressList().get(i).getShipTo());
+                    mTvAddress.setText(result.getRefundAddressList().get(i).getRegionFullName()+result.getRefundAddressList().get(i).getAddress()+result.getRefundAddressList().get(i).getAddressDetail());
+                    mTvPhone.setText(result.getRefundAddressList().get(i).getPhone());
+                }
+            }
+
 //            mTvPhone.setText(result.getRecivePhone());
             if (result.getSellerAuditStatusValue() == 1) {
                 mTvStatus.setText("待商家确认");

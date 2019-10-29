@@ -281,10 +281,10 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     private TextView tv_submit;
     private ImageView iv_close;
     private WorkOrder.DataBean data;
-    private float starRating = 5;
-    private float starRating1 = 5;
-    private float starRating2 = 5;
-    private float starRating3 = 5;
+    private int starRating = 5;
+    private int starRating1 = 5;
+    private int starRating2 = 5;
+    private int starRating3 = 5;
     private TextView tv_submit1;
     private EditText et_content1;
     private WorkOrder workOrder;
@@ -1395,7 +1395,7 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         good_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starRating = good_star.getStarRating();
+                starRating =(int)good_star.getStarRating();
                 setStarName(tv_totle_grade, starRating);
                 setStarName2(tv_good_content, starRating);
             }
@@ -1404,21 +1404,21 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
         shangmen_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starRating1 = shangmen_star.getStarRating();
+                starRating1 =(int) shangmen_star.getStarRating();
                 setStarName2(tv_shangmen_content, starRating1);
             }
         });
         weixiu_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starRating2 = weixiu_star.getStarRating();
+                starRating2 =(int) weixiu_star.getStarRating();
                 setStarName2(tv_weixiu_content, starRating2);
             }
         });
         fuwu_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                starRating3 = fuwu_star.getStarRating();
+                starRating3 =(int) fuwu_star.getStarRating();
                 setStarName2(tv_fuwu_content, starRating3);
             }
         });
@@ -1497,15 +1497,15 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
      * 设置星星文字
      */
     private void setStarName(TextView textView, float star_num) {
-        if (star_num == 5.0f) {
+        if (star_num == 5) {
             textView.setText("5");
-        } else if (star_num == 4.0f) {
+        } else if (star_num == 4) {
             textView.setText("4");
-        } else if (star_num == 3.0f) {
+        } else if (star_num == 3) {
             textView.setText("3");
-        } else if (star_num == 2.0f) {
+        } else if (star_num == 2) {
             textView.setText("2");
-        } else if (star_num == 1.0f) {
+        } else if (star_num == 1) {
             textView.setText("1");
         }
     }
@@ -1513,16 +1513,16 @@ public class MineFragment extends BaseLazyFragment<MinePresenter, MineModel> imp
     /**
      * 设置星星文字
      */
-    private void setStarName2(TextView textView, float star_num) {
-        if (star_num == 5.0f) {
+    private void setStarName2(TextView textView, int star_num) {
+        if (star_num == 5) {
             textView.setText("很棒");
-        } else if (star_num == 4.0f) {
+        } else if (star_num == 4) {
             textView.setText("满意");
-        } else if (star_num == 3.0f) {
+        } else if (star_num == 3) {
             textView.setText("一般");
-        } else if (star_num == 2.0f) {
+        } else if (star_num == 2) {
             textView.setText("很差");
-        } else if (star_num == 1.0f) {
+        } else if (star_num == 1) {
             textView.setText("非常差");
         }
     }

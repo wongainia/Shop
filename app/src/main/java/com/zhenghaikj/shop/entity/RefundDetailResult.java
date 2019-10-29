@@ -287,6 +287,15 @@ public class RefundDetailResult implements Serializable {
         private String Type;
         private int UserId;
         private String RegionFullName;
+        private String IsDefault;
+
+        public String getIsDefault() {
+            return IsDefault;
+        }
+
+        public void setIsDefault(String isDefault) {
+            IsDefault = isDefault;
+        }
 
         public String getShipTo() {
             return ShipTo;

@@ -119,14 +119,14 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     implementation files('libs/umeng-analytics-7.5.3.jar')
 
-    //3D地图so及jar
-    implementation 'com.amap.api:3dmap:latest.integration'
-
-    //定位功能
-    implementation 'com.amap.api:location:latest.integration'
-
-    //搜索功能
-    implementation 'com.amap.api:search:latest.integration'
+//    //3D地图so及jar
+//    implementation 'com.amap.api:3dmap:latest.integration'
+//
+//    //定位功能
+//    implementation 'com.amap.api:location:latest.integration'
+//
+//    //搜索功能
+//    implementation 'com.amap.api:search:latest.integration'
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
 
 
@@ -153,8 +153,7 @@ dependencies {
     implementation 'com.github.dongjunkun:CouponView:1.0.4'
 
     // 最新版本可参考 Download 徽章后对应的数值
-    implementation 'com.qiyukf.unicorn:unicorn:+'
-    implementation project(path: ':V5ClientLibrary')
+
     implementation files('libs\\IMKFSDKTX-3.2.4.jar')
 
     /*badgeview*/

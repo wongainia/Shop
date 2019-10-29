@@ -10,11 +10,6 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 import com.blankj.utilcode.util.Utils;
-import com.qiyukf.unicorn.api.OnMessageItemClickListener;
-import com.qiyukf.unicorn.api.StatusBarNotificationConfig;
-import com.qiyukf.unicorn.api.Unicorn;
-import com.qiyukf.unicorn.api.YSFOptions;
-import com.qiyukf.unicorn.api.pop.OnShopEventListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -35,14 +30,9 @@ import com.tencent.bugly.beta.download.DownloadTask;
 import com.tencent.bugly.beta.upgrade.UpgradeListener;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
-import com.v5kf.client.lib.Logger;
-import com.v5kf.client.lib.V5ClientAgent;
-import com.v5kf.client.lib.V5ClientConfig;
-import com.v5kf.client.lib.callback.V5InitCallback;
 import com.zhenghaikj.shop.activity.GoodsDetailActivity;
 import com.zhenghaikj.shop.activity.MessageActivity2;
 import com.zhenghaikj.shop.activity.StoreDetailActivity;
-import com.zhenghaikj.shop.utils.imageutil.GlideImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -93,7 +83,7 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
         Utils.init(this);
         // appKey 可以在七鱼管理系统->setting->APP接入 页面找到
-        Unicorn.init(this, "b081b3984c11db4d519a5036a5c2bb98 ", options(), new GlideImageLoader(getApplicationContext()));
+
         XGPushConfig.enableDebug(this,true);
         XGPushConfig.enableOtherPush(getApplicationContext(), true);
 //        XGPushConfig.setHuaweiDebug(true);
@@ -168,24 +158,7 @@ public class MyApplication extends MultiDexApplication {
         //QQ
         PlatformConfig.setQQZone("1109159306", "h1ECHyxVEiZ18ews");
 
-        if (isMainProcess()) { // 判断为主进程，在主进程中初始化，多进程同时初始化可能导致不可预料的后果
-            Logger.w("MyApplication", "onCreate isMainProcess V5ClientAgent.init");
-            V5ClientConfig.FILE_PROVIDER = "com.zhenghaikj.shop.fileprovider"; // 设置fileprovider的authorities
-            V5ClientAgent.init(this, "165010", "284920801c3fd",  new V5InitCallback() {
 
-                @Override
-                public void onSuccess(String response) {
-                    // TODO Auto-generated method stub
-                    Logger.i("MyApplication", "V5ClientAgent.init(): " + response);
-                }
-
-                @Override
-                public void onFailure(String response) {
-                    // TODO Auto-generated method stub
-                    Logger.e("MyApplication", "V5ClientAgent.init(): " + response);
-                }
-            });
-        }
     }
 
     public boolean isMainProcess() {
@@ -229,44 +202,7 @@ public class MyApplication extends MultiDexApplication {
         }
         return null;
     }
-    // 如果返回值为null，则全部使用默认参数。
-    private YSFOptions options() {
-        YSFOptions options = new YSFOptions();
-        options.statusBarNotificationConfig = new StatusBarNotificationConfig();
-        options.onShopEventListener = new OnShopEventListener() {
-            @Override
-            public boolean onShopEntranceClick(Context context, String shopId) {
-                // 点击商家入口响应
-                Intent intent = new Intent(context, StoreDetailActivity.class);
-                intent.putExtra("VShopId", shopId);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
-            }
 
-            @Override
-            public boolean onSessionListEntranceClick(Context context) {
-                // 点击会话列表入口响应，以下为示例代码
-//                SessionListActivity.start(context);
-                Intent intent = new Intent(context, MessageActivity2.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                return true;
-            }
-        };
-        OnMessageItemClickListener messageItemClickListener = new OnMessageItemClickListener() {
-            // 响应 url 点击事件
-            public void onURLClicked(Context context, String url) {
-                // 打开内置浏览器等动作
-                Intent intent = new Intent(context, GoodsDetailActivity.class);
-                intent.putExtra("id", url.substring(url.lastIndexOf("/")+1));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        };
-        options.onMessageItemClickListener = messageItemClickListener;
-        return options;
-    }
 
     @Override
     protected void attachBaseContext(Context base) {

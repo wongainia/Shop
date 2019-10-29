@@ -28,7 +28,12 @@ public class RecordingAdapter extends BaseQuickAdapter<Bill.DataBean, BaseViewHo
             helper.setText(R.id.tv_money,"+"+item.getPayMoney()+"");
         }else if ("3".equals(item.getState())){
             helper.setText(R.id.tv_money,"-"+item.getPayMoney()+"");
-        }else {
+        }else if ("6".equals(item.getState())){
+            helper.setText(R.id.tv_money,"-"+item.getPayMoney()+"");
+        }else if ("7".equals(item.getState())){
+            helper.setText(R.id.tv_money,"-"+item.getPayMoney()+"");
+        }
+        else {
             return;
         }
 

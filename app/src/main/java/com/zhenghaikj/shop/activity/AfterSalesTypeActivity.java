@@ -9,13 +9,16 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.gyf.barlibrary.ImmersionBar;
+import com.m7.imkfsdk.MainActivity;
 import com.zhenghaikj.shop.R;
 import com.zhenghaikj.shop.base.BaseActivity;
+import com.zhenghaikj.shop.dialog.CommonDialog_Home;
 import com.zhenghaikj.shop.entity.OrderDetail;
 import com.zhenghaikj.shop.utils.GlideUtil;
 import com.zhenghaikj.shop.widget.AdderView;
 
 import androidx.appcompat.widget.Toolbar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -63,6 +66,9 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
     private Intent intent;
     private OrderDetail.OrderBean order;
     private String OrderId;
+    private String nickName;
+    private String userId;
+    private String avator;
 
 
     @Override
@@ -74,10 +80,11 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
     protected void initData() {
         bean = (OrderDetail.OrderItemBean) getIntent().getSerializableExtra("product");
         order = (OrderDetail.OrderBean) getIntent().getSerializableExtra("order");
-        OrderId=order.getId();
-
-
+        OrderId = order.getId();
         storeName = getIntent().getStringExtra("storeName");
+        nickName = getIntent().getStringExtra("NickName");
+        userId = getIntent().getStringExtra("userId");
+        avator = getIntent().getStringExtra("avator");
         mTvGoodsName.setText(bean.getProductName());
         GlideUtil.loadImageViewLodingRadius(mActivity, bean.getProductImage(), mIvGoodsPicture, R.drawable.image_loading, R.drawable.image_loading, 10);
         mTvPrice.setText("价格：¥" + bean.getPrice());
@@ -99,6 +106,8 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
         mLlReturn.setOnClickListener(this);
         mLlExchange.setOnClickListener(this);
         mLlProduct.setOnClickListener(this);
+        mLlDialNumber.setOnClickListener(this);
+        mLlContactCustomerService.setOnClickListener(this);
         mAdderview.setOnValueChangeListene(new AdderView.OnValueChangeListener() {
             @Override
             public void onValueChange(int value) {
@@ -152,27 +161,57 @@ public class AfterSalesTypeActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.ll_return://仅退款
                 Intent intent = new Intent(mActivity, ReturnGoodsActivity.class);
-                Bundle bundle =new Bundle();
-                bundle.putString("title","仅退款");
-                bundle.putString("OrderId",OrderId);
-                bundle.putString("itemid",bean.getItemId());
-                bundle.putString("num",mAdderview.getValue()+"");
-                bundle.putDouble("price",bean.getPrice());
-                bundle.putString("RefundType","1");
+                Bundle bundle = new Bundle();
+                bundle.putString("title", "仅退款");
+                bundle.putString("OrderId", OrderId);
+                bundle.putString("itemid", bean.getItemId());
+                bundle.putString("num", mAdderview.getValue() + "");
+                bundle.putDouble("price", bean.getPrice());
+                bundle.putString("RefundType", "1");
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
             case R.id.ll_exchange: //退款退货
                 Intent intent2 = new Intent(mActivity, ReturnGoodsActivity.class);
-                Bundle bundle2 =new Bundle();
-                bundle2.putString("title","退款退货");
-                bundle2.putString("OrderId",OrderId);
-                bundle2.putString("itemid",bean.getItemId());
-                bundle2.putString("num",mAdderview.getValue()+"");
-                bundle2.putDouble("price",bean.getPrice());
-                bundle2.putString("RefundType","2");
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("title", "退款退货");
+                bundle2.putString("OrderId", OrderId);
+                bundle2.putString("itemid", bean.getItemId());
+                bundle2.putString("num", mAdderview.getValue() + "");
+                bundle2.putDouble("price", bean.getPrice());
+                bundle2.putString("RefundType", "2");
                 intent2.putExtras(bundle2);
                 startActivity(intent2);
+                break;
+            case R.id.ll_dial_number:
+                final CommonDialog_Home dialog = new CommonDialog_Home(mActivity);
+                dialog.setMessage("是否拨打电话给客服")
+                        //.setImageResId(R.mipmap.ic_launcher)
+                        .setTitle("提示")
+                        .setSingle(false).setOnClickBottomListener(new CommonDialog_Home.OnClickBottomListener() {
+                    @Override
+                    public void onPositiveClick() {//拨打电话
+                        dialog.dismiss();
+                        call("tel:" + "4006262365");
+                    }
+
+                    @Override
+                    public void onNegtiveClick() {//取消
+                        dialog.dismiss();
+                        // Toast.makeText(MainActivity.this,"ssss",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+                break;
+            case R.id.ll_contact_customer_service:
+                if (!isLogin) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                } else {
+                    Intent intent1 = new Intent(mActivity, MainActivity.class);
+                    intent1.putExtra("userName", nickName);
+                    intent1.putExtra("userId", userId);
+                    intent1.putExtra("userPic", avator);
+                    startActivity(intent1);
+                }
                 break;
 //            case R.id.ll_return:
 //                startActivity(new Intent(mActivity, ServiceActivity.class));

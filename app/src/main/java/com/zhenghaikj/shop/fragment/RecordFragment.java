@@ -97,7 +97,7 @@ public class RecordFragment extends BaseLazyFragment<WalletPresenter, WalletMode
         switch (mParam1) {
             case "收支":
 //                mPresenter.GetIntegralRecord("0", Integer.toString(pagaNo), "10", userKey);
-                mPresenter.AccountBill(UserID, "2,5");
+                mPresenter.AccountBill(UserID, "2,5,6,7");
                 break;
             case "提现":
 //                mPresenter.GetIntegralRecord("1", Integer.toString(pagaNo), "10", userKey);
@@ -138,6 +138,8 @@ public class RecordFragment extends BaseLazyFragment<WalletPresenter, WalletMode
                                 break;
                             case "2"://支出
                             case "5"://收入
+                            case "6":
+                            case "7":
 //                                expend_income_list.clear();
 //                                expend_income_list.addAll(baseResult.getData().getItem2().getData());
 //                                mRvRecord.setLayoutManager(new LinearLayoutManager(mActivity));

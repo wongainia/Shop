@@ -29,7 +29,7 @@ public class Distribution implements Serializable {
     private int BrokerageId;
     private int ProductId;
     private String ProductName;
-    private int DistributorRate;
+    private Double DistributorRate;
     private int CategoryId;
     private String CategoryName;
     private Double SellPrice;
@@ -70,11 +70,11 @@ public class Distribution implements Serializable {
         this.ProductName = ProductName;
     }
 
-    public int getDistributorRate() {
+    public Double getDistributorRate() {
         return DistributorRate;
     }
 
-    public void setDistributorRate(int DistributorRate) {
+    public void setDistributorRate(Double DistributorRate) {
         this.DistributorRate = DistributorRate;
     }
 

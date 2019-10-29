@@ -12,7 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public class Config {
     public static boolean IS_DEBUG = true;
-    public static final String URL = "http://mall.xigyu.com/";//测试服
+    public static final String URL = "https://mall.xigyu.com/";//测试服
 
 
     public static final String URL_PIC = "http://mall.xigyu.com";//测试服
